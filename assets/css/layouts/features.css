@@ -1,0 +1,228 @@
+/**
+ * TradePress - Features Layout Styles
+ * 
+ * Layout for features management page.
+ * 
+ * @package TradePress/CSS/Layouts
+ * @since 1.0.0
+ */
+
+/* Features Management Header */
+.tradepress-features-header {
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+/* Features Controls */
+.tradepress-features-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--tp-spacing-xl);
+    background: #f9f9f9;
+    padding: var(--tp-spacing-md);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+}
+
+/* Feature Page Sections */
+.tradepress-feature-page-section {
+    margin-bottom: var(--tp-spacing-xl);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    background: var(--tp-color-white);
+    box-shadow: var(--tp-shadow);
+    transition: box-shadow 0.3s ease;
+}
+
+.tradepress-feature-page-section:hover {
+    box-shadow: 0 2px 5px rgba(0,0,0,.08);
+}
+
+.tradepress-feature-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--tp-spacing-md) var(--tp-spacing-lg);
+    background: #f7fcf7;
+    border-left: 3px solid #46b450;
+    border-bottom: var(--tp-border-standard);
+    cursor: pointer;
+}
+
+.tradepress-feature-page-header h3 {
+    margin: 0;
+}
+
+.tradepress-feature-page-header h3 a {
+    text-decoration: none;
+    color: #2c7636;
+}
+
+.tradepress-feature-page-header h3 .dashicons {
+    font-size: 16px;
+    vertical-align: text-bottom;
+}
+
+.tradepress-feature-page-header .toggle-section {
+    color: #46b450;
+}
+
+.tradepress-feature-page-content {
+    padding: var(--tp-spacing-lg);
+    display: none; /* Initially hidden */
+}
+
+/* Feature Tables */
+.tradepress-feature-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tradepress-feature-table th {
+    text-align: left;
+    padding: var(--tp-spacing-md);
+    border-bottom: 2px solid #ddd;
+}
+
+.tradepress-feature-table td {
+    padding: var(--tp-spacing-md);
+    border-bottom: 1px solid #eee;
+}
+
+.tradepress-feature-table tr:hover {
+    background-color: #f7fcfe;
+}
+
+.tradepress-tab-cell {
+    background-color: #f7f7f7;
+    border-right: 1px solid #eee;
+    vertical-align: top;
+}
+
+.tradepress-tab-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tradepress-tab-content a {
+    text-decoration: none;
+    font-weight: var(--tp-font-weight-semibold);
+    color: #23282d;
+}
+
+.tradepress-feature-mode select {
+    width: 100px;
+}
+
+/* Feature Summary */
+.tradepress-feature-summary {
+    margin: var(--tp-spacing-xl) 0;
+}
+
+.tradepress-summary-box {
+    background: var(--tp-color-white);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+}
+
+.tradepress-summary-box h4 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: var(--tp-spacing-md);
+}
+
+/* Feature Navigation */
+.tradepress-feature-navigation {
+    position: sticky;
+    top: 32px;
+    background: var(--tp-color-white);
+    border-bottom: var(--tp-border-standard);
+    padding: var(--tp-spacing-md) 0;
+    z-index: 100;
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+.tradepress-feature-sections-nav {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 5px;
+}
+
+.tradepress-feature-nav-item {
+    display: inline-block;
+    padding: 5px 12px;
+    margin-right: 5px;
+    border-radius: var(--tp-border-radius);
+    text-decoration: none;
+    color: #646970;
+    background: #f0f0f1;
+}
+
+.tradepress-feature-nav-item:hover,
+.tradepress-feature-nav-item.active {
+    background: #2271b1;
+    color: var(--tp-color-white);
+}
+
+/* Feature row states */
+.tradepress-feature-row.disabled {
+    opacity: 0.6;
+}
+
+/* Tab header */
+.tradepress-tab-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--tp-spacing-xl);
+    border-bottom: 1px solid #eee;
+    padding-bottom: var(--tp-spacing-md);
+}
+
+.tradepress-tab-header h2 {
+    margin: 0;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 782px) {
+    .tradepress-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tradepress-tab-cell {
+        display: block;
+        width: 100%;
+        text-align: center;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .tradepress-tab-content {
+        flex-direction: column;
+        gap: var(--tp-spacing-md);
+    }
+}
+
+/* Features Container */
+.tradepress-features-container {
+    margin-top: var(--tp-spacing-xl);
+}
+
+/* Legacy classes mapping for backward compatibility */
+.tradepress-features-header { @extend .tradepress-features-header; }
+.features-controls { @extend .tradepress-features-controls; }
+.feature-page-section { @extend .tradepress-feature-page-section; }
+.feature-page-header { @extend .tradepress-feature-page-header; }
+.feature-page-content { @extend .tradepress-feature-page-content; }
+.feature-table { @extend .tradepress-feature-table; }
+.tab-cell { @extend .tradepress-tab-cell; }
+.tab-content { @extend .tradepress-tab-content; }
+.feature-summary { @extend .tradepress-feature-summary; }
+.summary-box { @extend .tradepress-summary-box; }
+.feature-navigation { @extend .tradepress-feature-navigation; }
+.feature-sections-nav { @extend .tradepress-feature-sections-nav; }
+.feature-nav-item { @extend .tradepress-feature-nav-item; }
+.feature-row.disabled { @extend .tradepress-feature-row.disabled; }
+.tradepress-tab-header { @extend .tradepress-tab-header; }
+.tradepress-features-container { @extend .tradepress-features-container; }

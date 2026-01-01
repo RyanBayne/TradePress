@@ -1,0 +1,73 @@
+/**
+ * Component Group Layout
+ * Provides consistent spacing and grouping for UI components within a section.
+ */
+.tradepress-component-group {
+    margin-bottom: var(--tp-spacing-lg);
+    padding: var(--tp-spacing-md);
+    border: 1px solid var(--tp-border-color);
+    border-radius: var(--tp-border-radius);
+    background-color: var(--tp-color-white);
+}
+
+/**
+ * Component Showcase
+ * Container for displaying component examples in the UI Library
+ */
+.tradepress-component-showcase {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-md);
+    padding: var(--tp-spacing-sm);
+    margin-top: var(--tp-spacing-sm);
+    background-color: var(--tp-color-background-light);
+    border-radius: var(--tp-border-radius);
+}
+
+/**
+ * UI Library Container
+ * Main wrapper for the UI Library page
+ */
+.tradepress-ui-library {
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.tradepress-ui-container {
+    margin-top: var(--tp-spacing-lg);
+}
+
+/**
+ * Grid Layouts
+ * Provides consistent grid layouts with different column counts
+ */
+.tradepress-grid {
+    display: grid;
+    gap: var(--tp-spacing-md);
+}
+
+.tradepress-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--tp-spacing-md);
+}
+
+.tradepress-grid-2-cols {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--tp-spacing-md);
+}
+
+.tradepress-grid-3-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--tp-spacing-md);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+    .tradepress-grid-2-cols,
+    .tradepress-grid-3-cols {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,549 @@
+/**
+ * Status Indicators
+ * Styles for visual status indicators, badges, and state displays
+ */
+
+.status-example {
+    margin-bottom: var(--tp-spacing-md);
+}
+
+.status-badges-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-sm);
+    margin-top: var(--tp-spacing-xs);
+}
+
+/* Connection Status */
+.connection-status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--tp-spacing-md);
+}
+
+.connection-status-item {
+    border: 1px solid var(--tp-border-color);
+    border-radius: var(--tp-border-radius);
+    overflow: hidden;
+}
+
+.connection-status-header {
+    display: flex;
+    align-items: center;
+    padding: var(--tp-spacing-sm);
+    background-color: var(--tp-color-background-light);
+    border-bottom: 1px solid var(--tp-border-color);
+}
+
+.connection-status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: var(--tp-spacing-sm);
+}
+
+.connection-status-connected {
+    background-color: var(--tp-color-success);
+}
+
+.connection-status-warning {
+    background-color: var(--tp-color-warning);
+}
+
+.connection-status-error {
+    background-color: var(--tp-color-error);
+}
+
+.connection-status-label {
+    font-weight: var(--tp-font-weight-medium);
+}
+
+.connection-status-details {
+    padding: var(--tp-spacing-sm);
+}
+
+/* Performance Indicators */
+.performance-indicators-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--tp-spacing-md);
+}
+
+.performance-card {
+    padding: var(--tp-spacing-md);
+    background-color: var(--tp-color-white);
+    border: 1px solid var(--tp-border-color);
+    border-radius: var(--tp-border-radius);
+    text-align: center;
+}
+
+.performance-value {
+    font-size: 1.5em;
+    font-weight: var(--tp-font-weight-bold);
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.performance-value.positive {
+    color: var(--tp-color-success);
+}
+
+.performance-value.negative {
+    color: var(--tp-color-error);
+}
+
+.performance-label {
+    color: var(--tp-color-gray-600);
+    margin-bottom: var(--tp-spacing-sm);
+}
+
+.performance-trend {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.trend-value {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9em;
+}
+
+/* Activity Status */
+.activity-status-list {
+    border: 1px solid var(--tp-border-color);
+    border-radius: var(--tp-border-radius);
+    overflow: hidden;
+}
+
+.activity-status-item {
+    display: flex;
+    padding: var(--tp-spacing-sm);
+    border-bottom: 1px solid var(--tp-border-color);
+}
+
+.activity-status-item:last-child {
+    border-bottom: none;
+}
+
+.activity-status-icon {
+    margin-right: var(--tp-spacing-sm);
+    display: flex;
+    align-items: center;
+}
+
+.activity-status-content {
+    flex-grow: 1;
+}
+
+.activity-status-title {
+    font-weight: var(--tp-font-weight-medium);
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.activity-status-description {
+    font-size: 0.9em;
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.activity-status-time {
+    font-size: 0.8em;
+    color: var(--tp-color-gray-500);
+}
+
+.activity-success .activity-status-icon {
+    color: var(--tp-color-success);
+}
+
+.activity-error .activity-status-icon {
+    color: var(--tp-color-error);
+}
+
+/* Data Freshness */
+.data-freshness-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--tp-spacing-md);
+}
+
+.data-freshness-item {
+    background-color: var(--tp-color-white);
+    border: 1px solid var(--tp-border-color);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-sm);
+}
+
+.data-freshness-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--tp-spacing-sm);
+}
+
+.data-freshness-title {
+    font-weight: var(--tp-font-weight-medium);
+}
+
+.data-freshness-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.data-freshness-indicator.fresh {
+    background-color: var(--tp-color-success);
+}
+
+.data-freshness-indicator.stale {
+    background-color: var(--tp-color-warning);
+}
+
+.data-freshness-timestamp {
+    font-size: 0.8em;
+    color: var(--tp-color-gray-600);
+}
+
+/* Health Check */
+.health-check-container {
+    background-color: var(--tp-color-white);
+    border: 1px solid var(--tp-border-color);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-md);
+}
+
+.health-check-overall {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--tp-spacing-md);
+    padding-bottom: var(--tp-spacing-md);
+    border-bottom: 1px solid var(--tp-border-color);
+}
+
+.health-check-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: var(--tp-spacing-md);
+}
+
+.health-score-value {
+    font-size: 1.8em;
+    font-weight: var(--tp-font-weight-bold);
+    color: var(--tp-color-success);
+}
+
+.health-score-label {
+    font-size: 0.9em;
+    color: var(--tp-color-gray-600);
+    margin-top: var(--tp-spacing-xs);
+}
+
+.health-check-status {
+    flex-grow: 1;
+}
+
+.health-good {
+    color: var(--tp-color-success);
+    font-weight: var(--tp-font-weight-medium);
+}
+
+.health-check-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--tp-spacing-sm);
+}
+
+.health-check-item {
+    display: flex;
+    align-items: center;
+    padding: var(--tp-spacing-sm);
+    background-color: var(--tp-color-background-light);
+    border-radius: var(--tp-border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.health-check-item:hover {
+    background-color: var(--tp-color-background-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.health-check-icon {
+    margin-right: var(--tp-spacing-sm);
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.health-check-icon.health-check-pass {
+    color: var(--tp-color-success);
+}
+
+.health-check-icon.health-check-warning {
+    color: var(--tp-color-warning);
+}
+
+.health-check-label {
+    font-weight: var(--tp-font-weight-medium);
+    margin-right: var(--tp-spacing-sm);
+    flex-grow: 1;
+}
+
+.health-check-value {
+    font-family: var(--tp-font-mono);
+    color: var(--tp-color-gray-700);
+    background-color: var(--tp-color-white);
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--tp-color-border-light);
+}
+
+/* Signal Status */
+.signals-status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--tp-spacing-md);
+}
+
+.signal-status-card {
+    background-color: var(--tp-color-white);
+    border: 2px solid var(--tp-border-color);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-md);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.signal-status-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.signal-bullish {
+    border-left: 4px solid var(--tp-color-success);
+}
+
+.signal-bullish:hover {
+    background: linear-gradient(135deg, #f0f9eb 0%, #ffffff 100%);
+}
+
+.signal-bearish {
+    border-left: 4px solid var(--tp-color-error);
+}
+
+.signal-bearish:hover {
+    background: linear-gradient(135deg, #fdf2f2 0%, #ffffff 100%);
+}
+
+.signal-neutral {
+    border-left: 4px solid var(--tp-color-gray-400);
+}
+
+.signal-neutral:hover {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.signal-status-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--tp-spacing-sm);
+}
+
+.signal-status-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+.signal-bullish .signal-status-icon {
+    color: var(--tp-color-success);
+}
+
+.signal-bearish .signal-status-icon {
+    color: var(--tp-color-error);
+}
+
+.signal-neutral .signal-status-icon {
+    color: var(--tp-color-gray-500);
+}
+
+.signal-status-label {
+    font-weight: var(--tp-font-weight-semibold);
+    font-size: 16px;
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.signal-status-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--tp-color-primary);
+    color: var(--tp-color-white);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    font-weight: var(--tp-font-weight-bold);
+    margin-left: var(--tp-spacing-xs);
+}
+
+.signal-bullish .signal-status-count {
+    background-color: var(--tp-color-success);
+}
+
+.signal-bearish .signal-status-count {
+    background-color: var(--tp-color-error);
+}
+
+.signal-neutral .signal-status-count {
+    background-color: var(--tp-color-gray-500);
+}
+
+.signal-status-description {
+    color: var(--tp-color-gray-600);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Responsive Design for Trading Dashboard */
+@media (max-width: 1200px) {
+    .performance-indicators-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+    
+    .signals-status-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .connection-status-grid,
+    .performance-indicators-grid,
+    .data-freshness-grid,
+    .signals-status-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .health-check-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .signal-status-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--tp-spacing-xs);
+    }
+    
+    .signal-status-count {
+        align-self: flex-end;
+    }
+}
+
+/* Real-time Animation Effects for Trading Environment */
+@keyframes pulse-success {
+    0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(var(--tp-color-success-rgb), 0.7);
+    }
+    50% { 
+        box-shadow: 0 0 0 8px rgba(var(--tp-color-success-rgb), 0);
+    }
+}
+
+@keyframes pulse-error {
+    0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(var(--tp-color-error-rgb), 0.7);
+    }
+    50% { 
+        box-shadow: 0 0 0 8px rgba(var(--tp-color-error-rgb), 0);
+    }
+}
+
+@keyframes pulse-warning {
+    0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(var(--tp-color-warning-rgb), 0.7);
+    }
+    50% { 
+        box-shadow: 0 0 0 8px rgba(var(--tp-color-warning-rgb), 0);
+    }
+}
+
+.connection-status-dot.connection-status-connected {
+    animation: pulse-success 2s infinite;
+}
+
+.connection-status-dot.connection-status-error {
+    animation: pulse-error 2s infinite;
+}
+
+.connection-status-dot.connection-status-warning {
+    animation: pulse-warning 2s infinite;
+}
+
+.data-freshness-indicator.fresh {
+    animation: pulse-success 3s infinite;
+}
+
+.data-freshness-indicator.stale {
+    animation: pulse-warning 2s infinite;
+}
+
+/* Performance Value Transitions for Real-time Updates */
+.performance-value {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.performance-value.updating {
+    transform: scale(1.05);
+}
+
+.performance-value.positive::before {
+    content: "▲";
+    margin-right: 4px;
+    color: var(--tp-color-success);
+}
+
+.performance-value.negative::before {
+    content: "▼";
+    margin-right: 4px;
+    color: var(--tp-color-error);
+}
+
+/* Enhanced Activity Status for Trading Events */
+.activity-status-item.activity-success {
+    border-left: 3px solid var(--tp-color-success);
+    background: linear-gradient(90deg, rgba(var(--tp-color-success-rgb), 0.05) 0%, transparent 100%);
+}
+
+.activity-status-item.activity-error {
+    border-left: 3px solid var(--tp-color-error);
+    background: linear-gradient(90deg, rgba(var(--tp-color-error-rgb), 0.05) 0%, transparent 100%);
+}
+
+/* Enhanced hover effects for interactive elements */
+.performance-card:hover,
+.activity-status-item:hover,
+.data-freshness-item:hover {
+    cursor: pointer;
+    border-color: var(--tp-color-primary);
+}
+
+.status-badges-row .tradepress-badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark theme considerations for trading environments */
+@media (prefers-color-scheme: dark) {
+    .signal-status-card,
+    .performance-card,
+    .health-check-container {
+        background-color: var(--tp-color-dark-bg, #1a1a1a);
+        border-color: var(--tp-color-dark-border, #333);
+        color: var(--tp-color-dark-text, #e0e0e0);
+    }
+}

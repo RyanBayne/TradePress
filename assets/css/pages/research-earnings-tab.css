@@ -1,0 +1,564 @@
+/* Earnings Tab Specific Styles */
+.tradepress-earnings-container {
+    margin: 20px 0;
+}
+
+.tradepress-research-section {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Demo Banner */
+.demo-indicator {
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-left: 4px solid #ffc107;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    position: relative;
+}
+
+.demo-icon {
+    font-size: 24px;
+    margin-right: 15px;
+    color: #6c757d;
+}
+
+.demo-text {
+    flex: 1;
+}
+
+.demo-text h4 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.demo-text p {
+    margin: 0;
+    color: #6c757d;
+}
+
+.demo-badge {
+    background-color: #ffc107;
+    color: #212529;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+/* Filters Section */
+.earnings-filters {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+.filter-group {
+    margin-bottom: 10px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.filter-group select,
+.filter-group input[type="date"] {
+    min-width: 150px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+}
+
+.date-filter {
+    display: none;
+}
+
+.date-filter.visible {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.filter-actions {
+    margin-top: auto;
+    margin-left: auto;
+}
+
+.toggle-buttons {
+    display: flex;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.toggle-button {
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: #f8f9fa;
+    text-decoration: none;
+    color: #495057;
+}
+
+.toggle-button.active {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.timezone-info {
+    margin-top: 10px;
+    color: #6c757d;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Results Header */
+.earnings-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.earnings-results-header h3 {
+    margin: 0;
+}
+
+.earnings-summary {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.total-count {
+    font-weight: 500;
+}
+
+.no-earnings-message {
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+    border-radius: 4px;
+    color: #6c757d;
+}
+
+/* Table View */
+.earnings-date-group {
+    margin-bottom: 30px;
+}
+
+.earnings-date-header {
+    background-color: #f8f9fa;
+    padding: 10px 15px;
+    margin: 0;
+    border-radius: 4px 4px 0 0;
+    border: 1px solid #dee2e6;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.day-name {
+    font-weight: normal;
+    color: #6c757d;
+}
+
+.report-count {
+    margin-left: auto;
+    background-color: #e9ecef;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+.earnings-table {
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.column-time,
+.column-symbol,
+.column-eps-estimate,
+.column-whisper,
+.column-prev-eps,
+.column-eps-change,
+.column-opp-score {
+    width: 8%;
+}
+
+.column-sentiment {
+    width: 10%;
+}
+
+.column-company,
+.column-sector {
+    width: 15%;
+}
+
+.column-actions {
+    width: 12%;
+}
+
+.sentiment-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.sentiment-bullish {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.sentiment-neutral {
+    background-color: #e9ecef;
+    color: #383d41;
+}
+
+.sentiment-bearish {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.sentiment-pct {
+    font-size: 0.85em;
+    color: #6c757d;
+}
+
+.earnings-positive {
+    color: #28a745;
+}
+
+.earnings-negative {
+    color: #dc3545;
+}
+
+.earnings-neutral {
+    color: #6c757d;
+}
+
+.opp-score-container {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.opp-score-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-radius: 10px;
+    background-color: #6c757d;
+    z-index: 1;
+}
+
+.high-opportunity .opp-score-bar {
+    background-color: #28a745;
+}
+
+.medium-opportunity .opp-score-bar {
+    background-color: #ffc107;
+}
+
+.low-opportunity .opp-score-bar {
+    background-color: #dc3545;
+}
+
+.opp-score-value {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-shadow: 0 0 2px rgba(0,0,0,0.5);
+    font-weight: bold;
+    font-size: 12px;
+    z-index: 2;
+}
+
+/* Card View */
+.earnings-cards-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.earnings-card {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.earnings-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.high-opportunity {
+    border-left: 4px solid #28a745;
+}
+
+.medium-opportunity {
+    border-left: 4px solid #ffc107;
+}
+
+.low-opportunity {
+    border-left: 4px solid #dc3545;
+}
+
+.earnings-card-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.company-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+    background-color: #0d6efd;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.company-info {
+    flex: 1;
+}
+
+.company-info h4 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.company-info p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    color: #6c757d;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+}
+
+.earnings-date-badge {
+    padding: 4px 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    font-size: 0.85em;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.earnings-date-badge .date {
+    display: block;
+    font-weight: 600;
+}
+
+.earnings-date-badge .time {
+    font-size: 0.9em;
+}
+
+.earnings-card-body {
+    padding: 15px;
+}
+
+.earnings-data-row {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.data-item {
+    flex: 1;
+}
+
+.data-item .label {
+    display: block;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.data-item .value {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.sector-value {
+    background-color: #e9ecef;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    display: inline-block;
+}
+
+.estimated-price {
+    display: flex;
+    flex-direction: column;
+}
+
+.estimated-price .price-change {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.positive {
+    color: #28a745;
+}
+
+.negative {
+    color: #dc3545;
+}
+
+.algorithm-score {
+    margin-top: 15px;
+}
+
+.score-label {
+    font-size: 12px;
+    color: #6c757d;
+    margin-bottom: 5px;
+}
+
+.score-container {
+    position: relative;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.score-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-radius: 10px;
+    background-color: #6c757d;
+    z-index: 1;
+}
+
+.high-opportunity .score-bar {
+    background-color: #28a745;
+}
+
+.medium-opportunity .score-bar {
+    background-color: #ffc107;
+}
+
+.low-opportunity .score-bar {
+    background-color: #dc3545;
+}
+
+.score-value {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-shadow: 0 0 2px rgba(0,0,0,0.5);
+    font-weight: bold;
+    font-size: 12px;
+    z-index: 2;
+}
+
+.earnings-card-footer {
+    padding: 15px;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.earnings-card-footer button {
+    flex: 1;
+}
+
+/* Loading State */
+.earnings-loading-state {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.earnings-loading-state .spinner {
+    margin: 0 auto 10px;
+    float: none;
+    width: 20px;
+    height: 20px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .filter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-actions {
+        margin-left: 0;
+        display: flex;
+        gap: 10px;
+    }
+    
+    .earnings-table {
+        font-size: 0.9em;
+    }
+    
+    .column-market-cap,
+    .column-whisper,
+    .column-eps-change,
+    .column-prev-eps {
+        display: none;
+    }
+    
+    .earnings-cards-view {
+        grid-template-columns: 1fr;
+    }
+    
+    .earnings-results-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}

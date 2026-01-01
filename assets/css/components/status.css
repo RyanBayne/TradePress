@@ -1,0 +1,1334 @@
+/**
+ * TradePress - Status Component Styles
+ * 
+ * Status indicators, badges, and operational status elements.
+ * 
+ * HTML Structure:
+ * <div class="tp-status tp-status-active">
+ *   <span class="tp-status-indicator"></span>
+ *   <span class="tp-status-text">Status Text</span>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Status Badges */
+.tradepress-status {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: var(--tp-border-radius-sm);
+    font-size: var(--tp-font-size-xs);
+    font-weight: var(--tp-font-weight-medium);
+}
+
+.tradepress-status-success {
+    background-color: #dff0d8;
+    color: var(--tp-color-success);
+}
+
+.tradepress-status-warning {
+    background-color: #fcf8e3;
+    color: var(--tp-color-warning-dark);
+}
+
+.tradepress-status-error {
+    background-color: #f2dede;
+    color: var(--tp-color-error-dark);
+}
+
+.tradepress-status-info {
+    background-color: #d9edf7;
+    color: var(--tp-color-info-dark);
+}
+
+/* Old Styles Mapping */
+.tradepress-status { @extend .tradepress-status; }
+.tradepress-status-success { @extend .tradepress-status-success; }
+.tradepress-status-warning { @extend .tradepress-status-warning; }
+.tradepress-status-error { @extend .tradepress-status-error; }
+.tradepress-status-info { @extend .tradepress-status-info; }
+
+/* Service Status Badges */
+.service-status-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: var(--tp-border-radius-sm);
+    font-weight: var(--tp-font-weight-bold);
+}
+
+.service-status-badge.operational {
+    background-color: #edfaef;
+    color: var(--tp-color-success);
+}
+
+.service-status-badge.disruption {
+    background-color: var(--tp-color-warning-light);
+    color: var(--tp-color-warning-dark);
+}
+
+.service-status-badge.outage {
+    background-color: #fbeaea;
+    color: var(--tp-color-error);
+}
+
+/* Method Badges */
+.method-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: var(--tp-border-radius-sm);
+    font-size: var(--tp-font-size-xs);
+    font-weight: var(--tp-font-weight-bold);
+    color: var(--tp-color-white);
+    text-align: center;
+    min-width: 50px;
+}
+
+.method-get {
+    background-color: var(--tp-color-method-get);
+}
+
+.method-post {
+    background-color: var(--tp-color-method-post);
+}
+
+.method-put {
+    background-color: var(--tp-color-method-put);
+}
+
+.method-delete {
+    background-color: var(--tp-color-method-delete);
+}
+
+.method-ws {
+    background-color: var(--tp-color-method-ws);
+}
+
+/* Directive Type Badges */
+.tradepress-directive-type {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.tradepress-directive-type.bullish {
+    background-color: #c8e6c9;
+    color: #2e7d32;
+}
+
+.tradepress-directive-type.bearish {
+    background-color: #ffcdd2;
+    color: #c62828;
+}
+
+.tradepress-directive-type.neutral {
+    background-color: #e0e0e0;
+    color: #616161;
+}
+
+/* Directive Status Badges */
+.tradepress-directive-status {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.tradepress-directive-status.ready {
+    background-color: #bbdefb;
+    color: #1565c0;
+}
+
+.tradepress-directive-status.not-ready {
+    background-color: #ffe0b2;
+    color: #ef6c00;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.directive-type { @extend .tradepress-directive-type; }
+span.directive-type { @extend .tradepress-directive-type; }
+.directive-status { @extend .tradepress-directive-status; }
+span.directive-status { @extend .tradepress-directive-status; }
+
+/* Premium Badge */
+.premium-badge {
+    display: inline-block;
+    background: var(--tp-color-premium);
+    color: var(--tp-color-white);
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: var(--tp-border-radius-sm);
+    margin-left: 5px;
+}
+
+/* Feature Status Badge */
+.feature-status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: var(--tp-border-radius-sm);
+    font-size: var(--tp-font-size-xs);
+    font-weight: var(--tp-font-weight-medium);
+}
+
+.status-live {
+    background: #d1ffd6;
+    color: var(--tp-color-success-dark);
+}
+
+.status-demo {
+    background: var(--tp-color-warning-light);
+    color: #96600c;
+}
+
+/* Completion Stats Section */
+.completion-stats {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    background: var(--tp-color-white);
+    border: 1px solid var(--tp-color-gray-200);
+    padding: 15px;
+}
+
+.stat-box {
+    margin-right: 30px;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-weight: var(--tp-font-weight-bold);
+    margin-right: 5px;
+}
+
+.feature-tab-link {
+    margin-left: 10px;
+    text-decoration: none;
+    color: var(--tp-color-wp-blue);
+}
+
+.feature-tab-link:hover {
+    color: var(--tp-color-wp-blue-hover);
+    text-decoration: underline;
+}
+
+/* Issue Status Badge */
+.issue-status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: var(--tp-border-radius-sm);
+    font-size: var(--tp-font-size-xs);
+    text-transform: capitalize;
+}
+
+.issue-status-badge.open {
+    background-color: #2cbe4e;
+    color: var(--tp-color-white);
+}
+
+.issue-status-badge.closed {
+    background-color: #cb2431;
+    color: var(--tp-color-white);
+}
+
+/* Status Indicator System */
+.status-indicator {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.status-green {
+    background-color: var(--tp-color-success);
+}
+
+.status-orange {
+    background-color: var(--tp-color-warning);
+}
+
+.status-red {
+    background-color: var(--tp-color-error);
+}
+
+.status-grey {
+    background-color: #72777c;
+}
+
+/* Status Header with Actions */
+.status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.status-header h3 {
+    margin: 0;
+}
+
+.status-actions {
+    display: flex;
+    gap: 5px;
+}
+
+/* Progress Bar */
+.progress-bar-wrapper {
+    background-color: #f0f0f1;
+    height: 16px;
+    position: relative;
+    border-radius: var(--tp-border-radius-sm);
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.progress-bar {
+    background-color: var(--tp-color-wp-blue);
+    height: 100%;
+    border-radius: var(--tp-border-radius-sm);
+}
+
+/* Environment indicators */
+.demo-env {
+    color: var(--tp-color-orange);
+    font-weight: bold;
+}
+
+.live-env {
+    color: var(--tp-color-success);
+    font-weight: bold;
+}
+
+.live-trading {
+    color: var(--tp-color-error);
+    font-weight: bold;
+}
+
+.paper-trading {
+    color: var(--tp-color-info);
+    font-weight: bold;
+}
+
+/* Consensus indicators */
+.consensus-high { 
+    color: var(--tp-color-success); 
+    font-weight: bold; 
+}
+
+.consensus-medium { 
+    color: var(--tp-color-warning); 
+    font-weight: bold; 
+}
+
+.consensus-low { 
+    color: var(--tp-color-error-dark); 
+    font-weight: bold; 
+}
+
+/* Percentage difference indicators */
+.positive-pct { 
+    color: var(--tp-color-success); 
+    font-weight: bold; 
+}
+
+.negative-pct { 
+    color: var(--tp-color-error-dark); 
+    font-weight: bold; 
+}
+
+/* Status Containers */
+.tradepress-status-header {
+    border-bottom: 1px solid var(--tp-color-gray-200);
+    padding: var(--tp-spacing-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--tp-color-gray-100);
+}
+
+.tradepress-status-header h3 {
+    margin: 0;
+    font-size: var(--tp-font-size);
+    font-weight: var(--tp-font-weight-semibold);
+}
+
+.tradepress-status-actions {
+    display: flex;
+    gap: var(--tp-spacing-md);
+}
+
+.tradepress-status-actions a {
+    text-decoration: none;
+    color: #555;
+}
+
+.tradepress-status-actions a:hover {
+    color: #0073aa;
+}
+
+/* Status Data Display */
+.tradepress-status-data-columns {
+    display: flex;
+    flex-wrap: wrap;
+    padding: var(--tp-spacing-lg);
+    gap: var(--tp-spacing-xl);
+}
+
+.tradepress-status-data-column {
+    flex: 1;
+    min-width: 250px;
+}
+
+.tradepress-status-data-item {
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.tradepress-status-label {
+    font-weight: var(--tp-font-weight-semibold);
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.tradepress-status-value {
+    font-size: 16px;
+    font-weight: var(--tp-font-weight-medium);
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.tradepress-status-value.active {
+    color: #46b450;
+}
+
+.tradepress-status-value.inactive {
+    color: #dc3232;
+}
+
+.tradepress-status-value.operational {
+    color: #46b450;
+}
+
+.tradepress-status-value.disruption, 
+.tradepress-status-value.outage, 
+.tradepress-status-value.maintenance {
+    color: #dc3232;
+}
+
+.tradepress-status-message {
+    color: #666;
+    font-size: 13px;
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.tradepress-status-timestamp {
+    font-size: 12px;
+    color: #999;
+}
+
+/* Rate Limits */
+.tradepress-rate-limits {
+    margin-top: var(--tp-spacing-xs);
+}
+
+.tradepress-rate-limit-item {
+    margin-bottom: var(--tp-spacing-md);
+}
+
+.tradepress-rate-limit-title {
+    font-weight: var(--tp-font-weight-medium);
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.tradepress-rate-limit-bar {
+    height: 6px;
+    background-color: #f1f1f1;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.tradepress-rate-limit-progress {
+    height: 100%;
+    background-color: #0073aa;
+    width: 0;
+}
+
+.tradepress-rate-limit-text {
+    font-size: 12px;
+    color: #666;
+}
+
+.tradepress-rate-limit-reset {
+    font-size: 12px;
+    color: #999;
+    margin-top: var(--tp-spacing-md);
+}
+
+/* API Status Indicators */
+.tradepress-api-status {
+    display: flex;
+    align-items: center;
+    gap: var(--tp-spacing-md);
+    padding: var(--tp-spacing-md) var(--tp-spacing-xl);
+    margin-left: auto;
+}
+
+.tradepress-api-status.active .tradepress-status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #46b450;
+}
+
+.tradepress-api-status.inactive .tradepress-status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #dc3232;
+}
+
+.tradepress-status-text {
+    font-weight: var(--tp-font-weight-medium);
+}
+
+.tradepress-api-status.active .tradepress-status-text {
+    color: #46b450;
+}
+
+.tradepress-api-status.inactive .tradepress-status-text {
+    color: #dc3232;
+}
+
+/* API Badges */
+.tradepress-api-badges {
+    display: flex;
+    gap: var(--tp-spacing-md);
+}
+
+.tradepress-api-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tp-spacing-xs);
+    background: #f1f1f1;
+    color: #555;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+/* Key Status */
+.tradepress-key-status-container {
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+.tradepress-key-status-container h5 {
+    margin: var(--tp-spacing-md) 0 var(--tp-spacing-xs);
+    font-size: var(--tp-font-size);
+    font-weight: var(--tp-font-weight-semibold);
+    color: #50575e;
+}
+
+.tradepress-key-status {
+    margin-bottom: var(--tp-spacing-md);
+    padding: 8px 10px;
+    border-radius: 3px;
+    font-size: 13px;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+}
+
+.tradepress-key-status.missing-key {
+    background-color: #fdf2f2;
+    border-left: 4px solid #dc3232;
+}
+
+.tradepress-key-status.valid-key {
+    background-color: #f0f9eb;
+    border-left: 4px solid #46b450;
+}
+
+.tradepress-key-status .dashicons {
+    margin-right: var(--tp-spacing-xs);
+    vertical-align: middle;
+}
+
+.tradepress-key-status .dashicons-warning {
+    color: #dc3232;
+}
+
+.tradepress-key-status .dashicons-yes {
+    color: #46b450;
+}
+
+/* Mode Toggle Buttons */
+.tradepress-mode-toggle-button {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: var(--tp-font-weight-semibold);
+    text-transform: uppercase;
+    margin-left: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Trading Mode Button Styles */
+.tradepress-trading-mode-toggle-button.paper {
+    background-color: #f0c33c;
+    color: #644c00;
+}
+
+.tradepress-trading-mode-toggle-button.live {
+    background-color: #46b450;
+    color: var(--tp-color-white);
+}
+
+/* Service Status Button Styles */
+.tradepress-service-status-toggle-button.operational {
+    background-color: #46b450;
+    color: var(--tp-color-white);
+}
+
+.tradepress-service-status-toggle-button.disabled {
+    background-color: #dc3232;
+    color: var(--tp-color-white);
+}
+
+/* Demo Mode Button Styles */
+.tradepress-demo-mode-toggle-button.demo-on {
+    background-color: #f0c33c;
+    color: #644c00;
+}
+
+.tradepress-demo-mode-toggle-button.demo-off {
+    background-color: #47a8d7;
+    color: var(--tp-color-white);
+}
+
+/* Button Forms */
+.tradepress-service-status-form, 
+.tradepress-trading-mode-button-form, 
+.tradepress-demo-mode-button-form {
+    display: inline-block;
+    margin-left: 8px;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.status-header { @extend .tradepress-status-header; }
+.status-actions { @extend .tradepress-status-actions; }
+.status-data-columns { @extend .tradepress-status-data-columns; }
+.status-data-column { @extend .tradepress-status-data-column; }
+.status-data-item { @extend .tradepress-status-data-item; }
+.status-label { @extend .tradepress-status-label; }
+.status-value { @extend .tradepress-status-value; }
+.status-message { @extend .tradepress-status-message; }
+.status-timestamp { @extend .tradepress-status-timestamp; }
+.rate-limits { @extend .tradepress-rate-limits; }
+.rate-limit-item { @extend .tradepress-rate-limit-item; }
+.rate-limit-title { @extend .tradepress-rate-limit-title; }
+.rate-limit-bar { @extend .tradepress-rate-limit-bar; }
+.rate-limit-progress { @extend .tradepress-rate-limit-progress; }
+.rate-limit-text { @extend .tradepress-rate-limit-text; }
+.rate-limit-reset { @extend .tradepress-rate-limit-reset; }
+.api-status { @extend .tradepress-api-status; }
+.status-indicator { @extend .tradepress-status-indicator; }
+.status-text { @extend .tradepress-status-text; }
+.api-badges { @extend .tradepress-api-badges; }
+.api-badge { @extend .tradepress-api-badge; }
+.key-status-container { @extend .tradepress-key-status-container; }
+.key-status { @extend .tradepress-key-status; }
+.trading-mode-toggle-button { @extend .tradepress-mode-toggle-button; @extend .tradepress-trading-mode-toggle-button; }
+.service-status-toggle-button { @extend .tradepress-mode-toggle-button; @extend .tradepress-service-status-toggle-button; }
+.demo-mode-toggle-button { @extend .tradepress-mode-toggle-button; @extend .tradepress-demo-mode-toggle-button; }
+.service-status-form { @extend .tradepress-service-status-form; }
+.trading-mode-button-form { @extend .tradepress-trading-mode-button-form; }
+.demo-mode-button-form { @extend .tradepress-demo-mode-button-form; }
+
+/* Algorithm Status Indicators */
+.tradepress-status-indicator-wrapper {
+    text-align: center;
+    margin: var(--tp-spacing-xl) 0;
+}
+
+.tradepress-status-indicator {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 20px;
+    padding: 8px 16px;
+    background: #f1f1f1;
+}
+
+.tradepress-status-running {
+    background: #d4f4e2;
+    color: #1d9d74;
+}
+
+.tradepress-status-stopped {
+    background: #f8d7da;
+    color: #dc3545;
+}
+
+.tradepress-status-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.tradepress-status-running .tradepress-status-dot {
+    background-color: #1d9d74;
+    animation: pulse 2s infinite;
+}
+
+.tradepress-status-stopped .tradepress-status-dot {
+    background-color: #dc3545;
+}
+
+.tradepress-runtime-display {
+    text-align: center;
+    margin: var(--tp-spacing-xl) 0;
+}
+
+/* Trade Action Status */
+.tradepress-trade-action {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: var(--tp-border-radius);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.tradepress-trade-buy {
+    background-color: #d4f4e2;
+    color: #1d9d74;
+}
+
+.tradepress-trade-sell {
+    background-color: #f8d7da;
+    color: #dc3545;
+}
+
+.tradepress-score {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: var(--tp-border-radius);
+    font-weight: bold;
+}
+
+.tradepress-score-high {
+    background-color: #d4f4e2;
+    color: #1d9d74;
+}
+
+.tradepress-score-medium {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.tradepress-score-low {
+    background-color: #f8d7da;
+    color: #dc3545;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.status-indicator-wrapper { @extend .tradepress-status-indicator-wrapper; }
+.status-indicator { @extend .tradepress-status-indicator; }
+.status-running { @extend .tradepress-status-running; }
+.status-stopped { @extend .tradepress-status-stopped; }
+.status-dot { @extend .tradepress-status-dot; }
+.runtime-display { @extend .tradepress-runtime-display; }
+.trade-action { @extend .tradepress-trade-action; }
+.trade-buy { @extend .tradepress-trade-buy; }
+.trade-sell { @extend .tradepress-trade-sell; }
+.score { @extend .tradepress-score; }
+.score-high { @extend .tradepress-score-high; }
+.score-medium { @extend .tradepress-score-medium; }
+.score-low { @extend .tradepress-score-low; }
+
+/* Automation Status Indicators */
+.tradepress-status-card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: var(--tp-spacing-lg);
+    background: var(--tp-color-gray-100);
+    border: 1px solid var(--tp-color-gray-200);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.tradepress-status-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: var(--tp-spacing-sm);
+}
+
+.tradepress-status-running .tradepress-status-dot {
+    background-color: #46b450;
+    box-shadow: 0 0 0 3px rgba(70, 180, 80, 0.3);
+}
+
+.tradepress-status-stopped .tradepress-status-dot {
+    background-color: #dc3232;
+    box-shadow: 0 0 0 3px rgba(220, 50, 50, 0.3);
+}
+
+.tradepress-runtime-display {
+    margin-right: var(--tp-spacing-xl);
+}
+
+/* Legacy classes mapping for backward compatibility */
+.status-card { @extend .tradepress-status-card; }
+.status-dot { @extend .tradepress-status-dot; }
+.status-running .status-dot { @extend .tradepress-status-running .tradepress-status-dot; }
+.status-stopped .status-dot { @extend .tradepress-status-stopped .tradepress-status-dot; }
+.runtime-display { @extend .tradepress-runtime-display; }
+
+/* Database Table Status */
+.tradepress-table-status {
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.tradepress-status-good {
+    background-color: #d4f9d4;
+    color: #1e7e1e;
+}
+
+.tradepress-status-warning {
+    background-color: #fff8e5;
+    color: #956d00;
+}
+
+.tradepress-status-error {
+    background-color: #ffd6d6;
+    color: #c72121;
+}
+
+.tradepress-process-status-badge {
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.tradepress-status-badge-active {
+    background-color: #d4f9d4;
+    color: #1e7e1e;
+}
+
+.tradepress-status-badge-warning {
+    background-color: #fff8e5;
+    color: #956d00;
+}
+
+.tradepress-status-badge-error, 
+.tradepress-status-badge-inactive {
+    background-color: #ffd6d6;
+    color: #c72121;
+}
+
+.tradepress-status-badge-not-implemented {
+    background-color: #f0f0f0;
+    color: #6c6c6c;
+}
+
+/* Database Table Status */
+.tradepress-table-exists {
+    color: #46b450;
+    font-weight: bold;
+}
+
+.tradepress-table-missing {
+    color: #dc3232;
+    font-weight: bold;
+}
+
+.tradepress-missing-table {
+    background-color: #fff9f9 !important;
+}
+
+.tradepress-warning-table {
+    background-color: #ffffd8 !important;
+}
+
+.tradepress-table-warning {
+    display: flex;
+    align-items: center;
+}
+
+.tradepress-table-warning .dashicons {
+    color: #f0b849;
+    margin-right: 5px;
+}
+
+/* Process Status */
+.tradepress-process-status-good {
+    color: #1e7e1e;
+}
+
+.tradepress-process-status-warning {
+    color: #956d00;
+}
+
+.tradepress-process-status-error {
+    color: #c72121;
+}
+
+.tradepress-process-status-not-implemented {
+    color: #6c6c6c;
+}
+
+.tradepress-not-implemented-count {
+    font-size: 11px;
+    font-weight: normal;
+    font-style: italic;
+    color: #6c6c6c;
+}
+
+.tradepress-process-issues {
+    font-size: 11px;
+    font-weight: normal;
+}
+
+.tradepress-warning-count {
+    color: #956d00;
+}
+
+.tradepress-error-count {
+    color: #c72121;
+}
+
+/* API Status Badge */
+.tradepress-status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.tradepress-status-success {
+    background-color: #d4f9d4;
+    color: #1e7e1e;
+}
+
+.tradepress-status-error {
+    background-color: #ffd6d6;
+    color: #c72121;
+}
+
+.tradepress-status-pending {
+    background-color: #e5e5e5;
+    color: #666;
+}
+
+/* Status badge styling */
+.tradepress-status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: var(--tp-font-weight-semibold);
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 60px;
+}
+
+.tradepress-status-badge.ready {
+    background-color: #e7f7ed;
+    color: #46b450;
+    border: 1px solid #c8e6d0;
+}
+
+.tradepress-status-badge.wip {
+    background-color: #f6f7f7;
+    color: #72777c;
+    border: 1px solid #ddd;
+}
+
+.tradepress-status-badge.live {
+    background-color: #e7f7ed;
+    color: #46b450;
+    border: 1px solid #c8e6d0;
+}
+
+.tradepress-status-badge.demo {
+    background-color: #fef8e8;
+    color: #f0c33c;
+    border: 1px solid #f8e6b8;
+}
+
+.tradepress-status-badge.disabled {
+    background-color: #f6f7f7;
+    color: #72777c;
+    border: 1px solid #ddd;
+}
+
+/* Feature Mode Indicators */
+.tradepress-feature-mode-indicator {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: var(--tp-font-weight-semibold);
+    text-transform: uppercase;
+    margin-left: 10px;
+}
+
+.tradepress-feature-mode-indicator.live {
+    background-color: #e7f7ed;
+    color: #46b450;
+    border: 1px solid #c8e6d0;
+}
+
+.tradepress-feature-mode-indicator.demo {
+    background-color: #fef8e8;
+    color: #f0c33c;
+    border: 1px solid #f8e6b8;
+}
+
+.tradepress-feature-mode-indicator.disabled {
+    background-color: #f6f7f7;
+    color: #72777c;
+    border: 1px solid #ddd;
+}
+
+.tradepress-feature-mode.live {
+    color: #46b450;
+}
+
+.tradepress-feature-mode.demo {
+    color: #f0c33c;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.table-status { @extend .tradepress-table-status; }
+.status-good { @extend .tradepress-status-good; }
+.status-warning { @extend .tradepress-status-warning; }
+.status-error { @extend .tradepress-status-error; }
+.process-status-badge { @extend .tradepress-process-status-badge; }
+.status-badge-active { @extend .tradepress-status-badge-active; }
+.status-badge-warning { @extend .tradepress-status-badge-warning; }
+.status-badge-error { @extend .tradepress-status-badge-error; }
+.status-badge-inactive { @extend .tradepress-status-badge-inactive; }
+.status-badge-not-implemented { @extend .tradepress-status-badge-not-implemented; }
+.tradepress-table-exists { @extend .tradepress-table-exists; }
+.tradepress-table-missing { @extend .tradepress-table-missing; }
+.tradepress-missing-table { @extend .tradepress-missing-table; }
+.tradepress-warning-table { @extend .tradepress-warning-table; }
+.tradepress-table-warning { @extend .tradepress-table-warning; }
+.process-status-good { @extend .tradepress-process-status-good; }
+.process-status-warning { @extend .tradepress-process-status-warning; }
+.process-status-error { @extend .tradepress-process-status-error; }
+.process-status-not-implemented { @extend .tradepress-process-status-not-implemented; }
+.not-implemented-count { @extend .tradepress-not-implemented-count; }
+.process-issues { @extend .tradepress-process-issues; }
+.warning-count { @extend .tradepress-warning-count; }
+.error-count { @extend .tradepress-error-count; }
+.status-badge { @extend .tradepress-status-badge; }
+.ready-status .status-badge { @extend .tradepress-status-badge.ready; }
+.wip-status .status-badge { @extend .tradepress-status-badge.wip; }
+.status-badge.live { @extend .tradepress-status-badge.live; }
+.status-badge.demo { @extend .tradepress-status-badge.demo; }
+.live-status td.feature-mode { @extend .tradepress-feature-mode.live; }
+.demo-status td.feature-mode { @extend .tradepress-feature-mode.demo; }
+.tab-mode-indicator { @extend .tradepress-feature-mode-indicator; }
+.tab-mode-indicator.live { @extend .tradepress-feature-mode-indicator.live; }
+.tab-mode-indicator.demo { @extend .tradepress-feature-mode-indicator.demo; }
+.tab-mode-indicator.disabled { @extend .tradepress-feature-mode-indicator.disabled; }
+
+/* Status Panel */
+.tradepress-status-panel {
+    background: #f9f9f9;
+    border-radius: var(--tp-border-radius);
+    padding: 15px;
+}
+
+.tradepress-status-section {
+    margin-bottom: var(--tp-spacing-xl);
+    border-bottom: 1px solid var(--tp-color-gray-200);
+    padding-bottom: 15px;
+}
+
+.tradepress-status-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.tradepress-status-section h4 {
+    margin: 0 0 var(--tp-spacing-md);
+    font-size: var(--tp-font-size);
+    font-weight: var(--tp-font-weight-semibold);
+}
+
+/* Status Indicators */
+.tradepress-status-indicator {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.tradepress-status-success {
+    color: #46b450;
+}
+
+.tradepress-status-error {
+    color: #dc3232;
+}
+
+.tradepress-status-neutral {
+    color: #646970;
+}
+
+.tradepress-status-text {
+    margin-left: var(--tp-spacing-xs);
+}
+
+/* Status Actions */
+.tradepress-status-actions {
+    margin-top: var(--tp-spacing-lg);
+    text-align: center;
+}
+
+/* Badge System */
+.tradepress-admin-badge {
+    position: absolute;
+    top: var(--tp-spacing-md);
+    right: var(--tp-spacing-md);
+    background-color: #2271b1;
+    color: white;
+    padding: 2px 8px;
+    font-size: 10px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.tradepress-demo-badge {
+    position: absolute;
+    top: var(--tp-spacing-md);
+    right: var(--tp-spacing-md);
+    background-color: #dba617;
+    color: white;
+    padding: 2px 8px;
+    font-size: 10px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.status-panel { @extend .tradepress-status-panel; }
+.status-section { @extend .tradepress-status-section; }
+.status-indicator { @extend .tradepress-status-indicator; }
+.status-success { @extend .tradepress-status-success; }
+.status-error { @extend .tradepress-status-error; }
+.status-neutral { @extend .tradepress-status-neutral; }
+.status-text { @extend .tradepress-status-text; }
+.status-actions { @extend .tradepress-status-actions; }
+.admin-badge { @extend .tradepress-admin-badge; }
+.demo-badge { @extend .tradepress-demo-badge; }
+
+/* Task Status Indicators */
+.tradepress-status-indicator {
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important;
+    margin: 0 auto !important;
+}
+
+.tradepress-status-indicator.pending {
+    background-color: #f0ad4e !important;
+}
+
+.tradepress-status-indicator.in-progress {
+    background-color: #5bc0de !important;
+}
+
+.tradepress-status-indicator.completed {
+    background-color: #5cb85c !important;
+}
+
+/* Priority Indicators */
+.tradepress-priority-indicator {
+    display: inline-block !important;
+    padding: 3px 8px !important;
+    border-radius: 3px !important;
+    font-size: 0.9em !important;
+}
+
+.tradepress-priority-indicator.priority-1 {
+    background-color: #f2dede !important;
+    color: #a94442 !important;
+}
+
+.tradepress-priority-indicator.priority-2 {
+    background-color: #fcf8e3 !important;
+    color: #8a6d3b !important;
+}
+
+.tradepress-priority-indicator.priority-3 {
+    background-color: #d9edf7 !important;
+    color: #31708f !important;
+}
+
+/* Detail Status */
+.tradepress-detail-status {
+    font-weight: var(--tp-font-weight-semibold) !important;
+}
+
+.tradepress-detail-status.status-completed {
+    background-color: #e8f5e9 !important;
+    color: #2e7d32 !important;
+}
+
+.tradepress-detail-status.status-pending {
+    background-color: #fff8e1 !important;
+    color: #f57c00 !important;
+}
+
+.tradepress-detail-status.status-in-progress {
+    background-color: #e3f2fd !important;
+    color: #1976d2 !important;
+}
+
+/* Cache Status */
+.tradepress-cache-status {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-top: var(--tp-spacing-md) !important;
+    padding: 8px 12px !important;
+    background-color: #f9f9f9 !important;
+    border-radius: var(--tp-border-radius) !important;
+    font-size: 12px !important;
+}
+
+.tradepress-status-label {
+    font-weight: var(--tp-font-weight-semibold) !important;
+}
+
+.tradepress-status-fresh {
+    color: #46b450 !important;
+}
+
+.tradepress-status-stale {
+    color: #ffb900 !important;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.task-status-indicator { @extend .tradepress-status-indicator; }
+.priority-indicator { @extend .tradepress-priority-indicator; }
+.detail-status { @extend .tradepress-detail-status; }
+.github-cache-status { @extend .tradepress-cache-status; }
+.status-label { @extend .tradepress-status-label; }
+.status-fresh { @extend .tradepress-status-fresh; }
+.status-stale { @extend .tradepress-status-stale; }
+
+/* Status Indicators Showcase Styles */
+.status-indicators-showcase .component-demo { 
+    margin-bottom: 20px; 
+}
+
+.status-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tradepress-status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.tradepress-status-success {
+    background-color: var(--tp-color-success);
+}
+
+.tradepress-status-warning {
+    background-color: var(--tp-color-warning);
+}
+
+.tradepress-status-error {
+    background-color: var(--tp-color-error);
+}
+
+.tradepress-status-info {
+    background-color: var(--tp-color-info);
+}
+
+.tradepress-status-processing {
+    background-color: var(--tp-color-primary);
+}
+
+.tradepress-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    display: inline-block;
+}
+
+.tradepress-badge-success {
+    background-color: var(--tp-color-success-light);
+    color: var(--tp-color-success);
+}
+
+.tradepress-badge-warning {
+    background-color: var(--tp-color-warning-light);
+    color: var(--tp-color-warning);
+}
+
+.tradepress-badge-error {
+    background-color: var(--tp-color-error-light);
+    color: var(--tp-color-error);
+}
+
+.tradepress-badge-info {
+    background-color: var(--tp-color-info-light);
+    color: var(--tp-color-info);
+}
+
+.tradepress-badge-neutral {
+    background-color: var(--tp-color-border-light);
+    color: var(--tp-color-text-light);
+}
+
+.tradepress-status-success-icon {
+    color: var(--tp-color-success);
+}
+
+.tradepress-status-warning-icon {
+    color: var(--tp-color-warning);
+}
+
+.tradepress-status-error-icon {
+    color: var(--tp-color-error);
+}
+
+.tradepress-status-info-icon {
+    color: var(--tp-color-info);
+}
+
+.tradepress-status-processing-icon {
+    color: var(--tp-color-primary);
+}

@@ -1,0 +1,126 @@
+/**
+ * TradePress - Automation Layout Styles
+ * 
+ * Layout structures for automation pages.
+ * 
+ * @package TradePress/CSS/Layouts
+ * @since 1.0.0
+ */
+
+/* Common elements */
+.tradepress-automation-wrap {
+    margin: var(--tp-spacing-xl) 0;
+}
+
+/* Tab content */
+.tradepress-tab-content {
+    background: var(--tp-color-white);
+    border: 1px solid #ccd0d4;
+    border-top: none;
+    padding: var(--tp-spacing-xl);
+    margin-top: -1px;
+}
+
+/* Algorithm tab */
+.tradepress-algorithm-control-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--tp-spacing-xl);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+/* Scheduling tab */
+.tradepress-scheduling-wrapper {
+    max-width: 1200px;
+}
+
+.tradepress-scheduling-options {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--tp-spacing-xl);
+}
+
+/* Log tab */
+.tradepress-log-wrapper {
+    max-width: 1200px;
+}
+
+/* Trades tab */
+.tradepress-trades-wrapper {
+    max-width: 1200px;
+}
+
+.tradepress-trades-summary {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: var(--tp-spacing-xl);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+/* Animation keyframes */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+    .tradepress-algorithm-control-panel,
+    .tradepress-scheduling-options,
+    .tradepress-trades-summary {
+        grid-template-columns: 1fr;
+    }
+    
+    .tradepress-filter-row {
+        flex-direction: column;
+    }
+    
+    .tradepress-filter-group {
+        width: 100%;
+    }
+}
+
+/* Page-specific automation elements */
+.tradepress-automation-wrap .nav-tab-wrapper {
+    margin-bottom: 15px;
+}
+
+.tradepress-directive-totals {
+    margin: 15px 0;
+    padding: 10px;
+    background: #f0f6fc;
+    border-left: 4px solid #2271b1;
+}
+
+.tradepress-weight-warning {
+    color: #d63638;
+    font-style: italic;
+    margin-left: var(--tp-spacing-md);
+}
+
+.tradepress-directive-help {
+    color: #2271b1;
+    cursor: help;
+    vertical-align: middle;
+    margin-left: var(--tp-spacing-xs);
+}
+
+/* Legacy classes mapping for backward compatibility */
+.tradepress-bot-wrap { @extend .tradepress-automation-wrap; }
+.tab-content { @extend .tradepress-tab-content; }
+.algorithm-control-panel { @extend .tradepress-algorithm-control-panel; }
+.scheduling-wrapper { @extend .tradepress-scheduling-wrapper; }
+.scheduling-options { @extend .tradepress-scheduling-options; }
+.log-wrapper { @extend .tradepress-log-wrapper; }
+.trades-wrapper { @extend .tradepress-trades-wrapper; }
+.trades-summary { @extend .tradepress-trades-summary; }
+.directive-totals { @extend .tradepress-directive-totals; }
+.weight-warning { @extend .tradepress-weight-warning; }
+.directive-help { @extend .tradepress-directive-help; }

@@ -1,0 +1,201 @@
+/**
+ * TradePress - Trading API Tab Styles
+ *
+ * @package TradePress/Admin/CSS
+ */
+
+/* Tab Navigation */
+.api-subtabs-wrapper {
+    margin-bottom: 20px;
+}
+
+/* Tab Content */
+.api-tab-content {
+    display: none;
+    margin-top: 20px;
+}
+.api-tab-content.active {
+    display: block;
+}
+
+/* Form Styling */
+.api-settings-container {
+    margin-top: 20px;
+}
+.tab-description {
+    margin-bottom: 20px;
+    font-style: italic;
+    color: #555;
+}
+.percentage-symbol {
+    margin-left: 5px;
+}
+
+/* Toggle Switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    vertical-align: middle;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+input:checked + .slider {
+    background-color: #2271b1;
+}
+input:focus + .slider {
+    box-shadow: 0 0 1px #2271b1;
+}
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+.slider.round {
+    border-radius: 34px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Webhook Styling */
+.webhook-endpoint-info {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+.webhook-url-container {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+.webhook-url-container code {
+    flex-grow: 1;
+    padding: 8px;
+    background: #f0f0f1;
+    border: 1px solid #ddd;
+}
+.webhook-url-container button {
+    margin-left: 10px;
+}
+.webhook-events {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.webhook-event-item {
+    width: 30%;
+    margin-bottom: 10px;
+}
+
+/* Log Styling */
+.api-logs-container {
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    max-height: 400px;
+    overflow-y: auto;
+}
+.log-controls {
+    margin-bottom: 15px;
+}
+.log-controls button {
+    margin-left: 10px;
+}
+.log-level {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+.log-level.info {
+    background-color: #2271b1;
+}
+.log-level.warning {
+    background-color: #ffb900;
+}
+.log-level.error {
+    background-color: #dc3232;
+}
+.column-time {
+    width: 15%;
+}
+.column-level {
+    width: 10%;
+}
+.column-endpoint {
+    width: 20%;
+}
+.column-message {
+    width: 55%;
+}
+.log-settings {
+    margin-top: 20px;
+}
+
+/* API Test Results */
+.api-test-container {
+    margin: 20px 0;
+}
+.api-test-results {
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+
+/* Demo indicator */
+.demo-indicator {
+    display: flex;
+    background-color: #f0f6fc;
+    border-left: 4px solid #72aee6;
+    padding: 12px;
+    margin-bottom: 20px;
+    position: relative;
+    align-items: center;
+}
+
+.demo-text {
+    flex-grow: 1;
+}
+
+.demo-text h4 {
+    margin: 0 0 5px;
+    color: #2271b1;
+}
+
+.demo-icon {
+    font-size: 24px;
+    margin-right: 12px;
+    color: #2271b1;
+}
+
+@media screen and (max-width: 782px) {
+    .webhook-event-item {
+        width: 100%;
+    }
+}

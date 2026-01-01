@@ -1,0 +1,114 @@
+/**
+ * TradePress - Earnings Page Styles
+ * 
+ * Page-specific styles for the earnings report page.
+ * These should only contain overrides or very specific components
+ * that don't belong in the general component library.
+ * 
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ */
+
+/* Earnings Container */
+.tradepress-earnings-container {
+    margin-bottom: 30px;
+}
+
+/* Earnings Results Header */
+.tradepress-earnings-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+.tradepress-earnings-results-header h3 {
+    margin: 0;
+}
+
+.tradepress-earnings-summary {
+    display: flex;
+    align-items: center;
+    gap: var(--tp-spacing-lg);
+    background-color: var(--tp-color-white);
+    padding: var(--tp-spacing-lg);
+    margin-bottom: var(--tp-spacing-xl);
+    border-radius: var(--tp-border-radius);
+    box-shadow: var(--tp-shadow);
+}
+
+/* Earnings Calendar */
+.tradepress-earnings-date-group {
+    margin-bottom: 25px;
+}
+
+.tradepress-earnings-date-header {
+    display: flex;
+    align-items: center;
+    gap: var(--tp-spacing-md);
+    margin-bottom: var(--tp-spacing-md);
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--tp-color-gray-200);
+}
+
+.tradepress-day-name {
+    color: #666;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+/* Table Column Widths */
+.tradepress-earnings-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tradepress-column-time {
+    width: 120px;
+}
+
+.tradepress-column-symbol {
+    width: 80px;
+}
+
+.tradepress-column-market-cap,
+.tradepress-column-sector,
+.tradepress-column-eps-estimate,
+.tradepress-column-prev-eps,
+.tradepress-column-eps-change,
+.tradepress-column-whisper,
+.tradepress-column-sentiment,
+.tradepress-column-opp-score {
+    width: 100px;
+}
+
+.tradepress-column-actions {
+    width: 120px;
+    text-align: right;
+}
+
+/* Highlight rows with high opportunity */
+.tradepress-highlight-opportunity td {
+    background-color: rgba(70, 180, 80, 0.04) !important;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.tradepress-earnings-container { @extend .tradepress-earnings-container; }
+.earnings-results-header { @extend .tradepress-earnings-results-header; }
+.earnings-summary { @extend .tradepress-earnings-summary; }
+.earnings-date-group { @extend .tradepress-earnings-date-group; }
+.earnings-date-header { @extend .tradepress-earnings-date-header; }
+.day-name { @extend .tradepress-day-name; }
+.earnings-table { @extend .tradepress-earnings-table; }
+.column-time { @extend .tradepress-column-time; }
+.column-symbol { @extend .tradepress-column-symbol; }
+.column-market-cap { @extend .tradepress-column-market-cap; }
+.column-sector { @extend .tradepress-column-sector; }
+.column-eps-estimate { @extend .tradepress-column-eps-estimate; }
+.column-prev-eps { @extend .tradepress-column-prev-eps; }
+.column-eps-change { @extend .tradepress-column-eps-change; }
+.column-whisper { @extend .tradepress-column-whisper; }
+.column-sentiment { @extend .tradepress-column-sentiment; }
+.column-opp-score { @extend .tradepress-column-opp-score; }
+.column-actions { @extend .tradepress-column-actions; }
+.highlight-opportunity { @extend .tradepress-highlight-opportunity; }

@@ -1,0 +1,125 @@
+/**
+ * TradePress Dark Theme - Admin Layout Styles
+ * 
+ * Dark theme overrides for admin page layouts and structure.
+ * 
+ * @package TradePress/CSS/Dark
+ * @since 1.0.0
+ */
+
+.tradepress-dark-theme {
+    background-color: var(--tradepress-color-white);
+    color: var(--tradepress-color-black);
+}
+
+/* Admin Page Structure */
+.tradepress-dark-theme .tradepress-admin-page {
+    background-color: var(--tradepress-color-white);
+}
+
+.tradepress-dark-theme .tradepress-admin-section {
+    background: var(--tradepress-color-gray-50);
+    border: 1px solid var(--tradepress-color-gray-300);
+    color: var(--tradepress-color-black);
+}
+
+.tradepress-dark-theme .tradepress-admin-section h2 {
+    color: var(--tradepress-color-black);
+    border-bottom: 1px solid var(--tradepress-color-gray-300);
+}
+
+/* Service Card Layout */
+.tradepress-dark-theme .service-overview {
+    background: var(--tradepress-color-gray-50);
+    border: 1px solid var(--tradepress-color-gray-300);
+    color: var(--tradepress-color-black);
+}
+
+.tradepress-dark-theme .service-details h3 {
+    color: var(--tradepress-color-black);
+}
+
+/* Import/Export Layout */
+.tradepress-dark-theme .tradepress-import-section,
+.tradepress-dark-theme .tradepress-export-section {
+    background-color: var(--tradepress-color-gray-100);
+    border: 1px solid var(--tradepress-color-gray-300);
+    color: var(--tradepress-color-black);
+}
+
+/* Feature Status Tables */
+.tradepress-dark-theme .feature-status-table th {
+    background: var(--tradepress-color-gray-100);
+    color: var(--tradepress-color-black);
+    border-bottom: 1px solid var(--tradepress-color-gray-400);
+}
+
+.tradepress-dark-theme .feature-status-table td {
+    color: var(--tradepress-color-black);
+    border-bottom: 1px solid var(--tradepress-color-gray-200);
+}
+
+.tradepress-dark-theme .feature-status-table tr:hover {
+    background: var(--tradepress-color-gray-100);
+}
+
+.tradepress-dark-theme .feature-tab-header {
+    background: var(--tradepress-color-gray-200);
+}
+
+.tradepress-dark-theme .completion-stats {
+    background: var(--tradepress-color-gray-50);
+    border: 1px solid var(--tradepress-color-gray-300);
+    color: var(--tradepress-color-black);
+}
+
+/* Button Styles */
+.tradepress-dark-theme .test-button {
+    background-color: var(--tradepress-color-primary);
+    color: var(--tradepress-color-white);
+}
+
+.tradepress-dark-theme .test-button:hover {
+    background-color: var(--tradepress-color-primary-dark);
+}
+
+.tradepress-dark-theme .test-button.maintenance {
+    background-color: var(--tradepress-color-gray-500);
+}
+
+/* Quick Actions Bar */
+.tradepress-dark-theme .api-quick-actions {
+    background: var(--tradepress-color-gray-50);
+    border: 1px solid var(--tradepress-color-gray-300);
+}
+
+.tradepress-dark-theme .quick-action-button {
+    background: var(--tradepress-color-gray-100);
+    border: 1px solid var(--tradepress-color-gray-400);
+    color: var(--tradepress-color-black);
+}
+
+.tradepress-dark-theme .quick-action-button:hover {
+    background: var(--tradepress-color-gray-200);
+    color: var(--tradepress-color-primary);
+}
+
+/* Issues Tab Styles */
+.tradepress-dark-theme .issue-row:hover {
+    background-color: var(--tradepress-color-gray-100);
+}
+
+/* BugNet Log Viewer Styles */
+.tradepress-dark-theme .bugnet-log-viewer h3 {
+    color: var(--tradepress-color-black);
+}
+
+.tradepress-dark-theme .bugnet-log-viewer textarea {
+    background: var(--tradepress-color-gray-100);
+    border: 1px solid var(--tradepress-color-gray-400);
+    color: var(--tradepress-color-black);
+}
+
+.tradepress-dark-theme .bugnet-log-viewer p {
+    color: var(--tradepress-color-gray-700);
+}

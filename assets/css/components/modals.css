@@ -1,0 +1,238 @@
+/**
+ * TradePress - Modal Component Styles
+ * 
+ * Styles for modal dialogs and popups.
+ * 
+ * HTML Structure:
+ * <div class="tp-modal">
+ *   <div class="tp-modal-content">
+ *     <span class="tp-modal-close">×</span>
+ *     <h2>Modal Title</h2>
+ *     <div class="tp-modal-body">Content</div>
+ *   </div>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Basic Modal Styles */
+.tradepress-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.tradepress-modal.open {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.tradepress-modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 50px auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 900px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.tradepress-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #eee;
+}
+
+.tradepress-modal-header h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.tradepress-modal-close {
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tradepress-modal-close:hover {
+    color: #555;
+}
+
+.tradepress-modal-body {
+    padding: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* Modal Footer */
+.tradepress-modal-footer {
+    padding: 15px 20px;
+    background-color: #f8f8f8;
+    border-top: 1px solid #eee;
+    text-align: right;
+}
+
+.tradepress-modal-footer .tradepress-button {
+    margin-left: 10px;
+}
+
+/* Task Detail Modal Content */
+.tradepress-task-detail-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--tp-spacing-md) !important;
+    margin-bottom: var(--tp-spacing-lg) !important;
+    padding-bottom: var(--tp-spacing-md) !important;
+    border-bottom: 1px solid var(--tp-color-gray-300) !important;
+}
+
+.tradepress-task-detail-header h2 {
+    margin-top: 0 !important;
+    padding-right: var(--tp-spacing-xl) !important;
+}
+
+.tradepress-task-detail-title {
+    flex-grow: 1 !important;
+    margin: 0 !important;
+}
+
+.tradepress-task-meta {
+    color: #666 !important;
+    margin-bottom: var(--tp-spacing-xl) !important;
+}
+
+.tradepress-task-detail-meta {
+    display: flex !important;
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+    margin-bottom: var(--tp-spacing-md) !important;
+}
+
+.tradepress-task-detail-meta span {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 3px 8px !important;
+    border-radius: 3px !important;
+    font-size: 13px !important;
+    background-color: #f0f0f0 !important;
+}
+
+.tradepress-task-detail-meta-item {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.tradepress-task-detail-meta-label {
+    font-weight: bold !important;
+    margin-bottom: var(--tp-spacing-xs) !important;
+    color: #666 !important;
+}
+
+/* Modal Loading */
+.tradepress-loading-spinner {
+    text-align: center;
+    padding: 30px;
+}
+
+/* Modal Button Classes */
+.close-demo-modal,
+.close-task-modal,
+.close-confirm-modal {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.close-demo-modal:hover,
+.close-task-modal:hover,
+.close-confirm-modal:hover {
+    background: #5a6268;
+}
+
+/* Status Indicators */
+.status-active {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.priority-high {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: #dc3545;
+    color: white;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Task Detail Components */
+.tradepress-task-description {
+    margin-bottom: 20px;
+}
+
+.tradepress-task-description h4 {
+    margin-bottom: 10px;
+    color: #3c434a;
+    font-size: 16px;
+}
+
+.tradepress-task-description p {
+    line-height: 1.6;
+    color: #646970;
+}
+
+.tradepress-task-attachments {
+    margin-bottom: 20px;
+}
+
+.tradepress-task-attachments h4 {
+    margin-bottom: 10px;
+    color: #3c434a;
+    font-size: 16px;
+}
+
+.tradepress-task-attachments ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tradepress-task-attachments li {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f1;
+}
+
+.tradepress-task-attachments li:last-child {
+    border-bottom: none;
+}
+
+.tradepress-task-attachments .dashicons {
+    margin-right: 8px;
+    color: #2271b1;
+}

@@ -1,0 +1,69 @@
+/**
+ * TradePress jQuery UI Demo Styles
+ *
+ * @package TradePress/Admin/CSS
+ * @version 1.0.0
+ */
+
+.tradepress-jquery-ui-demos {
+    max-width: 1200px;
+}
+
+#demo-sortable {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 60%;
+}
+
+#demo-sortable li {
+    margin: 0 3px 3px 3px;
+    padding: 0.4em;
+    padding-left: 1.5em;
+    font-size: 1.4em;
+    height: 18px;
+}
+
+#demo-sortable li span {
+    position: absolute;
+    margin-left: -1.3em;
+}
+
+#demo-draggable, #demo-draggable2 {
+    width: 150px;
+    height: 150px;
+    padding: 0.5em;
+    float: left;
+    margin: 10px 10px 10px 0;
+}
+
+#demo-droppable {
+    width: 150px;
+    height: 150px;
+    padding: 0.5em;
+    float: left;
+    margin: 10px;
+}
+
+#demo-resizable {
+    width: 150px;
+    height: 150px;
+    padding: 0.5em;
+}
+
+#demo-resizable h3 {
+    text-align: center;
+    margin: 0;
+}
+
+#demo-dialog {
+    display: none;
+}
+
+#demo-progressbar {
+    margin: 20px 0;
+}
+
+#demo-slider {
+    margin: 20px 0;
+}

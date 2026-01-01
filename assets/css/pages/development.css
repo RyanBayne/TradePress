@@ -1,0 +1,247 @@
+/**
+ * TradePress - Development Page Styles
+ * 
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ * @created 2024-12-20
+ */
+
+/* Development tabs styles */
+.tradepress-development-wrap .nav-tab-wrapper {
+    margin-bottom: 20px;
+}
+
+.tradepress-subtabs-wrapper {
+    margin-bottom: 20px;
+}
+
+.tradepress-subtabs {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.tradepress-subtabs li {
+    margin-bottom: -1px;
+}
+
+.tradepress-subtabs li a {
+    padding: 10px 15px;
+    display: block;
+    text-decoration: none;
+    border: 1px solid transparent;
+}
+
+.tradepress-subtabs li.active a {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-bottom-color: #fff;
+}
+
+/* GitHub issues styling */
+.next-github-issue {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.issue-state {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+.issue-state.open {
+    background-color: #2cbe4e;
+    color: white;
+}
+
+.issue-state.closed {
+    background-color: #cb2431;
+    color: white;
+}
+
+.github-api-config {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+/* Tab pane styling */
+.tab-pane {
+    display: none;
+    padding: 20px 0;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* Navigation tabs */
+.nav-tab-wrapper {
+    margin-bottom: 20px;
+}
+
+/* Development page specific styles */
+.tradepress-development-page .nav-tab {
+    cursor: pointer;
+}
+
+/* Feature Status Tab Styles */
+.feature-status-tab .completion-stats {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.feature-status-tab .stat-box {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 15px 20px;
+    min-width: 150px;
+    text-align: center;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.feature-status-tab .stat-label {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.feature-status-tab .stat-value {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    color: #23282d;
+}
+
+.feature-status-tab .tp-accordion-controls {
+    margin-bottom: 15px;
+}
+
+.feature-status-tab .feature-section-header {
+    margin: 30px 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #0073aa;
+    color: #0073aa;
+}
+
+.feature-status-tab .feature-status-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.feature-status-tab .feature-status-table th,
+.feature-status-tab .feature-status-table td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.feature-status-tab .feature-status-table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+}
+
+.feature-status-tab .feature-tab-header {
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+.feature-status-tab .feature-tab-header td {
+    padding: 12px;
+}
+
+.feature-status-tab .feature-tab-link {
+    margin-left: 10px;
+    text-decoration: none;
+    color: #0073aa;
+}
+
+.feature-status-tab .tab-status {
+    font-size: 12px;
+    color: #666;
+    margin-left: 10px;
+}
+
+.feature-status-tab .feature-status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.feature-status-tab .feature-status-badge.status-live {
+    background-color: #46b450;
+    color: white;
+}
+
+.feature-status-tab .feature-status-badge.status-demo {
+    background-color: #ffb900;
+    color: #23282d;
+}
+
+.feature-status-tab .page-stats-row {
+    background-color: #f9f9f9;
+    font-style: italic;
+}
+
+.feature-status-tab .page-stats-row td {
+    padding: 10px 12px;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Accordion Styling Improvements */
+.feature-status-tab .tp-accordion-item {
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.feature-status-tab .tp-accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.feature-status-tab .tp-accordion-header:hover {
+    background: #e9ecef;
+}
+
+.feature-status-tab .tp-accordion-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #23282d;
+}
+
+.feature-status-tab .tp-accordion-icon {
+    font-size: 16px;
+    color: #666;
+    transition: transform 0.2s ease;
+}
+
+.feature-status-tab .tp-accordion-content {
+    padding: 15px;
+    background: #fff;
+}

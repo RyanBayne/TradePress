@@ -1,0 +1,372 @@
+/**
+ * TradePress - Create Watchlist Styles
+ *
+ * @package TradePress/CSS
+ * @since 1.0.0
+ */
+
+/* Two-column layout */
+.create-watchlist-layout {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.create-watchlist-form-container {
+    flex: 0 0 500px;
+    max-width: 500px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 25px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.symbol-browser-container {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    max-height: 800px;
+}
+
+/* Symbol browser header */
+.symbol-browser-header {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.symbol-browser-header h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.browser-filters {
+    display: flex;
+    gap: 10px;
+}
+
+.browser-filters select,
+.browser-filters input {
+    height: 36px;
+}
+
+.browser-filters input {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Symbol categories */
+.symbol-categories {
+    overflow-y: auto;
+    flex: 1;
+}
+
+.symbol-category {
+    margin-bottom: 10px;
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
+}
+
+.category-header h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.category-count {
+    color: #666;
+    font-size: 12px;
+}
+
+/* Symbol items */
+.category-symbols {
+    padding: 10px 20px;
+}
+
+.symbol-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.symbol-item:last-child {
+    border-bottom: none;
+}
+
+.symbol-info {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.symbol-name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.company-name {
+    color: #666;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.symbol-score {
+    margin-right: 15px;
+    font-weight: 600;
+    font-size: 15px;
+    min-width: 35px;
+    text-align: center;
+}
+
+.score-label {
+    font-size: 11px;
+    color: #666;
+    font-weight: normal;
+    margin-bottom: 3px;
+}
+
+.score-high {
+    color: #0c833f;
+}
+
+.score-medium {
+    color: #b26200;
+}
+
+.score-low {
+    color: #b32d2e;
+}
+
+.symbol-details {
+    margin-right: 15px;
+    text-align: right;
+}
+
+.symbol-price {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.symbol-change {
+    font-size: 12px;
+}
+
+.symbol-change.positive {
+    color: #0c833f;
+}
+
+.symbol-change.negative {
+    color: #dc3232;
+}
+
+.add-to-watchlist {
+    background: transparent;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.add-to-watchlist:hover {
+    background-color: #f0f0f0;
+    border-color: #999;
+}
+
+.add-to-watchlist .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+/* Existing form styles */
+.tradepress-create-watchlist-container {
+    margin-top: 20px;
+}
+
+.create-watchlist-header {
+    margin-bottom: 25px;
+}
+
+.form-section {
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.form-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+    color: #23282d;
+    font-size: 16px;
+}
+
+.section-description {
+    margin-top: -10px;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.form-field {
+    margin-bottom: 20px;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.form-field input[type="text"],
+.form-field textarea,
+.form-field select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.field-description {
+    margin-top: 5px;
+    color: #666;
+    font-size: 12px;
+    font-style: italic;
+}
+
+.required {
+    color: #d63638;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.symbol-search-container {
+    display: flex;
+    gap: 10px;
+}
+
+.symbol-search-container input {
+    flex: 1;
+}
+
+.search-results {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.search-results h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.results-container {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.symbol-result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.symbol-result-item:last-child {
+    border-bottom: none;
+}
+
+.symbol-result-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.symbol-result-name {
+    font-weight: bold;
+}
+
+.symbol-result-company {
+    font-size: 12px;
+    color: #666;
+}
+
+.selected-symbols-container {
+    min-height: 100px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-content: flex-start;
+}
+
+.selected-symbol-tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: #e9f5fe;
+    color: #2271b1;
+    border-radius: 3px;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.remove-symbol {
+    margin-left: 6px;
+    cursor: pointer;
+    color: #2271b1;
+    font-size: 16px;
+}
+
+.remove-symbol:hover {
+    color: #135e96;
+}
+
+.no-symbols-message {
+    color: #666;
+    font-style: italic;
+    margin: 0;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}

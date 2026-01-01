@@ -1,0 +1,430 @@
+/**
+ * TradePress - Pagination Component Styles
+ * 
+ * Styles for pagination navigation controls.
+ * 
+ * HTML Structure:
+ * <div class="tp-pagination">
+ *   <a href="#" class="tp-pagination-prev">Previous</a>
+ *   <ul class="tp-pagination-list">
+ *     <li><a href="#" class="tp-pagination-item active">1</a></li>
+ *     <li><a href="#" class="tp-pagination-item">2</a></li>
+ *   </ul>
+ *   <a href="#" class="tp-pagination-next">Next</a>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+.tradepress-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: var(--tp-spacing-xl) 0;
+}
+
+.tradepress-pagination-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tradepress-pagination-item {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0 2px;
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    text-decoration: none;
+    color: #2271b1;
+}
+
+.tradepress-pagination-item:hover {
+    background-color: var(--tp-color-gray-50);
+    color: #135e96;
+}
+
+.tradepress-pagination-item.active {
+    background-color: #2271b1;
+    color: var(--tp-color-white);
+    border-color: #2271b1;
+}
+
+.tradepress-pagination-prev,
+.tradepress-pagination-next {
+    padding: 6px 12px;
+    text-decoration: none;
+    color: #2271b1;
+}
+
+.tradepress-pagination-prev:hover,
+.tradepress-pagination-next:hover {
+    color: #135e96;
+}
+
+.tradepress-pagination-prev.disabled,
+.tradepress-pagination-next.disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.task-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: var(--tp-spacing-xl) 0;
+}
+
+.task-pagination-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.task-pagination-item {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0 2px;
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    text-decoration: none;
+    color: #2271b1;
+}
+
+.task-pagination-item:hover {
+    background-color: var(--tp-color-gray-50);
+    color: #135e96;
+}
+
+.task-pagination-item.active {
+    background-color: #2271b1;
+    color: var(--tp-color-white);
+    border-color: #2271b1;
+}
+
+.task-pagination-prev,
+.task-pagination-next {
+    padding: 6px 12px;
+    text-decoration: none;
+    color: #2271b1;
+}
+
+.task-pagination-prev:hover,
+.task-pagination-next:hover {
+    color: #135e96;
+}
+
+.task-pagination-prev.disabled,
+.task-pagination-next.disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Pagination Container */
+.pagination-container {
+    margin: 20px 0;
+}
+
+/* Standard Pagination */
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.pagination-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--tp-color-text);
+    background-color: var(--tp-color-background-light);
+}
+
+.pagination-item.active {
+    background-color: var(--tp-color-primary);
+    color: var(--tp-color-background);
+}
+
+.pagination-item.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.pagination-item .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+/* Pagination with Options */
+.pagination-with-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pagination-left {
+    flex: 1;
+}
+
+.pagination-center {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pagination-status {
+    color: var(--tp-color-text-light);
+    font-size: 0.9em;
+}
+
+.pagination-page-size {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Compact Pagination */
+.pagination-compact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagination-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: var(--tp-color-background-light);
+    border: 1px solid var(--tp-color-border);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pagination-button:hover {
+    background-color: var(--tp-color-background-hover);
+}
+
+.pagination-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    color: var(--tp-color-text);
+    font-size: 0.9em;
+}
+
+/* Infinite Scroll */
+.infinite-scroll-container {
+    border: 1px solid var(--tp-color-border);
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.infinite-scroll-items {
+    margin-bottom: 15px;
+}
+
+.infinite-scroll-item {
+    padding: 15px;
+    border-bottom: 1px solid var(--tp-color-border-light);
+}
+
+.infinite-scroll-item:last-child {
+    border-bottom: none;
+}
+
+.infinite-scroll-loader {
+    display: none;
+    text-align: center;
+    padding: 20px;
+}
+
+.infinite-scroll-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-left-color: var(--tp-color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.infinite-scroll-button {
+    display: block;
+    margin: 15px auto 0;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   UI Library Pagination Components
+   ========================================================================== */
+
+/* Pagination Showcase Container */
+.pagination-showcase {
+    background: var(--tp-color-white);
+    border: 2px solid var(--tp-color-border);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.pagination-showcase h4 {
+    margin: 0 0 var(--tp-spacing-md) 0;
+    color: var(--tp-color-text);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.pagination-showcase .pagination-demo {
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+.pagination-showcase .pagination-demo:last-child {
+    margin-bottom: 0;
+}
+
+/* Pagination Text Labels */
+.pagination-text {
+    color: var(--tp-color-text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 var(--tp-spacing-md);
+    white-space: nowrap;
+}
+
+.pagination-text.pagination-total {
+    font-weight: 600;
+    color: var(--tp-color-text);
+}
+
+.pagination-text.pagination-range {
+    background: var(--tp-color-bg-secondary);
+    padding: 4px 8px;
+    border-radius: var(--tp-border-radius-sm);
+    border: 1px solid var(--tp-color-border-light);
+}
+
+/* Pagination Ellipsis */
+.pagination-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    color: var(--tp-color-text-muted);
+    font-weight: 500;
+    cursor: default;
+    user-select: none;
+}
+
+.pagination-ellipsis:before {
+    content: "...";
+    font-size: 16px;
+    line-height: 1;
+}
+
+.pagination-ellipsis.interactive {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: var(--tp-border-radius);
+    background: transparent;
+}
+
+.pagination-ellipsis.interactive:hover {
+    background: var(--tp-color-bg-hover);
+    color: var(--tp-color-primary);
+    transform: translateY(-1px);
+}
+
+.pagination-ellipsis.loading:before {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(var(--tp-color-primary-rgb), 0.3);
+    border-left-color: var(--tp-color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Enhanced pagination display for trading data */
+.pagination-showcase .trading-pagination {
+    background: linear-gradient(135deg, var(--tp-color-bg-secondary) 0%, var(--tp-color-white) 100%);
+    border: 1px solid var(--tp-color-border);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-md);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.pagination-showcase .trading-pagination .pagination-text {
+    background: var(--tp-color-white);
+    border: 1px solid var(--tp-color-border-light);
+    padding: 6px 12px;
+    border-radius: var(--tp-border-radius);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Market data pagination styling */
+.pagination-showcase .market-data-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--tp-color-white);
+    border: 2px solid var(--tp-color-border);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-md);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-showcase .market-data-pagination .pagination-text.data-count {
+    color: var(--tp-color-primary);
+    font-weight: 600;
+    background: rgba(var(--tp-color-primary-rgb), 0.1);
+    border-color: var(--tp-color-primary);
+}
+
+/* Responsive pagination showcase */
+@media screen and (max-width: 768px) {
+    .pagination-showcase {
+        padding: var(--tp-spacing-md);
+    }
+    
+    .pagination-showcase .market-data-pagination {
+        flex-direction: column;
+        gap: var(--tp-spacing-sm);
+        align-items: stretch;
+    }
+    
+    .pagination-text {
+        margin: 0;
+        text-align: center;
+    }
+    
+    .pagination-ellipsis {
+        min-width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,168 @@
+/**
+ * TradePress Settings Shortcodes Styles
+ *
+ * @package TradePress/Admin/CSS
+ * @version 1.0.0
+ */
+
+/* Shortcodes Styles */
+.tradepress-shortcodes-header {
+    margin-bottom: 20px;
+}
+
+.shortcodes-filter {
+    margin-bottom: 20px;
+    background: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.shortcode-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.shortcode-card {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 15px;
+    background: #f9f9f9;
+    position: relative;
+}
+
+.shortcode-card.demo-status {
+    border-left: 4px solid #f0c33c;
+}
+
+.shortcode-card.live-status {
+    border-left: 4px solid #46b450;
+}
+
+.shortcode-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.shortcode-header h4 {
+    margin: 0;
+    color: #23282d;
+}
+
+.shortcode-status-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.shortcode-status-badge.live {
+    background-color: #e7f7ed;
+    color: #46b450;
+    border: 1px solid #c8e6d0;
+}
+
+.shortcode-status-badge.demo {
+    background-color: #fef8e8;
+    color: #f0c33c;
+    border: 1px solid #f8e6b8;
+}
+
+.shortcode-description {
+    margin-bottom: 15px;
+    color: #646970;
+}
+
+.shortcode-code {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 3px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.shortcode-code code {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    background: none;
+    padding: 0;
+    color: #007cba;
+    font-size: 13px;
+}
+
+.copy-shortcode {
+    background: none;
+    border: none;
+    color: #2271b1;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.copy-shortcode:hover {
+    color: #135e96;
+}
+
+.shortcode-parameters h5 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+}
+
+.shortcode-parameters ul {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 13px;
+}
+
+.shortcode-parameters li {
+    margin-bottom: 5px;
+}
+
+.shortcode-documentation {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.shortcode-examples {
+    margin-top: 15px;
+}
+
+.example {
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 3px;
+}
+
+.example h5 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+}
+
+.example code {
+    background: #fff;
+    padding: 10px;
+    display: block;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+}
+
+@media screen and (max-width: 782px) {
+    .shortcode-grid {
+        grid-template-columns: 1fr;
+    }
+}

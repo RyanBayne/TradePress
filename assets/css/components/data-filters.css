@@ -1,0 +1,132 @@
+/**
+ * TradePress - Data Filter Component Styles
+ * 
+ * For filtering and searching data tables.
+ * 
+ * HTML Structure:
+ * <div class="tp-filter-form">
+ *   <div class="tp-filter-controls">
+ *     <div class="tp-filter-row">
+ *       <div class="tp-filter-item">
+ *         <label>Filter Label</label>
+ *         <select></select>
+ *       </div>
+ *     </div>
+ *   </div>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Filter Form */
+.tradepress-filter-form {
+    background: var(--tp-color-white);
+    border: 1px solid #ccd0d4;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+/* Filter Controls */
+.tradepress-filter-controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--tp-spacing-md);
+}
+
+.tradepress-filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-lg);
+    align-items: flex-end;
+}
+
+.tradepress-filter-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.tradepress-filter-actions {
+    display: flex;
+    gap: 5px;
+}
+
+/* Data Filter Controls */
+.tradepress-data-filter-controls {
+    margin-bottom: var(--tp-spacing-lg);
+    padding: var(--tp-spacing-md);
+    background: #f8f8f8;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+}
+
+.tradepress-data-search {
+    flex-grow: 1;
+}
+
+/* Data Table Preview */
+.tradepress-table-data-preview {
+    overflow-x: auto;
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+.tradepress-table-data-preview table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tradepress-table-data-preview th, 
+.tradepress-table-data-preview td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #e5e5e5;
+}
+
+.tradepress-table-data-preview th {
+    background: #f8f8f8;
+    font-weight: bold;
+}
+
+.tradepress-table-data-preview tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* Data Pagination */
+.tradepress-data-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--tp-spacing-md);
+}
+
+.tradepress-pagination-info {
+    font-size: 13px;
+    color: #666;
+}
+
+.tradepress-current-page, .tradepress-total-pages {
+    font-weight: bold;
+}
+
+/* Loading State */
+.tradepress-loading {
+    text-align: center;
+    padding: var(--tp-spacing-xl);
+    color: #666;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.tradepress-filter-form { @extend .tradepress-filter-form; }
+.filter-controls { @extend .tradepress-filter-controls; }
+.filter-row { @extend .tradepress-filter-row; }
+.filter-item { @extend .tradepress-filter-item; }
+.filter-actions { @extend .tradepress-filter-actions; }
+.data-filter-controls { @extend .tradepress-data-filter-controls; }
+#data-search { @extend .tradepress-data-search; }
+#table-data-preview { @extend .tradepress-table-data-preview; }
+.data-pagination { @extend .tradepress-data-pagination; }
+.pagination-info { @extend .tradepress-pagination-info; }
+.current-page { @extend .tradepress-current-page; }
+.total-pages { @extend .tradepress-total-pages; }
+.loading { @extend .tradepress-loading; }

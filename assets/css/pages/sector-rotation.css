@@ -1,0 +1,354 @@
+/**
+ * TradePress - Sector Rotation Styles
+ * 
+ * Styles for the sector rotation interface.
+ * 
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ */
+
+.tradepress-sector-rotation-container {
+    margin: 20px 0;
+}
+
+.tradepress-market-phase-panel {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.tradepress-cycle-indicator {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.tradepress-cycle-diagram {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-right: 30px;
+}
+
+.phase-segment {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    clip-path: polygon(50% 50%, 100% 0%, 100% 40%);
+    transform-origin: center;
+    opacity: 0.7;
+}
+
+.phase-early-expansion {
+    background-color: #7cb342;
+    transform: rotate(0deg);
+}
+
+.phase-late-expansion {
+    background-color: #43a047;
+    transform: rotate(90deg);
+}
+
+.phase-early-recession {
+    background-color: #e53935;
+    transform: rotate(180deg);
+}
+
+.phase-late-recession {
+    background-color: #fb8c00;
+    transform: rotate(270deg);
+}
+
+.phase-segment.active {
+    opacity: 1;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.cycle-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background: #fff;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.cycle-label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+}
+
+.tradepress-current-phase {
+    flex: 1;
+}
+
+.phase-name {
+    color: #0073aa;
+}
+
+.phase-description {
+    margin-bottom: 15px;
+}
+
+.phase-indicators {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.indicator {
+    flex: 1;
+    min-width: 150px;
+}
+
+.indicator-label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.indicator-bar {
+    background: #f0f0f0;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.indicator-fill {
+    background: #0073aa;
+    height: 100%;
+}
+
+.tradepress-sectors-grid {
+    overflow-x: auto;
+}
+
+.tradepress-sectors-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.tradepress-sectors-table th,
+.tradepress-sectors-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.tradepress-sectors-table th {
+    background-color: #f5f5f5;
+    font-weight: 600;
+}
+
+.sector-etf {
+    color: #777;
+    font-size: 0.85em;
+}
+
+.performance-value {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.performance-value.positive {
+    color: #43a047;
+}
+
+.performance-value.negative {
+    color: #e53935;
+}
+
+.performance-bar {
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.performance-fill {
+    height: 100%;
+}
+
+.performance-fill.positive {
+    background-color: #43a047;
+}
+
+.performance-fill.negative {
+    background-color: #e53935;
+}
+
+.momentum-indicator,
+.volume-trend {
+    display: flex;
+    align-items: center;
+}
+
+.momentum-indicator.strong,
+.volume-trend.increasing {
+    color: #43a047;
+}
+
+.momentum-indicator.neutral,
+.volume-trend.stable {
+    color: #757575;
+}
+
+.momentum-indicator.weak,
+.volume-trend.decreasing {
+    color: #e53935;
+}
+
+.strength-bar {
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.strength-fill {
+    height: 100%;
+    background: linear-gradient(to right, #e53935 0%, #fb8c00 30%, #fdd835 50%, #7cb342 70%, #43a047 100%);
+}
+
+.outlook-indicator {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.outlook-indicator.bullish {
+    background-color: rgba(67, 160, 71, 0.2);
+    color: #2e7d32;
+}
+
+.outlook-indicator.neutral {
+    background-color: rgba(117, 117, 117, 0.2);
+    color: #424242;
+}
+
+.outlook-indicator.bearish {
+    background-color: rgba(229, 57, 53, 0.2);
+    color: #c62828;
+}
+
+.tradepress-industries-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.tradepress-industry-column {
+    flex: 1;
+    min-width: 300px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 15px;
+}
+
+.tradepress-industry-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.industry-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.industry-item:last-child {
+    border-bottom: none;
+}
+
+.industry-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.industry-performance {
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.industry-performance.positive {
+    color: #43a047;
+}
+
+.industry-performance.negative {
+    color: #e53935;
+}
+
+.industry-sector {
+    color: #777;
+    font-size: 0.85em;
+}
+
+.tradepress-educational-panel {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.tradepress-rotation-cycle {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.cycle-diagram {
+    flex: 0 0 300px;
+}
+
+.cycle-diagram img {
+    max-width: 100%;
+    height: auto;
+}
+
+.cycle-description {
+    flex: 1;
+    min-width: 300px;
+}
+
+.rotation-phases {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.rotation-phase {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.rotation-phase h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #0073aa;
+}
+
+.phase-sectors {
+    margin-top: 10px;
+    font-size: 0.9em;
+}

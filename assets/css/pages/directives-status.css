@@ -1,0 +1,99 @@
+/**
+ * TradePress Directives Status Styles
+ *
+ * @package TradePress/Admin/CSS
+ * @version 1.0.0
+ */
+
+.tradepress-directives-status-tab .directives-toolbar {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.directive-category-group {
+    margin-bottom: 30px;
+}
+
+.directive-category-title {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tradepress-directives-status-table .column-version,
+.tradepress-directives-status-table .column-status,
+.tradepress-directives-status-table .column-last-updated {
+    width: 12%;
+}
+
+.tradepress-directives-status-table .column-actions {
+    width: 10%;
+    text-align: right;
+}
+
+.directive-status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.directive-status-badge.status-active { 
+    background-color: #ecf7ed; 
+    color: #0c833f; 
+}
+
+.directive-status-badge.status-inactive { 
+    background-color: #f8f9fa; 
+    color: #72777c; 
+    border: 1px solid #dcdcde; 
+}
+
+.directive-status-badge.status-development { 
+    background-color: #fcf9e8; 
+    color: #bd8600; 
+}
+
+.tradepress-directives-status-table .column-actions .button-link {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    color: #2271b1;
+}
+
+.tradepress-directives-status-table .column-actions .button-link:hover {
+    color: #135e96;
+}
+
+.tradepress-directives-status-table .column-actions .button-link .dashicons {
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+.tradepress-directives-status-table .column-actions .favorite-directive.is-favorite .dashicons-star-filled {
+    color: #f5b400; /* Gold color for favorited */
+}
+
+.tradepress-directives-status-table .directive-row.is-hidden {
+    opacity: 0.6;
+    background-color: #f9f9f9;
+}
+
+.tradepress-directives-status-table .directive-row.is-hidden td {
+    font-style: italic;
+}
+
+.tradepress-directives-status-table .directive-description {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 5px;
+    padding: 5px;
+    background-color: #f9f9f9;
+    border-left: 3px solid #eee;
+}

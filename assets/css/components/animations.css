@@ -1,0 +1,397 @@
+/**
+ * TradePress Animations
+ *
+ * CSS animations and transitions for UI components
+ * Used across all pages for interactive elements
+ *
+ * @package TradePress/Assets/CSS
+ * @since 1.0.5
+ */
+
+/* Animation Showcase Layout */
+.tradepress-component-showcase {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.animation-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.animation-label {
+    font-weight: 500;
+    color: #3c434a;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Animation Demo Layout Styles */
+.animation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.animation-box {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f1;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    color: #3c434a;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.animation-box:hover {
+    background-color: #e5f5fa;
+}
+
+/* Demo Trigger Classes - Ensure proper base styles */
+.fade-in-demo,
+.fade-out-demo,
+.slide-down-demo,
+.slide-up-demo,
+.slide-left-demo,
+.slide-right-demo,
+.shake-demo,
+.highlight-demo,
+.scale-in-demo,
+.scale-out-demo,
+.transition-demo,
+.transform-demo {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 1;
+    transform: none;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+    margin: 5px;
+}
+
+/* Ensure tradepress-card class has basic styling */
+.tradepress-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.tradepress-card:hover {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* Core Animation Classes */
+.tradepress-pulse {
+    animation: tradepress-pulse 2s infinite;
+}
+
+.tradepress-heartbeat {
+    animation: tradepress-heartbeat 1.5s ease-in-out infinite;
+}
+
+.tradepress-spin {
+    animation: tradepress-spin 1s linear infinite;
+}
+
+.tradepress-bounce {
+    animation: tradepress-bounce 2s infinite;
+}
+
+.tradepress-flash {
+    animation: tradepress-flash 1s infinite;
+}
+
+.tradepress-shake {
+    animation: tradepress-shake 0.5s ease-in-out;
+}
+
+.tradepress-highlight {
+    animation: tradepress-highlight 1s ease-in-out;
+}
+
+.tradepress-fade-in {
+    animation: tradepress-fade-in 0.5s ease-in-out;
+}
+
+.tradepress-fade-out {
+    animation: tradepress-fade-out 0.5s ease-in-out;
+}
+
+.tradepress-scale-in {
+    animation: tradepress-scale-in 0.3s ease-out;
+}
+
+.tradepress-scale-out {
+    animation: tradepress-scale-out 0.3s ease-in;
+}
+
+.tradepress-slide-in-down {
+    animation: tradepress-slide-in-down 0.5s ease-out;
+}
+
+.tradepress-slide-in-up {
+    animation: tradepress-slide-in-up 0.5s ease-out;
+}
+
+.tradepress-slide-in-left {
+    animation: tradepress-slide-in-left 0.5s ease-out;
+}
+
+.tradepress-slide-in-right {
+    animation: tradepress-slide-in-right 0.5s ease-out;
+}
+
+/* Transition Classes */
+.tradepress-transition-colors {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.tradepress-transition-transform {
+    transition: transform 0.3s ease;
+}
+
+.tradepress-transition-fast {
+    transition: all 0.15s ease;
+}
+
+.tradepress-transition-slow {
+    transition: all 0.6s ease;
+}
+
+/* Demo specific transitions */
+.transition-demo:hover {
+    background-color: #2271b1 !important;
+    color: white !important;
+    border-color: #2271b1 !important;
+}
+
+.transform-demo:hover {
+    transform: rotate(15deg) scale(1.1) !important;
+}
+
+/* Sequence Animation */
+.animation-sequence {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.sequence-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Ensure sequence items are visible by default */
+.sequence-item {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2271b1;
+    color: white;
+    border-radius: 4px;
+    opacity: 1; /* Changed from 0 to 1 */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Delay Classes */
+.tradepress-delay-100 {
+    animation-delay: 0.1s;
+}
+
+.tradepress-delay-300 {
+    animation-delay: 0.3s;
+}
+
+.tradepress-delay-500 {
+    animation-delay: 0.5s;
+}
+
+.tradepress-delay-700 {
+    animation-delay: 0.7s;
+}
+
+/* Keyframe Animations */
+@keyframes tradepress-pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+@keyframes tradepress-heartbeat {
+    0%, 14%, 28%, 100% {
+        transform: scale(1);
+    }
+    7%, 21% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes tradepress-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes tradepress-bounce {
+    0%, 20%, 53%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40%, 43% {
+        transform: translateY(-10px);
+    }
+    70% {
+        transform: translateY(-5px);
+    }
+    90% {
+        transform: translateY(-2px);
+    }
+}
+
+@keyframes tradepress-flash {
+    0%, 50%, 100% {
+        opacity: 1;
+    }
+    25%, 75% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes tradepress-shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+@keyframes tradepress-highlight {
+    0% {
+        background-color: inherit;
+    }
+    50% {
+        background-color: #ffeb3b;
+    }
+    100% {
+        background-color: inherit;
+    }
+}
+
+@keyframes tradepress-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes tradepress-fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes tradepress-scale-in {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes tradepress-scale-out {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+}
+
+@keyframes tradepress-slide-in-down {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes tradepress-slide-in-up {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes tradepress-slide-in-left {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes tradepress-slide-in-right {
+    from {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

@@ -1,0 +1,124 @@
+/**
+ * TradePress - Code Blocks Component Styles
+ * 
+ * Styles for code blocks, syntax highlighting, and code displays.
+ * 
+ * HTML Structure:
+ * <div class="tp-code-block">
+ *   <code>Code content goes here</code>
+ *   <button class="tp-copy-code">Copy</button>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Code Block Container */
+.tradepress-code-block {
+    background-color: #f5f5f5;
+    border: 1px solid var(--tp-color-gray-200);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-sm);
+    margin-bottom: var(--tp-spacing-md);
+    position: relative;
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* Code Content */
+.tradepress-code-content {
+    white-space: pre-wrap;
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+/* Copy Code Button */
+.tradepress-copy-code {
+    position: absolute;
+    top: var(--tp-spacing-xs);
+    right: var(--tp-spacing-xs);
+    background-color: transparent;
+    border: none;
+    color: var(--tp-color-gray-500);
+    cursor: pointer;
+    padding: var(--tp-spacing-xs);
+    border-radius: var(--tp-border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+}
+
+.tradepress-copy-code:hover {
+    color: var(--tp-color-wp-blue);
+}
+
+.tradepress-code-block:focus-within {
+    box-shadow: 0 0 0 1px var(--tp-color-wp-blue);
+}
+
+/* Copy Animation */
+@keyframes copy-success {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.tradepress-copy-code .dashicons-yes {
+    animation: copy-success 0.3s ease;
+    color: #46b450;
+}
+
+/* Shortcode Display */
+.tradepress-shortcode-code {
+    display: inline-block;
+    background-color: #f5f5f5;
+    border: 1px solid var(--tp-color-gray-200);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-xs) var(--tp-spacing-sm);
+    font-family: monospace;
+    position: relative;
+    margin-right: var(--tp-spacing-md);
+}
+
+/* Table display for data */
+.tradepress-data-table {
+    margin-top: var(--tp-spacing-xl);
+    background: #f9f9f9;
+    border: 1px solid var(--tp-color-gray-200);
+    padding: var(--tp-spacing-lg);
+    border-radius: var(--tp-border-radius);
+    overflow-x: auto;
+}
+
+.tradepress-data-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tradepress-data-table th, 
+.tradepress-data-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.tradepress-data-table th {
+    background-color: #f2f2f2;
+}
+
+/* Log file display */
+.tradepress-log-files {
+    background: #f9f9f9;
+    border: 1px solid var(--tp-color-gray-200);
+    padding: var(--tp-spacing-lg);
+    border-radius: var(--tp-border-radius);
+}
+
+/* Legacy classes mapping for backward compatibility */
+.experiment-output { @extend .tradepress-code-block; }
+.log-files { @extend .tradepress-log-files; }
+.table-info { @extend .tradepress-data-table; }
+.shortcode-code { @extend .tradepress-shortcode-code; }
+.copy-shortcode { @extend .tradepress-copy-code; }

@@ -1,0 +1,130 @@
+/**
+ * TradePress - Task Items Component Styles
+ * 
+ * Styles for task cards, current task display, and task actions.
+ * 
+ * HTML Structure:
+ * <div class="tp-task-item">
+ *   <div class="tp-task-item-header">
+ *     <h3 class="tp-task-item-title">Task Title</h3>
+ *     <span class="tp-task-item-badge">Status</span>
+ *   </div>
+ *   <div class="tp-task-item-body">
+ *     <div class="tp-task-item-meta">...</div>
+ *     <div class="tp-task-item-description">...</div>
+ *   </div>
+ *   <div class="tp-task-item-actions">...</div>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Task Item Container */
+.tradepress-task-item {
+    background: var(--tp-color-white);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-xl);
+    margin-bottom: var(--tp-spacing-xl);
+    box-shadow: var(--tp-shadow);
+}
+
+/* Task Item Header */
+.tradepress-task-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--tp-spacing-lg);
+    padding-bottom: var(--tp-spacing-md);
+    border-bottom: var(--tp-border-standard);
+}
+
+.tradepress-task-item-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: var(--tp-font-weight-semibold);
+}
+
+.tradepress-task-item-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: var(--tp-border-radius-sm);
+    font-size: 12px;
+    font-weight: var(--tp-font-weight-semibold);
+    text-transform: uppercase;
+}
+
+.tradepress-task-item-badge.in-progress {
+    background-color: #e9f3fa;
+    color: #1e6586;
+}
+
+.tradepress-task-item-badge.completed {
+    background-color: #f0f9eb;
+    color: #2a6b31;
+}
+
+.tradepress-task-item-badge.pending {
+    background-color: #f1f1f1;
+    color: #666;
+}
+
+.tradepress-task-item-badge.on-hold {
+    background-color: #fcf8e3;
+    color: #8a6d3b;
+}
+
+/* Task Item Body */
+.tradepress-task-item-body {
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+.tradepress-task-item-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-md);
+    margin-bottom: var(--tp-spacing-md);
+}
+
+.tradepress-task-item-meta-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.tradepress-task-item-meta-label {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 2px;
+}
+
+.tradepress-task-item-meta-value {
+    font-weight: var(--tp-font-weight-medium);
+}
+
+.tradepress-task-item-description {
+    margin-top: var(--tp-spacing-md);
+    line-height: 1.5;
+}
+
+/* Task Item Actions */
+.tradepress-task-item-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-sm);
+    padding-top: var(--tp-spacing-md);
+    border-top: var(--tp-border-standard);
+}
+
+/* Legacy classes mapping for backward compatibility */
+.current-task { @extend .tradepress-task-item; }
+.current-task-header { @extend .tradepress-task-item-header; }
+.current-task-title { @extend .tradepress-task-item-title; }
+.current-task-status { @extend .tradepress-task-item-badge; }
+.task-item-meta { @extend .tradepress-task-item-meta; }
+.task-item-meta-item { @extend .tradepress-task-item-meta-item; }
+.task-item-meta-label { @extend .tradepress-task-item-meta-label; }
+.task-item-meta-value { @extend .tradepress-task-item-meta-value; }
+.task-item-description { @extend .tradepress-task-item-description; }
+.task-item-actions { @extend .tradepress-task-item-actions; }
+.task-item { @extend .tradepress-task-item; }

@@ -1,0 +1,22 @@
+[2025-10-15 01:27:23] ERROR: cci | UNKNOWN | Score=0 | No CCI data - Raw: No CCI data in API response
+[2025-10-15 01:27:47] ERROR: cci | UNKNOWN | Score=0 | No CCI data - Raw: No CCI data in API response
+[2025-10-15 01:30:07] DEBUG: get_cci_data called with symbol=UNKNOWN
+[2025-10-15 01:30:07] DEBUG: fetch_fresh_cci_data called with symbol=UNKNOWN, params={"time_period":14,"interval":"daily"}
+[2025-10-15 01:30:08] DEBUG: CCI API Response: []
+[2025-10-15 01:30:08] ERROR: No Technical Analysis CCI data in response. Keys: []
+[2025-10-15 01:30:08] DEBUG: cci | Symbol=UNKNOWN | CCI_Data=No CCI data in API response
+[2025-10-15 01:30:08] ERROR: cci | UNKNOWN | Score=0 | No CCI data - Raw: No CCI data in API response
+[2025-10-15 01:35:08] DEBUG: CCI symbol extraction | symbol_data keys: ["symbol","price","technical"] | extracted symbol: AAPL
+[2025-10-15 01:35:08] DEBUG: get_cci_data called with symbol=AAPL
+[2025-10-15 01:35:08] DEBUG: fetch_fresh_cci_data called with symbol=AAPL, params={"time_period":14,"interval":"daily"}
+[2025-10-15 01:35:09] DEBUG: CCI API Response: ["Meta Data","Technical Analysis: CCI"]
+[2025-10-15 01:35:09] DEBUG: CCI extracted - Date: 2025-10-14, Value: -171.0091
+[2025-10-15 01:35:09] DEBUG: cci | Symbol=AAPL | CCI_Data=-171.0091
+[2025-10-15 01:35:09] CALC: cci | AAPL | Score=94 | CCI=-171.01, Signal=Oversold - Bullish, Condition=Oversold, BaseScore=94.2
+[2025-10-15 01:35:35] DEBUG: CCI symbol extraction | symbol_data keys: ["symbol","price","technical"] | extracted symbol: AAPL
+[2025-10-15 01:35:35] DEBUG: get_cci_data called with symbol=AAPL
+[2025-10-15 01:35:35] DEBUG: fetch_fresh_cci_data called with symbol=AAPL, params={"time_period":14,"interval":"daily"}
+[2025-10-15 01:35:36] DEBUG: CCI API Response: ["Meta Data","Technical Analysis: CCI"]
+[2025-10-15 01:35:36] DEBUG: CCI extracted - Date: 2025-10-14, Value: -171.0091
+[2025-10-15 01:35:36] DEBUG: cci | Symbol=AAPL | CCI_Data=-171.0091
+[2025-10-15 01:35:36] CALC: cci | AAPL | Score=94 | CCI=-171.01, Signal=Oversold - Bullish, Condition=Oversold, BaseScore=94.2

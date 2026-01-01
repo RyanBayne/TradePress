@@ -1,0 +1,42 @@
+/**
+ * TradePress - Discord Settings Page Styles
+ * 
+ * Page-specific styles for the Discord settings page.
+ * 
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ */
+
+/* Discord-specific overrides only */
+.tradepress-discord-integration-title {
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+/* Hide trading-specific UI elements in Discord API tabs */
+.tradepress-discord-api-tab .tradepress-trading-mode-button-form,
+.tradepress-discord-api-tab .tradepress-trading-toggle-container,
+.tradepress-discord-api-tab .tradepress-premium-toggle-container {
+    display: none !important;
+}
+
+/* Discord API credentials layout */
+.tradepress-discord-api-tab .tradepress-api-credentials-container {
+    display: flex;
+    flex-direction: column !important;
+}
+
+.tradepress-discord-api-tab .tradepress-api-credentials-column {
+    flex: 1;
+    width: 100%;
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+.tradepress-discord-api-tab .tradepress-api-credentials-column h4 {
+    border-bottom: 1px solid var(--tp-color-gray-300);
+    padding-bottom: var(--tp-spacing-md);
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+/* Legacy classes mapping for backward compatibility */
+.api-tab[data-api="discord"] { @extend .tradepress-discord-api-tab; }
+.api-tab-content.discord-tab { @extend .tradepress-discord-api-tab; }

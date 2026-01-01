@@ -1,0 +1,455 @@
+/**
+ * TradePress - Admin Layout Styles
+ * 
+ * Styles for admin page layouts and structure.
+ * 
+ * @package TradePress/CSS/Layouts
+ * @since 1.0.0
+ */
+
+/* Debug & Development Styles */
+#TradePress-debugging-dump {
+    margin: 0 0 0 200px;
+    padding: 0;
+}
+
+#TradePress-debugging-filter {
+    margin: 0 0 0 200px;
+    text-align: center;
+}
+
+/* Admin Page Structure */
+.tradepress-admin-page {
+    max-width: 1200px;
+    margin: 20px 0;
+}
+
+.tradepress-admin-header {
+    margin-bottom: 20px;
+}
+
+.tradepress-admin-section {
+    background: var(--tp-color-white);
+    border: 1px solid var(--tp-color-gray-400);
+    border-radius: var(--tp-border-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--tp-shadow);
+}
+
+.tradepress-admin-section h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--tp-color-gray-200);
+}
+
+/* Section Divider */
+.sidebar-divider {
+    margin: 15px 0;
+    border: 0;
+    border-top: 1px solid var(--tp-color-gray-200);
+}
+
+/* API Status Layout - 3-column layout */
+.api-status-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.api-status-column {
+    flex: 1;
+    min-width: 0; /* Prevents content from forcing column wider than flex allows */
+}
+
+/* API Main Layout */
+.api-main-section {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.api-sidebar {
+    flex: 0 0 250px; /* Fixed width sidebar */
+}
+
+.api-main-content {
+    flex: 1; /* Takes remaining space */
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 1200px) {
+    .api-status-layout {
+        flex-wrap: wrap;
+    }
+    
+    .api-status-column {
+        flex-basis: calc(50% - 20px);
+    }
+}
+
+@media screen and (max-width: 782px) {
+    .api-status-layout {
+        flex-direction: column;
+    }
+    
+    .api-status-column {
+        flex-basis: 100%;
+    }
+    
+    .api-main-section {
+        flex-direction: column;
+    }
+    
+    .api-sidebar {
+        flex: auto;
+    }
+}
+
+/* Service Card Layout */
+.service-overview {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: var(--tp-color-white);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+}
+
+.service-logo {
+    flex: 0 0 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.service-logo img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.service-details {
+    flex: 1;
+}
+
+.service-details h3 {
+    margin: 0 0 10px 0;
+}
+
+.service-details p {
+    margin: 0 0 10px 0;
+}
+
+.service-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 13px;
+}
+
+/* Import/Export Layout */
+.tradepress-import-export {
+    display: flex;
+    gap: 20px;
+}
+
+.tradepress-import-section,
+.tradepress-export-section {
+    flex: 1;
+    padding: 15px;
+    background-color: var(--tp-color-gray-50);
+    border: 1px solid var(--tp-color-gray-200);
+    border-radius: var(--tp-border-radius);
+}
+
+/* Documentation Links */
+.documentation-links {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.documentation-links .button {
+    display: flex;
+    align-items: center;
+}
+
+.documentation-links .dashicons {
+    margin-right: 5px;
+}
+
+.documentation-link {
+    color: var(--tp-color-gray-800);
+    text-decoration: none;
+}
+
+.documentation-link:hover {
+    color: var(--tp-color-wp-blue);
+}
+
+/* Feature status specific styles */
+.feature-status-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+.feature-status-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--tp-color-gray-50);
+    border-bottom: 1px solid var(--tp-color-gray-300);
+}
+
+.feature-status-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--tp-color-gray-50);
+}
+
+.feature-status-table tr:hover {
+    background: var(--tp-color-gray-50);
+}
+
+.feature-tab-header {
+    font-weight: var(--tp-font-weight-semibold);
+    background: var(--tp-color-gray-100);
+}
+
+.completion-stats {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    background: var(--tp-color-white);
+    border: 1px solid var(--tp-color-gray-200);
+    padding: 15px;
+}
+
+.stat-box {
+    margin-right: 30px;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.feature-tab-link {
+    margin-left: 10px;
+    text-decoration: none;
+}
+
+/* Development Page Styles */
+.tradepress-development-wrap {
+    margin-top: 20px;
+}
+
+/* GitHub All Issues Tab Styles */
+.github-all-issues-wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.github-issues-header {
+    margin-bottom: 20px;
+}
+
+/* API Grid Layout */
+.api-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-gap: 20px;
+}
+
+/* Button Styles */
+.test-button {
+    background-color: var(--tp-color-wp-blue);
+    color: var(--tp-color-white);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.test-button:hover {
+    background-color: #135e96;
+}
+
+.test-button.maintenance {
+    background-color: var(--tp-color-gray-400);
+    cursor: not-allowed;
+}
+
+/* Button refresh animation */
+.button-refresh {
+    display: inline-block;
+    color: var(--tp-color-gray-800);
+    text-decoration: none;
+    line-height: 1;
+}
+
+.button-refresh.spin .dashicons {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Quick Actions Bar */
+.api-quick-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: var(--tp-color-white);
+    padding: 10px 15px;
+    border: 1px solid var(--tp-color-gray-300);
+    border-radius: var(--tp-border-radius);
+}
+
+.quick-action-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    background: var(--tp-color-gray-50);
+    border: 1px solid var(--tp-color-gray-300);
+    border-radius: var(--tp-border-radius-sm);
+    color: var(--tp-color-gray-800);
+    text-decoration: none;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.quick-action-button:hover {
+    background: var(--tp-color-gray-100);
+    color: var(--tp-color-wp-blue);
+}
+
+/* QuickTools Toolbar Styles */
+.quicktools-section-header {
+    margin-top: 5px !important;
+    color: #999 !important;
+    font-weight: bold !important;
+    pointer-events: none !important;
+}
+
+.quicktools-section-header > a {
+    pointer-events: none !important;
+    cursor: default !important;
+}
+
+.quicktools-no-favorites {
+    font-style: italic !important;
+}
+
+.quicktools-manage-favorites {
+    border-top: 1px solid #555 !important;
+    margin-top: 5px !important;
+    padding-top: 5px !important;
+}
+
+/* Section headers - make them look like categories */
+#wpadminbar #wp-admin-bar-tradepress-favorite-tabs-section > .ab-item,
+#wpadminbar #wp-admin-bar-tradepress-quick-tools-section > .ab-item {
+    background-color: #23282d;
+    color: #e5e5e5;
+    font-weight: bold;
+    cursor: default;
+}
+
+/* Add spacing between sections */
+#wpadminbar #wp-admin-bar-tradepress-manage-favorites {
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid #32373c;
+}
+
+/* Style the "Manage Favorites" item */
+#wpadminbar #wp-admin-bar-tradepress-manage-favorites > .ab-item {
+    color: #00b9eb; /* WordPress blue */
+}
+
+/* No favorites message styling */
+#wpadminbar .quicktools-no-favorites {
+    font-style: italic;
+    opacity: 0.8;
+}
+
+/* Issues Tab Styles */
+.tradepress-issues-container {
+    margin-top: 20px;
+}
+
+.tradepress-issues-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.tradepress-issues-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.tradepress-issues-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#issue-search {
+    flex-grow: 1;
+    max-width: 300px;
+}
+
+.tradepress-issues-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.issue-row {
+    transition: background-color 0.2s;
+}
+
+.issue-row:hover {
+    background-color: var(--tp-color-gray-100);
+}
+
+.issue-row.closed {
+    opacity: 0.7;
+}
+
+/* BugNet Log Viewer Styles */
+.bugnet-log-viewer {
+    margin: 20px 0;
+}
+
+.bugnet-log-viewer h3 {
+    margin-bottom: 15px;
+    color: var(--tp-color-gray-800);
+}
+
+.bugnet-log-viewer textarea {
+    width: 100%;
+    height: 400px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.4;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 10px;
+    resize: vertical;
+}
+
+.bugnet-log-viewer p {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--tp-color-gray-600);
+}

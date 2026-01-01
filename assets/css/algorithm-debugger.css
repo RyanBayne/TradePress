@@ -1,0 +1,199 @@
+/**
+ * TradePress Algorithm Debugger Styles
+ */
+
+.tradepress-algorithm-debugger {
+    max-width: 1200px;
+}
+
+.algorithm-debugger-content {
+    margin-top: 20px;
+}
+
+.algorithm-container {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.algorithm-header {
+    border-bottom: 1px solid #e1e1e1;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.algorithm-header h3 {
+    margin: 0 0 10px 0;
+    color: #23282d;
+}
+
+.algorithm-controls {
+    margin-top: 15px;
+}
+
+.algorithm-controls .button {
+    margin-right: 10px;
+}
+
+/* Steps Tree */
+.steps-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.step-node {
+    background: #f9f9f9;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+.step-node.status-completed {
+    border-color: #46b450;
+    background: #f0f8f0;
+}
+
+.step-node.status-error {
+    border-color: #dc3232;
+    background: #fdf0f0;
+}
+
+.step-node.status-running {
+    border-color: #0073aa;
+    background: #f0f6fc;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.step-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.step-number {
+    background: #0073aa;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.step-node.status-completed .step-number {
+    background: #46b450;
+}
+
+.step-node.status-error .step-number {
+    background: #dc3232;
+}
+
+.step-info {
+    flex: 1;
+}
+
+.step-name {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #23282d;
+}
+
+.step-status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #666;
+}
+
+.step-controls {
+    flex-shrink: 0;
+}
+
+.step-connector {
+    width: 2px;
+    height: 20px;
+    background: #ddd;
+    margin: 0 auto;
+}
+
+/* Step Results */
+.step-results {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e1e1e1;
+}
+
+.step-result-details {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.step-result-details p {
+    margin: 5px 0;
+}
+
+.step-result-details details {
+    margin-top: 10px;
+}
+
+.step-result-details summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: #0073aa;
+}
+
+.step-result-details pre {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+/* Execution Results */
+.execution-results {
+    background: #f8f9fa;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.execution-results h4 {
+    margin: 0 0 10px 0;
+    color: #23282d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .step-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .step-controls {
+        align-self: stretch;
+    }
+}

@@ -1,0 +1,125 @@
+/* Task Selection Container */
+.task-selection {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.task-selection form {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+#current-task-selector {
+    min-width: 300px;
+    flex: 1;
+}
+
+/* Current Task Header */
+.current-task-header {
+    margin-bottom: 25px;
+}
+
+.current-task-header h2 {
+    margin: 0 0 8px 0;
+    font-size: 23px;
+    font-weight: 400;
+    line-height: 1.3;
+}
+
+.current-task-header .description {
+    margin: 8px 0 20px 0;
+    font-size: 13px;
+    color: #646970;
+}
+
+/* No Current Task State */
+.no-current-task {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    color: #646970;
+}
+
+/* Recent Tasks */
+.recent-tasks-section {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 20px;
+    margin-top: 25px;
+}
+
+.recent-tasks-section h3 {
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.recent-tasks-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.recent-task-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.recent-task-item:last-child {
+    border-bottom: none;
+}
+
+.select-task-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.text-button {
+    background: none;
+    border: none;
+    color: #0073aa;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 13px;
+    padding: 0;
+}
+
+.text-button:hover {
+    color: #005a87;
+}
+
+.recent-task-item .task-source {
+    font-size: 11px;
+    background: #f0f0f1;
+    color: #646970;
+    padding: 2px 6px;
+    border-radius: 2px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .task-selection form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    #current-task-selector {
+        min-width: auto;
+        margin-bottom: 10px;
+    }
+    
+    .select-task-form {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}

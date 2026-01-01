@@ -1,0 +1,106 @@
+/**
+ * TradePress - Data Explorer Component Styles
+ * 
+ * Interface elements for exploring and displaying data.
+ * 
+ * HTML Structure:
+ * <div class="tp-data-explorer">
+ *   <div class="tp-data-explorer-controls">...</div>
+ *   <div class="tp-data-explorer-response">...</div>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Data Explorer Content */
+.tradepress-data-explorer-content {
+    padding: var(--tp-spacing-lg);
+}
+
+/* Data Explorer Controls */
+.tradepress-data-explorer-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-lg);
+    margin-bottom: var(--tp-spacing-xl);
+    align-items: flex-end;
+}
+
+.tradepress-data-explorer-control {
+    flex: 1;
+    min-width: 200px;
+}
+
+.tradepress-data-explorer-control label {
+    display: block;
+    margin-bottom: var(--tp-spacing-xs);
+    font-weight: var(--tp-font-weight-medium);
+}
+
+.tradepress-data-explorer-control select,
+.tradepress-data-explorer-control input {
+    width: 100%;
+}
+
+/* Data Explorer Response */
+.tradepress-data-explorer-response {
+    background: #f8f8f8;
+    border: var(--tp-border-standard);
+    padding: var(--tp-spacing-lg);
+    overflow: auto;
+    max-height: 400px;
+    white-space: pre-wrap;
+    font-family: monospace;
+    margin-top: var(--tp-spacing-md);
+}
+
+/* Data Explorer Loading */
+.tradepress-data-explorer-loading {
+    display: flex;
+    align-items: center;
+    margin: var(--tp-spacing-md) 0;
+}
+
+.tradepress-data-explorer-loading .spinner {
+    float: none;
+    margin-top: 0;
+    margin-right: var(--tp-spacing-md);
+}
+
+/* Test Results */
+.tradepress-api-test-results {
+    margin-top: var(--tp-spacing-md);
+}
+
+.tradepress-test-result {
+    padding: var(--tp-spacing-md);
+    border-radius: var(--tp-border-radius);
+    margin-top: var(--tp-spacing-md);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.tradepress-test-result.success {
+    background-color: #f0f9eb;
+    border-left: 4px solid #46b450;
+}
+
+.tradepress-test-result.error {
+    background-color: #fdf2f2;
+    border-left: 4px solid #dc3232;
+}
+
+.tradepress-test-result .dashicons {
+    margin-right: var(--tp-spacing-xs);
+    vertical-align: middle;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.data-explorer-content { @extend .tradepress-data-explorer-content; }
+.data-explorer-controls { @extend .tradepress-data-explorer-controls; }
+.data-explorer-control { @extend .tradepress-data-explorer-control; }
+.data-explorer-response { @extend .tradepress-data-explorer-response; }
+.data-explorer-loading { @extend .tradepress-data-explorer-loading; }
+.api-test-results { @extend .tradepress-api-test-results; }
+.test-result { @extend .tradepress-test-result; }

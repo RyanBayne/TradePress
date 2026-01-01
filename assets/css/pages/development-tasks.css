@@ -1,0 +1,543 @@
+/**
+ * TradePress - Development Tasks Page Styles
+ *
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ * @created 2024-12-21
+ */
+
+/* Tasks Container */
+.tradepress-tasks-container {
+    margin: 15px 0;
+}
+
+/* Tasks Header & Filters */
+.tradepress-tasks-header {
+    margin-bottom: 20px;
+}
+
+/* Task Filters */
+.tradepress-tasks-filters {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.tradepress-tasks-filters .filter-group {
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.tradepress-tasks-filters .filter-group label {
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.tradepress-tasks-filters .task-filter,
+.tradepress-tasks-filters .task-search {
+    min-width: 150px;
+}
+
+/* Tasks Loading */
+.tradepress-tasks-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 10px;
+}
+
+.tradepress-tasks-loading .spinner {
+    float: none;
+    margin: 0 10px 0 0;
+}
+
+/* Tasks Table Styles */
+.tradepress-tasks-table-container {
+    margin-bottom: 20px;
+}
+
+.tradepress-tasks-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.tradepress-tasks-table th {
+    background-color: #f5f5f5;
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tradepress-tasks-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+}
+
+.tradepress-tasks-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Column Widths */
+.tradepress-tasks-table .column-status {
+    width: 40px;
+    text-align: center;
+}
+
+.tradepress-tasks-table .column-title {
+    width: 35%;
+}
+
+.tradepress-tasks-table .column-source {
+    width: 15%;
+}
+
+.tradepress-tasks-table .column-phase {
+    width: 15%;
+}
+
+.tradepress-tasks-table .column-priority {
+    width: 15%;
+}
+
+.tradepress-tasks-table .column-actions {
+    width: 20%;
+}
+
+/* Status Indicators */
+.task-status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+.task-status-indicator.pending {
+    background-color: #f0ad4e;
+}
+
+.task-status-indicator.in-progress {
+    background-color: #5bc0de;
+}
+
+.task-status-indicator.completed {
+    background-color: #5cb85c;
+}
+
+/* Priority Indicators */
+.priority-indicator {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.priority-indicator.priority-1 {
+    background-color: #f2dede;
+    color: #a94442;
+}
+
+.priority-indicator.priority-2 {
+    background-color: #fcf8e3;
+    color: #8a6d3b;
+}
+
+.priority-indicator.priority-3 {
+    background-color: #d9edf7;
+    color: #31708f;
+}
+
+/* Task Actions */
+.task-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.task-actions .button {
+    font-size: 12px;
+    padding: 2px 8px;
+    height: auto;
+    line-height: 2;
+}
+
+/* Task titles */
+.task-title {
+    font-weight: 500;
+    display: block;
+    text-decoration: none;
+}
+
+.task-title:hover {
+    color: #0073aa;
+    text-decoration: underline;
+}
+
+/* Pagination Controls */
+.tradepress-tasks-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px 0;
+    border-top: 1px solid #e5e5e5;
+}
+
+.pagination-pages {
+    display: flex;
+    gap: 5px;
+}
+
+.pagination-pages .page-number {
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.pagination-pages .page-number.active {
+    background-color: #0073aa;
+    color: white;
+    border-color: #0073aa;
+}
+
+.pagination-controls {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.per-page-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Loading and No Tasks States */
+.tradepress-no-tasks {
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* GitHub Cache Status */
+.github-cache-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.github-cache-status .status-label {
+    font-weight: 600;
+}
+
+.github-cache-status .status-fresh {
+    color: #46b450;
+}
+
+.github-cache-status .status-stale {
+    color: #ffb900;
+}
+
+/* Task Modal */
+.tradepress-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 100000;
+}
+
+.tradepress-modal.open {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tradepress-modal-content {
+    position: relative;
+    background-color: #fff;
+    width: 80%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tradepress-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Task Detail Content */
+#task-detail-content {
+    margin-top: 10px;
+}
+
+.task-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.task-detail-header h2 {
+    margin-top: 0;
+    padding-right: 20px;
+}
+
+.task-detail-title {
+    flex-grow: 1;
+    margin: 0;
+}
+
+.task-meta {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.task-detail-meta {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.task-detail-meta span {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 13px;
+    background-color: #f0f0f0;
+}
+
+.detail-status {
+    font-weight: 600;
+}
+
+.detail-status.status-completed {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.detail-status.status-pending {
+    background-color: #fff8e1;
+    color: #f57c00;
+}
+
+.detail-status.status-in-progress {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.task-detail-meta-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.task-detail-meta-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+.task-detail-description {
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.task-description, .task-notes, .task-ai-guidance, .task-subtasks {
+    margin-bottom: 20px;
+}
+
+.task-detail-description h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.task-detail-subtasks {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.task-detail-subtasks h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.task-detail-subtasks h4 {
+    margin-top: 0;
+}
+
+.task-detail-subtask-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.subtasks-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.subtask-list {
+    margin: 0;
+    padding: 0 0 0 20px;
+    list-style-type: none;
+}
+
+.subtask-list li {
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 24px;
+    line-height: 1.4;
+}
+
+.subtask-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.subtask-item:last-child {
+    border-bottom: none;
+}
+
+.subtask-status-icon {
+    margin-right: 8px;
+}
+
+.subtask-list li:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 16px;
+    height: 16px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.subtask-list li.completed {
+    color: #2e7d32;
+    text-decoration: line-through;
+}
+
+.subtask-item.completed .subtask-title {
+    text-decoration: line-through;
+    color: #5cb85c;
+}
+
+.subtask-list li.completed:before {
+    background-color: #e8f5e9;
+    border-color: #81c784;
+}
+
+.subtask-list li.completed:after {
+    content: "✓";
+    position: absolute;
+    left: 3px;
+    top: 0;
+    font-size: 14px;
+    color: #2e7d32;
+}
+
+.task-detail-subtask-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.task-detail-subtask-item:last-child {
+    border-bottom: none;
+}
+
+.task-detail-subtask-status {
+    margin-right: 10px;
+}
+
+.task-detail-subtask-title {
+    flex-grow: 1;
+}
+
+.task-detail-link {
+    margin-bottom: 15px;
+}
+
+.task-detail-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+/* Sortable columns */
+.tradepress-tasks-table .sortable {
+    cursor: pointer;
+    position: relative;
+}
+
+.tradepress-tasks-table .sortable:after {
+    content: "▼";
+    font-size: 8px;
+    color: #999;
+    margin-left: 5px;
+    visibility: hidden;
+}
+
+.tradepress-tasks-table .sortable:hover:after {
+    visibility: visible;
+}
+
+.tradepress-tasks-table .sortable.sorted-asc:after {
+    content: "▼";
+    visibility: visible;
+    color: #333;
+}
+
+.tradepress-tasks-table .sortable.sorted-desc:after {
+    content: "▲";
+    visibility: visible;
+    color: #333;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none;
+}

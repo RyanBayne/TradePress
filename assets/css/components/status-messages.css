@@ -1,0 +1,127 @@
+/**
+ * TradePress - Status Messages Component Styles
+ * 
+ * Styles for status messages, task state indicators, etc.
+ * 
+ * HTML Structure:
+ * <div class="tp-status-message tp-status-message-success">
+ *   <span class="dashicons dashicons-yes-alt"></span>
+ *   <span class="tp-status-message-text">Status message text</span>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+.tradepress-status-message {
+    display: flex;
+    align-items: center;
+    padding: var(--tp-spacing-md);
+    border-radius: var(--tp-border-radius);
+    margin-bottom: var(--tp-spacing-md);
+}
+
+.tradepress-status-message .dashicons {
+    margin-right: var(--tp-spacing-md);
+}
+
+.tradepress-status-message-text {
+    flex: 1;
+    line-height: 1.4;
+}
+
+.tradepress-status-message-success {
+    background-color: #f0f9eb;
+    border-left: 4px solid #46b450;
+    color: #2a6b31;
+}
+
+.tradepress-status-message-success .dashicons {
+    color: #46b450;
+}
+
+.tradepress-status-message-error {
+    background-color: #fdf2f2;
+    border-left: 4px solid #dc3232;
+    color: #8a1f1f;
+}
+
+.tradepress-status-message-error .dashicons {
+    color: #dc3232;
+}
+
+.tradepress-status-message-warning {
+    background-color: #fcf8e3;
+    border-left: 4px solid #ffb900;
+    color: #8a6d3b;
+}
+
+.tradepress-status-message-warning .dashicons {
+    color: #ffb900;
+}
+
+.tradepress-status-message-info {
+    background-color: #e9f3fa;
+    border-left: 4px solid #00a0d2;
+    color: #1e6586;
+}
+
+.tradepress-status-message-info .dashicons {
+    color: #00a0d2;
+}
+
+/* Task Status Messages */
+.tradepress-task-status {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--tp-spacing-xs) var(--tp-spacing-md);
+    border-radius: var(--tp-border-radius);
+    font-weight: var(--tp-font-weight-medium);
+    font-size: 13px;
+}
+
+.tradepress-task-status .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: var(--tp-spacing-xs);
+}
+
+.tradepress-task-status-pending {
+    background-color: #f1f1f1;
+    color: #666;
+}
+
+.tradepress-task-status-progress {
+    background-color: #e9f3fa;
+    color: #1e6586;
+}
+
+.tradepress-task-status-completed {
+    background-color: #f0f9eb;
+    color: #2a6b31;
+}
+
+.tradepress-task-status-onhold {
+    background-color: #fcf8e3;
+    color: #8a6d3b;
+}
+
+.tradepress-task-status-cancelled {
+    background-color: #fdf2f2;
+    color: #8a1f1f;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.task-status-message { @extend .tradepress-status-message; }
+.task-status-message-text { @extend .tradepress-status-message-text; }
+.task-status-message-success { @extend .tradepress-status-message-success; }
+.task-status-message-error { @extend .tradepress-status-message-error; }
+.task-status-message-warning { @extend .tradepress-status-message-warning; }
+.task-status-message-info { @extend .tradepress-status-message-info; }
+.task-status { @extend .tradepress-task-status; }
+.task-status-pending { @extend .tradepress-task-status-pending; }
+.task-status-progress { @extend .tradepress-task-status-progress; }
+.task-status-completed { @extend .tradepress-task-status-completed; }
+.task-status-onhold { @extend .tradepress-task-status-onhold; }
+.task-status-cancelled { @extend .tradepress-task-status-cancelled; }

@@ -1,0 +1,155 @@
+/**
+ * TradePress - Trading Page Styles
+ * 
+ * Page-specific styles for the trading administration page.
+ * These should only contain overrides or very specific components
+ * that don't belong in the general component library.
+ * 
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ */
+
+/* Trading Calculator Container */
+.tradepress-calculator-container {
+    margin: var(--tp-spacing-xl) 0;
+    background: var(--tp-color-white);
+    padding: var(--tp-spacing-xl);
+    border-radius: var(--tp-border-radius);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.tradepress-calculator-section {
+    padding: var(--tp-spacing-xl) 0;
+}
+
+/* Sub-tabs styling */
+.tradepress-sub-tabs {
+    margin-top: 20px;
+}
+
+.sub-tab-content {
+    min-height: 400px;
+}
+
+/* Built-in Strategies Table */
+.tradepress-builtin-strategies {
+    margin-top: 20px;
+}
+
+.strategies-header h3 {
+    margin-bottom: 10px;
+    color: #23282d;
+}
+
+.strategies-header p {
+    color: #646970;
+    margin-bottom: 20px;
+}
+
+.strategies-table-container {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+}
+
+.strategies-table {
+    margin: 0;
+}
+
+.strategies-table th {
+    background: #f6f7f7;
+    border-bottom: 1px solid #c3c4c7;
+    font-weight: 600;
+}
+
+.strategy-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.strategy-row:hover {
+    background-color: #f6f7f7;
+}
+
+.strategy-details {
+    background-color: #fafafa;
+    border-top: 1px solid #e1e1e1;
+}
+
+.strategy-detail-content {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.detail-section h4 {
+    margin: 0 0 8px 0;
+    color: #1d2327;
+    font-size: 14px;
+}
+
+.detail-section p {
+    margin: 0;
+    color: #50575e;
+    line-height: 1.5;
+}
+
+.monitoring-info {
+    grid-column: 1 / -1;
+    padding-top: 15px;
+    border-top: 1px solid #e1e1e1;
+    color: #646970;
+}
+
+/* Status indicators */
+.status-planning {
+    color: #d63638;
+    font-weight: 600;
+}
+
+.status-development {
+    color: #dba617;
+    font-weight: 600;
+}
+
+.status-ready {
+    color: #00a32a;
+    font-weight: 600;
+}
+
+/* Risk level indicators */
+.risk-low {
+    color: #00a32a;
+    font-weight: 600;
+}
+
+.risk-medium {
+    color: #dba617;
+    font-weight: 600;
+}
+
+.risk-mediumhigh {
+    color: #d63638;
+    font-weight: 600;
+}
+
+.risk-high {
+    color: #d63638;
+    font-weight: 600;
+    background: #fef7f7;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .strategy-detail-content {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+/* Legacy classes mapping for backward compatibility */
+.tradepress-calculator-container { @extend .tradepress-calculator-container; }
+.calculator-section { @extend .tradepress-calculator-section; }

@@ -1,0 +1,99 @@
+.tradepress-tests .test-tab-content {
+    padding: 20px 0;
+}
+
+.tradepress-tests .test-result {
+    margin: 10px 0;
+    padding: 15px;
+    border-left: 4px solid #ccc;
+    background: #f9f9f9;
+}
+
+.tradepress-tests .test-result.passed {
+    border-left-color: #46b450;
+    background: #f0fff4;
+}
+
+.tradepress-tests .test-result.failed {
+    border-left-color: #dc3232;
+    background: #fff0f0;
+}
+
+.tradepress-tests .test-result.error {
+    border-left-color: #ffb900;
+    background: #fffbf0;
+}
+
+.tradepress-tests .test-result.warning {
+    border-left-color: #ff8c00;
+    background: #fff8f0;
+}
+
+.tradepress-tests .test-details {
+    margin-top: 10px;
+    font-family: monospace;
+    font-size: 12px;
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.tradepress-tests .performance-summary {
+    background: #e8f4fd;
+    border: 1px solid #0073aa;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.tradepress-tests .recommendations {
+    background: #fff2cc;
+    border: 1px solid #d4a017;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.tradepress-tests .status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.tradepress-tests .status-active {
+    background: #e8f4fd;
+    color: #0073aa;
+}
+
+.tradepress-tests .status-passed {
+    background: #f0fff4;
+    color: #46b450;
+}
+
+.tradepress-tests .status-failed {
+    background: #fff0f0;
+    color: #dc3232;
+}
+
+.tradepress-tests .status-error {
+    background: #fffbf0;
+    color: #ffb900;
+}
+
+.tradepress-tests .status-pending {
+    background: #f6f7f7;
+    color: #666;
+}
+
+.tradepress-tests .wp-list-table .test-actions {
+    text-align: right;
+}
+
+.tradepress-tests .no-tests {
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-style: italic;
+}

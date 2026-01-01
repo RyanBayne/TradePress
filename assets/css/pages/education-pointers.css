@@ -1,0 +1,58 @@
+/* TradePress Education Pointers Styles */
+
+.pointer-category-configuration {
+    background: #0073aa;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+.pointer-category-testing {
+    background: #00a32a;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+.status-active {
+    color: #00a32a;
+    font-weight: bold;
+}
+
+.status-inactive {
+    color: #d63638;
+    font-weight: bold;
+}
+
+.user-status-dismissed {
+    color: #646970;
+    font-style: italic;
+}
+
+.user-status-pending {
+    color: #0073aa;
+    font-weight: bold;
+}
+
+.pointer-details {
+    background: #f9f9f9;
+}
+
+.pointer-content {
+    padding: 10px;
+    font-size: 12px;
+}
+
+.pointer-content strong {
+    display: inline-block;
+    margin: 5px 10px 5px 0;
+    min-width: 60px;
+}
+
+.pointer-content code {
+    background: #f1f1f1;
+    padding: 2px 4px;
+    border-radius: 2px;
+}

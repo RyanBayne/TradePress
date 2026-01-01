@@ -1,0 +1,131 @@
+/* Development Assets Tab Enhancements */
+
+.php-files-container,
+.php-classes-container,
+.systems-container {
+    margin-top: 20px;
+}
+
+.classes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.class-card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    background: #fff;
+}
+
+.class-card h4 {
+    margin: 0 0 10px 0;
+    color: #23282d;
+    font-size: 14px;
+}
+
+.class-description {
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.class-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #999;
+}
+
+.system-section {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+}
+
+.system-section h4 {
+    margin-top: 0;
+    color: #23282d;
+    border-bottom: 2px solid #0073aa;
+    padding-bottom: 10px;
+}
+
+.system-components {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.component-group h5 {
+    margin: 0 0 10px 0;
+    color: #555;
+    font-size: 13px;
+}
+
+.component-group ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.component-group li {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.progress-indicator {
+    display: flex;
+    align-items: center;
+}
+
+.status-complete {
+    color: #46b450;
+    font-weight: bold;
+}
+
+.status-active {
+    color: #0073aa;
+    font-weight: bold;
+}
+
+.status-pending {
+    color: #ffb900;
+    font-weight: bold;
+}
+
+/* Assets tab navigation enhancement */
+.assets-tabs {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.assets-tab {
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    color: #555;
+    font-size: 13px;
+}
+
+.assets-tab.active {
+    border-bottom-color: #0073aa;
+    color: #0073aa;
+    font-weight: bold;
+}
+
+.assets-tab:hover {
+    color: #0073aa;
+}
+
+.assets-tab-content {
+    display: none;
+}
+
+.assets-tab-content.active {
+    display: block;
+}

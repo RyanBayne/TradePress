@@ -1,0 +1,200 @@
+/**
+ * TradePress - Alert Decoder Page Styles
+ * 
+ * Page-specific styles for the Alert Decoder.
+ * These should only contain overrides or very specific components
+ * that don't belong in the general component library.
+ * 
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ */
+
+/* Form Styles */
+.alert-decoder-form {
+    margin: 0 !important;
+}
+
+.alert-decoder-form .form-group {
+    margin-bottom: 15px !important;
+}
+
+.alert-decoder-form label {
+    display: block !important;
+    margin-bottom: 5px !important;
+    font-weight: 500 !important;
+}
+
+.alert-decoder-form textarea {
+    width: 100% !important;
+    min-height: 120px !important;
+    padding: 8px !important;
+    box-sizing: border-box !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+}
+
+.alert-decoder-form .form-actions {
+    display: flex !important;
+    gap: 10px !important;
+    margin-top: 10px !important;
+}
+
+/* Results Styles */
+.tradepress-decoder-results {
+    margin-top: var(--tp-spacing-xl) !important;
+    background-color: var(--tp-color-white) !important;
+    padding: var(--tp-spacing-xl) !important;
+    border: var(--tp-border-standard) !important;
+    border-radius: var(--tp-border-radius) !important;
+    box-shadow: var(--tp-shadow) !important;
+}
+
+.decoder-results {
+    margin-top: 20px !important;
+    background-color: #fff !important;
+    padding: 20px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04) !important;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 15px;
+    margin-bottom: 20px;
+}
+
+.result-card {
+    background-color: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 12px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.02);
+}
+
+.result-card h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.result-row {
+    margin-bottom: 8px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.result-label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.result-card.summary {
+    grid-column: span 2;
+}
+
+/* Example block - specific to this page */
+.tradepress-alert-decoder-examples {
+    margin-top: var(--tp-spacing-xxl) !important;
+    background-color: var(--tp-color-white) !important;
+    padding: var(--tp-spacing-xl) !important;
+    border: var(--tp-border-standard) !important;
+    border-radius: var(--tp-border-radius) !important;
+    box-shadow: var(--tp-shadow) !important;
+}
+
+.alert-decoder-examples {
+    margin-top: 25px !important;
+    background-color: #fff !important;
+    padding: 20px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04) !important;
+}
+
+.alert-decoder-examples h4 {
+    margin-top: 0 !important;
+    margin-bottom: 15px !important;
+    padding-bottom: 8px !important;
+    border-bottom: 1px solid #e5e5e5 !important;
+    font-size: 14px !important;
+}
+
+.alert-decoder-examples ul {
+    margin-left: 20px !important;
+}
+
+.emoji-guide {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
+    grid-gap: 10px !important;
+    margin-top: 15px !important;
+}
+
+/* Emoji item - specific to this page */
+.tradepress-emoji-item {
+    display: flex !important;
+    align-items: center !important;
+    padding: var(--tp-spacing-sm) var(--tp-spacing-md) !important;
+    border: 1px solid var(--tp-color-gray-200) !important;
+    border-radius: var(--tp-border-radius-sm) !important;
+    background-color: var(--tp-color-gray-100) !important;
+    box-shadow: var(--tp-shadow-sm) !important;
+    margin-bottom: var(--tp-spacing-xs) !important;
+}
+
+.emoji-item {
+    display: flex !important;
+    align-items: center !important;
+    padding: 8px 10px !important;
+    border: 1px solid #e5e5e5 !important;
+    border-radius: 3px !important;
+    background-color: #f9f9f9 !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.02) !important;
+    margin-bottom: 5px !important;
+}
+
+.tradepress-emoji {
+    font-size: 20px !important;
+    margin-right: var(--tp-spacing-md) !important;
+    line-height: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.emoji {
+    font-size: 20px !important;
+    margin-right: 10px !important;
+    line-height: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.tradepress-emoji-meaning {
+    font-size: var(--tp-font-size-sm) !important;
+}
+
+.emoji-meaning {
+    font-size: 13px !important;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 782px) {
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .result-card.summary {
+        grid-column: span 1;
+    }
+    
+    .emoji-guide {
+        grid-template-columns: 1fr;
+    }
+}

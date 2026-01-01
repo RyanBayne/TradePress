@@ -1,0 +1,171 @@
+/**
+ * TradePress - Alert Component Styles
+ * 
+ * Alert boxes, info panels, and contextual notifications.
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Admin Only Notice */
+.tradepress-admin-only-notice {
+    display: flex;
+    align-items: center;
+    background-color: #f6f7f7;
+    border-left: 4px solid #2271b1;
+    padding: var(--tp-spacing-md) 15px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.tradepress-admin-icon {
+    font-size: 24px;
+    margin-right: 15px;
+    color: #2271b1;
+}
+
+.tradepress-admin-text h4 {
+    margin: 0 0 5px;
+}
+
+.tradepress-admin-text p {
+    margin: 0;
+}
+
+/* Demo Mode Indicator */
+.tradepress-demo-indicator {
+    display: flex;
+    align-items: center;
+    background-color: #fff8e5;
+    border-left: 4px solid #dba617;
+    padding: var(--tp-spacing-md) 15px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.tradepress-demo-icon {
+    font-size: 24px;
+    margin-right: 15px;
+    color: #dba617;
+}
+
+.tradepress-demo-text h4 {
+    margin: 0 0 5px;
+}
+
+.tradepress-demo-text p {
+    margin: 0;
+}
+
+/* Debug Info Panel */
+.tradepress-debug-info-panel {
+    background-color: #f8e3dd;
+    border: 1px dashed #d63638;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-md) 15px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.tradepress-debug-info-panel h4 {
+    color: #d63638;
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-md);
+    font-size: var(--tp-font-size);
+    display: flex;
+    align-items: center;
+}
+
+.tradepress-debug-info-panel h4:before {
+    content: '\f348';
+    font-family: dashicons;
+    margin-right: 5px;
+    font-size: 18px;
+}
+
+.tradepress-debug-info-content {
+    background-color: var(--tp-color-white);
+    padding: var(--tp-spacing-md);
+    border-radius: 3px;
+}
+
+.tradepress-debug-info-content p {
+    font-family: monospace;
+    margin: 5px 0;
+    font-size: 13px;
+}
+
+.tradepress-debug-info-content p strong {
+    display: inline-block;
+    width: 150px;
+}
+
+.tradepress-debug-advanced-section {
+    margin-top: 15px;
+    border-top: 1px solid #e1e1e1;
+    padding-top: var(--tp-spacing-md);
+}
+
+.tradepress-toggle-advanced-debug {
+    cursor: pointer;
+    color: #2271b1;
+    font-weight: var(--tp-font-weight-medium);
+    margin-bottom: var(--tp-spacing-md);
+    display: flex;
+    align-items: center;
+}
+
+.tradepress-toggle-advanced-debug .dashicons {
+    margin-right: 5px;
+    transition: transform 0.2s ease;
+}
+
+.tradepress-advanced-debug-content {
+    background-color: #f9f9f9;
+    padding: var(--tp-spacing-md);
+    border-radius: 3px;
+    border: 1px solid #e1e1e1;
+}
+
+.tradepress-advanced-debug-content h5 {
+    margin: var(--tp-spacing-md) 0 5px;
+    font-size: var(--tp-font-size);
+    font-weight: var(--tp-font-weight-semibold);
+    color: #1d2327;
+}
+
+.tradepress-advanced-debug-content h5:first-child {
+    margin-top: 0;
+}
+
+.tradepress-advanced-debug-content pre {
+    background: var(--tp-color-white);
+    padding: 8px;
+    border: 1px solid #e1e1e1;
+    border-radius: 3px;
+    font-size: 12px;
+    margin: 5px 0;
+    white-space: pre-wrap;
+}
+
+.tradepress-advanced-debug-content ol {
+    margin-left: 20px;
+    margin-bottom: 0;
+}
+
+.tradepress-advanced-debug-content ol li {
+    margin-bottom: 5px;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.admin-only-notice { @extend .tradepress-admin-only-notice; }
+.admin-icon { @extend .tradepress-admin-icon; }
+.admin-text { @extend .tradepress-admin-text; }
+.demo-indicator { @extend .tradepress-demo-indicator; }
+.demo-icon { @extend .tradepress-demo-icon; }
+.demo-text { @extend .tradepress-demo-text; }
+.debug-info-panel { @extend .tradepress-debug-info-panel; }
+.debug-info-content { @extend .tradepress-debug-info-content; }
+.debug-advanced-section { @extend .tradepress-debug-advanced-section; }
+.toggle-advanced-debug { @extend .tradepress-toggle-advanced-debug; }
+.advanced-debug-content { @extend .tradepress-advanced-debug-content; }

@@ -1,0 +1,243 @@
+/**
+ * TradePress - Tasks Page Styles
+ * 
+ * Page-specific styles for the tasks management page.
+ * Only includes styles that are specific to the tasks page layout
+ * and don't belong in the reusable components.
+ * 
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ */
+
+/* Task Page Layout */
+.tradepress-tasks-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: var(--tp-spacing-lg) 0 !important;
+}
+
+.tradepress-tasks-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--tp-spacing-xl);
+    padding-bottom: var(--tp-spacing-md);
+    border-bottom: var(--tp-border-standard);
+}
+
+.tradepress-tasks-title {
+    margin: 0;
+    font-size: 23px;
+    font-weight: 400;
+}
+
+.tradepress-tasks-actions {
+    display: flex;
+    gap: var(--tp-spacing-md);
+}
+
+/* Task Table Column Widths */
+.tradepress-tasks-table .column-status {
+    width: 40px !important;
+    text-align: center !important;
+}
+
+.tradepress-tasks-table .column-title {
+    width: 35% !important;
+}
+
+.tradepress-tasks-table .column-source {
+    width: 15% !important;
+}
+
+.tradepress-tasks-table .column-phase {
+    width: 15% !important;
+}
+
+.tradepress-tasks-table .column-priority {
+    width: 15% !important;
+}
+
+.tradepress-tasks-table .column-actions {
+    width: 20% !important;
+}
+
+/* Task Detail Layout */
+.tradepress-task-detail {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--tp-spacing-xl);
+}
+
+.tradepress-task-main {
+    background: var(--tp-color-white);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-xl);
+}
+
+.tradepress-task-sidebar {
+    background: var(--tp-color-white);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-xl);
+}
+
+.tradepress-task-header {
+    margin-bottom: var(--tp-spacing-xl);
+    padding-bottom: var(--tp-spacing-md);
+    border-bottom: var(--tp-border-standard);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.tradepress-task-title {
+    margin: 0 0 var(--tp-spacing-md) 0;
+    font-size: 18px;
+    font-weight: var(--tp-font-weight-semibold);
+    font-weight: var(--tp-font-weight-medium) !important;
+    display: block !important;
+    text-decoration: none !important;
+}
+
+.tradepress-task-title:hover {
+    color: #0073aa !important;
+    text-decoration: underline !important;
+}
+
+.tradepress-task-actions {
+    display: flex;
+    gap: var(--tp-spacing-sm);
+    flex-wrap: wrap !important;
+    gap: var(--tp-spacing-xs) !important;
+}
+
+.tradepress-task-actions .button {
+    font-size: 12px !important;
+    padding: 2px 8px !important;
+    height: auto !important;
+    line-height: 2 !important;
+}
+
+/* Current Task Specific */
+.tradepress-current-task {
+    background: var(--tp-color-white);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-xl);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.tradepress-current-task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--tp-spacing-lg);
+    padding-bottom: var(--tp-spacing-md);
+    border-bottom: var(--tp-border-standard);
+}
+
+.tradepress-current-task-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: var(--tp-font-weight-semibold);
+}
+
+.tradepress-current-task-status {
+    margin-left: auto;
+}
+
+.tradepress-no-current-task {
+    text-align: center;
+    padding: var(--tp-spacing-xl) 0;
+    color: #666;
+}
+
+/* Recent Tasks */
+.tradepress-recent-tasks {
+    background: var(--tp-color-white);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-xl);
+    margin-top: var(--tp-spacing-xl);
+}
+
+.tradepress-recent-tasks-header {
+    margin-bottom: var(--tp-spacing-md);
+    padding-bottom: var(--tp-spacing-sm);
+    border-bottom: var(--tp-border-standard);
+}
+
+.tradepress-recent-tasks-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: var(--tp-font-weight-semibold);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+    .tradepress-task-detail {
+        grid-template-columns: 1fr;
+    }
+    
+    .tradepress-tasks-header,
+    .tradepress-current-task-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .tradepress-tasks-actions,
+    .tradepress-current-task-status {
+        margin-top: var(--tp-spacing-md);
+        margin-left: 0;
+    }
+    
+    .tradepress-filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .tradepress-filter-search {
+        width: 100%;
+    }
+    
+    .tradepress-filter-search-input {
+        flex: 1;
+    }
+}
+
+/* Utility Classes */
+.tradepress-hidden {
+    display: none !important;
+}
+
+/* Task Detail Content */
+#task-detail-content {
+    margin-top: var(--tp-spacing-md) !important;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.tasks-container { @extend .tradepress-tasks-container; }
+.tasks-header { @extend .tradepress-tasks-header; }
+.tasks-title { @extend .tradepress-tasks-title; }
+.tasks-actions { @extend .tradepress-tasks-actions; }
+.task-detail { @extend .tradepress-task-detail; }
+.task-main { @extend .tradepress-task-main; }
+.task-sidebar { @extend .tradepress-task-sidebar; }
+.task-header { @extend .tradepress-task-header; }
+.task-title { @extend .tradepress-task-title; }
+.task-actions { @extend .tradepress-task-actions; }
+.current-task { @extend .tradepress-current-task; }
+.current-task-header { @extend .tradepress-current-task-header; }
+.current-task-title { @extend .tradepress-current-task-title; }
+.current-task-status { @extend .tradepress-current-task-status; }
+.no-current-task { @extend .tradepress-no-current-task; }
+.recent-tasks { @extend .tradepress-recent-tasks; }
+.recent-tasks-header { @extend .tradepress-recent-tasks-header; }
+.recent-tasks-title { @extend .tradepress-recent-tasks-title; }
+.tradepress-tasks-container { @extend .tradepress-tasks-container; }
+.tradepress-tasks-header { @extend .tradepress-tasks-header; }
+.tradepress-tasks-table { @extend .tradepress-tasks-table; }
+.hidden { @extend .tradepress-hidden; }

@@ -1,0 +1,78 @@
+/**
+ * TradePress - Content Sections Component Styles
+ * 
+ * Reusable content section styles for task details, descriptions, notes.
+ * 
+ * HTML Structure:
+ * <div class="tp-content-section">
+ *   <h3 class="tp-section-title">Title</h3>
+ *   <div class="tp-section-content">Content here</div>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+.tradepress-content-section {
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.tradepress-section-title {
+    font-size: var(--tp-font-size);
+    font-weight: var(--tp-font-weight-semibold);
+    margin: 0 0 var(--tp-spacing-md) 0;
+    padding-bottom: var(--tp-spacing-sm);
+    border-bottom: var(--tp-border-standard);
+}
+
+.tradepress-section-content {
+    line-height: 1.5;
+}
+
+.tradepress-section-content p {
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-md);
+}
+
+.tradepress-section-content p:last-child {
+    margin-bottom: 0;
+}
+
+.tradepress-section-content ul, 
+.tradepress-section-content ol {
+    margin-left: var(--tp-spacing-xl);
+    margin-bottom: var(--tp-spacing-md);
+}
+
+.tradepress-section-content pre {
+    background-color: var(--tp-color-gray-50);
+    padding: var(--tp-spacing-md);
+    border-radius: var(--tp-border-radius);
+    overflow: auto;
+    margin-bottom: var(--tp-spacing-md);
+}
+
+.tradepress-section-content.empty {
+    color: #666;
+    font-style: italic;
+}
+
+.tradepress-section-loading {
+    text-align: center;
+    padding: var(--tp-spacing-xl);
+    color: #666;
+}
+
+.tradepress-section-loading .spinner {
+    float: none;
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-md);
+    visibility: visible;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.task-description-section { @extend .tradepress-content-section; }
+.task-section-title { @extend .tradepress-section-title; }
+.task-section-content { @extend .tradepress-section-content; }
+.task-section-content.empty { @extend .tradepress-section-content.empty; }
+.task-section-loading { @extend .tradepress-section-loading; }

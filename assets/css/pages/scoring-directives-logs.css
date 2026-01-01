@@ -1,0 +1,209 @@
+/**
+ * TradePress - Scoring Directives Logs Styles
+ * 
+ * Styles for the scoring directives logs interface.
+ * 
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ */
+
+/* Logs Controls */
+.logs-controls {
+    background: var(--tp-color-white);
+    border: 1px solid #dcdcde;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+.log-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-md);
+    align-items: center;
+}
+
+.log-filters select,
+.log-filters input {
+    min-width: 150px;
+}
+
+/* Logs Content */
+.logs-content {
+    background: var(--tp-color-white);
+    border: 1px solid #dcdcde;
+    border-radius: var(--tp-border-radius);
+    overflow: hidden;
+}
+
+.logs-table-container {
+    overflow-x: auto;
+}
+
+.logs-table {
+    margin: 0;
+}
+
+.logs-table th,
+.logs-table td {
+    padding: var(--tp-spacing-md);
+    border-bottom: 1px solid #f0f0f1;
+}
+
+.logs-table th {
+    background: #f6f7f7;
+    font-weight: 600;
+}
+
+.log-time {
+    font-family: monospace;
+    color: #646970;
+    white-space: nowrap;
+}
+
+/* Level Badges */
+.level-badge {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: var(--tp-font-size-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.level-info {
+    background: #e6f5ea;
+    color: #0c833f;
+}
+
+.level-warning {
+    background: #fcf9e8;
+    color: #bd8600;
+}
+
+.level-error {
+    background: #fcf0f0;
+    color: #b32d2e;
+}
+
+.level-debug {
+    background: #f0f6fc;
+    color: #0969da;
+}
+
+/* Log Entry Styles */
+.log-message {
+    font-weight: 500;
+}
+
+.log-context {
+    color: #646970;
+    font-size: var(--tp-font-size-sm);
+}
+
+/* Row highlighting based on log level */
+.log-entry.log-error {
+    background-color: rgba(211, 45, 46, 0.05);
+}
+
+.log-entry.log-warning {
+    background-color: rgba(189, 134, 0, 0.05);
+}
+
+/* Pagination */
+.logs-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--tp-spacing-lg);
+    border-top: 1px solid #f0f0f1;
+}
+
+.pagination-info {
+    color: #646970;
+    font-size: var(--tp-font-size-sm);
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--tp-spacing-md);
+}
+
+.page-numbers {
+    display: flex;
+    gap: var(--tp-spacing-xs);
+}
+
+.page-numbers a,
+.page-numbers .current {
+    padding: var(--tp-spacing-xs) var(--tp-spacing-sm);
+    text-decoration: none;
+    border-radius: var(--tp-border-radius);
+}
+
+.page-numbers .current {
+    background: var(--tp-color-primary);
+    color: white;
+}
+
+.page-numbers a:hover {
+    background: #f6f7f7;
+}
+
+/* Statistics */
+.logs-statistics {
+    background: var(--tp-color-white);
+    border: 1px solid #dcdcde;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    margin-top: var(--tp-spacing-lg);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--tp-spacing-lg);
+    margin-top: var(--tp-spacing-md);
+}
+
+.stat-item {
+    text-align: center;
+    padding: var(--tp-spacing-md);
+    background: #f6f7f7;
+    border-radius: var(--tp-border-radius);
+}
+
+.stat-number {
+    display: block;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--tp-color-primary);
+}
+
+.stat-label {
+    font-size: var(--tp-font-size-sm);
+    color: #646970;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 782px) {
+    .log-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .log-filters select,
+    .log-filters input {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .logs-pagination {
+        flex-direction: column;
+        gap: var(--tp-spacing-md);
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

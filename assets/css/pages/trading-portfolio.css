@@ -1,0 +1,71 @@
+/**
+ * TradePress - Portfolio Tab Styles
+ *
+ * @package TradePress/Admin/CSS
+ */
+
+.tradepress-portfolio-container {
+    margin-top: 20px;
+}
+
+.portfolio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.portfolio-summary {
+    display: flex;
+    gap: 20px;
+}
+
+.summary-item {
+    background: #fff;
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.summary-label {
+    display: block;
+    color: #666;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.summary-value {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.portfolio-actions {
+    margin-bottom: 15px;
+    text-align: right;
+}
+
+.tradepress-portfolio-table {
+    margin-top: 15px;
+}
+
+.tradepress-portfolio-table th {
+    font-weight: 600;
+}
+
+.tradepress-portfolio-table td.actions {
+    text-align: right;
+}
+
+.positive {
+    color: #0c833f;
+}
+
+.negative {
+    color: #dc3232;
+}
+
+.no-positions {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}

@@ -1,0 +1,436 @@
+/**
+ * TradePress - User Watchlists Styles
+ *
+ * @package TradePress/CSS
+ * @since 1.0.0
+ */
+
+.tradepress-user-watchlists-container {
+    margin-top: 20px;
+}
+.user-watchlists-header {
+    margin-bottom: 20px;
+}
+.user-watchlists-actions {
+    margin-bottom: 20px;
+}
+.empty-watchlists {
+    padding: 40px;
+    text-align: center;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.watchlists-scroll-container {
+    position: relative;
+    margin: 20px 0;
+}
+.watchlists-horizontal-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f8f9fa;
+    padding: 10px 5px 20px 5px;
+    margin: 0 -5px;
+}
+.watchlists-horizontal-container::-webkit-scrollbar {
+    height: 8px;
+}
+.watchlists-horizontal-container::-webkit-scrollbar-track {
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+.watchlists-horizontal-container::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+.watchlists-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    padding-bottom: 5px;
+}
+.watchlist-card {
+    flex: 0 0 400px;
+    max-width: 400px;
+    margin-bottom: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+}
+.watchlist-card:hover {
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+.watchlist-card-header {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.watchlist-name {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+.watchlist-actions {
+    display: flex;
+    gap: 10px;
+}
+.watchlist-action {
+    color: #626262;
+    text-decoration: none;
+    position: relative;
+}
+.watchlist-action:hover {
+    color: #2271b1;
+}
+.watchlist-action:hover::after {
+    content: attr(title);
+    position: absolute;
+    top: 25px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+}
+.scoring-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    padding: 2px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+.scoring-active {
+    color: #fff;
+    background-color: #0c833f;
+}
+.scoring-inactive {
+    color: #fff;
+    background-color: #b32d2e;
+}
+.toggle-scoring:hover .scoring-icon {
+    transform: scale(1.1);
+}
+.watchlist-card-content {
+    padding: 15px;
+}
+.watchlist-description {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #666;
+}
+.watchlist-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+.watchlist-symbol-count, .watchlist-created-date {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    color: #666;
+}
+.watchlist-symbols {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 10px;
+    min-height: 50px;
+}
+.watchlist-symbol-container {
+    display: inline-flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    width: 100px;
+    border: 1px solid #e9e9e9;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.watchlist-symbol-tag {
+    display: block;
+    padding: 8px;
+    background-color: #e9f5fe;
+    color: #2271b1;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+}
+.symbol-score {
+    padding: 8px;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+.score-value {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+.score-high .score-value {
+    color: #0c833f;
+}
+.score-medium .score-value {
+    color: #b26200;
+}
+.score-low .score-value {
+    color: #b32d2e;
+}
+.score-bar {
+    width: 100%;
+    height: 4px;
+    background-color: #e0e0e0;
+    border-radius: 2px;
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+.score-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+}
+.score-high .score-bar-fill {
+    background-color: #0c833f;
+}
+.score-medium .score-bar-fill {
+    background-color: #b26200;
+}
+.score-low .score-bar-fill {
+    background-color: #b32d2e;
+}
+.score-strategy {
+    display: block;
+    font-size: 11px;
+    color: #666;
+    margin-top: 2px;
+}
+.h-score-value {
+    font-size: 18px;
+    font-weight: 700;
+    margin-right: 5px;
+    white-space: nowrap;
+}
+.horizontal-score-indicator {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    border-left: 3px solid #ccc;
+}
+.score-updated-time {
+    flex-basis: 100%;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #666;
+    display: flex;
+    align-items: center;
+}
+.score-updated-time .dashicons {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    margin-right: 3px;
+}
+.watchlist-card-footer {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+}
+.watchlist-card-footer .button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.no-symbols {
+    font-style: italic;
+    color: #888;
+    margin: 5px 0;
+}
+.watchlists-scroll-arrows {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    pointer-events: none;
+    z-index: 10;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+.scroll-arrow {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: auto;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+}
+.scroll-arrow:hover {
+    background: #fff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+.scroll-arrow:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #2271b1;
+}
+.scroll-arrow .dashicons {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+.scroll-arrow.disabled {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+}
+@media (pointer: coarse) {
+    .watchlists-scroll-arrows {
+        display: none !important;
+    }
+}
+@media (max-width: 768px) {
+    .watchlist-card {
+        flex: 0 0 300px;
+        max-width: 300px;
+    }
+}
+/* Modal styles */
+.tradepress-modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+.tradepress-modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.tradepress-modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.symbol-search-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.symbol-search-container input {
+    flex: 1;
+}
+.search-results {
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.search-result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+.search-result-item:last-child {
+    border-bottom: none;
+}
+.symbol-info {
+    display: flex;
+    flex-direction: column;
+}
+.symbol-name {
+    font-weight: bold;
+}
+.company-name {
+    font-size: 12px;
+    color: #666;
+}
+.selected-symbols-container {
+    margin-bottom: 15px;
+}
+.selected-symbols {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-height: 50px;
+}
+.selected-symbol-item {
+    display: inline-flex;
+    align-items: center;
+    background-color: #e9f5fe;
+    color: #2271b1;
+    border-radius: 3px;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-weight: 500;
+}
+.remove-symbol {
+    margin-left: 6px;
+    cursor: pointer;
+    color: #2271b1;
+}
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+.button-delete {
+    color: #fff;
+    background-color: #b32d2e;
+    border-color: #b32d2e;
+}
+.button-delete:hover {
+    background-color: #9c2b2c;
+    border-color: #9c2b2c;
+}
+.h-score-trend {
+    margin-right: 10px;
+}
+.trend-up {
+    color: #0c833f;
+}
+.trend-down {
+    color: #b32d2e;
+}
+.trend-neutral {
+    color: #666;
+}

@@ -1,0 +1,515 @@
+/**
+ * TradePress - Research Layout Styles
+ * 
+ * Layout structures for research pages.
+ * 
+ * @package TradePress/CSS/Layouts
+ * @since 1.0.0
+ */
+
+/* Research content container */
+.tradepress-research-content {
+    margin-top: 20px;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+/* Technical analysis layout */
+.tradepress-tech-analysis-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 1200px) {
+    .tradepress-tech-analysis-grid {
+        grid-template-columns: 3fr 2fr;
+    }
+}
+
+.tradepress-indicator-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+/* Fundamental metrics layout */
+.tradepress-fundamental-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .tradepress-fundamental-metrics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Research Page Controls */
+.price-forecast-controls,
+.technical-analysis-controls {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+}
+
+/* Financial Charts */
+.tradepress-financial-charts {
+    margin-bottom: 20px;
+}
+
+/* Company Information */
+.tradepress-company-info {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.tradepress-company-logo {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tradepress-company-logo img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.tradepress-company-details {
+    flex: 1;
+}
+
+.tradepress-company-details h2 {
+    margin: 0 0 5px 0;
+}
+
+.tradepress-company-ticker {
+    color: #666;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+/* Research Overview */
+.research-overview-wrapper {
+    margin: 20px 0;
+}
+
+.overview-header {
+    margin-bottom: 20px;
+}
+
+.overview-header h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* Card Styles */
+.overview-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #f8f9fa;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.refresh-data {
+    cursor: pointer;
+    color: #72777c;
+    transition: color 0.2s;
+}
+
+.refresh-data:hover {
+    color: #0073aa;
+}
+
+.card-content {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.card-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #e0e0e0;
+    background-color: #f8f9fa;
+    text-align: right;
+}
+
+/* No Data Message */
+.no-data-message {
+    text-align: center;
+    padding: 30px 20px;
+    color: #666;
+}
+
+.no-data-message p {
+    margin-bottom: 15px;
+}
+
+/* Recent Symbols List */
+.recent-symbols-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.symbol-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.symbol-item:last-child {
+    border-bottom: none;
+}
+
+.symbol-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f0f0f0;
+    overflow: hidden;
+}
+
+.symbol-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.default-icon {
+    font-size: 18px;
+    font-weight: bold;
+    color: #555;
+}
+
+.symbol-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.symbol-details h4 {
+    margin: 0 0 5px;
+    font-size: 15px;
+}
+
+.company-name {
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.symbol-metrics {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.price {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.change {
+    font-size: 12px;
+}
+
+.change.positive {
+    color: #0c833f;
+}
+
+.change.negative {
+    color: #dc3232;
+}
+
+/* Technical Indicators Table */
+.indicators-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.indicators-table th {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+    padding: 8px 12px;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.indicators-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+}
+
+.indicators-table tr:last-child td {
+    border-bottom: none;
+}
+
+.symbol-column {
+    font-weight: 600;
+}
+
+.indicator-column {
+    text-align: center;
+}
+
+.indicator-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.indicator-badge.oversold,
+.indicator-badge.bullish,
+.indicator-badge.strong-bullish {
+    background-color: #e6f5ea;
+    color: #0c833f;
+}
+
+.indicator-badge.overbought,
+.indicator-badge.bearish {
+    background-color: #fbeaea;
+    color: #dc3232;
+}
+
+.indicator-badge.neutral {
+    background-color: #f1f1f1;
+    color: #666;
+}
+
+/* Market Movers Tabs */
+.movers-tabs {
+    display: flex;
+    flex-direction: column;
+}
+
+.tabs-nav {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 15px;
+}
+
+.tab-button {
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-weight: 600;
+    color: #555;
+    transition: all 0.2s;
+}
+
+.tab-button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.tab-button.active {
+    color: #2271b1;
+    border-bottom-color: #2271b1;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* Movers Table */
+.movers-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.movers-table th {
+    text-align: left;
+    padding: 8px 12px;
+    font-weight: 600;
+    font-size: 13px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.movers-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+}
+
+.movers-table tr:last-child td {
+    border-bottom: none;
+}
+
+.positive {
+    color: #0c833f;
+}
+
+.negative {
+    color: #dc3232;
+}
+
+/* Scoring Directives Results */
+.directives-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.directives-table th {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+    padding: 8px 12px;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.directives-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+}
+
+.score-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+    color: #fff;
+}
+
+.score-circle.strong {
+    background-color: #0c833f;
+}
+
+.score-circle.moderate {
+    background-color: #f0b849;
+}
+
+.score-circle.weak {
+    background-color: #dc3232;
+}
+
+.signal-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.signal-badge.strong {
+    background-color: #e6f5ea;
+    color: #0c833f;
+}
+
+.signal-badge.moderate {
+    background-color: #fff8e5;
+    color: #b98500;
+}
+
+.signal-badge.weak {
+    background-color: #fbeaea;
+    color: #dc3232;
+}
+
+.directives-list {
+    font-size: 13px;
+}
+
+.directives-tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+    border-bottom: 1px dotted #666;
+}
+
+.directives-tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 12px;
+}
+
+.directives-tooltip:hover .directives-tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 1200px) {
+    .overview-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Legacy class mappings for backward compatibility */
+.tradepress-research-content { @extend .tradepress-research-content; }
+.tech-analysis-grid { @extend .tradepress-tech-analysis-grid; }
+.indicator-grid { @extend .tradepress-indicator-grid; }
+.fundamental-metrics-grid { @extend .tradepress-fundamental-metrics-grid; }
+.financial-charts { @extend .tradepress-financial-charts; }
+.company-info { @extend .tradepress-company-info; }
+.company-logo { @extend .tradepress-company-logo; }
+.company-details { @extend .tradepress-company-details; }
+.company-ticker { @extend .tradepress-company-ticker; }

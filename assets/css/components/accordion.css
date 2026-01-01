@@ -1,0 +1,574 @@
+/**
+ * TradePress - Accordion Component Styles
+ * 
+ * Styles for accordion UI elements.
+ * 
+ * HTML Structure:
+ * <div class="accordion">
+ *   <div class="accordion-item">
+ *     <div class="accordion-header">
+ *       <h4 class="accordion-title">Title</h4>
+ *       <span class="accordion-icon dashicons dashicons-arrow-down"></span>
+ *     </div>
+ *     <div class="accordion-content">Content goes here</div>
+ *   </div>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Accordion Container */
+.accordion {
+    margin: 20px 0;
+}
+
+.accordion-item {
+    margin-bottom: 10px;
+    border: 1px solid var(--tradepress-color-gray-400);
+    background-color: var(--tradepress-color-white);
+    box-shadow: var(--tradepress-shadow);
+}
+
+.accordion-header {
+    padding: 10px 15px;
+    background-color: var(--tradepress-color-gray-50);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--tradepress-color-gray-400);
+}
+
+.accordion-title {
+    margin: 0;
+    font-size: var(--tradepress-font-size);
+    font-weight: var(--tradepress-font-weight-semibold);
+}
+
+.accordion-icon {
+    color: var(--tradepress-color-wp-blue);
+}
+
+.accordion-content {
+    padding: 15px;
+    display: none; /* Hidden by default */
+}
+
+.accordion-controls {
+    margin-bottom: 15px;
+}
+
+.accordion-controls .button {
+    margin-right: 10px;
+}
+
+/* Legacy class mapping for Alert Decoder Accordion */
+.alert-decoder-accordion {
+    margin-bottom: 20px !important;
+    border: 1px solid var(--tradepress-color-gray-300, #ddd) !important;
+    border-radius: var(--tradepress-border-radius, 4px) !important;
+    overflow: hidden !important;
+    box-shadow: var(--tradepress-shadow, 0 1px 1px rgba(0, 0, 0, 0.04)) !important;
+    display: block !important;
+}
+
+.alert-decoder-accordion-item {
+    border-bottom: 1px solid var(--tradepress-color-gray-300, #ddd) !important;
+    display: block !important;
+}
+
+.alert-decoder-accordion-item:last-child {
+    border-bottom: none !important;
+}
+
+.alert-decoder-accordion-header {
+    padding: 12px 15px !important;
+    background-color: var(--tradepress-color-gray-50, #f5f5f5) !important;
+    cursor: pointer !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    visibility: visible !important;
+    border-bottom: 1px solid var(--tradepress-color-gray-300, #ddd) !important;
+}
+
+.alert-decoder-accordion-header h4 {
+    margin: 0 !important;
+    font-size: var(--tradepress-font-size, 14px) !important;
+    font-weight: var(--tradepress-font-weight-semibold, 600) !important;
+}
+
+.alert-decoder-accordion-content {
+    padding: 15px !important;
+    background-color: var(--tradepress-color-white, #fff) !important;
+    border-top: none !important;
+}
+
+/* Accordion Icon */
+.accordion-icon {
+    font-size: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
+    transition: transform 0.3s ease !important;
+    display: block !important;
+}
+
+.alert-decoder-accordion-header.active .accordion-icon.dashicons-arrow-up-alt2 {
+    transform: rotate(180deg) !important;
+}
+
+/* Feature page section accordion */
+.feature-page-section {
+    margin-bottom: 20px;
+    border: 1px solid var(--tradepress-color-gray-300);
+    border-radius: var(--tradepress-border-radius-sm);
+    background: var(--tradepress-color-white);
+    box-shadow: var(--tradepress-shadow);
+}
+
+.feature-page-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 10px 15px !important;
+    background: var(--tradepress-status-success-bg) !important;
+    border-left: 3px solid var(--tradepress-color-success) !important;
+    border-bottom: 1px solid var(--tradepress-color-gray-300) !important;
+    cursor: pointer !important;
+}
+
+.feature-page-header h3 {
+    margin: 0 !important;
+}
+
+.feature-page-header h3 a {
+    text-decoration: none !important;
+    color: var(--tradepress-status-success-text) !important;
+}
+
+.feature-page-header h3 .dashicons {
+    font-size: 16px !important;
+    vertical-align: text-bottom !important;
+}
+
+.feature-page-header .toggle-section {
+    color: var(--tradepress-color-success) !important;
+}
+
+.feature-page-content {
+    padding: 15px !important;
+    display: none !important; /* Initially hidden */
+}
+
+/* Generic jQuery UI / Custom Accordion Styles */
+.tradepress-accordion,
+.tradepress-custom-accordion {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 3px;
+}
+
+.tradepress-accordion .accordion-header,
+.tradepress-accordion .ui-accordion-header,
+.tradepress-custom-accordion .accordion-header {
+    padding: 12px 15px;
+    background: #f7f7f7;
+    border-bottom: 1px solid #eee;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+}
+
+.tradepress-accordion .accordion-header:after,
+.tradepress-accordion .ui-accordion-header:after,
+.tradepress-custom-accordion .accordion-header:after {
+    content: "\f140"; /* down arrow */
+    font-family: dashicons;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.tradepress-accordion .accordion-header.active:after,
+.tradepress-accordion .ui-accordion-header-active:after,
+.tradepress-custom-accordion .accordion-header.active:after {
+    content: "\f142"; /* up arrow */
+}
+
+.tradepress-accordion .accordion-content,
+.tradepress-accordion .ui-accordion-content,
+.tradepress-custom-accordion .accordion-content {
+    padding: 15px;
+    border-top: 1px solid #eee;
+    background: #fff;
+}
+
+.tradepress-custom-accordion .accordion-content {
+    display: none;
+}
+
+.tradepress-custom-accordion .accordion-header.active + .accordion-content {
+    display: block;
+}
+
+/* Theme specific overrides */
+.wp-core-ui .tradepress-accordion .accordion-header,
+.wp-core-ui .tradepress-custom-accordion .accordion-header {
+    color: #23282d;
+}
+
+.wp-core-ui .tradepress-accordion .accordion-header:hover,
+.wp-core-ui .tradepress-custom-accordion .accordion-header:hover {
+    background: #f0f0f0;
+}
+
+/* Original .tradepress-accordion styles from this file, now deprecated by the above */
+.tradepress-accordion-item {
+    margin-bottom: 10px;
+    border: 1px solid var(--tradepress-color-gray-200);
+    border-radius: var(--tradepress-border-radius);
+}
+
+.tradepress-accordion-header {
+    padding: 12px 15px;
+    background: var(--tradepress-color-gray-50);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 3px;
+}
+
+.tradepress-accordion-header h4 {
+    margin: 0;
+    font-size: var(--tradepress-font-size);
+}
+
+.tradepress-accordion-content {
+    padding: 15px;
+    background: var(--tradepress-color-white);
+    border-top: 1px solid var(--tradepress-color-gray-200);
+}
+
+.tradepress-accordion-content p:first-child {
+    margin-top: 0;
+}
+
+.tradepress-accordion-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Enhanced accordion styling from admin-development.css */
+.tradepress-accordion-container {
+    margin: 20px 0;
+}
+
+.tradepress-accordion-item {
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-color: #fff;
+}
+
+.tradepress-accordion-header {
+    padding: 12px 15px;
+    cursor: pointer;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tradepress-accordion-header:hover {
+    background-color: #f0f0f0;
+}
+
+.tradepress-accordion-title {
+    margin: 0;
+    font-size: 1.1em;
+}
+
+.tradepress-accordion-icon {
+    font-size: 20px;
+}
+
+.tradepress-accordion-content {
+    padding: 15px;
+    display: none;
+    border-top: 1px solid #ddd;
+}
+
+.tradepress-accordion-controls {
+    margin: 20px 0;
+}
+.tradepress-accordion-controls {
+    margin: 20px 0;
+}
+
+/* Tree Component Styles */
+.tradepress-tree-view {
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.tradepress-tree-item {
+    border-bottom: 1px solid #f0f0f1;
+    position: relative;
+}
+
+.tradepress-tree-item:last-child {
+    border-bottom: none;
+}
+
+.tradepress-tree-header {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    min-height: 36px;
+}
+
+.tradepress-tree-header:hover {
+    background: #f6f7f7;
+}
+
+.tradepress-tree-header.tradepress-tree-selected {
+    background: #0073aa;
+    color: #fff;
+}
+
+.tradepress-tree-expanded .tradepress-tree-children {
+    display: block;
+}
+
+.tradepress-tree-toggle {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    color: #646970;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.tradepress-tree-expanded .tradepress-tree-toggle {
+    transform: rotate(90deg);
+}
+
+.tradepress-tree-icon {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    color: #646970;
+    flex-shrink: 0;
+}
+
+.tradepress-tree-selected .tradepress-tree-icon {
+    color: #fff;
+}
+
+.tradepress-tree-label {
+    flex: 1;
+    font-weight: 500;
+    color: #1d2327;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tradepress-tree-selected .tradepress-tree-label {
+    color: #fff;
+}
+
+.tradepress-tree-badge {
+    background: #646970;
+    color: #fff;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+
+.tradepress-tree-selected .tradepress-tree-badge {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.tradepress-tree-children {
+    display: none;
+    border-left: 2px solid #f0f0f1;
+    margin-left: 20px;
+    background: #fafafa;
+}
+
+.tradepress-tree-leaf {
+    padding-left: 24px;
+}
+
+.tradepress-tree-leaf .tradepress-tree-toggle {
+    visibility: hidden;
+}
+
+.tradepress-tree-value {
+    font-weight: 600;
+    color: #1d2327;
+    margin-left: auto;
+    margin-right: 8px;
+}
+
+.tradepress-tree-selected .tradepress-tree-value {
+    color: #fff;
+}
+
+.tradepress-tree-change {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+}
+
+.tradepress-tree-change.positive {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.tradepress-tree-change.negative {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.tradepress-tree-selected .tradepress-tree-change.positive {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.tradepress-tree-selected .tradepress-tree-change.negative {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+/* Nested tree items */
+.tradepress-tree-children .tradepress-tree-item {
+    border-left: none;
+}
+
+.tradepress-tree-children .tradepress-tree-header {
+    padding-left: 20px;
+}
+
+/* Tree focus states for accessibility */
+.tradepress-tree-header:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: -2px;
+}
+
+/* Tree hover states */
+.tradepress-tree-header:hover .tradepress-tree-icon {
+    color: #0073aa;
+}
+
+.tradepress-tree-header:hover .tradepress-tree-toggle {
+    color: #0073aa;
+}
+
+/* Nested Accordion Styles */
+.tradepress-accordion-nested {
+    border: none;
+    background: transparent;
+}
+
+.tradepress-accordion-nested .tradepress-accordion-item {
+    border: 1px solid var(--tradepress-color-border, #e0e0e0);
+    border-radius: 6px;
+    margin-bottom: 8px;
+    background: var(--tradepress-color-surface-secondary, #fafafa);
+}
+
+.tradepress-accordion-nested .tradepress-accordion-header {
+    padding: 12px 16px;
+    background: var(--tradepress-color-surface-secondary, #fafafa);
+    border-radius: 6px;
+}
+
+.tradepress-accordion-nested .tradepress-accordion-header:hover {
+    background: var(--tradepress-color-surface-hover, #f0f0f0);
+}
+
+.tradepress-accordion-nested .tradepress-accordion-content {
+    padding: 16px;
+    background: var(--tradepress-color-surface, #ffffff);
+    border-top: 1px solid var(--tradepress-color-border, #e0e0e0);
+    border-radius: 0 0 6px 6px;
+}
+
+/* Nested Child Accordion Styles */
+.tradepress-accordion-nested-child {
+    margin: 0;
+    border: none;
+    background: transparent;
+}
+
+.tradepress-accordion-nested-child .tradepress-accordion-item {
+    border: 1px solid var(--tradepress-color-border-light, #f0f0f0);
+    border-radius: 4px;
+    margin-bottom: 6px;
+    background: var(--tradepress-color-surface, #ffffff);
+}
+
+.tradepress-accordion-nested-child .tradepress-accordion-header {
+    padding: 10px 14px;
+    background: var(--tradepress-color-surface, #ffffff);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.tradepress-accordion-nested-child .tradepress-accordion-header h5 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--tradepress-color-text-secondary, #666666);
+}
+
+.tradepress-accordion-nested-child .tradepress-accordion-header:hover {
+    background: var(--tradepress-color-surface-hover, #f8f8f8);
+}
+
+.tradepress-accordion-nested-child .tradepress-accordion-content {
+    padding: 12px 14px;
+    background: var(--tradepress-color-surface, #ffffff);
+    border-top: 1px solid var(--tradepress-color-border-light, #f0f0f0);
+    border-radius: 0 0 4px 4px;
+    font-size: 14px;
+}
+
+.tradepress-accordion-nested-child .tradepress-accordion-icon {
+    font-size: 14px;
+    color: var(--tradepress-color-text-muted, #999999);
+}
+
+/* Nested Accordion Indentation */
+.tradepress-accordion-nested .tradepress-accordion-content .tradepress-accordion-nested-child {
+    margin-left: 0;
+    margin-top: 12px;
+}
+
+/* Interactive States for Nested Accordions */
+.tradepress-accordion-nested .tradepress-accordion-item.tradepress-accordion-expanded > .tradepress-accordion-header {
+    border-radius: 6px 6px 0 0;
+}
+
+.tradepress-accordion-nested-child .tradepress-accordion-item.tradepress-accordion-expanded > .tradepress-accordion-header {
+    border-radius: 4px 4px 0 0;
+}

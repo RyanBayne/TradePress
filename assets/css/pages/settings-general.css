@@ -1,0 +1,42 @@
+/**
+ * TradePress Settings General Styles
+ *
+ * @package TradePress/Admin/CSS
+ * @version 1.0.0
+ */
+
+.tradepress-feature-controls {
+    margin-top: 15px;
+}
+
+.page-visibility-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.page-visibility-header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.page-visibility-header h4 {
+    margin: 0;
+    font-size: 14px;
+}
+
+.tab-visibility-list {
+    margin-left: 20px;
+}
+
+.tab-visibility-item {
+    margin-bottom: 8px;
+}
+
+.visibility-toggle label {
+    margin-left: 5px;
+    font-weight: normal;
+}

@@ -1,0 +1,236 @@
+/**
+ * TradePress - Database Layout Styles
+ * 
+ * Layout structures for database administration pages.
+ * 
+ * @package TradePress/CSS/Layouts
+ * @since 1.0.0
+ */
+
+/* Database Settings Container */
+.tradepress-database-settings {
+    margin: var(--tp-spacing-xl) 0;
+}
+
+/* Install Tables Action */
+.tradepress-install-tables-action {
+    margin-top: var(--tp-spacing-lg);
+}
+
+.tradepress-install-tables-action .spinner {
+    visibility: hidden;
+    margin-left: var(--tp-spacing-md);
+    vertical-align: middle;
+}
+
+.tradepress-install-tables-action .spinner.is-active {
+    visibility: visible;
+}
+
+/* Data Tables Container */
+.tradepress-data-tables-container {
+    margin: var(--tp-spacing-xl) 0;
+}
+
+/* Section Header */
+.tradepress-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+.tradepress-section-header h2 {
+    margin: 0;
+}
+
+.tradepress-section-actions {
+    display: flex;
+    gap: var(--tp-spacing-md);
+}
+
+.tradepress-section-actions .button {
+    display: flex;
+    align-items: center;
+}
+
+.tradepress-section-actions .dashicons {
+    margin-right: 5px;
+}
+
+.tradepress-section-description {
+    margin-bottom: var(--tp-spacing-xl);
+    color: #666;
+}
+
+/* Table Groups */
+.tradepress-table-group {
+    margin-bottom: 30px;
+}
+
+.tradepress-table-group h4 {
+    margin: 15px 0 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Tables Grid */
+.tradepress-tables-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--tp-spacing-xl);
+    margin-top: var(--tp-spacing-xl);
+}
+
+/* Stats Layout */
+.tradepress-stats-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-lg);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.tradepress-stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-xl);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.tradepress-stats-column {
+    flex: 1;
+    min-width: 300px;
+}
+
+.tradepress-stats-table {
+    background: var(--tp-color-white);
+    border: 1px solid #ccd0d4;
+    border-radius: var(--tp-border-radius);
+    overflow: hidden;
+}
+
+/* API Details Section */
+.tradepress-api-details-section {
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.tradepress-api-details-section h3 {
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-md);
+    font-size: 16px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+/* Database Summary */
+.tradepress-database-summary {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+}
+
+/* Table Status Styling */
+.tradepress-table-exists {
+    color: #46b450;
+    font-weight: bold;
+}
+
+.tradepress-table-missing {
+    color: #dc3232;
+    font-weight: bold;
+}
+
+.tradepress-missing-table {
+    background-color: #fff9f9 !important;
+}
+
+.tradepress-warning-table {
+    background-color: #ffffd8 !important;
+}
+
+.tradepress-table-warning {
+    display: flex;
+    align-items: center;
+}
+
+.tradepress-table-warning .dashicons {
+    color: #f0b849;
+    margin-right: 5px;
+}
+
+/* Filter Forms */
+.tradepress-filter-form {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.filter-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 5px;
+}
+
+/* Feature Notice */
+.feature-not-implemented {
+    padding: 15px;
+    background-color: #f8f8f8;
+    border-left: 4px solid #646970;
+    margin-bottom: 15px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+    .filter-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .filter-item {
+        width: 100%;
+    }
+}
+
+/* Legacy classes mapping for backward compatibility */
+.tradepress-database-settings { @extend .tradepress-database-settings; }
+.tradepress-install-tables-action { @extend .tradepress-install-tables-action; }
+.tradepress-data-tables-container { @extend .tradepress-data-tables-container; }
+.section-header { @extend .tradepress-section-header; }
+.section-actions { @extend .tradepress-section-actions; }
+.section-description { @extend .tradepress-section-description; }
+.tradepress-table-group { @extend .tradepress-table-group; }
+.tables-grid { @extend .tradepress-tables-grid; }
+.tradepress-stats-cards { @extend .tradepress-stats-cards; }
+.tradepress-stats-row { @extend .tradepress-stats-row; }
+.tradepress-stats-column { @extend .tradepress-stats-column; }
+.tradepress-stats-table { @extend .tradepress-stats-table; }
+.api-details-section { @extend .tradepress-api-details-section; }
+.tradepress-database-summary { @extend .tradepress-database-summary; }
+.tradepress-table-exists { @extend .tradepress-table-exists; }
+.tradepress-table-missing { @extend .tradepress-table-missing; }
+.tradepress-missing-table { @extend .tradepress-missing-table; }
+.tradepress-warning-table { @extend .tradepress-warning-table; }
+.tradepress-table-warning { @extend .tradepress-table-warning; }
+.tradepress-filter-form { @extend .tradepress-filter-form; }
+.feature-not-implemented { @extend .feature-not-implemented; }

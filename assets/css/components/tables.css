@@ -1,0 +1,388 @@
+/**
+ * TradePress - Table Component Styles
+ * 
+ * Styles for tables and data display.
+ * 
+ * HTML Structure:
+ * <table class="tp-table">
+ *   <thead>
+ *     <tr><th>Header 1</th><th>Header 2</th></tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr><td>Data 1</td><td>Data 2</td></tr>
+ *   </tbody>
+ * </table>
+ * 
+ * Variants:
+ * - tp-table-bordered: Adds borders to all cells
+ * - tp-table-striped: Adds zebra striping to rows
+ * - tp-table-hover: Highlights rows on hover
+ * - tp-table-sm: Compact version with less padding
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Base table */
+.tradepress-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin-bottom: var(--tp-spacing-lg) !important;
+    color: var(--tp-color-text) !important;
+    vertical-align: top !important;
+}
+
+.tradepress-table th,
+.tradepress-table td {
+    padding: var(--tp-spacing-sm) var(--tp-spacing-md) !important;
+    text-align: left !important;
+    border: var(--tp-border-standard) !important;
+}
+
+.tradepress-table th {
+    background-color: var(--tp-color-gray-50) !important;
+    font-weight: var(--tp-font-weight-semibold) !important;
+}
+
+.tradepress-table thead {
+    vertical-align: bottom !important;
+}
+
+.tradepress-table tbody {
+    vertical-align: inherit !important;
+}
+
+.tradepress-table tr:nth-child(even) {
+    background-color: var(--tp-color-gray-100) !important;
+}
+
+/* Responsive wrapper */
+.tradepress-table-responsive {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    margin-bottom: var(--tp-spacing-lg) !important;
+}
+
+/* Table variants */
+.tradepress-table-bordered {
+    border: var(--tp-border-standard) !important;
+}
+
+.tradepress-table-bordered th,
+.tradepress-table-bordered td {
+    border: var(--tp-border-standard) !important;
+}
+
+.tradepress-table-striped tbody tr:nth-of-type(odd) {
+    background-color: var(--tp-color-gray-100) !important;
+}
+
+.tradepress-table-hover tbody tr:hover {
+    background-color: var(--tp-color-table-hover-bg) !important;
+}
+
+.tradepress-table-sm th,
+.tradepress-table-sm td {
+    padding: var(--tp-spacing-xs) var(--tp-spacing-sm) !important;
+}
+
+/* Table contextual variants */
+.tradepress-table-primary {
+    background-color: var(--tp-color-primary-light) !important;
+}
+
+.tradepress-table-secondary {
+    background-color: var(--tp-color-secondary-light) !important;
+}
+
+.tradepress-table-success {
+    background-color: var(--tp-color-success-light) !important;
+}
+
+.tradepress-table-warning {
+    background-color: var(--tp-color-warning-light) !important;
+}
+
+.tradepress-table-danger {
+    background-color: var(--tp-color-error-light) !important;
+}
+
+.tradepress-table-light {
+    background-color: var(--tp-color-gray-50) !important;
+}
+
+.tradepress-table-dark {
+    background-color: var(--tp-color-gray-900) !important;
+    color: var(--tp-color-white) !important;
+}
+
+/* Fixed layout tables */
+.tradepress-table-fixed {
+    table-layout: fixed !important;
+}
+
+.tradepress-table-fixed td, 
+.tradepress-table-fixed th {
+    word-break: break-word !important;
+}
+
+/* Caption */
+.tradepress-table caption {
+    padding: var(--tp-spacing-sm) 0 !important;
+    color: var(--tp-color-gray-600) !important;
+    text-align: left !important;
+    caption-side: top !important;
+}
+
+/* Table alignment classes */
+.tradepress-table-center {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.tradepress-table-right {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+}
+
+/* Pagination row */
+.tradepress-table-pagination {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-top: var(--tp-spacing-md) !important;
+}
+
+.tradepress-pagination-info {
+    color: var(--tp-color-gray-600) !important;
+}
+
+.tradepress-pagination-controls {
+    display: flex !important;
+    gap: var(--tp-spacing-sm) !important;
+}
+
+/* Row/cell states */
+.tradepress-table tr.active {
+    background-color: var(--tp-color-table-active-bg) !important;
+}
+
+.tradepress-table tr.selected td,
+.tradepress-table td.selected {
+    background-color: var(--tp-color-highlight-bg) !important;
+}
+
+/* Support for WordPress Gutenberg block tables */
+.tradepress-block-table {
+    overflow-x: auto !important;
+}
+
+.tradepress-block-table table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+}
+
+.tradepress-block-table thead {
+    border-bottom: 3px solid !important;
+}
+
+.tradepress-block-table tfoot {
+    border-top: 3px solid !important;
+}
+
+.tradepress-block-table.aligncenter,
+.tradepress-block-table.alignleft,
+.tradepress-block-table.alignright {
+    display: table !important;
+    width: auto !important;
+}
+
+/* Specific styles for TradePress tables */
+.tradepress-tasks-table th {
+    background-color: var(--tp-color-gray-50) !important;
+    text-align: left !important;
+    padding: 10px !important;
+    border-bottom: var(--tp-border-standard) !important;
+}
+
+.tradepress-tasks-table td {
+    padding: 12px 10px !important;
+    border-bottom: 1px solid var(--tp-color-gray-200) !important;
+    vertical-align: top !important;
+}
+
+.tradepress-tasks-table tr:hover {
+    background-color: var(--tp-color-gray-100) !important;
+}
+
+.tradepress-sortable {
+    cursor: pointer !important;
+    position: relative !important;
+}
+
+.tradepress-sortable:after {
+    content: "\25BC" !important; /* Down triangle */
+    font-size: 8px !important;
+    color: var(--tp-color-gray-500) !important;
+    margin-left: var(--tp-spacing-xs) !important;
+    visibility: hidden !important;
+}
+
+.tradepress-sortable:hover:after {
+    visibility: visible !important;
+}
+
+.tradepress-sortable.tradepress-sorted-asc:after {
+    content: "\25BC" !important;
+    visibility: visible !important;
+    color: var(--tp-color-text) !important;
+}
+
+.tradepress-sortable.tradepress-sorted-desc:after {
+    content: "\25B2" !important;
+    visibility: visible !important;
+    color: var(--tp-color-text) !important;
+}
+
+/* Task Table Styles */
+.tradepress-table-container {
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.tradepress-table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    margin-top: var(--tp-spacing-md) !important;
+}
+
+.tradepress-table th {
+    background-color: #f5f5f5 !important;
+    text-align: left !important;
+    padding: var(--tp-spacing-md) !important;
+    border-bottom: var(--tp-border-standard) !important;
+}
+
+.tradepress-table td {
+    padding: 12px var(--tp-spacing-md) !important;
+    border-bottom: 1px solid #eee !important;
+    vertical-align: top !important;
+}
+
+.tradepress-table tr:hover {
+    background-color: #f9f9f9 !important;
+}
+
+/* Sortable columns */
+.tradepress-sortable {
+    cursor: pointer !important;
+    position: relative !important;
+}
+
+.tradepress-sortable:after {
+    content: "▼" !important;
+    font-size: 8px !important;
+    color: #999 !important;
+    margin-left: var(--tp-spacing-xs) !important;
+    visibility: hidden !important;
+}
+
+.tradepress-sortable:hover:after {
+    visibility: visible !important;
+}
+
+.tradepress-sortable.sorted-asc:after {
+    content: "▼" !important;
+    visibility: visible !important;
+    color: #333 !important;
+}
+
+.tradepress-sortable.sorted-desc:after {
+    content: "▲" !important;
+    visibility: visible !important;
+    color: #333 !important;
+}
+
+/* Directives Table Styles */
+.tradepress-directives-table {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.tradepress-directives-table th {
+    font-weight: 600;
+}
+
+.tradepress-directives-actions {
+    margin-top: 20px;
+}
+
+.tradepress-test-data-table {
+    margin-bottom: 20px;
+}
+
+/* Legacy class mappings */
+.tradepress-tasks-table { @extend .tradepress-table; }
+.wp-block-table { @extend .tradepress-block-table; }
+.table { @extend .tradepress-table; }
+.table-bordered { @extend .tradepress-table-bordered; }
+.table-striped { @extend .tradepress-table-striped; }
+.table-hover { @extend .tradepress-table-hover; }
+.table-sm { @extend .tradepress-table-sm; }
+.table-responsive { @extend .tradepress-table-responsive; }
+.sortable { @extend .tradepress-sortable; }
+.sorted-asc { @extend .tradepress-sorted-asc; }
+.sorted-desc { @extend .tradepress-sorted-desc; }
+.tradepress-scoring-directives-table { @extend .tradepress-directives-table; }
+.tradepress-scoring-directives-actions { @extend .tradepress-directives-actions; }
+.directive-test-data-table { @extend .tradepress-test-data-table; }
+.tradepress-tasks-table-container { @extend .tradepress-table-container; }
+.tradepress-tasks-table { @extend .tradepress-table; }
+.sortable { @extend .tradepress-sortable; }
+
+.tradepress-table-container {
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+/* Data Preview Table Styles (from admin-database.css) */
+#table-data-preview {
+    overflow-x: auto;
+    margin-bottom: 15px;
+}
+
+#table-data-preview table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#table-data-preview th, 
+#table-data-preview td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #e5e5e5;
+}
+
+#table-data-preview th {
+    background: #f8f8f8;
+    font-weight: bold;
+}
+
+#table-data-preview tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.data-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagination-info {
+    font-size: 13px;
+    color: #666;
+}
+
+.current-page, .total-pages {
+    font-weight: bold;
+}

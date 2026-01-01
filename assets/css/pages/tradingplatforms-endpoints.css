@@ -1,0 +1,133 @@
+/**
+ * TradePress - Endpoints Tab Styles
+ *
+ * @package TradePress/Admin/CSS
+ */
+
+/* Endpoint Test Results Styling */
+.api-response {
+    margin: 20px 0;
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    padding: 0;
+    position: relative;
+}
+
+.endpoint-test-header {
+    background: #f9f9f9;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.endpoint-test-header h3 {
+    margin: 0;
+    font-size: 14px;
+}
+
+.endpoint-name {
+    font-family: monospace;
+    background: #f0f0f1;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+.close-results {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+}
+
+.close-results:hover {
+    color: #d63638;
+}
+
+.loading-indicator {
+    padding: 20px;
+    text-align: center;
+}
+
+.loading-indicator .spinner {
+    float: none;
+    margin: 0 10px 0 0;
+    vertical-align: middle;
+}
+
+.status-indicator {
+    padding: 10px 15px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.status-indicator .dashicons {
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+.status-indicator.success {
+    background-color: #f0fff5;
+    border-left: 4px solid #00a32a;
+    color: #00701a;
+}
+
+.status-indicator.error {
+    background-color: #fcf0f1;
+    border-left: 4px solid #d63638;
+    color: #a00;
+}
+
+.test-metadata {
+    background: #f9f9f9;
+    padding: 10px 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 13px;
+}
+
+.response-data, .troubleshooting-tips {
+    padding: 15px;
+}
+
+.response-data h4, .troubleshooting-tips h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.api-json-data, .api-text-data, .api-error-report {
+    background: #f0f0f1;
+    padding: 10px;
+    border-radius: 3px;
+    overflow: auto;
+    max-height: 300px;
+    font-family: monospace;
+    font-size: 12px;
+    margin: 0;
+}
+
+.api-error-report {
+    white-space: pre-wrap;
+    background: #fcf0f1;
+}
+
+.troubleshooting-tips ul {
+    margin: 0 0 0 20px;
+}
+
+.endpoint-test-success, .endpoint-test-error {
+    margin: 0;
+}
+
+@media screen and (max-width: 782px) {
+    .test-metadata {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

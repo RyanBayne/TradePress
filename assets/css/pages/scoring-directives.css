@@ -1,0 +1,564 @@
+/**
+ * TradePress - Scoring Directives Styles
+ * 
+ * Styles for the scoring directives interface.
+ * 
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ */
+
+/* Overall layout */
+.tradepress-directives-container .directives-layout {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.tradepress-directives-container .directives-table-container {
+    flex: 0 0 60%;
+    min-width: 0;
+}
+
+.tradepress-directives-container .directive-details-container {
+    flex: 1;
+    min-width: 0;
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+/* Table styling */
+.tradepress-directives-container .directives-table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tradepress-directives-container .directives-table td,
+.tradepress-directives-container .directives-table th {
+    padding: 12px 8px;
+    vertical-align: top;
+    border-bottom: 1px solid #e1e1e1;
+    box-sizing: border-box;
+}
+
+.tradepress-directives-container .directives-table tbody tr {
+    background-color: #fff !important;
+}
+
+.tradepress-directives-container .directives-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9 !important;
+}
+
+/* Force consistent table cell alignment */
+.tradepress-directives-container .directives-table td {
+    text-align: left !important;
+    margin: 0 !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+}
+
+
+
+/* Ensure table maintains fixed layout */
+.tradepress-directives-container .directives-table {
+    table-layout: fixed !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+}
+
+/* Override WordPress table styling completely */
+.tradepress-directives-container .widefat {
+    width: 100% !important;
+    clear: none !important;
+    margin: 0 !important;
+    border: 1px solid #c3c4c7 !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+}
+
+.tradepress-directives-container .widefat td {
+    padding: 8px 10px !important;
+    line-height: 1.3 !important;
+    vertical-align: top !important;
+    border-bottom: 1px solid #c3c4c7 !important;
+    word-wrap: break-word !important;
+    box-sizing: border-box !important;
+}
+
+.tradepress-directives-container .widefat th {
+    padding: 8px 10px !important;
+    line-height: 1.3 !important;
+    vertical-align: top !important;
+    border-bottom: 1px solid #c3c4c7 !important;
+    box-sizing: border-box !important;
+}
+
+/* Force identical styling for all directive rows regardless of status */
+.tradepress-directives-container .directive-row,
+.tradepress-directives-container .directive-row.status-active,
+.tradepress-directives-container .directive-row.status-inactive,
+.tradepress-directives-container .directive-row.selected,
+.tradepress-directives-container .directive-row.selected.status-active,
+.tradepress-directives-container .directive-row.selected.status-inactive {
+    background: inherit !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    box-shadow: none !important;
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    width: auto !important;
+    float: none !important;
+}
+
+.tradepress-directives-container .directive-row td,
+.tradepress-directives-container .directive-row.status-active td,
+.tradepress-directives-container .directive-row.status-inactive td,
+.tradepress-directives-container .directive-row.selected td,
+.tradepress-directives-container .directive-row.selected.status-active td,
+.tradepress-directives-container .directive-row.selected.status-inactive td {
+    background: inherit !important;
+    border-left: none !important;
+    border-right: none !important;
+    margin: 0 !important;
+    padding: 8px 10px !important;
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    width: auto !important;
+    float: none !important;
+}
+
+/* Table styling */
+.directives-table-header {
+    margin-bottom: 15px;
+}
+
+.directives-table-header h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.directive-row {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.directive-row:hover {
+    background-color: #f6f7f7;
+}
+
+.directive-row.selected {
+    background-color: #f0f6fc;
+}
+
+
+
+.column-name {
+    width: 30%;
+}
+
+.column-status, .column-impact, .column-usage {
+    width: 12%;
+    text-align: center;
+}
+
+.column-last-run {
+    width: 15%;
+}
+
+.column-actions {
+    width: 20%;
+    text-align: right;
+}
+
+.directive-actions-group {
+    display: flex;
+    gap: 4px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.directive-actions-group .button {
+    margin: 0;
+    padding: 4px 8px;
+    font-size: 11px;
+    line-height: 1.2;
+}
+
+.directive-name {
+    font-weight: 600;
+}
+
+.directive-description {
+    margin: 5px 0 0;
+    color: #666;
+    font-size: 12px;
+}
+
+.status-badge, .impact-badge, .usage-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-badge.status-active {
+    background-color: #ecf7ed;
+    color: #0c833f;
+}
+
+.status-badge.status-inactive {
+    background-color: #f8f9fa;
+    color: #72777c;
+}
+
+.impact-badge.impact-high {
+    background-color: #fcf0f0;
+    color: #b32d2e;
+}
+
+.impact-badge.impact-medium {
+    background-color: #fcf9e8;
+    color: #bd8600;
+}
+
+.impact-badge.impact-low {
+    background-color: #ecf7ed;
+    color: #0c833f;
+}
+
+.usage-badge.usage-yes {
+    background-color: #e6f5ea;
+    color: #0c833f;
+}
+
+.usage-badge.usage-no {
+    background-color: #f6f7f7;
+    color: #72777c;
+}
+
+.last-run-date {
+    color: #666;
+    font-size: 12px;
+}
+
+/* Details container styling */
+.directive-details-header {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e1e1e1;
+    padding-bottom: 15px;
+}
+
+.directive-details-header h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+/* Directive sections styling */
+.directive-section {
+    margin-bottom: 20px;
+}
+
+.directive-section:not(#directive-isa_reset) {
+    display: none;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.section-header h3 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.construction-icon {
+    color: #f56e28;
+}
+
+.isa-info-box {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.isa-info-box h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #495057;
+}
+
+/* Directive tip box styling */
+.directive-tip-box {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+    border: 1px solid #ffc107;
+    border-left: 4px solid #f39c12;
+    border-radius: 6px;
+    padding: 15px;
+    margin: 15px 0 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.directive-tip-box h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #856404;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.directive-tip-box h4 .dashicons {
+    color: #f39c12;
+    font-size: 16px;
+}
+
+.directive-tip-content {
+    color: #856404;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Dynamic directive configuration */
+.directive-conditions {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.directive-conditions h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #495057;
+}
+
+.condition-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+.condition-group label {
+    font-weight: 600;
+    min-width: 100px;
+    margin-bottom: 0;
+}
+
+.condition-group span {
+    color: #666;
+    font-style: italic;
+}
+
+.setting-group {
+    margin-bottom: 20px;
+}
+
+.setting-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.setting-control input {
+    width: 100px;
+    margin-bottom: 5px;
+}
+
+.setting-description {
+    color: #666;
+    font-size: 13px;
+    margin: 0;
+}
+
+.directive-actions {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e1e1e1;
+}
+
+/* Toggle switch styling */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Test modal styling */
+.directive-test-modal {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.directive-test-modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+}
+
+.directive-test-close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.directive-test-score-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.directive-test-score {
+    display: inline-block;
+    padding: 20px;
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: bold;
+    min-width: 80px;
+    min-height: 80px;
+    line-height: 40px;
+}
+
+.directive-test-score.score-high {
+    background-color: #d4edda;
+    color: #155724;
+    border: 3px solid #c3e6cb;
+}
+
+.directive-test-score.score-medium {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 3px solid #ffeaa7;
+}
+
+.directive-test-score.score-low {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 3px solid #f5c6cb;
+}
+
+.directive-test-loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Selected directive row styling - override everything */
+.tradepress-directives-container .directive-row.selected,
+.tradepress-directives-container .directive-row.selected.status-active,
+.tradepress-directives-container .directive-row.selected.status-inactive {
+    background-color: #e8f4f8 !important;
+    border-left: 4px solid #0073aa !important;
+}
+
+.tradepress-directives-container .directive-row.selected td,
+.tradepress-directives-container .directive-row.selected.status-active td,
+.tradepress-directives-container .directive-row.selected.status-inactive td {
+    background-color: transparent !important;
+}
+
+.tradepress-directives-container .widefat .directive-row:hover:not(.selected) {
+    background-color: #f5f5f5 !important;
+}
+
+.tradepress-directives-container .widefat .directive-row.selected:hover,
+.tradepress-directives-container .widefat .directive-row.selected.status-active:hover,
+.tradepress-directives-container .widefat .directive-row.selected.status-inactive:hover {
+    background-color: #e8f4f8 !important;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 1200px) {
+    .tradepress-directives-container .directives-layout {
+        flex-direction: column;
+    }
+    
+    .tradepress-directives-container .directives-table-container {
+        flex: 0 0 100%;
+        margin-bottom: 20px;
+    }
+    
+    .tradepress-directives-container .directive-details-container {
+        flex: 0 0 100%;
+    }
+}

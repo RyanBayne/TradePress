@@ -1,0 +1,149 @@
+/**
+ * TradePress - Development Page: Assets Tab Styles
+ *
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ */
+
+.tradepress-assets-container {
+    margin-top: 20px;
+}
+
+.assets-header {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.overall-status {
+    flex-grow: 1;
+}
+
+.overall-status .dashicons {
+    font-size: 20px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.overall-status.status-success {
+    background-color: #f0f7ff;
+    border-left: 4px solid #0073aa;
+}
+
+.overall-status.status-warning {
+    background-color: #fff8e1;
+    border-left: 4px solid #ffb900;
+}
+
+.overall-status.status-error {
+    background-color: #fbeaea;
+    border-left: 4px solid #dc3232;
+}
+
+.assets-tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.assets-tab {
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #555;
+    border: 1px solid transparent;
+    border-bottom: none;
+    margin-bottom: -1px;
+}
+
+.assets-tab.active {
+    background: #fff;
+    border-color: #ddd;
+    border-bottom-color: #fff;
+}
+
+.assets-tab-content {
+    display: none;
+}
+
+.assets-tab-content.active {
+    display: block;
+}
+
+.assets-issues-container .issues-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    background: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #e5e5e5;
+}
+
+.assets-issues-container .issues-header h4,
+.assets-issues-container .issues-header p {
+    margin: 0;
+}
+
+.summary-stats {
+    display: flex;
+    gap: 20px;
+}
+
+.stat-item.correct {
+    color: #46b450;
+}
+
+.stat-item.issue {
+    color: #dc3232;
+}
+
+.issues-filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.assets-issues-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.assets-issues-table th,
+.assets-issues-table td {
+    padding: 10px;
+    border: 1px solid #e5e5e5;
+    text-align: left;
+    vertical-align: top;
+}
+
+.assets-issues-table th {
+    background: #f5f5f5;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.summary-card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+.summary-card h4 {
+    margin-top: 0;
+}
+
+.status-success {
+    color: #46b450;
+}
+
+.status-error {
+    color: #dc3232;
+}

@@ -1,0 +1,125 @@
+[2025-09-18 13:56:20] User 1 clicked Test button for directive: rsi[2025-09-18 13:59:17] User 1 clicked Test button for directive: rsi[2025-09-19 22:32:47] POST received: Array
+(
+    [toggle_nonce] => 80659a89b2
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives
+    [action] => toggle_directive
+    [directive_id] => rsi_overbought
+    [new_state] => 1
+)
+[2025-09-19 22:33:17] POST received: Array
+(
+    [test_nonce] => 60201a8325
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives&configure=earnings_proximity
+    [action] => test_directive
+    [directive_id] => earnings_proximity
+)
+[2025-09-19 22:33:17] User 1 clicked Test button for directive: earnings_proximity[2025-09-19 22:36:08] POST received: Array
+(
+    [test_nonce] => 60201a8325
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives&configure=earnings_proximity
+    [action] => test_directive
+    [directive_id] => earnings_proximity
+)
+[2025-09-19 22:36:08] User 1 clicked Test button for directive: earnings_proximity[2025-09-19 22:38:09] POST received: Array
+(
+    [test_nonce] => 60201a8325
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives&configure=earnings_proximity
+    [action] => test_directive
+    [directive_id] => earnings_proximity
+)
+[2025-09-19 22:38:09] User 1 clicked Test button for directive: earnings_proximity[2025-09-19 22:38:14] POST received: Array
+(
+    [test_nonce] => 60201a8325
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives&configure=earnings_proximity
+    [action] => test_directive
+    [directive_id] => earnings_proximity
+)
+[2025-09-19 22:38:14] User 1 clicked Test button for directive: earnings_proximity[2025-09-19 22:45:37] POST received: Array
+(
+    [test_nonce] => 60201a8325
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives&configure=earnings_proximity
+    [action] => test_directive
+    [directive_id] => earnings_proximity
+)
+[2025-09-19 22:45:37] User 1 clicked Test button for directive: earnings_proximity[2025-09-22 21:06:38] POST received: Array
+(
+    [test_nonce] => 2f395acff7
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives&configure=rsi
+    [action] => test_directive
+    [directive_id] => rsi
+)
+[2025-09-22 21:06:38] User 1 clicked Test button for directive: rsi[2025-09-22 21:07:14] POST received: Array
+(
+    [test_nonce] => 2f395acff7
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives&configure=rsi
+    [action] => test_directive
+    [directive_id] => rsi
+)
+[2025-09-22 21:07:14] User 1 clicked Test button for directive: rsi[2025-09-22 21:07:49] POST received: Array
+(
+    [test_nonce] => 2f395acff7
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives&configure=rsi
+    [action] => test_directive
+    [directive_id] => rsi
+)
+[2025-09-22 21:07:49] User 1 clicked Test button for directive: rsi[2025-09-23 00:09:28] POST received: Array
+(
+    [test_nonce] => f21490f4d2
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives
+    [action] => test_directive
+    [directive_id] => rsi
+)
+[2025-09-23 00:09:28] User 1 clicked Test button for directive: rsi[2025-09-23 00:10:30] POST received: Array
+(
+    [test_nonce] => f21490f4d2
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives
+    [action] => test_directive
+    [directive_id] => rsi
+)
+[2025-09-23 00:10:30] User 1 clicked Test button for directive: rsi[2025-09-23 00:14:01] POST received: Array
+(
+    [test_nonce] => f21490f4d2
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives
+    [action] => test_directive
+    [directive_id] => rsi
+)
+[2025-09-23 00:14:01] User 1 clicked Test button for directive: rsi[2025-09-23 00:14:10] POST received: Array
+(
+    [test_nonce] => f21490f4d2
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives
+    [action] => test_directive
+    [directive_id] => rsi
+)
+[2025-09-23 00:14:10] User 1 clicked Test button for directive: rsi[2025-09-23 00:16:20] POST received: Array
+(
+    [test_symbol] => HIMS
+    [test_nonce] => f21490f4d2
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives
+    [action] => test_directive
+    [directive_id] => rsi
+)
+[2025-09-23 00:16:20] User 1 clicked Test button for directive: rsi[2025-09-23 00:17:06] POST received: Array
+(
+    [test_symbol] => PYPL
+    [test_nonce] => f21490f4d2
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives
+    [action] => test_directive
+    [directive_id] => rsi
+)
+[2025-09-23 00:17:06] User 1 clicked Test button for directive: rsi[2025-09-23 00:22:14] POST received: Array
+(
+    [test_symbol] => VOO
+    [test_nonce] => f21490f4d2
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives
+    [action] => test_directive
+    [directive_id] => rsi
+)
+[2025-09-23 00:22:14] User 1 clicked Test button for directive: rsi[2025-09-23 00:29:57] POST received: Array
+(
+    [test_symbol] => VIX
+    [test_nonce] => f21490f4d2
+    [_wp_http_referer] => /tradepress/wp-admin/admin.php?page=tradepress_scoring_directives&tab=configure_directives
+    [action] => test_directive
+    [directive_id] => rsi
+)
+[2025-09-23 00:29:57] User 1 clicked Test button for directive: rsi

@@ -1,0 +1,38 @@
+/**
+ * TradePress - Diagnostic Buttons Partial Styles
+ *
+ * @package TradePress/Admin/CSS
+ */
+
+.diagnostic-container {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.diagnostic-section {
+    margin-bottom: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.diagnostic-button-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.diagnostic-button.active {
+    background-color: #2271b1;
+    border-color: #2271b1;
+    color: #fff;
+}
+
+.diagnostic-result-section {
+    padding: 15px;
+    background-color: #f8f8f8;
+    border-left: 4px solid #2271b1;
+}

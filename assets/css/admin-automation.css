@@ -1,0 +1,443 @@
+/* Scoring Directives Styles */
+.scoring-directives-layout {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.directives-table-container {
+    flex: 0 0 55%;
+}
+
+.directive-details-container {
+    flex: 1;
+}
+
+/* Table styling */
+.directives-table-header {
+    margin-bottom: 15px;
+}
+
+.directives-table-header h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.directives-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.directive-row {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.directive-row:hover {
+    background-color: #f6f7f7;
+}
+
+.directive-row.selected {
+    background-color: #f0f6fc;
+}
+
+.column-name {
+    width: 30%;
+}
+
+.column-status, .column-impact, .column-usage {
+    width: 12%;
+    text-align: center;
+}
+
+.column-last-run {
+    width: 15%;
+}
+
+.column-actions {
+    width: 15%;
+    text-align: right;
+}
+
+.directive-name {
+    font-weight: 600;
+}
+
+.directive-description {
+    margin: 5px 0 0;
+    color: #666;
+    font-size: 12px;
+}
+
+.status-badge, .impact-badge, .usage-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-badge.status-active {
+    background-color: #ecf7ed;
+    color: #0c833f;
+}
+
+.status-badge.status-inactive {
+    background-color: #f8f9fa;
+    color: #72777c;
+}
+
+.impact-badge.impact-high {
+    background-color: #fcf0f0;
+    color: #b32d2e;
+}
+
+.impact-badge.impact-medium {
+    background-color: #fcf9e8;
+    color: #bd8600;
+}
+
+.impact-badge.impact-low {
+    background-color: #ecf7ed;
+    color: #0c833f;
+}
+
+.usage-badge.usage-yes {
+    background-color: #e6f5ea;
+    color: #0c833f;
+}
+
+.usage-badge.usage-no {
+    background-color: #f6f7f7;
+    color: #72777c;
+}
+
+.last-run-date {
+    color: #666;
+    font-size: 12px;
+}
+
+/* Details container styling */
+.directive-details-header {
+    margin-bottom: 15px;
+}
+
+.directive-details-header h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+/* Switch styling */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Info box styling */
+.isa-info-box {
+    background-color: #f0f6fc;
+    border: 1px solid #c7d2fe;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.isa-info-box h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #1e40af;
+}
+
+/* Setting groups */
+.directive-settings {
+    margin-top: 20px;
+}
+
+.setting-group {
+    margin-bottom: 20px;
+}
+
+.setting-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.setting-control input {
+    width: 100px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.setting-description {
+    font-size: 12px;
+    color: #666;
+    margin: 5px 0 0;
+}
+
+.directive-actions {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+/* Status Indicators for Background Processes */
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-indicator.status-running .status-dot {
+    background-color: #00a32a;
+    animation: pulse 2s infinite;
+}
+
+.status-indicator.status-stopped .status-dot {
+    background-color: #d63638;
+}
+
+.status-indicator.status-running .status-text {
+    color: #00a32a;
+}
+
+.status-indicator.status-stopped .status-text {
+    color: #d63638;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Process Cards */
+.status-card, .scoring-process-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.runtime-display {
+    margin: 10px 0;
+    font-family: monospace;
+    font-size: 14px;
+}
+
+.runtime-label {
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+/* Data Freshness Grid */
+.data-freshness-grid, .scoring-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.freshness-item, .metric-item {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 4px;
+    border-left: 4px solid #0073aa;
+}
+
+.freshness-label, .metric-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #23282d;
+}
+
+.freshness-value, .metric-value {
+    font-family: monospace;
+    color: #666;
+}
+
+/* Dashboard Components Grid */
+.components-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.component-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.component-card h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #23282d;
+    font-size: 16px;
+}
+
+.component-metrics {
+    margin: 15px 0;
+}
+
+.component-metrics .metric-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.component-metrics .metric-item:last-child {
+    border-bottom: none;
+}
+
+.component-controls {
+    margin-top: 15px;
+    text-align: center;
+}
+
+/* Process Coordination Styles */
+.coordination-card {
+    border-left: 4px solid #0073aa;
+}
+
+.coordination-status {
+    margin-bottom: 15px;
+}
+
+.status-indicator.status-coordinated .status-dot {
+    background-color: #00a32a;
+    animation: pulse 2s infinite;
+}
+
+.status-indicator.status-independent .status-dot {
+    background-color: #ffb900;
+}
+
+.status-indicator.status-coordinated .status-text {
+    color: #00a32a;
+}
+
+.status-indicator.status-independent .status-text {
+    color: #ffb900;
+}
+
+/* Data Freshness Indicators */
+.freshness-good {
+    color: #00a32a;
+    font-weight: 600;
+}
+
+.freshness-ok {
+    color: #ffb900;
+    font-weight: 600;
+}
+
+.freshness-stale {
+    color: #d63638;
+    font-weight: 600;
+}
+
+.freshness-none {
+    color: #666;
+    font-style: italic;
+}
+
+/* Dashboard Controls */
+.dashboard-controls {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.dashboard-controls .button {
+    margin: 0 10px;
+    padding: 8px 20px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 1200px) {
+    .scoring-directives-layout {
+        flex-direction: column;
+    }
+    
+    .directives-table-container {
+        flex: 0 0 100%;
+    }
+    
+    .data-freshness-grid, .scoring-metrics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .components-grid {
+        grid-template-columns: 1fr;
+    }
+}

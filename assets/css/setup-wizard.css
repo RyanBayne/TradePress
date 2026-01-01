@@ -1,0 +1,104 @@
+/* TradePress Setup Wizard Styles */
+.tradepress-symbols-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.tradepress-symbol-card {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    background: #fff;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.tradepress-symbol-card:hover {
+    border-color: #0073aa;
+    box-shadow: 0 2px 8px rgba(0,115,170,0.1);
+}
+
+.tradepress-symbol-card input:checked + .symbol-info .symbol-ticker {
+    color: #0073aa;
+    font-weight: 600;
+}
+
+.symbol-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.symbol-checkbox input {
+    margin: 0;
+}
+
+.symbol-info {
+    flex: 1;
+}
+
+.symbol-ticker {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.symbol-name {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.3;
+}
+
+.symbol-exchange {
+    font-size: 11px;
+    color: #999;
+    background: #f5f5f5;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.symbol-sector {
+    font-size: 12px;
+    color: #0073aa;
+    margin-bottom: 5px;
+}
+
+.symbol-metrics {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.symbol-metrics .metric {
+    font-size: 11px;
+    background: #e8f4f8;
+    color: #0073aa;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.symbol-description {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.tradepress-api-test-section {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.tradepress-dev-section {
+    background: #f0f8ff;
+    padding: 15px;
+    border-left: 4px solid #0073aa;
+    margin-top: 20px;
+}

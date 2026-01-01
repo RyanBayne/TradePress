@@ -1,0 +1,97 @@
+/**
+ * TradePress Dark Theme CSS Variables
+ * 
+ * Dark theme color overrides for TradePress
+ * 
+ * @package TradePress/CSS/Dark
+ * @since 1.0.0
+ * @created 2024-12-21
+ */
+
+.tradepress-dark-theme {
+    /* Dark Theme Colors */
+    --tradepress-color-primary: #4a9eff;
+    --tradepress-color-primary-dark: #2271b1;
+    --tradepress-color-primary-light: #72aee6;
+    
+    --tradepress-color-secondary: #8c8f94;
+    --tradepress-color-secondary-dark: #646970;
+    --tradepress-color-secondary-light: #a7aaad;
+    
+    --tradepress-color-success: #46d369;
+    --tradepress-color-success-dark: #00a32a;
+    --tradepress-color-success-light: #68de7c;
+    
+    --tradepress-color-warning: #f0c33c;
+    --tradepress-color-warning-dark: #dba617;
+    --tradepress-color-warning-light: #ffeb3b;
+    
+    --tradepress-color-error: #ff6b6b;
+    --tradepress-color-error-dark: #d63638;
+    --tradepress-color-error-light: #ff8a80;
+    
+    --tradepress-color-info: #4a9eff;
+    --tradepress-color-info-dark: #2271b1;
+    --tradepress-color-info-light: #a7c7e7;
+    
+    /* Dark Neutral Colors */
+    --tradepress-color-white: #1e1e1e;
+    --tradepress-color-black: #ffffff;
+    
+    --tradepress-color-gray-50: #2d2d2d;
+    --tradepress-color-gray-100: #3a3a3a;
+    --tradepress-color-gray-200: #4a4a4a;
+    --tradepress-color-gray-300: #5a5a5a;
+    --tradepress-color-gray-400: #6a6a6a;
+    --tradepress-color-gray-500: #7a7a7a;
+    --tradepress-color-gray-600: #8a8a8a;
+    --tradepress-color-gray-700: #9a9a9a;
+    --tradepress-color-gray-800: #aaaaaa;
+    --tradepress-color-gray-900: #e0e0e0;
+    
+    /* Dark Status Colors */
+    --tradepress-status-success-bg: #1a3d1a;
+    --tradepress-status-success-border: #2d5a2d;
+    --tradepress-status-success-text: #68de7c;
+    
+    --tradepress-status-warning-bg: #3d3d1a;
+    --tradepress-status-warning-border: #5a5a2d;
+    --tradepress-status-warning-text: #f0c33c;
+    
+    --tradepress-status-error-bg: #3d1a1a;
+    --tradepress-status-error-border: #5a2d2d;
+    --tradepress-status-error-text: #ff6b6b;
+    
+    --tradepress-status-info-bg: #1a2d3d;
+    --tradepress-status-info-border: #2d4a5a;
+    --tradepress-status-info-text: #4a9eff;
+
+    /* Dark Form Controls */
+    --tradepress-input-bg: #2d2d2d;
+    --tradepress-input-border: 1px solid #4a4a4a;
+    --tradepress-input-border-focus: 1px solid #4a9eff;
+    
+    /* Update backward compatibility variables */
+    --tp-color-white: var(--tradepress-color-white);
+    --tp-color-gray-50: var(--tradepress-color-gray-50);
+    --tp-color-gray-300: var(--tradepress-color-gray-300);
+    --color-white: var(--tradepress-color-white);
+    --color-gray-50: var(--tradepress-color-gray-50);
+    --color-gray-300: var(--tradepress-color-gray-300);
+}
+
+/* Dark Theme Color Swatch Classes */
+.tradepress-dark-theme .tradepress-color-primary { background-color: var(--tradepress-color-primary) !important; }
+.tradepress-dark-theme .tradepress-color-primary-dark { background-color: var(--tradepress-color-primary-dark) !important; }
+.tradepress-dark-theme .tradepress-color-primary-light { background-color: var(--tradepress-color-primary-light) !important; }
+
+.tradepress-dark-theme .tradepress-color-success { background-color: var(--tradepress-color-success) !important; }
+.tradepress-dark-theme .tradepress-color-warning { background-color: var(--tradepress-color-warning) !important; }
+.tradepress-dark-theme .tradepress-color-error { background-color: var(--tradepress-color-error) !important; }
+
+.tradepress-dark-theme .tradepress-color-white { background-color: var(--tradepress-color-white) !important; border: 1px solid var(--tradepress-color-gray-300) !important; }
+.tradepress-dark-theme .tradepress-color-gray-100 { background-color: var(--tradepress-color-gray-100) !important; }
+.tradepress-dark-theme .tradepress-color-gray-300 { background-color: var(--tradepress-color-gray-300) !important; }
+.tradepress-dark-theme .tradepress-color-gray-500 { background-color: var(--tradepress-color-gray-500) !important; }
+.tradepress-dark-theme .tradepress-color-gray-700 { background-color: var(--tradepress-color-gray-700) !important; }
+.tradepress-dark-theme .tradepress-color-gray-900 { background-color: var(--tradepress-color-gray-900) !important; }

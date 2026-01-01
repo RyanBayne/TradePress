@@ -1,0 +1,561 @@
+/**
+ * TradePress - Create Strategy Styles
+ *
+ * @package  TradePress/assets/css/pages
+ * @since    1.0.0
+ */
+
+/* Trading area specific adjustments */
+.tradepress-create-strategy-container {
+    margin: 0;
+    padding: 20px 0;
+}
+
+.tradepress-create-strategy-container .wrap {
+    margin: 0;
+}
+
+/* Main container styles */
+.create-strategy-container {
+    margin: 20px 0;
+}
+
+.create-strategy-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.strategy-meta-wrapper {
+    flex: 1;
+    max-width: 800px;
+}
+
+.strategy-name-field,
+.strategy-description-field {
+    margin-bottom: 10px;
+}
+
+.strategy-name-field label,
+.strategy-description-field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.strategy-name-field input {
+    width: 100%;
+    max-width: 500px;
+    padding: 8px;
+}
+
+.strategy-description-field textarea {
+    width: 100%;
+    max-width: 500px;
+    padding: 8px;
+    height: 60px;
+}
+
+/* Two-column layout */
+.strategy-builder-columns {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.column {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    min-height: 500px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.column h3 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.column-description {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+/* Search directives */
+.search-directives {
+    margin-bottom: 15px;
+}
+
+.search-directives input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Directives list */
+.directives-list-wrapper {
+    overflow-y: auto;
+    max-height: 600px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.directive-category {
+    margin-bottom: 1px;
+    background: #f9f9f9;
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background: #f0f0f0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.category-header h4 {
+    margin: 0 10px;
+    flex: 1;
+}
+
+.category-toggle {
+    transition: transform 0.2s;
+}
+
+.category-header.collapsed .category-toggle {
+    transform: rotate(-90deg);
+}
+
+.category-directives {
+    transition: max-height 0.3s ease-out;
+    max-height: 1000px; /* Set a large initial max-height */
+    overflow: hidden;
+}
+
+.category-header.collapsed + .category-directives {
+    max-height: 0;
+}
+
+.directive-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    cursor: grab;
+    transition: background 0.2s;
+}
+
+.directive-item:hover {
+    background: #f9f9f9;
+}
+
+.directive-item:last-child {
+    border-bottom: none;
+}
+
+.directive-handle {
+    cursor: grab;
+    margin-right: 10px;
+    color: #999;
+}
+
+.directive-content {
+    flex: 1;
+}
+
+.directive-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.directive-description {
+    color: #666;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.directive-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.directive-info,
+.add-directive,
+.directive-remove,
+.directive-settings-toggle {
+    cursor: pointer;
+    color: #999;
+    transition: color 0.2s;
+}
+
+.directive-info:hover,
+.add-directive:hover {
+    color: #2271b1;
+}
+
+.directive-remove:hover {
+    color: #d63638;
+}
+
+.directive-settings-toggle:hover {
+    color: #2271b1;
+}
+
+/* Strategy builder */
+.strategy-directives-wrapper {
+    min-height: 300px;
+    border: 1px dashed #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 20px;
+    background: #f9f9f9;
+}
+
+.strategy-directive {
+    display: flex;
+    margin-bottom: 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.directive-drag-handle {
+    padding: 15px 10px;
+    background: #f0f0f0;
+    cursor: grab;
+    color: #666;
+}
+
+.strategy-directive .directive-content {
+    flex: 1;
+    padding: 10px 15px;
+}
+
+.directive-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.directive-title {
+    font-weight: 600;
+}
+
+.directive-weight-badge {
+    background: #2271b1;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    margin-right: 10px;
+}
+
+/* Empty state */
+.empty-strategy-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+}
+
+.empty-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.empty-icon .dashicons {
+    width: 48px;
+    height: 48px;
+    font-size: 48px;
+}
+
+/* Weight indicator */
+.total-weight-indicator {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f0f0f0;
+    border-radius: 4px;
+}
+
+.weight-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.weight-bar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.weight-bar {
+    flex: 1;
+    height: 15px;
+    background: #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.weight-progress {
+    height: 100%;
+    background: #2271b1;
+    transition: width 0.3s;
+}
+
+.weight-value {
+    font-weight: 600;
+    min-width: 40px;
+}
+
+.weight-status {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Weight status indicators */
+.weight-status.warning .weight-message {
+    color: #d63500;
+}
+
+.weight-status.success .weight-message {
+    color: #00a32a;
+}
+
+/* Strategy settings */
+.strategy-settings-wrapper {
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.strategy-settings-toggle {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background: #f0f0f0;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.strategy-settings-toggle .dashicons {
+    margin-right: 8px;
+}
+
+.toggle-indicator {
+    margin-left: auto;
+    transition: transform 0.2s;
+}
+
+.strategy-settings-toggle.collapsed .toggle-indicator {
+    transform: rotate(-90deg);
+}
+
+.strategy-settings-panel {
+    padding: 15px;
+    border-top: 1px solid #eee;
+}
+
+.settings-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.settings-column {
+    flex: 1;
+    min-width: 250px;
+}
+
+.settings-group h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.settings-field {
+    margin-bottom: 15px;
+}
+
+.settings-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.settings-field input[type="number"],
+.settings-field select {
+    width: 100%;
+    max-width: 200px;
+}
+
+.field-description {
+    margin-top: 5px;
+    color: #666;
+    font-size: 12px;
+}
+
+/* Directive settings */
+.directive-settings-panel {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 4px;
+}
+
+.weight-slider-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.directive-weight-slider {
+    flex: 1;
+}
+
+.radio-options {
+    display: flex;
+    gap: 15px;
+}
+
+/* Modal styles */
+.tradepress-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.tradepress-modal-content {
+    position: relative;
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 60%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+.tradepress-modal-header {
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tradepress-modal-header h3 {
+    margin: 0;
+}
+
+.tradepress-close-modal {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tradepress-close-modal:hover,
+.tradepress-close-modal:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.tradepress-modal-body {
+    padding: 15px;
+}
+
+.tradepress-modal-footer {
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    text-align: right;
+}
+
+.directive-details-section {
+    margin-bottom: 15px;
+}
+
+.directive-details-section h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.signal-conditions {
+    display: flex;
+    gap: 20px;
+}
+
+.condition-item {
+    flex: 1;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* Dragging states */
+.ui-sortable-helper {
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.ui-sortable-placeholder {
+    visibility: visible !important;
+    background: #f0f7ff;
+    border: 2px dashed #2271b1;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.directive-item.ui-draggable-dragging {
+    z-index: 1000;
+    width: 300px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 782px) {
+    .strategy-builder-columns {
+        flex-direction: column;
+    }
+    
+    .create-strategy-header {
+        flex-direction: column;
+    }
+    
+    .strategy-actions {
+        margin-top: 15px;
+    }
+    
+    .settings-grid {
+        flex-direction: column;
+    }
+}

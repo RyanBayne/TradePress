@@ -1,0 +1,1199 @@
+/**
+ * TradePress - Form Component Styles
+ * 
+ * Styles for form elements and controls.
+ * 
+ * HTML Structure:
+ * <div class="tp-form-row">
+ *   <label for="example">Label</label>
+ *   <input type="text" id="example" class="tp-input">
+ *   <p class="tp-description">Description text</p>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Form Container */
+.tradepress-form {
+    margin: 0 !important;
+}
+
+/* Form Group */
+.tradepress-form-group {
+    margin-bottom: var(--tp-spacing-lg) !important;
+}
+
+/* Form Inputs */
+.tradepress-input,
+.tradepress-textarea {
+    width: 100% !important;
+    padding: var(--tp-spacing-sm) !important;
+    box-sizing: border-box !important;
+    border: var(--tp-border-standard) !important;
+    border-radius: var(--tp-border-radius) !important;
+}
+
+.tradepress-textarea {
+    min-height: 120px !important;
+}
+
+/* Form Actions */
+.tradepress-form-actions {
+    display: flex !important;
+    gap: var(--tp-spacing-md) !important;
+    margin-top: var(--tp-spacing-md) !important;
+}
+
+/* Buttons */
+.tradepress-button {
+    cursor: pointer !important;
+    padding: var(--tp-spacing-sm) var(--tp-spacing-lg) !important;
+    border: var(--tp-border-standard) !important;
+    border-radius: var(--tp-border-radius) !important;
+    background-color: var(--tp-color-gray-50) !important;
+}
+
+.tradepress-button-primary {
+    background-color: #2271b1 !important;
+    color: var(--tp-color-white) !important;
+    border-color: #2271b1 !important;
+}
+
+/* Form Layouts */
+.tradepress-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: var(--tp-spacing-lg);
+    gap: var(--tp-spacing-xl);
+}
+
+.tradepress-form-row label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: var(--tp-font-weight-semibold);
+}
+
+.tradepress-form-row input[type="text"],
+.tradepress-form-row input[type="number"],
+.tradepress-form-row select,
+.tradepress-input,
+.tradepress-select {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Select elements with specific sizing */
+.tradepress-select {
+    display: block;
+    width: 100%;
+    padding: var(--tp-spacing-sm) var(--tp-spacing-md);
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--tp-color-text);
+    background: var(--tp-color-white);
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23666' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 8px 10px;
+    border: 1px solid var(--tp-color-border);
+    border-radius: var(--tp-border-radius);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.tradepress-select:focus {
+    border-color: var(--tp-color-primary);
+    outline: 0;
+    box-shadow: 0 0 0 2px rgba(var(--tp-color-primary-rgb), 0.25);
+}
+
+.tradepress-select:disabled {
+    background-color: var(--tp-color-bg-secondary);
+    opacity: 1;
+    cursor: not-allowed;
+}
+
+.tradepress-select-small {
+    display: inline-block;
+    width: auto;
+    min-width: 120px;
+    padding: 4px 24px 4px 8px;
+    font-size: 12px;
+    line-height: 1.3;
+    color: var(--tp-color-text);
+    background: var(--tp-color-white);
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23666' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    background-size: 6px 8px;
+    border: 1px solid var(--tp-color-border);
+    border-radius: 3px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.tradepress-select-small:focus {
+    border-color: var(--tp-color-primary);
+    outline: 0;
+    box-shadow: 0 0 0 1px rgba(var(--tp-color-primary-rgb), 0.25);
+}
+
+.tradepress-select-small:disabled {
+    background-color: var(--tp-color-bg-secondary);
+    opacity: 1;
+    cursor: not-allowed;
+}
+
+/* Trading-specific select variations */
+.tradepress-select.trading-timeframe {
+    background-color: var(--tp-color-bg-primary);
+    border-color: var(--tp-color-primary);
+    font-weight: var(--tp-font-weight-medium);
+}
+
+.tradepress-select-small.trading-instrument {
+    background-color: var(--tp-color-bg-secondary);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
+}
+
+.tradepress-form-row .tradepress-description {
+    color: var(--tp-color-gray-600);
+    font-style: italic;
+    font-size: var(--tp-font-size-sm);
+    margin-top: 5px;
+}
+
+/* Discord Settings */
+.tradepress-discord-settings-container {
+    display: flex;
+    gap: 30px;
+    margin-top: var(--tp-spacing-xl);
+}
+
+/* Required Fields */
+span.tradepress-required {
+    color: #dc3232;
+    margin-left: 3px;
+}
+
+/* Auth URL Container */
+.tradepress-auth-url-container {
+    background: #f9f9f9;
+    padding: var(--tp-spacing-md);
+    border-radius: var(--tp-border-radius);
+}
+
+.tradepress-auth-url-box {
+    position: relative;
+    margin-top: 8px;
+}
+
+.tradepress-auth-url-box textarea {
+    height: 60px;
+    font-size: 12px;
+    padding: 8px;
+    resize: none;
+}
+
+.tradepress-copy-auth-url {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+.tradepress-oauth-actions {
+    margin-top: var(--tp-spacing-lg);
+    text-align: center;
+}
+
+.tradepress-oauth-divider {
+    border-top: 1px solid var(--tp-color-gray-200);
+    padding-top: 15px;
+    margin-top: var(--tp-spacing-md);
+}
+
+.tradepress-oauth-divider h4 {
+    margin: 0 0 8px;
+}
+
+/* Legacy class mappings */
+.discord-setup-guide ol { padding-left: 20px; }
+.discord-setup-guide li { margin-bottom: 15px; }
+.discord-setup-guide strong { display: block; margin-bottom: 5px; }
+.discord-setup-guide p { margin: 5px 0 10px; }
+.discord-settings-form .form-table { margin-top: 15px; }
+
+/* Toggle Switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--tp-color-white);
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--tp-color-wp-blue);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--tp-color-wp-blue);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 24px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Trading Mode Toggle */
+.trading-mode-toggle {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.trading-mode-toggle label {
+    position: relative;
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #f0f0f1;
+    border: 1px solid #c3c4c7;
+    border-radius: var(--tp-border-radius);
+    cursor: pointer;
+    transition: var(--tp-transition-standard);
+}
+
+.trading-mode-toggle label input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.trading-mode-toggle label:hover {
+    background-color: #e0e0e1;
+}
+
+.trading-mode-toggle label input[type="radio"]:checked + .trading-mode-label.live {
+    background-color: var(--tp-color-error);
+    color: var(--tp-color-white);
+    border-color: var(--tp-color-error);
+}
+
+.trading-mode-toggle label input[type="radio"]:checked + .trading-mode-label.paper {
+    background-color: var(--tp-color-wp-blue);
+    color: var(--tp-color-white);
+    border-color: var(--tp-color-wp-blue);
+}
+
+.trading-mode-toggle .trading-mode-label {
+    display: inline-block;
+    padding: 2px 5px;
+    border-radius: var(--tp-border-radius-sm);
+}
+
+/* Mini Toggle */
+.trading-mode-toggle-mini {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.trading-mode-toggle-mini .switch {
+    margin-right: 10px;
+}
+
+.trading-mode-toggle-mini .trading-mode-status {
+    font-weight: var(--tp-font-weight-medium);
+    min-width: 100px;
+}
+
+/* Alert Decoder Form */
+.alert-decoder-form {
+    margin: 0 !important;
+}
+
+.alert-decoder-form .form-group {
+    margin-bottom: var(--tp-spacing-lg) !important;
+}
+
+.alert-decoder-form label {
+    display: block !important;
+    margin-bottom: 5px !important;
+    font-weight: var(--tp-font-weight-medium) !important;
+}
+
+.alert-decoder-form textarea {
+    width: 100% !important;
+    min-height: 120px !important;
+    padding: 8px !important;
+    box-sizing: border-box !important;
+    border: var(--tp-border-standard) !important;
+    border-radius: var(--tp-border-radius) !important;
+}
+
+.alert-decoder-form .form-actions {
+    display: flex !important;
+    gap: 10px !important;
+    margin-top: 10px !important;
+}
+
+/* Data Explorer Form */
+.data-explorer-form {
+    margin-top: 15px;
+}
+
+.data-explorer-inputs {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.data-explorer-result {
+    margin-top: 15px;
+    border: 1px solid var(--tp-color-gray-300);
+    background: var(--tp-color-gray-100);
+    padding: 10px;
+}
+
+/* API Response */
+.api-response {
+    background-color: var(--tp-color-gray-50);
+    border: 1px solid var(--tp-color-gray-300);
+    padding: 15px;
+    overflow: auto;
+    max-height: 300px;
+    font-family: monospace;
+    white-space: pre-wrap;
+    font-size: var(--tp-font-size-sm);
+    line-height: 1.5;
+    color: var(--tp-color-gray-900);
+    word-wrap: break-word;
+}
+
+/* Response Data */
+.response-data {
+    max-height: 400px;
+    overflow: auto;
+    background-color: var(--tp-color-gray-50);
+    padding: 10px;
+    border-radius: var(--tp-border-radius);
+    border: 1px solid var(--tp-color-gray-300);
+}
+
+/* GitHub Form Styles */
+.github-form-row {
+    margin-bottom: 15px;
+}
+
+.github-form-row label {
+    display: block;
+    font-weight: var(--tp-font-weight-semibold);
+    margin-bottom: 5px;
+}
+
+.github-form-row input[type="text"],
+.github-form-row select {
+    width: 100%;
+    max-width: 600px;
+}
+
+.github-form-row textarea {
+    width: 100%;
+    min-height: 200px;
+    font-family: monospace;
+}
+
+.github-form-row .required {
+    color: var(--tp-color-error);
+}
+
+.github-form-layout {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.github-form-main {
+    flex: 2;
+}
+
+.github-form-sidebar {
+    flex: 1;
+}
+
+.labels-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.label-checkbox {
+    padding: 3px 10px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.label-checkbox input {
+    margin-right: 5px;
+}
+
+.assignees-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--tp-color-gray-300);
+    padding: 10px;
+}
+
+.assignee-checkbox {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.assignee-checkbox:hover {
+    background: var(--tp-color-gray-50);
+}
+
+.assignee-checkbox input {
+    margin-right: 10px;
+}
+
+.assignee-checkbox img {
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+/* ==========================================================================
+   Volatility Calculator
+   ========================================================================== */
+
+.tradepress-volatility-analysis-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tradepress-research-section {
+    margin-bottom: 25px;
+    background: var(--tp-color-white);
+    padding: 20px;
+    border-radius: var(--tp-border-radius);
+    box-shadow: var(--tp-shadow);
+}
+
+.tradepress-research-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.tradepress-input-group {
+    flex: 1;
+    min-width: 150px;
+}
+
+.tradepress-input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: var(--tp-font-weight-medium);
+}
+
+.tradepress-research-panels {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.tradepress-panel {
+    background: var(--tp-color-white);
+    padding: 20px;
+    border-radius: var(--tp-border-radius);
+    box-shadow: var(--tp-shadow);
+}
+
+.tradepress-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.tradepress-metrics-grid.columns-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.tradepress-interpretation {
+    margin-top: 15px;
+}
+
+.tradepress-interpretation h4 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: var(--tp-color-gray-900);
+}
+
+.tradepress-interpretation p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.tradepress-interpretation ul {
+    margin-left: 20px;
+}
+
+.tradepress-stop-loss-calc {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid var(--tp-color-gray-200);
+}
+
+.tradepress-research-educational {
+    background: var(--tp-color-white);
+    padding: 20px;
+    border-radius: var(--tp-border-radius);
+    box-shadow: var(--tp-shadow);
+}
+
+/* Search and Filter Components */
+.search-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 300px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 8px 35px 8px 12px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #646970;
+    font-size: 16px;
+}
+
+.search-with-clear .search-input {
+    padding-right: 65px;
+}
+
+.search-clear {
+    position: absolute;
+    right: 35px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #646970;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.search-advanced-toggle {
+    position: absolute;
+    right: 35px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #646970;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.search-advanced-panel {
+    margin-top: 10px;
+    padding: 15px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    background: #f6f7f7;
+}
+
+.advanced-filter-row {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-button-group {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.filter-button {
+    padding: 6px 12px;
+    border: 1px solid #dcdcde;
+    background: #f6f7f7;
+    color: #646970;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.filter-button.active {
+    background: #2271b1;
+    color: white;
+    border-color: #2271b1;
+}
+
+.filter-count {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 11px;
+}
+
+.filter-gainers.active {
+    background: #00a32a;
+    border-color: #00a32a;
+}
+
+.filter-losers.active {
+    background: #d63638;
+    border-color: #d63638;
+}
+
+.filter-panel {
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.filter-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: #f6f7f7;
+    border-bottom: 1px solid #dcdcde;
+    cursor: pointer;
+}
+
+.filter-panel-content {
+    padding: 15px;
+}
+
+.filter-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.filter-column {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-field-label {
+    font-weight: 500;
+    color: #3c434a;
+    font-size: 13px;
+}
+
+.filter-range {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-input {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+}
+
+.filter-range-separator {
+    color: #646970;
+}
+
+.filter-select {
+    padding: 6px 10px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    background: white;
+}
+
+.filter-slider {
+    width: 100%;
+}
+
+.filter-slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #646970;
+    margin-top: 5px;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #dcdcde;
+}
+
+.tag-filter-container {
+    max-width: 500px;
+}
+
+.tag-filter-input-wrapper {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.tag-filter-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px 0 0 4px;
+}
+
+.tag-add-button {
+    padding: 8px 12px;
+    border: 1px solid #dcdcde;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    background: #f6f7f7;
+    cursor: pointer;
+}
+
+.active-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.filter-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #2271b1;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+.tag-remove {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    font-size: 12px;
+}
+
+.suggested-tags {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tag-suggestions-label {
+    font-size: 13px;
+    color: #646970;
+    font-weight: 500;
+}
+
+.tag-suggestion {
+    padding: 4px 8px;
+    border: 1px solid #dcdcde;
+    background: #f6f7f7;
+    border-radius: 12px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.tag-suggestion:hover {
+    background: #e0e0e0;
+}
+
+.date-input-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.date-input {
+    padding: 8px 35px 8px 12px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+}
+
+.date-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #646970;
+    pointer-events: none;
+}
+
+.date-range-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.date-range-separator {
+    color: #646970;
+}
+
+.date-preset-buttons {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.date-preset-button {
+    padding: 6px 12px;
+    border: 1px solid #dcdcde;
+    background: #f6f7f7;
+    color: #646970;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.date-preset-button.active {
+    background: #2271b1;
+    color: white;
+    border-color: #2271b1;
+}
+
+.sort-button-group {
+    display: flex;
+    gap: 5px;
+}
+
+.sort-button {
+    padding: 8px 12px;
+    border: 1px solid #dcdcde;
+    background: #f6f7f7;
+    color: #646970;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.sort-button.active {
+    background: #2271b1;
+    color: white;
+    border-color: #2271b1;
+}
+
+.sort-direction {
+    font-size: 12px;
+}
+
+.sort-select {
+    padding: 8px 12px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    background: white;
+    min-width: 200px;
+}
+
+/* ==========================================================================
+   UI Library Form Layout Components
+   ========================================================================== */
+
+/* Horizontal Form Layout */
+.tradepress-form-layout-horizontal {
+    display: flex;
+    flex-direction: column;
+    gap: var(--tp-spacing-lg);
+    background: var(--tp-color-white);
+    border: 2px solid var(--tp-color-border);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tradepress-form-layout-horizontal .tradepress-form-row {
+    display: flex;
+    align-items: center;
+    gap: var(--tp-spacing-md);
+    margin-bottom: 0;
+}
+
+.tradepress-form-layout-horizontal .tradepress-form-label {
+    flex: 0 0 120px;
+    font-weight: 600;
+    color: var(--tp-color-text);
+    margin-bottom: 0;
+    font-size: 14px;
+    text-align: right;
+    padding-right: var(--tp-spacing-sm);
+}
+
+.tradepress-form-layout-horizontal .tradepress-form-input,
+.tradepress-form-layout-horizontal .tradepress-form-select,
+.tradepress-form-layout-horizontal .tradepress-form-textarea {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 16px;
+    border: 2px solid var(--tp-color-border);
+    border-radius: var(--tp-border-radius);
+    font-size: 14px;
+    transition: all 0.2s ease;
+    background: var(--tp-color-white);
+    color: var(--tp-color-text);
+}
+
+.tradepress-form-layout-horizontal .tradepress-form-input:focus,
+.tradepress-form-layout-horizontal .tradepress-form-select:focus,
+.tradepress-form-layout-horizontal .tradepress-form-textarea:focus {
+    outline: none;
+    border-color: var(--tp-color-primary);
+    box-shadow: 0 0 0 3px rgba(var(--tp-color-primary-rgb), 0.1);
+}
+
+.tradepress-form-layout-horizontal .tradepress-form-feedback {
+    flex: 0 0 auto;
+    margin-left: var(--tp-spacing-sm);
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* Inline Form Layout */
+.tradepress-form-layout-inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--tp-spacing-md);
+    background: var(--tp-color-bg-secondary);
+    border: 1px solid var(--tp-color-border-light);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-md);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.tradepress-form-layout-inline .tradepress-form-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+    min-width: 120px;
+    flex: 1;
+}
+
+.tradepress-form-layout-inline .tradepress-form-label {
+    font-weight: 600;
+    color: var(--tp-color-text);
+    margin-bottom: var(--tp-spacing-xs);
+    font-size: 13px;
+    line-height: 1.3;
+}
+
+.tradepress-form-layout-inline .tradepress-form-input,
+.tradepress-form-layout-inline .tradepress-form-select {
+    padding: 10px 12px;
+    border: 1px solid var(--tp-color-border);
+    border-radius: var(--tp-border-radius);
+    font-size: 14px;
+    transition: all 0.2s ease;
+    background: var(--tp-color-white);
+    color: var(--tp-color-text);
+    width: 100%;
+}
+
+.tradepress-form-layout-inline .tradepress-form-input:focus,
+.tradepress-form-layout-inline .tradepress-form-select:focus {
+    outline: none;
+    border-color: var(--tp-color-primary);
+    box-shadow: 0 0 0 2px rgba(var(--tp-color-primary-rgb), 0.1);
+}
+
+.tradepress-form-layout-inline .tradepress-form-actions {
+    display: flex;
+    align-items: flex-end;
+    margin: 0;
+    gap: var(--tp-spacing-sm);
+}
+
+.tradepress-form-layout-inline .tradepress-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--tp-border-radius);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.tradepress-form-layout-inline .tradepress-button-primary {
+    background: var(--tp-color-primary);
+    color: var(--tp-color-white);
+}
+
+.tradepress-form-layout-inline .tradepress-button-primary:hover {
+    background: var(--tp-color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(var(--tp-color-primary-rgb), 0.3);
+}
+
+.tradepress-form-layout-inline .tradepress-button-secondary {
+    background: var(--tp-color-bg-secondary);
+    color: var(--tp-color-text);
+    border: 1px solid var(--tp-color-border);
+}
+
+.tradepress-form-layout-inline .tradepress-button-secondary:hover {
+    background: var(--tp-color-bg-hover);
+    border-color: var(--tp-color-primary);
+}
+
+/* Trading-focused enhancements */
+.tradepress-form-layout-horizontal.trading-form .tradepress-form-input[type="number"] {
+    font-family: 'Courier New', monospace;
+    text-align: right;
+    color: var(--tp-color-primary);
+    font-weight: 600;
+}
+
+.tradepress-form-layout-inline.trading-quick-form {
+    background: linear-gradient(135deg, var(--tp-color-bg-secondary) 0%, rgba(var(--tp-color-primary-rgb), 0.05) 100%);
+    border: 2px solid var(--tp-color-primary);
+    border-radius: 8px;
+}
+
+.tradepress-form-layout-inline.trading-quick-form .tradepress-form-input[type="number"] {
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+    color: var(--tp-color-success);
+    background: rgba(var(--tp-color-success-rgb), 0.05);
+}
+
+.tradepress-form-layout-inline.trading-quick-form .tradepress-form-input[type="number"]:focus {
+    background: var(--tp-color-white);
+    border-color: var(--tp-color-success);
+    box-shadow: 0 0 0 2px rgba(var(--tp-color-success-rgb), 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .tradepress-form-layout-horizontal .tradepress-form-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--tp-spacing-sm);
+    }
+    
+    .tradepress-form-layout-horizontal .tradepress-form-label {
+        flex: none;
+        text-align: left;
+        padding-right: 0;
+        margin-bottom: var(--tp-spacing-xs);
+    }
+    
+    .tradepress-form-layout-inline {
+        flex-direction: column;
+        gap: var(--tp-spacing-sm);
+    }
+    
+    .tradepress-form-layout-inline .tradepress-form-row {
+        min-width: auto;
+        flex: none;
+        width: 100%;
+    }
+    
+    .tradepress-form-layout-inline .tradepress-form-actions {
+        width: 100%;
+        justify-content: stretch;
+    }
+    
+    .tradepress-form-layout-inline .tradepress-button {
+        flex: 1;
+    }
+}
+
+/* Responsive adjustments for filter and search components */
+@media screen and (max-width: 782px) {
+    .filter-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .date-range-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-button-group,
+    .sort-button-group,
+    .date-preset-buttons {
+        flex-direction: column;
+    }
+}

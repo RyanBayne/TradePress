@@ -1,0 +1,1276 @@
+/**
+ * TradePress - Card Component Styles
+ * 
+ * Styles for card UI elements.
+ * 
+ * HTML Structure:
+ * <div class="tp-card">
+ *   <h4 class="tp-card-header">Title</h4>
+ *   <div class="tp-card-body">
+ *     Content goes here
+ *   </div>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Card Container */
+.tradepress-card {
+    background-color: var(--tp-color-gray-100);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    padding: 12px;
+    box-shadow: var(--tp-shadow-sm);
+    margin-bottom: var(--tp-spacing-md);
+}
+
+.tradepress-card-header {
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-md);
+    padding-bottom: var(--tp-spacing-sm);
+    border-bottom: 1px solid var(--tp-color-gray-200);
+    font-size: var(--tp-font-size);
+    font-weight: var(--tp-font-weight-semibold);
+}
+
+.tradepress-card-body {
+    padding: 15px;
+}
+
+.tradepress-card-footer {
+    padding: 10px 15px;
+    border-top: 1px solid var(--tp-color-gray-200);
+    background-color: var(--tp-color-gray-100);
+}
+
+.tradepress-card-row {
+    margin-bottom: var(--tp-spacing-sm);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tradepress-card-span2 {
+    grid-column: span 2;
+}
+
+/* Interactive Card - Used for Shortcode Cards */
+.tradepress-card-interactive {
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.tradepress-card-interactive:hover {
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+/* API Settings Card */
+.tradepress-api-card {
+    background: var(--tp-color-white);
+    border: 1px solid #ccd0d4;
+    box-shadow: var(--tp-shadow);
+    padding: 15px 25px;
+    margin-bottom: var(--tp-spacing-xl);
+    border-radius: var(--tp-border-radius);
+}
+
+.tradepress-api-card h2 {
+    font-size: 1.3em;
+    margin-top: 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--tp-color-gray-200);
+}
+
+.tradepress-api-card .description {
+    color: #666;
+    font-style: italic;
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+/* API Overview Card */
+.tradepress-api-overview {
+    background: var(--tp-color-white);
+    border: 1px solid #ccd0d4;
+    box-shadow: var(--tp-shadow);
+    margin-bottom: var(--tp-spacing-xl);
+    border-radius: var(--tp-border-radius);
+    overflow: hidden;
+}
+
+.tradepress-api-header {
+    padding: var(--tp-spacing-xl);
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--tp-color-gray-200);
+}
+
+.tradepress-api-logo {
+    width: 60px;
+    height: 60px;
+    margin-right: var(--tp-spacing-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tradepress-api-logo img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.tradepress-api-info {
+    flex: 1;
+}
+
+.tradepress-api-info h2 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+}
+
+.tradepress-api-version {
+    font-size: 12px;
+    color: #666;
+    font-weight: normal;
+}
+
+.tradepress-api-description {
+    margin: 0 0 10px 0;
+    color: #555;
+}
+
+/* API Credentials Cards */
+.tradepress-api-credentials-container {
+    display: flex;
+    flex-direction: row;
+    gap: var(--tp-spacing-xl);
+    margin-top: var(--tp-spacing-lg);
+}
+
+.tradepress-api-credentials-column {
+    flex: 1;
+    background-color: var(--tp-color-gray-100);
+    padding: var(--tp-spacing-lg);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+}
+
+.tradepress-api-credentials-column h4 {
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-md);
+    padding-bottom: var(--tp-spacing-xs);
+    border-bottom: var(--tp-border-standard);
+    font-size: 16px;
+    font-weight: bold;
+    color: #23282d;
+}
+
+/* Algorithm Control Cards */
+.tradepress-algorithm-card {
+    border: 1px solid #ccd0d4;
+    padding: var(--tp-spacing-xl);
+    border-radius: var(--tp-border-radius);
+    background: var(--tp-color-white);
+    margin-bottom: var(--tp-spacing-md);
+}
+
+/* Scheduling Cards */
+.tradepress-schedule-card {
+    border: 1px solid #ccd0d4;
+    padding: var(--tp-spacing-xl);
+    border-radius: var(--tp-border-radius);
+    background: var(--tp-color-white);
+    margin-bottom: var(--tp-spacing-md);
+}
+
+.tradepress-schedule-group {
+    margin: var(--tp-spacing-xl) 0;
+    border: 1px solid #eee;
+    padding: var(--tp-spacing-lg);
+    border-radius: var(--tp-border-radius);
+}
+
+/* Legacy classes mapping for backward compatibility */
+.tradepress-api-settings-card { @extend .tradepress-api-card; }
+.api-overview { @extend .tradepress-api-overview; }
+.api-header { @extend .tradepress-api-header; }
+.api-logo { @extend .tradepress-api-logo; }
+.api-info { @extend .tradepress-api-info; }
+.api-credentials-container { @extend .tradepress-api-credentials-container; }
+.api-credentials-column { @extend .tradepress-api-credentials-column; }
+.algorithm-status-card, 
+.algorithm-metrics-card, 
+.algorithm-config-card { @extend .tradepress-algorithm-card; }
+.cron-schedule-card, 
+.next-run-card { @extend .tradepress-schedule-card; }
+.schedule-group { @extend .tradepress-schedule-group; }
+.summary-card, 
+.positions-card { @extend .tradepress-algorithm-card; }
+.shortcode-card { @extend .tradepress-card; @extend .tradepress-card-interactive; }
+
+/* Legacy result card styles from alert-decoder */
+.result-card {
+    background-color: var(--tp-color-gray-100);
+    border: 1px solid var(--tp-color-gray-200);
+    border-radius: var(--tp-border-radius);
+    padding: 12px;
+    box-shadow: var(--tp-shadow-sm);
+}
+
+.result-card h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--tp-color-gray-200);
+    font-size: var(--tp-font-size);
+    font-weight: var(--tp-font-weight-semibold);
+}
+
+.result-row {
+    margin-bottom: 8px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.result-label {
+    font-weight: var(--tp-font-weight-semibold);
+    margin-right: 5px;
+}
+
+.result-card.summary {
+    grid-column: span 2;
+}
+
+/* Metric Cards */
+.tradepress-metric-card {
+    background: var(--tp-color-gray-100);
+    padding: 15px;
+    border-radius: var(--tp-border-radius);
+    box-shadow: var(--tp-shadow-sm);
+    text-align: center;
+}
+
+.tradepress-metric-card h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: var(--tp-font-size);
+    color: var(--tp-color-gray-700);
+}
+
+.tradepress-metric-value {
+    font-size: 24px;
+    font-weight: var(--tp-font-weight-semibold);
+    margin-bottom: 10px;
+    color: var(--tp-color-gray-900);
+}
+
+.tradepress-metric-description {
+    font-size: var(--tp-font-size-sm);
+    color: var(--tp-color-gray-600);
+}
+
+/* Forecast Cards */
+.forecast-cards-wrapper { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 15px; 
+    margin-top: 15px;
+}
+
+.forecast-card {
+    background: var(--tp-color-white);
+    border: 1px solid var(--tp-color-gray-400);
+    box-shadow: var(--tp-shadow);
+    width: calc(33.333% - 15px);
+    min-width: 250px;
+    padding: 15px;
+    box-sizing: border-box;
+    border-radius: var(--tp-border-radius);
+}
+
+.forecast-card h4 {
+    margin-top: 0;
+    border-bottom: 1px solid var(--tp-color-gray-200);
+    padding-bottom: 10px;
+}
+
+.forecast-card-data {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.forecast-card-label {
+    font-weight: bold;
+}
+
+.forecast-card-value {
+    text-align: right;
+}
+
+/* Watchlist Cards */
+.watchlist-card {
+    background-color: var(--tp-color-white);
+    border: 1px solid var(--tp-color-gray-300);
+    border-radius: var(--tp-border-radius);
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: var(--tp-shadow-sm);
+}
+
+.watchlist-card h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--tp-color-gray-200);
+    padding-bottom: 8px;
+}
+
+.watchlist-symbols {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.watchlist-symbols li {
+    padding: 5px 0;
+    border-bottom: 1px solid var(--tp-color-gray-50);
+    display: flex;
+    justify-content: space-between;
+}
+
+.watchlist-symbols li:last-child {
+    border-bottom: none;
+}
+
+.watchlist-symbols .symbol {
+    font-weight: bold;
+    font-family: monospace;
+}
+
+.watchlist-symbols .name {
+    color: var(--tp-color-gray-600);
+    font-size: 0.9em;
+}
+
+.empty-watchlist {
+    font-style: italic;
+    color: var(--tp-color-gray-600);
+}
+
+/* Automation Section Card */
+.tradepress-automation-section {
+    margin-bottom: var(--tp-spacing-xl);
+    padding: var(--tp-spacing-xl);
+    background: var(--tp-color-white);
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+/* Component Card */
+.tradepress-component-card {
+    padding: var(--tp-spacing-lg);
+    background: var(--tp-color-gray-100);
+    border: 1px solid var(--tp-color-gray-200);
+}
+
+.tradepress-component-card h4 {
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-lg);
+    padding-bottom: var(--tp-spacing-md);
+    border-bottom: 1px solid var(--tp-color-gray-200);
+}
+
+.tradepress-component-controls {
+    margin-top: var(--tp-spacing-lg);
+    text-align: center;
+}
+
+/* Components Grid */
+.tradepress-components-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--tp-spacing-xl);
+}
+
+/* Database Summary Card */
+.tradepress-database-summary {
+    margin: var(--tp-spacing-xl) 0;
+    padding: var(--tp-spacing-lg);
+    background-color: var(--tp-color-white);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+}
+
+/* Database Table Card */
+.tradepress-table-card {
+    background: var(--tp-color-white);
+    border: 1px solid #ccd0d4;
+    box-shadow: var(--tp-shadow);
+    border-radius: var(--tp-border-radius);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+
+.tradepress-table-card:hover {
+    box-shadow: 0 3px 8px rgba(0,0,0,.08);
+}
+
+.tradepress-table-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--tp-spacing-lg);
+    border-bottom: 1px solid var(--tp-color-gray-200);
+    background: #f8f8f8;
+}
+
+.tradepress-table-name {
+    margin: 0;
+    font-size: 16px;
+}
+
+.tradepress-table-card-body {
+    padding: var(--tp-spacing-lg);
+}
+
+.tradepress-table-description {
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-lg);
+    color: #666;
+}
+
+.tradepress-table-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 10px 15px;
+    border-top: 1px solid var(--tp-color-gray-200);
+    background: #f8f8f8;
+}
+
+.tradepress-table-action {
+    display: flex;
+    align-items: center;
+}
+
+.tradepress-table-action .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+}
+
+/* Stats Card */
+.tradepress-stat-card {
+    background-color: var(--tp-color-white);
+    border: 1px solid #ccd0d4;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    min-width: 200px;
+    flex: 1;
+}
+
+.tradepress-stat-card h3 {
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-md);
+    font-size: 16px;
+}
+
+/* Process List Item */
+.tradepress-process-list-item {
+    background: var(--tp-color-white);
+    border: 1px solid #e5e5e5;
+    border-radius: var(--tp-border-radius);
+    margin-bottom: var(--tp-spacing-lg);
+    padding: var(--tp-spacing-lg);
+}
+
+.tradepress-process-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--tp-spacing-md);
+}
+
+.tradepress-process-name {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.tradepress-process-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--tp-spacing-md);
+    margin-bottom: var(--tp-spacing-md);
+}
+
+.tradepress-process-description {
+    margin: var(--tp-spacing-md) 0 0 0;
+    padding-top: var(--tp-spacing-md);
+    border-top: 1px solid var(--tp-color-gray-200);
+    color: #666;
+}
+
+.tradepress-process-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: var(--tp-spacing-md);
+}
+
+/* Discord Setup Cards */
+.tradepress-discord-card {
+    background: var(--tp-color-white);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-xl);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.tradepress-discord-card h3 {
+    margin-top: 0;
+    padding-bottom: var(--tp-spacing-md);
+    border-bottom: 1px solid var(--tp-color-gray-200);
+}
+
+/* Bot Info Card */
+.tradepress-bot-info {
+    display: flex;
+    align-items: center;
+    background: var(--tp-color-white);
+    padding: var(--tp-spacing-md);
+    border-radius: var(--tp-border-radius);
+    margin-top: var(--tp-spacing-md);
+}
+
+.tradepress-bot-avatar-container {
+    width: 50px;
+    height: 50px;
+    margin-right: var(--tp-spacing-lg);
+}
+
+.tradepress-bot-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.tradepress-bot-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #646970;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--tp-color-white);
+}
+
+.tradepress-bot-name {
+    font-weight: var(--tp-font-weight-semibold);
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.tradepress-bot-id {
+    font-size: 12px;
+    color: #646970;
+}
+
+/* Demo Indicator Card */
+.tradepress-demo-indicator {
+    display: flex;
+    align-items: center;
+    background-color: #f0f7ff;
+    border-left: 4px solid #0073aa;
+    padding: 12px 15px;
+    margin-bottom: var(--tp-spacing-xl);
+    position: relative;
+}
+
+.tradepress-demo-icon {
+    font-size: 24px;
+    margin-right: var(--tp-spacing-lg);
+    color: #0073aa;
+}
+
+.tradepress-demo-text h4 {
+    margin: 0 0 5px 0;
+    color: #23282d;
+}
+
+.tradepress-demo-text p {
+    margin: 0;
+    color: #666;
+    font-size: 13px;
+}
+
+/* Card-style View */
+.tradepress-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--tp-spacing-xl);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.tradepress-featured-card {
+    background: var(--tp-color-white);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    padding: var(--tp-spacing-lg);
+    border: 1px solid #e0e0e0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tradepress-featured-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tradepress-featured-card h4 {
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-md);
+    font-size: 18px;
+}
+
+.tradepress-featured-card p {
+    margin-bottom: var(--tp-spacing-sm);
+    color: #666;
+}
+
+.tradepress-featured-card.tradepress-score-high {
+    border-left: 4px solid #46b450;
+}
+
+.tradepress-featured-card.tradepress-score-medium {
+    border-left: 4px solid #ffb900;
+}
+
+.tradepress-featured-card.tradepress-score-low {
+    border-left: 4px solid #dc3232;
+}
+
+/* Message Card */
+.tradepress-message-card {
+    padding: var(--tp-spacing-xl);
+    background: var(--tp-color-gray-100);
+    border: 1px solid var(--tp-color-gray-200);
+    border-radius: var(--tp-border-radius);
+    text-align: center;
+}
+
+/* Research Cards */
+.tradepress-research-card {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.tradepress-research-card h3 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.tradepress-research-card .tradepress-card-description {
+    padding: 10px;
+    background: #f9f9f9;
+    border-left: 4px solid #2271b1;
+    margin-top: 10px;
+}
+
+.tradepress-metrics-card {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Research Controls Card */
+.tradepress-research-controls {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+}
+
+.tradepress-chart-container {
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.tradepress-indicator-card {
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+.tradepress-indicator-card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 16px;
+}
+
+.tradepress-chart-wrapper {
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.tradepress-chart-wrapper h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* Stock Alert Cards */
+.tradepress-alert-card {
+    background: var(--tp-color-white);
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tradepress-alert-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Alert card types */
+.tradepress-alert-card.trade-alert {
+    border-top: 4px solid #e74c3c;
+}
+
+.tradepress-alert-card.watchlist {
+    border-top: 4px solid #3498db;
+}
+
+.tradepress-alert-card.update {
+    border-top: 4px solid #f39c12;
+}
+
+.tradepress-alert-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #f9f9f9;
+}
+
+.tradepress-alert-ticker {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.tradepress-alert-type {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.tradepress-alert-type.trade-alert {
+    background-color: #e74c3c;
+}
+
+.tradepress-alert-type.watchlist {
+    background-color: #3498db;
+}
+
+.tradepress-alert-type.update {
+    background-color: #f39c12;
+}
+
+.tradepress-company-name {
+    padding: 0 15px;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+}
+
+.tradepress-alert-details {
+    padding: 15px;
+}
+
+.tradepress-detail-row {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.tradepress-detail-label {
+    flex: 0 0 100px;
+    font-weight: 500;
+    color: #555;
+}
+
+.tradepress-detail-value {
+    flex: 1;
+}
+
+.tradepress-detail-value.price {
+    font-weight: 700;
+    color: #2ecc71;
+}
+
+.tradepress-alert-card-footer {
+    padding: 10px 15px;
+    background: #f9f9f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #eee;
+}
+
+.tradepress-timestamp {
+    font-size: 12px;
+    color: #777;
+}
+
+.tradepress-view-details-link {
+    font-size: 13px;
+    text-decoration: none;
+}
+
+/* Statistics Cards */
+.tradepress-stat-card {
+    background: var(--tp-color-white);
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+.tradepress-stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #0073aa;
+}
+
+.tradepress-stat-label {
+    color: #555;
+    font-size: 14px;
+}
+
+/* Chart Box */
+.tradepress-chart-box {
+    background: var(--tp-color-white);
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.tradepress-chart-box h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.tradepress-chart-placeholder {
+    background: #f5f5f5;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.tradepress-placeholder-text {
+    color: #777;
+    font-style: italic;
+}
+
+/* Calculator Results Card */
+.tradepress-calculator-results {
+    margin-top: var(--tp-spacing-xxl);
+    padding: var(--tp-spacing-xl);
+    background: #f9f9f9;
+    border: 1px solid var(--tp-color-gray-300);
+    border-radius: var(--tp-border-radius);
+}
+
+.tradepress-result-item {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--tp-spacing-md);
+    background: var(--tp-color-white);
+    border-radius: var(--tp-border-radius);
+    border-left: 4px solid #2271b1;
+}
+
+.tradepress-result-value {
+    font-weight: var(--tp-font-weight-semibold);
+}
+
+/* Task Card Styles */
+.tradepress-task-card {
+    background: var(--tp-color-white);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.tradepress-task-card-header {
+    background: var(--tp-color-gray-50);
+    padding: var(--tp-spacing-lg);
+    border-bottom: var(--tp-border-standard);
+}
+
+.tradepress-task-title {
+    margin: 0 0 var(--tp-spacing-md) 0;
+    font-size: 18px;
+    color: #23282d;
+}
+
+.tradepress-task-card-body {
+    padding: var(--tp-spacing-lg);
+}
+
+.tradepress-task-card-footer {
+    background: #f9f9f9;
+    padding: var(--tp-spacing-lg);
+    border-top: var(--tp-border-standard);
+}
+
+.tradepress-section-card {
+    background: var(--tp-color-white);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.tradepress-empty-state-card {
+    background: #f9f9f9;
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    text-align: center;
+    color: #555;
+}
+
+/* Legacy class mappings for backward compatibility */
+.automation-section { @extend .tradepress-automation-section; }
+.component-card { @extend .tradepress-component-card; }
+.component-controls { @extend .tradepress-component-controls; }
+.components-grid { @extend .tradepress-components-grid; }
+.tradepress-database-summary { @extend .tradepress-database-summary; }
+.table-card { @extend .tradepress-table-card; }
+.table-card-header { @extend .tradepress-table-card-header; }
+.table-name { @extend .tradepress-table-name; }
+.table-card-body { @extend .tradepress-table-card-body; }
+.table-description { @extend .tradepress-table-description; }
+.table-card-footer { @extend .tradepress-table-card-footer; }
+.table-action { @extend .tradepress-table-action; }
+.stat-card { @extend .tradepress-stat-card; }
+.process-list-item { @extend .tradepress-process-list-item; }
+.process-header { @extend .tradepress-process-header; }
+.process-name { @extend .tradepress-process-name; }
+.process-details { @extend .tradepress-process-details; }
+.process-description { @extend .tradepress-process-description; }
+.process-actions { @extend .tradepress-process-actions; }
+.discord-setup-guide { @extend .tradepress-discord-card; }
+.discord-settings-form { @extend .tradepress-discord-card; }
+.discord-third-container { @extend .tradepress-discord-card; }
+.discord-fourth-container { @extend .tradepress-discord-card; }
+.bot-info { @extend .tradepress-bot-info; }
+.bot-avatar-container { @extend .tradepress-bot-avatar-container; }
+.bot-avatar { @extend .tradepress-bot-avatar; }
+.bot-avatar-placeholder { @extend .tradepress-bot-avatar-placeholder; }
+.bot-name { @extend .tradepress-bot-name; }
+.bot-id { @extend .tradepress-bot-id; }
+.demo-indicator { @extend .tradepress-demo-indicator; }
+.demo-icon { @extend .tradepress-demo-icon; }
+.demo-text { @extend .tradepress-demo-text; }
+.earnings-cards-view { @extend .tradepress-card-grid; }
+.earnings-card { @extend .tradepress-featured-card; }
+.no-earnings-message { @extend .tradepress-message-card; }
+.company-overview { @extend .tradepress-research-card; }
+.metrics-card { @extend .tradepress-metrics-card; }
+.price-forecast-controls, .technical-analysis-controls, .fundamental-analysis-controls { @extend .tradepress-research-controls; }
+.chart-container { @extend .tradepress-chart-container; }
+.indicator-card { @extend .tradepress-indicator-card; }
+.chart-wrapper { @extend .tradepress-chart-wrapper; }
+.company-description { @extend .tradepress-card-description; }
+.stock-alert-card { @extend .tradepress-alert-card; }
+.card-header { @extend .tradepress-alert-card-header; }
+.ticker { @extend .tradepress-alert-ticker; }
+.alert-type { @extend .tradepress-alert-type; }
+.company-name { @extend .tradepress-company-name; }
+.alert-details { @extend .tradepress-alert-details; }
+.detail-row { @extend .tradepress-detail-row; }
+.detail-label { @extend .tradepress-detail-label; }
+.detail-value { @extend .tradepress-detail-value; }
+.card-footer { @extend .tradepress-alert-card-footer; }
+.timestamp { @extend .tradepress-timestamp; }
+.view-details-link { @extend .tradepress-view-details-link; }
+.stat-value { @extend .tradepress-stat-value; }
+.stat-label { @extend .tradepress-stat-label; }
+.chart-box { @extend .tradepress-chart-box; }
+.chart-placeholder { @extend .tradepress-chart-placeholder; }
+.placeholder-text { @extend .tradepress-placeholder-text; }
+.calculator-results { @extend .tradepress-calculator-results; }
+.result-item { @extend .tradepress-result-item; }
+.result-value { @extend .tradepress-result-value; }
+.task-details-card { @extend .tradepress-task-card; }
+.task-details-header { @extend .tradepress-task-card-header; }
+.task-title { @extend .tradepress-task-title; }
+.task-details-body { @extend .tradepress-task-card-body; }
+.task-details-footer { @extend .tradepress-task-card-footer; }
+.task-notes-section, .recent-tasks-section { @extend .tradepress-section-card; }
+.no-current-task { @extend .tradepress-empty-state-card; }
+/* API Status Column Styles */
+.api-status-column {
+    flex: 1;
+    min-width: 300px;
+}
+
+.status-box {
+    background: var(--tp-color-white);
+    border: 1px solid #ccd0d4;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    margin-bottom: var(--tp-spacing-lg);
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.status-box h3 {
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-lg);
+    padding-bottom: var(--tp-spacing-md);
+    border-bottom: 1px solid var(--tp-color-gray-200);
+    font-size: 16px;
+    font-weight: var(--tp-font-weight-semibold);
+}
+
+.status-box h4 {
+    margin-top: var(--tp-spacing-lg);
+    margin-bottom: var(--tp-spacing-md);
+    font-size: 14px;
+    font-weight: var(--tp-font-weight-semibold);
+    color: #23282d;
+}
+
+.status-box h5 {
+    margin-top: var(--tp-spacing-md);
+    margin-bottom: var(--tp-spacing-xs);
+    font-size: 13px;
+    font-weight: var(--tp-font-weight-medium);
+    color: #50575e;
+}
+
+.api-type-indicator {
+    display: flex;
+    align-items: flex-start;
+    padding: var(--tp-spacing-md);
+    background: #f0f7ff;
+    border-left: 4px solid #0073aa;
+    border-radius: var(--tp-border-radius);
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+.api-type-indicator .dashicons {
+    margin-right: var(--tp-spacing-md);
+    color: #0073aa;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+}
+
+.api-type-text strong {
+    display: block;
+    margin-bottom: var(--tp-spacing-xs);
+    color: #23282d;
+}
+
+.api-type-text p {
+    margin: 0;
+    color: #666;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.api-features ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.api-features li {
+    display: flex;
+    align-items: center;
+    padding: var(--tp-spacing-xs) 0;
+    border-bottom: 1px solid var(--tp-color-gray-100);
+}
+
+.api-features li:last-child {
+    border-bottom: none;
+}
+
+.api-features .dashicons {
+    margin-right: var(--tp-spacing-sm);
+    color: #46b450;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.test-credentials-buttons {
+    margin-top: var(--tp-spacing-lg);
+    text-align: center;
+}
+
+.test-credentials-buttons .button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tp-spacing-xs);
+}
+
+.test-credentials-buttons .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+/* Additional styles for tables and stats */
+.tradepress-decoded-data-card .decoded-data-details dd:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Table Card Styles (from admin-database.css) */
+.tables-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.table-card {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+
+.table-card:hover {
+    box-shadow: 0 3px 8px rgba(0,0,0,.08);
+}
+
+.table-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    background: #f8f8f8;
+}
+
+.table-name {
+    margin: 0;
+    font-size: 16px;
+}
+
+.table-card-body {
+    padding: 15px;
+}
+
+.table-description {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #666;
+}
+
+.table-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px 10px;
+}
+
+.table-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 10px 15px;
+    border-top: 1px solid #eee;
+    background: #f8f8f8;
+}
+
+.table-action {
+    display: flex;
+    align-items: center;
+}
+
+.table-action .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+}
+
+/* Stats Card Styles (from admin-database.css) */
+.tradepress-stats-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background-color: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 15px;
+    min-width: 200px;
+    flex: 1;
+}
+
+.stat-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.stat-numbers {
+    display: flex;
+    justify-content: space-between;
+}
+
+.stat-item .stat-value {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.stat-item .stat-label {
+    font-size: 12px;
+    color: #666;
+}
+
+.stat-item.success .stat-value {
+    color: #46b450;
+}
+
+.stat-item.error .stat-value {
+    color: #dc3232;
+}
+
+@media screen and (max-width: 782px) {
+    .stat-card {
+        min-width: 100%;
+    }
+}

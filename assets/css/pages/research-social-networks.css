@@ -1,0 +1,175 @@
+/**
+ * TradePress - Research Social Networks Styles
+ *
+ * @package  TradePress/assets/css/pages
+ * @since    1.0.0
+ */
+
+/* Social Networks Container */
+.social-networks-container {
+    margin: 20px 0;
+}
+
+.social-networks-container h3 {
+    margin-bottom: 10px;
+    color: #23282d;
+}
+
+.social-networks-container p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Sub-navigation */
+.social-networks-container .subsubsub {
+    margin-bottom: 20px;
+}
+
+.social-networks-container .subsubsub ul {
+    margin: 0;
+    padding: 0;
+}
+
+.social-networks-container .subsubsub li {
+    display: inline;
+    margin: 0;
+}
+
+.social-networks-container .subsubsub a {
+    text-decoration: none;
+    padding: 5px 10px;
+}
+
+.social-networks-container .subsubsub a.current {
+    font-weight: bold;
+    color: #000;
+}
+
+/* Platform Cards Grid */
+.platform-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.platform-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.2s ease;
+}
+
+.platform-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.platform-card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #23282d;
+    font-size: 18px;
+}
+
+/* Platform Status */
+.platform-status {
+    margin: 10px 0;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.platform-status.enabled {
+    color: #46b450;
+}
+
+.platform-status.disabled {
+    color: #dc3232;
+}
+
+.status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.platform-status.enabled .status-indicator {
+    background-color: #46b450;
+}
+
+.platform-status.disabled .status-indicator {
+    background-color: #dc3232;
+}
+
+/* Platform Description */
+.platform-description {
+    color: #666;
+    font-style: italic;
+    margin: 10px 0 15px 0;
+    line-height: 1.4;
+}
+
+/* API Status */
+.platform-api-status {
+    margin: 15px 0;
+}
+
+.api-configured {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.api-not-configured {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Platform Specific Settings */
+.platform-specific-settings {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.platform-specific-settings h3 {
+    margin-top: 0;
+    color: #23282d;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Form Styling */
+.social-networks-content .form-table th {
+    width: 200px;
+    padding: 15px 10px 15px 0;
+}
+
+.social-networks-content .form-table td {
+    padding: 15px 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .platform-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .social-networks-container .subsubsub li {
+        display: block;
+        margin-bottom: 5px;
+    }
+}

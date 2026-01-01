@@ -1,0 +1,52 @@
+/**
+ * TradePress - StockTwits Social Platform Styles
+ *
+ * @package  TradePress/assets/css/pages
+ * @since    1.0.0
+ */
+
+.stocktwits-connection-settings,
+.stocktwits-sentiment-settings,
+.stocktwits-display-settings,
+.stocktwits-testing {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.stocktwits-testing .test-buttons {
+    margin: 15px 0;
+}
+
+.stocktwits-testing .test-buttons .button {
+    margin-right: 10px;
+}
+
+.stocktwits-testing .test-results {
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.stocktwits-testing .test-output {
+    background: #2c3338;
+    color: #eee;
+    padding: 10px;
+    border-radius: 3px;
+    max-height: 300px;
+    overflow: auto;
+}
+
+.slider-value {
+    display: inline-block;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+input[type="range"] {
+    vertical-align: middle;
+}

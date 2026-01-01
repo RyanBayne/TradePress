@@ -1,0 +1,48 @@
+/**
+ * TradePress - Discord API Tab Styles
+ *
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ * @created 2024-12-21
+ */
+
+/* Hide trading-specific UI elements */
+.api-tab[data-api="discord"] .trading-mode-button-form,
+.api-tab-content.discord-tab .trading-mode-button-form,
+.api-tab[data-api="discord"] .trading-toggle-container,
+.api-tab-content.discord-tab .trading-toggle-container,
+.api-tab[data-api="discord"] tr:has(label[for="inline_TradePress_switch_discord_api_premium"]),
+.api-tab-content.discord-tab tr:has(label[for="inline_TradePress_switch_discord_api_premium"]) {
+    display: none !important;
+}
+
+/* Fallback for browsers that don't support :has() selector */
+.api-tab[data-api="discord"] label[for="inline_TradePress_switch_discord_api_premium"],
+.api-tab-content.discord-tab label[for="inline_TradePress_switch_discord_api_premium"],
+.api-tab[data-api="discord"] #inline_TradePress_switch_discord_api_premium,
+.api-tab-content.discord-tab #inline_TradePress_switch_discord_api_premium,
+.api-tab[data-api="discord"] label[for="inline_TradePress_switch_discord_api_premium"] + fieldset,
+.api-tab-content.discord-tab label[for="inline_TradePress_switch_discord_api_premium"] + fieldset {
+    display: none !important;
+}
+
+/* Customize API credentials container for Discord */
+.api-tab[data-api="discord"] .api-credentials-container,
+.api-tab-content.discord-tab .api-credentials-container {
+    display: flex;
+    flex-direction: column !important;
+}
+
+.api-tab[data-api="discord"] .api-credentials-container .api-credentials-column,
+.api-tab-content.discord-tab .api-credentials-container .api-credentials-column {
+    flex: 1;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.api-tab[data-api="discord"] .api-credentials-container .api-credentials-column h4,
+.api-tab-content.discord-tab .api-credentials-container .api-credentials-column h4 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}

@@ -1,0 +1,112 @@
+/*
+ * Temporary CSS file for TradePress
+    * @package TradePress/CSS
+    * @since 1.0.0
+    * This file is not intended for production use.
+    * It is a temporary file for testing and styles should be moved to other .css files. 
+ */
+
+ 
+        .feature-section-header {
+            margin: 20px 0 10px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-left: 4px solid #2271b1;
+        }
+        .completion-stats {
+            display: flex;
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .stat-box {
+            flex: 1;
+            text-align: center;
+            padding: 0 15px;
+            border-right: 1px solid #eee;
+        }
+        .stat-box:last-child {
+            border-right: none;
+        }
+        .stat-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .feature-status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status-live {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-demo {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .tradepress-accordion-container {
+            margin-top: 20px;
+        }
+        .tradepress-accordion-controls {
+            margin-bottom: 15px;
+        }
+        .tradepress-accordion-item {
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .tradepress-accordion-header {
+            padding: 10px 15px;
+            background: #f5f5f5;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .tradepress-accordion-title {
+            margin: 0;
+            font-size: 16px;
+        }
+        .tradepress-accordion-content {
+            padding: 15px;
+            display: none;
+            background: #fff;
+        }
+        .feature-status-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .feature-status-table th, 
+        .feature-status-table td {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .feature-status-table th {
+            background: #f5f5f5;
+        }
+        .feature-tab-header {
+            background: #f9f9f9;
+        }
+        .feature-tab-link {
+            margin-left: 5px;
+            text-decoration: none;
+        }
+        .tab-status {
+            margin-left: 10px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .page-stats-row {
+            background: #f5f5f5;
+        }

@@ -1,0 +1,97 @@
+/**
+ * TradePress Scoring Strategies Styles
+ *
+ * @package TradePress/Admin/CSS
+ * @version 1.0.0
+ */
+
+.strategies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--tp-spacing-lg);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.strategy-card {
+    background: var(--tp-color-white);
+    border: 1px solid #dcdcde;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    box-shadow: var(--tp-shadow);
+}
+
+.strategy-card h4 {
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-sm);
+    color: var(--tp-color-primary);
+}
+
+.strategy-directives {
+    margin: var(--tp-spacing-lg) 0;
+}
+
+.strategy-directives h5 {
+    margin-bottom: var(--tp-spacing-sm);
+    font-weight: 600;
+}
+
+.strategy-directives ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.strategy-directives li {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--tp-spacing-xs) 0;
+    border-bottom: 1px solid #f0f0f1;
+}
+
+.strategy-directives li:last-child {
+    border-bottom: none;
+}
+
+.directive-weight {
+    font-weight: 600;
+    color: var(--tp-color-primary);
+}
+
+.strategy-actions {
+    display: flex;
+    gap: var(--tp-spacing-sm);
+}
+
+.create-strategy-section {
+    background: var(--tp-color-white);
+    border: 1px solid #dcdcde;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-xl);
+    margin-top: var(--tp-spacing-xl);
+}
+
+.directives-selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--tp-spacing-md);
+    margin-top: var(--tp-spacing-sm);
+}
+
+.directive-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--tp-spacing-sm);
+    background: #f6f7f7;
+    border-radius: var(--tp-border-radius);
+}
+
+.directive-weight.small-text {
+    width: 60px;
+}
+
+.form-actions {
+    display: flex;
+    gap: var(--tp-spacing-md);
+    margin-top: var(--tp-spacing-lg);
+}

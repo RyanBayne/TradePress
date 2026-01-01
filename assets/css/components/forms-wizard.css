@@ -1,0 +1,373 @@
+/**
+ * TradePress - Form Wizard Component Styles
+ * 
+ * Extended form styles for wizards and setup screens.
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Wizard Form Tables */
+.tradepress-form-table {
+    width: 100%;
+}
+
+.tradepress-form-table th {
+    width: 35%;
+    vertical-align: top;
+    font-weight: normal;
+}
+
+.tradepress-form-table td {
+    vertical-align: top;
+}
+
+.tradepress-form-table td select,
+.tradepress-form-table td input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.tradepress-form-table td input[size] {
+    width: auto;
+}
+
+.tradepress-form-table td .description {
+    line-height: 1.5em;
+    display: block;
+    margin-top: .25em;
+    color: #999;
+    font-style: italic;
+}
+
+.tradepress-form-table td .tradepress-input-checkbox,
+.tradepress-form-table td .tradepress-input-radio {
+    width: auto;
+    box-sizing: inherit;
+    padding: inherit;
+    margin: 0 .5em 0 0;
+    box-shadow: none;
+}
+
+.tradepress-form-table .section-title td {
+    padding: 0;
+}
+
+.tradepress-form-table .section-title h2,
+.tradepress-form-table .section-title p {
+    margin: 12px 0 0;
+}
+
+.tradepress-form-table th,
+.tradepress-form-table td {
+    padding: 12px 0;
+    margin: 0;
+    border: 0;
+}
+
+.tradepress-form-table th:first-child,
+.tradepress-form-table td:first-child {
+    padding-right: 1em;
+}
+
+/* Extension Table in Wizard */
+.tradepress-wizard-extensions {
+    width: 100%;
+    border-top: 1px solid #eee;
+}
+
+.tradepress-wizard-extensions thead th {
+    display: none;
+}
+
+.tradepress-wizard-extensions .page-name {
+    width: 30%;
+    font-weight: bold;
+}
+
+.tradepress-wizard-extensions th,
+.tradepress-wizard-extensions td {
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.tradepress-wizard-extensions th:first-child,
+.tradepress-wizard-extensions td:first-child {
+    padding-right: 9px;
+}
+
+.tradepress-wizard-extensions th {
+    padding-top: 0;
+}
+
+.tradepress-wizard-extensions .page-options p {
+    color: #777;
+    margin: 6px 0 0 24px;
+    line-height: 1.75em;
+}
+
+.tradepress-wizard-extensions .page-options p input {
+    vertical-align: middle;
+    margin: 1px 0 0 0;
+    height: 1.75em;
+    width: 1.75em;
+    line-height: 1.75em;
+}
+
+.tradepress-wizard-extensions .page-options p label {
+    line-height: 1;
+}
+
+/* Tax Rates Table */
+.tradepress-tax-rates {
+    width: 100%;
+    font-size: .92em;
+}
+
+.tradepress-tax-rates th {
+    padding: 0;
+    text-align: center;
+    width: auto;
+    vertical-align: middle;
+}
+
+.tradepress-tax-rates td {
+    border: 1px solid #f5f5f5;
+    padding: 6px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.tradepress-tax-rates td input {
+    outline: 0;
+    border: 0;
+    padding: 0;
+    box-shadow: none;
+    text-align: center;
+    width: 100%;
+}
+
+.tradepress-tax-rates td.sort {
+    cursor: move;
+    color: #ccc;
+}
+
+.tradepress-tax-rates td.sort:before {
+    content: "\f333";
+    font-family: 'dashicons';
+}
+
+.tradepress-tax-rates td.readonly {
+    background: #f5f5f5;
+}
+
+.tradepress-tax-rates .add {
+    padding: 1em 0 0 1em;
+    line-height: 1em;
+    font-size: 1em;
+    width: 0;
+    margin: 6px 0 0;
+    height: 0;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+}
+
+.tradepress-tax-rates .add:before {
+    content: "\f502";
+    font-family: 'dashicons';
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.tradepress-tax-rates .remove {
+    padding: 1em 0 0 1em;
+    line-height: 1em;
+    font-size: 1em;
+    width: 0;
+    margin: 0;
+    height: 0;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+}
+
+.tradepress-tax-rates .remove:before {
+    content: "\f182";
+    font-family: 'dashicons';
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* Wizard Plugin Extensions List */
+.tradepress-wizard-plugin-extensions {
+    border: 1px solid #eee;
+    border-bottom-width: 2px;
+    padding: 0;
+    margin: 0 0 1em;
+    list-style: none outside;
+    border-radius: 4px;
+}
+
+.tradepress-wizard-extension {
+    padding: 1.5em 1em 1em 4em;
+    border-top: 1px solid #eee;
+    list-style: none outside;
+    cursor: pointer;
+    color: #555;
+    box-sizing: border-box;
+    clear: both;
+}
+
+.tradepress-wizard-extension:first-child {
+    border-top: 0;
+}
+
+.tradepress-wizard-extension.featured {
+    width: 50%;
+    float: left;
+    clear: none;
+    border-right: 1px solid #eee;
+    border-top: 0;
+}
+
+.tradepress-wizard-extension.featured-row-last {
+    border-right: 0;
+}
+
+.tradepress-wizard-extension .tradepress-wizard-extension-settings {
+    display: none;
+    margin-bottom: 0;
+    cursor: default;
+}
+
+.tradepress-wizard-extension.checked {
+    background: #C6FFC6;
+}
+
+.tradepress-wizard-extension.checked .tradepress-wizard-extension-settings {
+    display: table;
+}
+
+.tradepress-wizard-extension .tradepress-wizard-extension-description {
+    font-style: italic;
+}
+
+.tradepress-wizard-extension .tradepress-wizard-extension-description p {
+    margin: 0 0 .5em;
+}
+
+.tradepress-wizard-extension .tradepress-wizard-extension-enable {
+    margin: 0 0 .5em;
+}
+
+.tradepress-wizard-extension .tradepress-wizard-extension-enable label {
+    display: block;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.tradepress-wizard-extension .tradepress-wizard-extension-enable label img {
+    max-height: 2em;
+    vertical-align: middle;
+}
+
+.tradepress-wizard-extension .tradepress-wizard-extension-enable label:before {
+    content: '';
+    background: #fff;
+    border: 2px solid #eee;
+    display: inline-block;
+    float: left;
+    vertical-align: middle;
+    width: 2em;
+    height: 2em;
+    padding: 0;
+    box-sizing: border-box;
+    line-height: 1.8em;
+    text-align: center;
+    margin: 0 1em 0 -3em;
+    border-radius: 4px;
+}
+
+.tradepress-wizard-extension .tradepress-wizard-extension-enable input {
+    opacity: 0;
+    width: 0;
+    position: absolute;
+}
+
+.tradepress-wizard-extension .tradepress-wizard-extension-enable input:checked + label:before {
+    content: "\f147";
+    font-family: 'dashicons';
+    color: #fff;
+    border-color: #472F75;
+    background: #472F75;
+}
+
+.tradepress-wizard-extension .tradepress-wizard-extension-enable input:focus + label {
+    outline: 1px solid #ddd;
+}
+
+/* Wizard Action Buttons */
+.tradepress-wizard-actions {
+    overflow: hidden;
+}
+
+.tradepress-wizard-actions .button {
+    float: right;
+    font-size: 1.25em;
+    padding: .5em 1em;
+    line-height: 1em;
+    margin-right: .5em;
+    margin-bottom: 2px;
+    height: auto;
+    border-radius: 4px;
+}
+
+.tradepress-wizard-actions .tradepress-button-primary {
+    background-color: #472F75;
+    border-color: #472F75;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 1px 0 #472F75;
+    text-shadow: 0px -1px 1px #472F75, 1px 0px 1px #472F75, 0px 1px 1px #472F75, -1px 0px 1px #472F75;
+    float: right;
+    margin: 0;
+    opacity: 1;
+    color: #fff;
+}
+
+.tradepress-wizard-actions .tradepress-button-primary:hover,
+.tradepress-wizard-actions .tradepress-button-primary:focus,
+.tradepress-wizard-actions .tradepress-button-primary:active {
+    background: #472F75;
+    border-color: #472F75;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 1px 0 #472F75;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.form-table { @extend .tradepress-form-table; }
+.form-table .section_title { @extend .section-title; }
+.form-table td .input-checkbox { @extend .tradepress-input-checkbox; }
+.form-table td .input-radio { @extend .tradepress-input-radio; }
+.tradepress-setup-extensions { @extend .tradepress-wizard-extensions; }
+.table.tax-rates { @extend .tradepress-tax-rates; }
+ul.TradePress-wizard-plugin-extensions { @extend .tradepress-wizard-plugin-extensions; }
+li.TradePress-wizard-extension { @extend .tradepress-wizard-extension; }
+.TradePress-wizard-extension-settings { @extend .tradepress-wizard-extension-settings; }
+.TradePress-wizard-extension-description { @extend .tradepress-wizard-extension-description; }
+.TradePress-wizard-extension-enable { @extend .tradepress-wizard-extension-enable; }
+.tradepress-setup .tradepress-setup-actions { @extend .tradepress-wizard-actions; }
+.tradepress-setup-actions .button-primary { @extend .tradepress-button-primary; }
+
+/* Responsive styles */
+@media screen and (max-width: 782px) {
+    .tradepress-form-table tbody th {
+        width: auto;
+    }
+    
+    .tradepress-wizard-extension.featured {
+        width: 100%;
+        float: none;
+        border-right: 0;
+    }
+}

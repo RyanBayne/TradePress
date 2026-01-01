@@ -1,0 +1,109 @@
+/**
+ * TradePress - Lists Component Styles
+ * 
+ * Styles for various list types, including task lists, subtasks, etc.
+ * 
+ * HTML Structure:
+ * <ul class="tp-list">
+ *   <li class="tp-list-item">
+ *     <div class="tp-list-content">Content here</div>
+ *   </li>
+ * </ul>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+.tradepress-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tradepress-list-item {
+    padding: var(--tp-spacing-md);
+    border-bottom: var(--tp-border-standard);
+    display: flex;
+    align-items: center;
+}
+
+.tradepress-list-item:last-child {
+    border-bottom: none;
+}
+
+.tradepress-list-content {
+    flex: 1;
+}
+
+/* Task Lists */
+.tradepress-task-list .tradepress-list-item {
+    padding: var(--tp-spacing-md);
+    transition: background-color 0.2s ease;
+}
+
+.tradepress-task-list .tradepress-list-item:hover {
+    background-color: var(--tp-color-gray-50);
+}
+
+.tradepress-task-list .tradepress-list-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--tp-spacing-md);
+}
+
+.tradepress-task-title {
+    font-weight: var(--tp-font-weight-semibold);
+    flex: 1;
+    min-width: 200px;
+}
+
+.tradepress-task-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--tp-spacing-lg);
+    color: #666;
+    font-size: 13px;
+}
+
+/* Subtask Lists */
+.tradepress-subtask-list {
+    margin-top: var(--tp-spacing-md);
+}
+
+.tradepress-subtask-list .tradepress-list-item {
+    padding: var(--tp-spacing-sm) var(--tp-spacing-md);
+    background-color: var(--tp-color-gray-50);
+    border-radius: var(--tp-border-radius);
+    margin-bottom: var(--tp-spacing-xs);
+    border: var(--tp-border-standard);
+}
+
+.tradepress-subtask-checkbox {
+    margin-right: var(--tp-spacing-md);
+}
+
+.tradepress-subtask-title {
+    flex: 1;
+}
+
+.tradepress-subtask-list .tradepress-list-item.completed {
+    background-color: #f0f9eb;
+}
+
+.tradepress-subtask-list .tradepress-list-item.completed .tradepress-subtask-title {
+    text-decoration: line-through;
+    color: #666;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.task-list { @extend .tradepress-list; @extend .tradepress-task-list; }
+.task-item { @extend .tradepress-list-item; }
+.task-content { @extend .tradepress-list-content; }
+.task-title { @extend .tradepress-task-title; }
+.task-meta { @extend .tradepress-task-meta; }
+.subtask-list { @extend .tradepress-list; @extend .tradepress-subtask-list; }
+.subtask-item { @extend .tradepress-list-item; }
+.subtask-checkbox { @extend .tradepress-subtask-checkbox; }
+.subtask-title { @extend .tradepress-subtask-title; }
+.subtask-item.completed { @extend .tradepress-list-item.completed; }

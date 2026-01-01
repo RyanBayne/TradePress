@@ -1,0 +1,68 @@
+/**
+ * TradePress - API Switches Tab Styles
+ *
+ * @package TradePress/Admin/CSS
+ */
+
+/* Styles for the API switches page */
+.tradepress-api-switches .form-table {
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    padding: 10px;
+}
+
+.tradepress-api-switches .form-table th {
+    padding: 15px;
+    width: 200px;
+}
+
+.tradepress-api-switches .form-table td {
+    padding: 15px;
+}
+
+/* Alternating row colors for better readability */
+.tradepress-api-switches .form-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Demo indicator styles - reusing from other API tabs */
+.demo-indicator {
+    display: flex;
+    background-color: #f0f6fc;
+    border-left: 4px solid #72aee6;
+    padding: 12px;
+    margin-bottom: 20px;
+    position: relative;
+    align-items: center;
+}
+
+.demo-icon {
+    font-size: 24px;
+    margin-right: 12px;
+    color: #2271b1;
+}
+
+.demo-text {
+    flex-grow: 1;
+}
+
+.demo-text h4 {
+    margin: 0 0 5px;
+    color: #2271b1;
+}
+
+.demo-text p {
+    margin: 0;
+    color: #50575e;
+}
+
+.demo-badge {
+    background-color: #2271b1;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}

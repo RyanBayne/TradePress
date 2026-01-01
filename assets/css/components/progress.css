@@ -1,0 +1,217 @@
+/**
+ * TradePress - Progress Component Styles
+ * 
+ * Progress bars and loading indicators.
+ * 
+ * HTML Structure:
+ * <div class="tp-progress-container">
+ *   <div class="tp-progress-bar" style="width: 75%;"></div>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Progress bars */
+.tradepress-progress-container {
+    height: 8px;
+    width: 100%;
+    background-color: #f0f0f1;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.tradepress-progress-bar {
+    height: 100%;
+    border-radius: 4px;
+    background-color: #46b450;
+    transition: width 0.3s ease;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.progress-container { @extend .tradepress-progress-container; }
+.progress-bar { @extend .tradepress-progress-bar; }
+
+/* UI Library Progress Indicator Styles */
+
+/* Base media progress bar */
+.media-progress-bar {
+    height: 8px;
+    width: 100%;
+    background-color: #f0f0f1;
+    border-radius: 4px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.media-progress-bar div {
+    height: 100%;
+    border-radius: 4px;
+    background-color: #0073aa;
+    transition: width 0.3s ease;
+}
+
+/* Progress bar color variants */
+.media-progress-bar.progress-success div {
+    background-color: #46b450;
+}
+
+.media-progress-bar.progress-warning div {
+    background-color: #ffb900;
+}
+
+.media-progress-bar.progress-error div {
+    background-color: #dc3232;
+}
+
+/* Step progress indicators */
+.step-progress-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.step-progress-item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    flex: 1;
+}
+
+.step-progress-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: calc(50% + 20px);
+    width: calc(100% - 40px);
+    height: 2px;
+    background-color: #ddd;
+    z-index: 1;
+}
+
+.step-progress-item.completed::after {
+    background-color: #46b450;
+}
+
+.step-progress-marker {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ddd;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+}
+
+.step-progress-item.completed .step-progress-marker {
+    background-color: #46b450;
+    color: white;
+}
+
+.step-progress-item.active .step-progress-marker {
+    background-color: #0073aa;
+    color: white;
+}
+
+.step-progress-label {
+    margin-top: 8px;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* Progress with text overlay */
+.progress-with-text-container {
+    position: relative;
+}
+
+.progress-text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    font-size: 11px;
+}
+
+/* Progress header layout */
+.progress-container-labeled {
+    margin: 15px 0;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.progress-header .progress-label {
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.progress-header .progress-value {
+    font-weight: bold;
+    color: #0073aa;
+    font-size: 13px;
+}
+
+/* Progress examples layout */
+.progress-example {
+    margin: 15px 0;
+}
+
+.progress-example .progress-label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+/* Loading states */
+.loading-with-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.loading-text {
+    font-size: 13px;
+    color: #666;
+}
+
+.infinite-scroll-loader {
+    text-align: center;
+    padding: 20px;
+}
+
+.infinite-scroll-loader .spinner {
+    margin: 0 auto 10px;
+}
+
+.infinite-scroll-loader p {
+    margin: 0;
+    color: #666;
+    font-size: 13px;
+}
+
+/* Spinner examples */
+.spinner-example {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 10px 0;
+}
+
+.spinner-label {
+    font-weight: 600;
+    min-width: 120px;
+    font-size: 13px;
+}

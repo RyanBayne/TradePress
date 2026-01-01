@@ -1,0 +1,96 @@
+/**
+ * TradePress - Shortcodes Layout Styles
+ * 
+ * Layout structures for shortcodes pages.
+ * 
+ * @package TradePress/CSS/Layouts
+ * @since 1.0.0
+ */
+
+/* Shortcodes Grid Layout */
+.tradepress-shortcode-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: var(--tp-spacing-lg);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+/* Shortcode Documentation Section */
+.tradepress-shortcode-documentation {
+    background-color: var(--tp-color-white);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-xl);
+    margin-top: var(--tp-spacing-xl);
+}
+
+.tradepress-shortcode-documentation h3 {
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-lg);
+    padding-bottom: var(--tp-spacing-sm);
+    border-bottom: var(--tp-border-standard);
+}
+
+/* Shortcodes Settings Container */
+.tradepress-shortcodes-settings {
+    margin: var(--tp-spacing-xl) 0;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 782px) {
+    .tradepress-shortcode-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tradepress-shortcode-documentation {
+        padding: var(--tp-spacing-lg);
+    }
+}
+
+/* Status Badges */
+.shortcode-status-badge.live {
+    background-color: #e7f7ed;
+    color: #46b450;
+    border: 1px solid #c8e6d0;
+}
+
+.shortcode-status-badge.demo {
+    background-color: #fef8e8;
+    color: #f0c33c;
+    border: 1px solid #f8e6b8;
+}
+
+/* Hover Effects */
+.shortcode-card {
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.shortcode-card:hover {
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.copy-shortcode:hover {
+    color: #0073aa;
+}
+
+.shortcode-code:focus-within {
+    box-shadow: 0 0 0 1px #2271b1;
+}
+
+/* Copy Animation */
+@keyframes copy-success {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.dashicons-yes {
+    animation: copy-success 0.3s ease;
+    color: #46b450;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.shortcode-grid { @extend .tradepress-shortcode-grid; }
+.shortcode-documentation { @extend .tradepress-shortcode-documentation; }
+.tradepress-shortcodes-settings { @extend .tradepress-shortcodes-settings; }

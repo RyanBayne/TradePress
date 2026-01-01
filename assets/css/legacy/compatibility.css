@@ -1,0 +1,125 @@
+/**
+ * TradePress - Legacy Compatibility Styles
+ * 
+ * This file contains legacy class support for backward compatibility.
+ * These styles ensure that old HTML markup continues to work with the new CSS architecture.
+ * 
+ * @package TradePress/CSS/Legacy
+ * @since 1.0.0
+ */
+
+/* Task-related legacy compatibility */
+.tradepress_task_container,
+.tradepress-task-container {
+    max-width: 1200px;
+    margin: var(--tp-spacing-lg) 0;
+}
+
+.task-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--tp-spacing-xl);
+    padding-bottom: var(--tp-spacing-md);
+    border-bottom: var(--tp-border-standard);
+}
+
+.task-header-title {
+    margin: 0;
+    font-size: 23px;
+    font-weight: 400;
+}
+
+.task-header-actions {
+    display: flex;
+    gap: var(--tp-spacing-md);
+}
+
+/* Current Task specific compatibility */
+.current-task-container {
+    background: var(--tp-color-white);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-xl);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.current-task-info {
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+.current-task-details {
+    margin-top: var(--tp-spacing-md);
+}
+
+.current-task-description {
+    margin-top: var(--tp-spacing-lg);
+    margin-bottom: var(--tp-spacing-lg);
+    line-height: 1.5;
+}
+
+.no-current-task-message {
+    text-align: center;
+    padding: var(--tp-spacing-xl);
+    color: #666;
+    font-style: italic;
+}
+
+/* Legacy task UI elements */
+#task-detail-content {
+    margin-top: var(--tp-spacing-lg);
+}
+
+.task-status-label {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: var(--tp-border-radius-sm);
+    font-size: 12px;
+    font-weight: var(--tp-font-weight-medium);
+    text-transform: uppercase;
+}
+
+.task-status-label.in-progress {
+    background-color: #e9f3fa;
+    color: #1e6586;
+}
+
+.task-status-label.completed {
+    background-color: #f0f9eb;
+    color: #2a6b31;
+}
+
+.task-status-label.pending {
+    background-color: #f1f1f1;
+    color: #666;
+}
+
+.task-status-label.on-hold {
+    background-color: #fcf8e3;
+    color: #8a6d3b;
+}
+
+/* Legacy forms and elements */
+.task-form label {
+    display: block;
+    font-weight: var(--tp-font-weight-medium);
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.task-form input[type="text"],
+.task-form select,
+.task-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: var(--tp-spacing-md);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+}
+
+.task-form textarea {
+    min-height: 120px;
+}
+
+.task-form .form-actions {
+    margin-top: var(--tp-spacing-lg);
+}

@@ -1,0 +1,39 @@
+/**
+ * Styles for the TradePress Symbol template
+ * Compatible with WordPress standard themes including Twenty Twenty-Five
+ *
+ * @package TradePress/CSS/Templates
+ * @since 1.0.0
+ */
+
+/* Preserve theme styling while adding our customizations */
+.tradepress-symbol-container {
+    /* Don't override max-width - let the theme control this */
+    margin: 0 auto;
+    font-family: inherit; /* Inherit theme font */
+}
+
+/* Make our layout work with the theme */
+.tradepress-symbol-container .wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.tradepress-symbol-container .content-wrapper {
+    flex: 3;
+    min-width: 0; /* Fix for flexbox not respecting width constraints */
+}
+
+.tradepress-symbol-container .sidebar {
+    flex: 1;
+}
+
+/* Symbol Header Section */
+.tradepress-symbol-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--wp--preset--color--border, #eaeaea);
+}
+
+/* Don't override theme heading styles, just add any specific customizations */

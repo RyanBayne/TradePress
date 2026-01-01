@@ -1,0 +1,85 @@
+#tradepress-mode-indicators {
+    position: fixed;
+    top: 30px;
+    right: 100px;
+    z-index: 99998;
+    display: flex;
+    gap: 5px;
+}
+
+.tradepress-mode-indicator-wrap,
+.tradepress-demo-indicator-wrap {
+    display: inline-block;
+}
+
+#tradepress-developer-indicator {
+    background: #0073aa;
+    color: white;
+    border: 1px solid #005177;
+    border-radius: 0 0 3px 3px;
+    border-top: none;
+    padding: 6px 12px;
+    font-size: 13px;
+    line-height: 1.2;
+    cursor: default;
+}
+
+#tradepress-developer-indicator:hover {
+    background: #005177;
+}
+
+#tradepress-demo-indicator {
+    border-radius: 0 0 3px 3px;
+    border-top: none;
+    padding: 6px 12px;
+    font-size: 13px;
+    line-height: 1.2;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+#tradepress-demo-indicator.demo-on {
+    background: #46b450;
+    color: white;
+    border: 1px solid #2e7d32;
+}
+
+#tradepress-demo-indicator.demo-on:hover {
+    background: #2e7d32;
+}
+
+#tradepress-demo-indicator.demo-off {
+    background: #dc3232;
+    color: white;
+    border: 1px solid #a00;
+}
+
+#tradepress-demo-indicator.demo-off:hover {
+    background: #a00;
+}
+
+#tradepress-mode-indicators .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+@media screen and (max-width: 782px) {
+    #tradepress-mode-indicators {
+        top: 44px;
+        right: 80px;
+    }
+    
+    #tradepress-developer-indicator,
+    #tradepress-demo-indicator {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+}
+
+@keyframes rotation {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(359deg); }
+}

@@ -1,0 +1,159 @@
+/* TradePress Data Elements Tab Styles */
+
+.tradepress-data-elements-container {
+    padding: 20px 0;
+}
+
+.data-elements-header {
+    margin-bottom: 20px;
+}
+
+.data-elements-header h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.3em;
+}
+
+.data-elements-header p {
+    color: #666;
+    margin: 0;
+}
+
+.data-elements-controls {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.data-elements-table-wrapper {
+    overflow-x: auto;
+}
+
+.data-elements-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-elements-table th,
+.data-elements-table td {
+    padding: 12px 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.data-elements-table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.element-name strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.element-description {
+    font-size: 0.9em;
+    color: #666;
+    font-style: italic;
+}
+
+.element-uses {
+    max-width: 200px;
+}
+
+.use-tag {
+    display: inline-block;
+    background: #e1f5fe;
+    color: #0277bd;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    margin: 2px 4px 2px 0;
+    white-space: nowrap;
+}
+
+.element-table {
+    font-family: monospace;
+    font-size: 0.9em;
+    color: #333;
+}
+
+.element-frequency {
+    white-space: nowrap;
+    font-size: 0.9em;
+}
+
+.import-time {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.status-indicator {
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.status-success {
+    color: #2e7d32;
+}
+
+.status-warning {
+    color: #f57c00;
+}
+
+.status-caution {
+    color: #fbc02d;
+}
+
+.status-error {
+    color: #d32f2f;
+}
+
+.manual-import {
+    font-size: 0.8em !important;
+    padding: 4px 8px !important;
+    height: auto !important;
+}
+
+.manual-import:disabled {
+    opacity: 0.6;
+}
+
+.manual-import.importing {
+    background: #ffc107;
+    border-color: #ffc107;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .data-elements-table th,
+    .data-elements-table td {
+        padding: 8px 6px;
+        font-size: 0.9em;
+    }
+    
+    .use-tag {
+        font-size: 0.75em;
+        padding: 1px 6px;
+    }
+}
+
+@media (max-width: 768px) {
+    .data-elements-controls {
+        flex-direction: column;
+    }
+    
+    .data-elements-controls button {
+        width: 100%;
+    }
+    
+    .data-elements-table {
+        font-size: 0.8em;
+    }
+    
+    .data-elements-table th,
+    .data-elements-table td {
+        padding: 6px 4px;
+    }
+}

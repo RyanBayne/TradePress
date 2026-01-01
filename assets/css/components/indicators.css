@@ -1,0 +1,167 @@
+/**
+ * TradePress - Indicator Component Styles
+ * 
+ * Styles for technical and market indicators, signals, and interpretations.
+ * 
+ * HTML Structure:
+ * <div class="tp-indicator-values">
+ *   <div class="tp-indicator-value">
+ *     <span class="tp-indicator-label">Label</span>
+ *     <span class="tp-indicator-figure">Value</span>
+ *   </div>
+ * </div>
+ * <div class="tp-indicator-interpretation bullish|bearish|neutral">
+ *   Interpretation text
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Indicator display components */
+.tradepress-indicator-values {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.tradepress-indicator-value {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    background: #f0f0f0;
+    border-radius: 3px;
+}
+
+.tradepress-indicator-interpretation {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.tradepress-indicator-interpretation.bullish {
+    background-color: rgba(38, 166, 154, 0.2);
+    color: #0d6e63;
+}
+
+.tradepress-indicator-interpretation.bearish {
+    background-color: rgba(239, 83, 80, 0.2);
+    color: #9e2b29;
+}
+
+.tradepress-indicator-interpretation.neutral {
+    background-color: rgba(158, 158, 158, 0.2);
+    color: #666;
+}
+
+/* Tech analysis summary */
+.tradepress-analysis-summary {
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+.tradepress-summary-signals {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.tradepress-signal-count {
+    text-align: center;
+    padding: 15px;
+    border-radius: 4px;
+    width: 30%;
+}
+
+.tradepress-signal-count .count {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.tradepress-signal-count.bullish {
+    background-color: rgba(38, 166, 154, 0.2);
+}
+
+.tradepress-signal-count.bearish {
+    background-color: rgba(239, 83, 80, 0.2);
+}
+
+.tradepress-signal-count.neutral {
+    background-color: rgba(158, 158, 158, 0.2);
+}
+
+.tradepress-summary-interpretation {
+    padding: 15px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.tradepress-summary-interpretation p {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.tradepress-summary-interpretation p.bullish {
+    color: #0d6e63;
+}
+
+.tradepress-summary-interpretation p.bearish {
+    color: #9e2b29;
+}
+
+.tradepress-summary-interpretation p.neutral {
+    color: #666;
+}
+
+/* Value Indicators */
+.tradepress-value-positive {
+    color: #2ecc71;
+    font-weight: 600;
+}
+
+.tradepress-value-negative {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+/* Loading Indicators */
+.tradepress-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.tradepress-loading-overlay .spinner {
+    margin-bottom: 10px;
+}
+
+/* Legacy class mappings for backward compatibility */
+.indicator-values { @extend .tradepress-indicator-values; }
+.indicator-value { @extend .tradepress-indicator-value; }
+.indicator-interpretation { @extend .tradepress-indicator-interpretation; }
+.interpretation.bullish { @extend .tradepress-indicator-interpretation.bullish; }
+.interpretation.bearish { @extend .tradepress-indicator-interpretation.bearish; }
+.interpretation.neutral { @extend .tradepress-indicator-interpretation.neutral; }
+.tech-analysis-summary { @extend .tradepress-analysis-summary; }
+.summary-signals { @extend .tradepress-summary-signals; }
+.signal-count { @extend .tradepress-signal-count; }
+.summary-interpretation { @extend .tradepress-summary-interpretation; }
+.positive { @extend .tradepress-value-positive; }
+.negative { @extend .tradepress-value-negative; }
+.loading-overlay { @extend .tradepress-loading-overlay; }

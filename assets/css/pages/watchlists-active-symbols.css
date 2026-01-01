@@ -1,0 +1,202 @@
+/**
+ * TradePress - Watchlists Active Symbols Styles
+ *
+ * @package TradePress/CSS
+ * @since 1.0.0
+ */
+
+.tradepress-active-symbols-container {
+    margin-top: 20px;
+}
+.active-symbols-header {
+    margin-bottom: 20px;
+}
+.active-symbols-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: center;
+}
+.active-symbols-filters {
+    display: flex;
+}
+.active-symbols-actions-right {
+    display: flex;
+    gap: 10px;
+}
+.tradepress-active-symbols-table {
+    margin-top: 10px;
+}
+.column-symbol {
+    width: 8%;
+}
+.column-name {
+    width: 20%; /* Increase width for Company Name column */
+}
+.column-price, .column-change, .column-score {
+    width: 10%;
+}
+.column-activity {
+    width: 15%;
+}
+.column-last-activity, .column-date-added {
+    width: 12%;
+}
+.column-actions {
+    width: 12%;
+    text-align: center;
+}
+.positive {
+    color: #0c833f;
+}
+.negative {
+    color: #dc3232;
+}
+.activity-badge {
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-right: 4px;
+}
+.activity-badge.scored {
+    background-color: #e9f5fe;
+    color: #2271b1;
+}
+.activity-badge.traded {
+    background-color: #ecf7ed;
+    color: #0c833f;
+}
+.activity-badge.researched {
+    background-color: #f6f7f7;
+    color: #3c434a;
+}
+.empty-active-symbols {
+    padding: 40px;
+    text-align: center;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.row-actions {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+.row-actions .button {
+    padding: 0 4px;
+    height: 28px;
+}
+.row-actions .button.button-busy {
+    opacity: 0.7;
+    pointer-events: none;
+}
+.row-actions .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-top: 6px;
+}
+.dashicons-update-spin {
+    animation: dashicons-spin 1s infinite;
+    animation-timing-function: linear;
+}
+@keyframes dashicons-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+/* Score column styles */
+.score-display {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.score-value {
+    font-weight: bold;
+    font-size: 14px;
+}
+.score-bar {
+    width: 100%;
+    height: 6px;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.score-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+}
+.score-high .score-value {
+    color: #0c833f;
+}
+.score-medium .score-value {
+    color: #b26200;
+}
+.score-low .score-value {
+    color: #b32d2e;
+}
+.score-high .score-bar-fill {
+    background-color: #0c833f;
+}
+.score-medium .score-bar-fill {
+    background-color: #b26200;
+}
+.score-low .score-bar-fill {
+    background-color: #b32d2e;
+}
+.tradepress-modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+.tradepress-modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.tradepress-modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.form-field {
+    margin-bottom: 15px;
+}
+.form-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+.form-field input, .form-field textarea {
+    width: 100%;
+}
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+#selected-symbols-list {
+    background: #f8f9fa;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-height: 50px;
+}

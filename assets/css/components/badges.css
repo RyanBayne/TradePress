@@ -1,0 +1,163 @@
+/**
+ * TradePress - Badge Components
+ * 
+ * Styles for badges, indicators, and small info displays.
+ * 
+ * HTML Structure:
+ * <span class="tp-badge tp-badge-primary">Badge Text</span>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Base Badge */
+.tradepress-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: var(--tp-font-weight-semibold);
+}
+
+/* Time Badges */
+.tradepress-time-badge {
+    display: inline-block;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.tradepress-time-badge.bmo {
+    background-color: #e6f7ff;
+    color: #0073aa;
+}
+
+.tradepress-time-badge.amc {
+    background-color: #fef0f0;
+    color: #d63638;
+}
+
+.tradepress-time-full {
+    font-size: 12px;
+    display: none;
+}
+
+.tradepress-time-specific {
+    font-weight: var(--tp-font-weight-medium);
+}
+
+/* Sentiment Badges */
+.tradepress-sentiment-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.tradepress-sentiment-pct {
+    display: block;
+    font-size: 11px;
+    color: #666;
+    margin-top: 3px;
+}
+
+.tradepress-sentiment-bullish {
+    background-color: #e7f5e8;
+    color: #2e7d32;
+}
+
+.tradepress-sentiment-bearish {
+    background-color: #fef0f0;
+    color: #d63638;
+}
+
+.tradepress-sentiment-neutral {
+    background-color: #f0f0f0;
+    color: #616161;
+}
+
+/* Sector Badges */
+.tradepress-sector-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+.tradepress-sector-technology {
+    background-color: #e6f7ff;
+    color: #0073aa;
+}
+
+.tradepress-sector-healthcare {
+    background-color: #e7f5e8;
+    color: #2e7d32;
+}
+
+.tradepress-sector-financial {
+    background-color: #f5f3ff;
+    color: #673ab7;
+}
+
+.tradepress-sector-consumer {
+    background-color: #fff8e1;
+    color: #f57c00;
+}
+
+.tradepress-sector-industrial {
+    background-color: #f0f0f0;
+    color: #616161;
+}
+
+.tradepress-sector-energy {
+    background-color: #ffeacc;
+    color: #e65100;
+}
+
+/* Report Count Badge */
+.tradepress-report-count {
+    margin-left: auto;
+    background: #f0f0f0;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #666;
+    font-weight: normal;
+}
+
+/* Demo Badge */
+.tradepress-demo-badge {
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    background: #ffb900;
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 3px;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.time-badge { @extend .tradepress-time-badge; }
+.time-bmo { @extend .tradepress-time-badge; @extend .tradepress-time-badge.bmo; }
+.time-amc { @extend .tradepress-time-badge; @extend .tradepress-time-badge.amc; }
+.time-full { @extend .tradepress-time-full; }
+.time-specific { @extend .tradepress-time-specific; }
+.sentiment-badge { @extend .tradepress-sentiment-badge; }
+.sentiment-pct { @extend .tradepress-sentiment-pct; }
+.sentiment-bullish { @extend .tradepress-sentiment-bullish; }
+.sentiment-bearish { @extend .tradepress-sentiment-bearish; }
+.sentiment-neutral { @extend .tradepress-sentiment-neutral; }
+.sector-badge { @extend .tradepress-sector-badge; }
+.sector-technology { @extend .tradepress-sector-technology; }
+.sector-healthcare { @extend .tradepress-sector-healthcare; }
+.sector-financial { @extend .tradepress-sector-financial; }
+.sector-consumer { @extend .tradepress-sector-consumer; }
+.sector-industrial { @extend .tradepress-sector-industrial; }
+.sector-energy { @extend .tradepress-sector-energy; }
+.report-count { @extend .tradepress-report-count; }
+.demo-badge { @extend .tradepress-demo-badge; }

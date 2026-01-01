@@ -1,0 +1,384 @@
+/**
+ * TradePress Working Notes
+ *
+ * Styles for working notes editor and display
+ * Used in current-task page
+ *
+ * @package TradePress/Assets/CSS
+ * @since 1.0.5
+ */
+
+/* ==========================================================================
+   UI Library Working Notes Components
+   ========================================================================== */
+
+/* Notes Showcase Container */
+.notes-showcase {
+    background: var(--tp-color-white);
+    border: 1px solid var(--tp-color-border);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-xl);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+/* Working Notes Tags System */
+.working-notes-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-sm);
+    align-items: center;
+    padding: var(--tp-spacing-md);
+    background: var(--tp-color-bg-secondary);
+    border: 1px solid var(--tp-color-border-light);
+    border-radius: var(--tp-border-radius);
+    margin-bottom: var(--tp-spacing-md);
+    min-height: 44px;
+}
+
+.working-notes-tag-label {
+    font-weight: 600;
+    color: var(--tp-color-text);
+    font-size: 14px;
+    margin-right: var(--tp-spacing-sm);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.working-notes-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tp-spacing-xs);
+    background: var(--tp-color-primary);
+    color: var(--tp-color-white);
+    padding: 6px 12px;
+    border-radius: 18px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    max-width: 200px;
+}
+
+.working-notes-tag:hover {
+    background: var(--tp-color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.working-notes-tag-remove {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    margin-left: var(--tp-spacing-xs);
+}
+
+.working-notes-tag-remove:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.working-notes-tag-remove::before {
+    content: "×";
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.working-notes-tag-input {
+    flex: 1;
+    min-width: 120px;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: var(--tp-color-text);
+    border-radius: var(--tp-border-radius);
+    transition: all 0.2s ease;
+}
+
+.working-notes-tag-input:focus {
+    background: var(--tp-color-white);
+    box-shadow: 0 0 0 2px var(--tp-color-primary-light);
+}
+
+.working-notes-tag-input::placeholder {
+    color: var(--tp-color-text-muted);
+    font-style: italic;
+}
+
+/* Tag Categories for Trading Environment */
+.working-notes-tag.tag-strategy {
+    background: var(--tp-color-success);
+}
+
+.working-notes-tag.tag-risk {
+    background: var(--tp-color-warning);
+}
+
+.working-notes-tag.tag-alert {
+    background: var(--tp-color-danger);
+}
+
+.working-notes-tag.tag-market {
+    background: var(--tp-color-info);
+}
+
+.working-notes-tag.tag-analysis {
+    background: var(--tp-color-purple);
+}
+
+/* Trading-specific enhancements */
+.working-notes-tags.trading-context {
+    background: linear-gradient(135deg, var(--tp-color-bg-secondary) 0%, rgba(var(--tp-color-primary-rgb), 0.05) 100%);
+    border-left: 4px solid var(--tp-color-primary);
+}
+
+.working-notes-tags.trading-context .working-notes-tag-label::before {
+    content: "📊 ";
+    margin-right: var(--tp-spacing-xs);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .working-notes-tags {
+        padding: var(--tp-spacing-sm);
+        min-height: auto;
+    }
+    
+    .working-notes-tag-label {
+        font-size: 13px;
+        margin-bottom: var(--tp-spacing-xs);
+        width: 100%;
+    }
+    
+    .working-notes-tag {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+    
+    .working-notes-tag-input {
+        min-width: 100px;
+        font-size: 13px;
+    }
+}
+
+/* Notes Container */
+.working-notes-container {
+    margin: 20px 0;
+    border: 1px solid var(--tp-color-border);
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: var(--tp-color-background);
+}
+
+/* Notes Header */
+.working-notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--tp-color-background-light);
+    border-bottom: 1px solid var(--tp-color-border);
+}
+
+.working-notes-title {
+    font-weight: 500;
+    color: var(--tp-color-text);
+    font-size: 15px;
+    margin: 0;
+}
+
+.working-notes-controls {
+    display: flex;
+    gap: 10px;
+}
+
+/* Notes Editor */
+.working-notes-editor {
+    padding: 15px;
+}
+
+.working-notes-textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 12px;
+    border: 1px solid var(--tp-color-border);
+    border-radius: 4px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+.working-notes-textarea:focus {
+    border-color: var(--tp-color-primary);
+    box-shadow: 0 0 0 1px var(--tp-color-primary-light);
+    outline: none;
+}
+
+/* Rich Text Editor */
+.working-notes-rich-editor {
+    border: 1px solid var(--tp-color-border);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.working-notes-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 8px;
+    background-color: var(--tp-color-background-light);
+    border-bottom: 1px solid var(--tp-color-border);
+}
+
+.editor-tool-button {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    color: var(--tp-color-text);
+}
+
+.editor-tool-button:hover {
+    background-color: var(--tp-color-background-hover);
+}
+
+.editor-tool-button.active {
+    background-color: var(--tp-color-primary-light);
+    color: var(--tp-color-primary);
+}
+
+.editor-tool-separator {
+    width: 1px;
+    height: 20px;
+    background-color: var(--tp-color-border);
+    margin: 0 5px;
+}
+
+.working-notes-content {
+    padding: 12px;
+    min-height: 200px;
+    line-height: 1.5;
+}
+
+/* Notes Display */
+.working-notes-display {
+    padding: 15px;
+    border: 1px solid var(--tp-color-border);
+    border-radius: 4px;
+    background-color: var(--tp-color-background-light);
+    min-height: 100px;
+}
+
+.working-notes-content {
+    line-height: 1.6;
+    color: var(--tp-color-text);
+}
+
+.working-notes-content h1, 
+.working-notes-content h2, 
+.working-notes-content h3, 
+.working-notes-content h4, 
+.working-notes-content h5, 
+.working-notes-content h6 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.working-notes-content p {
+    margin-bottom: 1em;
+}
+
+.working-notes-content ul, 
+.working-notes-content ol {
+    margin-left: 20px;
+    margin-bottom: 1em;
+}
+
+.working-notes-content li {
+    margin-bottom: 0.5em;
+}
+
+.working-notes-content pre {
+    background-color: var(--tp-color-background);
+    padding: 15px;
+    border-radius: 3px;
+    overflow-x: auto;
+    font-family: monospace;
+    margin-bottom: 1em;
+}
+
+.working-notes-content code {
+    background-color: var(--tp-color-background);
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+.working-notes-content blockquote {
+    border-left: 3px solid var(--tp-color-primary);
+    padding-left: 15px;
+    color: var(--tp-color-text-light);
+    font-style: italic;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 1em;
+}
+
+/* Notes Footer */
+.working-notes-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--tp-color-background-light);
+    border-top: 1px solid var(--tp-color-border);
+}
+
+.working-notes-meta {
+    font-size: 12px;
+    color: var(--tp-color-text-light);
+}
+
+.working-notes-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* Responsive */
+@media screen and (max-width: 782px) {
+    .working-notes-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .working-notes-toolbar {
+        flex-wrap: wrap;
+    }
+    
+    .working-notes-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .working-notes-buttons {
+        width: 100%;
+        justify-content: space-between;
+    }
+}

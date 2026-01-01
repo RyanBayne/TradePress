@@ -1,0 +1,246 @@
+/**
+ * TradePress - Data-Only API Configuration Styles
+ * 
+ * Styles for data-only API configuration forms (Alpha Vantage, Polygon, etc.)
+ * 
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ */
+
+/* API Configuration Container */
+.api-configuration {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.api-configuration .status-header {
+    background: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.api-configuration .status-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.api-configuration-content {
+    padding: 20px;
+}
+
+/* Form Styling */
+.api-settings-form .form-table {
+    margin-top: 0;
+}
+
+.api-settings-form .form-table th {
+    width: 200px;
+    padding: 15px 10px 15px 0;
+    font-weight: 600;
+}
+
+.api-settings-form .form-table td {
+    padding: 15px 10px;
+}
+
+/* Toggle Switch Styling */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 24px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Password Toggle Button */
+.toggle-password {
+    margin-left: 5px;
+    padding: 3px 8px;
+    font-size: 12px;
+    line-height: 1;
+    border: 1px solid #ddd;
+    background: #f7f7f7;
+    cursor: pointer;
+}
+
+.toggle-password:hover {
+    background: #e7e7e7;
+}
+
+/* API Settings Actions */
+.api-settings-actions {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    gap: 10px;
+}
+
+/* Status Messages */
+.notice.inline {
+    margin: 0 0 15px 0;
+    padding: 8px 12px;
+}
+
+.notice.inline p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.notice.inline .dashicons {
+    margin-right: 8px;
+}
+
+/* Form Field Descriptions */
+.description {
+    font-style: italic;
+    color: #666;
+    margin-top: 5px;
+}
+
+.description strong {
+    font-weight: 600;
+}
+
+/* Input Field Styling */
+.regular-text {
+    width: 300px;
+}
+
+input[type="password"].regular-text,
+input[type="text"].regular-text {
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+input[type="password"].regular-text:focus,
+input[type="text"].regular-text:focus {
+    border-color: #0073aa;
+    box-shadow: 0 0 0 1px #0073aa;
+    outline: none;
+}
+
+/* Select Styling */
+select {
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background: #fff;
+}
+
+select:focus {
+    border-color: #0073aa;
+    box-shadow: 0 0 0 1px #0073aa;
+    outline: none;
+}
+
+/* Number Input */
+.small-text {
+    width: 80px;
+}
+
+/* Button Styling */
+.test-api-connection {
+    background: #0073aa;
+    color: #fff;
+    border: 1px solid #0073aa;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.test-api-connection:hover {
+    background: #005a87;
+    border-color: #005a87;
+    color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .api-settings-form .form-table th {
+        width: auto;
+        display: block;
+        padding-bottom: 5px;
+    }
+    
+    .api-settings-form .form-table td {
+        display: block;
+        padding-top: 5px;
+    }
+    
+    .regular-text {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .api-settings-actions {
+        flex-direction: column;
+    }
+}
+/* Test Connection Button States */
+.test-api-connection.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.test-api-connection:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

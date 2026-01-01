@@ -1,0 +1,59 @@
+/**
+ * TradePress Dark Theme - Tabs Layout Styles
+ * 
+ * Dark theme overrides for tab interfaces.
+ * 
+ * @package TradePress/CSS/Dark
+ * @since 1.0.0
+ */
+
+/* Tabs Navigation */
+.tradepress-dark-theme .tradepress-tabs-nav {
+    border-bottom: 1px solid var(--tradepress-color-gray-400);
+}
+
+.tradepress-dark-theme .tradepress-tab-nav-item a {
+    color: var(--tradepress-color-gray-700);
+    background-color: transparent;
+}
+
+.tradepress-dark-theme .tradepress-tab-nav-item a:hover {
+    background-color: var(--tradepress-color-gray-100);
+    color: var(--tradepress-color-black);
+}
+
+.tradepress-dark-theme .tradepress-tab-nav-item.active a {
+    border-color: var(--tradepress-color-gray-400);
+    background-color: var(--tradepress-color-white);
+    color: var(--tradepress-color-black);
+    border-bottom: 1px solid var(--tradepress-color-white);
+}
+
+/* Tab Content */
+.tradepress-dark-theme .tradepress-tab-content {
+    background-color: var(--tradepress-color-white);
+    color: var(--tradepress-color-black);
+}
+
+/* WordPress Nav Tabs Override */
+.tradepress-dark-theme .nav-tab-wrapper {
+    border-bottom: 1px solid var(--tradepress-color-gray-400);
+}
+
+.tradepress-dark-theme .nav-tab {
+    color: var(--tradepress-color-gray-700);
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+
+.tradepress-dark-theme .nav-tab:hover {
+    background-color: var(--tradepress-color-gray-100);
+    color: var(--tradepress-color-black);
+}
+
+.tradepress-dark-theme .nav-tab-active {
+    border-color: var(--tradepress-color-gray-400);
+    background-color: var(--tradepress-color-white);
+    color: var(--tradepress-color-black);
+    border-bottom-color: var(--tradepress-color-white);
+}

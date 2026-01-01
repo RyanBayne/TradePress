@@ -1,0 +1,149 @@
+/**
+ * TradePress - Diagnostics Component Styles
+ * 
+ * UI components for diagnostic tools, testing, and debugging.
+ * 
+ * HTML Structure:
+ * <div class="tp-diagnostics-container">
+ *   <div class="tp-diagnostics-card">
+ *     <h3>Diagnostics Title</h3>
+ *     <div class="tp-diagnostics-result">
+ *       <!-- Results go here -->
+ *     </div>
+ *   </div>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Diagnostics Card Grid */
+.tradepress-diagnostics-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-xl);
+    margin-top: var(--tp-spacing-xl);
+}
+
+.tradepress-diagnostics-card {
+    background: var(--tp-color-white);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    width: calc(33.33% - 14px);
+    min-width: 300px;
+    box-shadow: var(--tp-shadow);
+}
+
+.tradepress-diagnostics-card h3 {
+    margin-top: 0;
+    border-bottom: 1px solid var(--tp-color-gray-200);
+    padding-bottom: var(--tp-spacing-md);
+}
+
+.tradepress-diagnostics-result {
+    margin-top: var(--tp-spacing-lg);
+    background: #f8f9fa;
+    padding: var(--tp-spacing-md);
+    border-radius: var(--tp-border-radius-sm);
+    min-height: 60px;
+}
+
+/* Status indicators */
+.tradepress-diagnostics-result .tradepress-success {
+    color: #46b450;
+    font-weight: bold;
+}
+
+.tradepress-diagnostics-result .tradepress-error {
+    color: #dc3232;
+    font-weight: bold;
+}
+
+/* Data display */
+.tradepress-data-results pre, 
+.tradepress-timing-results {
+    background: #f1f1f1;
+    padding: var(--tp-spacing-md);
+    overflow: auto;
+    max-height: 150px;
+    font-size: 12px;
+    margin-top: var(--tp-spacing-md);
+}
+
+/* Event Debugger Styles */
+.event-debugger-container {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.event-debugger-controls {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.event-log-container {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+}
+
+.event-log-header, .event-log-entry {
+    display: grid;
+    grid-template-columns: 100px 100px 1fr 1fr;
+    padding: 5px;
+}
+
+.event-log-header {
+    font-weight: bold;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+}
+
+.event-log-entry {
+    border-bottom: 1px solid #eee;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+.event-log-entry:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.event-type {
+    color: #2271b1;
+}
+
+.floating-debugger-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #2271b1;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 9999;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.tp-diagnostics-container { 
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-xl);
+    margin-top: var(--tp-spacing-xl);
+}
+
+.tp-diagnostics-card { 
+    background: var(--tp-color-white);
+    border: var(--tp-border-standard);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    width: calc(33.33% - 14px);
+    min-width: 300px;
+    box-shadow: var(--tp-shadow);
+}

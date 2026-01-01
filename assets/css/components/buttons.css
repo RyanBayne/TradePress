@@ -1,0 +1,343 @@
+/**
+ * TradePress Button Components
+ * 
+ * Button styles used throughout the plugin interface
+ * 
+ * HTML Structure:
+ * <button class="tp-button tp-button-primary">Primary Button</button>
+ * <button class="tp-button tp-button-secondary">Secondary Button</button>
+ * <button class="tp-button tp-button-danger">Danger Button</button>
+ * <button class="tp-button tp-button-link">Link Button</button>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Base Button Styles */
+.tp-button {
+    display: inline-block;
+    padding: var(--tradepress-button-padding-y) var(--tradepress-button-padding-x);
+    font-family: var(--tradepress-font-family-base);
+    font-size: var(--tradepress-font-size);
+    font-weight: var(--tradepress-font-weight-medium);
+    line-height: var(--tradepress-line-height-normal);
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    border: var(--tradepress-border-width) solid transparent;
+    border-radius: var(--tradepress-border-radius);
+    transition: all var(--tradepress-transition-fast);
+    user-select: none;
+    white-space: nowrap;
+    
+    /* Prevent button from breaking layout */
+    min-height: 32px;
+    box-sizing: border-box;
+}
+
+.tp-button:focus {
+    outline: 2px solid var(--tradepress-color-primary-light);
+    outline-offset: 2px;
+}
+
+.tp-button:disabled,
+.tp-button.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Primary Button */
+.tp-button-primary {
+    color: var(--tradepress-color-white);
+    background-color: var(--tradepress-color-primary);
+    border-color: var(--tradepress-color-primary);
+}
+
+.tp-button-primary:hover:not(:disabled) {
+    background-color: var(--tradepress-color-primary-dark);
+    border-color: var(--tradepress-color-primary-dark);
+    color: var(--tradepress-color-white);
+}
+
+.tp-button-primary:active {
+    background-color: var(--tradepress-color-primary-dark);
+    border-color: var(--tradepress-color-primary-dark);
+    transform: translateY(1px);
+}
+
+/* Secondary Button */
+.tp-button-secondary {
+    color: var(--tradepress-color-gray-700);
+    background-color: var(--tradepress-color-white);
+    border-color: var(--tradepress-color-gray-400);
+}
+
+.tp-button-secondary:hover:not(:disabled) {
+    background-color: var(--tradepress-color-gray-50);
+    border-color: var(--tradepress-color-gray-500);
+    color: var(--tradepress-color-gray-800);
+}
+
+.tp-button-secondary:active {
+    background-color: var(--tradepress-color-gray-100);
+    transform: translateY(1px);
+}
+
+/* Success Button */
+.tp-button-success {
+    color: var(--tradepress-color-white);
+    background-color: var(--tradepress-color-success);
+    border-color: var(--tradepress-color-success);
+}
+
+.tp-button-success:hover:not(:disabled) {
+    background-color: var(--tradepress-color-success-dark);
+    border-color: var(--tradepress-color-success-dark);
+    color: var(--tradepress-color-white);
+}
+
+/* Danger Button */
+.tp-button-danger {
+    color: var(--tradepress-color-white);
+    background-color: var(--tradepress-color-error);
+    border-color: var(--tradepress-color-error);
+}
+
+.tp-button-danger:hover:not(:disabled) {
+    background-color: var(--tradepress-color-error-dark);
+    border-color: var(--tradepress-color-error-dark);
+    color: var(--tradepress-color-white);
+}
+
+/* Warning Button */
+.tp-button-warning {
+    color: var(--tradepress-color-black);
+    background-color: var(--tradepress-color-warning);
+    border-color: var(--tradepress-color-warning);
+}
+
+.tp-button-warning:hover:not(:disabled) {
+    background-color: var(--tradepress-color-warning-dark);
+    border-color: var(--tradepress-color-warning-dark);
+    color: var(--tradepress-color-white);
+}
+
+/* Link Button */
+.tp-button-link {
+    color: var(--tradepress-color-primary);
+    background-color: transparent;
+    border-color: transparent;
+    text-decoration: underline;
+}
+
+.tp-button-link:hover:not(:disabled) {
+    color: var(--tradepress-color-primary-dark);
+    background-color: transparent;
+    border-color: transparent;
+}
+
+/* Link Buttons - More specific selectors to override WordPress defaults */
+.wp-core-ui .button-link,
+.wp-admin .button-link,
+button.button-link,
+input.button-link {
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: none !important;
+    cursor: pointer !important;
+    text-align: left !important;
+    color: var(--tradepress-color-primary) !important;
+    text-decoration: underline !important;
+    transition-property: border, background, color !important;
+    transition-duration: 0.05s !important;
+    transition-timing-function: ease-in-out !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    display: inline !important;
+    font-family: inherit !important;
+}
+
+.wp-core-ui .button-link:hover,
+.wp-core-ui .button-link:active,
+.wp-admin .button-link:hover,
+.wp-admin .button-link:active,
+button.button-link:hover,
+button.button-link:active,
+input.button-link:hover,
+input.button-link:active {
+    color: var(--tradepress-color-primary-dark) !important;
+    text-decoration: underline !important;
+    background: none !important;
+}
+
+.wp-core-ui .button-link:focus,
+.wp-admin .button-link:focus,
+button.button-link:focus,
+input.button-link:focus {
+    color: var(--tradepress-color-primary-dark) !important;
+    box-shadow: 0 0 0 2px var(--tradepress-color-primary) !important;
+    outline: 2px solid transparent !important;
+    text-decoration: underline !important;
+    background: none !important;
+}
+
+.wp-core-ui .button-link-delete,
+.wp-admin .button-link-delete,
+button.button-link-delete,
+input.button-link-delete {
+    color: var(--tradepress-color-error) !important;
+}
+
+.wp-core-ui .button-link-delete:hover,
+.wp-core-ui .button-link-delete:focus,
+.wp-admin .button-link-delete:hover,
+.wp-admin .button-link-delete:focus,
+button.button-link-delete:hover,
+button.button-link-delete:focus,
+input.button-link-delete:hover,
+input.button-link-delete:focus {
+    color: var(--tradepress-color-error-dark) !important;
+    background: none !important;
+}
+
+.wp-core-ui .button-link-delete:disabled,
+.wp-admin .button-link-delete:disabled,
+button.button-link-delete:disabled,
+input.button-link-delete:disabled {
+    background: none !important;
+    color: var(--tradepress-color-gray-500) !important;
+}
+
+/* Ensure TradePress UI Library button links work properly */
+.tradepress-ui-library-container .button-link,
+#ui-library .button-link {
+    color: var(--tradepress-color-primary) !important;
+    text-decoration: underline !important;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+}
+
+/* Button Sizes */
+.tp-button-small {
+    padding: var(--tradepress-spacing-xs) var(--tradepress-spacing-sm);
+    font-size: var(--tradepress-font-size-sm);
+    min-height: 28px;
+}
+
+.tp-button-large {
+    padding: var(--tradepress-spacing-lg) var(--tradepress-spacing-xl);
+    font-size: var(--tradepress-font-size-lg);
+    min-height: 40px;
+}
+
+/* WordPress Button Size Compatibility */
+.button-large {
+    min-height: 32px;
+    line-height: 2.30769231;
+    padding: 0 12px;
+    font-size: 13px;
+}
+
+/* Ensure button-large works properly in UI Library context */
+.tradepress-ui-library-container .button.button-large,
+#ui-library .button.button-large {
+    min-height: 32px !important;
+    line-height: 2.30769231 !important;
+    padding: 0 12px !important;
+    font-size: 13px !important;
+}
+
+/* Button Groups */
+.tp-button-group {
+    display: inline-flex;
+    vertical-align: middle;
+}
+
+.tp-button-group .tp-button {
+    border-radius: 0;
+    margin-left: -1px;
+}
+
+.tp-button-group .tp-button:first-child {
+    border-top-left-radius: var(--tradepress-border-radius);
+    border-bottom-left-radius: var(--tradepress-border-radius);
+    margin-left: 0;
+}
+
+.tp-button-group .tp-button:last-child {
+    border-top-right-radius: var(--tradepress-border-radius);
+    border-bottom-right-radius: var(--tradepress-border-radius);
+}
+
+.tp-button-group .tp-button:hover {
+    z-index: 1;
+}
+
+/* Icon Buttons */
+.tp-button-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tradepress-spacing-xs);
+}
+
+.tp-button-icon .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+/* Loading State */
+.tp-button-loading {
+    position: relative;
+    color: transparent !important;
+}
+
+.tp-button-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: tp-button-spin 0.8s linear infinite;
+}
+
+@keyframes tp-button-spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* WordPress Button Compatibility */
+.button.tp-button {
+    font-family: var(--tradepress-font-family-base);
+    font-weight: var(--tradepress-font-weight-medium);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 782px) {
+    .tp-button {
+        padding: var(--tradepress-spacing-sm) var(--tradepress-spacing-md);
+        font-size: var(--tradepress-font-size-md);
+        min-height: 36px;
+    }
+    
+    .tp-button-small {
+        padding: var(--tradepress-spacing-xs) var(--tradepress-spacing-sm);
+        font-size: var(--tradepress-font-size-sm);
+        min-height: 32px;
+    }
+}

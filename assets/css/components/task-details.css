@@ -1,0 +1,162 @@
+/* Task Details Card */
+.task-details-card {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    margin-bottom: 20px;
+}
+
+.task-details-header {
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.task-title {
+    margin: 0 0 15px 0;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #1d2327;
+}
+
+.task-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.task-meta > span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    color: #646970;
+}
+
+.task-meta .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.task-details-body {
+    padding: 20px;
+}
+
+.task-details-footer {
+    padding: 20px;
+    border-top: 1px solid #e0e0e0;
+    background: #f6f7f7;
+}
+
+/* Content Sections within Task Details */
+.task-description,
+.task-notes,
+.task-ai-guidance,
+.task-subtasks {
+    margin-bottom: 25px;
+}
+
+.task-description:last-child,
+.task-notes:last-child,
+.task-ai-guidance:last-child,
+.task-subtasks:last-child {
+    margin-bottom: 0;
+}
+
+.task-description h4,
+.task-notes h4,
+.task-ai-guidance h4,
+.task-subtasks h4 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.description-content,
+.notes-content,
+.ai-guidance-content {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    padding: 15px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Subtasks */
+.subtasks-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.subtask-item {
+    margin-bottom: 8px;
+}
+
+.subtask-item label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.subtask-item.completed .subtask-title {
+    text-decoration: line-through;
+    color: #646970;
+}
+
+.subtasks-actions {
+    margin-top: 15px;
+}
+
+/* Status and Priority Styling */
+.task-source {
+    background: #e7f3ff;
+    color: #0073aa;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.task-priority {
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.task-status {
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.task-github-status .github-link {
+    margin-left: 5px;
+    color: #0073aa;
+    text-decoration: none;
+}
+
+.task-github-status .github-link:hover {
+    color: #005a87;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .task-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .task-details-header,
+    .task-details-body,
+    .task-details-footer {
+        padding: 15px;
+    }
+}

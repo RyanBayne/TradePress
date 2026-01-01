@@ -1,0 +1,536 @@
+/**
+ * TradePress Economic Calendar Styles
+ *
+ * Styles for the Economic Calendar tab in the Research page
+ *
+ * @package TradePress
+ * @version 1.0.0
+ * @since 1.0.0
+ */
+
+/* Economic Calendar Styles */
+.tradepress-economic-calendar-container {
+    margin-bottom: 30px;
+}
+
+.tradepress-research-inputs {
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.tradepress-input-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.tradepress-input-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+}
+
+.tradepress-input-group label {
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.tradepress-input-group select,
+.tradepress-input-group input[type="date"] {
+    height: 30px;
+    padding: 0 8px;
+}
+
+.regions-filter {
+    flex-grow: 1;
+}
+
+.region-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.region-checkbox {
+    display: inline-flex;
+    align-items: center;
+    background: #f5f5f5;
+    padding: 4px 8px;
+    border-radius: 3px;
+    border: 1px solid #eee;
+    cursor: pointer;
+}
+
+.region-checkbox input {
+    margin-right: 4px;
+}
+
+.region-flag {
+    width: 16px;
+    height: 12px;
+    margin-right: 5px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.flag-us { background-color: #3c3b6e; }
+.flag-eu { background-color: #039; }
+.flag-uk { background-color: #012169; }
+.flag-jp { background-color: #fff; border: 1px solid #ddd; }
+.flag-ca { background-color: #fff; border: 1px solid #ddd; }
+.flag-au { background-color: #00008b; }
+
+.tradepress-action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.quick-date-selectors {
+    display: flex;
+    gap: 8px;
+    margin-left: 10px;
+}
+
+.quick-date-link {
+    background: #f0f0f1;
+    padding: 3px 8px;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 12px;
+    color: #2271b1;
+}
+
+.quick-date-link:hover {
+    background: #e0e0e0;
+    color: #135e96;
+}
+
+.tradepress-notification-center {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border-left: 4px solid #2271b1;
+}
+
+.notification-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.tradepress-highlights-panel {
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.todays-events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.event-card {
+    background: #f9f9f9;
+    border-radius: 4px;
+    padding: 12px;
+    position: relative;
+    border-left: 3px solid #ccc;
+}
+
+.event-card.importance-high {
+    border-left-color: #d63638;
+    background: #fcf0f1;
+}
+
+.event-card.importance-medium {
+    border-left-color: #dba617;
+    background: #fcf9e8;
+}
+
+.event-card.importance-low {
+    border-left-color: #2271b1;
+    background: #f0f6fc;
+}
+
+.event-time {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.event-region {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #50575e;
+    margin-bottom: 8px;
+}
+
+.event-title {
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.event-forecast, .event-previous {
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.event-forecast .label, .event-previous .label {
+    font-weight: 600;
+    color: #50575e;
+}
+
+.tradepress-calendar-panel {
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.date-range {
+    font-size: 14px;
+    font-weight: normal;
+    color: #50575e;
+}
+
+.calendar-date {
+    margin-bottom: 25px;
+}
+
+.date-heading {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.event-count {
+    font-size: 13px;
+    font-weight: normal;
+    color: #50575e;
+    background: #f0f0f1;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.events-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.events-table th {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 2px solid #eee;
+    font-weight: 600;
+}
+
+.events-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+}
+
+.event-row.importance-high {
+    background-color: #fcf0f1;
+}
+
+.event-row.importance-medium {
+    background-color: #fcf9e8;
+}
+
+.column-time {
+    width: 8%;
+    white-space: nowrap;
+}
+
+.column-region {
+    width: 5%;
+}
+
+.column-impact {
+    width: 10%;
+}
+
+.column-forecast, .column-previous, .column-actual {
+    width: 12%;
+}
+
+.impact-indicator {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.impact-high {
+    background-color: #fcf0f1;
+    color: #d63638;
+}
+
+.impact-medium {
+    background-color: #fcf9e8;
+    color: #dba617;
+}
+
+.impact-low {
+    background-color: #f0f6fc;
+    color: #2271b1;
+}
+
+.actual-value {
+    font-weight: 600;
+}
+
+.better-than-expected {
+    color: #00a32a;
+}
+
+.worse-than-expected {
+    color: #d63638;
+}
+
+.as-expected {
+    color: #3c434a;
+}
+
+.tradepress-guide-panel {
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.impact-guide-section {
+    margin-bottom: 25px;
+}
+
+.impact-levels {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.impact-level {
+    display: flex;
+    gap: 10px;
+}
+
+.impact-bullet {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-top: 5px;
+}
+
+.impact-level.high .impact-bullet {
+    background-color: #d63638;
+}
+
+.impact-level.medium .impact-bullet {
+    background-color: #dba617;
+}
+
+.impact-level.low .impact-bullet {
+    background-color: #2271b1;
+}
+
+.impact-text {
+    flex: 1;
+}
+
+.key-indicators {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.indicator-section h5 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.trading-tips {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.trading-tip {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+.trading-tip ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.reaction-table-container {
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+.reaction-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.reaction-table th, .reaction-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.reaction-table th {
+    background-color: #f0f0f1;
+}
+
+.asset {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.asset.up {
+    color: #00a32a;
+}
+
+.asset.down {
+    color: #d63638;
+}
+
+.asset.neutral {
+    color: #3c434a;
+}
+
+.asset.complex {
+    color: #8c5e00;
+}
+
+.reaction-note {
+    font-size: 12px;
+    font-style: italic;
+    margin-top: 10px;
+}
+
+.impact-matrix {
+    margin-top: 30px;
+}
+
+.currency-impact-table-container {
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+.currency-impact-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.currency-impact-table th, .currency-impact-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.currency-impact-table th {
+    background-color: #f0f0f1;
+}
+
+.currency-impact-table td:first-child {
+    text-align: left;
+}
+
+.impact-up {
+    color: #00a32a;
+}
+
+.impact-down {
+    color: #d63638;
+}
+
+.impact-neutral {
+    color: #3c434a;
+}
+
+.impact-complex {
+    color: #8c5e00;
+}
+
+.tradepress-no-events {
+    padding: 20px;
+    text-align: center;
+    background: #f9f9f9;
+    border-radius: 4px;
+}
+
+.event-description {
+    font-size: 12px;
+    color: #50575e;
+    margin-top: 3px;
+}
+
+/* Demo indicator styles */
+.demo-indicator {
+    display: flex;
+    align-items: center;
+    background: #f0f6fc;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    position: relative;
+    border-left: 4px solid #2271b1;
+}
+
+.demo-icon {
+    font-size: 24px;
+    margin-right: 15px;
+    color: #2271b1;
+}
+
+.demo-text h4 {
+    margin: 0 0 5px 0;
+}
+
+.demo-text p {
+    margin: 0;
+    font-size: 13px;
+}
+
+.demo-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #d63638;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: bold;
+}

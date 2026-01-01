@@ -1,0 +1,41 @@
+/**
+ * TradePress - Twitter Social Platform Styles
+ *
+ * @package  TradePress/assets/css/pages
+ * @since    1.0.0
+ */
+
+.twitter-connection-settings,
+.twitter-content-settings,
+.twitter-testing {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.twitter-testing .test-buttons {
+    margin: 15px 0;
+}
+
+.twitter-testing .test-buttons .button {
+    margin-right: 10px;
+}
+
+.twitter-testing .test-results {
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.twitter-testing .test-output {
+    background: #2c3338;
+    color: #eee;
+    padding: 10px;
+    border-radius: 3px;
+    max-height: 300px;
+    overflow: auto;
+}

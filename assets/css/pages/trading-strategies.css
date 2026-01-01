@@ -1,0 +1,414 @@
+/**
+ * TradePress Trading Strategies Styles
+ *
+ * @package TradePress/Admin/CSS
+ * @version 1.0.0
+ */
+
+/* General layout and spacing */
+.strategies-tab-content {
+    margin: 20px 0;
+}
+
+.strategies-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Search and filter styling */
+.strategies-search input[type="search"] {
+    min-width: 300px;
+    margin-right: 5px;
+}
+
+/* Table styling */
+.strategies-table {
+    margin-top: 10px;
+}
+
+.strategies-table .column-name {
+    width: 25%;
+}
+
+.strategies-table .column-status {
+    width: 10%;
+}
+
+.strategies-table .column-success {
+    width: 15%;
+}
+
+.strategies-table .column-trades {
+    width: 8%;
+    text-align: center;
+}
+
+.strategies-table .column-profit {
+    width: 12%;
+    text-align: right;
+}
+
+.strategies-table .column-created {
+    width: 10%;
+}
+
+.strategies-table .column-actions {
+    width: 12%;
+    text-align: right;
+}
+
+/* Status styling */
+.strategy-status {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.status-active {
+    background-color: #e6f7e6;
+    color: #0a6b0a;
+}
+
+.status-archived {
+    background-color: #f1f1f1;
+    color: #666;
+}
+
+.status-toggle {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+/* Progress bar for success rate */
+.progress-bar {
+    width: 100%;
+    background-color: #f1f1f1;
+    border-radius: 4px;
+    height: 20px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: #4CAF50;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 30px;
+}
+
+/* Profit/Loss styling */
+.profit-positive {
+    color: #0a6b0a;
+    font-weight: bold;
+}
+
+.profit-negative {
+    color: #d63638;
+    font-weight: bold;
+}
+
+/* Action buttons */
+.strategy-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.strategy-actions .button {
+    padding: 0 8px;
+    height: 30px;
+    line-height: 28px;
+}
+
+.strategy-actions .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    line-height: 28px;
+}
+
+/* Toggle switch styling */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2271b1;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2271b1;
+}
+
+input:checked + .slider:before {
+    transform: translateX(16px);
+}
+
+.slider.round {
+    border-radius: 20px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Archive row styling */
+.strategy-archived .column-name a,
+.strategy-archived .column-name {
+    color: #999;
+}
+
+/* Quick View Row Styling */
+.quick-view-row td {
+    padding: 0;
+}
+
+.quick-view-content {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.quick-view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.quick-view-label {
+    font-size: 12px;
+    background-color: #e5e5e5;
+    color: #333;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-left: 10px;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+.close-quick-view {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.quick-view-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.quick-view-section {
+    flex: 1;
+    min-width: 300px;
+}
+
+.quick-view-section h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.quick-view-stats {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 5px;
+}
+
+.quick-view-stats th {
+    text-align: left;
+    font-weight: normal;
+    padding-right: 10px;
+    color: #666;
+    width: 30%;
+}
+
+.quick-view-actions {
+    margin-top: 20px;
+    text-align: right;
+}
+
+/* Modal styling */
+.strategy-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.strategy-modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 60%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    animation: modalFade 0.3s;
+    max-width: 800px;
+}
+
+.strategy-details-content {
+    width: 80%;
+    max-width: 1000px;
+}
+
+@keyframes modalFade {
+    from {opacity: 0}
+    to {opacity: 1}
+}
+
+.strategy-modal-header {
+    padding: 15px 20px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.strategy-modal-header h3 {
+    margin: 0;
+    padding: 0;
+}
+
+.strategy-modal-body {
+    padding: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.strategy-modal-footer {
+    padding: 15px 20px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    text-align: right;
+}
+
+.close-strategy-modal,
+.close-strategy-details {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+/* Form styling */
+.form-row {
+    margin-bottom: 15px;
+}
+
+.form-row label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.form-row input[type="text"],
+.form-row input[type="number"],
+.form-row select,
+.form-row textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.input-with-prefix,
+.input-with-suffix {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-prefix {
+    position: absolute;
+    left: 8px;
+    color: #666;
+}
+
+.input-with-prefix input {
+    padding-left: 25px;
+}
+
+.input-suffix {
+    margin-left: 5px;
+    color: #666;
+}
+
+.required {
+    color: #d63638;
+}
+
+.form-row .description {
+    margin-top: 5px;
+    color: #666;
+    font-size: 12px;
+}
+
+.checkbox-toggle {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+/* Loading indicator */
+.strategy-details-loading {
+    text-align: center;
+    padding: 30px;
+}
+
+.strategy-details-loading .spinner {
+    float: none;
+    margin: 0 auto 10px;
+}

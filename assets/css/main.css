@@ -1,0 +1,85 @@
+/**
+ * TradePress - Main CSS File
+ * 
+ * This file imports all of the CSS files in the correct order.
+ * It serves as the single entry point for all TradePress styles.
+ *
+ * @package TradePress/CSS
+ * @since 1.0.0
+ */
+
+/* Base styles */
+@import 'base/variables.css';
+@import 'base/reset.css';
+@import 'base/typography.css';
+
+/* Utilities */
+@import 'utilities/animations.css';
+
+/* Layout styles - API layout must be loaded early for Trading Platforms */
+@import 'layouts/admin.css';
+@import 'layouts/grids.css';
+@import 'layouts/responsive.css';
+@import 'layouts/api.css';
+@import 'layouts/tabs.css';
+
+/* Component styles */
+@import 'components/accordion.css';
+@import 'components/forms.css';
+@import 'components/cards.css';
+@import 'components/tables.css';
+@import 'components/status.css';
+@import 'components/notices.css';
+@import 'components/switches.css';
+@import 'components/buttons.css';
+@import 'components/data-explorer.css';
+@import 'components/metrics.css';
+@import 'components/modals.css';
+@import 'components/alerts.css';
+@import 'components/indicators.css';
+@import 'components/diagnostics.css';
+@import 'components/code-blocks.css';
+@import 'components/experiments.css';
+@import 'components/steps.css';
+@import 'components/forms-wizard.css';
+@import 'components/meta-data.css';
+@import 'components/lists.css';
+@import 'components/content-sections.css';
+@import 'components/status-messages.css';
+@import 'components/pagination.css';
+@import 'components/filters.css';
+@import 'components/task-items.css';
+@import 'components/charts.css';
+@import 'components/heatmaps.css';
+@import 'components/candlesticks.css';
+@import 'components/data-analysis.css';
+
+/* Page styles - Trading page styles loaded with higher priority */
+@import 'pages/trading.css';
+@import 'pages/alert-decoder.css';
+@import 'pages/earnings.css';
+@import 'pages/stockvip.css';
+@import 'pages/tasks.css';
+@import 'pages/automation.css';
+@import 'pages/discord-settings.css';
+@import 'pages/features.css';
+@import 'pages/research.css';
+@import 'pages/sandbox.css';
+@import 'pages/setup.css';
+@import 'pages/shortcodes.css';
+@import 'pages/ui-library.css';
+
+/* Legacy compatibility styles - Will be removed in future versions */
+@import 'legacy/compatibility.css';
+
+/**
+ * DOCUMENTATION
+ * 
+ * How to use the TradePress CSS architecture:
+ * 
+ * 1. Use the tp-* prefix for all new HTML classes
+ * 2. Follow component documentation in each file for HTML structure
+ * 3. Legacy class names are mapped to new ones for backward compatibility
+ * 4. Refer to variables.css for all available design tokens
+ * 5. API status components are in layouts/api.css and components/status.css
+ */

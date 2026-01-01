@@ -1,0 +1,126 @@
+/**
+ * TradePress Directives Testing Styles
+ *
+ * @package TradePress/Admin/CSS
+ * @version 1.0.0
+ */
+
+.testing-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--tp-spacing-xl);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.testing-controls,
+.testing-results {
+    background: var(--tp-color-white);
+    border: 1px solid #dcdcde;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+}
+
+.form-group {
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--tp-spacing-xs);
+    font-weight: 500;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--tp-spacing-xs);
+}
+
+.directive-checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--tp-spacing-xs);
+}
+
+.directive-checkboxes label {
+    font-weight: normal;
+}
+
+.test-actions {
+    display: flex;
+    gap: var(--tp-spacing-md);
+}
+
+.score-display {
+    text-align: center;
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+.overall-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.score-value {
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--tp-color-primary);
+}
+
+.score-label {
+    color: #646970;
+    font-size: var(--tp-font-size-sm);
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--tp-spacing-md);
+}
+
+.metric-item {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--tp-spacing-sm);
+    background: #f6f7f7;
+    border-radius: var(--tp-border-radius);
+}
+
+.score-badge {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: var(--tp-font-size-sm);
+    font-weight: 500;
+}
+
+.score-high {
+    background: #ecf7ed;
+    color: #0c833f;
+}
+
+.score-medium {
+    background: #fcf9e8;
+    color: #bd8600;
+}
+
+.status-success {
+    color: #0c833f;
+}
+
+.testing-history {
+    background: var(--tp-color-white);
+    border: 1px solid #dcdcde;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+}
+
+@media screen and (max-width: 782px) {
+    .testing-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .test-actions {
+        flex-direction: column;
+    }
+}

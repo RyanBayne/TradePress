@@ -1,0 +1,355 @@
+/**
+ * TradePress Research Stylesheet
+ */
+
+.tradepress-research .description {
+    margin-bottom: 20px;
+}
+
+/* Price Forecast styles */
+.price-forecast-wrapper {
+    margin-top: 20px;
+}
+
+.price-forecast-controls {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+}
+
+.price-forecast-data {
+    margin-bottom: 30px;
+}
+
+.price-forecast-data table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.price-forecast-data th {
+    text-align: left;
+    font-weight: bold;
+}
+
+.price-forecast-info {
+    background: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    margin-top: 30px;
+}
+
+.price-forecast-info ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+/* Research Sources styles */
+.tradepress-manage-sources-container {
+    margin-top: 20px;
+}
+
+.tradepress-sources-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.tradepress-sources-description {
+    margin-bottom: 20px;
+}
+
+.tradepress-no-sources {
+    padding: 30px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.tradepress-sources-table .status-active {
+    color: #46b450;
+}
+
+.tradepress-sources-table .status-paused {
+    color: #ffb900;
+}
+
+.tradepress-sources-table .status-archived {
+    color: #888;
+}
+
+.tradepress-source-form-container {
+    max-width: 800px;
+    margin-top: 20px;
+}
+
+.source-settings-row {
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    margin-top: 10px;
+}
+
+.tradepress-sources-table .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tradepress-sources-table .actions .button {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+/* Demo indicator for features in development */
+.demo-indicator {
+    display: flex;
+    align-items: center;
+    background-color: #F3F5F6;
+    border-left: 4px solid #646970;
+    padding: 12px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.demo-icon {
+    margin-right: 12px;
+    font-size: 24px;
+    color: #646970;
+}
+
+.demo-text h4 {
+    margin: 0 0 5px 0;
+}
+
+.demo-text p {
+    margin: 0;
+    color: #50575E;
+}
+
+.demo-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: #DC3232;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+/* Earnings Tab styles */
+.tradepress-earnings-container {
+    margin-top: 20px;
+}
+
+.earnings-filters {
+    margin-bottom: 15px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.filter-group label {
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.timezone-info {
+    margin-top: 10px;
+    color: #666;
+    font-size: 12px;
+}
+
+.earnings-date-group {
+    margin-bottom: 25px;
+}
+
+.earnings-date-header {
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.day-name {
+    color: #666;
+    margin-left: 10px;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.report-count {
+    margin-left: auto;
+    background: #f0f0f0;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.time-badge {
+    display: inline-block;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.time-bmo {
+    background-color: #e6f7ff;
+    color: #0073aa;
+}
+
+.time-amc {
+    background-color: #fef0f0;
+    color: #d63638;
+}
+
+.importance-high {
+    background-color: rgba(214, 54, 56, 0.05);
+}
+
+.importance-indicator {
+    color: #d63638;
+    margin-left: 5px;
+}
+
+.sector-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.insight-card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Earnings modal styles */
+.earnings-modal {
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.earnings-modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 800px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: black;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+    .filter-row {
+        flex-direction: column;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .earnings-date-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .report-count {
+        margin-left: 0;
+        margin-top: 5px;
+    }
+}
+
+.earnings-calendar {
+    margin-bottom: 30px;
+}
+
+.earnings-calendar table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.earnings-calendar th {
+    text-align: left;
+    font-weight: bold;
+}
+
+.earnings-detail {
+    background: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    margin-top: 30px;
+}
+
+.earnings-surprise-positive {
+    color: #46b450;
+    font-weight: bold;
+}
+
+.earnings-surprise-negative {
+    color: #dc3232;
+    font-weight: bold;
+}
+
+.earnings-surprise-neutral {
+    color: #999;
+}

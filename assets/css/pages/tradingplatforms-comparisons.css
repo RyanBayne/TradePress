@@ -1,0 +1,319 @@
+/**
+ * TradePress - Trading Platforms Comparisons Tab Styles
+ *
+ * @package TradePress/Admin/CSS
+ */
+
+.tradepress-api-comparisons-container {
+    margin: 20px 0;
+}
+
+.api-comparisons-description {
+    margin-bottom: 20px;
+}
+
+.comparison-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 20px 0;
+    padding: 15px;
+    background: #f0f0f1;
+    border-radius: 4px;
+}
+
+.feature-filter, .provider-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#provider-select {
+    min-width: 250px;
+}
+
+.comparison-category-section {
+    margin-bottom: 30px;
+}
+
+.comparison-category-title {
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.comparison-table-wrapper {
+    overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+.comparison-table {
+    table-layout: fixed;
+    min-width: 100%;
+    width: auto;
+    white-space: nowrap;
+    border-collapse: collapse;
+}
+
+.comparison-table th {
+    background-color: #f0f0f1;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.comparison-table .feature-column {
+    width: 180px;
+    position: sticky;
+    left: 0;
+    background-color: #f0f0f1;
+    z-index: 2;
+}
+
+.comparison-table .provider-column {
+    min-width: 150px;
+    max-width: 180px;
+}
+
+.provider-icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.comparison-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.comparison-table .feature-name {
+    font-weight: 500;
+    background-color: #f9f9f9;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+
+.provider-value .value {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.provider-value .notes {
+    font-size: 12px;
+    color: #666;
+    font-style: italic;
+}
+
+/* Value styling */
+.value-positive {
+    color: #2a8d46;
+}
+
+.value-negative {
+    color: #d63638;
+}
+
+.value-limited {
+    color: #cc7f16;
+}
+
+.value-na {
+    color: #646970;
+    font-style: italic;
+}
+
+.value-pending {
+    color: #646970;
+    font-style: italic;
+}
+
+/* Legend Styling */
+.comparison-legend {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.comparison-legend h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.comparison-legend ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.legend-item {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-right: 5px;
+    font-weight: 500;
+}
+
+/* Notes section */
+.comparison-notes {
+    margin: 20px 0;
+}
+
+.comparison-notes h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.comparison-notes ol {
+    margin-left: 20px;
+    color: #666;
+}
+
+/* Demo indicator */
+.demo-indicator {
+    display: flex;
+    align-items: center;
+    background-color: #f0f7ff;
+    border-left: 4px solid #0073aa;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.demo-icon {
+    font-size: 24px;
+    margin-right: 15px;
+    color: #0073aa;
+}
+
+.demo-text h4 {
+    margin: 0 0 5px 0;
+    color: #23282d;
+}
+
+.demo-text p {
+    margin: 0;
+    color: #666;
+    font-size: 13px;
+}
+
+.demo-badge {
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    background: #ffb900;
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 3px;
+}
+
+
+
+/* API Capability Matrix Styles */
+.alpha-directive {
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+}
+
+.alpha-badge {
+    display: inline-block;
+    background: #ffc107;
+    color: #212529;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-top: 3px;
+}
+
+.directive-status {
+    font-size: 11px;
+    color: #666;
+    font-style: italic;
+    margin-top: 2px;
+}
+
+.endpoints {
+    font-size: 10px;
+    color: #888;
+    margin-top: 2px;
+    font-family: monospace;
+}
+
+.matrix-benefits {
+    margin: 20px 0;
+    padding: 15px;
+    background: #e7f3ff;
+    border: 1px solid #b3d9ff;
+    border-radius: 4px;
+}
+
+.matrix-benefits h4 {
+    margin-top: 0;
+    color: #0073aa;
+}
+
+.matrix-benefits ul {
+    margin: 10px 0 0 20px;
+}
+
+.matrix-benefits li {
+    margin-bottom: 8px;
+    color: #333;
+}
+
+/* Section toggles */
+.section-toggles, .provider-filters {
+    margin-bottom: 15px;
+}
+
+.section-toggles h4, .provider-filters h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.section-toggle.active {
+    background: #0073aa;
+    color: white;
+}
+
+.filter-button.active {
+    background: #00a32a;
+    color: white;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+    .comparison-controls {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .feature-filter, .provider-filter {
+        width: 100%;
+    }
+    
+    .comparison-table .provider-column {
+        min-width: 120px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+}

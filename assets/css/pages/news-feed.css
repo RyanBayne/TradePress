@@ -1,0 +1,274 @@
+/**
+ * TradePress News Feed Tab Styles
+ *
+ * @package TradePress/Admin/CSS
+ * @version 1.0.0
+ */
+
+.tradepress-news-feed-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.demo-indicator {
+    display: flex;
+    align-items: center;
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.demo-icon {
+    font-size: 24px;
+    color: #856404;
+    margin-right: 15px;
+}
+
+.demo-text h4 {
+    margin: 0 0 5px 0;
+    color: #856404;
+}
+
+.demo-text p {
+    margin: 0;
+    color: #856404;
+}
+
+.demo-badge {
+    background: #856404;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: auto;
+}
+
+.news-feed-header {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+}
+
+.filter-group label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #23282d;
+}
+
+.filter-group input,
+.filter-group select {
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.no-feed-items {
+    text-align: center;
+    padding: 40px;
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+}
+
+.feed-items-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.feed-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 20px;
+    transition: box-shadow 0.2s ease;
+}
+
+.feed-item:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.feed-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.source-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.source-icon {
+    font-size: 16px;
+    color: #666;
+}
+
+.source-name {
+    font-weight: 600;
+    color: #23282d;
+}
+
+.time-ago {
+    color: #666;
+    font-size: 14px;
+}
+
+.feed-title {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #23282d;
+}
+
+.feed-message {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.feed-symbols {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.feed-symbol {
+    background: #0073aa;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.feed-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.feed-item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.sentiment-indicator {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.sentiment-positive {
+    background: #d4edda;
+    color: #155724;
+}
+
+.sentiment-negative {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.sentiment-neutral {
+    background: #e2e3e5;
+    color: #383d41;
+}
+
+.feed-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.feed-pagination {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.load-more-feed {
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+/* Source type specific styling */
+.feed-item.discord {
+    border-left: 4px solid #7289da;
+}
+
+.feed-item.twitter {
+    border-left: 4px solid #1da1f2;
+}
+
+.feed-item.news {
+    border-left: 4px solid #ff6b35;
+}
+
+.feed-item.reddit {
+    border-left: 4px solid #ff4500;
+}
+
+.feed-item.stocktwits {
+    border-left: 4px solid #40a9ff;
+}
+
+.feed-item.blogs {
+    border-left: 4px solid #28a745;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .filter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-group {
+        min-width: auto;
+    }
+    
+    .feed-item-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .feed-item-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}

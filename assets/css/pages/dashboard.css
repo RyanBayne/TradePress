@@ -1,0 +1,76 @@
+/**
+ * TradePress - WordPress Admin Dashboard Styles: tradepress/wp-admin/index.php
+ * 
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ */
+
+/* Recent Symbols Widget Styles */
+.tradepress-recent-symbols-widget {
+    margin: -12px;
+}
+
+.tradepress-recent-symbol-item {
+    display: flex;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+
+.tradepress-recent-symbol-item:last-child {
+    border-bottom: none;
+}
+
+.tradepress-symbol-icon {
+    margin-right: 12px;
+}
+
+.tradepress-symbol-icon img {
+    border-radius: 4px;
+    background: #f0f0f0;
+}
+
+.tradepress-symbol-info {
+    flex: 1;
+}
+
+.tradepress-symbol-name {
+    margin: 0 0 2px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.tradepress-company-name {
+    margin: 0;
+    color: #666;
+    font-size: 12px;
+}
+
+.tradepress-symbol-price {
+    text-align: right;
+}
+
+.tradepress-price-value {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.tradepress-price-change {
+    font-size: 12px;
+}
+
+.tradepress-price-change.positive {
+    color: #0c833f;
+}
+
+.tradepress-price-change.negative {
+    color: #dc3232;
+}
+
+.tradepress-widget-footer {
+    padding: 8px 12px;
+    background: #f8f8f8;
+    border-top: 1px solid #eee;
+    text-align: right;
+}
+

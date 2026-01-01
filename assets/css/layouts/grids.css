@@ -1,0 +1,126 @@
+/**
+ * TradePress - Grid Layout Styles
+ * 
+ * Reusable grid systems for layouts.
+ * 
+ * HTML Structure:
+ * <div class="tp-grid tp-grid-2col">
+ *   <div class="tp-grid-item">Item 1</div>
+ *   <div class="tp-grid-item">Item 2</div>
+ * </div>
+ * 
+ * @package TradePress/CSS/Layouts
+ * @since 1.0.0
+ */
+
+.tradepress-grid {
+    display: grid !important;
+    grid-gap: var(--tp-spacing-lg) !important;
+    margin-bottom: var(--tp-spacing-xl) !important;
+}
+
+.tradepress-grid-2col {
+    grid-template-columns: repeat(2, 1fr) !important;
+}
+
+.tradepress-grid-3col {
+    grid-template-columns: repeat(3, 1fr) !important;
+}
+
+.tradepress-grid-4col {
+    grid-template-columns: repeat(4, 1fr) !important;
+}
+
+.tradepress-grid-item {
+    min-width: 0 !important; /* Fix for text overflow */
+}
+
+.tradepress-grid-auto {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
+}
+
+/* Results Grid */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* API Grid Layout */
+.api-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-gap: 20px;
+}
+
+/* Metrics Grid */
+.tradepress-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.tradepress-metrics-grid.columns-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* Emoji Guide Grid */
+.emoji-guide {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
+    grid-gap: 10px !important;
+    margin-top: 15px !important;
+}
+
+/* Template Buttons Grid */
+.templates-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+/* Alert Grid Layout */
+.tradepress-alerts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--tp-spacing-xl);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+/* Statistics Grid Layout */
+.tradepress-statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--tp-spacing-xl);
+    margin-bottom: 30px;
+}
+
+/* Charts Grid Layout */
+.tradepress-charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--tp-spacing-xl);
+    margin-bottom: 30px;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.stock-alerts-grid { @extend .tradepress-alerts-grid; }
+.statistics-cards { @extend .tradepress-statistics-grid; }
+.charts-container { @extend .tradepress-charts-grid; }
+
+@media screen and (max-width: 782px) {
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tradepress-metrics-grid.columns-3 {
+        grid-template-columns: 1fr;
+    }
+    
+    .emoji-guide {
+        grid-template-columns: 1fr;
+    }
+}

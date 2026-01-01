@@ -1,0 +1,396 @@
+/**
+ * TradePress - Trading Platforms Layout Styles
+ * 
+ * Core layout styles shared across all trading platform tabs
+ * 
+ * @package TradePress/CSS/Layouts
+ * @since 1.0.0
+ */
+
+/* Service Overview Section */
+.service-overview {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.service-logo {
+    flex-shrink: 0;
+}
+
+.service-logo img {
+    max-width: 80px;
+    max-height: 80px;
+    width: auto;
+    height: auto;
+}
+
+.service-details {
+    flex: 1;
+}
+
+.service-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.service-version {
+    background: #f0f0f1;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    color: #646970;
+}
+
+/* Service Status Toggle Buttons */
+.service-status-toggle-button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.service-status-toggle-button.operational {
+    background: #00a32a;
+    color: #fff;
+}
+
+.service-status-toggle-button.non-operational {
+    background: #d63638;
+    color: #fff;
+}
+
+.trading-mode-toggle-button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.trading-mode-toggle-button.paper {
+    background: #f0b849;
+    color: #fff;
+}
+
+.trading-mode-toggle-button.live {
+    background: #00a32a;
+    color: #fff;
+}
+
+.demo-mode-toggle-button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.demo-mode-toggle-button.demo-on {
+    background: #72aee6;
+    color: #fff;
+}
+
+.demo-mode-toggle-button.demo-off {
+    background: #646970;
+    color: #fff;
+}
+
+/* API Service Info */
+.api-service-info {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.api-info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #646970;
+}
+
+.info-value {
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.info-value.live-env {
+    background: #00a32a;
+    color: #fff;
+}
+
+.info-value.demo-env {
+    background: #72aee6;
+    color: #fff;
+}
+
+.info-value.paper-trading {
+    background: #f0b849;
+    color: #fff;
+}
+
+.info-value.live-trading {
+    background: #00a32a;
+    color: #fff;
+}
+
+.info-value.data-only-api {
+    background: #646970;
+    color: #fff;
+}
+
+/* API Dashboard */
+.api-dashboard {
+    margin-top: 20px;
+}
+
+/* Quick Actions Bar */
+.api-quick-actions {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.quick-actions-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.quick-action-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.quick-action-button .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+/* Content Sections */
+.content-section {
+    margin-bottom: 20px;
+}
+
+/* Status Box */
+.status-box {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.status-header {
+    background: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* API Status Layout */
+.api-status-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+}
+
+.api-status-column {
+    min-width: 0;
+}
+
+/* Status Indicators */
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.status-dot.status-green {
+    background: #00a32a;
+}
+
+.status-dot.status-red {
+    background: #d63638;
+}
+
+.status-dot.status-yellow {
+    background: #f0b849;
+}
+
+.status-dot.status-grey {
+    background: #646970;
+}
+
+/* Progress Bars */
+.progress-bar-wrapper {
+    width: 100%;
+    height: 8px;
+    background: #f0f0f1;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #00a32a;
+    transition: width 0.3s ease;
+}
+
+/* API Type Indicator */
+.api-type-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.api-type-indicator.data-only {
+    background: #f0f6fc;
+    border: 1px solid #c7d2fe;
+}
+
+.api-type-indicator .dashicons {
+    font-size: 24px;
+    color: #646970;
+}
+
+.api-type-text strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* API Features List */
+.api-features ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.api-features li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+}
+
+.api-features .dashicons {
+    font-size: 16px;
+    color: #00a32a;
+}
+
+/* Key Status */
+.key-status-container {
+    margin-bottom: 20px;
+}
+
+.key-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.key-status.configured-key {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.key-status.missing-key {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Test Credentials Buttons */
+.test-credentials-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.test-api-connection,
+.test-api-credentials {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .api-status-layout {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .service-overview {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .service-meta {
+        justify-content: center;
+    }
+    
+    .api-status-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .quick-actions-row {
+        justify-content: center;
+    }
+    
+    .api-service-info {
+        justify-content: center;
+    }
+}

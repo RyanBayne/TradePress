@@ -1,0 +1,112 @@
+/**
+ * TradePress - Trading API Configuration Partial Styles
+ *
+ * @package TradePress/Admin/CSS
+ */
+
+.api-settings-tabs {
+    margin: 20px 0;
+    padding: 0;
+    display: flex;
+    border-bottom: 1px solid #ccc;
+}
+
+.api-settings-tabs li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.api-settings-tabs a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    margin-bottom: -1px;
+    color: #0073aa;
+    font-weight: 500;
+}
+
+.api-settings-tabs a.active {
+    border: 1px solid #ccc;
+    border-bottom-color: #f1f1f1;
+    background: #f1f1f1;
+    color: #000;
+}
+
+.api-settings-tab-content .tab-content {
+    display: none;
+    padding: 20px;
+    background: #f1f1f1;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.api-settings-tab-content .tab-content.active {
+    display: block;
+}
+
+.api-settings-actions {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-top: 1px solid #e5e5e5;
+    text-align: right;
+}
+
+/* Toggle switch styling */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 24px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}

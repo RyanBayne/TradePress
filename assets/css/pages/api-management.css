@@ -1,0 +1,356 @@
+/* API Management Tab Styles */
+
+/* Table Styles */
+.tradepress-left-column .tablenav {
+    margin-bottom: 15px;
+}
+
+.tradepress-left-column .wp-list-table {
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.tradepress-compact-table {
+    border: 1px solid #c3c4c7;
+    border-top: none;
+}
+
+/* Accordion Styles */
+.accordion-row {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.accordion-row:last-child {
+    border-bottom: none;
+}
+
+.accordion-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    cursor: pointer;
+    background: #fff;
+    transition: background-color 0.2s;
+}
+
+.accordion-header:hover {
+    background: #f8f9fa;
+}
+
+.accordion-header.active {
+    background: #f0f6fc;
+    border-left: 3px solid #0073aa;
+}
+
+.accordion-content {
+    display: none;
+    padding: 20px;
+    background: #fafafa;
+    border-top: 1px solid #e0e0e0;
+}
+
+.accordion-content.active {
+    display: block;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-inactive {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.type-badge {
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.type-data {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.type-trading {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.mode-badge {
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.mode-live {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.mode-paper {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.rate-limit-badge {
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.rate-normal {
+    background: #d4edda;
+    color: #155724;
+}
+
+.rate-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.rate-exceeded {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* API Meta Information */
+.api-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.api-meta > div {
+    font-size: 14px;
+}
+
+.api-meta strong {
+    color: #0073aa;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* API Actions */
+.api-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.api-actions .button {
+    font-size: 13px;
+    padding: 6px 12px;
+}
+
+/* API Specific Styles */
+
+/* Service Overview Styles */
+.service-overview {
+    margin-bottom: 25px;
+}
+
+.service-details {
+    width: 100%;
+}
+
+.service-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.service-version {
+    font-size: 13px;
+    color: #666;
+    margin-right: 15px;
+}
+
+/* Button Styles */
+.service-status-toggle-button,
+.trading-mode-toggle-button,
+.demo-mode-toggle-button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.service-status-toggle-button.operational {
+    background: #28a745;
+    color: white;
+}
+
+.service-status-toggle-button.disabled {
+    background: #dc3545;
+    color: white;
+}
+
+.trading-mode-toggle-button.live {
+    background: #dc3545;
+    color: white;
+}
+
+.trading-mode-toggle-button.paper {
+    background: #17a2b8;
+    color: white;
+}
+
+.demo-mode-toggle-button.demo-on {
+    background: #ffc107;
+    color: #212529;
+}
+
+.demo-mode-toggle-button.demo-off {
+    background: #6c757d;
+    color: white;
+}
+
+/* API Service Info */
+.api-service-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.api-info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #555;
+    font-size: 13px;
+}
+
+.info-value {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.info-value.demo-env {
+    color: #856404;
+}
+
+.info-value.live-env {
+    color: #155724;
+}
+
+.info-value.data-only-api {
+    color: #004085;
+}
+
+.info-value.live-trading {
+    color: #721c24;
+}
+
+.info-value.paper-trading {
+    color: #0c5460;
+}
+
+/* Rate Limiting Section */
+.rate-limit-section {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.rate-limit-section h4 {
+    margin: 0 0 15px 0;
+    color: #0073aa;
+    font-size: 14px;
+}
+
+.rate-limit-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.rate-limit-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.rate-label {
+    font-weight: 600;
+    color: #555;
+    font-size: 13px;
+}
+
+.rate-value {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .api-meta {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .api-service-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .accordion-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .accordion-header > div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .api-meta {
+        grid-template-columns: 1fr;
+    }
+    
+    .service-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .api-actions {
+        flex-direction: column;
+    }
+    
+    .api-actions .button {
+        width: 100%;
+        text-align: center;
+    }
+}

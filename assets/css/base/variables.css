@@ -1,0 +1,196 @@
+/**
+ * TradePress CSS Variables
+ * 
+ * Global CSS custom properties for consistent styling
+ * 
+ * @package TradePress/CSS/Base
+ * @since 1.0.0
+ * @created 2024-12-21
+ */
+
+:root {
+    /* Colors - WordPress Admin Color Scheme */
+    --tradepress-color-primary: #2271b1;
+    --tradepress-color-primary-dark: #135e96;
+    --tradepress-color-primary-light: #72aee6;
+    
+    --tradepress-color-secondary: #646970;
+    --tradepress-color-secondary-dark: #50575e;
+    --tradepress-color-secondary-light: #8c8f94;
+    
+    --tradepress-color-success: #00a32a;
+    --tradepress-color-success-dark: #007317;
+    --tradepress-color-success-light: #68de7c;
+    
+    --tradepress-color-warning: #dba617;
+    --tradepress-color-warning-dark: #996b00;
+    --tradepress-color-warning-light: #f0c33c;
+    
+    --tradepress-color-error: #d63638;
+    --tradepress-color-error-dark: #b32d2e;
+    --tradepress-color-error-light: #e65054;
+    
+    --tradepress-color-info: #72aee6;
+    --tradepress-color-info-dark: #2271b1;
+    --tradepress-color-info-light: #a7c7e7;
+    
+    /* Neutral Colors */
+    --tradepress-color-white: #ffffff;
+    --tradepress-color-black: #000000;
+    
+    --tradepress-color-gray-50: #f6f7f7;
+    --tradepress-color-gray-100: #f0f0f1;
+    --tradepress-color-gray-200: #e0e0e0;
+    --tradepress-color-gray-300: #dcdcde;
+    --tradepress-color-gray-400: #c3c4c7;
+    --tradepress-color-gray-500: #a7aaad;
+    --tradepress-color-gray-600: #8c8f94;
+    --tradepress-color-gray-700: #646970;
+    --tradepress-color-gray-800: #50575e;
+    --tradepress-color-gray-900: #1d2327;
+    
+    /* WordPress Blue Variants */
+    --tradepress-color-wp-blue: #2271b1;
+    --tradepress-color-wp-blue-dark: #135e96;
+    --tradepress-color-wp-blue-light: #72aee6;
+    
+    /* Spacing Scale */
+    --tradepress-spacing-xs: 4px;
+    --tradepress-spacing-sm: 8px;
+    --tradepress-spacing-md: 12px;
+    --tradepress-spacing-lg: 16px;
+    --tradepress-spacing-xl: 20px;
+    --tradepress-spacing-2xl: 24px;
+    --tradepress-spacing-3xl: 32px;
+    --tradepress-spacing-4xl: 40px;
+    --tradepress-spacing-5xl: 48px;
+    
+    /* Typography */
+    --tradepress-font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    --tradepress-font-family-mono: Consolas, Monaco, monospace;
+    
+    --tradepress-font-size-xs: 11px;
+    --tradepress-font-size-sm: 12px;
+    --tradepress-font-size: 13px;
+    --tradepress-font-size-md: 14px;
+    --tradepress-font-size-lg: 16px;
+    --tradepress-font-size-xl: 18px;
+    --tradepress-font-size-2xl: 22px;
+    --tradepress-font-size-3xl: 28px;
+    
+    --tradepress-font-weight-normal: 400;
+    --tradepress-font-weight-medium: 500;
+    --tradepress-font-weight-semibold: 600;
+    --tradepress-font-weight-bold: 700;
+    
+    --tradepress-line-height-tight: 1.2;
+    --tradepress-line-height-normal: 1.4;
+    --tradepress-line-height-relaxed: 1.6;
+    
+    /* Border Radius */
+    --tradepress-border-radius-sm: 2px;
+    --tradepress-border-radius: 4px;
+    --tradepress-border-radius-md: 6px;
+    --tradepress-border-radius-lg: 8px;
+    --tradepress-border-radius-xl: 12px;
+    --tradepress-border-radius-full: 9999px;
+    
+    /* Borders */
+    --tradepress-border-width: 1px;
+    --tradepress-border-width-thick: 2px;
+    --tradepress-border-style: solid;
+    --tradepress-border-color: var(--tradepress-color-gray-300);
+    --tradepress-border-standard: var(--tradepress-border-width) var(--tradepress-border-style) var(--tradepress-border-color);
+    
+    /* Shadows */
+    --tradepress-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --tradepress-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --tradepress-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --tradepress-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --tradepress-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+    
+    /* Z-Index Scale */
+    --tradepress-z-index-dropdown: 1000;
+    --tradepress-z-index-modal: 1050;
+    --tradepress-z-index-popover: 1060;
+    --tradepress-z-index-tooltip: 1070;
+    --tradepress-z-index-toast: 1080;
+    
+    /* Transitions */
+    --tradepress-transition-fast: 150ms ease;
+    --tradepress-transition-normal: 250ms ease;
+    --tradepress-transition-slow: 350ms ease;
+    
+    /* Component Specific */
+    --tradepress-button-padding-x: var(--tradepress-spacing-md);
+    --tradepress-button-padding-y: var(--tradepress-spacing-sm);
+    --tradepress-input-padding-x: var(--tradepress-spacing-md);
+    --tradepress-input-padding-y: var(--tradepress-spacing-sm);
+    
+    /* Form Controls */
+    --tradepress-input-bg: var(--tradepress-color-white);
+    --tradepress-input-border: var(--tradepress-border-standard);
+    --tradepress-input-border-focus: var(--tradepress-border-width) var(--tradepress-border-style) var(--tradepress-color-primary);
+    --tradepress-input-border-radius: var(--tradepress-border-radius);
+    
+    /* Status Colors */
+    --tradepress-status-success-bg: #d4edda;
+    --tradepress-status-success-border: #c3e6cb;
+    --tradepress-status-success-text: #155724;
+    
+    --tradepress-status-warning-bg: #fff3cd;
+    --tradepress-status-warning-border: #ffeaa7;
+    --tradepress-status-warning-text: #856404;
+    
+    --tradepress-status-error-bg: #f8d7da;
+    --tradepress-status-error-border: #f5c6cb;
+    --tradepress-status-error-text: #721c24;
+    
+    --tradepress-status-info-bg: #d1ecf1;
+    --tradepress-status-info-border: #bee5eb;
+    --tradepress-status-info-text: #0c5460;
+
+    /* Trading-specific colors */
+    --tradepress-color-bullish: #00a32a;
+    --tradepress-color-bearish: #d63638;
+
+    /* Backward compatibility - Keep old variables for other components */
+    --tp-color-primary: var(--tradepress-color-primary);
+    --tp-color-white: var(--tradepress-color-white);
+    --tp-color-gray-50: var(--tradepress-color-gray-50);
+    --tp-color-gray-300: var(--tradepress-color-gray-300);
+    --tp-spacing-md: var(--tradepress-spacing-md);
+    --tp-spacing-lg: var(--tradepress-spacing-lg);
+    --tp-border-radius: var(--tradepress-border-radius);
+    --tp-shadow: var(--tradepress-shadow);
+    --color-primary: var(--tradepress-color-primary);
+    --color-white: var(--tradepress-color-white);
+    --color-gray-50: var(--tradepress-color-gray-50);
+    --color-gray-300: var(--tradepress-color-gray-300);
+    --spacing-md: var(--tradepress-spacing-md);
+    --spacing-lg: var(--tradepress-spacing-lg);
+    --border-radius: var(--tradepress-border-radius);
+    --shadow: var(--tradepress-shadow);
+}
+
+/* Color Swatch Classes - Make colors visible in UI Library */
+.tradepress-color-primary { background-color: var(--tradepress-color-primary) !important; }
+.tradepress-color-primary-dark { background-color: var(--tradepress-color-primary-dark) !important; }
+.tradepress-color-primary-light { background-color: var(--tradepress-color-primary-light) !important; }
+
+.tradepress-color-success { background-color: var(--tradepress-color-success) !important; }
+.tradepress-color-warning { background-color: var(--tradepress-color-warning) !important; }
+.tradepress-color-error { background-color: var(--tradepress-color-error) !important; }
+
+.tradepress-color-white { background-color: var(--tradepress-color-white) !important; border: 1px solid var(--tradepress-color-gray-300) !important; }
+.tradepress-color-gray-100 { background-color: var(--tradepress-color-gray-100) !important; }
+.tradepress-color-gray-300 { background-color: var(--tradepress-color-gray-300) !important; }
+.tradepress-color-gray-500 { background-color: var(--tradepress-color-gray-500) !important; }
+.tradepress-color-gray-700 { background-color: var(--tradepress-color-gray-700) !important; }
+.tradepress-color-gray-900 { background-color: var(--tradepress-color-gray-900) !important; }
+
+/* WordPress Admin Compatibility */
+.wp-admin {
+    --admin-color-scheme-primary: #2271b1;
+    --admin-color-scheme-secondary: #72aee6;
+}

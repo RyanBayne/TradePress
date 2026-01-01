@@ -1,0 +1,341 @@
+/**
+ * Tooltip Components
+ * Styles for tooltip elements and hover-triggered information displays
+ */
+
+.tooltip-examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-md);
+}
+
+.tooltip-item {
+    margin-bottom: var(--tp-spacing-sm);
+}
+
+.tooltip-trigger {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--tp-color-primary);
+    text-decoration: underline dotted;
+}
+
+.tooltip-warning {
+    color: var(--tp-color-warning);
+}
+
+.tooltip-success {
+    color: var(--tp-color-success);
+}
+
+.tooltip-error {
+    color: var(--tp-color-error);
+}
+
+/* Tooltip positions */
+.tooltip-top, .tooltip-bottom, .tooltip-left, .tooltip-right {
+    position: relative;
+}
+
+.positioning-demo {
+    padding: var(--tp-spacing-md);
+}
+
+.positioning-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--tp-spacing-lg);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.position-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Trading metrics grid */
+.trading-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--tp-spacing-md);
+}
+
+.metric-card {
+    background: var(--tp-color-white);
+    border: 1px solid var(--tp-border-color);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-sm);
+}
+
+.metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--tp-spacing-sm);
+}
+
+/* Symbol list for tooltips */
+.symbol-list {
+    width: 100%;
+}
+
+.symbol-row {
+    display: flex;
+    align-items: center;
+    padding: var(--tp-spacing-sm);
+    border-bottom: 1px solid var(--tp-border-color);
+}
+
+.symbol-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.symbol-name {
+    font-weight: var(--tp-font-weight-bold);
+    margin-right: var(--tp-spacing-sm);
+}
+
+.rich-tooltip-trigger {
+    cursor: pointer;
+    color: var(--tp-color-primary);
+}
+
+.symbol-price {
+    margin-right: var(--tp-spacing-md);
+    font-weight: var(--tp-font-weight-bold);
+}
+
+.symbol-price.positive,
+.symbol-change.positive {
+    color: var(--tp-color-success);
+}
+
+.symbol-price.negative,
+.symbol-change.negative {
+    color: var(--tp-color-error);
+}
+
+/* Rich tooltip templates */
+.rich-tooltip-templates,
+.interactive-tooltip-templates,
+.chart-tooltip-template {
+    display: none;
+}
+
+.rich-tooltip-content,
+.interactive-tooltip-content,
+.chart-tooltip-content {
+    padding: var(--tp-spacing-sm);
+}
+
+.tooltip-header {
+    margin-bottom: var(--tp-spacing-sm);
+    border-bottom: 1px solid var(--tp-border-color);
+    padding-bottom: var(--tp-spacing-xs);
+}
+
+.tooltip-metrics {
+    margin-bottom: var(--tp-spacing-sm);
+}
+
+.tooltip-metric {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.metric-name {
+    color: var(--tp-color-gray-600);
+}
+
+.tooltip-footer {
+    font-size: 0.8em;
+    color: var(--tp-color-gray-500);
+    border-top: 1px solid var(--tp-border-color);
+    padding-top: var(--tp-spacing-xs);
+    margin-top: var(--tp-spacing-sm);
+}
+
+/* Interactive tooltips */
+.interactive-tooltip-examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-md);
+}
+
+.interactive-tooltip-trigger {
+    display: inline-flex;
+    align-items: center;
+    background: var(--tp-color-primary);
+    color: var(--tp-color-white);
+    border: none;
+    padding: var(--tp-spacing-sm) var(--tp-spacing-md);
+    border-radius: var(--tp-border-radius);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: var(--tp-font-weight-medium);
+    transition: all 0.2s ease;
+    text-decoration: none;
+    position: relative;
+}
+
+.interactive-tooltip-trigger:hover {
+    background: var(--tp-color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.interactive-tooltip-trigger:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.interactive-tooltip-trigger.warning {
+    background: var(--tp-color-warning);
+}
+
+.interactive-tooltip-trigger.warning:hover {
+    background: var(--tp-color-warning-dark);
+}
+
+.interactive-tooltip-trigger.success {
+    background: var(--tp-color-success);
+}
+
+.interactive-tooltip-trigger.success:hover {
+    background: var(--tp-color-success-dark);
+}
+
+.interactive-tooltip-trigger.error {
+    background: var(--tp-color-danger);
+}
+
+.interactive-tooltip-trigger.error:hover {
+    background: var(--tp-color-danger-dark);
+}
+
+.tooltip-body {
+    margin-bottom: var(--tp-spacing-sm);
+}
+
+.tooltip-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--tp-spacing-xs);
+}
+
+/* API status list */
+.api-status-list {
+    margin-top: var(--tp-spacing-sm);
+}
+
+.api-status-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.status-connected {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--tp-color-success);
+    margin-right: var(--tp-spacing-xs);
+}
+
+.api-name {
+    margin-right: var(--tp-spacing-sm);
+}
+
+/* Chart tooltips */
+.chart-tooltip-demo {
+    position: relative;
+}
+
+.mini-chart {
+    border: 1px solid var(--tp-border-color);
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-sm);
+    background: var(--tp-color-white);
+}
+
+.chart-header {
+    margin-bottom: var(--tp-spacing-sm);
+}
+
+.chart-body {
+    position: relative;
+    height: 150px;
+}
+
+.chart-points {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 100%;
+}
+
+.chart-point {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    flex: 1;
+}
+
+.point-indicator {
+    width: 8px;
+    height: 8px;
+    background-color: var(--tp-color-primary);
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+/* Time display in tooltips */
+.tooltip-time {
+    display: inline-block;
+    font-size: 12px;
+    color: var(--tp-color-text-muted);
+    font-weight: var(--tp-font-weight-normal);
+    background: var(--tp-color-bg-secondary);
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-right: var(--tp-spacing-xs);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
+}
+
+.tooltip-time.live {
+    color: var(--tp-color-success);
+    background: rgba(var(--tp-color-success-rgb), 0.1);
+    animation: pulse 2s infinite;
+}
+
+.tooltip-time.delayed {
+    color: var(--tp-color-warning);
+    background: rgba(var(--tp-color-warning-rgb), 0.1);
+}
+
+.tooltip-time.stale {
+    color: var(--tp-color-text-muted);
+    background: var(--tp-color-bg-secondary);
+    opacity: 0.7;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* Dynamic tooltip content */
+.price-value, .volume-value {
+    font-weight: var(--tp-font-weight-bold);
+}

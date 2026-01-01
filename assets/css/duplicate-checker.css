@@ -1,0 +1,74 @@
+.tradepress-duplicate-checker {
+    max-width: 1200px;
+}
+
+.tradepress-duplicate-checker-header {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.duplicates-found {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.duplicate-group {
+    background: #fff2f2;
+    border: 1px solid #d63638;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.duplicate-group h5 {
+    margin: 0 0 10px 0;
+    color: #d63638;
+}
+
+.duplicate-group ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.duplicate-group li {
+    font-family: monospace;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.no-duplicates {
+    background: #f0f6fc;
+    border: 1px solid #00a32a;
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+}
+
+.vscode-link {
+    color: #0073aa;
+    text-decoration: none;
+}
+
+.vscode-link:hover {
+    text-decoration: underline;
+}
+
+.file-type-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #e1e1e1;
+    border-radius: 6px;
+    background: #fafafa;
+}
+
+.file-type-section h4 {
+    margin: 0 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #0073aa;
+    color: #0073aa;
+    font-size: 16px;
+    font-weight: 600;
+}

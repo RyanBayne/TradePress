@@ -1,0 +1,83 @@
+/**
+ * TradePress - Social Platforms Settings Styles
+ *
+ * @package  TradePress/assets/css/pages
+ * @since    1.0.0
+ */
+
+.platform-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.platform-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.platform-card h3 {
+    margin-top: 0;
+    color: #23282d;
+}
+
+.platform-status {
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.platform-status.enabled {
+    color: #46b450;
+}
+
+.platform-status.disabled {
+    color: #dc3232;
+}
+
+.status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.platform-status.enabled .status-indicator {
+    background-color: #46b450;
+}
+
+.platform-status.disabled .status-indicator {
+    background-color: #dc3232;
+}
+
+.platform-description {
+    color: #666;
+    font-style: italic;
+    margin: 10px 0;
+}
+
+.platform-api-status {
+    margin: 15px 0;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.api-configured {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.api-not-configured {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 4px 8px;
+    border-radius: 4px;
+}

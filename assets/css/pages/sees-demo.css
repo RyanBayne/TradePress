@@ -1,0 +1,369 @@
+.sees-demo-controls {
+    margin-bottom: 20px;
+}
+
+/* Remove old table styles if they are no longer needed or were placeholders */
+/*
+.sees-demo-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.sees-demo-table th,
+.sees-demo-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.sees-demo-table th {
+    background-color: #f2f2f2;
+    cursor: pointer; 
+}
+*/
+
+.sees-demo-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sees-security-box {
+    background-color: #fff;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    padding: 8px 15px; /* Reduced vertical padding */
+    border-radius: 4px;
+    position: relative; /* Important for position() calculations */
+    margin: 3px 0; /* Reduced vertical margin */
+    transition: background-color 0.2s ease; /* Subtle hover effects */
+    min-height: 60px; /* Set a shorter minimum height */
+    max-height: 80px; /* Limit maximum height */
+}
+
+.sees-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px; /* Reduced margin */
+    padding-bottom: 4px; /* Reduced padding */
+    border-bottom: 1px solid #eee;
+}
+
+.sees-symbol {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #2271b1; /* WordPress blue */
+}
+
+.sees-score {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #d63638; /* WordPress red for emphasis, or choose another */
+    background-color: #f6f7f7;
+    padding: 3px 8px;
+    border-radius: 3px;
+}
+
+.sees-box-body p {
+    margin: 2px 0; /* Reduced margin */
+    font-size: 0.9em; /* Slightly smaller font */
+    line-height: 1.2; /* Tighter line height */
+}
+
+.sees-name {
+    font-weight: 500;
+    color: #1d2327;
+}
+
+.sees-price {
+    color: #50575e;
+}
+
+.sees-change {
+    font-weight: bold;
+}
+
+.sees-box-footer {
+    margin-top: 4px; /* Reduced margin */
+    padding-top: 4px; /* Reduced padding */
+    border-top: 1px solid #eee;
+    font-size: 0.8em; /* Smaller footer text */
+    color: #50575e;
+}
+
+.price-up {
+    color: #008000; /* Green */
+}
+
+.price-down {
+    color: #ff0000; /* Red */
+}
+
+.loading-message {
+    padding: 20px;
+    text-align: center;
+    font-size: 1.2em;
+    color: #50575e;
+}
+
+.tradepress-sees-demo {
+    margin-top: 20px;
+}
+
+.tradepress-sees-table {
+    margin-top: 20px;
+}
+
+.tradepress-sees-table th {
+    cursor: pointer;
+}
+
+.tradepress-sees-table th.sorted.asc::after {
+    content: ' ▲';
+    font-size: 0.8em;
+}
+
+.tradepress-sees-table th.sorted.desc::after {
+    content: ' ▼';
+    font-size: 0.8em;
+}
+
+.tradepress-positive-change {
+    color: green;
+}
+
+.tradepress-negative-change {
+    color: red;
+}
+
+.tradepress-loading-placeholder p,
+.tradepress-error-message {
+    padding: 10px;
+    text-align: center;
+}
+
+.tradepress-error-message {
+    color: #dc3232; /* WordPress error color */
+    background-color: #fef7f7;
+    border: 1px solid #dc3232;
+}
+
+.tradepress-hidden {
+    display: none !important;
+}
+
+.tradepress-sees-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.tradepress-sees-header-wrapper h2 {
+    margin-top: 0; /* Adjust if necessary based on WordPress admin styling */
+    margin-bottom: 0;
+}
+
+.tradepress-sees-info-box {
+    border: 1px solid #ccd0d4;
+    background-color: #f6f7f7;
+    padding: 10px 15px;
+    width: 280px; /* Adjust as needed */
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    margin-left: 20px;
+}
+
+.tradepress-sees-info-box h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #2c3338;
+}
+
+.tradepress-sees-info-box ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tradepress-sees-info-box ul li {
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: #50575e;
+}
+
+.tradepress-sees-info-box ul li strong {
+    color: #3c434a;
+}
+
+.sees-demo-controls {
+    margin-bottom: 20px;
+}
+
+.sees-demo-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.loading-message {
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+}
+
+.sees-security-box {
+    border: 1px solid #e0e0e0;
+    padding: 10px 15px; /* Reduced vertical padding */
+    width: calc(80% - 10px); /* Make boxes twice as wide - 2/3 of container width */
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    min-height: 60px; /* Shorter minimum height */
+    max-height: 80px; /* Limit height */
+}
+
+.sees-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 6px; /* Reduced padding */
+    margin-bottom: 6px; /* Reduced margin */
+}
+
+.sees-symbol {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.sees-name {
+    font-size: 0.9em;
+    color: #555;
+    text-align: right;
+    flex-grow: 1;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.sees-score {
+    font-size: 0.9em;
+    color: #0073aa;
+    font-weight: bold;
+}
+
+.sees-box-body .sees-price,
+.sees-box-body .sees-change {
+    margin: 3px 0; /* Reduced margin */
+    font-size: 0.9em; /* Smaller font */
+    line-height: 1.1; /* Tighter line height */
+}
+
+.sees-box-footer {
+    margin-top: 6px; /* Reduced margin */
+    font-size: 0.8em; /* Smaller font */
+    color: #777;
+}
+
+.price-up {
+    color: #28a745; /* Green for price up */
+}
+
+.price-down {
+    color: #dc3545; /* Red for price down */
+}
+
+.no-change {
+    color: #6c757d; /* Grey for no change */
+}
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+    .sees-security-box {
+        width: calc(100% - 5px); /* Full width on smaller screens */
+        min-height: 45px; /* Even shorter on mobile */
+    }
+    .tradepress-sees-header-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .tradepress-sees-info-box {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .sees-security-box {
+        width: 100%; /* 1 box per row */
+        min-height: 40px; /* Shortest on very small screens */
+    }
+}
+
+/* Table styles for the new table-based demo */
+.tradepress-sees-table-container {
+    margin-top: 20px;
+}
+
+.tradepress-sees-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tradepress-sees-table th,
+.tradepress-sees-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.tradepress-sees-table th {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+.tradepress-sees-table th.sorted.asc::after {
+    content: " \25B2"; /* Up arrow */
+}
+
+.tradepress-sees-table th.sorted.desc::after {
+    content: " \25BC"; /* Down arrow */
+}
+
+.tradepress-positive-change {
+    color: green;
+}
+
+.tradepress-negative-change {
+    color: red;
+}
+
+.tradepress-loading-placeholder p,
+.tradepress-error-message {
+    padding: 15px;
+    text-align: center;
+    font-style: italic;
+}
+.tradepress-error-message {
+    color: red;
+}
+
+.tradepress-sees-controls {
+    margin-bottom: 15px;
+}
+.tradepress-sees-controls button,
+.tradepress-sees-controls a.button {
+    margin-right: 10px;
+}
+.tradepress-hidden {
+    display: none !important;
+}
+#tradepress-sees-last-updated {
+    font-style: italic;
+    color: #555;
+    margin-left: 15px;
+}

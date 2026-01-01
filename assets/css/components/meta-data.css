@@ -1,0 +1,79 @@
+/**
+ * TradePress - Meta Data Component Styles
+ * 
+ * Styles for displaying meta information like task details, assignments, timestamps.
+ * 
+ * HTML Structure:
+ * <div class="tp-meta-block">
+ *   <div class="tp-meta-item">
+ *     <span class="tp-meta-label">Label</span>
+ *     <span class="tp-meta-value">Value</span>
+ *   </div>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+.tradepress-meta {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: #555;
+}
+
+.tradepress-meta-item {
+    margin-right: var(--tp-spacing-lg);
+    display: flex;
+    align-items: center;
+}
+
+.tradepress-meta-item .dashicons {
+    margin-right: var(--tp-spacing-xs);
+    font-size: 16px;
+    color: #666;
+}
+
+.tradepress-meta-block {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-md);
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+.tradepress-meta-item {
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+}
+
+.tradepress-meta-label {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: var(--tp-spacing-xs);
+    font-weight: var(--tp-font-weight-medium);
+}
+
+.tradepress-meta-value {
+    font-size: var(--tp-font-size);
+    font-weight: var(--tp-font-weight-semibold);
+}
+
+.tradepress-meta-value.highlight {
+    color: #2271b1;
+}
+
+.tradepress-meta-block.inline .tradepress-meta-item {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--tp-spacing-xs);
+}
+
+/* Legacy classes mapping for backward compatibility */
+.task-meta { @extend .tradepress-meta; }
+.task-meta > span { @extend .tradepress-meta-item; }
+.task-meta-block { @extend .tradepress-meta-block; }
+.task-meta-item { @extend .tradepress-meta-item; }
+.task-meta-label { @extend .tradepress-meta-label; }
+.task-meta-value { @extend .tradepress-meta-value; }
+.task-meta-value.highlight { @extend .tradepress-meta-value.highlight; }

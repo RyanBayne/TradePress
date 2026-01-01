@@ -1,0 +1,87 @@
+/**
+ * TradePress - Stock VIP Page Styles
+ * 
+ * Page-specific styles for the Stock VIP page.
+ * 
+ * NEW STRUCTURE FILE - Part of the component-based CSS architecture
+ * 
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ */
+
+.tradepress-stockvip-dashboard {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: var(--tp-spacing-lg);
+}
+
+@media (min-width: 782px) {
+    .tradepress-stockvip-dashboard {
+        grid-template-columns: 3fr 1fr;
+    }
+}
+
+.tradepress-stockvip-main {
+    background-color: var(--tp-color-white);
+    padding: var(--tp-spacing-lg);
+    border-radius: var(--tp-border-radius);
+    box-shadow: var(--tp-shadow);
+}
+
+.tradepress-stockvip-sidebar {
+    background-color: var(--tp-color-white);
+    padding: var(--tp-spacing-lg);
+    border-radius: var(--tp-border-radius);
+    box-shadow: var(--tp-shadow);
+}
+
+/* Legacy class mappings */
+.stockvip-dashboard { @extend .tradepress-stockvip-dashboard; }
+.stockvip-main { @extend .tradepress-stockvip-main; }
+.stockvip-sidebar { @extend .tradepress-stockvip-sidebar; }
+
+/**
+ * TradePress - StockVIP Page-specific Styles
+ * 
+ * Page-specific styles for the Discord Stock VIP tab.
+ * These should only contain overrides or very specific components
+ * that don't belong in the general component library.
+ * 
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ */
+
+/* Page-specific container */
+.tradepress-stockvip-container {
+    max-width: 1600px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 782px) {
+    .tradepress-alerts-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tradepress-statistics-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .tradepress-charts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .tradepress-statistics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tradepress-controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .tradepress-filter-controls {
+        margin-top: var(--tp-spacing-md);
+    }
+}

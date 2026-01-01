@@ -1,0 +1,60 @@
+/**
+ * TradePress Database Settings Styles
+ *
+ * @package TradePress/Admin/CSS
+ * @version 1.0.0
+ */
+
+.tradepress-database-summary {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+}
+
+.tradepress-missing-tables-notice {
+    margin: 15px 0;
+    padding: 15px;
+    background-color: #fef8ee;
+    border-left: 4px solid #f0b849;
+    border-radius: 2px;
+}
+
+.tradepress-install-tables-action {
+    margin-top: 15px;
+}
+
+.tradepress-install-tables-action .spinner {
+    visibility: hidden;
+}
+
+#tradepress-install-result {
+    margin-top: 10px;
+    padding: 10px;
+    display: none;
+}
+
+#tradepress-install-result.success {
+    background-color: #f0fff0;
+    border-left: 4px solid #46b450;
+}
+
+#tradepress-install-result.error {
+    background-color: #fff0f0;
+    border-left: 4px solid #dc3232;
+}
+
+.tradepress-table-exists {
+    color: #46b450;
+    font-weight: bold;
+}
+
+.tradepress-table-missing {
+    color: #dc3232;
+    font-weight: bold;
+}
+
+.tradepress-missing-table {
+    background-color: #fff9f9 !important;
+}

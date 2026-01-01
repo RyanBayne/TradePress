@@ -1,0 +1,46 @@
+/**
+ * TradePress - Discord Simple Admin Styles
+ *
+ * @package TradePress/CSS
+ * @since 1.0.0
+ */
+
+.card {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    margin-top: 20px;
+    padding: 20px;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+#diagnostics_report {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+}
+
+.tradepress-discord-troubleshooting-report h2, 
+.tradepress-discord-troubleshooting-report h3 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.tradepress-discord-troubleshooting-report .success {
+    color: #28a745;
+}
+
+.tradepress-discord-troubleshooting-report .error {
+    color: #dc3545;
+}
+
+.tradepress-discord-troubleshooting-report ul.errors li {
+    color: #dc3545;
+}
+
+.tradepress-discord-troubleshooting-report ul.success li {
+    color: #28a745;
+}

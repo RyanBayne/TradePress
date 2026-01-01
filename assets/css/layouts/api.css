@@ -1,0 +1,160 @@
+/**
+ * TradePress - API Layout Styles
+ * 
+ * Layout structures for API pages.
+ * 
+ * @package TradePress/CSS/Layouts
+ * @since 1.0.0
+ */
+
+/* API Configuration Content */
+.tradepress-api-configuration-content {
+    padding: var(--tp-spacing-lg);
+}
+
+/* API Details and Sidebar Layout */
+.tradepress-api-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-xl);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.tradepress-api-main-content {
+    flex: 1;
+    min-width: 500px;
+}
+
+.tradepress-api-sidebar {
+    width: 300px;
+}
+
+/* API Capabilities */
+.tradepress-api-capabilities {
+    padding: var(--tp-spacing-lg);
+}
+
+.tradepress-capability-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--tp-spacing-md);
+}
+
+.tradepress-capability-item .dashicons {
+    margin-right: var(--tp-spacing-md);
+}
+
+.tradepress-capability-item.available .dashicons-yes {
+    color: #46b450;
+}
+
+.tradepress-capability-item.unavailable .dashicons-no {
+    color: #dc3232;
+}
+
+.tradepress-capability-text {
+    flex: 1;
+}
+
+.tradepress-premium-badge {
+    display: inline-block;
+    background: #f18200;
+    color: white;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-left: var(--tp-spacing-xs);
+}
+
+/* Endpoints List */
+.tradepress-endpoints-list {
+    padding: var(--tp-spacing-lg);
+}
+
+.tradepress-endpoint-item {
+    margin-bottom: var(--tp-spacing-lg);
+    padding-bottom: var(--tp-spacing-lg);
+    border-bottom: 1px solid var(--tp-color-gray-200);
+}
+
+.tradepress-endpoint-item:last-child {
+    border-bottom: none;
+}
+
+.tradepress-endpoint-name {
+    font-weight: var(--tp-font-weight-semibold);
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.tradepress-endpoint-function {
+    margin-bottom: var(--tp-spacing-xs);
+}
+
+.tradepress-endpoint-function code {
+    background: #f8f8f8;
+    padding: 3px 5px;
+    font-size: 12px;
+}
+
+.tradepress-endpoint-view-all {
+    margin-top: var(--tp-spacing-lg);
+    text-align: center;
+}
+
+/* TradePress API Settings */
+.tradepress-api-settings-container {
+    margin-top: 30px;
+    padding: var(--tp-spacing-xl);
+}
+
+/* API Credentials Testing */
+.tradepress-api-test-credentials {
+    margin-top: var(--tp-spacing-lg);
+    margin-bottom: var(--tp-spacing-lg);
+}
+
+.tradepress-test-credentials-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: var(--tp-spacing-md);
+    margin-bottom: var(--tp-spacing-md);
+}
+
+/* Animation for tool sections */
+.tradepress-tool-section {
+    animation: fadeEffect 0.5s;
+}
+
+@keyframes fadeEffect {
+    from {opacity: 0.7;}
+    to {opacity: 1;}
+}
+
+.tradepress-loading-spinner {
+    animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Legacy classes mapping for backward compatibility */
+.api-configuration-content { @extend .tradepress-api-configuration-content; }
+.api-details { @extend .tradepress-api-details; }
+.api-main-content { @extend .tradepress-api-main-content; }
+.api-sidebar { @extend .tradepress-api-sidebar; }
+.api-capabilities { @extend .tradepress-api-capabilities; }
+.capability-item { @extend .tradepress-capability-item; }
+.capability-text { @extend .tradepress-capability-text; }
+.premium-badge { @extend .tradepress-premium-badge; }
+.endpoints-list { @extend .tradepress-endpoints-list; }
+.endpoint-item { @extend .tradepress-endpoint-item; }
+.endpoint-name { @extend .tradepress-endpoint-name; }
+.endpoint-function { @extend .tradepress-endpoint-function; }
+.endpoint-view-all { @extend .tradepress-endpoint-view-all; }
+.tradepress-api-settings-container { @extend .tradepress-api-settings-container; }
+.api-test-credentials { @extend .tradepress-api-test-credentials; }
+.test-credentials-buttons { @extend .tradepress-test-credentials-buttons; }
+.tool-section { @extend .tradepress-tool-section; }
+.loading-spinner { @extend .tradepress-loading-spinner; }

@@ -1,0 +1,120 @@
+/**
+ * TradePress - Responsive Layout Styles
+ * 
+ * Media queries and responsive adjustments.
+ * 
+ * @package TradePress/CSS/Layouts
+ * @since 1.0.0
+ */
+
+@media screen and (max-width: 1200px) {
+    .api-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+    
+    .tradepress-discord-settings-container {
+        flex-direction: column;
+    }
+    
+    .tradepress-discord-card + .tradepress-discord-card {
+        margin-top: var(--tp-spacing-xl);
+    }
+}
+
+@media screen and (max-width: 782px) {
+    .tradepress-grid-2col,
+    .tradepress-grid-3col,
+    .tradepress-grid-4col {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .tradepress-card-span2 {
+        grid-column: span 1 !important;
+    }
+    
+    .tradepress-form-actions {
+        flex-direction: column !important;
+    }
+    
+    .tradepress-button {
+        width: 100% !important;
+        margin-bottom: var(--tp-spacing-xs) !important;
+    }
+    
+    .api-quick-actions {
+        flex-wrap: wrap;
+    }
+    
+    .endpoints-filter {
+        flex-direction: column;
+    }
+    
+    .tradepress-import-export {
+        flex-direction: column;
+    }
+    
+    .github-issues-toolbar {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .issue-filters {
+        flex-wrap: wrap;
+        flex: initial;
+        width: 100%;
+    }
+    
+    .search-group {
+        flex: 1;
+        max-width: none;
+    }
+    
+    /* Legacy responsive styles from alert-decoder */
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .result-card.summary {
+        grid-column: span 1;
+    }
+    
+    .emoji-guide {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .tradepress-hide-mobile {
+        display: none !important;
+    }
+    
+    .tradepress-card-footer,
+    .tradepress-form-actions {
+        flex-direction: column;
+    }
+    
+    .tradepress-form-actions .button {
+        width: 100%;
+        margin-bottom: var(--tp-spacing-xs);
+    }
+    
+    .api-main-section {
+        flex-direction: column;
+    }
+    
+    .api-sidebar {
+        width: 100%;
+    }
+    
+    .completion-stats {
+        flex-direction: column;
+    }
+    
+    .stat-box {
+        margin-right: 0;
+    }
+    
+    .forecast-card {
+        width: 100%;
+    }
+}

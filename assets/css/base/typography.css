@@ -1,0 +1,195 @@
+/**
+ * TradePress - Typography Styles
+ * 
+ * Typography styles for headings, text, and other typographic elements.
+ * Uses CSS variables defined in variables.css.
+ * 
+ * @package TradePress/CSS/Base
+ * @since 1.0.0
+ */
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--tp-color-gray-900);
+  font-weight: var(--tp-font-weight-semibold);
+  line-height: 1.2;
+  margin-bottom: var(--tp-spacing-md);
+}
+
+h1 {
+  font-size: 23px;
+  font-weight: var(--tp-font-weight-bold);
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  font-size: 13px;
+}
+
+/* Paragraphs and text */
+p {
+  margin-bottom: var(--tp-spacing-md);
+  font-size: var(--tp-font-size);
+  line-height: 1.5;
+}
+
+.description {
+  color: var(--tp-color-gray-700);
+  font-size: var(--tp-font-size);
+  font-style: italic;
+}
+
+/* Lists */
+ul, ol {
+  margin-left: 20px;
+  margin-bottom: var(--tp-spacing-md);
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+li {
+  margin-bottom: var(--tp-spacing-xs);
+}
+
+/* Text formatting */
+strong, b {
+  font-weight: var(--tp-font-weight-bold);
+}
+
+em, i {
+  font-style: italic;
+}
+
+code, pre, kbd {
+  font-family: monospace;
+  font-size: var(--tp-font-size-sm);
+  background-color: var(--tp-color-gray-100);
+  padding: 2px 4px;
+  border-radius: var(--tp-border-radius-sm);
+}
+
+pre {
+  padding: var(--tp-spacing-md);
+  margin-bottom: var(--tp-spacing-md);
+  overflow: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Links in typography */
+a {
+  color: var(--tp-color-wp-blue);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover, a:focus {
+  color: var(--tp-color-wp-dark-blue);
+  text-decoration: underline;
+}
+
+/* Helper text classes */
+.text-small {
+  font-size: var(--tp-font-size-sm);
+}
+
+.text-xs {
+  font-size: var(--tp-font-size-xs);
+}
+
+.text-lg {
+  font-size: var(--tp-font-size-lg);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+/* Text colors */
+.text-success {
+  color: var(--tp-color-success);
+}
+
+.text-warning {
+  color: var(--tp-color-warning);
+}
+
+.text-error {
+  color: var(--tp-color-error);
+}
+
+.text-info {
+  color: var(--tp-color-info);
+}
+
+.text-muted {
+  color: var(--tp-color-gray-600);
+}
+
+.text-bullish {
+  color: var(--tp-color-bullish);
+}
+
+.text-bearish {
+  color: var(--tp-color-bearish);
+}
+
+/* Admin-specific typography */
+.tradepress-admin-wrap h1 {
+  margin-top: var(--tp-spacing-md);
+  margin-bottom: var(--tp-spacing-lg);
+  padding: 0;
+}
+
+.tradepress-admin-wrap h2 {
+  margin-top: var(--tp-spacing-lg);
+  margin-bottom: var(--tp-spacing-md);
+}
+
+.tradepress-admin-wrap .section-title {
+  border-bottom: 1px solid var(--tp-color-gray-300);
+  padding-bottom: var(--tp-spacing-xs);
+  margin-bottom: var(--tp-spacing-lg);
+}
+
+/* Documentation typography */
+.code-comment {
+  color: var(--tp-color-gray-600);
+}
+
+.code-string {
+  color: var(--tp-color-success-dark);
+}
+
+.code-keyword {
+  color: var(--tp-color-wp-blue);
+}

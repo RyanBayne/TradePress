@@ -1,0 +1,164 @@
+/**
+ * TradePress - Scoring Directives Overview Styles
+ * 
+ * Styles for the scoring directives overview interface.
+ * 
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ */
+
+.scoring-stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--tp-spacing-lg);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.stats-card {
+    background: var(--tp-color-white);
+    border: 1px solid #dcdcde;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--tp-spacing-md);
+    box-shadow: var(--tp-shadow);
+}
+
+.stats-icon {
+    font-size: 32px;
+}
+
+.stats-content h3 {
+    margin: 0;
+    font-size: 24px;
+    color: var(--tp-color-primary);
+}
+
+.stats-content p {
+    margin: 0;
+    color: #646970;
+    font-size: var(--tp-font-size-sm);
+}
+
+.scoring-overview-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--tp-spacing-xl);
+}
+
+.category-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--tp-spacing-lg);
+}
+
+.category-item {
+    background: var(--tp-color-white);
+    border: 1px solid #dcdcde;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    box-shadow: var(--tp-shadow);
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--tp-spacing-md);
+}
+
+.category-header h4 {
+    margin: 0;
+    color: #1d2327;
+}
+
+.category-count {
+    background: #f0f6fc;
+    color: var(--tp-color-primary);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: var(--tp-font-size-sm);
+    font-weight: 500;
+}
+
+.category-examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-xs);
+}
+
+.example-tag {
+    background: #f6f7f7;
+    color: #646970;
+    padding: 4px 8px;
+    border-radius: var(--tp-border-radius);
+    font-size: var(--tp-font-size-sm);
+    border: 1px solid #dcdcde;
+}
+
+.overview-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--tp-spacing-xl);
+}
+
+.quick-actions,
+.recent-activity {
+    background: var(--tp-color-white);
+    border: 1px solid #dcdcde;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    box-shadow: var(--tp-shadow);
+}
+
+.quick-actions h4,
+.recent-activity h4 {
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-md);
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--tp-spacing-sm);
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--tp-spacing-sm);
+}
+
+.activity-item {
+    padding: var(--tp-spacing-sm) 0;
+    border-bottom: 1px solid #f0f0f1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-time {
+    font-size: var(--tp-font-size-sm);
+    color: #72777c;
+}
+
+.activity-text {
+    font-size: var(--tp-font-size-sm);
+    color: #1d2327;
+}
+
+@media screen and (max-width: 782px) {
+    .scoring-overview-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-card {
+        flex-direction: column;
+        text-align: center;
+    }
+}

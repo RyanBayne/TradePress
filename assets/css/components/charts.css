@@ -1,0 +1,1600 @@
+/**
+ * TradePress Chart Components
+ *
+ * CSS for chart visualizations and data presentation components
+ * including candlestick charts, line charts, bar charts, and other
+ * financial data visualization elements.
+ *
+ * @package TradePress/Assets/CSS/Components
+ * @since 1.0.0
+ */
+
+/* --------------------------------------------------------------------------
+   Chart Container & Base Styles
+   -------------------------------------------------------------------------- */
+.tradepress-chart-container {
+    position: relative;
+    width: 100%;
+    min-height: 300px;
+    margin-bottom: 1.5em;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.tradepress-chart-container.dark-theme {
+    background-color: #222;
+    color: #eee;
+}
+
+.tradepress-chart {
+    width: 100%;
+    height: 100%;
+    min-height: 250px;
+}
+
+.tradepress-chart-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    padding: 0;
+    color: #333;
+}
+
+.tradepress-chart-subtitle {
+    font-size: 13px;
+    color: #666;
+    margin: -8px 0 12px 0;
+}
+
+.dark-theme .tradepress-chart-title {
+    color: #eee;
+}
+
+.dark-theme .tradepress-chart-subtitle {
+    color: #aaa;
+}
+
+/* --------------------------------------------------------------------------
+   Chart Card Component
+   -------------------------------------------------------------------------- */
+.chart-card {
+    border: 1px solid var(--tp-color-border);
+    border-radius: 4px;
+    margin-bottom: 20px;
+    background-color: #fff;
+}
+
+.chart-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid var(--tp-color-border);
+}
+
+.chart-card-header h5 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--tp-color-text);
+}
+
+.chart-card-body {
+    padding: 15px;
+}
+
+.chart-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chart-period-select {
+    min-width: 120px;
+    font-size: 13px;
+}
+
+.chart-card-footer {
+    padding: 12px 20px;
+    border-top: 1px solid #eee;
+    background-color: #f9f9f9;
+}
+
+.chart-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.chart-metric {
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-label {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 3px;
+}
+
+.metric-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.metric-value.positive {
+    color: #00ba37;
+}
+
+.metric-value.negative {
+    color: #d63638;
+}
+
+.metric-value.neutral {
+    color: #666;
+}
+
+.chart-card.dark-theme {
+    background-color: #222;
+}
+
+.chart-card.dark-theme .chart-card-header {
+    border-bottom-color: #333;
+}
+
+.chart-card.dark-theme .chart-card-header h5 {
+    color: #eee;
+}
+
+.chart-card.dark-theme .chart-card-footer {
+    border-top-color: #333;
+    background-color: #1a1a1a;
+}
+
+.chart-card.dark-theme .metric-label {
+    color: #aaa;
+}
+
+.chart-card.dark-theme .metric-value {
+    color: #eee;
+}
+
+.chart-card.dark-theme .metric-value.positive {
+    color: #4caf50;
+}
+
+.chart-card.dark-theme .metric-value.negative {
+    color: #f44336;
+}
+
+/* --------------------------------------------------------------------------
+   Placeholder Chart Elements (for UI Library Demo)
+   -------------------------------------------------------------------------- */
+.chart-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: var(--tp-color-background-light);
+    border-radius: 4px;
+    color: var(--tp-color-text-light);
+}
+
+.chart-placeholder-text {
+    text-align: center;
+    padding: 0 20px;
+    font-style: italic;
+}
+
+/* Chart placeholder */
+.chart-placeholder {
+    background-color: #f9f9f9;
+    border: 2px dashed #ddd;
+    border-radius: 4px;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-placeholder-text {
+    color: #666;
+    font-size: 14px;
+    font-style: italic;
+}
+
+/* Candlestick placeholder */
+.candlestick-chart-placeholder {
+    display: flex;
+    height: 100%;
+    align-items: flex-end;
+    background-color: var(--tp-color-background-light);
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.candlestick-placeholder-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    width: 100%;
+    height: 100px;
+    justify-content: space-around;
+    padding: 0 20px;
+}
+
+.candlestick-placeholder-bar {
+    width: 12px;
+    min-height: 20px;
+    border-radius: 2px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.candlestick-placeholder-bar.bullish {
+    background: linear-gradient(to top, #00ba37, #4caf50);
+}
+
+.candlestick-placeholder-bar.bearish {
+    background: linear-gradient(to top, #d63638, #f44336);
+}
+
+.candlestick-placeholder-bar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.candlestick-body {
+    width: 100%;
+    position: relative;
+}
+
+.candlestick-wick {
+    position: absolute;
+    width: 2px;
+    background-color: var(--tp-color-text-light);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* --------------------------------------------------------------------------
+   Heatmap Visualization Styles
+   -------------------------------------------------------------------------- */
+.heatmap-container {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.heatmap-header {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.heatmap-header h5 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.heatmap-body {
+    padding: 15px;
+}
+
+/* Enhanced Heatmap Styles */
+.heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.heatmap-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    border-radius: 4px;
+    color: var(--tp-color-text);
+    transition: transform 0.2s;
+}
+
+.heatmap-cell:hover {
+    transform: scale(1.05);
+}
+
+.heatmap-cell-title {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.heatmap-cell-value {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.heatmap-cell-value.positive {
+    color: var(--tp-color-success);
+}
+
+.heatmap-cell-value.negative {
+    color: var(--tp-color-error);
+}
+
+.heatmap-container.dark-theme {
+    background-color: #222;
+}
+
+.heatmap-container.dark-theme .heatmap-header {
+    border-bottom-color: #333;
+}
+
+.heatmap-container.dark-theme .heatmap-header h5 {
+    color: #eee;
+}
+
+/* --------------------------------------------------------------------------
+   Line Chart Styles
+   -------------------------------------------------------------------------- */
+.line-chart-container {
+    position: relative;
+    width: 100%;
+    min-height: 250px;
+    margin-bottom: 1.5em;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e2e4e7;
+}
+
+.chart-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.legend-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.legend-text {
+    color: #1d2327;
+    font-weight: 500;
+}
+
+.chart-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chart-tool-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: #f6f7f7;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chart-tool-button:hover {
+    background-color: #f0f0f1;
+    border-color: #8c8f94;
+}
+
+.chart-tool-button.active {
+    background-color: #2271b1;
+    border-color: #2271b1;
+    color: white;
+}
+
+.chart-timeframe-selector {
+    padding: 6px 10px;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 13px;
+    min-width: 80px;
+}
+
+.line-chart-container.dark-theme {
+    background-color: #222;
+}
+
+.line-chart-container.dark-theme .chart-legend {
+    border-top-color: #333;
+}
+
+.line-chart-container.dark-theme .legend-text {
+    color: #aaa;
+}
+
+/* Line Chart Specific Styles */
+.line-chart-placeholder {
+    position: relative;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: 
+        linear-gradient(to right, #e0e0e0 1px, transparent 1px),
+        linear-gradient(to bottom, #e0e0e0 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.line-chart-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.chart-placeholder-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #8c8f94;
+    font-size: 14px;
+    z-index: 3;
+}
+
+.chart-placeholder-overlay .dashicons {
+    font-size: 24px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* --------------------------------------------------------------------------
+   Technical Indicator Card Styles
+   -------------------------------------------------------------------------- */
+.indicator-card {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.indicator-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.indicator-header h5 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+}
+
+.indicator-value {
+    font-weight: 600;
+    font-size: 15px;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.indicator-value.positive {
+    background-color: rgba(0, 186, 55, 0.1);
+    color: #00ba37;
+}
+
+.indicator-value.negative {
+    background-color: rgba(214, 54, 56, 0.1);
+    color: #d63638;
+}
+
+.indicator-value.warning {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+}
+
+.indicator-value.neutral {
+    background-color: rgba(102, 102, 102, 0.1);
+    color: #666;
+}
+
+.indicator-body {
+    padding: 12px 15px;
+}
+
+.indicator-description {
+    margin-bottom: 10px;
+}
+
+.indicator-description p {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+}
+
+.indicator-interpretation h6 {
+    margin: 0 0 5px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+}
+
+.indicator-interpretation ul {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 13px;
+    color: #555;
+}
+
+.indicator-interpretation li {
+    margin-bottom: 3px;
+}
+
+.indicator-interpretation li.bullish {
+    color: #00ba37;
+}
+
+.indicator-interpretation li.bearish {
+    color: #d63638;
+}
+
+.indicator-footer {
+    padding: 8px 15px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #eee;
+}
+
+.indicator-settings-toggle {
+    font-size: 12px;
+    color: #2271b1;
+    cursor: pointer;
+}
+
+.indicator-settings-toggle:hover {
+    text-decoration: underline;
+}
+
+.indicator-card.dark-theme {
+    background-color: #222;
+}
+
+.indicator-card.dark-theme .indicator-header {
+    border-bottom-color: #333;
+}
+
+.indicator-card.dark-theme .indicator-header h5 {
+    color: #eee;
+}
+
+.indicator-card.dark-theme .indicator-description p {
+    color: #aaa;
+}
+
+.indicator-card.dark-theme .indicator-interpretation h6 {
+    color: #ddd;
+}
+
+.indicator-card.dark-theme .indicator-interpretation ul {
+    color: #bbb;
+}
+
+.indicator-card.dark-theme .indicator-footer {
+    background-color: #1a1a1a;
+    border-top-color: #333;
+}
+
+.indicator-card.dark-theme .indicator-settings-toggle {
+    color: #72aee6;
+}
+
+/* --------------------------------------------------------------------------
+   Bar Chart Styles
+   -------------------------------------------------------------------------- */
+.bar-chart-container {
+    position: relative;
+    width: 100%;
+    min-height: 250px;
+    margin-bottom: 1.5em;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.bar-chart-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px;
+    height: 200px;
+    background-color: #f5f7fa;
+    position: relative;
+}
+
+.bar-chart-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: flex-end;
+    position: relative;
+    max-width: 40px;
+}
+
+.bar-chart-bar {
+    width: 80%;
+    background-color: #2271b1;
+    margin-bottom: 10px;
+    border-radius: 3px 3px 0 0;
+    position: relative;
+}
+
+.bar-chart-label {
+    font-size: 12px;
+    color: #666;
+    position: absolute;
+    bottom: -20px;
+    text-align: center;
+    width: 100%;
+}
+
+.bar-chart-value {
+    font-size: 10px;
+    color: #fff;
+    position: absolute;
+    top: 5px;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.bar-chart-container.dark-theme .bar-chart-placeholder {
+    background-color: #2a2a2a;
+}
+
+.bar-chart-container.dark-theme .bar-chart-label {
+    color: #aaa;
+}
+
+/* Bar Chart Grid Styles */
+.bar-chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 10px;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    min-height: 200px;
+    align-items: end;
+}
+
+.bar-chart-grid .bar-chart-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.bar-chart-grid .bar-chart-bar {
+    background: linear-gradient(to top, #2271b1, #4285f4);
+    width: 100%;
+    min-height: 20px;
+    border-radius: 2px 2px 0 0;
+    transition: all 0.3s ease;
+}
+
+.bar-chart-grid .bar-chart-bar:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+/* --------------------------------------------------------------------------
+   Pie/Donut Chart Styles
+   -------------------------------------------------------------------------- */
+.pie-chart-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1.5em;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 15px;
+}
+
+.pie-chart {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+}
+
+.pie-chart-placeholder {
+    width: 100%;
+    height: 150px;
+    background-color: #f5f7fa;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.pie-chart-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #2271b1 0% 25%,
+        #4caf50 25% 50%,
+        #ffc107 50% 75%,
+        #f44336 75% 100%
+    );
+    position: relative;
+}
+
+.pie-chart-hole {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: #fff;
+}
+
+.pie-chart-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.pie-chart-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+}
+
+.pie-chart-center .pie-chart-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1d2327;
+    line-height: 1;
+}
+
+.pie-chart-center .pie-chart-label {
+    font-size: 12px;
+    color: #646970;
+    margin-top: 2px;
+    font-weight: 500;
+}
+
+.pie-chart-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+.pie-legend-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    background: white;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.pie-legend-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pie-legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.pie-legend-text {
+    color: #1d2327;
+    font-weight: 500;
+}
+
+.pie-legend-percentage {
+    color: #646970;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.pie-chart-container.dark-theme {
+    background-color: #222;
+}
+
+.pie-chart-container.dark-theme .pie-chart-placeholder {
+    background-color: #2a2a2a;
+}
+
+.pie-chart-container.dark-theme .pie-chart-hole {
+    background-color: #222;
+}
+
+.pie-chart-container.dark-theme .pie-chart-value {
+    color: #eee;
+}
+
+.pie-chart-container.dark-theme .pie-legend-text {
+    color: #aaa;
+}
+
+/* --------------------------------------------------------------------------
+   Area Chart Styles
+   -------------------------------------------------------------------------- */
+.area-chart-container {
+    position: relative;
+    width: 100%;
+    min-height: 250px;
+    margin-bottom: 1.5em;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.area-chart-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    background-color: #f5f7fa;
+    position: relative;
+    overflow: hidden;
+}
+
+.area-chart-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to top, rgba(54, 162, 235, 0.2) 0%, rgba(54, 162, 235, 0) 100%);
+}
+
+.area-chart-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: rgba(54, 162, 235, 0.8);
+    transform: translateY(-50%);
+    clip-path: polygon(
+        0% 0%,
+        10% 20%,
+        20% 10%,
+        30% 30%,
+        40% 40%,
+        50% 50%,
+        60% 65%,
+        70% 55%,
+        80% 70%,
+        90% 75%,
+        100% 60%
+    );
+}
+
+.area-chart-container.dark-theme .area-chart-placeholder {
+    background-color: #2a2a2a;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Adjustments
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .chart-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .chart-controls {
+        margin-top: 10px;
+        width: 100%;
+    }
+    
+    .chart-period-select {
+        width: 100%;
+    }
+    
+    .heatmap-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .candlestick-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .candlestick-timeframe {
+        margin-top: 10px;
+    }
+    
+    .chart-metrics {
+        gap: 15px;
+    }
+    
+    .indicator-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .indicator-value {
+        margin-top: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-metrics {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .chart-metric {
+        width: 100%;
+    }
+    
+    .pie-chart-legend {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Enhanced Responsive Adjustments */
+@media screen and (max-width: 782px) {
+    .heatmap-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .chart-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .chart-legend {
+        margin-top: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .chart-toolbar {
+        flex-wrap: wrap;
+    }
+    
+    .sparklines-table th,
+    .sparklines-table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .heatmap-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .candlestick-placeholder-bars {
+        gap: 5px;
+    }
+    
+    .candlestick-placeholder-bar {
+        width: 8px;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Missing Chart Visualization Classes for UI Library
+   -------------------------------------------------------------------------- */
+
+/* Line Chart Placeholder SVG Elements */
+.line-chart-placeholder {
+    position: relative;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: 
+        linear-gradient(to right, #e0e0e0 1px, transparent 1px),
+        linear-gradient(to bottom, #e0e0e0 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.line-chart-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.chart-placeholder-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #8c8f94;
+    font-size: 14px;
+    z-index: 3;
+}
+
+.chart-placeholder-overlay .dashicons {
+    font-size: 24px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Bar Chart Grid Layout */
+.bar-chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    min-height: 220px;
+    align-items: end;
+}
+
+.bar-chart-grid .bar-chart-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 160px;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.bar-chart-grid .bar-chart-bar {
+    width: 100%;
+    min-height: 20px;
+    border-radius: 3px 3px 0 0;
+    position: relative;
+    transition: all 0.3s ease;
+    margin-bottom: 8px;
+}
+
+.bar-chart-grid .bar-chart-bar.positive {
+    background: linear-gradient(to top, #00ba37, #4caf50);
+}
+
+.bar-chart-grid .bar-chart-bar.negative {
+    background: linear-gradient(to top, #d63638, #f44336);
+}
+
+.bar-chart-grid .bar-chart-bar:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+.bar-chart-grid .bar-chart-label {
+    font-size: 11px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.bar-chart-grid .bar-chart-value {
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.bar-chart-grid .bar-chart-value.positive {
+    color: #00ba37;
+}
+
+.bar-chart-grid .bar-chart-value.negative {
+    color: #d63638;
+}
+
+/* Pie Chart Enhancements */
+.pie-chart-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+}
+
+.pie-chart-center .pie-chart-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1d2327;
+    line-height: 1;
+}
+
+.pie-chart-center .pie-chart-label {
+    font-size: 12px;
+    color: #646970;
+    margin-top: 2px;
+    font-weight: 500;
+}
+
+.pie-chart-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.pie-legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    gap: 8px;
+}
+
+.pie-legend-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.pie-legend-text {
+    color: #1d2327;
+    font-weight: 500;
+}
+
+.pie-legend-percentage {
+    color: #646970;
+    font-size: 12px;
+    margin-left: auto;
+}
+
+/* Grid Layout Helper */
+.tradepress-grid-2-cols {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+/* Heatmap Components */
+.heatmap-container {
+    background: #fff;
+    border: 1px solid #e2e4e7;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.heatmap-header {
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f1;
+    background-color: #f8f9fa;
+}
+
+.heatmap-header h5 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.heatmap-body {
+    padding: 20px;
+}
+
+.heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+}
+
+.heatmap-cell {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    padding: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.heatmap-cell:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.heatmap-cell.positive {
+    background-color: #e8f5e8;
+    color: #155724;
+}
+
+.heatmap-cell.negative {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.heatmap-symbol {
+    font-weight: 600;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.heatmap-change {
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* Indicator Cards */
+.indicator-card {
+    background: #fff;
+    border: 1px solid #e2e4e7;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.indicator-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f1;
+    background-color: #f8f9fa;
+}
+
+.indicator-header h5 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.indicator-value {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 3px;
+}
+
+.indicator-value.positive {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.indicator-value.negative {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.indicator-value.neutral {
+    background-color: #e2e3e5;
+    color: #383d41;
+}
+
+.indicator-body {
+    padding: 15px;
+}
+
+.indicator-description p {
+    margin: 0;
+    font-size: 13px;
+    color: #646970;
+    line-height: 1.5;
+}
+
+/* Chart Loading States */
+.chart-loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.chart-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.chart-loading::before {
+    content: 'Loading...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #646970;
+    font-size: 14px;
+    z-index: 101;
+}
+
+/* Interactive Bar Tooltip */
+.bar-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-bottom: 5px;
+    z-index: 1000;
+}
+
+.bar-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: #333;
+}
+
+/* Additional Chart Visualization Enhancements */
+
+/* Candlestick Chart Placeholder Bars */
+.candlestick-placeholder-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    width: 100%;
+    height: 100px;
+    justify-content: space-around;
+    padding: 0 20px;
+}
+
+.candlestick-placeholder-bar {
+    width: 12px;
+    min-height: 20px;
+    border-radius: 2px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.candlestick-placeholder-bar.bullish {
+    background: linear-gradient(to top, #00ba37, #4caf50);
+}
+
+.candlestick-placeholder-bar.bearish {
+    background: linear-gradient(to top, #d63638, #f44336);
+}
+
+.candlestick-placeholder-bar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Chart Legend Enhancements */
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e2e4e7;
+}
+
+.chart-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.legend-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.legend-text {
+    color: #1d2327;
+    font-weight: 500;
+}
+
+/* Chart Toolbar Enhancements */
+.chart-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chart-tool-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: #f6f7f7;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chart-tool-button:hover {
+    background-color: #f0f0f1;
+    border-color: #8c8f94;
+}
+
+.chart-tool-button.active {
+    background-color: #2271b1;
+    border-color: #2271b1;
+    color: white;
+}
+
+.chart-timeframe-selector {
+    padding: 6px 10px;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 13px;
+    min-width: 80px;
+}
+
+/* Stock Heatmap Cell Styles */
+.heatmap-cell.strong-positive {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.heatmap-cell.weak-positive {
+    background-color: #e8f5e8;
+    color: #1e7e34;
+}
+
+.heatmap-cell.strong-negative {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.heatmap-cell.weak-negative {
+    background-color: #f5c6cb;
+    color: #856404;
+}
+
+.heatmap-cell.neutral {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+/* Performance Metrics in Chart Footer */
+.chart-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 15px;
+    padding: 15px;
+}
+
+.chart-metric {
+    text-align: center;
+}
+
+.metric-label {
+    font-size: 12px;
+    color: #646970;
+    margin-bottom: 4px;
+    display: block;
+    font-weight: 500;
+}
+
+.metric-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1d2327;
+    display: block;
+}
+
+.metric-value.positive {
+    color: #00ba37;
+}
+
+.metric-value.negative {
+    color: #d63638;
+}
+
+/* Interactive Chart States */
+.chart-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+    transition: all 0.3s ease;
+}
+
+.chart-placeholder:hover .chart-placeholder-overlay {
+    color: #2271b1;
+}
+
+/* Chart Animation Classes */
+.chart-fade-in {
+    animation: chartFadeIn 0.5s ease-in-out;
+}
+
+@keyframes chartFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chart-scale-in {
+    animation: chartScaleIn 0.3s ease-out;
+}
+
+@keyframes chartScaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

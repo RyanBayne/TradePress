@@ -1,0 +1,60 @@
+/**
+ * TradePress - Experiment Component Styles
+ * 
+ * UI components for experimental features and testing tools.
+ * 
+ * HTML Structure:
+ * <div class="tp-experiment-section">
+ *   <div class="tp-experiment-buttons">
+ *     <button class="tp-button">Test Button</button>
+ *   </div>
+ *   <div class="tp-experiment-results">
+ *     <div class="tp-code-block">Results here</div>
+ *   </div>
+ * </div>
+ * 
+ * @package TradePress/CSS/Components
+ * @since 1.0.0
+ */
+
+/* Experiment section */
+.tradepress-experiment-section {
+    margin-bottom: var(--tp-spacing-xxl);
+}
+
+/* Button groups for experiments */
+.tradepress-experiment-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tp-spacing-md);
+    margin: var(--tp-spacing-xl) 0;
+}
+
+/* Results display */
+.tradepress-experiment-results {
+    background: #f9f9f9;
+    border: 1px solid var(--tp-color-gray-200);
+    padding: var(--tp-spacing-lg);
+    margin-top: var(--tp-spacing-xl);
+    border-radius: var(--tp-border-radius);
+}
+
+/* Form layout for tools */
+.tradepress-tool-form {
+    display: flex;
+    gap: var(--tp-spacing-md);
+    margin: var(--tp-spacing-xl) 0;
+}
+
+/* Database explorer specific */
+.tradepress-database-explorer {
+    display: flex;
+    gap: var(--tp-spacing-md);
+    margin: var(--tp-spacing-xl) 0;
+}
+
+/* Legacy classes mapping for backward compatibility */
+.experiment-buttons { @extend .tradepress-experiment-buttons; }
+.experiment-results { @extend .tradepress-experiment-results; }
+.log-generator-form { @extend .tradepress-tool-form; }
+.database-explorer { @extend .tradepress-database-explorer; }
