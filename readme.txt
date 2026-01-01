@@ -12,8 +12,8 @@ Requires PHP: 5.6
 Stock market trading support tool (alpha phase)
                        
 == Description ==
-New for 2025 and requires 2-3 months more development before it can be considered 
-a useful support in trading so take great care when factoring output into your decision making.
+TradePress will require intense testing before considering it to be a key support in trading 
+so take great care when factoring output into your decision making.
 
 The plugins purpose is to combine multiple sources of information and bring them to one, highly customisable location.
 Then use that information to support decision making in a dynamic manner, which will also be customisable. 
