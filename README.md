@@ -1,6 +1,6 @@
 # TradePress
 
-[![License: GPL v2](https://img.shields.io/badge/License-GPLv2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![WordPress Plugin](https://img.shields.io/badge/WordPress-Plugin-blue.svg)](https://wordpress.org/plugins/)
 
 A comprehensive WordPress plugin for algorithmic stock analysis, trading decision support, and portfolio management. TradePress combines technical indicators, scoring directives, and multi-platform API integrations to help traders identify opportunities and manage risk.
@@ -204,7 +204,7 @@ php tests/test-runner.php
 
 ## License
 
-TradePress is licensed under the GNU General Public License v2.0 - see the [LICENSE](LICENSE) file for details.
+TradePress is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
 
 ## Disclaimer
 
