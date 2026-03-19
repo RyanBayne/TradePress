@@ -225,9 +225,9 @@ TradePress is developed and maintained by volunteers. If you find this plugin va
 ### Support Development
 Your support helps us maintain and improve TradePress:
 
-- **GitHub Sponsors**: [Sponsor TradePress](https://github.com/sponsors/yourusername)
-- **Buy Me a Coffee**: [Support via BMC](https://www.buymeacoffee.com/yourusername)
-- **Patreon**: [Become a Patron](https://www.patreon.com/yourusername)
+- **GitHub Sponsors**: [Sponsor TradePress](https://github.com/sponsors/ryanbayne)
+- **Buy Me a Coffee**: [Support via BMC](https://www.buymeacoffee.com/ryanbayne)
+- **Patreon**: [Become a Patron](https://www.patreon.com/ryanbayne)
 
 ### What Your Support Enables
 - Faster bug fixes and feature development
