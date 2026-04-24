@@ -90,7 +90,7 @@ class TradePress_Scoring_Strategies_Schema {
             
             PRIMARY KEY (id),
             UNIQUE KEY slug (slug),
-            KEY name (name(191)),
+            KEY name (name(100)),
             KEY status (status),
             KEY category (category),
             KEY type (type),

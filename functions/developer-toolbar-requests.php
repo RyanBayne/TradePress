@@ -47,7 +47,8 @@ function TradePress_api_version_switch() {
         'success',
         false,
         __( 'Twitch API Version Changed', 'tradepress' ),
-        sprintf( __( 'You changed the Twitch API version to %d (%s)', 'tradepress' ), $version, $name ) 
+        /* translators: %d: API version number, %s: version description */
+        sprintf( __( 'You changed the Twitch API version to %1$d (%2$s)', 'tradepress' ), $version, $name ) 
     );
         
     wp_redirect( wp_get_referer() );
@@ -150,6 +151,7 @@ function tradepress_toggle_developer_mode_toolbar() {
         'success',
         false,
         __( 'Developer Mode Toggled', 'tradepress' ),
+        /* translators: %s: string value */
         sprintf( __( 'Developer mode has been %s.', 'tradepress' ), $status_text )
     );
     
@@ -179,7 +181,8 @@ function tradepress_refresh_api_matrix_cache() {
         'success',
         false,
         __( 'API Matrix Cache Refreshed', 'tradepress' ),
-        sprintf( __( 'Cache refreshed successfully. Found %d platforms and %d data types.', 'tradepress' ), 
+        /* translators: %d: component name, %d: action performed */
+        sprintf( __( 'Cache refreshed successfully. Found %1$d platforms and %2$d data types.', 'tradepress' ), 
             count($matrix['platforms']), count($matrix['data_types']) )
     );
     

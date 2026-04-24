@@ -7,7 +7,7 @@
  * throughout the plugin, with a focus on tracking the transition from demo to live implementations.
  *
  * @package TradePress\Admin\development
- * @version 1.0.1
+ * @version 1.0.95
  * @date    2024-06-25
  * 
  * DATA CONSUMPTION:
@@ -83,26 +83,26 @@ class TradePress_Admin_Development_Feature_Status {
         <div class="wrap feature-status-tab">
             <div class="completion-stats">
                 <div class="stat-box">
-                    <span class="stat-label"><?php _e('Total Features:', 'tradepress'); ?></span>
+                    <span class="stat-label"><?php esc_html_e('Total Features:', 'tradepress'); ?></span>
                     <span class="stat-value" id="total-features">0</span>
                 </div>
                 <div class="stat-box">
-                    <span class="stat-label"><?php _e('Live Features:', 'tradepress'); ?></span>
+                    <span class="stat-label"><?php esc_html_e('Live Features:', 'tradepress'); ?></span>
                     <span class="stat-value" id="live-features">0</span>
                 </div>
                 <div class="stat-box">
-                    <span class="stat-label"><?php _e('Demo Features:', 'tradepress'); ?></span>
+                    <span class="stat-label"><?php esc_html_e('Demo Features:', 'tradepress'); ?></span>
                     <span class="stat-value" id="demo-features">0</span>
                 </div>
                 <div class="stat-box">
-                    <span class="stat-label"><?php _e('Completion Rate:', 'tradepress'); ?></span>
+                    <span class="stat-label"><?php esc_html_e('Completion Rate:', 'tradepress'); ?></span>
                     <span class="stat-value" id="completion-rate">0%</span>
                 </div>
             </div>
             
             <div class="tp-accordion-controls">
-                <button class="button expand-all"><?php _e('Expand All', 'tradepress'); ?></button>
-                <button class="button collapse-all"><?php _e('Collapse All', 'tradepress'); ?></button>
+                <button class="button expand-all"><?php esc_html_e('Expand All', 'tradepress'); ?></button>
+                <button class="button collapse-all"><?php esc_html_e('Collapse All', 'tradepress'); ?></button>
             </div>
             
             <div class="tp-accordion-container">
@@ -121,7 +121,7 @@ class TradePress_Admin_Development_Feature_Status {
                 
                 // Output section headings
                 ?>
-                <h3 class="feature-section-header"><?php _e('Admin Pages', 'tradepress'); ?></h3>
+                <h3 class="feature-section-header"><?php esc_html_e('Admin Pages', 'tradepress'); ?></h3>
                 
                 <?php foreach ($page_features as $page_id => $page): ?>
                 <div class="tp-accordion-item">
@@ -134,11 +134,11 @@ class TradePress_Admin_Development_Feature_Status {
                             <table class="feature-status-table">
                                 <thead>
                                     <tr>
-                                        <th width="40%"><?php _e('Feature', 'tradepress'); ?></th>
-                                        <th width="15%"><?php _e('Status', 'tradepress'); ?></th>
-                                        <th width="15%"><?php _e('Enabled', 'tradepress'); ?></th>
-                                        <th width="15%"><?php _e('Version', 'tradepress'); ?></th>
-                                        <th width="15%"><?php _e('Help', 'tradepress'); ?></th>
+                                        <th width="40%"><?php esc_html_e('Feature', 'tradepress'); ?></th>
+                                        <th width="15%"><?php esc_html_e('Status', 'tradepress'); ?></th>
+                                        <th width="15%"><?php esc_html_e('Enabled', 'tradepress'); ?></th>
+                                        <th width="15%"><?php esc_html_e('Version', 'tradepress'); ?></th>
+                                        <th width="15%"><?php esc_html_e('Help', 'tradepress'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -216,7 +216,7 @@ class TradePress_Admin_Development_Feature_Status {
                                         <?php endforeach; ?>
                                     <?php else: ?>
                                         <tr>
-                                            <td colspan="5"><?php _e('No features defined for this tab.', 'tradepress'); ?></td>
+                                            <td colspan="5"><?php esc_html_e('No features defined for this tab.', 'tradepress'); ?></td>
                                         </tr>
                                     <?php endif; ?>
                                     <?php endforeach; ?>
@@ -224,9 +224,10 @@ class TradePress_Admin_Development_Feature_Status {
                                     <?php if ($page_total > 0): ?>
                                     <tr class="page-stats-row">
                                         <td colspan="5">
-                                            <strong><?php _e('Page Statistics:', 'tradepress'); ?></strong> 
+                                            <strong><?php esc_html_e('Page Statistics:', 'tradepress'); ?></strong> 
                                             <?php echo sprintf(
-                                                __('Total: %d, Live: %d, Demo: %d, Completion Rate: %d%%', 'tradepress'), 
+                                                /* translators: %d: total count, %d: live count, %d: demo/tested count, %d: completion percentage */
+                                                __('Total: %1$d, Live: %2$d, Demo: %3$d, Completion Rate: %4$d%%', 'tradepress'), 
                                                 $page_total, 
                                                 $page_live, 
                                                 $page_demo, 
@@ -238,13 +239,13 @@ class TradePress_Admin_Development_Feature_Status {
                                 </tbody>
                             </table>
                         <?php else: ?>
-                            <p><?php _e('No tabs defined for this page.', 'tradepress'); ?></p>
+                            <p><?php esc_html_e('No tabs defined for this page.', 'tradepress'); ?></p>
                         <?php endif; ?>
                     </div>
                 </div>
                 <?php endforeach; ?>
                 
-                <h3 class="feature-section-header"><?php _e('System Components', 'tradepress'); ?></h3>
+                <h3 class="feature-section-header"><?php esc_html_e('System Components', 'tradepress'); ?></h3>
                 
                 <?php foreach ($system_features as $system_id => $system): ?>
                 <div class="tp-accordion-item">
@@ -257,11 +258,11 @@ class TradePress_Admin_Development_Feature_Status {
                             <table class="feature-status-table">
                                 <thead>
                                     <tr>
-                                        <th width="40%"><?php _e('Feature', 'tradepress'); ?></th>
-                                        <th width="15%"><?php _e('Status', 'tradepress'); ?></th>
-                                        <th width="15%"><?php _e('Enabled', 'tradepress'); ?></th>
-                                        <th width="15%"><?php _e('Version', 'tradepress'); ?></th>
-                                        <th width="15%"><?php _e('Help', 'tradepress'); ?></th>
+                                        <th width="40%"><?php esc_html_e('Feature', 'tradepress'); ?></th>
+                                        <th width="15%"><?php esc_html_e('Status', 'tradepress'); ?></th>
+                                        <th width="15%"><?php esc_html_e('Enabled', 'tradepress'); ?></th>
+                                        <th width="15%"><?php esc_html_e('Version', 'tradepress'); ?></th>
+                                        <th width="15%"><?php esc_html_e('Help', 'tradepress'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -337,7 +338,7 @@ class TradePress_Admin_Development_Feature_Status {
                                         <?php endforeach; ?>
                                     <?php else: ?>
                                         <tr>
-                                            <td colspan="5"><?php _e('No features defined for this tab.', 'tradepress'); ?></td>
+                                            <td colspan="5"><?php esc_html_e('No features defined for this tab.', 'tradepress'); ?></td>
                                         </tr>
                                     <?php endif; ?>
                                     <?php endforeach; ?>
@@ -345,9 +346,10 @@ class TradePress_Admin_Development_Feature_Status {
                                     <?php if ($system_total > 0): ?>
                                     <tr class="page-stats-row">
                                         <td colspan="5">
-                                            <strong><?php _e('System Statistics:', 'tradepress'); ?></strong> 
+                                            <strong><?php esc_html_e('System Statistics:', 'tradepress'); ?></strong> 
                                             <?php echo sprintf(
-                                                __('Total: %d, Live: %d, Demo: %d, Completion Rate: %d%%', 'tradepress'), 
+                                                /* translators: %d: total count, %d: live count, %d: demo/tested count, %d: completion percentage */
+                                                __('Total: %1$d, Live: %2$d, Demo: %3$d, Completion Rate: %4$d%%', 'tradepress'), 
                                                 $system_total, 
                                                 $system_live, 
                                                 $system_demo, 
@@ -359,17 +361,17 @@ class TradePress_Admin_Development_Feature_Status {
                                 </tbody>
                             </table>
                         <?php else: ?>
-                            <p><?php _e('No tabs defined for this system.', 'tradepress'); ?></p>
+                            <p><?php esc_html_e('No tabs defined for this system.', 'tradepress'); ?></p>
                         <?php endif; ?>
                     </div>
                 </div>
                 <?php endforeach; ?>
                 
-                <h3 class="feature-section-header"><?php _e('Scoring Directives', 'tradepress'); ?></h3>
+                <h3 class="feature-section-header"><?php esc_html_e('Scoring Directives', 'tradepress'); ?></h3>
                 
                 <div class="tp-accordion-item">
                     <div class="tp-accordion-header">
-                        <h3 class="tp-accordion-title"><?php _e('System Directives', 'tradepress'); ?></h3>
+                        <h3 class="tp-accordion-title"><?php esc_html_e('System Directives', 'tradepress'); ?></h3>
                         <span class="tp-accordion-icon dashicons dashicons-arrow-down-alt2"></span>
                     </div>
                     <div class="tp-accordion-content">
@@ -385,12 +387,12 @@ class TradePress_Admin_Development_Feature_Status {
                             <table class="feature-status-table">
                                 <thead>
                                     <tr>
-                                        <th width="30%"><?php _e('Directive Name', 'tradepress'); ?></th>
-                                        <th width="15%"><?php _e('Status', 'tradepress'); ?></th>
-                                        <th width="15%"><?php _e('Dev Status', 'tradepress'); ?></th>
-                                        <th width="10%"><?php _e('Version', 'tradepress'); ?></th>
-                                        <th width="15%"><?php _e('Category', 'tradepress'); ?></th>
-                                        <th width="15%"><?php _e('Impact', 'tradepress'); ?></th>
+                                        <th width="30%"><?php esc_html_e('Directive Name', 'tradepress'); ?></th>
+                                        <th width="15%"><?php esc_html_e('Status', 'tradepress'); ?></th>
+                                        <th width="15%"><?php esc_html_e('Dev Status', 'tradepress'); ?></th>
+                                        <th width="10%"><?php esc_html_e('Version', 'tradepress'); ?></th>
+                                        <th width="15%"><?php esc_html_e('Category', 'tradepress'); ?></th>
+                                        <th width="15%"><?php esc_html_e('Impact', 'tradepress'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -435,9 +437,10 @@ class TradePress_Admin_Development_Feature_Status {
                                     
                                     <tr class="page-stats-row">
                                         <td colspan="6">
-                                            <strong><?php _e('Directive Statistics:', 'tradepress'); ?></strong> 
+                                            <strong><?php esc_html_e('Directive Statistics:', 'tradepress'); ?></strong> 
                                             <?php echo sprintf(
-                                                __('Total: %d, Tested: %d, Development: %d, Completion Rate: %d%%', 'tradepress'), 
+                                                /* translators: %d: test name, %d: test name, %d: test name, %d: test name */
+                                                __('Total: %1$d, Tested: %2$d, Development: %3$d, Completion Rate: %4$d%%', 'tradepress'), 
                                                 $directive_total, 
                                                 $directive_tested, 
                                                 $directive_development, 
@@ -448,7 +451,7 @@ class TradePress_Admin_Development_Feature_Status {
                                 </tbody>
                             </table>
                         <?php else: ?>
-                            <p><?php _e('No directives found.', 'tradepress'); ?></p>
+                            <p><?php esc_html_e('No directives found.', 'tradepress'); ?></p>
                         <?php endif; ?>
                     </div>
                 </div>

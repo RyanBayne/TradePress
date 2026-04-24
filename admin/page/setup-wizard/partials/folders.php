@@ -19,18 +19,18 @@ $items_to_check = array(
 );
 ?>
 
-<h1><?php _e('Folders &amp; Files', 'tradepress'); ?></h1>
+<h1><?php esc_html_e('Folders &amp; Files', 'tradepress'); ?></h1>
 
-<p><?php _e('These are the folders and files that TradePress needs to function properly. Status indicators show whether each item exists.', 'tradepress'); ?></p>
+<p><?php esc_html_e('These are the folders and files that TradePress needs to function properly. Status indicators show whether each item exists.', 'tradepress'); ?></p>
 
 <form method="post">
     <table class="tradepress-setup-extensions" cellspacing="0">
         <thead>
             <tr>
-                <th class="extension-name"><?php _e('Status', 'tradepress'); ?></th>
-                <th class="extension-name"><?php _e('Type', 'tradepress'); ?></th>
-                <th class="extension-description"><?php _e('Path', 'tradepress'); ?></th>
-                <th class="extension-description"><?php _e('Description', 'tradepress'); ?></th>
+                <th class="extension-name"><?php esc_html_e('Status', 'tradepress'); ?></th>
+                <th class="extension-name"><?php esc_html_e('Type', 'tradepress'); ?></th>
+                <th class="extension-description"><?php esc_html_e('Path', 'tradepress'); ?></th>
+                <th class="extension-description"><?php esc_html_e('Description', 'tradepress'); ?></th>
             </tr>
         </thead>
         <tbody>

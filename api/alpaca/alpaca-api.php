@@ -283,7 +283,8 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
             'pending',      // Initial status
             __FILE__,       // File
             __LINE__,       // Line
-            sprintf(__('Alpaca API call to %s (%s mode)', 'tradepress'), $endpoint, $this->mode), // Description
+            /* translators: %s: API endpoint URL, %s: trading mode (live/paper) */
+            sprintf(__('Alpaca API call to %1$s (%2$s mode)', 'tradepress'), $endpoint, $this->mode), // Description
             '',             // Outcome (will be updated later)
             86400           // TTL (24 hours)
         );
@@ -370,7 +371,8 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
             
             return new WP_Error(
                 'http_error',
-                sprintf(__('HTTP Error: %d %s', 'tradepress'), $response_code, $error_message),
+                /* translators: %d: HTTP status code, %s: error message */
+                sprintf(__('HTTP Error: %1$d %2$s', 'tradepress'), $response_code, $error_message),
                 $error_data
             );
         }

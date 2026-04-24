@@ -360,6 +360,7 @@ function tradepress_display_cron_notices() {
         $job_label = $job_name === 'earnings_calendar' ? 'Earnings Calendar Import' : $job_name;
         
         echo '<div class="notice notice-success is-dismissible"><p>' . 
+             /* translators: %s: component name */
              sprintf(esc_html__('%s CRON job executed successfully.', 'tradepress'), esc_html($job_label)) . 
              '</p></div>';
     }

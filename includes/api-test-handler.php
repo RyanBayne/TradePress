@@ -242,6 +242,8 @@ class TradePress_API_Test_Handler {
      *
      * @param array $result The test result data
      * @return string HTML output
+     *
+     * @version 1.0.95
      */
     private function generate_html_report($result) {
         $is_success = isset($result['success']) ? $result['success'] : false;
@@ -271,7 +273,8 @@ class TradePress_API_Test_Handler {
                 <span class="<?php echo $is_success ? 'success-text' : 'error-text'; ?>">
                     <?php echo $is_success ? esc_html__('Success', 'tradepress') : esc_html__('Error', 'tradepress'); ?>
                 </span><br>
-                <strong><?php esc_html_e('Environment3:' . $environment . '?', 'tradepress'); ?></strong> 
+                <!-- Use a static translatable string; dynamic value is output separately for i18n compliance -->
+                <strong><?php esc_html_e('Environment:', 'tradepress'); ?></strong> 
                 <span class="<?php echo esc_attr($env_class); ?>">
                     <?php echo esc_html($environment); ?>
                 </span><br>
@@ -318,6 +321,7 @@ class TradePress_API_Test_Handler {
                         <li><?php esc_html_e('Check your internet connection', 'tradepress'); ?></li>
                         <li><?php esc_html_e('Verify your API credentials in the Settings tab', 'tradepress'); ?></li>
                         <li><?php esc_html_e('Make sure you\'re using the correct trading mode (paper/live)', 'tradepress'); ?></li>
+                        <?php /* translators: %s: string value */ ?>
                         <li><?php printf(esc_html__('Check if %s API services are operational', 'tradepress'), esc_html(ucfirst($platform))); ?></li>
                         <li><?php esc_html_e('Look for specific error details in the AI Troubleshooting Report', 'tradepress'); ?></li>
                     </ol>

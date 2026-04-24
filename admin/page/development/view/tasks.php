@@ -119,6 +119,7 @@ class TradePress_Admin_Development_Tasks {
                                 // Fix syntax: using curly braces instead of alternative syntax
                                 for ($i = 1; $i <= 6; $i++) { 
                                 ?>
+                                <?php /* translators: %d: number */ ?>
                                 <option value="<?php echo esc_attr($i); ?>"><?php echo esc_html(sprintf(__('Phase %d', 'tradepress'), $i)); ?></option>
                                 <?php } ?>
                             </select>

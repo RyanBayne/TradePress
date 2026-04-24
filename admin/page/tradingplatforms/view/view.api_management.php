@@ -31,7 +31,9 @@ if (isset($_POST['action']) && $_POST['action'] === 'toggle_api_status') {
         update_option($option_name, $new_state ? 'yes' : 'no');
         
         $message = $new_state 
+            /* translators: %s: string value */
             ? sprintf(__('%s API has been enabled.', 'tradepress'), ucfirst($api_id))
+            /* translators: %s: string value */
             : sprintf(__('%s API has been disabled.', 'tradepress'), ucfirst($api_id));
         
         add_settings_error('tradepress_api_management', 'api_toggled', $message, 'updated');
@@ -46,7 +48,8 @@ if (isset($_POST['action']) && $_POST['action'] === 'toggle_trading_mode') {
         $option_name = 'TradePress_api_' . $api_id . '_trading_mode';
         update_option($option_name, $new_mode);
         
-        $message = sprintf(__('%s trading mode switched to %s.', 'tradepress'), ucfirst($api_id), ucfirst($new_mode));
+        /* translators: %s: platform name, %s: mode name */
+        $message = sprintf(__('%1$s trading mode switched to %2$s.', 'tradepress'), ucfirst($api_id), ucfirst($new_mode));
         add_settings_error('tradepress_api_management', 'trading_mode_toggled', $message, 'updated');
     }
 }
@@ -96,6 +99,7 @@ if (isset($_POST['action']) && strpos($_POST['action'], 'tradepress_save_') === 
             }
         }
         
+        /* translators: %s: component name */
         $message = sprintf(__('%s settings saved successfully.', 'tradepress'), ucfirst($api_id));
         add_settings_error('tradepress_api_management', 'settings_saved', $message, 'updated');
     }

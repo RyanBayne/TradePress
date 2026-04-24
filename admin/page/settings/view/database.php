@@ -78,6 +78,7 @@ class TradePress_Settings_Database extends TradePress_Settings_Page {
         echo '<div class="tradepress-database-summary">';
         echo '<h3>' . esc_html__( 'Database Overview', 'tradepress' ) . '</h3>';
         echo '<p>' . sprintf( 
+            /* translators: %1$d: number, %2$d: number, %3$d: number */
             esc_html__( 'Total tables: %1$d, Existing: %2$d, Missing: %3$d', 'tradepress' ),
             count( $tables ),
             $existing_tables,

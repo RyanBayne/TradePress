@@ -1,0 +1,48 @@
+name: PHP Code Quality
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: PHP Lint
+    runs-on: ubuntu-latest
+    env:
+      TRADEPRESS_TESTING: 'true'
+    strategy:
+      matrix:
+        php-version: ['7.4', '8.0', '8.1', '8.2']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer
+      - name: PHP Syntax Check
+        run: find . -name "*.php" -not -path "./vendor/*" -not -path "./tests/*" | xargs -n1 php -l
+
+  phpcs:
+    name: WordPress Coding Standards
+    runs-on: ubuntu-latest
+    env:
+      TRADEPRESS_TESTING: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer, cs2pr
+      - name: Install PHPCS and WordPress standards
+        run: |
+          composer global require squizlabs/php_codesniffer
+          composer global require wp-coding-standards/wpcs
+          composer global require phpcsstandards/phpcsutils
+          phpcs --config-set installed_paths $(composer global config home)/vendor/wp-coding-standards/wpcs
+      - name: Run PHPCS
+        run: phpcs --standard=WordPress --extensions=php --ignore=vendor/,tests/,node_modules/ --report=checkstyle . | cs2pr
+        continue-on-error: true

@@ -225,6 +225,7 @@ class TradePress_API_Demo_Data {
             'employees' => rand(100, 100000),
             'founded' => rand(1950, 2020),
             'headquarters' => rand(0, 1) ? 'New York, NY' : 'San Francisco, CA',
+            /* translators: %s: string value */
             'description' => sprintf(__('This is a sample company description for %s. This text is generated for demo purposes.', 'tradepress'), $symbol),
             'market_cap' => rand(1000, 1000000) * 1000000,
             'pe_ratio' => number_format(rand(10, 50) + (rand(0, 99) / 100), 2),

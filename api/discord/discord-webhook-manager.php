@@ -145,12 +145,14 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
         $webhook_url = $this->get_webhook($type);
         
         if (empty($webhook_url)) {
+            /* translators: %s: value */
             return new WP_Error('no_webhook', sprintf(__('No webhook URL found for type: %s', 'tradepress'), $type));
         }
         
         // Check if this notification type is enabled
         $notification_enabled = get_option('TradePress_social_discord_notify_' . $type, 'yes') === 'yes';
         if (!$notification_enabled) {
+            /* translators: %s: value */
             return new WP_Error('notification_disabled', sprintf(__('Notifications for %s are disabled', 'tradepress'), $type));
         }
         
@@ -196,10 +198,15 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
         
         // Set up alert title based on alert type
         $alert_titles = array(
+            /* translators: %s: value */
             'target_reached' => sprintf(__('%s Price Target Reached', 'tradepress'), $symbol),
+            /* translators: %s: value */
             'sudden_move' => sprintf(__('%s Sudden Price Movement', 'tradepress'), $symbol),
+            /* translators: %s: direction */
             'daily_change' => sprintf(__('%s Daily Price Update', 'tradepress'), $symbol),
+            /* translators: %s: symbol name */
             'breakout' => sprintf(__('%s Breakout Alert', 'tradepress'), $symbol),
+            /* translators: %s: value */
             'threshold' => sprintf(__('%s Threshold Crossed', 'tradepress'), $symbol)
         );
         
@@ -207,7 +214,8 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
         
         // Create description based on alert type
         $description = sprintf(
-            __('%s is %s %s from previous price of %s', 'tradepress'),
+            /* translators: %s: symbol name, %s: previous value, %s: previous value, %s: previous value */
+            __('%1$s is %2$s %3$s from previous price of %4$s', 'tradepress'),
             $symbol,
             $direction,
             $change_formatted,
@@ -246,6 +254,8 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
      * @param int $quantity Quantity
      * @param string $strategy Strategy name
      * @return bool|WP_Error Success status or error
+     *
+     * @version 1.0.95
      */
     public function send_trade_alert($symbol, $action, $price, $quantity, $strategy = '') {
         // Determine color based on action
@@ -253,14 +263,16 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
         
         // Create title
         $title = sprintf(
-            __('%s %s Alert', 'tradepress'),
+            /* translators: %s: symbol name, %s: alert type */
+            __('%1$s %2$s Alert', 'tradepress'),
             strtoupper($symbol),
             ucfirst($action)
         );
         
-        // Create description
+        // Create description using ordered placeholders for WordPress i18n compliance
         $description = sprintf(
-            __('TradePress has generated a %s signal for %s at $%s', 'tradepress'),
+            /* translators: %1$s: signal type (buy/sell), %2$s: symbol name, %3$s: price value */
+            __('TradePress has generated a %1$s signal for %2$s at $%3$s', 'tradepress'),
             $action,
             $symbol,
             number_format($price, 2)
@@ -358,6 +370,7 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
         }
         
         // Create title
+        /* translators: %s: direction */
         $title = sprintf(__('%s Score Update', 'tradepress'), $symbol);
         
         // Calculate change
@@ -366,7 +379,8 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
         
         // Create description
         $description = sprintf(
-            __('%s score is now %s (%s from previous score)', 'tradepress'),
+            /* translators: %s: symbol name, %s: current score, %s: score change */
+            __('%1$s score is now %2$s (%3$s from previous score)', 'tradepress'),
             $symbol,
             number_format($score, 1),
             $change_text
@@ -506,6 +520,7 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
         
         // If we get another response code, something went wrong
         $body = wp_remote_retrieve_body($response);
+        /* translators: %d: value */
         $error_message = !empty($body) ? $body : sprintf(__('Received HTTP code %d from Discord', 'tradepress'), $response_code);
         
         return new WP_Error('discord_error', $error_message, array('code' => $response_code));

@@ -191,20 +191,20 @@ function tradepress_data_tables_tab_content() {
                         <div class="table-header" style="display: flex; background: #f1f1f1; padding: 12px 15px; font-weight: 600; border-bottom: 1px solid #c3c4c7;">
                             <div style="flex: 2;" class="sortable-column">
                                 <a href="<?php echo esc_url(add_query_arg(array('orderby' => 'name', 'order' => ($current_orderby === 'name' && $current_order === 'asc') ? 'desc' : 'asc'))); ?>" class="<?php echo $current_orderby === 'name' ? 'sorted' : 'sortable'; ?> <?php echo $current_orderby === 'name' ? $current_order : ''; ?>">
-                                    <?php _e('Table Name', 'tradepress'); ?>
+                                    <?php esc_html_e('Table Name', 'tradepress'); ?>
                                 </a>
                             </div>
                             <div style="flex: 1;" class="sortable-column">
                                 <a href="<?php echo esc_url(add_query_arg(array('orderby' => 'status', 'order' => ($current_orderby === 'status' && $current_order === 'asc') ? 'desc' : 'asc'))); ?>" class="<?php echo $current_orderby === 'status' ? 'sorted' : 'sortable'; ?> <?php echo $current_orderby === 'status' ? $current_order : ''; ?>">
-                                    <?php _e('Status', 'tradepress'); ?>
+                                    <?php esc_html_e('Status', 'tradepress'); ?>
                                 </a>
                             </div>
-                            <div style="flex: 1;"><?php _e('Rows', 'tradepress'); ?></div>
-                            <div style="flex: 1;"><?php _e('Size', 'tradepress'); ?></div>
-                            <div style="flex: 1;"><?php _e('Processes', 'tradepress'); ?></div>
+                            <div style="flex: 1;"><?php esc_html_e('Rows', 'tradepress'); ?></div>
+                            <div style="flex: 1;"><?php esc_html_e('Size', 'tradepress'); ?></div>
+                            <div style="flex: 1;"><?php esc_html_e('Processes', 'tradepress'); ?></div>
                             <div style="flex: 1;">
                                 <a href="<?php echo esc_url(add_query_arg(array('orderby' => 'last_updated', 'order' => ($current_orderby === 'last_updated' && $current_order === 'desc') ? 'asc' : 'desc'))); ?>" class="<?php echo $current_orderby === 'last_updated' ? 'sorted' : 'sortable'; ?> <?php echo $current_orderby === 'last_updated' ? $current_order : ''; ?>">
-                                    <?php _e('Last Updated', 'tradepress'); ?>
+                                    <?php esc_html_e('Last Updated', 'tradepress'); ?>
                                 </a>
                             </div>
                         </div>

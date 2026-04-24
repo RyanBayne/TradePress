@@ -177,7 +177,7 @@ class TradePress_Post_Type_Webhooks {
     * 
     * @param mixed $post
     * 
-    * @version 1.0
+    * @version 1.0.95
     */
     public static function html_TradePress_post_webhooks_options($post) {
         $type = get_post_meta( $post->ID, '_TradePress_post_webhooks_type', true );
@@ -185,7 +185,8 @@ class TradePress_Post_Type_Webhooks {
         $action_two = get_post_meta( $post->ID, '_TradePress_post_webhooks_action_two', true );
         $action_three = get_post_meta( $post->ID, '_TradePress_post_webhooks_action_three', true );
         ?>
-        <p><?php _e( 'Not all combinations of event and action will work (pending further development). Please test and seek advice if unsure.'); ?></p>
+        <!-- Added 'tradepress' text domain to satisfy WordPress.WP.I18n.MissingArgDomain -->
+        <p><?php _e( 'Not all combinations of event and action will work (pending further development). Please test and seek advice if unsure.', 'tradepress' ); ?></p>
         <table class="form-table">
             <tbody>
                 <tr>

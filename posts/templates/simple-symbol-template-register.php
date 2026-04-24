@@ -47,6 +47,7 @@ add_action('init', 'tradepress_register_symbol_template', 20);
 function tradepress_template_missing_notice() {
     echo '<div class="error notice"><p>';
     echo sprintf(
+        /* translators: %s: symbol name */
         __('TradePress Symbol Template: Template file not found at %s', 'tradepress'), 
         plugin_dir_path(__FILE__) . 'symbol-template.php'
     );

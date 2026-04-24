@@ -55,8 +55,6 @@ financial advice due to the potential for technical faults that affect informati
 You're own reasoning, analysis and risk-management must be consistent. This is how you will identify
 if TradePress is reliable and help the project move towards not only generating signals, but auto-trading. 
 
-== Disclaimer ==
-
 = Links =                                                                
 *   <a href="https://github.com/RyanBayne/TradePress" title="">GitHub</a>       
 *   <a href="https://discord.gg/ScrhXPE" title="Chat about TradePress on Discord.">Discord Chat</a>     
@@ -99,9 +97,79 @@ Shortcodes are in development: [TradePress_shortcodes]
 3. Security feature that helps to detect illegal entry of administrator accounts into the database.
 
 == Languages ==
-Translator needed to localize the Channel Solution for Twitch.
+Translator needed to localize TradePress.
 
 == Changelog == 
+= 1.0.9 = 
+* Faults Resolved
+    - Fixed unordered placeholders in translatable string in discord-webhook-manager.php send_trade_alert() — changed %s, %s, %s to %1$s, %2$s, %3$s to satisfy WordPress.WP.I18n.UnorderedPlaceholdersText (E-7152f7b7)
+    - Fixed concatenated variable in esc_html_e() call in api-test-handler.php generate_html_report() — replaced dynamic string concatenation with a static translatable string to satisfy WordPress.WP.I18n.NonSingularStringLiteralText (E-6f068f15)
+    - Added missing 'tradepress' text domain to _e() call in post-type-webhooks.php html_TradePress_post_webhooks_options() to satisfy WordPress.WP.I18n.MissingArgDomain (E-02eb4929)
+* Feature Improvements
+    - None
+* Technical Notes
+    - Updated @version tags on send_trade_alert(), generate_html_report(), and html_TradePress_post_webhooks_options() to 1.0.95
+* Configuration Advice
+    - No changes required
+* Database Changes
+    - No Changes
+
+= 1.0.8 = 
+* Faults Resolved
+    - Added missing 'tradepress' text domain to __() call in TradePress_helix_httpstatus_groups() in api/functions.tradepress-api-statuses.php to satisfy WordPress.WP.I18n.MissingArgDomain (E-1744d162)
+* Feature Improvements
+    - None
+* Technical Notes
+    - Updated @version tag on TradePress_helix_httpstatus_groups() to 1.0.95
+* Configuration Advice
+    - No changes required
+* Database Changes
+    - No Changes
+
+= 1.0.7 = 
+* Faults Resolved
+    - Replaced all unescaped _e() calls with esc_html_e() in admin/page/research/research-tabs.php to satisfy WordPress.Security.EscapeOutput.UnsafePrintingFunction (E-ee49f060)
+    - Escaped all unescaped date(), human_time_diff(), and site_url() output in automation-tabs.php to satisfy WordPress.Security.EscapeOutput.OutputNotEscaped (E-46ee8627)
+    - Removed empty string from __() translation call in settings/view/users.php Registration section to satisfy WordPress.WP.I18n.NoEmptyStrings (E-f9d58a2e)
+    - Escaped all get_sort_class() output with esc_attr() in configure-directives.php to satisfy WordPress.Security.EscapeOutput.OutputNotEscaped (E-ac5f1914)
+    - Replaced all _e() with esc_html_e() (or wp_kses_post(__()) for HTML content) across 5 notice files: update.php, install.php, updated.php, updating.php, custom-dismiss.php to satisfy WordPress.Security.EscapeOutput.UnsafePrintingFunction (E-85a4670e)
+* Feature Improvements
+    - None
+* Technical Notes
+    - Updated load_social_networks_tab() and display_symbol_details() methods with @version 1.0.95
+    - All translatable output in research tabs now uses escaped printing functions per WordPress coding standards
+    - Added esc_html() around date() and human_time_diff() calls in dashboard_tab() and data_import_tab()
+    - Added esc_url() around site_url() calls in cron_tab()
+    - Updated @version tags on dashboard_tab, data_import_tab, and cron_tab methods
+* Configuration Advice
+    - No changes required
+* Database Changes
+    - No Changes
+
+= 1.0.6 = 
+* Faults Resolved
+    - Replaced all unescaped _e() calls with esc_html_e() in automation-dashboard.php to satisfy WordPress.Security.EscapeOutput.UnsafePrintingFunction
+    - Added missing 'tradepress' text domain to all __() calls in admin-help.php (add_tabs and app_status methods)
+    - Fixed all unescaped output in admin-help.php: replaced _e() with esc_html_e(), __() with esc_html__(), added esc_url() for URLs, wp_kses_post() for HTML content, and esc_attr()/esc_html() for variables
+    - Fixed all 30 unescaped output issues in admin/form-fields.php: added wp_kses_post() for pre-escaped HTML variables, esc_attr() for attribute contexts, esc_html() for option labels
+    - Fixed mismatched text domains: replaced 'twitch-press' with 'tradepress' in admin-initialisation.php, replaced 'TradePress-login' with 'tradepress' in 35 calls in settings/view/users.php, confirmed 'text_domain' already corrected in toolbar-developers.php
+    - Removed empty strings from translation functions in admin-roles.php: replaced 27 __( '', 'tradepress' ) calls with plain empty strings
+    - Fixed all 19 unescaped output issues in admin/notices/admin-notices.php: escaped $title with esc_html(), $desc with wp_kses_post(), $d with esc_attr() in notice methods; wrapped pre-escaped HTML variables with wp_kses_post(); replaced __() with esc_html__() in echo contexts
+    - Replaced variable text domain $this->slug with literal 'tradepress' in 14 translation calls across admin/config/admin-menus.php
+    - Replaced all _e() with esc_html_e() and escaped wp_create_nonce output in admin/page/development/view/diagrams.php
+    - Fixed all escaping issues in admin/page/data/view/listtable-apiactivity.php: esc_url for URLs, esc_html for database values, esc_textarea for textarea content, esc_attr for HTML attributes, esc_html__ for labels, wp_kses_post for HTML translations
+    - Replaced all _e() with esc_html_e() in admin/page/development/view/feature-status.php
+    - Added admin/tools/wpcs-fixer.php: reusable AJAX-based auto-fixer for UnsafePrintingFunction issues (_e to esc_html_e), enabling a Fix button on the Issue Details panel
+    - Replaced all _e() with esc_html_e() in admin/page/scoring-directives/view/configure-directives.php (433 calls)
+* Feature Improvements
+    - None
+* Technical Notes
+    - All translatable output in the automation dashboard now uses escaped printing functions per WordPress coding standards
+* Configuration Advice
+    - No changes required
+* Database Changes
+    - No Changes
+
 = 1.0.5 Released 10th July 2025 = 
 * Faults Resolved
     - None
@@ -204,7 +272,7 @@ Browse the changes log and decide if an update is required. There is nothing wro
 help you - look for security related changes or new features that could really benefit you. If you do not see any you may want
 to avoid updating. If you decide to apply the new version - do so after you have backedup your entire WordPress installation 
 (files and data). Files only or data only is not a suitable backup. Every WordPress installation is different and creates a different
-environment for WTG Task Manager - possibly an environment that triggers faults with the new version of this software. This is common
+environment for TradePress - possibly an environment that triggers faults with the new version of this software. This is common
 in software development and it is why we need to make preparations that allow reversal of major changes to our website.
 
 == Contributors ==

@@ -190,6 +190,7 @@ Raw Response Size: <?php echo esc_html(strlen(is_array($raw_response) ? json_enc
                 <li><?php esc_html_e('Check your internet connection', 'tradepress'); ?></li>
                 <li><?php esc_html_e('Verify your API credentials in the Settings tab', 'tradepress'); ?></li>
                 <li><?php esc_html_e('Make sure you\'re using the correct trading mode (paper/live)', 'tradepress'); ?></li>
+                <?php /* translators: %s: string value */ ?>
                 <li><?php printf(esc_html__('Check if %s API services are operational', 'tradepress'), esc_html($api_name)); ?></li>
             </ol>
         </div>

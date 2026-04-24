@@ -117,6 +117,7 @@ function TradePress_shortcode_init($atts, $content = null)
 
     if (!function_exists($function_name)) {
         return sprintf(
+            /* translators: %s: string value */
             __('A shortcode has not been configured properly or an extension is missing because the %s() function could not be found.', 'tradepress'),
             $function_name
         );

@@ -157,6 +157,7 @@ function tradepress_earnings_tab_content() {
                 
                 <div class="timezone-info">
                     <span class="dashicons dashicons-clock"></span>
+                    <?php /* translators: %s: string value */ ?>
                     <?php echo sprintf(esc_html__('All times shown in your local timezone: %s', 'tradepress'), '<strong>' . esc_html($user_timezone) . '</strong>'); ?>
                 </div>
             </div>
@@ -170,7 +171,8 @@ function tradepress_earnings_tab_content() {
                     } elseif ($view_mode === 'month') {
                         echo esc_html__('Month Ahead Earnings', 'tradepress');
                     } else {
-                        echo sprintf(esc_html__('Earnings from %s to %s', 'tradepress'), 
+                        /* translators: %s: start date, %s: end date */
+                        echo sprintf(esc_html__('Earnings from %1$s to %2$s', 'tradepress'), 
                             date_i18n(get_option('date_format'), strtotime($start_date)),
                             date_i18n(get_option('date_format'), strtotime($end_date))
                         );
@@ -184,6 +186,7 @@ function tradepress_earnings_tab_content() {
                     </div>
                 <?php else: ?>
                     <div class="earnings-summary">
+                        <?php /* translators: %d: number */ ?>
                         <span class="total-count"><?php echo sprintf(esc_html(_n('%d company reporting', '%d companies reporting', count($earnings_data), 'tradepress')), count($earnings_data)); ?></span>
                         <a href="#" class="export-earnings button"><?php esc_html_e('Export to CSV', 'tradepress'); ?></a>
                     </div>

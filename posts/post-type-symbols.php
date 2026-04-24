@@ -163,6 +163,7 @@ class TradePress_Post_Type_Symbols {
                     'exclude_from_search'       => false,
                     'show_in_admin_all_list'    => true,
                     'show_in_admin_status_list' => true,
+                    /* translators: %s: number */
                     'label_count'               => _n_noop( 'Awaiting Trigger <span class="count">(%s)</span>', 'Awaiting Trigger <span class="count">(%s)</span>', 'tradepress' ),
                 )
             )
@@ -376,6 +377,7 @@ class TradePress_Post_Type_Symbols {
             7  => __('Symbol saved.', 'tradepress'),
             8  => __('Symbol submitted.', 'tradepress'),
             9  => sprintf(
+                /* translators: %1$s: symbol name */
                 __('Symbol scheduled for: <strong>%1$s</strong>.', 'tradepress'),
                 /* translators: Publish box date string format */
                 date_i18n(__('M j, Y @ G:i', 'tradepress'), strtotime($post->post_date))

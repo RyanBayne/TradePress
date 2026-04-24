@@ -222,6 +222,7 @@ $diagnostics = $discord_api->run_diagnostics();
                                     // Calculate recommended permissions (Send Messages + Embed Links + Attach Files)
                                     $recommended_permissions = 2048 + 16384 + 32768; // = 51200
                                     echo sprintf(
+                                        /* translators: %s: value */
                                         esc_html__('Recommended value: %s. ', 'tradepress'), 
                                         '<strong>' . $recommended_permissions . '</strong>'
                                     ); 

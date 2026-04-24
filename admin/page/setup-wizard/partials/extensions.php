@@ -10,8 +10,8 @@ if (!defined('ABSPATH')) {
 $gateways = $this->get_wizard_extensions();
 ?>
 
-<h1><?php _e('Extensions', 'tradepress'); ?></h1>   
-<p><?php _e('Extensions are actually other WordPress plugins safely downloaded from wordpress.org website and their primary purpose is to act as a bridge. Integrating this plugin with another.', 'tradepress'); ?></p>
+<h1><?php esc_html_e('Extensions', 'tradepress'); ?></h1>   
+<p><?php esc_html_e('Extensions are actually other WordPress plugins safely downloaded from wordpress.org website and their primary purpose is to act as a bridge. Integrating this plugin with another.', 'tradepress'); ?></p>
 
 <form method="post" class="TradePress-wizard-plugin-extensions-form">
     <ul class="TradePress-wizard-plugin-extensions">
@@ -49,7 +49,7 @@ $gateways = $this->get_wizard_extensions();
    
     <p class="tradepress-setup-actions step">
         <input type="submit" class="button-primary button button-large button-next" value="<?php esc_attr_e('Continue', 'tradepress'); ?>" name="save_step" />
-        <a href="<?php echo esc_url($this->get_next_step_link()); ?>" class="button button-large button-next"><?php _e('Skip this step', 'tradepress'); ?></a>
+        <a href="<?php echo esc_url($this->get_next_step_link()); ?>" class="button button-large button-next"><?php esc_html_e('Skip this step', 'tradepress'); ?></a>
         <?php wp_nonce_field('tradepress-setup'); ?>
     </p>
 </form>

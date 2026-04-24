@@ -351,13 +351,13 @@ class TradePress_Admin_Development_Page {
         
         <div class="tradepress-architecture-container">
             <div class="architecture-header">
-                <h2><?php _e('TradePress Architecture Map', 'tradepress'); ?></h2>
-                <p><?php _e('Visual guide to systems, classes, files, and relationships for development and AI assistance.', 'tradepress'); ?></p>
+                <h2><?php esc_html_e('TradePress Architecture Map', 'tradepress'); ?></h2>
+                <p><?php esc_html_e('Visual guide to systems, classes, files, and relationships for development and AI assistance.', 'tradepress'); ?></p>
             </div>
             
             <div class="architecture-controls">
-                <button id="expand-all" class="button"><?php _e('Expand All', 'tradepress'); ?></button>
-                <button id="collapse-all" class="button"><?php _e('Collapse All', 'tradepress'); ?></button>
+                <button id="expand-all" class="button"><?php esc_html_e('Expand All', 'tradepress'); ?></button>
+                <button id="collapse-all" class="button"><?php esc_html_e('Collapse All', 'tradepress'); ?></button>
             </div>
             
             <?php echo TradePress_Architecture_Mapper::render_tree(); ?>

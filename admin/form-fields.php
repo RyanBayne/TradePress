@@ -7,7 +7,7 @@
  * @author   Ryan Bayne
  * @category Admin
  * @package  TradePress/Admin
- * @version  1.0.0
+ * @version  1.0.95
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -67,6 +67,7 @@ class TradePress_Form_Fields {
      * Loops though the TradePress options array and outputs each field.
      *
      * @param array $options Opens array to output
+     * @version 1.0.95
      */
     public static function output_fields( $options ) {
                             
@@ -121,7 +122,7 @@ class TradePress_Form_Fields {
                         echo '<h2>' . esc_html( $value['title'] ) . '</h2>';
                     }
                     if ( ! empty( $value['desc'] ) ) {
-                        echo wpautop( wptexturize( wp_kses_post( $value['desc'] ) ) );
+                        echo wp_kses_post( wpautop( wptexturize( wp_kses_post( $value['desc'] ) ) ) ); // Description may contain safe HTML markup
                     }
                     echo '<table class="form-table">'. "\n\n";
                     if ( ! empty( $value['id'] ) ) {
@@ -148,9 +149,9 @@ class TradePress_Form_Fields {
                     ?><tr valign="top">
                         <th scope="row" class="titledesc">
                             <label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-                            <?php echo $tooltip_html; ?>
+                            <?php echo wp_kses_post( $tooltip_html ); // Pre-escaped in get_field_description ?>
                         </th>
-                        <td class="forminp forminp-<?php echo sanitize_title( $value['type'] ) ?>">
+                        <td class="forminp forminp-<?php echo esc_attr( sanitize_title( $value['type'] ) ); ?>">
                             <input
                                 name="<?php echo esc_attr( $value['id'] ); ?>"
                                 id="<?php echo esc_attr( $value['id'] ); ?>"
@@ -159,9 +160,9 @@ class TradePress_Form_Fields {
                                 value="<?php echo esc_attr( $option_value ); ?>"
                                 class="<?php echo esc_attr( $value['class'] ); ?>"
                                 placeholder="<?php echo esc_attr( $value['placeholder'] ); ?>"
-                                <?php echo implode( ' ', $custom_attributes ); ?>
+                                <?php echo wp_kses_post( implode( ' ', $custom_attributes ) ); // Each attribute pre-escaped with esc_attr ?>
                                 <?php if( isset( $value['readonly'] ) ) { echo 'readonly'; } ?>                                
-                                /> <?php echo $description; ?>
+                                /> <?php echo wp_kses_post( $description ); // Pre-escaped in get_field_description ?>
                         </td>
                     </tr><?php
                     break;                
@@ -186,9 +187,9 @@ class TradePress_Form_Fields {
                     ?><tr valign="top">
                         <th scope="row" class="titledesc">
                             <label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-                            <?php echo $tooltip_html; ?>
+                            <?php echo wp_kses_post( $tooltip_html ); ?>
                         </th>
-                        <td class="forminp forminp-<?php echo sanitize_title( $value['type'] ) ?>">
+                        <td class="forminp forminp-<?php echo esc_attr( sanitize_title( $value['type'] ) ); ?>">
                             <?php
                             if ( 'color' == $value['type'] ) {
                                 echo '<span class="colorpickpreview" style="background: ' . esc_attr( $option_value ) . ';"></span>';
@@ -202,8 +203,8 @@ class TradePress_Form_Fields {
                                 value="<?php echo esc_attr( $option_value ); ?>"
                                 class="<?php echo esc_attr( $value['class'] ); ?>"
                                 placeholder="<?php echo esc_attr( $value['placeholder'] ); ?>"
-                                <?php echo implode( ' ', $custom_attributes ); ?>
-                                /> <?php echo $description; ?>
+                                <?php echo wp_kses_post( implode( ' ', $custom_attributes ) ); ?>
+                                /> <?php echo wp_kses_post( $description ); ?>
                         </td>
                     </tr><?php
                     break;
@@ -216,17 +217,17 @@ class TradePress_Form_Fields {
                     ?><tr valign="top">
                         <th scope="row" class="titledesc">
                             <label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-                            <?php echo $tooltip_html; ?>
+                            <?php echo wp_kses_post( $tooltip_html ); ?>
                         </th>
-                        <td class="forminp forminp-<?php echo sanitize_title( $value['type'] ) ?>">
-                            <?php echo $description; ?>
+                        <td class="forminp forminp-<?php echo esc_attr( sanitize_title( $value['type'] ) ); ?>">
+                            <?php echo wp_kses_post( $description ); ?>
                             <textarea
                                 name="<?php echo esc_attr( $value['id'] ); ?>"
                                 id="<?php echo esc_attr( $value['id'] ); ?>"
                                 style="<?php echo esc_attr( $value['css'] ); ?>"
                                 class="<?php echo esc_attr( $value['class'] ); ?>"
                                 placeholder="<?php echo esc_attr( $value['placeholder'] ); ?>"
-                                <?php echo implode( ' ', $custom_attributes ); ?>
+                                <?php echo wp_kses_post( implode( ' ', $custom_attributes ) ); ?>
                                 ><?php echo esc_textarea( $option_value );  ?></textarea>
                         </td>
                     </tr><?php
@@ -241,15 +242,15 @@ class TradePress_Form_Fields {
                     ?><tr valign="top">
                         <th scope="row" class="titledesc">
                             <label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-                            <?php echo $tooltip_html; ?>
+                            <?php echo wp_kses_post( $tooltip_html ); ?>
                         </th>
-                        <td class="forminp forminp-<?php echo sanitize_title( $value['type'] ) ?>">
+                        <td class="forminp forminp-<?php echo esc_attr( sanitize_title( $value['type'] ) ); ?>">
                             <select
                                 name="<?php echo esc_attr( $value['id'] ); ?><?php if ( $value['type'] == 'multiselect' ) echo '[]'; ?>"
                                 id="<?php echo esc_attr( $value['id'] ); ?>"
                                 style="<?php echo esc_attr( $value['css'] ); ?>"
                                 class="<?php echo esc_attr( $value['class'] ); ?>"
-                                <?php echo implode( ' ', $custom_attributes ); ?>
+                                <?php echo wp_kses_post( implode( ' ', $custom_attributes ) ); ?>
                                 <?php echo ( 'multiselect' == $value['type'] ) ? 'multiple="multiple"' : ''; ?>
                                 >
                                 <?php
@@ -263,11 +264,11 @@ class TradePress_Form_Fields {
                                                 selected( $option_value, $key );
                                             }
 
-                                        ?>><?php echo $val ?></option>
+                                        ?>><?php echo esc_html( $val ); ?></option>
                                         <?php
                                     }
                                 ?>
-                            </select> <?php echo $description; ?>
+                            </select> <?php echo wp_kses_post( $description ); ?>
                         </td>
                     </tr><?php
                     break;
@@ -278,24 +279,24 @@ class TradePress_Form_Fields {
                     ?><tr valign="top">
                         <th scope="row" class="titledesc">
                             <label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-                            <?php echo $tooltip_html; ?>
+                            <?php echo wp_kses_post( $tooltip_html ); ?>
                         </th>
                         <td class="forminp forminp-checkbox">
                             <fieldset>
-                                <?php echo $description; ?>
+                                <?php echo wp_kses_post( $description ); ?>
                                 <ul>
                                 <?php
                                     foreach ( $value['options'] as $key => $val ) {
                                         ?>
                                         <li>
                                             <input
-                                                name="<?php echo $value['id']; ?>"
-                                                value="<?php echo $key; ?>"
+                                                name="<?php echo esc_attr( $value['id'] ); ?>"
+                                                value="<?php echo esc_attr( $key ); ?>"
                                                 type="radio"
                                                 id="<?php echo esc_attr( $value['id'] . $key ); ?>"
-                                                <?php echo implode( ' ', $custom_attributes ); ?>
+                                                <?php echo wp_kses_post( implode( ' ', $custom_attributes ) ); ?>
                                                 <?php checked( $key, $option_value ); ?>
-                                                /> <?php echo $val ?>
+                                                /> <?php echo esc_html( $val ); ?>
                                         </li>
                                         <?php
                                     }
@@ -351,10 +352,10 @@ class TradePress_Form_Fields {
                     }
                     ?>  
                     
-                    <?php if( $value['type'] == 'scopecheckbox' ) { echo TradePress_scopecheckbox_required_icon( $value['scope'] ); } ?>
-                    <?php if( $value['type'] == 'scopecheckboxpublic' ) { echo TradePress_scopecheckboxpublic_required_icon( $value['scope'] ); } ?>
+                    <?php if( $value['type'] == 'scopecheckbox' ) { echo wp_kses_post( TradePress_scopecheckbox_required_icon( $value['scope'] ) ); // Icon HTML from helper function } ?>
+                    <?php if( $value['type'] == 'scopecheckboxpublic' ) { echo wp_kses_post( TradePress_scopecheckboxpublic_required_icon( $value['scope'] ) ); // Icon HTML from helper function } ?>
                     
-                        <label for="<?php echo $value['id'] ?>">
+                        <label for="<?php echo esc_attr( $value['id'] ); ?>">
                             <input
                                 name="<?php echo esc_attr( $value['id'] ); ?>"
                                 id="<?php echo esc_attr( $value['id'] ); ?>"
@@ -362,12 +363,12 @@ class TradePress_Form_Fields {
                                 class="<?php echo esc_attr( isset( $value['class'] ) ? $value['class'] : '' ); ?>"
                                 value="1"
                                 <?php checked( $option_value, 'yes'); ?>
-                                <?php echo implode( ' ', $custom_attributes ); ?>
+                                <?php echo wp_kses_post( implode( ' ', $custom_attributes ) ); ?>
                             /> 
                             
-                            <?php echo $description ?>
+                            <?php echo wp_kses_post( $description ); // Pre-escaped in get_field_description ?>
                         </label>                          
-                        <?php echo $tooltip_html; ?>
+                        <?php echo wp_kses_post( $tooltip_html ); // Pre-escaped in get_field_description ?>
                     <?php
 
                     if ( ! isset( $value['checkboxgroup'] ) || 'end' == $value['checkboxgroup'] ) {

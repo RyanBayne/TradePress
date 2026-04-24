@@ -847,9 +847,13 @@ class TradePress_Install_Tables {
         global $wpdb;
         
         $sources_table = $wpdb->prefix . "tradepress_research_sources";
+
+        if ( empty( $sources_table ) ) {
+            return;
+        }
         
         // Check if table exists and has data
-        $count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM %s", $sources_table));
+        $count = $wpdb->get_var("SELECT COUNT(*) FROM `" . esc_sql($sources_table) . "`");
         
         if ($count == 0) {
             // Verify description column exists before inserting

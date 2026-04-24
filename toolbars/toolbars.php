@@ -62,6 +62,7 @@ class TradePress_Toolbars {
         
         // Create notice message
         $status_text = $new_status ? __('activated', 'tradepress') : __('deactivated', 'tradepress');
+        /* translators: %s: test name */
         $message = sprintf(__('Beta testing has been %s.', 'tradepress'), $status_text);
         
         // Add success notice
@@ -95,6 +96,7 @@ class TradePress_Toolbars {
         
         // Create notice message
         $status_text = $new_status ? __('enabled', 'tradepress') : __('disabled', 'tradepress');
+        /* translators: %s: string value */
         $message = sprintf(__('Demo mode has been %s.', 'tradepress'), $status_text);
         
         // Add success notice
@@ -246,7 +248,8 @@ class TradePress_Toolbars {
             tradepress_trace_log('TradePress Backup Success: Backed up to ' . $backup_full_path);
             
             // Add success notice with location info
-            $message = sprintf(__('Plugin backed up successfully to %s:<br><strong>%s</strong><br>Version updated to: %s', 'tradepress'), 
+            /* translators: %1$s: backup directory path, %2$s: backup path, %3$s: version number */
+            $message = sprintf(__('Plugin backed up successfully to %1$s:<br><strong>%2$s</strong><br>Version updated to: %3$s', 'tradepress'), 
                 $backup_location, esc_html($backup_full_path), esc_html($new_version));
             $this->add_toolbar_notice('success', __('TradePress Backup Complete', 'tradepress'), $message);
             
@@ -256,6 +259,7 @@ class TradePress_Toolbars {
             tradepress_trace_log('TradePress Backup Error Context: ' . $e->getTraceAsString());
             
             // Add error notice with WAMP-specific guidance
+            /* translators: %s: backup directory path */
             $message = sprintf(__('Backup failed: %s<br><small><strong>WAMP Issue:</strong> Apache service cannot access Google Drive. Solutions:<br>1. Run Apache as your user account<br>2. Use local backup in wp-content/backups/<br>3. Map Google Drive to a different drive letter</small>', 'tradepress'), esc_html($e->getMessage()));
             $this->add_toolbar_notice('error', __('TradePress Backup Failed', 'tradepress'), $message);
         }

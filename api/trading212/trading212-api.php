@@ -81,10 +81,19 @@ class TradePress_Trading212_API {
     );
 
     /**
-     * API base URL
+     * API base URLs for demo and live environments
+     * @var array
+     */
+    private $api_base_urls = array(
+        'demo' => 'https://demo.trading212.com/api/v0/',
+        'live' => 'https://live.trading212.com/api/v0/'
+    );
+    
+    /**
+     * Current environment (demo or live)
      * @var string
      */
-    private $api_base_url = 'https://live.trading212.com/api/v0/';
+    private $environment = 'demo';
     
     /**
      * Trading212 API endpoints
@@ -144,6 +153,7 @@ class TradePress_Trading212_API {
         $api_settings = get_option('tradepress_api_settings', array());
         $this->api_key = isset($api_settings['trading212_api_key']) ? $api_settings['trading212_api_key'] : '';
         $this->debug_mode = isset($api_settings['enable_api_logging']) && $api_settings['enable_api_logging'];
+        $this->environment = isset($api_settings['trading212_environment']) ? $api_settings['trading212_environment'] : 'demo';
     }
     
     /**
@@ -237,12 +247,50 @@ class TradePress_Trading212_API {
     }
     
     /**
-     * Get account information
+     * Set API environment (demo or live)
+     * 
+     * @param string $environment Environment to use (demo or live)
+     * @return bool Success status
+     */
+    public function set_environment($environment) {
+        if (!in_array($environment, array('demo', 'live'))) {
+            return false;
+        }
+        $this->environment = $environment;
+        
+        // Update settings
+        $api_settings = get_option('tradepress_api_settings', array());
+        $api_settings['trading212_environment'] = $environment;
+        update_option('tradepress_api_settings', $api_settings);
+        
+        return true;
+    }
+    
+    /**
+     * Get current environment
+     * 
+     * @return string Current environment (demo or live)
+     */
+    public function get_environment() {
+        return $this->environment;
+    }
+    
+    /**
+     * Get portfolio data (NEW Trading212 API endpoint)
+     * 
+     * @return array|WP_Error Portfolio data or error
+     */
+    public function get_equity_portfolio() {
+        return $this->make_request('equity/portfolio');
+    }
+    
+    /**
+     * Get account information (NEW Trading212 API endpoint)
      * 
      * @return array|WP_Error Account information or error
      */
-    public function get_account_info() {
-        return $this->make_request('account/info');
+    public function get_equity_account_info() {
+        return $this->make_request('equity/account/info');
     }
     
     /**
@@ -346,7 +394,8 @@ class TradePress_Trading212_API {
             return $this->get_demo_data($endpoint);
         }
         
-        $url = $this->api_base_url . $endpoint;
+        $base_url = $this->api_base_urls[$this->environment];
+        $url = $base_url . $endpoint;
         
         $args = array(
             'method' => $method,
@@ -385,6 +434,7 @@ class TradePress_Trading212_API {
         if ($response_code < 200 || $response_code >= 300) {
             return new WP_Error(
                 'trading212_api_error',
+                /* translators: %s: error message */
                 sprintf(__('Trading212 API error: %s', 'tradepress'), $response_body),
                 array('status' => $response_code)
             );

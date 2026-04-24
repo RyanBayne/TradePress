@@ -119,6 +119,7 @@ $watchlists = TradePress_Admin_Watchlists_Page::get_user_watchlists();
                                         <span class="dashicons dashicons-clock"></span>
                                         <?php 
                                             $time_diff = human_time_diff(strtotime($watchlist['score_updated']), current_time('timestamp'));
+                                            /* translators: %s: human-readable time difference */
                                             printf(esc_html__('Updated %s ago', 'tradepress'), $time_diff);
                                         ?>
                                     </div>
@@ -128,6 +129,7 @@ $watchlists = TradePress_Admin_Watchlists_Page::get_user_watchlists();
                                 <div class="watchlist-meta">
                                     <span class="watchlist-symbol-count">
                                         <span class="dashicons dashicons-chart-bar"></span>
+                                        <?php /* translators: %s: symbol name */ ?>
                                         <?php echo esc_html(sprintf(_n('%s Symbol', '%s Symbols', $watchlist['symbol_count'], 'tradepress'), $watchlist['symbol_count'])); ?>
                                     </span>
                                     <span class="watchlist-created-date">

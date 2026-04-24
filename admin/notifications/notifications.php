@@ -171,13 +171,15 @@ class TradePress_Notifications {
             $user_name = $user->display_name;
         }
         
-        $subject = sprintf( __( '[%s] %s Notification', 'tradepress' ), 
+        /* translators: %s: site name, %s: notification type label */
+        $subject = sprintf( __( '[%1$s] %2$s Notification', 'tradepress' ), 
             get_bloginfo( 'name' ), 
             self::$notification_types[$type]['label'] 
         );
         
         $email_body = sprintf(
-            __( "Hello %s,\n\nYou have received a new notification:\n\n%s\n\nTo manage your notifications, visit your account dashboard.\n\nRegards,\n%s Team", 'tradepress' ),
+            /* translators: %s: user display name, %s: notification message, %s: site name */
+            __( "Hello %1$s,\n\nYou have received a new notification:\n\n%2$s\n\nTo manage your notifications, visit your account dashboard.\n\nRegards,\n%3$s Team", 'tradepress' ),
             $user_name,
             $message,
             get_bloginfo( 'name' )

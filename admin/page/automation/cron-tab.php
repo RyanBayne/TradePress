@@ -128,6 +128,7 @@ $cron_array = _get_cron_array();
                     <p>
                         <?php 
                         echo sprintf(
+                            /* translators: %1$s: string value, %2$s: string value */
                             esc_html__('This job is currently scheduled to run %1$s. Next run: %2$s', 'tradepress'),
                             '<strong>' . esc_html($schedule) . '</strong>',
                             '<strong>' . esc_html(date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $next_run)) . '</strong>'

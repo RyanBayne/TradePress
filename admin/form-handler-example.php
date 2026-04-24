@@ -139,7 +139,7 @@ class TradePress_Form_Handler_Example {
             <table class="form-table">
                 <tr>
                     <th scope="row">
-                        <label for="earnings_api_key"><?php _e( 'API Key', 'tradepress' ); ?></label>
+                        <label for="earnings_api_key"><?php esc_html_e( 'API Key', 'tradepress' ); ?></label>
                     </th>
                     <td>
                         <input type="password" 
@@ -151,7 +151,7 @@ class TradePress_Form_Handler_Example {
                 </tr>
                 <tr>
                     <th scope="row">
-                        <label for="earnings_refresh_interval"><?php _e( 'Refresh Interval (minutes)', 'tradepress' ); ?></label>
+                        <label for="earnings_refresh_interval"><?php esc_html_e( 'Refresh Interval (minutes)', 'tradepress' ); ?></label>
                     </th>
                     <td>
                         <input type="number" 

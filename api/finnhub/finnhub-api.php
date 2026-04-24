@@ -149,6 +149,7 @@ class TradePress_Finnhub_API extends TradePress_Base_API {
             'pending',
             __FILE__,
             __LINE__,
+            /* translators: %s: API endpoint URL */
             sprintf(__('Finnhub API call to %s', 'tradepress'), $endpoint),
             '',
             86400
@@ -209,7 +210,8 @@ class TradePress_Finnhub_API extends TradePress_Base_API {
             
             return new WP_Error(
                 'http_error',
-                sprintf(__('HTTP Error: %d %s', 'tradepress'), $response_code, $error_message)
+                /* translators: %d: HTTP status code, %s: error message */
+                sprintf(__('HTTP Error: %1$d %2$s', 'tradepress'), $response_code, $error_message)
             );
         }
         

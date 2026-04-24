@@ -156,7 +156,8 @@ class TradePress_Feature_Feedback_System {
         // TODO: Check strategy impact and notify user
         
         $message = sprintf(
-            __('Issue reported for %s "%s". Priority: %s.', 'tradepress'),
+            /* translators: %s: issue description, %s: issue description, %s: issue description */
+            __('Issue reported for %1$s "%2$s". Priority: %3$s.', 'tradepress'),
             $feature_type,
             $feature_id,
             ucfirst($priority)

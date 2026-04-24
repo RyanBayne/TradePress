@@ -40,10 +40,27 @@ class TradePress_Public_PreSet_Notices {
     }
 
     public function __construct() {      
-        //$this->messages = $this->message_list();  
-        $this->__set('messages', $this->message_list());            
-        // Apply filtering by extensions which need to add more messages to the array. 
-        apply_filters( 'TradePress_filter_public_notices_array', $this->messages );                           
+        if ( did_action( 'init' ) ) {
+            $this->bootstrap_messages();
+        } else {
+            add_action( 'init', array( $this, 'bootstrap_messages' ), 1 );
+        }
+    }
+
+    /**
+    * Build translated message definitions only after init.
+    *
+    * @return void
+    */
+    public function bootstrap_messages() {
+        if ( ! empty( $this->messages ) ) {
+            return;
+        }
+
+        $this->__set( 'messages', $this->message_list() );
+
+        // Allow extensions to modify the final message set.
+        $this->messages = apply_filters( 'TradePress_filter_public_notices_array', $this->messages );
     }
 
     /**
@@ -139,6 +156,7 @@ class TradePress_Public_PreSet_Notices {
         $messages_array['TradePress'][0] = array( 'type' => 0, 'title' => __( 'No Update Performed', 'tradepress' ), 'info' => __( 'We already have the latest Twitch data from your account.', 'tradepress' ) );
 
         // Login by Shortcode - search 'key' => 5 to find messages place...
+        /* translators: %s: version description */
         $messages_array['login'][0] = array( 'type' => 1, 'title' => __( 'Twitch.tv Reply', 'tradepress' ), 'info' => __( 'Twitch said: %s', 'tradepress' ) );        
         $messages_array['login'][1] = array( 'type' => 1, 'title' => __( 'Login Problem', 'tradepress' ), 'info' => __( 'We could not established your original page when you attempted to login. Please try again and report this problem if it continues.', 'tradepress' ) );
         $messages_array['login'][2] = array( 'type' => 1, 'title' => __( 'Twitch Code Missing', 'tradepress' ), 'info' => __( 'Sorry, it appears Twitch.tv returned you without a code. Please try again and report this issue if it happens again.', 'tradepress' ) );

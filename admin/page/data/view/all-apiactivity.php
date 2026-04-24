@@ -23,7 +23,7 @@ class TradePress_DebugView_All_APIActivity extends TradePress_ListTable_APIActiv
      * No items found text.
      */
     public function no_items() {
-        _e( 'No API activity found.', 'tradepress' );
+        esc_html_e( 'No API activity found.', 'tradepress' );
     }
 
     /**

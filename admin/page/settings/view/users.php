@@ -5,7 +5,7 @@
 * @author Ryan Bayne
 * @category Users
 * @package TradePress/Settings/Users
-* @version 1.0
+* @version 1.0.95
 */
 
 // Prohibit direct script loading
@@ -77,7 +77,7 @@ class TradePress_Settings_Users extends TradePress_Settings_Page {
      *
      * @return array
      * 
-     * @version 2.0
+     * @version 1.0.7
      */
     public function get_settings( $current_section = '' ) {
         $settings = array();
@@ -165,44 +165,44 @@ class TradePress_Settings_Users extends TradePress_Settings_Page {
             $settings = apply_filters( 'TradePress_loginextension_login_settings', array(
  
                 array(
-                    'title' => __( 'Login', 'TradePress-login' ),
+                    'title' => __( 'Login', 'tradepress' ),
                     'type'     => 'title',
-                    'desc'     => __( 'These settings are offered by the TradePress Login Extension.', 'TradePress-login' ),
+                    'desc'     => __( 'These settings are offered by the TradePress Login Extension.', 'tradepress' ),
                     'id'     => 'loginsettings',
                 ),
 
                 array(
-                    'title'   => __( 'Login Page Type', 'TradePress-login' ),
-                    'desc'    => __( 'What type of login page have you setup?', 'TradePress-login' ),
+                    'title'   => __( 'Login Page Type', 'tradepress' ),
+                    'desc'    => __( 'What type of login page have you setup?', 'tradepress' ),
                     'id'      => 'TradePress_login_loginpage_type',
                     'default' => 'both',
                     'type'    => 'radio',
                     'options' => array(
-                        'default' => __( 'WP Login Form.', 'TradePress-login' ),
-                        'page'    => __( 'Custom Login Page', 'TradePress-login' ),
-                        'both'    => __( 'Mixed', 'TradePress-login' ),
+                        'default' => __( 'WP Login Form.', 'tradepress' ),
+                        'page'    => __( 'Custom Login Page', 'tradepress' ),
+                        'both'    => __( 'Mixed', 'tradepress' ),
                     ),
                     'autoload'        => false,
                     'show_if_checked' => 'option',
                 ),
 
                 array(
-                    'title'   => __( 'Twitch Button Position', 'TradePress-login' ),
-                    'desc'    => __( 'Select button position if using the WordPress login form.', 'TradePress-login' ),
+                    'title'   => __( 'Twitch Button Position', 'tradepress' ),
+                    'desc'    => __( 'Select button position if using the WordPress login form.', 'tradepress' ),
                     'id'      => 'TradePress_login_loginpage_position',
                     'default' => 'above',
                     'type'    => 'radio',
                     'options' => array(
-                        'above' => __( 'Above.', 'TradePress-login' ),
-                        'below' => __( 'Below', 'TradePress-login' ),
+                        'above' => __( 'Above.', 'tradepress' ),
+                        'below' => __( 'Below', 'tradepress' ),
                     ),
                     'autoload'        => false,
                     'show_if_checked' => 'option',
                 ),
                 
                 array(
-                    'title'           => __( 'Display "Connect Using Twitch" Button', 'TradePress-login' ),
-                    'desc'            => __( 'Use Main Login Form', 'TradePress-login' ),
+                    'title'           => __( 'Display "Connect Using Twitch" Button', 'tradepress' ),
+                    'desc'            => __( 'Use Main Login Form', 'tradepress' ),
                     'id'              => 'TradePress_login_button',
                     'default'         => 'no',
                     'type'            => 'checkbox',
@@ -212,8 +212,8 @@ class TradePress_Settings_Users extends TradePress_Settings_Page {
                 ),
                 
                 array(
-                    'title'           => __( 'Require Twitch Login', 'TradePress-login' ),
-                    'desc'            => __( 'Twitch only login. Hides login fields on wp-login.php only.', 'TradePress-login' ),
+                    'title'           => __( 'Require Twitch Login', 'tradepress' ),
+                    'desc'            => __( 'Twitch only login. Hides login fields on wp-login.php only.', 'tradepress' ),
                     'id'              => 'TradePress_login_requiretwitch',
                     'default'         => 'no',
                     'type'            => 'checkbox',
@@ -223,8 +223,8 @@ class TradePress_Settings_Users extends TradePress_Settings_Page {
                 ),
                 
                 array(
-                    'title'           => __( 'Custom Page Only', 'TradePress-login' ),
-                    'desc'            => __( 'Redirect visitors away from wp-login.php to your custom page.', 'TradePress-login' ),
+                    'title'           => __( 'Custom Page Only', 'tradepress' ),
+                    'desc'            => __( 'Redirect visitors away from wp-login.php to your custom page.', 'tradepress' ),
                     'id'              => 'TradePress_login_redirect_to_custom',
                     'default'         => 'no',
                     'type'            => 'checkbox',
@@ -234,8 +234,8 @@ class TradePress_Settings_Users extends TradePress_Settings_Page {
                 ),
                                 
                 array(
-                    'title'           => __( 'No Redirects', 'TradePress-login' ),
-                    'desc'            => __( 'Do not redirect on login success.', 'TradePress-login' ),
+                    'title'           => __( 'No Redirects', 'tradepress' ),
+                    'desc'            => __( 'Do not redirect on login success.', 'tradepress' ),
                     'id'              => 'TradePress_login_prevent_redirect',
                     'default'         => 'no',
                     'type'            => 'checkbox',
@@ -245,8 +245,8 @@ class TradePress_Settings_Users extends TradePress_Settings_Page {
                 ),
                 
                 array(
-                    'title'           => __( 'Redirect All Logins', 'TradePress-login' ),
-                    'desc'            => __( 'Redirect none Twitch oAuth logins (admin excluded).', 'TradePress-login' ),
+                    'title'           => __( 'Redirect All Logins', 'tradepress' ),
+                    'desc'            => __( 'Redirect none Twitch oAuth logins (admin excluded).', 'tradepress' ),
                     'id'              => 'TradePress_login_redirect_all',
                     'default'         => 'yes',
                     'type'            => 'checkbox',
@@ -256,8 +256,8 @@ class TradePress_Settings_Users extends TradePress_Settings_Page {
                 ),
                                 
                 array(
-                    'title'    => __( 'Custom Login Page', 'TradePress-login' ),
-                    'desc'     => __( 'Enter the page ID that displays your main login form. This does not add login features to the page. Please do that using [TradePress_connect_button]', 'TradePress-login' ),
+                    'title'    => __( 'Custom Login Page', 'tradepress' ),
+                    'desc'     => __( 'Enter the page ID that displays your main login form. This does not add login features to the page. Please do that using [TradePress_connect_button]', 'tradepress' ),
                     'id'       => 'TradePress_login_mainform_page_id',
                     'css'      => 'width:75px;',
                     'default'  => '',
@@ -265,8 +265,8 @@ class TradePress_Settings_Users extends TradePress_Settings_Page {
                 ),
                                                                
                 array(
-                    'title'    => __( 'Custom Logged-In Page', 'TradePress-login' ),
-                    'desc'     => __( 'Enter the page ID where you visitors to be redirected to once logged in.', 'TradePress-login' ),
+                    'title'    => __( 'Custom Logged-In Page', 'tradepress' ),
+                    'desc'     => __( 'Enter the page ID where you visitors to be redirected to once logged in.', 'tradepress' ),
                     'id'       => 'TradePress_login_loggedin_page_id',
                     'css'      => 'width:75px;',
                     'default'  => '',
@@ -274,8 +274,8 @@ class TradePress_Settings_Users extends TradePress_Settings_Page {
                 ),
                 
                 array(
-                    'title'    => __( 'Login Button Text', 'TradePress-login' ),
-                    'desc'     => __( 'Enter the text you would like to display on your Twitch button.', 'TradePress-login' ),
+                    'title'    => __( 'Login Button Text', 'tradepress' ),
+                    'desc'     => __( 'Enter the text you would like to display on your Twitch button.', 'tradepress' ),
                     'id'       => 'TradePress_login_button_text',
                     'css'      => 'width:230px;',
                     'default'  => '',
@@ -288,14 +288,15 @@ class TradePress_Settings_Users extends TradePress_Settings_Page {
                 ),
                 
                 array(
-                    'title' => __( 'Registration', 'TradePress-login' ),
+                    'title' => __( 'Registration', 'tradepress' ),
                     'type'     => 'title',
-                    'desc'     => __( '', 'TradePress-login' ),
+                    // Empty string needs no translation wrapper per WordPress.WP.I18n.NoEmptyStrings
+                    'desc'     => '',
                     'id'     => 'registrationsettings',
                 ),
                                                         
                 array(
-                    'desc'          => __( 'Registration Button: Display a Twitch button on the WordPress registration form.', 'TradePress-login' ),
+                    'desc'          => __( 'Registration Button: Display a Twitch button on the WordPress registration form.', 'tradepress' ),
                     'id'            => 'TradePress_registration_button',
                     'default'       => 'yes',
                     'type'          => 'checkbox',
@@ -304,7 +305,7 @@ class TradePress_Settings_Users extends TradePress_Settings_Page {
                 ),
 
                 array(
-                    'desc'          => __( 'Force Registration: Force registration by Twitch only and hide WP registration form.', 'TradePress-login' ),
+                    'desc'          => __( 'Force Registration: Force registration by Twitch only and hide WP registration form.', 'tradepress' ),
                     'id'            => 'TradePress_registration_twitchonly',
                     'default'       => 'no',
                     'type'          => 'checkbox',
@@ -313,7 +314,7 @@ class TradePress_Settings_Users extends TradePress_Settings_Page {
                 ),
                 
                 array(
-                    'desc'          => __( 'Email Validation: Require a validated email address (validated by user through their Twitch account).', 'TradePress-login' ),
+                    'desc'          => __( 'Email Validation: Require a validated email address (validated by user through their Twitch account).', 'tradepress' ),
                     'id'            => 'TradePress_registration_requirevalidemail',
                     'default'       => 'yes',
                     'type'          => 'checkbox',
@@ -327,14 +328,14 @@ class TradePress_Settings_Users extends TradePress_Settings_Page {
                 ),
                 
                 array(
-                    'title' => __( 'Automatic Registration', 'TradePress-login' ),
+                    'title' => __( 'Automatic Registration', 'tradepress' ),
                     'type'     => 'title',
-                    'desc'     => __( 'You can register a new user if the visitor attempts to login using the TradePress button provided and their Twitch details do not match an existing WordPress account. Users will be instantly logged in at the end of the procedure.', 'TradePress-login' ),
+                    'desc'     => __( 'You can register a new user if the visitor attempts to login using the TradePress button provided and their Twitch details do not match an existing WordPress account. Users will be instantly logged in at the end of the procedure.', 'tradepress' ),
                     'id'     => 'automaticregistrationsettings',
                 ), 
                 
                 array(
-                    'desc'          => __( 'Register on Login.', 'TradePress-login' ),
+                    'desc'          => __( 'Register on Login.', 'tradepress' ),
                     'id'            => 'TradePress_automatic_registration',
                     'default'       => 'no',
                     'type'          => 'checkbox',

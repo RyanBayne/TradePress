@@ -143,6 +143,7 @@ ksort($grouped_directives);
                                         <span class="view"><a href="#" class="toggle-description"><?php esc_html_e('View Details', 'tradepress'); ?></a></span>
                                     </div>
                                     <p class="directive-description" style="display:none;"><?php echo esc_html($directive['description']); ?><br/>
+                                    <?php /* translators: %s: string value */ ?>
                                     <em><?php printf(esc_html__('Author: %s', 'tradepress'), esc_html($directive['author'])); ?></em>
                                     </p>
                                 </td>

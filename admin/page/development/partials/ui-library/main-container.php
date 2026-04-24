@@ -105,6 +105,7 @@ $ui_sections = array(
             $section_name = ucwords($section_name);
             echo '<div class="tradepress-ui-section">';
             echo '<h3>' . esc_html($section_name) . '</h3>';
+            /* translators: %s: string value */
             echo '<p>' . sprintf(esc_html__('Section "%s" is not yet available.', 'tradepress'), esc_html($section_name)) . '</p>';
             echo '</div>';
         }

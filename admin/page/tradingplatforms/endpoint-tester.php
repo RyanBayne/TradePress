@@ -240,6 +240,7 @@ class TradePress_Endpoint_Tester {
         // Check if we have valid credentials
         if (!$config_check['configured']) {
             $message = sprintf(
+                /* translators: %s: string value */
                 __('API credentials are not configured. Missing: %s', 'tradepress'),
                 implode(', ', $config_check['missing'])
             );
@@ -353,6 +354,7 @@ class TradePress_Endpoint_Tester {
             }
             
             $result['settings_page'] = admin_url('admin.php?page=tradepress_platforms&tab=' . $platform_id);
+            /* translators: %s: string value */
             $result['suggestions'][] = sprintf(__('Configure API credentials in %s settings', 'tradepress'), $platform_id);
             
         } else if ($api_type === 'data_only') {
@@ -378,6 +380,7 @@ class TradePress_Endpoint_Tester {
             if (empty($api_key)) {
                 $result['missing'][] = 'API Key';
                 $result['settings_page'] = admin_url('admin.php?page=tradepress_platforms&tab=' . $platform_id);
+                /* translators: %s: string value */
                 $result['suggestions'][] = sprintf(__('Configure API credentials in %s settings', 'tradepress'), $platform_id);
             }
         }
@@ -540,6 +543,7 @@ class TradePress_Endpoint_Tester {
         if ($response_code >= 400) {
             return new WP_Error(
                 'api_error',
+                /* translators: %s: error message */
                 sprintf(__('API error: %s', 'tradepress'), $response_code),
                 $response_body
             );

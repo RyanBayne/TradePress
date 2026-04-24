@@ -83,7 +83,8 @@ function tradepress_market_correlations_tab_content() {
         
         <div class="tradepress-research-results">
             <div class="correlation-results">
-                <h3><?php echo sprintf(esc_html__('Correlation Results: %s vs. Others (%s)', 'tradepress'), $base_symbol, tradepress_get_timeframe_label($timeframe)); ?></h3>
+                <?php /* translators: %s: symbol name, %s: time period */ ?>
+                <h3><?php echo sprintf(esc_html__('Correlation Results: %1$s vs. Others (%2$s)', 'tradepress'), $base_symbol, tradepress_get_timeframe_label($timeframe)); ?></h3>
                 
                 <div class="correlation-heatmap">
                     <?php foreach ($correlation_data as $symbol => $data): ?>

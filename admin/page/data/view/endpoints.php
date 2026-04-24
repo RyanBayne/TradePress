@@ -27,7 +27,7 @@ class TradePress_DebugView_Endpoints extends TradePress_ListTable_Endpoints {
      * No items found text.
      */
     public function no_items() {
-        _e( 'No endpoints found.', 'tradepress' );
+        esc_html_e( 'No endpoints found.', 'tradepress' );
     }
 
     /**

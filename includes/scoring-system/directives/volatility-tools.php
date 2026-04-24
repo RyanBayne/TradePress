@@ -266,7 +266,8 @@ class TradePress_Volatility_Tools {
         // Volatility regime analysis
         $output .= '<h4>' . __('Trading Environment', 'tradepress') . '</h4>';
         
-        $output .= '<p>' . sprintf(__('Current analysis indicates a <strong>%s</strong>. %s', 'tradepress'), 
+        /* translators: %s: string value, %s: string value */
+        $output .= '<p>' . sprintf(__('Current analysis indicates a <strong>%1$s</strong>. %2$s', 'tradepress'), 
             $volatility_regime['name'], 
             $volatility_regime['description']) . '</p>';
         

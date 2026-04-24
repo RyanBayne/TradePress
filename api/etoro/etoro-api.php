@@ -329,6 +329,7 @@ class TradePress_Etoro_API {
         if ($response_code < 200 || $response_code >= 300) {
             return new WP_Error(
                 'etoro_api_error',
+                /* translators: %s: error message */
                 sprintf(__('eToro API error: %s', 'tradepress'), $response_body),
                 array('status' => $response_code)
             );

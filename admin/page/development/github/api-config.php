@@ -65,6 +65,7 @@ function TRADEPRESS_GITHUB_api_config_content($repo_owner, $repo_name) {
                 add_settings_error(
                     'TRADEPRESS_GITHUB_settings',
                     'connection_failed',
+                    /* translators: %s: string value */
                     sprintf(__('Connection failed: %s', 'tradepress'), $test_result->get_error_message()),
                     'error'
                 );
@@ -299,7 +300,8 @@ function tradepress_test_github_connection() {
         $message = isset($body['message']) ? $body['message'] : __('Unknown error', 'tradepress');
         return new WP_Error(
             'request_failed',
-            sprintf(__('Request failed with status %d: %s', 'tradepress'), $response_code, $message)
+            /* translators: %d: HTTP status code, %s: error message */
+            sprintf(__('Request failed with status %1$d: %2$s', 'tradepress'), $response_code, $message)
         );
     }
     
@@ -341,6 +343,7 @@ function tradepress_get_github_rate_limits() {
     if ($response_code !== 200) {
         return new WP_Error(
             'request_failed',
+            /* translators: %d: HTTP status code */
             sprintf(__('Request failed with status %d', 'tradepress'), $response_code)
         );
     }

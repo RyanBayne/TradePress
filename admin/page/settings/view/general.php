@@ -701,7 +701,7 @@ class TradePress_Settings_General extends TradePress_Settings_Page {
                     </div>
                     <?php endforeach; ?>
                     
-                    <p class="description"><?php _e('Note: This feature is currently in development. Changing these settings will not affect visibility yet.', 'tradepress'); ?></p>
+                    <p class="description"><?php esc_html_e('Note: This feature is currently in development. Changing these settings will not affect visibility yet.', 'tradepress'); ?></p>
                 </div>
             </td>
         </tr>

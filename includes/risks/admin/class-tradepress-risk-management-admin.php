@@ -101,6 +101,7 @@ class TradePress_Risk_Management_Admin {
                 $total_weight = array_sum($weights);
                 
                 if ($total_weight < 0.99 || $total_weight > 1.01) {
+                    /* translators: %s: string value */
                     wp_send_json_error(array('message' => sprintf(__('Weight factors must sum to 1.0. Current sum: %s', 'tradepress'), number_format($total_weight, 2))));
                 }
                 

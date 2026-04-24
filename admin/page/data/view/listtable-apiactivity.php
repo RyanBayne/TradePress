@@ -15,7 +15,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
  * @author      Ryan Bayne
  * @category    Admin
  * @package     TradePress/Views
- * @version     1.0
+ * @version     1.0.95
  */
 class TradePress_ListTable_APIActivity extends WP_List_Table {
 
@@ -136,9 +136,11 @@ class TradePress_ListTable_APIActivity extends WP_List_Table {
     
     /**
      * No items found text.
+     *
+     * @version 1.0.95
      */
     public function no_items() {
-        _e( 'No items found.', 'tradepress' );
+        esc_html_e( 'No items found.', 'tradepress' ); // Escaped printing function per WPCS
     }
 
     public function display_tablenav( $position ) {
@@ -162,7 +164,7 @@ class TradePress_ListTable_APIActivity extends WP_List_Table {
      * @param mixed $item
      * @param string $column_name   
      * 
-     * @version 2.0
+     * @version 1.0.95
      */
     public function column_default( $item, $column_name ) {
         
@@ -170,32 +172,33 @@ class TradePress_ListTable_APIActivity extends WP_List_Table {
         switch( $column_name ) {
             case 'timestamp' :
                 $time_passed = human_time_diff( strtotime( $item['timestamp'] ), current_time( 'timestamp' ) );
-                echo sprintf( __( '%s ago', 'tradepress' ), $time_passed );
-                echo '<pre><a href="' . $url . '">' . $item['callid'] . '</a></pre>';
+                /* translators: %s: human-readable time difference */
+                echo esc_html( sprintf( __( '%s ago', 'tradepress' ), $time_passed ) );
+                echo '<pre><a href="' . esc_url( $url ) . '">' . esc_html( $item['callid'] ) . '</a></pre>'; // URL and call ID escaped for safe output
             break;
             case 'callid' :
-                echo '<pre>'; print_r( $item['service'] ); echo '</pre>';
-                echo '<pre>'; print_r( $item['type'] ); echo '</pre>';
-                echo '<pre>'; print_r( $item['outcome'] ); echo '</pre>';                
+                echo '<pre>' . esc_html( $item['service'] ) . '</pre>';
+                echo '<pre>' . esc_html( $item['type'] ) . '</pre>';
+                echo '<pre>' . esc_html( $item['outcome'] ) . '</pre>';
             break;
             
             case 'user' :
-                echo '<pre>'; _e( 'WP ID: ', 'tradepress' ); print_r( $item['wpuserid'] ); echo '</pre>';
+                echo '<pre>' . esc_html__( 'WP ID: ', 'tradepress' ) . esc_html( $item['wpuserid'] ) . '</pre>'; // Escaped DB values
             break;            
         
             case 'type' :
-                echo '<pre>'; print_r( $item['type'] ); echo '</pre>';
+                echo '<pre>' . esc_html( $item['type'] ) . '</pre>';
             break;            
             
             case 'outcome' :
-                echo '<pre>'; print_r( $item['outcome'] ); echo '</pre>';
+                echo '<pre>' . esc_html( $item['outcome'] ) . '</pre>';
             break;                                    
             
             case 'wpuserid' :
-                echo '<pre>'; print_r( $item['wpuserid'] ); echo '</pre>';
+                echo '<pre>' . esc_html( $item['wpuserid'] ) . '</pre>';
             break;  
             case 'rawresponse' :
-                echo '<textarea rows="3" cols="25">' . print_r( $item['rawresponse'], true ) . '</textarea>';
+                echo '<textarea rows="3" cols="25">' . esc_textarea( print_r( $item['rawresponse'], true ) ) . '</textarea>'; // Escaped for textarea context
             break;                                                                                                       
         }
     }
@@ -259,7 +262,7 @@ class TradePress_ListTable_APIActivity extends WP_List_Table {
     <tbody id="the-list"
         <?php
         if ( $singular ) {
-            echo " data-wp-lists='list:$singular'";
+            echo " data-wp-lists='list:" . esc_attr( $singular ) . "'"; // Escaped for HTML attribute context
         }
         ?>
         >
@@ -277,6 +280,12 @@ class TradePress_ListTable_APIActivity extends WP_List_Table {
         $this->display_tablenav( 'bottom' );
     }
     
+    /**
+     * Display a single record in detail view.
+     *
+     * @param int $entry_id The entry ID to display.
+     * @version 1.0.95
+     */
     public function record_listed( $entry_id ) {
         global $wpdb;
         $entry_counter = 0;// Acts as temporary ID for data that does not have one. 
@@ -293,27 +302,27 @@ class TradePress_ListTable_APIActivity extends WP_List_Table {
         'OBJECT' );
                           
         if( !isset( $records ) || !is_object( $records ) ) { 
-            _e( 'Record not found', 'tradepress' );
+            esc_html_e( 'Record not found', 'tradepress' ); // Escaped printing function
             return;
         } 
         
         echo '
         <table>
-            <tr><td></td><td>' . __( '<strong>Information</strong>', 'tradepress' ) . '</td></tr>
-            <tr><td>' . __( 'Entry ID', 'tradepress' ) . '</td><td>' . $records->entryid . '</td></tr>
-            <tr><td>' . __( 'Call ID', 'tradepress' ) . '</td><td>' . $records->callid . '</td></tr>
-            <tr><td>' . __( 'Service', 'tradepress' ) . '</td><td>' . $records->service . '</td></tr>
-            <tr><td>' . __( 'Type', 'tradepress' ) . '</td><td>' . $records->type . '</td></tr>
-            <tr><td>' . __( 'Status', 'tradepress' ) . '</td><td>' . $records->status . '</td></tr>
-            <tr><td>' . __( 'File', 'tradepress' ) . '</td><td><a href="' . $records->file . '">' . $records->file . '</a></td></tr>
-            <tr><td>' . __( 'Function', 'tradepress' ) . '</td><td>' . $records->function . '</td></tr>
-            <tr><td>' . __( 'Line', 'tradepress' ) . '</td><td>' . $records->line . '</td></tr>
-            <tr><td>' . __( 'WP User ID', 'tradepress' ) . '</td><td>' . $records->wpuserid . '</td></tr>
-            <tr><td>' . __( 'Timestamp', 'tradepress' ) . '</td><td>' . $records->timestamp . '</td></tr>
-            <tr><td>' . __( 'Description', 'tradepress' ) . '</td><td>' . $records->description . '</td></tr>
-            <tr><td>' . __( 'Outcome', 'tradepress' ) . '</td><td>' . $records->outcome . '</td></tr>
-            <tr><td>' . __( 'Life', 'tradepress' ) . '</td><td>' . $records->life . '</td></tr>
-            <tr><td>' . __( 'Rawbody', 'tradepress' ) . '</td><td>' . $records->rawbody . '</td></tr>
+            <tr><td></td><td>' . wp_kses_post( __( '<strong>Information</strong>', 'tradepress' ) ) . '</td></tr>
+            <tr><td>' . esc_html__( 'Entry ID', 'tradepress' ) . '</td><td>' . esc_html( $records->entryid ) . '</td></tr>
+            <tr><td>' . esc_html__( 'Call ID', 'tradepress' ) . '</td><td>' . esc_html( $records->callid ) . '</td></tr>
+            <tr><td>' . esc_html__( 'Service', 'tradepress' ) . '</td><td>' . esc_html( $records->service ) . '</td></tr>
+            <tr><td>' . esc_html__( 'Type', 'tradepress' ) . '</td><td>' . esc_html( $records->type ) . '</td></tr>
+            <tr><td>' . esc_html__( 'Status', 'tradepress' ) . '</td><td>' . esc_html( $records->status ) . '</td></tr>
+            <tr><td>' . esc_html__( 'File', 'tradepress' ) . '</td><td><a href="' . esc_url( $records->file ) . '">' . esc_html( $records->file ) . '</a></td></tr>
+            <tr><td>' . esc_html__( 'Function', 'tradepress' ) . '</td><td>' . esc_html( $records->function ) . '</td></tr>
+            <tr><td>' . esc_html__( 'Line', 'tradepress' ) . '</td><td>' . esc_html( $records->line ) . '</td></tr>
+            <tr><td>' . esc_html__( 'WP User ID', 'tradepress' ) . '</td><td>' . esc_html( $records->wpuserid ) . '</td></tr>
+            <tr><td>' . esc_html__( 'Timestamp', 'tradepress' ) . '</td><td>' . esc_html( $records->timestamp ) . '</td></tr>
+            <tr><td>' . esc_html__( 'Description', 'tradepress' ) . '</td><td>' . esc_html( $records->description ) . '</td></tr>
+            <tr><td>' . esc_html__( 'Outcome', 'tradepress' ) . '</td><td>' . esc_html( $records->outcome ) . '</td></tr>
+            <tr><td>' . esc_html__( 'Life', 'tradepress' ) . '</td><td>' . esc_html( $records->life ) . '</td></tr>
+            <tr><td>' . esc_html__( 'Rawbody', 'tradepress' ) . '</td><td>' . esc_html( $records->rawbody ) . '</td></tr>
         </table>
         ';
   

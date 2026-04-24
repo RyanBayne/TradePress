@@ -29,6 +29,7 @@ class TradePress_Data_Decoder_Tab {
             $parsed_data = get_transient($decoded_data_key);
             if ($parsed_data) {
                 delete_transient($decoded_data_key);
+                /* translators: %d: rank position */
                 echo '<div class="notice notice-success is-dismissible"><p>' . sprintf(esc_html__('Data processed successfully. Found %d companies. Companies ranked by opportunity score.', 'tradepress'), count($parsed_data)) . '</p></div>';
                 
                 echo '<div class="tradepress-decoded-data-wrapper">';
@@ -42,7 +43,8 @@ class TradePress_Data_Decoder_Tab {
                     else $score_class = 'score-low';
                     
                     echo '<div class="company-header">';
-                    echo '<h3 class="decoded-data-title">' . sprintf(esc_html__('Rank #%d: %s (%s)', 'tradepress'), $index + 1, esc_html($company_data['company_name'] ?? 'Unknown'), esc_html($company_data['ticker_symbol'])) . '</h3>';
+                    /* translators: %d: rank position, %s: symbol name, %s: ticker symbol */
+                    echo '<h3 class="decoded-data-title">' . sprintf(esc_html__('Rank #%1$d: %2$s (%3$s)', 'tradepress'), $index + 1, esc_html($company_data['company_name'] ?? 'Unknown'), esc_html($company_data['ticker_symbol'])) . '</h3>';
                     echo '<div class="opportunity-score ' . $score_class . '">';
                     echo '<span class="score-label">Opportunity Score:</span>';
                     echo '<span class="score-value">' . esc_html($company_data['total_score']) . '/100</span>';
@@ -206,6 +208,7 @@ class TradePress_Data_Decoder_Tab {
                 $args['decoded_content'] = urlencode($content_to_parse);
             }
         } else {
+            /* translators: %s: string value */
             $args['decoder_info'] = urlencode(sprintf(__('Selected source "%s" is not yet supported for automated parsing. Displaying raw content.', 'tradepress'), esc_html($decoder_source)));
             $args['decoder_processed'] = 'info';
             $args['decoded_content'] = urlencode($content_to_parse);

@@ -126,6 +126,7 @@ class TradePress_Extension_Installer {
                     TradePress_Admin_Notices::add_custom_notice(
                         $plugin_to_install_id . '_install_error',
                         sprintf(
+                            /* translators: %1$s: plugin name, %2$s: error message, %3$s: manual install URL */
                             __( '%1$s could not be installed (%2$s). <a href="%3$s">Please install it manually by clicking here.</a>', 'tradepress' ),
                             $plugin_to_install['name'],
                             $e->getMessage(),
@@ -152,6 +153,7 @@ class TradePress_Extension_Installer {
                     TradePress_Admin_Notices::add_custom_notice(
                         $plugin_to_install_id . '_install_error',
                         sprintf(
+                            /* translators: %1$s: plugin name, %2$s: plugins page URL */
                             __( '%1$s was installed but could not be activated. <a href="%2$s">Please activate it manually by clicking here.</a>', 'tradepress' ),
                             $plugin_to_install['name'],
                             admin_url( 'plugins.php' )

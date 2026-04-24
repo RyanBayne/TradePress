@@ -330,6 +330,6 @@ class TradePress_Price_Forecast_Table extends WP_List_Table {
      * Message to be displayed when there are no items
      */
     public function no_items() {
-        _e( 'No price forecasts found.', 'tradepress' );
+        esc_html_e( 'No price forecasts found.', 'tradepress' );
     }
 }

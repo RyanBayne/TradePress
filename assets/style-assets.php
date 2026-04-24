@@ -197,6 +197,12 @@ return array(
             'pages' => array('all'),
             'dependencies' => array()
         ),
+        'charts' => array(
+            'path' => 'css/components/charts.css',
+            'purpose' => 'Chart visualizations and shared chart component styling',
+            'pages' => array('research', 'trading', 'development'),
+            'dependencies' => array()
+        ),
         'candlesticks' => array(
             'path' => 'css/components/candlesticks.css',
             'purpose' => 'Candlestick chart styles and financial data visualization',

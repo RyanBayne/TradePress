@@ -45,7 +45,7 @@ class TradePress_Mode_Indicators {
             <div class="tradepress-mode-indicator-wrap">
                 <button type="button" id="tradepress-developer-indicator" class="button show-settings" aria-expanded="false">
                     <span class="dashicons dashicons-admin-tools"></span>
-                    <span class="screen-reader-text"><?php _e('Developer Mode Active', 'tradepress'); ?></span>
+                    <span class="screen-reader-text"><?php esc_html_e('Developer Mode Active', 'tradepress'); ?></span>
                     Developer Mode
                 </button>
             </div>

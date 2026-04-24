@@ -3,7 +3,7 @@
  * TradePress - Configure Directives Tab (New Clean Version)
  * 
  * @package TradePress/Admin/Directives
- * @version 2.0.0
+ * @version 1.0.7
  * @created 2024-12-16
  * 
  * @todo COMPLETED: Added strategy validation framework with placeholder functions
@@ -260,7 +260,8 @@ if (isset($_POST['action']) && $_POST['action'] === 'toggle_directive') {
             
             if (!empty($missing_components)) {
                 $message = sprintf(
-                    __('Cannot enable %s. Required components not active: %s', 'tradepress'),
+                    /* translators: %s: component name, %s: required component list */
+                    __('Cannot enable %1$s. Required components not active: %2$s', 'tradepress'),
                     $all_directives[$directive_id]['name'],
                     implode(', ', $missing_components)
                 );
@@ -297,7 +298,9 @@ if (isset($_POST['action']) && $_POST['action'] === 'toggle_directive') {
         // Add success notice
         $directive_name = $all_directives[$directive_id]['name'] ?? ucfirst(str_replace('_', ' ', $directive_id));
         $message = $new_state 
+            /* translators: %s: directive name */
             ? sprintf(__('%s directive has been enabled.', 'tradepress'), $directive_name)
+            /* translators: %s: directive name */
             : sprintf(__('%s directive has been disabled.', 'tradepress'), $directive_name);
         
         add_settings_error('tradepress_directives', 'directive_toggled', $message, 'updated');
@@ -378,6 +381,7 @@ function tradepress_validate_directive_disable($directive_id) {
         return array(
             'success' => false,
             'message' => sprintf(
+                /* translators: %s: directive name */
                 __('Cannot disable directive. It is currently used by: %s', 'tradepress'),
                 implode(', ', $strategy_names)
             )
@@ -471,6 +475,14 @@ function tradepress_validate_directive_disable($directive_id) {
                     return add_query_arg(array('orderby' => $column, 'order' => $new_order));
                 }
                 
+                /**
+                 * Get CSS class for sortable column header.
+                 *
+                 * @version 1.0.7
+                 *
+                 * @param string $column Column identifier.
+                 * @return string CSS class string.
+                 */
                 function get_sort_class($column) {
                     global $orderby, $order;
                     if ($orderby === $column) {
@@ -482,32 +494,37 @@ function tradepress_validate_directive_disable($directive_id) {
                 
                 <div class="table-header" style="display: flex; background: #f1f1f1; padding: 12px 15px; font-weight: 600; border-bottom: 1px solid #c3c4c7;">
                     <?php if (get_option('tradepress_developer_mode', 'no') === 'yes') : ?>
-                    <div style="flex: 0.5;"><?php _e('Code', 'tradepress'); ?></div>
+                    <div style="flex: 0.5;"><?php esc_html_e('Code', 'tradepress'); ?></div>
                     <?php endif; ?>
                     <div style="flex: 2;">
-                        <a href="<?php echo esc_url(get_sort_url('name')); ?>" class="<?php echo get_sort_class('name'); ?>">
-                            <?php _e('Directive Name', 'tradepress'); ?>
+                        <a href="<?php echo esc_url(get_sort_url('name')); ?>" class="<?php // Escape for safe HTML attribute output
+                        echo esc_attr(get_sort_class('name')); ?>">
+                            <?php esc_html_e('Directive Name', 'tradepress'); ?>
                         </a>
                     </div>
                     <div style="flex: 1;">
-                        <a href="<?php echo esc_url(get_sort_url('status')); ?>" class="<?php echo get_sort_class('status'); ?>">
-                            <?php _e('Status', 'tradepress'); ?>
+                        <a href="<?php echo esc_url(get_sort_url('status')); ?>" class="<?php // Escape for safe HTML attribute output
+                        echo esc_attr(get_sort_class('status')); ?>">
+                            <?php esc_html_e('Status', 'tradepress'); ?>
                         </a>
                     </div>
-                    <div style="flex: 1;"><?php _e('Dev Status', 'tradepress'); ?></div>
+                    <div style="flex: 1;"><?php esc_html_e('Dev Status', 'tradepress'); ?></div>
                     <div style="flex: 1;">
-                        <a href="<?php echo esc_url(get_sort_url('impact')); ?>" class="<?php echo get_sort_class('impact'); ?>">
-                            <?php _e('Impact', 'tradepress'); ?>
-                        </a>
-                    </div>
-                    <div style="flex: 1;">
-                        <a href="<?php echo esc_url(get_sort_url('weight')); ?>" class="<?php echo get_sort_class('weight'); ?>">
-                            <?php _e('Weight', 'tradepress'); ?>
+                        <a href="<?php echo esc_url(get_sort_url('impact')); ?>" class="<?php // Escape for safe HTML attribute output
+                        echo esc_attr(get_sort_class('impact')); ?>">
+                            <?php esc_html_e('Impact', 'tradepress'); ?>
                         </a>
                     </div>
                     <div style="flex: 1;">
-                        <a href="<?php echo esc_url(get_sort_url('last_used')); ?>" class="<?php echo get_sort_class('last_used'); ?>">
-                            <?php _e('Last Used', 'tradepress'); ?>
+                        <a href="<?php echo esc_url(get_sort_url('weight')); ?>" class="<?php // Escape for safe HTML attribute output
+                        echo esc_attr(get_sort_class('weight')); ?>">
+                            <?php esc_html_e('Weight', 'tradepress'); ?>
+                        </a>
+                    </div>
+                    <div style="flex: 1;">
+                        <a href="<?php echo esc_url(get_sort_url('last_used')); ?>" class="<?php // Escape for safe HTML attribute output
+                        echo esc_attr(get_sort_class('last_used')); ?>">
+                            <?php esc_html_e('Last Used', 'tradepress'); ?>
                         </a>
                     </div>
                 </div>
@@ -1409,6 +1426,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                 <?php endwhile; ?>
                             </select>
                             <p style="margin: 5px 0; font-size: 12px; color: #666;">
+                                <?php /* translators: %d: symbol name */ ?>
                                 <?php printf(esc_html__('%d symbols installed', 'tradepress'), $symbols_query->found_posts); ?>
                             </p>
                         <?php else : ?>

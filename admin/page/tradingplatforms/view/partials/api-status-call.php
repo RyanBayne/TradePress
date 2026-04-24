@@ -49,6 +49,7 @@
                                     </div>
                                 <?php else: ?>
                                     <div class="api-info-message">
+                                        <?php /* translators: %s: API endpoint URL */ ?>
                                         <p><?php echo sprintf(esc_html__('No recent API calls for %s have been cached. Make an API call with testing mode enabled to see results here.', 'tradepress'), esc_html($api_id)); ?></p>
                                     </div>
                                 <?php endif;

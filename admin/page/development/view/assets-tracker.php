@@ -387,6 +387,7 @@ class TradePress_Admin_Development_Assets {
                 <?php if ($total_missing > 0): ?>
                     <p class="status-error">
                         <span class="dashicons dashicons-warning"></span>
+                        <?php /* translators: %d: number */ ?>
                         <?php echo esc_html(sprintf(__('%d assets need attention', 'tradepress'), $total_missing)); ?>
                     </p>
                 <?php else: ?>
@@ -750,6 +751,7 @@ class TradePress_Admin_Development_Assets {
                 'class' => 'status-success',
                 'icon' => 'dashicons-yes',
                 'message' => __('All Assets Available', 'tradepress'),
+                /* translators: %d: component name */
                 'details' => sprintf(__('%d assets managed successfully', 'tradepress'), $total_assets)
             );
         } elseif ($total_missing <= 3) {
@@ -757,14 +759,16 @@ class TradePress_Admin_Development_Assets {
                 'class' => 'status-warning',
                 'icon' => 'dashicons-warning',
                 'message' => __('Minor Issues Detected', 'tradepress'),
-                'details' => sprintf(__('%d of %d assets missing', 'tradepress'), $total_missing, $total_assets)
+                /* translators: %1$d: missing asset count, %2$d: total asset count */
+                'details' => sprintf(__('%1$d of %2$d assets missing', 'tradepress'), $total_missing, $total_assets)
             );
         } else {
             return array(
                 'class' => 'status-error',
                 'icon' => 'dashicons-no',
                 'message' => __('Multiple Assets Missing', 'tradepress'),
-                'details' => sprintf(__('%d of %d assets missing', 'tradepress'), $total_missing, $total_assets)
+                /* translators: %1$d: missing asset count, %2$d: total asset count */
+                'details' => sprintf(__('%1$d of %2$d assets missing', 'tradepress'), $total_missing, $total_assets)
             );
         }
     }

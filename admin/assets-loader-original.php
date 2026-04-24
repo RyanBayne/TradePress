@@ -23,6 +23,32 @@ if ( ! class_exists( 'TradePress_Admin_Assets' ) ) :
 class TradePress_Admin_Assets {
 
     /**
+     * Normalize internal component dependency names to registered WP style handles.
+     *
+     * @param array $dependencies Raw dependency names from asset registry.
+     * @return array
+     */
+    private function normalize_component_style_dependencies( $dependencies ) {
+        $normalized = array();
+
+        foreach ( (array) $dependencies as $dependency ) {
+            if ( strpos( $dependency, 'tradepress-' ) === 0 ) {
+                $normalized[] = $dependency;
+                continue;
+            }
+
+            if ( $dependency === 'variables' ) {
+                $normalized[] = 'tradepress-variables';
+                continue;
+            }
+
+            $normalized[] = 'tradepress-component-' . $dependency;
+        }
+
+        return array_values( array_unique( $normalized ) );
+    }
+
+    /**
      * Enqueue styles for the admin side.
      * 
      * @version 1.7
@@ -99,10 +125,12 @@ class TradePress_Admin_Assets {
         if ($tradepress_assets && is_object($tradepress_assets)) {
             $component_assets = $tradepress_assets->get_assets_by_category('css', 'components');
             foreach ($component_assets as $name => $asset) {
+                $dependencies = isset( $asset['dependencies'] ) ? $this->normalize_component_style_dependencies( $asset['dependencies'] ) : array();
+
                 wp_register_style(
                     'tradepress-component-' . $name,
                     TRADEPRESS_PLUGIN_URL . 'assets/' . $asset['path'],
-                    $asset['dependencies'],
+                    $dependencies,
                     TRADEPRESS_VERSION
                 );
                 wp_enqueue_style('tradepress-component-' . $name);

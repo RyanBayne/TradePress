@@ -279,6 +279,7 @@ class TradePress_Admin_Settings_Database {
             }
         } catch ( Exception $e ) {
             wp_send_json_error( array(
+                /* translators: %s: error message */
                 'message' => sprintf( __( 'Error: %s', 'tradepress' ), $e->getMessage() )
             ) );
         }

@@ -49,12 +49,12 @@ foreach (array_merge($tradepress_tables, $bugnet_tables) as $table => $descripti
 }
 ?>
 
-<h1><?php _e('Database Changes', 'tradepress'); ?></h1>
+<h1><?php esc_html_e('Database Changes', 'tradepress'); ?></h1>
 <form method="post">
-    <p><?php _e('TradePress requires database tables for trading data, monitoring, and debugging. BugNet will be installed automatically for trading monitoring.', 'tradepress'); ?></p>
+    <p><?php esc_html_e('TradePress requires database tables for trading data, monitoring, and debugging. BugNet will be installed automatically for trading monitoring.', 'tradepress'); ?></p>
     
     <?php if (!empty($existing_tables)) : ?>
-        <h2>✅ <?php _e('Already Installed', 'tradepress'); ?></h2>
+        <h2>✅ <?php esc_html_e('Already Installed', 'tradepress'); ?></h2>
         <ul>
             <?php foreach ($existing_tables as $table => $description) : ?>
                 <li><strong><?php echo $wpdb->prefix . $table; ?></strong> - <?php echo esc_html($description); ?></li>
@@ -63,15 +63,15 @@ foreach (array_merge($tradepress_tables, $bugnet_tables) as $table => $descripti
     <?php endif; ?>
     
     <?php if (!empty($missing_tables)) : ?>
-        <h2>📋 <?php _e('To Be Installed', 'tradepress'); ?></h2>
+        <h2>📋 <?php esc_html_e('To Be Installed', 'tradepress'); ?></h2>
         <ul>
             <?php foreach ($missing_tables as $table => $description) : ?>
                 <li><strong><?php echo $wpdb->prefix . $table; ?></strong> - <?php echo esc_html($description); ?></li>
             <?php endforeach; ?>
         </ul>
-        <p><?php _e('The above tables will be created when you continue.', 'tradepress'); ?></p>
+        <p><?php esc_html_e('The above tables will be created when you continue.', 'tradepress'); ?></p>
     <?php else : ?>
-        <p>✅ <?php _e('All required tables are already installed.', 'tradepress'); ?></p>
+        <p>✅ <?php esc_html_e('All required tables are already installed.', 'tradepress'); ?></p>
     <?php endif; ?>
 
     <p class="tradepress-setup-actions step">

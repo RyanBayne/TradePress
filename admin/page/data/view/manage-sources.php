@@ -164,7 +164,8 @@ class TradePress_Manage_Sources {
                                     if ($source_id > 0) {
                                         $usage_stats = $this->get_source_usage_stats($source_id);
                                         echo sprintf(
-                                            __('Imports: %d<br>Directive Uses: %d', 'tradepress'),
+                                            /* translators: %d: import count, %d: directive use count */
+                                            __('Imports: %1$d<br>Directive Uses: %2$d', 'tradepress'),
                                             $usage_stats['import_count'],
                                             $usage_stats['directive_uses']
                                         );
@@ -886,9 +887,11 @@ class TradePress_Manage_Sources {
                         
                         return array(
                             'data' => $extracted_content,
-                            'notes' => sprintf(__('Found %d elements matching selector "%s". Showing first 3.', 'tradepress'), count($elements), $selector)
+                            /* translators: %d: element count, %s: CSS selector */
+                            'notes' => sprintf(__('Found %1$d elements matching selector "%2$s". Showing first 3.', 'tradepress'), count($elements), $selector)
                         );
                     } else {
+                        /* translators: %s: CSS selector */
                         throw new Exception(sprintf(__('No elements found matching selector "%s".', 'tradepress'), $selector));
                     }
                 }
@@ -948,7 +951,8 @@ class TradePress_Manage_Sources {
         
         return array(
             'data' => $sample_data,
-            'notes' => sprintf(__('Found %d items in feed. Showing first %d.', 'tradepress'), $item_count, count($sample_data))
+            /* translators: %d: total item count, %d: display limit */
+            'notes' => sprintf(__('Found %1$d items in feed. Showing first %2$d.', 'tradepress'), $item_count, count($sample_data))
         );
     }
     
@@ -1013,6 +1017,7 @@ class TradePress_Manage_Sources {
         $status_code = wp_remote_retrieve_response_code($response);
         
         if ($status_code !== 200) {
+            /* translators: %d: error message */
             throw new Exception(sprintf(__('API returned error code: %d', 'tradepress'), $status_code));
         }
         
@@ -1026,6 +1031,7 @@ class TradePress_Manage_Sources {
             if (is_array($json_body) && count($json_body) > 3 && isset($json_body[0])) {
                 // Looks like an array of items, limit to 3
                 $sample_data = array_slice($json_body, 0, 3);
+                /* translators: %d: number */
                 $notes = sprintf(__('API returned %d items. Showing first 3.', 'tradepress'), count($json_body));
             } else {
                 $sample_data = $json_body;

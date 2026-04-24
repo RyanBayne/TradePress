@@ -13,7 +13,7 @@
  * @category User Interface
  * @package  TradePress/Notices
  * @since    1.0.0
- * @version  1.0.4
+ * @version  1.0.95
  */
  
 if ( ! defined( 'ABSPATH' ) ) {
@@ -94,9 +94,9 @@ class TradePress_Admin_Notices {
                 <div class="welcome-panel-content">
                     <p class="about-description">' . esc_html(ucfirst( $intro )) . '</p>
                     
-                    ' . $progress_html . '
+                    ' . wp_kses_post( $progress_html ) . ' <!-- Pre-escaped HTML from esc_html/intval or info_area -->
                     
-                    <p>' . __( 'Pledge £9.99 to the TradePress project for 50% discount on the premium edition.', 'tradepress' ) . '</p>                                                     
+                    <p>' . esc_html__( 'Pledge £9.99 to the TradePress project for 50% discount on the premium edition.', 'tradepress' ) . '</p>                                                     
                 </div>
 
             </div> 
@@ -151,13 +151,13 @@ class TradePress_Admin_Notices {
             <div class="welcome-panel">
                 <div class="welcome-panel-content">
                     
-                    <h1>' . esc_html(ucfirst( $title )) . $dismissable_button . '</h1>
+                    <h1>' . esc_html(ucfirst( $title )) . wp_kses_post( $dismissable_button ) . '</h1> <!-- Button contains pre-escaped HTML link -->
                     
                     <p class="about-description">' . esc_html(ucfirst( $intro )) . '</p>
  
-                    ' . $highlighted_info . '
+                    ' . wp_kses_post( $highlighted_info ) . ' <!-- Pre-escaped via esc_html and info_area -->
                     
-                    ' . $footer_text . '
+                    ' . wp_kses_post( $footer_text ) . ' <!-- Pre-escaped via wp_kses_post -->
                   
                 </div>
             </div> 
@@ -262,7 +262,7 @@ class TradePress_Admin_Notices {
     public static function hide_notices() {
         if ( isset( $_GET['TradePress-hide-notice'] ) && isset( $_GET['_TradePress_notice_nonce'] ) ) {
             if ( ! wp_verify_nonce( $_GET['_TradePress_notice_nonce'], 'TradePress_hide_notices_nonce' ) ) {
-                wp_die( __( 'Action failed. Please refresh the page and retry.', 'tradepress' ) );
+                wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'tradepress' ) ); // Escaped for safe output
             }
             
             $hide_notice = sanitize_text_field( $_GET['TradePress-hide-notice'] );
@@ -404,11 +404,11 @@ class TradePress_Admin_Notices {
     * @param mixed $desc
     * @param mixed $dismissible
     * 
-    * @version 1.1
+    * @version 1.0.95
     */
     public static function error( $title, $desc, $dismissible = false ) {
         $d = ''; if( $dismissible ){ $d = ' is-dismissible'; }
-        ?><div class="notice notice-error<?php echo $d; ?>"><p><?php echo '<strong>' . $title . ': </strong>' . $desc; ?></p></div><?php     
+        ?><div class="notice notice-error<?php echo esc_attr( $d ); ?>"><p><?php echo '<strong>' . esc_html( $title ) . ': </strong>' . wp_kses_post( $desc ); // $desc may contain pre-sanitized HTML from wp_kses_post ?></p></div><?php     
     } 
     
     /**
@@ -418,11 +418,11 @@ class TradePress_Admin_Notices {
     * @param mixed $desc
     * @param mixed $dismissible
     * 
-    * @version 1.1
+    * @version 1.0.95
     */
     public static function warning( $title, $desc, $dismissible = false ) {
         $d = ''; if( $dismissible ){ $d = ' is-dismissible'; }
-        ?><div class="notice notice-warning<?php echo $d; ?>"><p><?php echo '<strong>' . $title . ': </strong>' . $desc; ?></p></div><?php     
+        ?><div class="notice notice-warning<?php echo esc_attr( $d ); ?>"><p><?php echo '<strong>' . esc_html( $title ) . ': </strong>' . wp_kses_post( $desc ); ?></p></div><?php     
     } 
     
     /**
@@ -432,11 +432,11 @@ class TradePress_Admin_Notices {
     * @param mixed $desc
     * @param mixed $dismissible
     * 
-    * @version 1.1
+    * @version 1.0.95
     */
     public static function success( $title, $desc, $dismissible = false ) {
         $d = ''; if( $dismissible ){ $d = ' is-dismissible'; }
-        ?><div class="notice notice-success<?php echo $d; ?>"><p><?php echo '<strong>' . $title . ': </strong>' . $desc; ?></p></div><?php     
+        ?><div class="notice notice-success<?php echo esc_attr( $d ); ?>"><p><?php echo '<strong>' . esc_html( $title ) . ': </strong>' . wp_kses_post( $desc ); ?></p></div><?php     
     } 
     
     /**
@@ -446,11 +446,11 @@ class TradePress_Admin_Notices {
     * @param mixed $desc
     * @param mixed $dismissible
     * 
-    * @version 1.1
+    * @version 1.0.95
     */
     public static function info( $title, $desc, $dismissible = false ) {
         $d = ''; if( $dismissible ){ $d = ' is-dismissible'; }
-        ?><div class="notice notice-info<?php echo $d; ?>"><p><?php echo '<strong>' . $title . ': </strong>' . $desc; ?></p></div><?php     
+        ?><div class="notice notice-info<?php echo esc_attr( $d ); ?>"><p><?php echo '<strong>' . esc_html( $title ) . ': </strong>' . wp_kses_post( $desc ); ?></p></div><?php     
     }    
 
     /**
@@ -501,7 +501,7 @@ class TradePress_Admin_Notices {
         
         $notice_id = sanitize_text_field($_GET['tradepress_dismiss_notice']);
         if (!isset($_GET['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce'], 'tradepress_dismiss_notice_' . $notice_id)) {
-            wp_die(__('Security check failed', 'tradepress'));
+            wp_die( esc_html__('Security check failed', 'tradepress') ); // Escaped for safe output
         }
         
         // Save dismissal to user meta
@@ -558,6 +558,7 @@ class TradePress_Admin_Notices {
         if (version_compare(PHP_VERSION, '7.0', '<')) {
             self::add_notice(
                 'php_version',
+                /* translators: %s: current PHP version number */
                 sprintf(__('TradePress requires PHP version 7.0 or higher. You are running version %s.', 'tradepress'), PHP_VERSION),
                 'error',
                 false
@@ -570,6 +571,7 @@ class TradePress_Admin_Notices {
         if (version_compare($wp_version, '5.0', '<')) {
             self::add_notice(
                 'wp_version',
+                /* translators: %s: current WordPress version number */
                 sprintf(__('TradePress requires WordPress version 5.0 or higher. You are running version %s.', 'tradepress'), $wp_version),
                 'error',
                 false
@@ -590,6 +592,7 @@ class TradePress_Admin_Notices {
         if (!empty($missing_extensions)) {
             self::add_notice(
                 'missing_extensions',
+                /* translators: %s: comma-separated list of missing PHP extensions */
                 sprintf(__('TradePress requires the following PHP extensions: %s. Please contact your hosting provider.', 'tradepress'), implode(', ', $missing_extensions)),
                 'error',
                 false
@@ -760,6 +763,7 @@ class TradePress_Admin_Notices {
      * @version 1.0
      */
     public static function development_pending_notice($feature_name, $custom_message = '') {
+        /* translators: %s: feature name */
         $title = sprintf(__('Development Pending: %s', 'tradepress'), $feature_name);
         
         if (empty($custom_message)) {

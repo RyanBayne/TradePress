@@ -178,7 +178,8 @@ class TradePress_Admin_Automation_Controller {
         
         if ($result) {
             wp_send_json_success(array(
-                'message' => sprintf(__('%s %s successfully', 'tradepress'), 
+                /* translators: %s: component name, %s: action performed */
+                'message' => sprintf(__('%1$s %2$s successfully', 'tradepress'), 
                     ucfirst($component), 
                     ($action === 'start' ? 'started' : 'stopped')
                 ),
@@ -186,7 +187,8 @@ class TradePress_Admin_Automation_Controller {
             ));
         } else {
             wp_send_json_error(array(
-                'message' => sprintf(__('Failed to %s %s', 'tradepress'), 
+                /* translators: %s: action name, %s: component name */
+                'message' => sprintf(__('Failed to %1$s %2$s', 'tradepress'), 
                     $action, 
                     $component
                 )
@@ -254,6 +256,7 @@ class TradePress_Admin_Automation_Controller {
         
         if ($success) {
             wp_send_json_success(array(
+                /* translators: %s: component name */
                 'message' => sprintf(__('All background processes %s successfully', 'tradepress'), 
                     ($action === 'start' ? 'started' : 'stopped')
                 ),
@@ -262,6 +265,7 @@ class TradePress_Admin_Automation_Controller {
             ));
         } else {
             wp_send_json_error(array(
+                /* translators: %s: action name */
                 'message' => sprintf(__('Failed to %s all background processes', 'tradepress'), $action),
                 'components' => $results
             ));

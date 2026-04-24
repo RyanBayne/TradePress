@@ -21,61 +21,61 @@ class TradePress_Admin_Development_Pointers {
         <?php wp_nonce_field('tradepress_pointer_check', 'tradepress-pointers-nonce'); ?>
         <div class="tradepress-pointers-testing">
             <div class="pointers-header">
-                <h2><?php _e('WordPress Pointers Testing & Enhancement', 'tradepress'); ?></h2>
-                <p><?php _e('Test and enhance the TradePress pointer system with focus features and advanced positioning.', 'tradepress'); ?></p>
+                <h2><?php esc_html_e('WordPress Pointers Testing & Enhancement', 'tradepress'); ?></h2>
+                <p><?php esc_html_e('Test and enhance the TradePress pointer system with focus features and advanced positioning.', 'tradepress'); ?></p>
             </div>
             
             <div class="pointers-controls">
                 <div class="control-group">
-                    <h3><?php _e('Basic Pointer Tests', 'tradepress'); ?></h3>
-                    <button id="test-basic-pointer" class="button button-primary"><?php _e('Test Basic Pointer', 'tradepress'); ?></button>
-                    <button id="test-focus-pointer" class="button button-secondary"><?php _e('Test Focus Pointer', 'tradepress'); ?></button>
-                    <button id="test-chain-pointers" class="button"><?php _e('Test Chained Pointers', 'tradepress'); ?></button>
+                    <h3><?php esc_html_e('Basic Pointer Tests', 'tradepress'); ?></h3>
+                    <button id="test-basic-pointer" class="button button-primary"><?php esc_html_e('Test Basic Pointer', 'tradepress'); ?></button>
+                    <button id="test-focus-pointer" class="button button-secondary"><?php esc_html_e('Test Focus Pointer', 'tradepress'); ?></button>
+                    <button id="test-chain-pointers" class="button"><?php esc_html_e('Test Chained Pointers', 'tradepress'); ?></button>
                 </div>
                 
                 <div class="control-group">
-                    <h3><?php _e('Focus Settings', 'tradepress'); ?></h3>
+                    <h3><?php esc_html_e('Focus Settings', 'tradepress'); ?></h3>
                     <label>
-                        <input type="checkbox" id="enable-focus" checked> <?php _e('Enable Focus Mode', 'tradepress'); ?>
+                        <input type="checkbox" id="enable-focus" checked> <?php esc_html_e('Enable Focus Mode', 'tradepress'); ?>
                     </label>
                     <label>
                         <input type="range" id="overlay-opacity" min="0.1" max="0.9" step="0.1" value="0.5">
-                        <?php _e('Overlay Opacity:', 'tradepress'); ?> <span id="opacity-value">0.5</span>
+                        <?php esc_html_e('Overlay Opacity:', 'tradepress'); ?> <span id="opacity-value">0.5</span>
                     </label>
                 </div>
             </div>
             
             <div class="test-targets">
-                <h3><?php _e('Test Targets', 'tradepress'); ?></h3>
+                <h3><?php esc_html_e('Test Targets', 'tradepress'); ?></h3>
                 <div class="target-grid">
                     <div class="test-target" id="target-1">
-                        <h4><?php _e('Target 1', 'tradepress'); ?></h4>
-                        <p><?php _e('This is a test target for pointer positioning.', 'tradepress'); ?></p>
+                        <h4><?php esc_html_e('Target 1', 'tradepress'); ?></h4>
+                        <p><?php esc_html_e('This is a test target for pointer positioning.', 'tradepress'); ?></p>
                     </div>
                     <div class="test-target" id="target-2">
-                        <h4><?php _e('Target 2', 'tradepress'); ?></h4>
-                        <p><?php _e('Another target with different content.', 'tradepress'); ?></p>
+                        <h4><?php esc_html_e('Target 2', 'tradepress'); ?></h4>
+                        <p><?php esc_html_e('Another target with different content.', 'tradepress'); ?></p>
                     </div>
                     <div class="test-target" id="target-3">
-                        <h4><?php _e('Target 3', 'tradepress'); ?></h4>
-                        <p><?php _e('Third target for testing various positions.', 'tradepress'); ?></p>
+                        <h4><?php esc_html_e('Target 3', 'tradepress'); ?></h4>
+                        <p><?php esc_html_e('Third target for testing various positions.', 'tradepress'); ?></p>
                     </div>
                     <div class="test-target" id="target-4">
-                        <h4><?php _e('Target 4', 'tradepress'); ?></h4>
-                        <p><?php _e('Final target for comprehensive testing.', 'tradepress'); ?></p>
+                        <h4><?php esc_html_e('Target 4', 'tradepress'); ?></h4>
+                        <p><?php esc_html_e('Final target for comprehensive testing.', 'tradepress'); ?></p>
                     </div>
                 </div>
             </div>
             
             <div class="pointer-log">
-                <h3><?php _e('Pointer Activity Log', 'tradepress'); ?></h3>
+                <h3><?php esc_html_e('Pointer Activity Log', 'tradepress'); ?></h3>
                 <div id="pointer-log-content"></div>
-                <button id="clear-log" class="button"><?php _e('Clear Log', 'tradepress'); ?></button>
+                <button id="clear-log" class="button"><?php esc_html_e('Clear Log', 'tradepress'); ?></button>
             </div>
             
             <div class="all-pointers-section">
-                <h3><?php _e('All Registered Pointers', 'tradepress'); ?></h3>
-                <p><?php _e('Browse all registered pointers and their current status.', 'tradepress'); ?></p>
+                <h3><?php esc_html_e('All Registered Pointers', 'tradepress'); ?></h3>
+                <p><?php esc_html_e('Browse all registered pointers and their current status.', 'tradepress'); ?></p>
                 <?php self::output_pointers_table(); ?>
             </div>
         </div>

@@ -104,6 +104,7 @@ class TRADEPRESS_GITHUB_Endpoints {
             return new WP_Error(
                 'refresh_failed',
                 sprintf(
+                    /* translators: %s: action name */
                     __('Failed to refresh some GitHub data: %s', 'tradepress'),
                     implode(', ', $error_types)
                 ),
@@ -135,6 +136,7 @@ class TRADEPRESS_GITHUB_Endpoints {
         return rest_ensure_response(array(
             'status' => 'success',
             'message' => sprintf(
+                /* translators: %d: number */
                 __('GitHub cache cleared (%d items).', 'tradepress'),
                 $count
             )

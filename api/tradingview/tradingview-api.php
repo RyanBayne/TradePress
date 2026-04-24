@@ -415,6 +415,7 @@ class TradePress_TradingView_API {
         if ($response_code < 200 || $response_code >= 300) {
             return new WP_Error(
                 'tradingview_api_error',
+                /* translators: %s: error message */
                 sprintf(__('TradingView API error: %s', 'tradepress'), $response_body),
                 array('status' => $response_code)
             );

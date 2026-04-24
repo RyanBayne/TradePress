@@ -106,11 +106,13 @@ class TradePress_Automation {
         if ($action_type === 'start') {
             // Logic to start the component
             wp_send_json_success(array(
+                /* translators: %s: component name */
                 'message' => sprintf(__('Component "%s" started successfully.', 'tradepress'), $component)
             ));
         } elseif ($action_type === 'stop') {
             // Logic to stop the component
             wp_send_json_success(array(
+                /* translators: %s: component name */
                 'message' => sprintf(__('Component "%s" stopped successfully.', 'tradepress'), $component)
             ));
         } else {

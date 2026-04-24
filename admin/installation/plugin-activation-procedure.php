@@ -178,6 +178,7 @@ function TradePress_offer_wizard() {
             'info',
             false,
             __( 'Setup Wizard', 'tradepress' ),
+            /* translators: %s: setup wizard link */
             sprintf( __( 'TradePress includes a Setup Wizard to help you get the plugin configured, please complete it now. %s', 'tradepress'), $wizard_link )    
         );
 
@@ -188,7 +189,8 @@ function TradePress_offer_wizard() {
             'info',
             false,
             __( 'Twitch API Credentials Missing', 'tradepress' ),
-            sprintf( __( 'TradePress is not ready because the %s option is missing. If you have already been using the plugin and this notice suddenly appears then it suggests important options have been deleted or renamed. You can go through the Setup Wizard again to correct this problem. You should also report it. %s', 'tradepress'), $offer_wizard, $wizard_link )    
+            /* translators: %s: missing option name, %s: setup wizard link */
+            sprintf( __( 'TradePress is not ready because the %1$s option is missing. If you have already been using the plugin and this notice suddenly appears then it suggests important options have been deleted or renamed. You can go through the Setup Wizard again to correct this problem. You should also report it. %2$s', 'tradepress'), $offer_wizard, $wizard_link )    
         );      
     }     
 }

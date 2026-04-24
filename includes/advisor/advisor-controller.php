@@ -347,6 +347,7 @@ class TradePress_Advisor_Controller {
                 'info',
                 true,
                 __( 'Step Locked', 'tradepress' ),
+                /* translators: %d: number */
                 sprintf( __( 'Please complete Step %d first.', 'tradepress' ), $step - 1 )
             );
             return false;
@@ -663,6 +664,7 @@ class TradePress_Advisor_Controller {
 
             
             <div class="news-analysis-summary">
+                <?php /* translators: %d: symbol name */ ?>
                 <h4><?php printf( esc_html__( 'News Analysis for %d Selected Symbols', 'tradepress' ), count( $selected_symbols ) ); ?></h4>
                 <p class="selected-symbols"><?php echo esc_html( implode( ', ', $selected_symbols ) ); ?></p>
             </div>
@@ -809,6 +811,7 @@ class TradePress_Advisor_Controller {
 
             
             <div class="forecast-analysis-summary">
+                <?php /* translators: %d: symbol name */ ?>
                 <h4><?php printf( esc_html__( 'Price Forecast Analysis for %d Selected Symbols', 'tradepress' ), count( $selected_symbols ) ); ?></h4>
                 <p class="selected-symbols"><?php echo esc_html( implode( ', ', $selected_symbols ) ); ?></p>
             </div>
@@ -1003,6 +1006,7 @@ class TradePress_Advisor_Controller {
             </div>
             
             <div class="symbol-economic-analysis">
+                <?php /* translators: %d: symbol name */ ?>
                 <h4><?php printf( esc_html__( 'Economic Impact on Selected Symbols (%d)', 'tradepress' ), count( $selected_symbols ) ); ?></h4>
                 <div class="symbol-analysis-grid">
                     <?php foreach ( $selected_symbols as $symbol ) : ?>
@@ -1114,6 +1118,7 @@ class TradePress_Advisor_Controller {
             <?php endif; ?>
             
             <div class="technical-config-summary">
+                <?php /* translators: %d: symbol name */ ?>
                 <h4><?php printf( esc_html__( 'Configure Technical Analysis for %d Selected Symbols', 'tradepress' ), count( $selected_symbols ) ); ?></h4>
                 <p class="selected-symbols"><?php echo esc_html( implode( ', ', $selected_symbols ) ); ?></p>
                 <p class="config-description"><?php esc_html_e( 'Select technical indicators and scoring strategy to complete your investment analysis.', 'tradepress' ); ?></p>

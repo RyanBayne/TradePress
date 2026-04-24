@@ -133,6 +133,7 @@ class TRADEPRESS_GITHUB_API {
         if ($response_code < 200 || $response_code >= 300) {
             return new WP_Error(
                 'github_api_error',
+                /* translators: %s: error message */
                 sprintf(__('GitHub API error: %s', 'tradepress'), wp_remote_retrieve_response_message($response)),
                 array('status' => $response_code)
             );

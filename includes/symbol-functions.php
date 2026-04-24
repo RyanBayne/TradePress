@@ -62,6 +62,7 @@ function tradepress_parse_symbol_links($text, $options = array()) {
                 esc_url($url),
                 esc_attr($options['class']),
                 esc_attr($options['target']),
+                /* translators: %s: string value */
                 sprintf(esc_attr__('View %s analysis', 'tradepress'), $symbol),
                 esc_html($matches[0])
             );
@@ -115,6 +116,7 @@ function tradepress_get_symbol_link($symbol, $options = array()) {
         $url,
         esc_attr($options['class']),
         esc_attr($options['target']),
+        /* translators: %s: string value */
         sprintf(esc_attr__('View %s analysis', 'tradepress'), $symbol),
         $display_text
     );

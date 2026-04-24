@@ -58,11 +58,13 @@ $is_demo = function_exists('is_demo_mode') ? is_demo_mode() : false;
                                 </legend>
                                 <label>
                                     <input name="switch_<?php echo esc_attr($api); ?>_services" type="checkbox" value="yes" <?php checked(get_option('TradePress_switch_' . $api . '_api_services', 'no'), 'yes'); ?>>
+                                    <?php /* translators: %s: string value */ ?>
                                     <?php printf(esc_html__('Display %s Tab', 'tradepress'), $display_name); ?>
                                 </label>
                                 <br>
                                 <label>
                                     <input name="switch_<?php echo esc_attr($api); ?>_logs" type="checkbox" value="yes" <?php checked(get_option('TradePress_switch_' . $api . '_api_logs', 'no'), 'yes'); ?>>
+                                    <?php /* translators: %s: string value */ ?>
                                     <?php printf(esc_html__('Log %s API Activity', 'tradepress'), $display_name); ?>
                                 </label>
                             </fieldset>

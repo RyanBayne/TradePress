@@ -339,6 +339,7 @@ class TradePress_Fidelity_API {
         if ($response_code < 200 || $response_code >= 300) {
             return new WP_Error(
                 'fidelity_api_error',
+                /* translators: %s: error message */
                 sprintf(__('Fidelity API error: %s', 'tradepress'), $response_body),
                 array('status' => $response_code)
             );

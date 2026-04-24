@@ -21,8 +21,8 @@ if (isset($_GET['api_test']) && $_GET['api_test'] === 'completed') {
 }
 ?>
 
-<h1><?php _e('Services', 'tradepress'); ?></h1>   
-<p><?php _e('Activate premium services that are supported by cloud services. Currently limited to testers.', 'tradepress'); ?></p>
+<h1><?php esc_html_e('Services', 'tradepress'); ?></h1>   
+<p><?php esc_html_e('Activate premium services that are supported by cloud services. Currently limited to testers.', 'tradepress'); ?></p>
 
 <form method="post" class="TradePress-wizard-plugin-extensions-form">
     <ul class="TradePress-wizard-plugin-extensions">
@@ -60,7 +60,7 @@ if (isset($_GET['api_test']) && $_GET['api_test'] === 'completed') {
    
     <p class="tradepress-setup-actions step">
         <input type="submit" class="button-primary button button-large button-next" value="<?php esc_attr_e('Continue', 'tradepress'); ?>" name="save_step" />
-        <a href="<?php echo esc_url($this->get_next_step_link()); ?>" class="button button-large button-next"><?php _e('Skip this step', 'tradepress'); ?></a>
+        <a href="<?php echo esc_url($this->get_next_step_link()); ?>" class="button button-large button-next"><?php esc_html_e('Skip this step', 'tradepress'); ?></a>
         <?php wp_nonce_field('tradepress-setup'); ?>
     </p>
 </form>

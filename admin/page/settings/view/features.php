@@ -295,6 +295,7 @@ class TradePress_Admin_Settings_Features {
                                                             <?php esc_html_e('Enabled', 'tradepress'); ?>
                                                         </label>
                                                         <?php if (isset($ability['version'])) : ?>
+                                                            <?php /* translators: %s: string value */ ?>
                                                             <span class="version"><?php echo esc_html(sprintf(__('v%s', 'tradepress'), $ability['version'])); ?></span>
                                                         <?php endif; ?>
                                                     </td>

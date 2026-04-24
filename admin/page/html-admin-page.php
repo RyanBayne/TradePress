@@ -17,7 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
         // User did not click sub view so use first sub view data.
         $title = array_values( $tabs[ $current_tab ]['toolstabviews'] )[0]['title'];
     } else {
-        $title = $tabs[ $current_tab ]['toolstabviews'][ $_GET['TradePressview'] ]['title'];    
+        $view = isset( $_GET['TradePressview'] ) ? sanitize_key( wp_unslash( $_GET['TradePressview'] ) ) : '';
+        $title = isset( $tabs[ $current_tab ]['toolstabviews'][ $view ] ) ? $tabs[ $current_tab ]['toolstabviews'][ $view ]['title'] : '';    
     }
     
     echo 'TradePress: ' . esc_html( $title ); 
@@ -28,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     <nav class="nav-tab-wrapper woo-nav-tab-wrapper">
         <?php
             foreach ( $tabs as $key => $report_group ) {
-                echo '<a href="' . admin_url( 'admin.php?page=TradePress_tools&tab=' . urlencode( $key ) ) . '" class="nav-tab ';
+                echo '<a href="' . esc_url( admin_url( 'admin.php?page=TradePress_tools&tab=' . urlencode( $key ) ) ) . '" class="nav-tab ';
                 if ( $current_tab == $key ) {
                     echo 'nav-tab-active';
                 }
@@ -61,7 +62,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                 }
 
-                echo implode( ' | </li><li>', $links );
+                echo implode( ' | </li><li>', array_map( 'wp_kses_post', $links ) );
 
             ?></li>
         </ul>
@@ -80,7 +81,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         }
 
         if ( $tabs['description'] ) {
-            echo '<p>' . $tabs['description'] . '</p>';
+            echo '<p>' . wp_kses_post( $tabs['description'] ) . '</p>';
         }
 
         if ( $tabs['callback'] && ( is_callable( $tabs['callback'] ) ) ) {

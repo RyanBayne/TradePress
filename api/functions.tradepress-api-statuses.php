@@ -13,7 +13,7 @@
 * 
 * @link https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 * 
-* @version 1.0
+* @version 1.0.95
 */
 function TradePress_helix_httpstatus_groups( $status = null ) {
     $group_meanings = array(
@@ -34,7 +34,8 @@ function TradePress_helix_httpstatus_groups( $status = null ) {
     }    
     elseif( !isset( $group_meanings[ $group_number ] ) ) 
     {
-        return __( 'Invalid group number returned by substr().' );
+        // Include 'tradepress' text domain for proper i18n localization (WordPress.WP.I18n.MissingArgDomain)
+        return __( 'Invalid group number returned by substr().', 'tradepress' );
     }
     
     return $group_meanings[ $group_number ];

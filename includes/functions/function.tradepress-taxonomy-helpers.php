@@ -33,6 +33,7 @@ function tradepress_generate_symbol_taxonomy_terms($post_id, $company_data) {
                 $company_data['sector'],
                 'symbol_category',
                 array(
+                    /* translators: %s: taxonomy or term name */
                     'description' => sprintf(__('Companies in the %s sector', 'tradepress'), $company_data['sector']),
                     'slug' => sanitize_title($company_data['sector'])
                 )
@@ -50,6 +51,7 @@ function tradepress_generate_symbol_taxonomy_terms($post_id, $company_data) {
                     $company_data['industry'],
                     'symbol_category',
                     array(
+                        /* translators: %s: taxonomy or term name */
                         'description' => sprintf(__('Companies in the %s industry', 'tradepress'), $company_data['industry']),
                         'slug' => sanitize_title($company_data['industry']),
                         'parent' => $sector_id
@@ -102,6 +104,7 @@ function tradepress_generate_symbol_taxonomy_terms($post_id, $company_data) {
                 $company_data['country'],
                 'symbol_category',
                 array(
+                    /* translators: %s: taxonomy or term name */
                     'description' => sprintf(__('Companies based in %s', 'tradepress'), $company_data['country']),
                     'slug' => sanitize_title($company_data['country']),
                     'parent' => $parent_id
@@ -140,6 +143,7 @@ function tradepress_generate_symbol_taxonomy_terms($post_id, $company_data) {
                 $company_data['market_cap_category'],
                 'symbol_category',
                 array(
+                    /* translators: %s: taxonomy or term name */
                     'description' => sprintf(__('Companies with %s market capitalization', 'tradepress'), $company_data['market_cap_category']),
                     'slug' => sanitize_title($company_data['market_cap_category']),
                     'parent' => $parent_id
@@ -178,6 +182,7 @@ function tradepress_generate_symbol_taxonomy_terms($post_id, $company_data) {
                 $company_data['exchange'],
                 'symbol_category',
                 array(
+                    /* translators: %s: taxonomy or term name */
                     'description' => sprintf(__('Companies listed on %s', 'tradepress'), $company_data['exchange']),
                     'slug' => sanitize_title($company_data['exchange']),
                     'parent' => $parent_id
@@ -206,6 +211,7 @@ function tradepress_generate_symbol_taxonomy_terms($post_id, $company_data) {
     
     // Add competitor relationships as tags
     if (!empty($company_data['primary_competitors']) && is_array($company_data['primary_competitors'])) {
+        /* translators: %s: taxonomy or term name */
         $competitor_tag = sprintf(__('Competes with %s', 'tradepress'), implode(', ', $company_data['primary_competitors']));
         wp_set_object_terms($post_id, $competitor_tag, 'symbol_tag', true);
     }

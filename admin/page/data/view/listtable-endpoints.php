@@ -81,7 +81,7 @@ class TradePress_ListTable_Endpoints extends WP_List_Table {
      * No items found text.
      */
     public function no_items() {
-        _e( 'No endpoints found.', 'tradepress' );
+        esc_html_e( 'No endpoints found.', 'tradepress' );
     }
 
     /**

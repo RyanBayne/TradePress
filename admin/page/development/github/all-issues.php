@@ -151,6 +151,7 @@ function TRADEPRESS_GITHUB_all_issues_content($repo_owner, $repo_name) {
                 <div class="issues-count">
                     <?php 
                     echo sprintf(
+                        /* translators: %d: issue description */
                         esc_html(_n('%d issue found', '%d issues found', $issues['total_count'], 'tradepress')), 
                         $issues['total_count']
                     ); 
@@ -251,6 +252,7 @@ function TRADEPRESS_GITHUB_all_issues_content($repo_owner, $repo_name) {
                                 <span class="displaying-num">
                                     <?php 
                                     echo sprintf(
+                                        /* translators: %d: issue description */
                                         esc_html(_n('%d issue', '%d issues', $issues['total_count'], 'tradepress')),
                                         $issues['total_count']
                                     ); 

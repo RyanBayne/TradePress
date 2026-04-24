@@ -7,6 +7,7 @@
  * @author   Ryan Bayne
  * @category User Interface
  * @package  TradePress/Admin
+ * @version 2.0
  * @since    1.0.0
  */
  
@@ -19,7 +20,7 @@ if ( ! class_exists( 'TradePress_Admin_Menus' ) ) :
 /**
  * TradePress_Admin_Menus Class.
  * 
- * @version 2.0
+ * @version 1.0.95
  */
 class TradePress_Admin_Menus {
     var $slug = 'TradePress';
@@ -28,7 +29,7 @@ class TradePress_Admin_Menus {
     function primary_admin_menu() {
         $setup_complete = get_option('tradepress_setup_complete', false);
         
-        $this->pagehook = add_menu_page( __('TradePress', $this->slug), __('TradePress', $this->slug), 'manage_options', $this->slug, array(&$this, 'settings_page'), 'dashicons-admin-users', '42.78578' );
+        $this->pagehook = add_menu_page( __('TradePress', 'tradepress'), __('TradePress', 'tradepress'), 'manage_options', $this->slug, array(&$this, 'settings_page'), 'dashicons-admin-users', '42.78578' ); // Text domain must be a string literal for translation tools
         
         if (!$setup_complete) {
             // Only show setup wizard when setup is not complete
@@ -38,11 +39,11 @@ class TradePress_Admin_Menus {
         
         // Show all menu items only after setup is complete
         // 1. Settings (always at the top)
-        add_submenu_page( $this->slug, __('Settings', $this->slug), __('Settings', $this->slug), 'manage_options', $this->slug, array(&$this, 'settings_page') );
+        add_submenu_page( $this->slug, __('Settings', 'tradepress'), __('Settings', 'tradepress'), 'manage_options', $this->slug, array(&$this, 'settings_page') );
         
         // 2. Development (only when developer mode is enabled)
         if (get_option('tradepress_developer_mode', false)) {
-            add_submenu_page( $this->slug, __('Development',  $this->slug), __('Development',  $this->slug), 'manage_options', 'tradepress_development', array( $this, 'development_page' ) );
+            add_submenu_page( $this->slug, __('Development', 'tradepress'), __('Development', 'tradepress'), 'manage_options', 'tradepress_development', array( $this, 'development_page' ) );
         }
         
         // 3. Focus (daily trading routine and priorities)
@@ -55,13 +56,13 @@ class TradePress_Admin_Menus {
         add_submenu_page( $this->slug, __('Watchlists', 'tradepress'), __('Watchlists', 'tradepress'), 'manage_options', 'tradepress_watchlists', array( $this, 'watchlists_page' ) );
         
         // 6. Automation (needs smooth operation for all-day scoring)
-        add_submenu_page( $this->slug, __('Automation',  $this->slug), __('Automation',  $this->slug), 'manage_options', 'tradepress_automation', array( $this, 'automation_page' ) );
+        add_submenu_page( $this->slug, __('Automation', 'tradepress'), __('Automation', 'tradepress'), 'manage_options', 'tradepress_automation', array( $this, 'automation_page' ) );
         
         // 7. Scoring Directives (first major milestone)
         add_submenu_page( $this->slug, __('Scoring Directives', 'tradepress'), __('Scoring Directives', 'tradepress'), 'manage_options', 'tradepress_scoring_directives', array( $this, 'scoring_directives_page' ) );
         
         // 8. Research (mix of automatic and manual import) - now includes Social Networks
-        add_submenu_page( $this->slug, __('Research',  $this->slug), __('Research',  $this->slug), 'manage_options', 'tradepress_research', array( $this, 'research_page' ) );
+        add_submenu_page( $this->slug, __('Research', 'tradepress'), __('Research', 'tradepress'), 'manage_options', 'tradepress_research', array( $this, 'research_page' ) );
         
         // 9. Analysis (results important for trading strategies)
         add_submenu_page( $this->slug, __('Analysis', 'tradepress'), __('Analysis', 'tradepress'), 'manage_options', 'tradepress_analysis', array( $this, 'analysis_page' ) );
@@ -70,13 +71,13 @@ class TradePress_Admin_Menus {
         add_submenu_page( $this->slug, __('Trading', 'tradepress'), __('Trading', 'tradepress'), 'manage_options', 'tradepress_trading', array( $this, 'trading_page' ) );
         
         // Trading Platforms (keep for now)
-        add_submenu_page( $this->slug, __('Trading Platforms', $this->slug), __('Trading Platforms', $this->slug), 'manage_options', 'tradepress_platforms', array( $this, 'platforms_page' ) );
+        add_submenu_page( $this->slug, __('Trading Platforms', 'tradepress'), __('Trading Platforms', 'tradepress'), 'manage_options', 'tradepress_platforms', array( $this, 'platforms_page' ) );
     }
     
     /**
     * Adds items to the plugins administration menu...
     * 
-    * @version 2.0
+    * @version 1.0.95
     */
     function secondary_menu_items() {
         $setup_complete = get_option('tradepress_setup_complete', false);
@@ -85,7 +86,7 @@ class TradePress_Admin_Menus {
         }
         
         // 10. Symbols (custom post type) - moved to bottom
-        add_submenu_page( $this->slug, __('Symbols',      $this->slug), __('Symbols', $this->slug), 'manage_options', 'edit.php?post_type=symbols', '' );
+        add_submenu_page( $this->slug, __('Symbols', 'tradepress'), __('Symbols', 'tradepress'), 'manage_options', 'edit.php?post_type=symbols', '' );
     }
     
     /**

@@ -287,7 +287,8 @@ class TradePress_Trading212_Data_Controller {
             $symbol_data = array(
                 'post_title' => $instrument['name'],
                 'post_content' => sprintf(
-                    __('Instrument Code: %s\nISIN: %s\nCurrency: %s\nMarket: %s', 'tradepress'),
+                    /* translators: %s: instrument code, %s: ISIN number, %s: currency code, %s: market name */
+                    __('Instrument Code: %1$s\nISIN: %2$s\nCurrency: %3$s\nMarket: %4$s', 'tradepress'),
                     $instrument['instrumentCode'],
                     isset($instrument['isin']) ? $instrument['isin'] : 'N/A',
                     $instrument['currencyCode'],

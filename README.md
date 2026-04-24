@@ -33,8 +33,8 @@ A comprehensive WordPress plugin for algorithmic stock analysis, trading decisio
 ### From GitHub
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/tradepress.git
-   cd tradepress
+   git clone https://github.com/RyanBayne/TradePress.git
+   cd TradePress
    ```
 
 2. Place in WordPress plugins directory:
@@ -166,8 +166,8 @@ We welcome contributions! Please follow these guidelines:
 ### Development Setup
 ```bash
 # Clone and install
-git clone https://github.com/yourusername/tradepress.git
-cd tradepress
+git clone https://github.com/RyanBayne/TradePress.git
+cd TradePress
 
 # Install dependencies (if using Composer)
 composer install
@@ -178,9 +178,9 @@ php tests/test-runner.php
 
 ## Support & Documentation
 
-- **Documentation**: [TradePress Wiki](https://github.com/yourusername/tradepress/wiki)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/tradepress/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/tradepress/discussions)
+- **Documentation**: [TradePress Wiki](https://github.com/RyanBayne/TradePress/wiki)
+- **Issues**: [GitHub Issues](https://github.com/RyanBayne/TradePress/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/RyanBayne/TradePress/discussions)
 
 ## Roadmap
 
@@ -225,9 +225,9 @@ TradePress is developed and maintained by volunteers. If you find this plugin va
 ### Support Development
 Your support helps us maintain and improve TradePress:
 
-- **GitHub Sponsors**: [Sponsor TradePress](https://github.com/sponsors/yourusername)
-- **Buy Me a Coffee**: [Support via BMC](https://www.buymeacoffee.com/yourusername)
-- **Patreon**: [Become a Patron](https://www.patreon.com/yourusername)
+- **GitHub Sponsors**: [Sponsor TradePress](https://github.com/sponsors/RyanBayne)
+- **Buy Me a Coffee**: [Support via BMC](https://www.buymeacoffee.com/RyanBayne)
+- **Patreon**: [Become a Patron](https://www.patreon.com/WordPressPlugins)
 
 ### What Your Support Enables
 - Faster bug fixes and feature development
@@ -242,7 +242,7 @@ See [CHANGELOG.md](CHANGELOG.md) for version history and updates.
 
 ## Authors
 
-- **Your Name** - Initial development and maintenance
+- **Ryan Bayne** - Initial development and maintenance
 
 ## Acknowledgments
 

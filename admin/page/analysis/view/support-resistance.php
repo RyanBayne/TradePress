@@ -237,6 +237,7 @@ function get_demo_level_results($symbol, $levels_type) {
     
     <?php if ($has_results): ?>
         <div class="support-resistance-results">
+            <?php /* translators: %s: stock ticker symbol */ ?>
             <h3><?php echo esc_html(sprintf(__('Results for %s', 'tradepress'), strtoupper($symbol))); ?></h3>
             
             <?php if (isset($results['resistance'])): ?>

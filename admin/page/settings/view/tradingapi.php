@@ -212,6 +212,7 @@ class TradePress_Settings_TradingAPI extends TradePress_Settings_Page {
                 $display_name = isset($api_display_names[$api]) ? $api_display_names[$api] : ucfirst($api);
                 $settings[] = array(
                     'title'         => __($display_name, 'tradepress'),
+                    /* translators: %s: string value */
                     'desc'          => sprintf(__('Activate %s API', 'tradepress'), $display_name),
                     'id'            => 'TradePress_switch_' . $api . '_api_services',
                     'type'          => 'checkbox',
@@ -220,6 +221,7 @@ class TradePress_Settings_TradingAPI extends TradePress_Settings_Page {
                     'autoload'      => false,
                 );
                 $settings[] = array(
+                    /* translators: %s: string value */
                     'desc'            => sprintf(__('Log %s API Activity', 'tradepress'), $display_name),
                     'id'              => 'TradePress_switch_' . $api . '_api_logs',
                     'default'         => 'no',
@@ -250,6 +252,7 @@ class TradePress_Settings_TradingAPI extends TradePress_Settings_Page {
             array(
                 'title' => $title . __( ' API Settings', 'tradepress' ),
                 'type'  => 'title',
+                /* translators: %s: string value */
                 'desc'  => sprintf( __( 'Application settings for the %s API.', 'tradepress' ), $title ),
                 'id'    => $service . '_api_application_settings'
             ),

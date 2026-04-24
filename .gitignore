@@ -1,0 +1,25 @@
+# Logs
+*.log
+trace.log
+
+# Dependencies
+vendor/
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.sixth/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# WordPress
+wp-config.php
+
+# Build artifacts
+*.zip

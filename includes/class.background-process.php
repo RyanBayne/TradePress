@@ -475,6 +475,7 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
             // Dynamic cron schedule
             $schedules[ $this->identifier . '_cron_interval' ] = array(
                 'interval' => MINUTE_IN_SECONDS * $interval,
+                /* translators: %d: number */
                 'display'  => sprintf( __( 'Every %d Minutes', 'tradepress' ), $interval ),
             );
 

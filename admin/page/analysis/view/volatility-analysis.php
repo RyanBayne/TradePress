@@ -184,7 +184,8 @@ function tradepress_volatility_analysis_tab_content() {
                 
                 <div class="tradepress-panel">
                     <h3><?php esc_html_e('Position Sizing Recommendations', 'tradepress'); ?></h3>
-                    <p><?php echo sprintf(esc_html__('Based on your %s account with %s%% risk per trade:', 'tradepress'), '$' . number_format($account_size), $risk_percentage); ?></p>
+                    <?php /* translators: %s: account balance, %s: risk percentage */ ?>
+                    <p><?php echo sprintf(esc_html__('Based on your %1$s account with %2$s%% risk per trade:', 'tradepress'), '$' . number_format($account_size), $risk_percentage); ?></p>
                     
                     <div class="tradepress-metrics-grid columns-3">
                         <div class="tradepress-metric-card">
@@ -223,6 +224,7 @@ function tradepress_volatility_analysis_tab_content() {
                                 <div class="tradepress-metric-description">
                                     <?php 
                                     $shares = $position_sizing['moderate'] / $demo_atr;
+                                    /* translators: %s: calculated value */
                                     echo sprintf(esc_html__('Approx. %s shares', 'tradepress'), round($shares)); 
                                     ?>
                                 </div>
@@ -234,6 +236,7 @@ function tradepress_volatility_analysis_tab_content() {
                                 <div class="tradepress-metric-description">
                                     <?php 
                                     $shares = $position_sizing['moderate'] / ($demo_atr * 2);
+                                    /* translators: %s: calculated value */
                                     echo sprintf(esc_html__('Approx. %s shares', 'tradepress'), round($shares)); 
                                     ?>
                                 </div>
@@ -245,6 +248,7 @@ function tradepress_volatility_analysis_tab_content() {
                                 <div class="tradepress-metric-description">
                                     <?php 
                                     $shares = $position_sizing['moderate'] / ($demo_atr * 3);
+                                    /* translators: %s: calculated value */
                                     echo sprintf(esc_html__('Approx. %s shares', 'tradepress'), round($shares)); 
                                     ?>
                                 </div>

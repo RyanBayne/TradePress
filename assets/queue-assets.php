@@ -32,6 +32,38 @@ class TradePress_Asset_Queue {
      * Current tab context
      */
     private $current_tab;
+
+    /**
+     * Normalize internal dependency names to registered WordPress style handles.
+     *
+     * @param array  $dependencies Raw dependency names.
+     * @param string $asset_type   Component or layout dependency context.
+     * @return array
+     */
+    private function normalize_style_dependencies($dependencies, $asset_type = 'component') {
+        $normalized = array();
+
+        foreach ((array) $dependencies as $dependency) {
+            if (strpos($dependency, 'tradepress-') === 0) {
+                $normalized[] = $dependency;
+                continue;
+            }
+
+            if ($dependency === 'variables') {
+                $normalized[] = 'tradepress-variables';
+                continue;
+            }
+
+            if ($asset_type === 'layout') {
+                $normalized[] = 'tradepress-layout-' . $dependency;
+                continue;
+            }
+
+            $normalized[] = 'tradepress-component-' . $dependency;
+        }
+
+        return array_values(array_unique($normalized));
+    }
     
     /**
      * Constructor
@@ -106,7 +138,10 @@ class TradePress_Asset_Queue {
             
             if (file_exists($asset_path)) {
                 // Ensure variables are loaded as dependency for all components
-                $dependencies = array_merge(array('tradepress-variables'), $asset['dependencies']);
+                $dependencies = array_merge(
+                    array('tradepress-variables'),
+                    $this->normalize_style_dependencies($asset['dependencies'], 'component')
+                );
                 
                 wp_enqueue_style(
                     'tradepress-component-' . $name,
@@ -125,7 +160,10 @@ class TradePress_Asset_Queue {
             
             if (file_exists($asset_path)) {
                 // Ensure variables are loaded as dependency for all layouts
-                $dependencies = array_merge(array('tradepress-variables'), $asset['dependencies']);
+                $dependencies = array_merge(
+                    array('tradepress-variables'),
+                    $this->normalize_style_dependencies($asset['dependencies'], 'layout')
+                );
                 
                 wp_enqueue_style(
                     'tradepress-layout-' . $name,

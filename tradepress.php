@@ -18,14 +18,14 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-if (!defined('TRADEPRESS_VERSION')) { define('TRADEPRESS_VERSION', '1.0.4'); }
+if (!defined('TRADEPRESS_VERSION')) { define('TRADEPRESS_VERSION', '1.0.95'); }
 if (!defined('TRADEPRESS_PLUGIN_DIR_PATH')) { define('TRADEPRESS_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__)); }
 if (!defined('TRADEPRESS_PLUGIN_DIR')) { define('TRADEPRESS_PLUGIN_DIR', plugin_dir_path(__FILE__)); }
 if (!defined('TRADEPRESS_PLUGIN_URL')) { define('TRADEPRESS_PLUGIN_URL', plugin_dir_url(__FILE__)); } // http://domain/tradepress/wp-content/plugins/TradePress/
 if (!defined('TRADEPRESS_PLUGIN_FILE')) { define('TRADEPRESS_PLUGIN_FILE', TRADEPRESS_PLUGIN_DIR); }
 if (!defined('TRADEPRESS_PLUGIN_BASENAME')) { define('TRADEPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__)); }// TradePress/tradepress.php
 if (!defined('TRADEPRESS_MAINFILE')) { define('TRADEPRESS_MAINFILE', __FILE__ ); }
-if (!defined('TRADEPRESS_TESTING')) { define('TRADEPRESS_TESTING', true); }
+if (!defined('TRADEPRESS_TESTING')) { define('TRADEPRESS_TESTING', getenv('TRADEPRESS_TESTING') === 'true'); }
 
 if ( ! class_exists( 'WordPressTradePress' ) ) :
 

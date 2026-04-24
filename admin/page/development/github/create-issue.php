@@ -90,6 +90,7 @@ function TRADEPRESS_GITHUB_create_issue_content($repo_owner, $repo_name) {
                 $form_status = 'error';
             } else {
                 $form_message = sprintf(
+                    /* translators: %s: component name */
                     __('Issue created successfully! <a href="%s" target="_blank">View issue</a>', 'tradepress'),
                     esc_url($result->html_url)
                 );

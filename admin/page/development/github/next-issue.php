@@ -153,6 +153,7 @@ function TRADEPRESS_GITHUB_next_issue_content($repo_owner, $repo_name) {
                         <?php if ($next_issue->comments > 0) : ?>
                             <div class="meta-item">
                                 <span class="dashicons dashicons-admin-comments"></span>
+                                <?php /* translators: %d: number */ ?>
                                 <?php echo sprintf(esc_html(_n('%d comment', '%d comments', $next_issue->comments, 'tradepress')), $next_issue->comments); ?>
                             </div>
                         <?php endif; ?>
@@ -237,6 +238,7 @@ function TRADEPRESS_GITHUB_next_issue_content($repo_owner, $repo_name) {
                         <?php if (count($issues['items']) > 6) : // 1 main issue + 5 in table ?>
                             <div class="more-issues">
                                 <a href="<?php echo esc_url(add_query_arg(array('tab' => 'github', 'subtab' => 'all-issues'))); ?>" class="button">
+                                    <?php /* translators: %d: issue description */ ?>
                                     <?php echo sprintf(esc_html__('View All %d Issues', 'tradepress'), count($issues['items'])); ?>
                                 </a>
                             </div>

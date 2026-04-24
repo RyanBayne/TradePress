@@ -209,6 +209,7 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
             'pending',      // Initial status
             __FILE__,       // File
             __LINE__,       // Line
+            /* translators: %s: API endpoint URL */
             sprintf(__('Alpha Vantage API call to %s', 'tradepress'), $function), // Description
             '',             // Outcome (will be updated later)
             86400           // TTL (24 hours)
@@ -288,7 +289,8 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
             
             return new WP_Error(
                 'http_error',
-                sprintf(__('HTTP Error: %d %s', 'tradepress'), $response_code, $error_message)
+                /* translators: %d: HTTP status code, %s: error message */
+                sprintf(__('HTTP Error: %1$d %2$s', 'tradepress'), $response_code, $error_message)
             );
         }
         

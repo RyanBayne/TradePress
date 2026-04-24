@@ -137,6 +137,8 @@ class TradePress_Admin_Automation_Page {
 
     /**
      * Dashboard tab content - centralized automation control
+     *
+     * @version 1.0.7
      */
     private function dashboard_tab() {
         // Get status of both background processes
@@ -204,7 +206,8 @@ class TradePress_Admin_Automation_Page {
                                 <span class="metric-value">
                                     <?php 
                                     $last_update = get_option('tradepress_data_import_last_run', 0);
-                                    echo $last_update ? human_time_diff($last_update, current_time('timestamp')) . ' ago' : 'Never';
+                                    // Escape human_time_diff output for safe HTML rendering
+                                    echo $last_update ? esc_html( human_time_diff($last_update, current_time('timestamp')) . ' ago' ) : esc_html__('Never', 'tradepress');
                                     ?>
                                 </span>
                             </div>
@@ -325,6 +328,8 @@ class TradePress_Admin_Automation_Page {
     
     /**
      * Data Import tab content
+     *
+     * @version 1.0.7
      */
     private function data_import_tab() {
         // Get data import status
@@ -429,8 +434,9 @@ class TradePress_Admin_Automation_Page {
                         <span class="freshness-value">
                             <?php 
                             if ($earnings_last_update) {
-                                echo date('Y-m-d H:i:s', $earnings_last_update);
-                                echo '<br><small>(' . human_time_diff($earnings_last_update, current_time('timestamp')) . ' ago)</small>';
+                                // Escape date and human_time_diff output for safe HTML rendering
+                                echo esc_html( date('Y-m-d H:i:s', $earnings_last_update) );
+                                echo '<br><small>(' . esc_html( human_time_diff($earnings_last_update, current_time('timestamp')) ) . ' ago)</small>';
                             } else {
                                 esc_html_e('Never updated', 'tradepress');
                             }
@@ -443,8 +449,9 @@ class TradePress_Admin_Automation_Page {
                         <span class="freshness-value">
                             <?php 
                             if ($market_status_last_update) {
-                                echo date('Y-m-d H:i:s', $market_status_last_update);
-                                echo '<br><small>(' . human_time_diff($market_status_last_update, current_time('timestamp')) . ' ago)</small>';
+                                // Escape date and human_time_diff output for safe HTML rendering
+                                echo esc_html( date('Y-m-d H:i:s', $market_status_last_update) );
+                                echo '<br><small>(' . esc_html( human_time_diff($market_status_last_update, current_time('timestamp')) ) . ' ago)</small>';
                             } else {
                                 esc_html_e('Never updated', 'tradepress');
                             }
@@ -457,8 +464,9 @@ class TradePress_Admin_Automation_Page {
                         <span class="freshness-value">
                             <?php 
                             if ($last_run) {
-                                echo date('Y-m-d H:i:s', $last_run);
-                                echo '<br><small>(' . human_time_diff($last_run, current_time('timestamp')) . ' ago)</small>';
+                                // Escape date and human_time_diff output for safe HTML rendering
+                                echo esc_html( date('Y-m-d H:i:s', $last_run) );
+                                echo '<br><small>(' . esc_html( human_time_diff($last_run, current_time('timestamp')) ) . ' ago)</small>';
                             } else {
                                 esc_html_e('Never run', 'tradepress');
                             }
@@ -674,6 +682,8 @@ class TradePress_Admin_Automation_Page {
 
     /**
      * CRON tab content
+     *
+     * @version 1.0.7
      */
     private function cron_tab() {
         // Get WordPress cron array
@@ -1014,6 +1024,7 @@ class TradePress_Admin_Automation_Page {
                                         <td>
                                             <?php echo esc_html($job['next_run']); ?>
                                             <br>
+                                            <?php /* translators: %s: human-readable time difference (e.g. "2 hours") */ ?>
                                             <small><?php printf(esc_html__('(%s from now)', 'tradepress'), $job['human_time']); ?></small>
                                         </td>
                                         <td>
@@ -1059,7 +1070,8 @@ class TradePress_Admin_Automation_Page {
                     <tr>
                         <th scope="row"><?php esc_html_e('CRON URL', 'tradepress'); ?></th>
                         <td>
-                            <code><?php echo site_url('wp-cron.php?doing_wp_cron'); ?></code>
+                            <code><?php // Escape URL output for safe HTML rendering
+                            echo esc_url( site_url('wp-cron.php?doing_wp_cron') ); ?></code>
                             <p class="description">
                                 <?php esc_html_e('If WordPress CRON is disabled, use this URL in your system\'s cron job to trigger WordPress scheduled tasks.', 'tradepress'); ?>
                             </p>
@@ -1068,7 +1080,8 @@ class TradePress_Admin_Automation_Page {
                     <tr>
                         <th scope="row"><?php esc_html_e('Sample crontab entry', 'tradepress'); ?></th>
                         <td>
-                            <code>*/5 * * * * wget -q -O - <?php echo site_url('wp-cron.php?doing_wp_cron'); ?> >/dev/null 2>&1</code>
+                            <code>*/5 * * * * wget -q -O - <?php // Escape URL output for safe HTML rendering
+                            echo esc_url( site_url('wp-cron.php?doing_wp_cron') ); ?> >/dev/null 2>&1</code>
                             <p class="description">
                                 <?php esc_html_e('This will run WordPress cron every 5 minutes.', 'tradepress'); ?>
                             </p>

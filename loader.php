@@ -372,6 +372,7 @@ final class WordPressTradePress {
      * @version 1.0
      */
     private function init_hooks() {        
+        add_action( 'init', array( $this, 'load_textdomain' ), 0 );
         add_action( 'init', 'TradePress_register_tables', 0 );       
         add_action( 'admin_init', array( $this, 'load_admin_dependencies' ) );
         add_action( 'admin_init', 'TradePress_offer_wizard' );
@@ -385,6 +386,19 @@ final class WordPressTradePress {
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
         add_action( 'init', array( $this, 'register_ajax_handlers' ) );
         add_filter( 'cron_schedules', array( $this, 'add_cron_schedules' ) );
+    }
+
+    /**
+     * Load plugin translations after WordPress initialization.
+     *
+     * @return void
+     */
+    public function load_textdomain() {
+        load_plugin_textdomain(
+            'tradepress',
+            false,
+            dirname( TRADEPRESS_PLUGIN_BASENAME ) . '/i18n/languages/'
+        );
     }
     
     /**

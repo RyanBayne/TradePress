@@ -229,6 +229,7 @@ foreach ($strategies as $strategy) {
     
     <div class="strategies-pagination">
         <!-- Pagination placeholder - will be replaced with real pagination once we have database integration -->
+        <?php /* translators: %s: string value */ ?>
         <span class="displaying-num"><?php printf(esc_html__('%s strategies', 'tradepress'), count($filtered_strategies)); ?></span>
         <span class="pagination-links">
             <span class="tablenav-pages-navspan button disabled" aria-hidden="true">&laquo;</span>

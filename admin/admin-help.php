@@ -5,7 +5,7 @@
  * @author      Ryan Bayne
  * @category    Admin
  * @package     TradePress/Admin
- * @version     1.0.0
+ * @version     1.0.95
  */
           
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,7 +19,7 @@ class TradePress_Admin_Help {
     /**
      * Add Contextual help tabs.
      * 
-     * @version 1.0
+     * @version 1.0.95
      */
     public function add_tabs() {
         $screen = get_current_screen();
@@ -89,7 +89,7 @@ class TradePress_Admin_Help {
                     'id'        => 'TradePress_contribute_tab',
                     'title'     => __( 'Contribute', 'tradepress' ),
                     'content'   => '<h2>' . __( 'Everyone Can Contribute', 'tradepress' ) . '</h2>' .
-                    '<p>' . __( 'You can contribute in many ways and by doing so you will help the project thrive.' ) . '</p>' .
+                    '<p>' . __( 'You can contribute in many ways and by doing so you will help the project thrive.', 'tradepress' ) . '</p>' .
                     '<p><a href="' . TRADEPRESS_DONATE . '" class="button button-primary">' . __( 'Donate', 'tradepress' ) . '</a> <a href="' . TRADEPRESS_GITHUB . '/wiki" class="button button-primary">' . __( 'Update Wiki', 'tradepress' ) . '</a> <a href="' . TRADEPRESS_GITHUB . '/issues" class="button button-primary">' . __( 'Fix Bugs', 'tradepress' ) . '</a></p>',
                 ) 
             ) 
@@ -99,7 +99,7 @@ class TradePress_Admin_Help {
             'id'        => 'TradePress_newsletter_tab',
             'title'     => __( 'News Mail', 'tradepress' ),
             'content'   => '<h2>' . __( 'Annual News', 'tradepress' ) . '</h2>' .
-            '<p>' . __( 'Mailchip is used to manage the projects newsletter subscribers list.' ) . '</p>' .
+            '<p>' . __( 'Mailchip is used to manage the projects newsletter subscribers list.', 'tradepress' ) . '</p>' .
             '<p>' . '<!-- Begin MailChimp Signup Form -->
                 <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
                 <style type="text/css">         
@@ -146,12 +146,12 @@ class TradePress_Admin_Help {
                     'title'     => __( 'Credits', 'tradepress' ),
                     'content'   => '<h2>' . __( 'Credits', 'tradepress' ) . '</h2>' .
                     '<p>Please do not remove credits from the plugin. You may edit them or give credit somewhere else in your project.</p>' . 
-                    '<h4>' . __( 'Automattic - This plugins core is largely based on their WooCommerce plugin.' ) . '</h4>' .
-                    '<h4>' . __( 'Brian at WPMUDEV - our discussion led to this project and entirely new approach in my development.' ) . '</h4>' . 
-                    '<h4>' . __( 'Ignacio Cruz at WPMUDEV - has giving us a good approach to handling shortcodes.' ) . '</h4>' .
-                    '<h4>' . __( 'Ashley Rich (A5shleyRich) - author of a crucial piece of the puzzle, related to asynchronous background tasks.' ) . '</h4>' .
-                    '<h4>' . __( 'Igor Vaynberg - thank you for an elegant solution to searching within a menu.' ) . '</h4>',
-                    '<h4>' . __( 'Nookyyy - a constant supporter who is building Nookyyy.com using TradePress.' ) . '</h4>'
+                    '<h4>' . __( 'Automattic - This plugins core is largely based on their WooCommerce plugin.', 'tradepress' ) . '</h4>' .
+                    '<h4>' . __( 'Brian at WPMUDEV - our discussion led to this project and entirely new approach in my development.', 'tradepress' ) . '</h4>' . 
+                    '<h4>' . __( 'Ignacio Cruz at WPMUDEV - has giving us a good approach to handling shortcodes.', 'tradepress' ) . '</h4>' .
+                    '<h4>' . __( 'Ashley Rich (A5shleyRich) - author of a crucial piece of the puzzle, related to asynchronous background tasks.', 'tradepress' ) . '</h4>' .
+                    '<h4>' . __( 'Igor Vaynberg - thank you for an elegant solution to searching within a menu.', 'tradepress' ) . '</h4>',
+                    '<h4>' . __( 'Nookyyy - a constant supporter who is building Nookyyy.com using TradePress.', 'tradepress' ) . '</h4>'
                 )
             ) 
         );
@@ -214,7 +214,7 @@ class TradePress_Admin_Help {
     /**
     * FAQ menu uses script to display a selected answer.
     * 
-    * @version 1.2
+    * @version 1.0.95
     */
     public function faq() {
         $questions = array(
@@ -231,20 +231,20 @@ class TradePress_Admin_Help {
         <p>
             <ul id="faq-index">
                 <?php foreach ( $questions as $question_index => $question ): ?>
-                    <li data-answer="<?php echo $question_index; ?>"><a href="#q<?php echo $question_index; ?>"><?php echo $question; ?></a></li>
+                    <li data-answer="<?php echo esc_attr( $question_index ); ?>"><a href="#q<?php echo esc_attr( $question_index ); ?>"><?php echo esc_html( $question ); ?></a></li>
                 <?php endforeach; ?>
             </ul>
         </p>
         
         <ul class="faq-answers">
             <li class="faq-answer" id='q1'>
-                <?php _e('Yes, if you have experience with PHP and WordPress you can create an extension for TradePress. You can submit your extension to the WordPress.org repository for the community to use or keep it private or sell it as a premium extension. Please invite me to the projects GitHub for support.', 'tradepress');?>
+                <?php esc_html_e('Yes, if you have experience with PHP and WordPress you can create an extension for TradePress. You can submit your extension to the WordPress.org repository for the community to use or keep it private or sell it as a premium extension. Please invite me to the projects GitHub for support.', 'tradepress');?>
             </li>
             <li class="faq-answer" id='q2'>
-                <p> <?php _e('You can hire me to create a new extension from as little as $30.00 and if you make the extension available to the WordPress community I will charge 50% less. I will also put from free hours into improving it which I cannot do if you request a private extension.', 'tradepress');?> </p>
+                <p> <?php esc_html_e('You can hire me to create a new extension from as little as $30.00 and if you make the extension available to the WordPress community I will charge 50% less. I will also put from free hours into improving it which I cannot do if you request a private extension.', 'tradepress');?> </p>
             </li>        
             <li class="faq-answer" id='q3'>
-                <p> <?php _e('Twitch API version 6 is being added to TradePress but it will not be ready for testing until April 2018.', 'tradepress');?> </p>
+                <p> <?php esc_html_e('Twitch API version 6 is being added to TradePress but it will not be ready for testing until April 2018.', 'tradepress');?> </p>
             </li>        
         </ul>                     
              
@@ -279,7 +279,7 @@ class TradePress_Admin_Help {
 
                     if ( answer === 39 ) {
                         advancedGroup = $( '<optgroup />' )
-                            .attr( 'label', "<?php _e( 'Advanced: This part of FAQ requires some knowledge about HTML, PHP and/or WordPress coding.', 'tradepress' ); ?>" );
+                            .attr( 'label', "<?php esc_html_e( 'Advanced: This part of FAQ requires some knowledge about HTML, PHP and/or WordPress coding.', 'tradepress' ); ?>" );
 
                         indexSelector.append( advancedGroup );
                     }
@@ -303,7 +303,7 @@ class TradePress_Admin_Help {
                 indexSelector.before(
                     $('<label />')
                         .attr( 'for', 'question-selector' )
-                        .text( "<?php _e( 'Select a question', 'tradepress' ); ?>" )
+                        .text( "<?php esc_html_e( 'Select a question', 'tradepress' ); ?>" )
                         .addClass( 'screen-reader-text' )
                 );
 
@@ -320,16 +320,16 @@ class TradePress_Admin_Help {
     * This focuses on the services main Twitch application credentials only.
     * 
     * @author Ryan Bayne
-    * @version 3.1
+    * @version 1.0.95
     */
     public function app_status() {
         $set_app_status = TradePress_get_app_status();
         
         // Ensure the Twitch API application has been setup...
         if( $set_app_status[0] !== 1 ) {
-            echo '<h3>' . __( 'Welcome to TradePress', 'tradepress' ) . '</h3>';
-            echo $set_app_status[1];             
-            echo '<p><a href="' . admin_url( 'index.php?page=tradepress-setup' ) . '" class="button button-primary">' . __( 'Setup wizard', 'tradepress' ) . '</a></p>';           
+            echo '<h3>' . esc_html__( 'Welcome to TradePress', 'tradepress' ) . '</h3>'; // Escaped translatable output
+            echo wp_kses_post( $set_app_status[1] ); // Status message may contain HTML markup
+            echo '<p><a href="' . esc_url( admin_url( 'index.php?page=tradepress-setup' ) ) . '" class="button button-primary">' . esc_html__( 'Setup wizard', 'tradepress' ) . '</a></p>';           
             return;    
         }                                  
                     
@@ -337,14 +337,14 @@ class TradePress_Admin_Help {
         $cache = get_transient( 'TradePresshelptabappstatus' );
         if( $cache )                                                                                          
         {
-            _e( '<p>You are viewing cached data that is up to 120 seconds old. Refresh again soon to get the latest data.</p>', 'tradepress' );
-            print $cache;                                                                                              
+            echo wp_kses_post( __( '<p>You are viewing cached data that is up to 120 seconds old. Refresh again soon to get the latest data.</p>', 'tradepress' ) ); // Contains HTML paragraph tags
+            echo wp_kses_post( $cache ); // Cached HTML output from previous render                                                                                              
             return;
         }                                                                                                          
         else
         {
             // No existing cache found, so test Twitch API, generate output, cache output, output output!
-            _e( '<p>You are viewing real-time data on this request (not cached). The data will be cached for 120 seconds.</p>', 'tradepress' );  
+            echo wp_kses_post( __( '<p>You are viewing real-time data on this request (not cached). The data will be cached for 120 seconds.</p>', 'tradepress' ) ); // Contains HTML paragraph tags  
         }
         
         // Define variables. 
@@ -364,11 +364,11 @@ class TradePress_Admin_Help {
 
         if( TradePress_get_app_token() )
         {
-            $output .= __( 'Result: Token Exists!' ); 
+            $output .= __( 'Result: Token Exists!', 'tradepress' ); // Added missing text domain
         }
         else
         { 
-            $output .= __( 'Result: No Application Token Found' ); 
+            $output .= __( 'Result: No Application Token Found', 'tradepress' ); // Added missing text domain
             $overall_result = false; 
         }
 
@@ -381,60 +381,71 @@ class TradePress_Admin_Help {
         // Avoid making these requests for every admin page request. 
         set_transient( 'TradePresshelptabappstatus', $output, 120 );
 
-        print $output;    
+        echo wp_kses_post( $output ); // Built from escaped __() calls and HTML markup
         
-        print sprintf( __( 'Please check Twitch.tv status %s before creating fault reports.' ), '<a target="_blank" href="https://twitchstatus.com/">here</a>' );   
+        /* translators: %s: HTML link to Twitch status page */
+        echo wp_kses_post( sprintf( __( 'Please check Twitch.tv status %s before creating fault reports.', 'tradepress' ), '<a target="_blank" href="https://twitchstatus.com/">here</a>' ) ); // Contains HTML link   
     }
     
+    /**
+     * Output testing tools for admin help tab.
+     *
+     * @version 1.0.95
+     */
     public function testing() {
         $tool_action_nonce = wp_create_nonce( 'tool_action' );
         
         ob_start();
         echo '<h3>Test New Features</h3>';
-        echo '<p>' . __( 'Do not test on live sites.', 'tradepress' ) . '</p>';
+        echo '<p>' . esc_html__( 'Do not test on live sites.', 'tradepress' ) . '</p>';
         
         // New Test
-        echo '<h2>' . __( 'Embed Everything Shortcode: Default Videos', 'tradepress' ) . '</h2>';
-        echo '<p>' . __( 'Test the ability to display a channels default videos when the stream is offline.', 'tradepress' ) . '</p>';
+        echo '<h2>' . esc_html__( 'Embed Everything Shortcode: Default Videos', 'tradepress' ) . '</h2>';
+        echo '<p>' . esc_html__( 'Test the ability to display a channels default videos when the stream is offline.', 'tradepress' ) . '</p>';
         echo '<p>[TradePress_embed_everything defaultcontent="videos"]</p>';
         
         // New Test
-        echo '<h2>' . __( 'Embed Everything Shortcode: Default Video', 'tradepress' ) . '</h2>';
-        echo '<p>' . __( 'Test the ability to display a specific video when the stream is offline.', 'tradepress' ) . '</p>';
+        echo '<h2>' . esc_html__( 'Embed Everything Shortcode: Default Video', 'tradepress' ) . '</h2>';
+        echo '<p>' . esc_html__( 'Test the ability to display a specific video when the stream is offline.', 'tradepress' ) . '</p>';
         echo '<p>[TradePress_embed_everything defaultcontent="video" videoid="1040648073"]</p>';
                 
         // New Test
-        echo '<h2>' . __( 'Authorize Bot Channel', 'tradepress' ) . '</h2>';
-        echo '<p>' . __( 'Logout of your main Twitch account on Twitch.tv before using this feature.', 'tradepress' ) . '</p>';
-        echo '<p><a href="' . admin_url( 'admin.php?page=TradePress_tools&_wpnonce=' . $tool_action_nonce . '&toolname=tool_authorize_bot_channel' ) . '" class="button button-primary">' . __( 'Connect to Twitch', 'tradepress' ) . '</a></p>';
+        echo '<h2>' . esc_html__( 'Authorize Bot Channel', 'tradepress' ) . '</h2>';
+        echo '<p>' . esc_html__( 'Logout of your main Twitch account on Twitch.tv before using this feature.', 'tradepress' ) . '</p>';
+        echo '<p><a href="' . esc_url( admin_url( 'admin.php?page=TradePress_tools&_wpnonce=' . $tool_action_nonce . '&toolname=tool_authorize_bot_channel' ) ) . '" class="button button-primary">' . esc_html__( 'Connect to Twitch', 'tradepress' ) . '</a></p>';
         
         // New Test
-        echo '<h2>' . __( 'YouTube (Google API) Setup Wizard', 'tradepress' ) . '</h2>';
-        echo '<p>' . __( 'Add a set of Google API credentials created for requesting YouTube data.', 'tradepress' ) . '</p>';
-        echo '<p><a href="' . admin_url( 'index.php?page=tradepress-setup-youtube' ) . '" class="button button-primary">' . __( 'YouTube Setup Wizard', 'tradepress' ) . '</a></p>';
-        echo '<p><a href="' . admin_url( 'admin.php?page=TradePress_tools&_wpnonce=' . $tool_action_nonce . '&toolname=tool_google_api_test' ) . '" class="button button-primary">' . __( 'Test Google API (YouTube)', 'tradepress' ) . '</a></p>';
+        echo '<h2>' . esc_html__( 'YouTube (Google API) Setup Wizard', 'tradepress' ) . '</h2>';
+        echo '<p>' . esc_html__( 'Add a set of Google API credentials created for requesting YouTube data.', 'tradepress' ) . '</p>';
+        echo '<p><a href="' . esc_url( admin_url( 'index.php?page=tradepress-setup-youtube' ) ) . '" class="button button-primary">' . esc_html__( 'YouTube Setup Wizard', 'tradepress' ) . '</a></p>';
+        echo '<p><a href="' . esc_url( admin_url( 'admin.php?page=TradePress_tools&_wpnonce=' . $tool_action_nonce . '&toolname=tool_google_api_test' ) ) . '" class="button button-primary">' . esc_html__( 'Test Google API (YouTube)', 'tradepress' ) . '</a></p>';
         
         // New Test
-        echo '<h2>' . __( 'Follower Only Shortcode', 'tradepress' ) . '</h2>';
+        echo '<h2>' . esc_html__( 'Follower Only Shortcode', 'tradepress' ) . '</h2>';
         echo '<p>Hide content from visitors unless they follow your main channel on Twitch.tv - please test and monitor occasionally over 24 hours before live use.</p>';
         echo '<p>[TradePress_followers_only]Gated content goes here.[/TradePress_followers_only]</p>';
         
         // New Test
-        echo '<h2>' . __( 'Team Roster Shortcode', 'tradepress' ) . '</h2>';
+        echo '<h2>' . esc_html__( 'Team Roster Shortcode', 'tradepress' ) . '</h2>';
         echo '<p>Hide content from .</p>';
         echo '<p>[TradePress_shortcodes shortcode="team_roster" team_id="team_id" team_name="TEST" style="horizontal"]</p>';
 
         ob_end_flush();
     }    
     
+    /**
+     * Output development tools for admin help tab.
+     *
+     * @version 1.0.95
+     */
     public function development() {
         ob_start();
         echo '<h3>Development Area</h3>';
-        echo '<p>' . __( 'Do not use these features on live sites. Feel free to test features 
+        echo '<p>' . esc_html__( 'Do not use these features on live sites. Feel free to test features 
         but do not feedback faults.', 'tradepress' ) . '</p>';
         
         // New Test
-        echo '<h2>' . __( 'Raffle Entry Shortcode', 'tradepress' ) . '</h2>';
+        echo '<h2>' . esc_html__( 'Raffle Entry Shortcode', 'tradepress' ) . '</h2>';
         echo '<p>This is the first feature within the giveaways system. It will display a button for quick raffle entry.</p>';
         echo '<p>[TradePress_raffle_entry_button]Gated content goes here.[/TradePress_raffle_entry_button]</p>';
         

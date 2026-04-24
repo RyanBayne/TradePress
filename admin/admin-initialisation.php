@@ -74,6 +74,7 @@ class TradePress_Admin {
         // Functions
         require_once( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/tradepress-admin-functions.php' );
         require_once( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/filters.php' );
+        require_once( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/tools/wpcs-fixer.php' ); // WPCS auto-fixer for Issue Details panel
         
         // Add screen IDs function if not exists
         if (!function_exists('TradePress_get_screen_ids')) {
@@ -207,7 +208,8 @@ class TradePress_Admin {
             </style>
 
             <span class="TradePress_plugin_upgrade_notice">
-                <?php printf( __( '%s is a major update - please backup of your site before updating.', 'twitch-press' ), $args['new_version'] ); ?>
+                <?php /* translators: %s: new plugin version number */ ?>
+                <?php printf( __( '%s is a major update - please backup of your site before updating.', 'tradepress' ), $args['new_version'] ); ?>
             </span>
 
             <?php ob_get_flush();

@@ -6,7 +6,7 @@
  *
  * @package TradePress
  * @subpackage admin/page/debug
- * @version 1.0.0
+ * @version 1.0.7
  * @since 1.0.0
  * @created 2025-05-21
  */
@@ -65,15 +65,15 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
                 <div class="stat-numbers">
                     <div class="stat-item">
                         <span class="stat-value"><?php echo tradepress_number_format(isset($stat['total_calls']) ? $stat['total_calls'] : 0); ?></span>
-                        <span class="stat-label"><?php _e('Calls', 'tradepress'); ?></span>
+                        <span class="stat-label"><?php esc_html_e('Calls', 'tradepress'); ?></span>
                     </div>
                     <div class="stat-item success">
                         <span class="stat-value"><?php echo tradepress_number_format(isset($stat['successful_calls']) ? $stat['successful_calls'] : 0); ?></span>
-                        <span class="stat-label"><?php _e('Success', 'tradepress'); ?></span>
+                        <span class="stat-label"><?php esc_html_e('Success', 'tradepress'); ?></span>
                     </div>
                     <div class="stat-item error">
                         <span class="stat-value"><?php echo tradepress_number_format(isset($stat['error_calls']) ? $stat['error_calls'] : 0); ?></span>
-                        <span class="stat-label"><?php _e('Errors', 'tradepress'); ?></span>
+                        <span class="stat-label"><?php esc_html_e('Errors', 'tradepress'); ?></span>
                     </div>
                 </div>
             </div>
@@ -89,9 +89,9 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
             <div class="filter-controls">
                 <div class="filter-row">
                     <div class="filter-item">
-                        <label for="service"><?php _e('Service:', 'tradepress'); ?></label>
+                        <label for="service"><?php esc_html_e('Service:', 'tradepress'); ?></label>
                         <select name="service" id="service">
-                            <option value=""><?php _e('All Services', 'tradepress'); ?></option>
+                            <option value=""><?php esc_html_e('All Services', 'tradepress'); ?></option>
                             <?php foreach ($available_services as $available_service): ?>
                                 <option value="<?php echo esc_attr($available_service); ?>" <?php selected($service, $available_service); ?>>
                                     <?php echo esc_html($available_service); ?>
@@ -101,27 +101,27 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
                     </div>
                     
                     <div class="filter-item">
-                        <label for="status"><?php _e('Status:', 'tradepress'); ?></label>
+                        <label for="status"><?php esc_html_e('Status:', 'tradepress'); ?></label>
                         <select name="status" id="status">
-                            <option value=""><?php _e('All Statuses', 'tradepress'); ?></option>
-                            <option value="success" <?php selected($status, 'success'); ?>><?php _e('Success', 'tradepress'); ?></option>
-                            <option value="error" <?php selected($status, 'error'); ?>><?php _e('Error', 'tradepress'); ?></option>
-                            <option value="pending" <?php selected($status, 'pending'); ?>><?php _e('Pending', 'tradepress'); ?></option>
+                            <option value=""><?php esc_html_e('All Statuses', 'tradepress'); ?></option>
+                            <option value="success" <?php selected($status, 'success'); ?>><?php esc_html_e('Success', 'tradepress'); ?></option>
+                            <option value="error" <?php selected($status, 'error'); ?>><?php esc_html_e('Error', 'tradepress'); ?></option>
+                            <option value="pending" <?php selected($status, 'pending'); ?>><?php esc_html_e('Pending', 'tradepress'); ?></option>
                         </select>
                     </div>
                     
                     <div class="filter-item">
-                        <label for="date_from"><?php _e('From:', 'tradepress'); ?></label>
+                        <label for="date_from"><?php esc_html_e('From:', 'tradepress'); ?></label>
                         <input type="date" name="date_from" id="date_from" value="<?php echo esc_attr($date_from); ?>">
                     </div>
                     
                     <div class="filter-item">
-                        <label for="date_to"><?php _e('To:', 'tradepress'); ?></label>
+                        <label for="date_to"><?php esc_html_e('To:', 'tradepress'); ?></label>
                         <input type="date" name="date_to" id="date_to" value="<?php echo esc_attr($date_to); ?>">
                     </div>
                     
                     <div class="filter-item">
-                        <label for="limit"><?php _e('Show:', 'tradepress'); ?></label>
+                        <label for="limit"><?php esc_html_e('Show:', 'tradepress'); ?></label>
                         <select name="limit" id="limit">
                             <option value="25" <?php selected($limit, 25); ?>>25</option>
                             <option value="50" <?php selected($limit, 50); ?>>50</option>
@@ -131,8 +131,8 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
                     </div>
                     
                     <div class="filter-actions">
-                        <button type="submit" class="button"><?php _e('Apply Filters', 'tradepress'); ?></button>
-                        <a href="?page=<?php echo isset($_GET['page']) ? esc_attr($_GET['page']) : ''; ?>&tab=<?php echo isset($_GET['tab']) ? esc_attr($_GET['tab']) : ''; ?>" class="button"><?php _e('Reset', 'tradepress'); ?></a>
+                        <button type="submit" class="button"><?php esc_html_e('Apply Filters', 'tradepress'); ?></button>
+                        <a href="?page=<?php echo isset($_GET['page']) ? esc_attr($_GET['page']) : ''; ?>&tab=<?php echo isset($_GET['tab']) ? esc_attr($_GET['tab']) : ''; ?>" class="button"><?php esc_html_e('Reset', 'tradepress'); ?></a>
                     </div>
                 </div>
             </div>
@@ -145,14 +145,14 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
             <table class="wp-list-table widefat fixed striped">
                 <thead>
                     <tr>
-                        <th><?php _e('ID', 'tradepress'); ?></th>
-                        <th><?php _e('Service', 'tradepress'); ?></th>
-                        <th><?php _e('Function/Endpoint', 'tradepress'); ?></th>
-                        <th><?php _e('Type', 'tradepress'); ?></th>
-                        <th><?php _e('Status', 'tradepress'); ?></th>
-                        <th><?php _e('Time', 'tradepress'); ?></th>
-                        <th><?php _e('Outcome', 'tradepress'); ?></th>
-                        <th><?php _e('Actions', 'tradepress'); ?></th>
+                        <th><?php esc_html_e('ID', 'tradepress'); ?></th>
+                        <th><?php esc_html_e('Service', 'tradepress'); ?></th>
+                        <th><?php esc_html_e('Function/Endpoint', 'tradepress'); ?></th>
+                        <th><?php esc_html_e('Type', 'tradepress'); ?></th>
+                        <th><?php esc_html_e('Status', 'tradepress'); ?></th>
+                        <th><?php esc_html_e('Time', 'tradepress'); ?></th>
+                        <th><?php esc_html_e('Outcome', 'tradepress'); ?></th>
+                        <th><?php esc_html_e('Actions', 'tradepress'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -167,11 +167,11 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
                                     <?php echo esc_html($log['status']); ?>
                                 </span>
                             </td>
-                            <td><?php echo esc_html(human_time_diff(strtotime($log['timestamp']), current_time('timestamp'))); ?> <?php _e('ago', 'tradepress'); ?></td>
+                            <td><?php echo esc_html(human_time_diff(strtotime($log['timestamp']), current_time('timestamp'))); ?> <?php esc_html_e('ago', 'tradepress'); ?></td>
                             <td><?php echo esc_html($log['outcome']); ?></td>
                             <td>
                                 <button type="button" class="button button-small view-details" data-id="<?php echo esc_attr($log['entryid']); ?>">
-                                    <?php _e('Details', 'tradepress'); ?>
+                                    <?php esc_html_e('Details', 'tradepress'); ?>
                                 </button>
                             </td>
                         </tr>
@@ -185,17 +185,18 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
             <div class="tradepress-pagination">
                 <div class="tablenav-pages">
                     <span class="displaying-num">
+                        <?php /* translators: %s: string value */ ?>
                         <?php printf(_n('%s item', '%s items', $total_count, 'tradepress'), number_format_i18n($total_count)); ?>
                     </span>
                     
                     <span class="pagination-links">
                         <?php if ($page > 1): ?>
                             <a class="first-page button" href="<?php echo esc_url(add_query_arg('api_page', 1)); ?>">
-                                <span class="screen-reader-text"><?php _e('First page', 'tradepress'); ?></span>
+                                <span class="screen-reader-text"><?php esc_html_e('First page', 'tradepress'); ?></span>
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                             <a class="prev-page button" href="<?php echo esc_url(add_query_arg('api_page', $page - 1)); ?>">
-                                <span class="screen-reader-text"><?php _e('Previous page', 'tradepress'); ?></span>
+                                <span class="screen-reader-text"><?php esc_html_e('Previous page', 'tradepress'); ?></span>
                                 <span aria-hidden="true">&lsaquo;</span>
                             </a>
                         <?php else: ?>
@@ -205,17 +206,18 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
                         
                         <span class="paging-input">
                             <span class="tablenav-paging-text">
+                                <?php /* translators: %1$s: string value, %2$s: string value */ ?>
                                 <?php printf(__('Page %1$s of %2$s', 'tradepress'), $page, $total_pages); ?>
                             </span>
                         </span>
                         
                         <?php if ($page < $total_pages): ?>
                             <a class="next-page button" href="<?php echo esc_url(add_query_arg('api_page', $page + 1)); ?>">
-                                <span class="screen-reader-text"><?php _e('Next page', 'tradepress'); ?></span>
+                                <span class="screen-reader-text"><?php esc_html_e('Next page', 'tradepress'); ?></span>
                                 <span aria-hidden="true">&rsaquo;</span>
                             </a>
                             <a class="last-page button" href="<?php echo esc_url(add_query_arg('api_page', $total_pages)); ?>">
-                                <span class="screen-reader-text"><?php _e('Last page', 'tradepress'); ?></span>
+                                <span class="screen-reader-text"><?php esc_html_e('Last page', 'tradepress'); ?></span>
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         <?php else: ?>
@@ -229,7 +231,7 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
         
     <?php else: ?>
         <div class="notice notice-info">
-            <p><?php _e('No API calls found matching your criteria.', 'tradepress'); ?></p>
+            <p><?php esc_html_e('No API calls found matching your criteria.', 'tradepress'); ?></p>
         </div>
     <?php endif; ?>
     
@@ -237,14 +239,14 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
     <div id="api-details-modal" class="tradepress-modal" style="display:none;">
         <div class="tradepress-modal-content">
             <div class="modal-header">
-                <h2><?php _e('API Call Details', 'tradepress'); ?></h2>
+                <h2><?php esc_html_e('API Call Details', 'tradepress'); ?></h2>
                 <span class="modal-close">&times;</span>
             </div>
             <div class="modal-body">
                 <div id="api-details-content"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="button modal-close-button"><?php _e('Close', 'tradepress'); ?></button>
+                <button type="button" class="button modal-close-button"><?php esc_html_e('Close', 'tradepress'); ?></button>
             </div>
         </div>
     </div>

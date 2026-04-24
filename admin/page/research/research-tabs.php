@@ -321,6 +321,9 @@ class TradePress_Research {
 
     /**
      * Load the Social Networks tab content
+     *
+     * @since  1.0.0
+     * @version 1.0.95
      */
     public function load_social_networks_tab() {
         // Enqueue Social Networks CSS
@@ -338,13 +341,13 @@ class TradePress_Research {
         
         ?>
         <div class="social-networks-container">
-            <h3><?php _e('Social Networks Management', 'tradepress'); ?></h3>
-            <p><?php _e('Configure social media platform integrations for research and signal monitoring.', 'tradepress'); ?></p>
+            <h3><?php esc_html_e('Social Networks Management', 'tradepress'); // Escaped output per WordPress coding standards ?></h3>
+            <p><?php esc_html_e('Configure social media platform integrations for research and signal monitoring.', 'tradepress'); // Escaped output per WordPress coding standards ?></p>
             
             <div class="subsubsub">
                 <ul>
-                    <li><a href="<?php echo esc_url(add_query_arg(array('subtab' => 'settings'), remove_query_arg('subtab'))); ?>" class="<?php echo $current_subtab === 'settings' ? 'current' : ''; ?>"><?php _e('Settings', 'tradepress'); ?></a> |</li>
-                    <li><a href="<?php echo esc_url(add_query_arg(array('subtab' => 'switches'), remove_query_arg('subtab'))); ?>" class="<?php echo $current_subtab === 'switches' ? 'current' : ''; ?>"><?php _e('Platform Switches', 'tradepress'); ?></a></li>
+                    <li><a href="<?php echo esc_url(add_query_arg(array('subtab' => 'settings'), remove_query_arg('subtab'))); ?>" class="<?php echo $current_subtab === 'settings' ? 'current' : ''; ?>"><?php esc_html_e('Settings', 'tradepress'); // Escaped output per WordPress coding standards ?></a> |</li>
+                    <li><a href="<?php echo esc_url(add_query_arg(array('subtab' => 'switches'), remove_query_arg('subtab'))); ?>" class="<?php echo $current_subtab === 'switches' ? 'current' : ''; ?>"><?php esc_html_e('Platform Switches', 'tradepress'); // Escaped output per WordPress coding standards ?></a></li>
                 </ul>
             </div>
             
@@ -459,6 +462,8 @@ class TradePress_Research {
     /**
      * Display detailed forecast information for a specific symbol
      *
+     * @since  1.0.0
+     * @version 1.0.95
      * @param string $symbol The symbol to display details for
      * @return void
      */
@@ -469,53 +474,54 @@ class TradePress_Research {
         ?>
         <div class="symbol-forecast-details">
             <div class="symbol-header">
+                <?php /* translators: %s: string value */ ?>
                 <h3><?php echo esc_html(sprintf(__('Price Forecast for %s', 'tradepress'), $symbol)); ?></h3>
-                <a href="<?php echo esc_url(admin_url('admin.php?page=tradepress-research&tab=price_forecast')); ?>" class="button"><?php _e('Back to All Forecasts', 'tradepress'); ?></a>
+                <a href="<?php echo esc_url(admin_url('admin.php?page=tradepress-research&tab=price_forecast')); ?>" class="button"><?php esc_html_e('Back to All Forecasts', 'tradepress'); // Escaped output per WordPress coding standards ?></a>
             </div>
             
             <div class="forecast-summary">
                 <div class="forecast-card current-price">
-                    <span class="label"><?php _e('Current Price', 'tradepress'); ?></span>
+                    <span class="label"><?php esc_html_e('Current Price', 'tradepress'); // Escaped output per WordPress coding standards ?></span>
                     <span class="value">$<?php echo number_format($demo_data['current_price'], 2); ?></span>
                 </div>
                 
                 <div class="forecast-range">
                     <div class="forecast-card low">
-                        <span class="label"><?php _e('Low Forecast', 'tradepress'); ?></span>
+                        <span class="label"><?php esc_html_e('Low Forecast', 'tradepress'); // Escaped output per WordPress coding standards ?></span>
                         <span class="value" style="<?php echo $this->get_confidence_color_style($demo_data['confidence_low']); ?>">
                             $<?php echo number_format($demo_data['forecast_low'], 2); ?>
                         </span>
-                        <span class="confidence"><?php echo number_format($demo_data['confidence_low'], 1); ?>% <?php _e('confidence', 'tradepress'); ?></span>
+                        <span class="confidence"><?php echo number_format($demo_data['confidence_low'], 1); ?>% <?php esc_html_e('confidence', 'tradepress'); // Escaped output per WordPress coding standards ?></span>
                     </div>
                     
                     <div class="forecast-card medium">
-                        <span class="label"><?php _e('Medium Forecast', 'tradepress'); ?></span>
+                        <span class="label"><?php esc_html_e('Medium Forecast', 'tradepress'); // Escaped output per WordPress coding standards ?></span>
                         <span class="value" style="<?php echo $this->get_confidence_color_style($demo_data['confidence_medium']); ?>">
                             $<?php echo number_format($demo_data['forecast_medium'], 2); ?>
                         </span>
-                        <span class="confidence"><?php echo number_format($demo_data['confidence_medium'], 1); ?>% <?php _e('confidence', 'tradepress'); ?></span>
+                        <span class="confidence"><?php echo number_format($demo_data['confidence_medium'], 1); ?>% <?php esc_html_e('confidence', 'tradepress'); // Escaped output per WordPress coding standards ?></span>
                     </div>
                     
                     <div class="forecast-card high">
-                        <span class="label"><?php _e('High Forecast', 'tradepress'); ?></span>
+                        <span class="label"><?php esc_html_e('High Forecast', 'tradepress'); // Escaped output per WordPress coding standards ?></span>
                         <span class="value" style="<?php echo $this->get_confidence_color_style($demo_data['confidence_high']); ?>">
                             $<?php echo number_format($demo_data['forecast_high'], 2); ?>
                         </span>
-                        <span class="confidence"><?php echo number_format($demo_data['confidence_high'], 1); ?>% <?php _e('confidence', 'tradepress'); ?></span>
+                        <span class="confidence"><?php echo number_format($demo_data['confidence_high'], 1); ?>% <?php esc_html_e('confidence', 'tradepress'); // Escaped output per WordPress coding standards ?></span>
                     </div>
                 </div>
             </div>
             
             <div class="forecast-sources">
-                <h4><?php _e('Source Data', 'tradepress'); ?></h4>
+                <h4><?php esc_html_e('Source Data', 'tradepress'); // Escaped output per WordPress coding standards ?></h4>
                 <table class="wp-list-table widefat fixed striped">
                     <thead>
                         <tr>
-                            <th><?php _e('Source', 'tradepress'); ?></th>
-                            <th><?php _e('Low', 'tradepress'); ?></th>
-                            <th><?php _e('Medium', 'tradepress'); ?></th>
-                            <th><?php _e('High', 'tradepress'); ?></th>
-                            <th><?php _e('Date', 'tradepress'); ?></th>
+                            <th><?php esc_html_e('Source', 'tradepress'); // Escaped output per WordPress coding standards ?></th>
+                            <th><?php esc_html_e('Low', 'tradepress'); // Escaped output per WordPress coding standards ?></th>
+                            <th><?php esc_html_e('Medium', 'tradepress'); // Escaped output per WordPress coding standards ?></th>
+                            <th><?php esc_html_e('High', 'tradepress'); // Escaped output per WordPress coding standards ?></th>
+                            <th><?php esc_html_e('Date', 'tradepress'); // Escaped output per WordPress coding standards ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -525,7 +531,7 @@ class TradePress_Research {
                             <td>$<?php echo number_format($source['low'], 2); ?></td>
                             <td>$<?php echo number_format($source['medium'], 2); ?></td>
                             <td>$<?php echo number_format($source['high'], 2); ?></td>
-                            <td><?php echo esc_html(human_time_diff(strtotime($source['date']), current_time('timestamp'))); ?> <?php _e('ago', 'tradepress'); ?></td>
+                            <td><?php echo esc_html(human_time_diff(strtotime($source['date']), current_time('timestamp'))); ?> <?php esc_html_e('ago', 'tradepress'); // Escaped output per WordPress coding standards ?></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -533,19 +539,19 @@ class TradePress_Research {
             </div>
             
             <div class="forecast-time-horizons">
-                <h4><?php _e('Forecasts by Time Horizon', 'tradepress'); ?></h4>
+                <h4><?php esc_html_e('Forecasts by Time Horizon', 'tradepress'); // Escaped output per WordPress coding standards ?></h4>
                 <div class="time-horizon-tabs">
-                    <button class="time-horizon-tab active" data-horizon="1m"><?php _e('1 Month', 'tradepress'); ?></button>
-                    <button class="time-horizon-tab" data-horizon="3m"><?php _e('3 Month', 'tradepress'); ?></button>
-                    <button class="time-horizon-tab" data-horizon="6m"><?php _e('6 Month', 'tradepress'); ?></button>
-                    <button class="time-horizon-tab" data-horizon="1y"><?php _e('1 Year', 'tradepress'); ?></button>
+                    <button class="time-horizon-tab active" data-horizon="1m"><?php esc_html_e('1 Month', 'tradepress'); // Escaped output per WordPress coding standards ?></button>
+                    <button class="time-horizon-tab" data-horizon="3m"><?php esc_html_e('3 Month', 'tradepress'); // Escaped output per WordPress coding standards ?></button>
+                    <button class="time-horizon-tab" data-horizon="6m"><?php esc_html_e('6 Month', 'tradepress'); // Escaped output per WordPress coding standards ?></button>
+                    <button class="time-horizon-tab" data-horizon="1y"><?php esc_html_e('1 Year', 'tradepress'); // Escaped output per WordPress coding standards ?></button>
                 </div>
                 
                 <!-- Time horizon content panels will be populated with JavaScript -->
                 <div id="horizon-1m" class="time-horizon-content active">
                     <!-- 1 Month forecast data -->
-                    <p><?php _e('The 1-month forecast shows a potential', 'tradepress'); ?> <?php echo ($demo_data['forecast_medium'] > $demo_data['current_price']) ? 'increase' : 'decrease'; ?> 
-                    <?php _e('of approximately', 'tradepress'); ?> <?php echo abs(number_format(($demo_data['forecast_medium'] - $demo_data['current_price']) / $demo_data['current_price'] * 100, 1)); ?>%.</p>
+                    <p><?php esc_html_e('The 1-month forecast shows a potential', 'tradepress'); // Escaped output per WordPress coding standards ?> <?php echo ($demo_data['forecast_medium'] > $demo_data['current_price']) ? 'increase' : 'decrease'; ?> 
+                    <?php esc_html_e('of approximately', 'tradepress'); // Escaped output per WordPress coding standards ?> <?php echo abs(number_format(($demo_data['forecast_medium'] - $demo_data['current_price']) / $demo_data['current_price'] * 100, 1)); ?>%.</p>
                 </div>
                 
                 <!-- Additional horizon panels would be populated in a real implementation -->

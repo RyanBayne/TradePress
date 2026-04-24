@@ -68,6 +68,7 @@ function tradepress_symbol_view_shortcode_handler() {
             <h2 class="section-title"><?php esc_html_e('Symbol Data', 'tradepress'); ?></h2>
             <div class="data-last-updated">
                 <span class="update-indicator <?php echo ($time_since_update > '24 hours') ? 'stale' : 'fresh'; ?>">
+                    <?php /* translators: %s: human-readable time difference */ ?>
                     <?php printf(esc_html__('Last updated: %s ago', 'tradepress'), esc_html($time_since_update)); ?>
                 </span>
                 <?php if ($symbol_object): ?>

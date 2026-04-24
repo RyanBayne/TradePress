@@ -132,11 +132,11 @@ usort($filtered_endpoints, function($a, $b) {
             <?php else: ?>
                 <div class="wp-list-table widefat fixed striped">
                     <div class="table-header" style="display: flex; background: #f1f1f1; padding: 12px 15px; font-weight: 600; border-bottom: 1px solid #c3c4c7;">
-                        <div style="flex: 2;"><?php _e('API Provider', 'tradepress'); ?></div>
-                        <div style="flex: 2;"><?php _e('Endpoint', 'tradepress'); ?></div>
-                        <div style="flex: 1;"><?php _e('Method', 'tradepress'); ?></div>
-                        <div style="flex: 1;"><?php _e('Status', 'tradepress'); ?></div>
-                        <div style="flex: 3;"><?php _e('Description', 'tradepress'); ?></div>
+                        <div style="flex: 2;"><?php esc_html_e('API Provider', 'tradepress'); ?></div>
+                        <div style="flex: 2;"><?php esc_html_e('Endpoint', 'tradepress'); ?></div>
+                        <div style="flex: 1;"><?php esc_html_e('Method', 'tradepress'); ?></div>
+                        <div style="flex: 1;"><?php esc_html_e('Status', 'tradepress'); ?></div>
+                        <div style="flex: 3;"><?php esc_html_e('Description', 'tradepress'); ?></div>
                     </div>
                 </div>
 
