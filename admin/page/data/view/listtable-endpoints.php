@@ -14,7 +14,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
  * @author      Ryan Bayne
  * @category    Admin
  * @package     TradePress/Views
- * @version     1.0.0
+ * @version 1.0.7
  */
 class TradePress_ListTable_Endpoints extends WP_List_Table {
 

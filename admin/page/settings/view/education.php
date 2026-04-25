@@ -5,7 +5,7 @@
  * @author   Ryan Bayne
  * @category Admin
  * @package  TradePress/Admin
- * @version  1.0.0
+ * @version 1.0.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -139,7 +139,7 @@ class TradePress_Settings_Education extends TradePress_Settings_Page {
     public function handle_toolbar_actions() {
         if ( isset( $_GET['action'] ) && $_GET['action'] === 'tradepress_reset_pointers' ) {
             if ( ! wp_verify_nonce( $_GET['_wpnonce'], 'tradepress_reset_pointers' ) || ! current_user_can( 'manage_options' ) ) {
-                wp_die( __( 'Security check failed.', 'tradepress' ) );
+                wp_die( esc_html__( 'Security check failed.', 'tradepress' ) );
             }
             
             $this->reset_all_pointers();

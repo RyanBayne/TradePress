@@ -1233,21 +1233,9 @@
     },
     "updated_at": "2026-04-22 13:05:47",
     "ignored_files": {
-        "admin/page/settings/view/users.php": {
-            "hash": "655b821e8ef28cd78f0e9880b1cbbbe1",
-            "ignored_at": "2026-04-24 01:28:07"
-        },
-        "api/functions.tradepress-api-statuses.php": {
-            "hash": "10e709d11e88cb562eb8970fbb8fa1e8",
-            "ignored_at": "2026-04-24 01:28:21"
-        },
-        "api/discord/discord-webhook-manager.php": {
-            "hash": "fcb7a351168cef2fa50c8bf5adcb3eec",
-            "ignored_at": "2026-04-24 01:38:38"
-        },
-        "includes/api-test-handler.php": {
-            "hash": "7aedd4c2d2fca7c2346790ad471098f6",
-            "ignored_at": "2026-04-24 01:38:52"
+        "assets/images/logos/TradePress Logo Icon.png": {
+            "hash": "3ed848c422de2e3e13354cd2f92f490e",
+            "ignored_at": "2026-04-24 23:35:18"
         }
     }
 }

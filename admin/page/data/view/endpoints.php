@@ -17,7 +17,7 @@ if ( ! class_exists( 'TradePress_ListTable_Endpoints' ) ) {
  * @author      Ryan Bayne
  * @category    Admin
  * @package     TradePress/Views
- * @version     1.0.0
+ * @version 1.0.7
  */
 class TradePress_DebugView_Endpoints extends TradePress_ListTable_Endpoints {
    

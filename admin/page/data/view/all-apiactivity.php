@@ -13,7 +13,7 @@ if ( ! class_exists( 'TradePress_ListTable_APIActivity' ) ) {
  * @author      Ryan Bayne
  * @category    Admin
  * @package     TradePress/Views
- * @version     1.0
+ * @version 1.0.7
  */
 class TradePress_DebugView_All_APIActivity extends TradePress_ListTable_APIActivity {
    

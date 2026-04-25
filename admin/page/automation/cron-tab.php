@@ -6,7 +6,7 @@
  *
  * @package TradePress
  * @subpackage admin/page/automation
- * @version 1.0.0
+ * @version 1.0.7
  */
 
 // Exit if accessed directly
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 
 // Check user permissions
 if (!current_user_can('manage_options')) {
-    wp_die(__('You do not have sufficient permissions to access this page.', 'tradepress'));
+    wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'tradepress'));
 }
 
 // Handle CRON job scheduling form submission
@@ -183,7 +183,7 @@ $cron_array = _get_cron_array();
                                                 ?>
                                             </td>
                                             <td><?php echo isset($event['schedule']) ? esc_html($event['schedule']) : esc_html__('One-time', 'tradepress'); ?></td>
-                                            <td><?php echo date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $timestamp); ?></td>
+                                            <td><?php echo esc_html( date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $timestamp) ); ?></td>
                                             <td>
                                                 <?php 
                                                 if (!empty($event['args'])) {

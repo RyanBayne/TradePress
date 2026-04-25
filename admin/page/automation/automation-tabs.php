@@ -207,7 +207,7 @@ class TradePress_Admin_Automation_Page {
                                     <?php 
                                     $last_update = get_option('tradepress_data_import_last_run', 0);
                                     // Escape human_time_diff output for safe HTML rendering
-                                    echo $last_update ? esc_html( human_time_diff($last_update, current_time('timestamp')) . ' ago' ) : esc_html__('Never', 'tradepress');
+                                    echo $last_update ? esc_html( human_time_diff($last_update, current_time('timestamp')) . ' ago' ) : esc_html__('Never', 'tradepress' );
                                     ?>
                                 </span>
                             </div>
@@ -269,7 +269,7 @@ class TradePress_Admin_Automation_Page {
                             <?php 
                             $both_running = ($data_import_status === 'running' && $scoring_status === 'running');
                             $coordination_class = $both_running ? 'status-coordinated' : 'status-independent';
-                            $coordination_text = $both_running ? __('Coordinated', 'tradepress') : __('Independent', 'tradepress');
+                            $coordination_text = $both_running ? esc_html__('Coordinated', 'tradepress') : esc_html__('Independent', 'tradepress');
                             ?>
                             <div class="status-indicator <?php echo esc_attr($coordination_class); ?>">
                                 <span class="status-dot"></span>
@@ -352,7 +352,7 @@ class TradePress_Admin_Automation_Page {
         $market_status_last_update = get_option('tradepress_market_status_last_update', 0);
         
         $status_class = ($import_status === 'running') ? 'status-running' : 'status-stopped';
-        $status_text = ($import_status === 'running') ? __('Running', 'tradepress') : __('Stopped', 'tradepress');
+        $status_text = ($import_status === 'running') ? esc_html__('Running', 'tradepress') : esc_html__('Stopped', 'tradepress');
         ?>
         <div class="tab-content" id="data-import">
             <div class="automation-section">
@@ -487,8 +487,8 @@ class TradePress_Admin_Automation_Page {
         $is_running = TradePress_Admin_Automation_Controller::is_algorithm_running();
         $runtime = TradePress_Admin_Automation_Controller::get_algorithm_runtime();
         $status_class = $is_running ? 'status-running' : 'status-stopped';
-        $status_text = $is_running ? __('Running', 'tradepress') : __('Stopped', 'tradepress');
-        $button_text = $is_running ? __('Stop Algorithm', 'tradepress') : __('Start Algorithm', 'tradepress');
+        $status_text = $is_running ? esc_html__('Running', 'tradepress') : esc_html__('Stopped', 'tradepress');
+        $button_text = $is_running ? esc_html__('Stop Algorithm', 'tradepress') : esc_html__('Start Algorithm', 'tradepress');
         $button_class = $is_running ? 'button-stop' : 'button-start';
         
         // Get metrics
@@ -554,8 +554,8 @@ class TradePress_Admin_Automation_Page {
         $is_running = TradePress_Admin_Automation_Controller::is_signals_running();
         $runtime = TradePress_Admin_Automation_Controller::get_signals_runtime();
         $status_class = $is_running ? 'status-running' : 'status-stopped';
-        $status_text = $is_running ? __('Running', 'tradepress') : __('Stopped', 'tradepress');
-        $button_text = $is_running ? __('Stop Signals', 'tradepress') : __('Start Signals', 'tradepress');
+        $status_text = $is_running ? esc_html__('Running', 'tradepress') : esc_html__('Stopped', 'tradepress');
+        $button_text = $is_running ? esc_html__('Stop Signals', 'tradepress') : esc_html__('Start Signals', 'tradepress');
         $button_class = $is_running ? 'button-stop' : 'button-start';
         
         // Get metrics
@@ -621,8 +621,8 @@ class TradePress_Admin_Automation_Page {
         $is_running = TradePress_Admin_Automation_Controller::is_trading_running();
         $runtime = TradePress_Admin_Automation_Controller::get_trading_runtime();
         $status_class = $is_running ? 'status-running' : 'status-stopped';
-        $status_text = $is_running ? __('Running', 'tradepress') : __('Stopped', 'tradepress');
-        $button_text = $is_running ? __('Stop Trading', 'tradepress') : __('Start Trading', 'tradepress');
+        $status_text = $is_running ? esc_html__('Running', 'tradepress') : esc_html__('Stopped', 'tradepress');
+        $button_text = $is_running ? esc_html__('Stop Trading', 'tradepress') : esc_html__('Start Trading', 'tradepress');
         $button_class = $is_running ? 'button-stop' : 'button-start';
         
         // Get metrics
@@ -706,7 +706,7 @@ class TradePress_Admin_Automation_Page {
                                 'interval' => isset($data['interval']) ? $data['interval'] : 0,
                                 'args' => isset($data['args']) ? $data['args'] : array(),
                                 'human_time' => human_time_diff($now, $timestamp),
-                                'schedule_display' => $schedule ? (isset($schedules[$schedule]['display']) ? $schedules[$schedule]['display'] : $schedule) : __('One-time', 'tradepress'),
+                                'schedule_display' => $schedule ? (isset($schedules[$schedule]['display']) ? $schedules[$schedule]['display'] : $schedule) : esc_html__('One-time', 'tradepress'),
                                 'next_run' => date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $timestamp)
                             );
                         }
@@ -875,8 +875,8 @@ class TradePress_Admin_Automation_Page {
                                 <td>
                                     <?php 
                                     if ($earnings_last_updated) {
-                                        echo date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $earnings_last_updated);
-                                        echo ' (' . human_time_diff($earnings_last_updated, time()) . ' ' . __('ago', 'tradepress') . ')';
+                                        echo esc_html( date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $earnings_last_updated) );
+                                        echo ' (' . human_time_diff($earnings_last_updated, time()) . ' ' . esc_html__('ago', 'tradepress') . ')';
                                     } else {
                                         esc_html_e('Never', 'tradepress');
                                     }
@@ -901,8 +901,8 @@ class TradePress_Admin_Automation_Page {
                                     <?php
                                     $next_run = wp_next_scheduled('tradepress_fetch_earnings_calendar');
                                     if ($next_run) {
-                                        echo date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $next_run);
-                                        echo ' (' . human_time_diff(time(), $next_run) . ' ' . __('from now', 'tradepress') . ')';
+                                        echo esc_html( date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $next_run) );
+                                        echo ' (' . human_time_diff(time(), $next_run) . ' ' . esc_html__('from now', 'tradepress') . ')';
                                     } else {
                                         esc_html_e('Not scheduled', 'tradepress');
                                     }

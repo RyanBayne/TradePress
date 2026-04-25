@@ -4,7 +4,7 @@
  *
  * @package    TradePress
  * @subpackage Admin
- * @version    1.0.0
+ * @version    1.0.7
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -102,7 +102,7 @@ abstract class TradePress_Settings_Page {
         $section_keys = array_keys( $sections );
         
         foreach ( $sections as $id => $label ) {
-            echo '<li><a href="' . admin_url( 'admin.php?page=TradePress&tab=' . $this->id . '&section=' . sanitize_title( $id ) ) . '" class="' . ( $current_section === $id ? 'current' : '' ) . '">' . esc_html( $label ) . '</a> ' . ( end( $section_keys ) === $id ? '' : '|' ) . ' </li>';
+            echo '<li><a href="' . esc_url( admin_url( 'admin.php?page=TradePress&tab=' . $this->id . '&section=' . sanitize_title( $id ) ) ) . '" class="' . ( $current_section === $id ? 'current' : '' ) . '">' . esc_html( $label ) . '</a> ' . ( end( $section_keys ) === $id ? '' : '|' ) . ' </li>';
         }
         
         echo '</ul><br class="clear" />';

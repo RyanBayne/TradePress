@@ -5,7 +5,7 @@
  * Handles the automation system's backend operations
  *
  * @package TradePress/Admin
- * @version 1.0.0
+ * @version 1.0.7
  */
 
 if (!defined('ABSPATH')) {
@@ -179,7 +179,7 @@ class TradePress_Admin_Automation_Controller {
         if ($result) {
             wp_send_json_success(array(
                 /* translators: %s: component name, %s: action performed */
-                'message' => sprintf(__('%1$s %2$s successfully', 'tradepress'), 
+                'message' => sprintf(esc_html__('%1$s %2$s successfully', 'tradepress'), 
                     ucfirst($component), 
                     ($action === 'start' ? 'started' : 'stopped')
                 ),
@@ -188,7 +188,7 @@ class TradePress_Admin_Automation_Controller {
         } else {
             wp_send_json_error(array(
                 /* translators: %s: action name, %s: component name */
-                'message' => sprintf(__('Failed to %1$s %2$s', 'tradepress'), 
+                'message' => sprintf(esc_html__('Failed to %1$s %2$s', 'tradepress'), 
                     $action, 
                     $component
                 )
@@ -257,7 +257,7 @@ class TradePress_Admin_Automation_Controller {
         if ($success) {
             wp_send_json_success(array(
                 /* translators: %s: component name */
-                'message' => sprintf(__('All background processes %s successfully', 'tradepress'), 
+                'message' => sprintf(esc_html__('All background processes %s successfully', 'tradepress'), 
                     ($action === 'start' ? 'started' : 'stopped')
                 ),
                 'is_running' => ($action === 'start'),
@@ -266,7 +266,7 @@ class TradePress_Admin_Automation_Controller {
         } else {
             wp_send_json_error(array(
                 /* translators: %s: action name */
-                'message' => sprintf(__('Failed to %s all background processes', 'tradepress'), $action),
+                'message' => sprintf(esc_html__('Failed to %s all background processes', 'tradepress'), $action),
                 'components' => $results
             ));
         }

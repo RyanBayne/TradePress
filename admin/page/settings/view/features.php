@@ -3,7 +3,7 @@
  * TradePress Features Settings
  *
  * @package TradePress/Admin
- * @version 1.0.5
+ * @version 1.0.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -296,7 +296,7 @@ class TradePress_Admin_Settings_Features {
                                                         </label>
                                                         <?php if (isset($ability['version'])) : ?>
                                                             <?php /* translators: %s: string value */ ?>
-                                                            <span class="version"><?php echo esc_html(sprintf(__('v%s', 'tradepress'), $ability['version'])); ?></span>
+                                                            <span class="version"><?php echo esc_html(sprintf(esc_html__('v%s', 'tradepress'), $ability['version'])); ?></span>
                                                         <?php endif; ?>
                                                     </td>
                                                 </tr>

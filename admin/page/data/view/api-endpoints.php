@@ -6,7 +6,7 @@
  *
  * @package TradePress
  * @subpackage admin/page/data
- * @version 1.0.1
+ * @version 1.0.7
  * @since 1.0.0
  * @created 2025-05-22
  */

@@ -56,10 +56,10 @@ $session_data = $advisor_session->get_session_data();
 <?php 
 if ( $session_data && ! empty( $session_data['selected_symbols'] ) ) {
     echo TradePress_Symbols_Container::render( $session_data['selected_symbols'], array(
-        'title' => ucfirst( $session_data['mode'] ) . ' ' . __( 'Mode', 'tradepress' ),
+        'title' => ucfirst( $session_data['mode'] ) . ' ' . esc_html__( 'Mode', 'tradepress' ),
         'show_count' => true,
         'show_reset' => true,
-        'reset_url' => admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1&reset=1' ),
+        'reset_url' => esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1&reset=1' ) ),
         'position' => 'floating'
     ));
 }
@@ -118,13 +118,13 @@ function clearAdvisorSession() {
         // AJAX call to clear session
         jQuery.post(ajaxurl, {
             action: 'tradepress_clear_advisor_session',
-            nonce: '<?php echo wp_create_nonce( 'tradepress_clear_advisor_session' ); ?>'
+            nonce: '<?php echo esc_attr( wp_create_nonce( 'tradepress_clear_advisor_session' ) ); ?>'
         }, function(response) {
             // Always redirect regardless of response to ensure fresh start
-            window.location.href = '<?php echo admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1' ); ?>';
+            window.location.href = '<?php echo esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1' ) ); ?>';
         }).fail(function() {
             // Even if AJAX fails, redirect to start fresh
-            window.location.href = '<?php echo admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1' ); ?>';
+            window.location.href = '<?php echo esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1' ) ); ?>';
         });
     }
 }

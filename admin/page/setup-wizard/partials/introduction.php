@@ -1,6 +1,6 @@
 <?php
 /**
- * Setup Wizard - Introduction Step
+ * Setup Wizard - Introduction Step`n *`n * @version 1.0.7
  */
 
 if (!defined('ABSPATH')) {

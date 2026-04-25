@@ -201,8 +201,8 @@ function tradepress_earnings_tab_content() {
                         <?php foreach ($earnings_by_date as $date => $day_earnings): ?>
                             <div class="earnings-date-group">
                                 <h4 class="earnings-date-header">
-                                    <?php echo date_i18n(get_option('date_format'), strtotime($date)); ?>
-                                    <span class="day-name"><?php echo date_i18n('l', strtotime($date)); ?></span>
+                                    <?php echo esc_html( date_i18n(get_option('date_format'), strtotime($date)) ); ?>
+                                    <span class="day-name"><?php echo esc_html( date_i18n('l', strtotime($date)) ); ?></span>
                                     <span class="report-count"><?php echo count($day_earnings); ?> <?php echo _n('report', 'reports', count($day_earnings), 'tradepress'); ?></span>
                                 </h4>
                                 
@@ -332,7 +332,7 @@ function tradepress_earnings_tab_content() {
                                         <p class="company-name"><?php echo esc_html($earning['company']); ?></p>
                                     </div>
                                     <div class="earnings-date-badge">
-                                        <span class="date"><?php echo date_i18n('M d', strtotime($earning['date'])); ?></span>
+                                        <span class="date"><?php echo esc_html( date_i18n('M d', strtotime($earning['date'])) ); ?></span>
                                         <span class="time"><?php echo esc_html($earning['time']); ?></span>
                                     </div>
                                 </div>

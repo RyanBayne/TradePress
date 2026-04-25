@@ -6,7 +6,7 @@
  *
  * @package TradePress
  * @subpackage admin/page/DataTabs
- * @version 1.0.5
+ * @version 1.0.7
  * @since 1.0.0
  * @created 2025-04-26 21:30:00
  * 

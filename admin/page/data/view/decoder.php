@@ -5,7 +5,7 @@
  * Provides the Decoder tab for the Data page.
  *
  * @package TradePress\Admin\DataTabs
- * @version 1.0.1
+ * @version 1.0.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -209,7 +209,7 @@ class TradePress_Data_Decoder_Tab {
             }
         } else {
             /* translators: %s: string value */
-            $args['decoder_info'] = urlencode(sprintf(__('Selected source "%s" is not yet supported for automated parsing. Displaying raw content.', 'tradepress'), esc_html($decoder_source)));
+            $args['decoder_info'] = urlencode(sprintf(esc_html__('Selected source "%s" is not yet supported for automated parsing. Displaying raw content.', 'tradepress'), esc_html($decoder_source)));
             $args['decoder_processed'] = 'info';
             $args['decoded_content'] = urlencode($content_to_parse);
         }

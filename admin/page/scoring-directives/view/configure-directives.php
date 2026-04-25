@@ -565,7 +565,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                 $dev_status = $directive['development_status'] ?? 'development';
                                 $status_class = $dev_status === 'tested' ? 'status-active' : 'status-inactive';
                                 ?>
-                                <span class="status-badge <?php echo $status_class; ?>">
+                                <span class="status-badge <?php echo esc_attr( $status_class ); ?>">
                                     <?php echo esc_html(ucfirst($dev_status)); ?>
                                 </span>
                             </div>
@@ -601,7 +601,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                     $opacity = $is_active ? '1' : '0.4';
                                     $bg_color = $is_active ? '#0073aa' : '#999';
                                     ?>
-                                    <code style="background: <?php echo $bg_color; ?>; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; opacity: <?php echo $opacity; ?>; cursor: help;" title="<?php echo esc_attr($component_directive['name'] ?? ucfirst(str_replace('_', ' ', $component_id))); ?> - <?php echo $is_active ? 'Active' : 'Inactive'; ?>"><?php echo esc_html($code); ?></code>
+                                    <code style="background: <?php echo esc_attr( $bg_color ); ?>; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; opacity: <?php echo esc_attr( $opacity ); ?>; cursor: help;" title="<?php echo esc_attr($component_directive['name'] ?? ucfirst(str_replace('_', ' ', $component_id))); ?> - <?php echo $is_active ? 'Active' : 'Inactive'; ?>"><?php echo esc_html($code); ?></code>
                                 <?php endforeach; ?>
                             </div>
                         </div>
@@ -822,7 +822,7 @@ function tradepress_validate_directive_disable($directive_id) {
                             <div class="isa-info-box">
                                 <h4><?php esc_html_e('About ISA Reset', 'tradepress'); ?></h4>
                                 <p><?php esc_html_e('The ISA allowance resets on April 6th each year. This directive increases scores during this period to highlight potential trading opportunities.', 'tradepress'); ?></p>
-                                <p><strong><?php esc_html_e('Next ISA Reset Date:', 'tradepress'); ?></strong> <?php echo date('F j, Y', strtotime('April 6, ' . (date('n') >= 4 && date('j') > 5 ? date('Y') + 1 : date('Y')))); ?></p>
+                                <p><strong><?php esc_html_e('Next ISA Reset Date:', 'tradepress'); ?></strong> <?php echo esc_html( date('F j, Y', strtotime('April 6, ' . (date('n') >= 4 && date('j') > 5 ? date('Y') + 1 : date('Y')))) ); ?></p>
                             </div>
                             
                             <?php elseif ($configure_directive === 'volume') : ?>
@@ -1038,7 +1038,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                     <p class="setting-description"><?php esc_html_e('Monitor existing positions using this directive logic.', 'tradepress'); ?></p>
                                 </div>
                                 
-                                <div class="position-monitoring-config" style="<?php echo empty($saved_config['enable_position_monitoring']) ? 'display:none;' : ''; ?>">
+                                <div class="position-monitoring-config" style="<?php echo esc_attr( empty($saved_config['enable_position_monitoring']) ? 'display:none;' : '' ); ?>">
                                     <div class="setting-group">
                                         <label><?php esc_html_e('Check Frequency:', 'tradepress'); ?></label>
                                         <div class="setting-control">
@@ -1086,7 +1086,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                     <p class="setting-description"><?php esc_html_e('Block trades when ADX indicates unfavorable conditions.', 'tradepress'); ?></p>
                                 </div>
                                 
-                                <div class="hard-limit-config" style="<?php echo empty($saved_config['enable_hard_limit']) ? 'display:none;' : ''; ?>">
+                                <div class="hard-limit-config" style="<?php echo esc_attr( empty($saved_config['enable_hard_limit']) ? 'display:none;' : '' ); ?>">
                                     <div class="setting-group">
                                         <label><?php esc_html_e('Block Threshold:', 'tradepress'); ?></label>
                                         <div class="setting-control">
@@ -1427,7 +1427,7 @@ function tradepress_validate_directive_disable($directive_id) {
                             </select>
                             <p style="margin: 5px 0; font-size: 12px; color: #666;">
                                 <?php /* translators: %d: symbol name */ ?>
-                                <?php printf(esc_html__('%d symbols installed', 'tradepress'), $symbols_query->found_posts); ?>
+                                <?php printf(esc_html__('%d symbols installed', 'tradepress'), intval($symbols_query->found_posts)); ?>
                             </p>
                         <?php else : ?>
                             <p style="margin: 5px 0; color: #999; font-style: italic;">
@@ -1492,7 +1492,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                     $tier1 = $saved_config['bonus_tier_1'] ?? 20;
                                     $tier2 = $saved_config['bonus_tier_2'] ?? 40;
                                     $tier3 = $saved_config['bonus_tier_3'] ?? 80;
-                                    echo round((100 * $base_mult) + $tier1 + $tier2 + $tier3, 1);
+                                    echo esc_html( round((100 * $base_mult) + $tier1 + $tier2 + $tier3, 1) );
                                 ?></span>
                                 <p class="setting-description"><?php esc_html_e('Calculated maximum score with current settings.', 'tradepress'); ?></p>
                             </div>
@@ -1506,15 +1506,15 @@ function tradepress_validate_directive_disable($directive_id) {
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Oversold Bonus:', 'tradepress'); ?></label>
-                                <span>+30 points when RSI ≤ <?php echo $saved_config['oversold'] ?? 30; ?></span>
+                                <span>+30 points when RSI ≤ <?php echo esc_html( $saved_config['oversold'] ?? 30 ); ?></span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Overbought Penalty:', 'tradepress'); ?></label>
-                                <span>-20 points when RSI ≥ <?php echo $saved_config['overbought'] ?? 70; ?></span>
+                                <span>-20 points when RSI ≥ <?php echo esc_html( $saved_config['overbought'] ?? 70 ); ?></span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Extreme Bonus/Penalty:', 'tradepress'); ?></label>
-                                <span>±<?php echo $saved_config['extreme_bonus'] ?? 25; ?> points for RSI ≤20 or ≥80</span>
+                                <span>±<?php echo esc_html( $saved_config['extreme_bonus'] ?? 25 ); ?> points for RSI ≤20 or ≥80</span>
                             </div>
                         </div>
                         
@@ -1525,7 +1525,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                 <span><?php 
                                     $extreme_bonus = $saved_config['extreme_bonus'] ?? 25;
                                     $example_score = 50 + 30 + $extreme_bonus;
-                                    echo "50 + 30 + {$extreme_bonus} = {$example_score} points";
+                                    echo esc_html( "50 + 30 + {$extreme_bonus} = {$example_score} points" );
                                 ?></span>
                             </div>
                             <div class="example-group">
@@ -1541,7 +1541,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                 <span><?php 
                                     $extreme_bonus = $saved_config['extreme_bonus'] ?? 25;
                                     $example_score = 50 - 20 - $extreme_bonus;
-                                    echo "50 - 20 - {$extreme_bonus} = {$example_score} points";
+                                    echo esc_html( "50 - 20 - {$extreme_bonus} = {$example_score} points" );
                                 ?></span>
                             </div>
                         </div>
@@ -1552,7 +1552,7 @@ function tradepress_validate_directive_disable($directive_id) {
                             <div class="setting-control">
                                 <span id="rsi-overbought-max-score"><?php 
                                     $extreme_bonus = $saved_config['extreme_overbought_bonus'] ?? 20;
-                                    echo round(50 + 30 + $extreme_bonus, 1);
+                                    echo esc_html( round(50 + 30 + $extreme_bonus, 1) );
                                 ?></span>
                                 <p class="setting-description"><?php esc_html_e('Calculated maximum score with current settings.', 'tradepress'); ?></p>
                             </div>
@@ -1562,11 +1562,11 @@ function tradepress_validate_directive_disable($directive_id) {
                             <h4><?php esc_html_e('Scoring Formula', 'tradepress'); ?></h4>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Base Condition:', 'tradepress'); ?></label>
-                                <span>No score if RSI < <?php echo $saved_config['overbought_threshold'] ?? 70; ?></span>
+                                <span>No score if RSI < <?php echo esc_html( $saved_config['overbought_threshold'] ?? 70 ); ?></span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Overbought Base:', 'tradepress'); ?></label>
-                                <span>50 points when RSI ≥ <?php echo $saved_config['overbought_threshold'] ?? 70; ?></span>
+                                <span>50 points when RSI ≥ <?php echo esc_html( $saved_config['overbought_threshold'] ?? 70 ); ?></span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Intensity Bonus:', 'tradepress'); ?></label>
@@ -1574,7 +1574,7 @@ function tradepress_validate_directive_disable($directive_id) {
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Extreme Bonus:', 'tradepress'); ?></label>
-                                <span>+<?php echo $saved_config['extreme_overbought_bonus'] ?? 20; ?> points when RSI ≥ 80</span>
+                                <span>+<?php echo esc_html( $saved_config['extreme_overbought_bonus'] ?? 20 ); ?> points when RSI ≥ 80</span>
                             </div>
                         </div>
                         
@@ -1593,7 +1593,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                 <span><?php 
                                     $extreme_bonus = $saved_config['extreme_overbought_bonus'] ?? 20;
                                     $example_score = 50 + 30 + $extreme_bonus;
-                                    echo "50 + 30 + {$extreme_bonus} = {$example_score} points";
+                                    echo esc_html( "50 + 30 + {$extreme_bonus} = {$example_score} points" );
                                 ?></span>
                             </div>
                         </div>
@@ -1622,11 +1622,11 @@ function tradepress_validate_directive_disable($directive_id) {
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('High Volume Bonus:', 'tradepress'); ?></label>
-                                <span>+<?php echo $saved_config['high_volume_bonus'] ?? 25; ?> points when volume ≥1.5x average</span>
+                                <span>+<?php echo esc_html( $saved_config['high_volume_bonus'] ?? 25 ); ?> points when volume ≥1.5x average</span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Volume Surge Bonus:', 'tradepress'); ?></label>
-                                <span>+<?php echo $saved_config['surge_bonus'] ?? 50; ?> additional points when volume ≥3.0x average</span>
+                                <span>+<?php echo esc_html( $saved_config['surge_bonus'] ?? 50 ); ?> additional points when volume ≥3.0x average</span>
                             </div>
                         </div>
                         
@@ -1638,7 +1638,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                     $base_mult = $saved_config['base_multiplier'] ?? 1.0;
                                     $high_bonus = $saved_config['high_volume_bonus'] ?? 25;
                                     $example_score = 50 + (1 * 25 * $base_mult) + $high_bonus;
-                                    echo "50 + (1 × 25 × {$base_mult}) + {$high_bonus} = {$example_score} points";
+                                    echo esc_html( "50 + (1 × 25 × {$base_mult}) + {$high_bonus} = {$example_score} points" );
                                 ?></span>
                             </div>
                             <div class="example-group">
@@ -1648,7 +1648,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                     $high_bonus = $saved_config['high_volume_bonus'] ?? 25;
                                     $surge_bonus = $saved_config['surge_bonus'] ?? 50;
                                     $example_score = 50 + (3 * 25 * $base_mult) + $high_bonus + $surge_bonus;
-                                    echo "50 + (3 × 25 × {$base_mult}) + {$high_bonus} + {$surge_bonus} = {$example_score} points";
+                                    echo esc_html( "50 + (3 × 25 × {$base_mult}) + {$high_bonus} + {$surge_bonus} = {$example_score} points" );
                                 ?></span>
                             </div>
                         </div>
@@ -1690,7 +1690,7 @@ function tradepress_validate_directive_disable($directive_id) {
                             </div>
                             <div class="example-group">
                                 <label><?php esc_html_e('Confluence Zones:', 'tradepress'); ?></label>
-                                <span>High: <?php echo $saved_config['highly_overlapped_min_methods'] ?? 4; ?>+ methods | Medium: <?php echo $saved_config['well_overlapped_min_methods'] ?? 2; ?>+ methods</span>
+                                <span>High: <?php echo esc_html( $saved_config['highly_overlapped_min_methods'] ?? 4 ); ?>+ methods | Medium: <?php echo esc_html( $saved_config['well_overlapped_min_methods'] ?? 2 ); ?>+ methods</span>
                             </div>
                         </div>
                         
@@ -1701,7 +1701,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                 <span id="sentiment-max-score"><?php 
                                     $strong_bonus = $saved_config['strong_sentiment_bonus'] ?? 25;
                                     $volume_mult = $saved_config['volume_multiplier'] ?? 1.5;
-                                    echo round((100 + $strong_bonus) * $volume_mult, 1);
+                                    echo esc_html( round((100 + $strong_bonus) * $volume_mult, 1) );
                                 ?></span>
                                 <p class="setting-description"><?php esc_html_e('Calculated maximum score with current settings.', 'tradepress'); ?></p>
                             </div>
@@ -1715,11 +1715,11 @@ function tradepress_validate_directive_disable($directive_id) {
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Strong Sentiment Bonus:', 'tradepress'); ?></label>
-                                <span>+<?php echo $saved_config['strong_sentiment_bonus'] ?? 25; ?> points when sentiment ≥ 0.8</span>
+                                <span>+<?php echo esc_html( $saved_config['strong_sentiment_bonus'] ?? 25 ); ?> points when sentiment ≥ 0.8</span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('News Volume Multiplier:', 'tradepress'); ?></label>
-                                <span>×<?php echo $saved_config['volume_multiplier'] ?? 1.5; ?> when news count ≥ 5 articles</span>
+                                <span>×<?php echo esc_html( $saved_config['volume_multiplier'] ?? 1.5 ); ?> when news count ≥ 5 articles</span>
                             </div>
                         </div>
                         
@@ -1730,7 +1730,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                 <span><?php 
                                     $threshold = $saved_config['sentiment_threshold'] ?? 0.6;
                                     $example_score = (0.7 - $threshold) / (1.0 - $threshold) * 100;
-                                    echo "(0.7 - {$threshold}) / 0.4 × 100 = " . round($example_score, 1) . " points";
+                                    echo esc_html( "(0.7 - {$threshold}) / 0.4 × 100 = " . round($example_score, 1) . " points" );
                                 ?></span>
                             </div>
                             <div class="example-group">
@@ -1741,7 +1741,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                     $volume_mult = $saved_config['volume_multiplier'] ?? 1.5;
                                     $base_score = (0.85 - $threshold) / (1.0 - $threshold) * 100;
                                     $final_score = ($base_score + $strong_bonus) * $volume_mult;
-                                    echo "((" . round($base_score, 1) . " + {$strong_bonus}) × {$volume_mult}) = " . round($final_score, 1) . " points";
+                                    echo esc_html( "((" . round($base_score, 1) . " + {$strong_bonus}) × {$volume_mult}) = " . round($final_score, 1) . " points" );
                                 ?></span>
                             </div>
                         </div>
@@ -1752,7 +1752,7 @@ function tradepress_validate_directive_disable($directive_id) {
                             <div class="setting-control">
                                 <span id="obv-max-score"><?php 
                                     $trend_bonus = $saved_config['trend_bonus'] ?? 20;
-                                    echo round((50 + $trend_bonus) * 1.2, 1);
+                                    echo esc_html( round((50 + $trend_bonus) * 1.2, 1) );
                                 ?></span>
                                 <p class="setting-description"><?php esc_html_e('Calculated maximum score with current settings.', 'tradepress'); ?></p>
                             </div>
@@ -1766,15 +1766,15 @@ function tradepress_validate_directive_disable($directive_id) {
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Trend Confirmation:', 'tradepress'); ?></label>
-                                <span>+<?php echo $saved_config['trend_bonus'] ?? 20; ?> points when OBV matches price trend</span>
+                                <span>+<?php echo esc_html( $saved_config['trend_bonus'] ?? 20 ); ?> points when OBV matches price trend</span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Divergence Penalty:', 'tradepress'); ?></label>
-                                <span>-<?php echo $saved_config['divergence_penalty'] ?? 15; ?> points when OBV diverges from price</span>
+                                <span>-<?php echo esc_html( $saved_config['divergence_penalty'] ?? 15 ); ?> points when OBV diverges from price</span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Volume Boost:', 'tradepress'); ?></label>
-                                <span>×1.2 when volume ≥ <?php echo $saved_config['volume_threshold'] ?? 1.2; ?>x average</span>
+                                <span>×1.2 when volume ≥ <?php echo esc_html( $saved_config['volume_threshold'] ?? 1.2 ); ?>x average</span>
                             </div>
                         </div>
                         
@@ -1785,7 +1785,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                 <span><?php 
                                     $trend_bonus = $saved_config['trend_bonus'] ?? 20;
                                     $example_score = 50 + $trend_bonus;
-                                    echo "50 + {$trend_bonus} = {$example_score} points";
+                                    echo esc_html( "50 + {$trend_bonus} = {$example_score} points" );
                                 ?></span>
                             </div>
                             <div class="example-group">
@@ -1793,7 +1793,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                 <span><?php 
                                     $trend_bonus = $saved_config['trend_bonus'] ?? 20;
                                     $example_score = (50 + $trend_bonus) * 1.2;
-                                    echo "(50 + {$trend_bonus}) × 1.2 = " . round($example_score, 1) . " points";
+                                    echo esc_html( "(50 + {$trend_bonus}) × 1.2 = " . round($example_score, 1) . " points" );
                                 ?></span>
                             </div>
                             <div class="example-group">
@@ -1801,7 +1801,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                 <span><?php 
                                     $divergence_penalty = $saved_config['divergence_penalty'] ?? 15;
                                     $example_score = 50 - $divergence_penalty;
-                                    echo "50 - {$divergence_penalty} = {$example_score} points";
+                                    echo esc_html( "50 - {$divergence_penalty} = {$example_score} points" );
                                 ?></span>
                             </div>
                         </div>
@@ -1812,7 +1812,7 @@ function tradepress_validate_directive_disable($directive_id) {
                             <div class="setting-control">
                                 <span id="sma-max-score"><?php 
                                     $distance_bonus = $saved_config['distance_bonus'] ?? 15;
-                                    echo round(50 + $distance_bonus + ($distance_bonus * 0.5), 1);
+                                    echo esc_html( round(50 + $distance_bonus + ($distance_bonus * 0.5), 1) );
                                 ?></span>
                                 <p class="setting-description"><?php esc_html_e('Calculated maximum score with current settings.', 'tradepress'); ?></p>
                             </div>
@@ -1826,11 +1826,11 @@ function tradepress_validate_directive_disable($directive_id) {
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Above SMA Bonus:', 'tradepress'); ?></label>
-                                <span>+<?php echo $saved_config['distance_bonus'] ?? 15; ?> points when price > SMA</span>
+                                <span>+<?php echo esc_html( $saved_config['distance_bonus'] ?? 15 ); ?> points when price > SMA</span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Below SMA Penalty:', 'tradepress'); ?></label>
-                                <span>-<?php echo $saved_config['proximity_penalty'] ?? 10; ?> points when price < SMA</span>
+                                <span>-<?php echo esc_html( $saved_config['proximity_penalty'] ?? 10 ); ?> points when price < SMA</span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Distance Multiplier:', 'tradepress'); ?></label>
@@ -1845,7 +1845,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                 <span><?php 
                                     $distance_bonus = $saved_config['distance_bonus'] ?? 15;
                                     $example_score = 50 + $distance_bonus;
-                                    echo "50 + {$distance_bonus} = {$example_score} points";
+                                    echo esc_html( "50 + {$distance_bonus} = {$example_score} points" );
                                 ?></span>
                             </div>
                             <div class="example-group">
@@ -1854,7 +1854,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                     $distance_bonus = $saved_config['distance_bonus'] ?? 15;
                                     $extra_bonus = round($distance_bonus * 0.5, 1);
                                     $example_score = 50 + $distance_bonus + $extra_bonus;
-                                    echo "50 + {$distance_bonus} + {$extra_bonus} = {$example_score} points";
+                                    echo esc_html( "50 + {$distance_bonus} + {$extra_bonus} = {$example_score} points" );
                                 ?></span>
                             </div>
                             <div class="example-group">
@@ -1862,7 +1862,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                 <span><?php 
                                     $proximity_penalty = $saved_config['proximity_penalty'] ?? 10;
                                     $example_score = 50 - $proximity_penalty;
-                                    echo "50 - {$proximity_penalty} = {$example_score} points";
+                                    echo esc_html( "50 - {$proximity_penalty} = {$example_score} points" );
                                 ?></span>
                             </div>
                         </div>
@@ -1912,7 +1912,7 @@ function tradepress_validate_directive_disable($directive_id) {
                         <div class="setting-group">
                             <label><?php esc_html_e('Maximum Possible Score:', 'tradepress'); ?></label>
                             <div class="setting-control">
-                                <span><?php echo $saved_config['score_impact'] ?? 10; ?></span>
+                                <span><?php echo esc_html( $saved_config['score_impact'] ?? 10 ); ?></span>
                                 <p class="setting-description"><?php esc_html_e('Fixed bonus points during ISA reset period.', 'tradepress'); ?></p>
                             </div>
                         </div>
@@ -1925,11 +1925,11 @@ function tradepress_validate_directive_disable($directive_id) {
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('ISA Reset Period:', 'tradepress'); ?></label>
-                                <span>+<?php echo $saved_config['score_impact'] ?? 10; ?> points bonus</span>
+                                <span>+<?php echo esc_html( $saved_config['score_impact'] ?? 10 ); ?> points bonus</span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Active Period:', 'tradepress'); ?></label>
-                                <span><?php echo $saved_config['days_before'] ?? 3; ?> days before + <?php echo $saved_config['days_after'] ?? 3; ?> days after April 6th</span>
+                                <span><?php echo esc_html( $saved_config['days_before'] ?? 3 ); ?> days before + <?php echo esc_html( $saved_config['days_after'] ?? 3 ); ?> days after April 6th</span>
                             </div>
                         </div>
                         
@@ -1937,11 +1937,11 @@ function tradepress_validate_directive_disable($directive_id) {
                             <h4><?php esc_html_e('Calendar Impact', 'tradepress'); ?></h4>
                             <div class="example-group">
                                 <label><?php esc_html_e('Next ISA Reset:', 'tradepress'); ?></label>
-                                <span><?php echo date('F j, Y', strtotime('April 6, ' . (date('n') >= 4 && date('j') > 5 ? date('Y') + 1 : date('Y')))); ?></span>
+                                <span><?php echo esc_html( date('F j, Y', strtotime('April 6, ' . (date('n') >= 4 && date('j') > 5 ? date('Y') + 1 : date('Y')))) ); ?></span>
                             </div>
                             <div class="example-group">
                                 <label><?php esc_html_e('Active Dates:', 'tradepress'); ?></label>
-                                <span>April <?php echo 6 - ($saved_config['days_before'] ?? 3); ?> - April <?php echo 6 + ($saved_config['days_after'] ?? 3); ?></span>
+                                <span>April <?php echo esc_html( 6 - ($saved_config['days_before'] ?? 3) ); ?> - April <?php echo esc_html( 6 + ($saved_config['days_after'] ?? 3) ); ?></span>
                             </div>
                         </div>
                         
@@ -1949,7 +1949,7 @@ function tradepress_validate_directive_disable($directive_id) {
                         <div class="setting-group">
                             <label><?php esc_html_e('Maximum Possible Score:', 'tradepress'); ?></label>
                             <div class="setting-control">
-                                <span><?php echo 50 + ($saved_config['alignment_bonus'] ?? 25); ?></span>
+                                <span><?php echo esc_html( 50 + ($saved_config['alignment_bonus'] ?? 25) ); ?></span>
                                 <p class="setting-description"><?php esc_html_e('Base score plus alignment bonus.', 'tradepress'); ?></p>
                             </div>
                         </div>
@@ -1962,11 +1962,11 @@ function tradepress_validate_directive_disable($directive_id) {
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Bullish Alignment:', 'tradepress'); ?></label>
-                                <span>+<?php echo $saved_config['alignment_bonus'] ?? 25; ?> points when price > short MA > long MA</span>
+                                <span>+<?php echo esc_html( $saved_config['alignment_bonus'] ?? 25 ); ?> points when price > short MA > long MA</span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('MA Periods:', 'tradepress'); ?></label>
-                                <span>Short: <?php echo $saved_config['short_period'] ?? 20; ?> | Long: <?php echo $saved_config['long_period'] ?? 50; ?> (<?php echo $saved_config['ma_type'] ?? 'SMA'; ?>)</span>
+                                <span>Short: <?php echo esc_html( $saved_config['short_period'] ?? 20 ); ?> | Long: <?php echo esc_html( $saved_config['long_period'] ?? 50 ); ?> (<?php echo esc_html( $saved_config['ma_type'] ?? 'SMA' ); ?>)</span>
                             </div>
                         </div>
                         
@@ -1974,7 +1974,7 @@ function tradepress_validate_directive_disable($directive_id) {
                             <h4><?php esc_html_e('Example Scenarios', 'tradepress'); ?></h4>
                             <div class="example-group">
                                 <label><?php esc_html_e('Perfect Alignment:', 'tradepress'); ?></label>
-                                <span><?php echo 50 + ($saved_config['alignment_bonus'] ?? 25); ?> points</span>
+                                <span><?php echo esc_html( 50 + ($saved_config['alignment_bonus'] ?? 25) ); ?> points</span>
                             </div>
                             <div class="example-group">
                                 <label><?php esc_html_e('Neutral/Mixed:', 'tradepress'); ?></label>
@@ -2027,7 +2027,7 @@ function tradepress_validate_directive_disable($directive_id) {
                         <div class="setting-group">
                             <label><?php esc_html_e('Maximum Possible Score:', 'tradepress'); ?></label>
                             <div class="setting-control">
-                                <span><?php echo 50 + ($saved_config['crossover_bonus'] ?? 30); ?></span>
+                                <span><?php echo esc_html( 50 + ($saved_config['crossover_bonus'] ?? 30) ); ?></span>
                                 <p class="setting-description"><?php esc_html_e('Base score plus crossover bonus.', 'tradepress'); ?></p>
                             </div>
                         </div>
@@ -2040,11 +2040,11 @@ function tradepress_validate_directive_disable($directive_id) {
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Bullish Crossover:', 'tradepress'); ?></label>
-                                <span>+<?php echo $saved_config['crossover_bonus'] ?? 30; ?> points when MACD crosses above signal</span>
+                                <span>+<?php echo esc_html( $saved_config['crossover_bonus'] ?? 30 ); ?> points when MACD crosses above signal</span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('MACD Parameters:', 'tradepress'); ?></label>
-                                <span>Fast: <?php echo $saved_config['fast_period'] ?? 12; ?> | Slow: <?php echo $saved_config['slow_period'] ?? 26; ?> | Signal: <?php echo $saved_config['signal_period'] ?? 9; ?></span>
+                                <span>Fast: <?php echo esc_html( $saved_config['fast_period'] ?? 12 ); ?> | Slow: <?php echo esc_html( $saved_config['slow_period'] ?? 26 ); ?> | Signal: <?php echo esc_html( $saved_config['signal_period'] ?? 9 ); ?></span>
                             </div>
                         </div>
                         
@@ -2052,7 +2052,7 @@ function tradepress_validate_directive_disable($directive_id) {
                             <h4><?php esc_html_e('Example Scenarios', 'tradepress'); ?></h4>
                             <div class="example-group">
                                 <label><?php esc_html_e('Bullish Crossover:', 'tradepress'); ?></label>
-                                <span><?php echo 50 + ($saved_config['crossover_bonus'] ?? 30); ?> points</span>
+                                <span><?php echo esc_html( 50 + ($saved_config['crossover_bonus'] ?? 30) ); ?> points</span>
                             </div>
                             <div class="example-group">
                                 <label><?php esc_html_e('No Clear Signal:', 'tradepress'); ?></label>
@@ -2064,7 +2064,7 @@ function tradepress_validate_directive_disable($directive_id) {
                         <div class="setting-group">
                             <label><?php esc_html_e('Maximum Possible Score:', 'tradepress'); ?></label>
                             <div class="setting-control">
-                                <span><?php echo round(50 + ($saved_config['trend_bonus'] ?? 20) * ($saved_config['distance_multiplier'] ?? 1.0) * 1.5, 1); ?></span>
+                                <span><?php echo esc_html( round(50 + ($saved_config['trend_bonus'] ?? 20) * ($saved_config['distance_multiplier'] ?? 1.0) * 1.5, 1) ); ?></span>
                                 <p class="setting-description"><?php esc_html_e('Base plus trend bonus with distance multiplier.', 'tradepress'); ?></p>
                             </div>
                         </div>
@@ -2077,11 +2077,11 @@ function tradepress_validate_directive_disable($directive_id) {
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Above EMA Bonus:', 'tradepress'); ?></label>
-                                <span>+<?php echo $saved_config['trend_bonus'] ?? 20; ?> points when price > EMA</span>
+                                <span>+<?php echo esc_html( $saved_config['trend_bonus'] ?? 20 ); ?> points when price > EMA</span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Distance Multiplier:', 'tradepress'); ?></label>
-                                <span>×<?php echo $saved_config['distance_multiplier'] ?? 1.0; ?> based on distance from EMA</span>
+                                <span>×<?php echo esc_html( $saved_config['distance_multiplier'] ?? 1.0 ); ?> based on distance from EMA</span>
                             </div>
                         </div>
                         
@@ -2089,11 +2089,11 @@ function tradepress_validate_directive_disable($directive_id) {
                             <h4><?php esc_html_e('Example Scenarios', 'tradepress'); ?></h4>
                             <div class="example-group">
                                 <label><?php esc_html_e('Price 2% above EMA:', 'tradepress'); ?></label>
-                                <span><?php echo 50 + ($saved_config['trend_bonus'] ?? 20); ?> points</span>
+                                <span><?php echo esc_html( 50 + ($saved_config['trend_bonus'] ?? 20) ); ?> points</span>
                             </div>
                             <div class="example-group">
                                 <label><?php esc_html_e('Price 5% above EMA:', 'tradepress'); ?></label>
-                                <span><?php echo round(50 + ($saved_config['trend_bonus'] ?? 20) * ($saved_config['distance_multiplier'] ?? 1.0) * 1.3, 1); ?> points</span>
+                                <span><?php echo esc_html( round(50 + ($saved_config['trend_bonus'] ?? 20) * ($saved_config['distance_multiplier'] ?? 1.0) * 1.3, 1) ); ?> points</span>
                             </div>
                         </div>
                         
@@ -2200,15 +2200,15 @@ function tradepress_validate_directive_disable($directive_id) {
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Above Sector Average:', 'tradepress'); ?></label>
-                                <span>+<?php echo $saved_config['sector_comparison_bonus'] ?? 20; ?> points when yield > sector average</span>
+                                <span>+<?php echo esc_html( $saved_config['sector_comparison_bonus'] ?? 20 ); ?> points when yield > sector average</span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('High Yield Bonus:', 'tradepress'); ?></label>
-                                <span>+<?php echo $saved_config['high_yield_bonus'] ?? 30; ?> points when yield > 5%</span>
+                                <span>+<?php echo esc_html( $saved_config['high_yield_bonus'] ?? 30 ); ?> points when yield > 5%</span>
                             </div>
                             <div class="condition-group">
                                 <label><?php esc_html_e('Yield Trap Penalty:', 'tradepress'); ?></label>
-                                <span>-<?php echo $saved_config['yield_trap_penalty'] ?? 25; ?> points when yield > 8% or payout ratio > <?php echo $saved_config['payout_ratio_threshold'] ?? 80; ?>%</span>
+                                <span>-<?php echo esc_html( $saved_config['yield_trap_penalty'] ?? 25 ); ?> points when yield > 8% or payout ratio > <?php echo esc_html( $saved_config['payout_ratio_threshold'] ?? 80 ); ?>%</span>
                             </div>
                         </div>
                         
@@ -2216,15 +2216,15 @@ function tradepress_validate_directive_disable($directive_id) {
                             <h4><?php esc_html_e('Example Scenarios', 'tradepress'); ?></h4>
                             <div class="example-group">
                                 <label><?php esc_html_e('Quality Dividend (4% yield, 60% payout):', 'tradepress'); ?></label>
-                                <span><?php echo 50 + ($saved_config['sector_comparison_bonus'] ?? 20); ?> points</span>
+                                <span><?php echo esc_html( 50 + ($saved_config['sector_comparison_bonus'] ?? 20) ); ?> points</span>
                             </div>
                             <div class="example-group">
                                 <label><?php esc_html_e('High Yield (6% yield, 70% payout):', 'tradepress'); ?></label>
-                                <span><?php echo 50 + ($saved_config['sector_comparison_bonus'] ?? 20) + ($saved_config['high_yield_bonus'] ?? 30); ?> points</span>
+                                <span><?php echo esc_html( 50 + ($saved_config['sector_comparison_bonus'] ?? 20) + ($saved_config['high_yield_bonus'] ?? 30) ); ?> points</span>
                             </div>
                             <div class="example-group">
                                 <label><?php esc_html_e('Yield Trap (10% yield, 95% payout):', 'tradepress'); ?></label>
-                                <span><?php echo 50 - ($saved_config['yield_trap_penalty'] ?? 25); ?> points</span>
+                                <span><?php echo esc_html( 50 - ($saved_config['yield_trap_penalty'] ?? 25) ); ?> points</span>
                             </div>
                         </div>
                         
@@ -2588,7 +2588,7 @@ jQuery(document).ready(function($) {
         $.post(ajaxurl, {
             action: 'tradepress_get_api_calls',
             directive: directive,
-            nonce: '<?php echo wp_create_nonce('tradepress_api_calls'); ?>'
+            nonce: '<?php echo esc_attr( wp_create_nonce('tradepress_api_calls') ); ?>'
         })
         .done(function(response) {
             if (response.success) {
@@ -2708,7 +2708,7 @@ jQuery(document).ready(function($) {
         $.post(ajaxurl, {
             action: 'tradepress_get_api_calls',
             directive: directive,
-            nonce: '<?php echo wp_create_nonce('tradepress_api_calls'); ?>'
+            nonce: '<?php echo esc_attr( wp_create_nonce('tradepress_api_calls') ); ?>'
         })
         .done(function(response) {
             if (response.success) {
@@ -2734,7 +2734,7 @@ jQuery(document).ready(function($) {
             directive: directive,
             symbol: symbol,
             trading_mode: trading_mode,
-            nonce: '<?php echo wp_create_nonce('tradepress_directive_outcome'); ?>'
+            nonce: '<?php echo esc_attr( wp_create_nonce('tradepress_directive_outcome') ); ?>'
         })
         .done(function(response) {
             if (response.success) {

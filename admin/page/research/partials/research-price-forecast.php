@@ -43,7 +43,7 @@ if (!empty($symbol)) {
         // Check if the class exists - with more detailed error message
         if (!class_exists('TradePress_Price_Forecast_Table')) {
             echo '<div class="notice notice-error"><p>' . 
-                 __('Error: The TradePress_Price_Forecast_Table class is not available.', 'tradepress') . 
+                 esc_html__('Error: The TradePress_Price_Forecast_Table class is not available.', 'tradepress') . 
                  ' Class file should be located at: ' . TRADEPRESS_PLUGIN_DIR . 'admin/page/research/view/price-forecast-table.php' .
                  '</p></div>';
         } else {
@@ -185,7 +185,7 @@ if (!empty($symbol)) {
                                 echo '<span style="' . $style . '">' . number_format($confidence, 1) . '%</span>';
                             }
                             elseif ($column_name === 'updated') {
-                                echo human_time_diff(strtotime($item[$column_name]), current_time('timestamp')) . ' ago';
+                                echo esc_html( human_time_diff(strtotime($item[$column_name]), current_time('timestamp')) ) . ' ago';
                             }
                             else {
                                 echo esc_html($item[$column_name]);

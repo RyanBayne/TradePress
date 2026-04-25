@@ -170,7 +170,7 @@ $logger = new TradePress_Logger();
                         <span id="tradepress-algorithm-last-run">
                             <?php 
                             $last_run = get_option('tradepress_algorithm_last_run');
-                            echo $last_run ? date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $last_run) : __('Never', 'tradepress'); 
+                            echo $last_run ? date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $last_run) : esc_html__('Never', 'tradepress'); 
                             ?>
                         </span>
                     </p>
@@ -445,11 +445,11 @@ $logger = new TradePress_Logger();
                             </tr>
                             <tr>
                                 <td><?php esc_html_e('Max Execution Time', 'tradepress'); ?></td>
-                                <td><?php echo ini_get('max_execution_time') . ' ' . __('seconds', 'tradepress'); ?></td>
+                                <td><?php echo ini_get('max_execution_time') . ' ' . esc_html__('seconds', 'tradepress'); ?></td>
                             </tr>
                             <tr>
                                 <td><?php esc_html_e('CRON Enabled', 'tradepress'); ?></td>
-                                <td><?php echo defined('DISABLE_WP_CRON') && DISABLE_WP_CRON ? __('No', 'tradepress') : __('Yes', 'tradepress'); ?></td>
+                                <td><?php echo defined('DISABLE_WP_CRON') && DISABLE_WP_CRON ? esc_html__('No', 'tradepress') : esc_html__('Yes', 'tradepress'); ?></td>
                             </tr>
                         </table>
                     </div>

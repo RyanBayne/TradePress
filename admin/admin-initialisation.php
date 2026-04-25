@@ -12,7 +12,7 @@
  * @author   Ryan Bayne
  * @category Admin
  * @package  TradePress/Admin
- * @version  1.0.0
+ * @version 1.0.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -209,7 +209,7 @@ class TradePress_Admin {
 
             <span class="TradePress_plugin_upgrade_notice">
                 <?php /* translators: %s: new plugin version number */ ?>
-                <?php printf( __( '%s is a major update - please backup of your site before updating.', 'tradepress' ), $args['new_version'] ); ?>
+                <?php printf( esc_html__( '%s is a major update - please backup of your site before updating.', 'tradepress' ), esc_html( $args['new_version'] ) ); ?>
             </span>
 
             <?php ob_get_flush();

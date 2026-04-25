@@ -5,7 +5,7 @@
 * @author Ryan Bayne
 * @category settings
 * @package TradePress/Settings/General
-* @version 1.0
+* @version 1.0.7
 */
 
 // Prohibit direct script loading
@@ -20,7 +20,7 @@ class TradePress_Settings_General extends TradePress_Settings_Page {
     /**
     * Constructor
     * 
-    * @version 1.0  
+    * @version 1.0.7  
     */
     public function __construct()  {
 
@@ -180,7 +180,7 @@ class TradePress_Settings_General extends TradePress_Settings_Page {
      *
      * @return array
      * 
-     * @version 1.0
+     * @version 1.0.7
      */
     public function get_settings( $current_section = 'default' ) {
         $settings = array(); 

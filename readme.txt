@@ -133,6 +133,16 @@ Translator needed to localize TradePress.
     - Removed empty string from __() translation call in settings/view/users.php Registration section to satisfy WordPress.WP.I18n.NoEmptyStrings (E-f9d58a2e)
     - Escaped all get_sort_class() output with esc_attr() in configure-directives.php to satisfy WordPress.Security.EscapeOutput.OutputNotEscaped (E-ac5f1914)
     - Replaced all _e() with esc_html_e() (or wp_kses_post(__()) for HTML content) across 5 notice files: update.php, install.php, updated.php, updating.php, custom-dismiss.php to satisfy WordPress.Security.EscapeOutput.UnsafePrintingFunction (E-85a4670e)
+    - Replaced all _e() with esc_html_e() across 19 additional files to satisfy WordPress.Security.EscapeOutput.UnsafePrintingFunction: api-activity.php (32), api-endpoints.php (5), tables.php (6), all-apiactivity.php (1), endpoints.php (1), development-tabs.php (4), pointers.php (22), form-handler-example.php (2), database.php (6), extensions.php (3), folders.php (6), improvement.php (12), introduction.php (22), ready.php (9), services.php (3), general.php (1), price-forecast-table.php (1), class-mode-indicators.php (1), listtable-endpoints.php (1)
+    - Wrapped 15 unescaped wp_create_nonce() calls with esc_attr() across 8 files to satisfy WordPress.Security.EscapeOutput.OutputNotEscaped
+    - Wrapped 10 unescaped admin_url() calls with esc_url() across 7 files to satisfy WordPress.Security.EscapeOutput.OutputNotEscaped
+    - Replaced 75 unescaped __() calls with esc_html__() in echo, printf, sprintf, wp_die, concatenation, and ternary contexts across 19 files to satisfy WordPress.Security.EscapeOutput.OutputNotEscaped
+    - Escaped $args['new_version'] with esc_html() in admin-initialisation.php printf output
+    - Replaced 6 htmlspecialchars() calls with esc_html() in direct-api-test.php
+    - Wrapped 10 unescaped date_i18n(), human_time_diff(), and tradepress_number_format() calls with esc_html() across 5 files
+    - Escaped all unescaped output in configure-directives.php Scoring Information section: 35 $saved_config values with esc_html(), 8 round() calls with esc_html(), 2 date() calls with esc_html(), 13 interpolated strings with esc_html(), 9 arithmetic expressions with esc_html(), $bg_color/$opacity with esc_attr(), $status_class with esc_attr(), style ternaries with esc_attr() (E-52345e06 and ~85 related issues)
+    - Replaced 27 _e() with esc_html_e() in includes/ajax-handlers.php to satisfy WordPress.Security.EscapeOutput.UnsafePrintingFunction (E-b60e98ee)
+    - Renamed 'TradePress Logo Icon.png' to 'tradepress-logo-icon.png' to remove spaces from filename per WordPress naming standards (E-2d2cb69b)
 * Feature Improvements
     - None
 * Technical Notes

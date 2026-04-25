@@ -1,6 +1,6 @@
 <?php
 /**
- * Setup Wizard - Folders Step
+ * Setup Wizard - Folders Step`n *`n * @version 1.0.7
  */
 
 if (!defined('ABSPATH')) {

@@ -5,7 +5,7 @@
  * View strategy performance and test results
  *
  * @package TradePress/Admin/ScoringDirectives
- * @version 2.0.0
+ * @version 1.0.7
  */
 
 if (!defined('ABSPATH')) {
@@ -153,7 +153,7 @@ foreach ($strategies as $strategy) {
                     <button type="button" class="button view-details" data-strategy-id="<?php echo esc_attr($strategy['id']); ?>">
                         <?php esc_html_e('View Details', 'tradepress'); ?>
                     </button>
-                    <a href="<?php echo admin_url('admin.php?page=tradepress_scoring_directives&tab=manage_strategies'); ?>" class="button button-secondary">
+                    <a href="<?php echo esc_url( admin_url('admin.php?page=tradepress_scoring_directives&tab=manage_strategies') ); ?>" class="button button-secondary">
                         <?php esc_html_e('Edit Strategy', 'tradepress'); ?>
                     </a>
                 </div>
@@ -467,7 +467,7 @@ jQuery(document).ready(function($) {
         
         $.post(ajaxurl, {
             action: 'tradepress_test_strategy',
-            nonce: '<?php echo wp_create_nonce('tradepress_strategy_nonce'); ?>',
+            nonce: '<?php echo esc_attr( wp_create_nonce('tradepress_strategy_nonce') ); ?>',
             strategy_id: strategyId,
             symbol: symbol,
             trading_mode: mode

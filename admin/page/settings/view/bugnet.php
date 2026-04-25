@@ -5,7 +5,7 @@
  * @author   Ryan Bayne
  * @category Admin
  * @package  TradePress
- * @version  1.0
+ * @version  1.0.7
  */
 
 // Prohibit direct script loading
@@ -35,7 +35,7 @@ class TradePress_Settings_BugNet extends TradePress_Settings_Page {
         $section_keys = array_keys( $sections );
         
         foreach ( $sections as $id => $label ) {
-            echo '<li><a href="' . admin_url( 'admin.php?page=TradePress&tab=bugnet&section=' . sanitize_title( $id ) ) . '" class="' . ( $current_section === $id ? 'current' : '' ) . '">' . esc_html( $label ) . '</a> ' . ( end( $section_keys ) === $id ? '' : '|' ) . ' </li>';
+            echo '<li><a href="' . esc_url( admin_url( 'admin.php?page=TradePress&tab=bugnet&section=' . sanitize_title( $id ) ) ) . '" class="' . ( $current_section === $id ? 'current' : '' ) . '">' . esc_html( $label ) . '</a> ' . ( end( $section_keys ) === $id ? '' : '|' ) . ' </li>';
         }
         
         echo '</ul><br class="clear" />';
@@ -103,7 +103,7 @@ class TradePress_Settings_BugNet extends TradePress_Settings_Page {
         
         // Show success message if logs were cleared
         if ( isset( $_GET['cleared'] ) && $_GET['cleared'] === '1' ) {
-            echo '<div class="notice notice-success is-dismissible"><p>' . __( 'Selected log files have been cleared.', 'tradepress' ) . '</p></div>';
+            echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Selected log files have been cleared.', 'tradepress' ) . '</p></div>';
         }
         
         // Default to settings if no section specified or if section is 'default'

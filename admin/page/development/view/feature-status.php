@@ -164,7 +164,7 @@ class TradePress_Admin_Development_Feature_Status {
                                                 <a href="<?php echo esc_url($tab_url); ?>" class="feature-tab-link dashicons dashicons-external"></a>
                                             <?php endif; ?>
                                             <span class="tab-status">
-                                                <?php echo isset($tab['enabled']) && $tab['enabled'] ? '(' . __('Enabled', 'tradepress') . ')' : '(' . __('Disabled', 'tradepress') . ')'; ?>
+                                                <?php echo isset($tab['enabled']) && $tab['enabled'] ? '(' . esc_html__('Enabled', 'tradepress') . ')' : '(' . esc_html__('Disabled', 'tradepress') . ')'; ?>
                                             </span>
                                         </td>
                                     </tr>
@@ -172,7 +172,7 @@ class TradePress_Admin_Development_Feature_Status {
                                         <?php foreach ($tab['abilities'] as $ability_id => $ability): 
                                             $is_live = isset($ability['status']) && $ability['status'] == 'live';
                                             $status_class = $is_live ? 'status-live' : 'status-demo';
-                                            $status_text = $is_live ? __('Live', 'tradepress') : __('Demo', 'tradepress');
+                                            $status_text = $is_live ? esc_html__('Live', 'tradepress') : esc_html__('Demo', 'tradepress');
                                             $is_enabled = isset($ability['enabled']) && $ability['enabled'];
                                             $version = isset($ability['version']) ? $ability['version'] : '1.0.0';
                                             
@@ -198,7 +198,7 @@ class TradePress_Admin_Development_Feature_Status {
                                                 </span>
                                             </td>
                                             <td>
-                                                <?php echo $is_enabled ? __('Yes', 'tradepress') : __('No', 'tradepress'); ?>
+                                                <?php echo $is_enabled ? esc_html__('Yes', 'tradepress') : esc_html__('No', 'tradepress'); ?>
                                             </td>
                                             <td>
                                                 <?php echo esc_html($version); ?>
@@ -288,7 +288,7 @@ class TradePress_Admin_Development_Feature_Status {
                                                 <a href="<?php echo esc_url($tab_url); ?>" class="feature-tab-link dashicons dashicons-external"></a>
                                             <?php endif; ?>
                                             <span class="tab-status">
-                                                <?php echo isset($tab['enabled']) && $tab['enabled'] ? '(' . __('Enabled', 'tradepress') . ')' : '(' . __('Disabled', 'tradepress') . ')'; ?>
+                                                <?php echo isset($tab['enabled']) && $tab['enabled'] ? '(' . esc_html__('Enabled', 'tradepress') . ')' : '(' . esc_html__('Disabled', 'tradepress') . ')'; ?>
                                             </span>
                                         </td>
                                     </tr>
@@ -296,7 +296,7 @@ class TradePress_Admin_Development_Feature_Status {
                                         <?php foreach ($tab['abilities'] as $ability_id => $ability): 
                                             $is_live = isset($ability['status']) && $ability['status'] == 'live';
                                             $status_class = $is_live ? 'status-live' : 'status-demo';
-                                            $status_text = $is_live ? __('Live', 'tradepress') : __('Demo', 'tradepress');
+                                            $status_text = $is_live ? esc_html__('Live', 'tradepress') : esc_html__('Demo', 'tradepress');
                                             $is_enabled = isset($ability['enabled']) && $ability['enabled'];
                                             $version = isset($ability['version']) ? $ability['version'] : '1.0.0';
                                             
@@ -320,7 +320,7 @@ class TradePress_Admin_Development_Feature_Status {
                                                 </span>
                                             </td>
                                             <td>
-                                                <?php echo $is_enabled ? __('Yes', 'tradepress') : __('No', 'tradepress'); ?>
+                                                <?php echo $is_enabled ? esc_html__('Yes', 'tradepress') : esc_html__('No', 'tradepress'); ?>
                                             </td>
                                             <td>
                                                 <?php echo esc_html($version); ?>
@@ -405,7 +405,7 @@ class TradePress_Admin_Development_Feature_Status {
                                         $dev_status = $directive['development_status'] ?? 'development';
                                         $is_tested = $dev_status === 'tested';
                                         $status_class = $is_tested ? 'status-live' : 'status-demo';
-                                        $status_text = $is_tested ? __('Tested', 'tradepress') : __('Development', 'tradepress');
+                                        $status_text = $is_tested ? esc_html__('Tested', 'tradepress') : esc_html__('Development', 'tradepress');
                                         $version = $directive['version'] ?? '0.1.0';
                                         $category = ucfirst($directive['category'] ?? 'technical');
                                         $impact = ucfirst($directive['impact'] ?? 'medium');
@@ -523,12 +523,12 @@ class TradePress_Admin_Development_Feature_Status {
                     var featureId = $(this).data("feature");
                     
                     $.ajax({
-                        url: "<?php echo admin_url('admin-ajax.php'); ?>",
+                        url: "<?php echo esc_url( admin_url('admin-ajax.php') ); ?>",
                         type: "POST",
                         data: {
                             action: "tradepress_get_feature_help",
                             feature_id: featureId,
-                            nonce: "<?php echo wp_create_nonce('tradepress_feature_help'); ?>"
+                            nonce: "<?php echo esc_attr( wp_create_nonce('tradepress_feature_help') ); ?>"
                         },
                         success: function(response) {
                             if (response.success) {

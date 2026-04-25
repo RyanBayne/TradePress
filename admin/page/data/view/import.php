@@ -14,7 +14,7 @@
  *
  * @package TradePress
  * @subpackage Admin/Data
- * @version 1.0.0
+ * @version 1.0.7
  */
 
 if (!defined('ABSPATH')) {
@@ -129,7 +129,7 @@ jQuery(document).ready(function($) {
             data: {
                 action: 'tradepress_test_symbol_fetch',
                 symbol: symbol,
-                nonce: '<?php echo wp_create_nonce('tradepress_admin'); ?>'
+                nonce: '<?php echo esc_attr( wp_create_nonce('tradepress_admin') ); ?>'
             },
             success: function(response) {
                 $output.text(JSON.stringify(response, null, 2));
@@ -156,7 +156,7 @@ jQuery(document).ready(function($) {
             data: {
                 action: 'tradepress_update_symbols_manual',
                 symbol: symbol,
-                nonce: '<?php echo wp_create_nonce('tradepress_admin'); ?>'
+                nonce: '<?php echo esc_attr( wp_create_nonce('tradepress_admin') ); ?>'
             },
             success: function(response) {
                 $output.text(JSON.stringify(response, null, 2));
@@ -182,7 +182,7 @@ jQuery(document).ready(function($) {
             data: {
                 action: 'tradepress_test_batch_import',
                 symbols: symbols,
-                nonce: '<?php echo wp_create_nonce('tradepress_admin'); ?>'
+                nonce: '<?php echo esc_attr( wp_create_nonce('tradepress_admin') ); ?>'
             },
             success: function(response) {
                 $output.text(JSON.stringify(response, null, 2));
@@ -208,7 +208,7 @@ jQuery(document).ready(function($) {
             data: {
                 action: 'tradepress_test_api_connection',
                 provider: provider,
-                nonce: '<?php echo wp_create_nonce('tradepress_admin'); ?>'
+                nonce: '<?php echo esc_attr( wp_create_nonce('tradepress_admin') ); ?>'
             },
             success: function(response) {
                 $output.text(JSON.stringify(response, null, 2));
@@ -232,7 +232,7 @@ jQuery(document).ready(function($) {
             type: 'POST',
             data: {
                 action: 'tradepress_check_database_status',
-                nonce: '<?php echo wp_create_nonce('tradepress_admin'); ?>'
+                nonce: '<?php echo esc_attr( wp_create_nonce('tradepress_admin') ); ?>'
             },
             success: function(response) {
                 $output.text(JSON.stringify(response, null, 2));

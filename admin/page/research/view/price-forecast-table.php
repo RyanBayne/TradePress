@@ -4,6 +4,7 @@
  *
  * @link       https://example.com
  * @since      1.0.0
+ * @version    1.0.7
  * @package    TradePress
  * @subpackage TradePress/admin/page
  */

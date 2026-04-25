@@ -5,7 +5,7 @@
  * Provides a testing interface for the TradePress_Listener class with sample GET and POST forms.
  *
  * @package TradePress\Admin\sandbox
- * @version 1.0.0
+ * @version 1.0.7
  * @date    2023-10-25
  */
 
@@ -35,14 +35,14 @@ class TradePress_Admin_Page_Listener_Testing {
         if (!empty($get_processed)) {
             echo '<div class="notice notice-success is-dismissible"><p>' . 
                  /* translators: %s: component name */
-                 sprintf(__('GET form processed successfully! Value: %s', 'tradepress'), esc_html($get_processed)) .
+                 sprintf(esc_html__('GET form processed successfully! Value: %s', 'tradepress'), esc_html($get_processed)) .
                  '</p></div>';
         }
         
         if (!empty($post_processed)) {
             echo '<div class="notice notice-success is-dismissible"><p>' . 
                  /* translators: %s: component name */
-                 sprintf(__('POST form processed successfully! Value: %s', 'tradepress'), esc_html($post_processed)) .
+                 sprintf(esc_html__('POST form processed successfully! Value: %s', 'tradepress'), esc_html($post_processed)) .
                  '</p></div>';
         }
         
@@ -52,7 +52,7 @@ class TradePress_Admin_Page_Listener_Testing {
         if (!empty($security_error)) {
             echo '<div class="notice notice-error is-dismissible"><p>' . 
                  /* translators: %s: test name */
-                 sprintf(__('Security test failed as expected: %s', 'tradepress'), esc_html($security_error)) .
+                 sprintf(esc_html__('Security test failed as expected: %s', 'tradepress'), esc_html($security_error)) .
                  '</p></div>';
         }
         

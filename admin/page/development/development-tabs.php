@@ -3,7 +3,7 @@
  * TradePress Development Views
  *
  * @package TradePress/Admin/Views
- * @version 1.0.6
+ * @version 1.0.7
  */
 
 if (!defined('ABSPATH')) {

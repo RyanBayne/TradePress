@@ -170,7 +170,7 @@ class TradePress_Manage_Sources {
                                             $usage_stats['directive_uses']
                                         );
                                     } else {
-                                        echo __('No data available', 'tradepress');
+                                        echo esc_html__('No data available', 'tradepress');
                                     }
                                     ?>
                                 </td>
@@ -888,11 +888,11 @@ class TradePress_Manage_Sources {
                         return array(
                             'data' => $extracted_content,
                             /* translators: %d: element count, %s: CSS selector */
-                            'notes' => sprintf(__('Found %1$d elements matching selector "%2$s". Showing first 3.', 'tradepress'), count($elements), $selector)
+                            'notes' => sprintf(esc_html__('Found %1$d elements matching selector "%2$s". Showing first 3.', 'tradepress'), count($elements), $selector)
                         );
                     } else {
                         /* translators: %s: CSS selector */
-                        throw new Exception(sprintf(__('No elements found matching selector "%s".', 'tradepress'), $selector));
+                        throw new Exception(sprintf(esc_html__('No elements found matching selector "%s".', 'tradepress'), $selector));
                     }
                 }
             }
@@ -952,7 +952,7 @@ class TradePress_Manage_Sources {
         return array(
             'data' => $sample_data,
             /* translators: %d: total item count, %d: display limit */
-            'notes' => sprintf(__('Found %1$d items in feed. Showing first %2$d.', 'tradepress'), $item_count, count($sample_data))
+            'notes' => sprintf(esc_html__('Found %1$d items in feed. Showing first %2$d.', 'tradepress'), $item_count, count($sample_data))
         );
     }
     
@@ -1018,7 +1018,7 @@ class TradePress_Manage_Sources {
         
         if ($status_code !== 200) {
             /* translators: %d: error message */
-            throw new Exception(sprintf(__('API returned error code: %d', 'tradepress'), $status_code));
+            throw new Exception(sprintf(esc_html__('API returned error code: %d', 'tradepress'), $status_code));
         }
         
         $body = wp_remote_retrieve_body($response);
@@ -1032,7 +1032,7 @@ class TradePress_Manage_Sources {
                 // Looks like an array of items, limit to 3
                 $sample_data = array_slice($json_body, 0, 3);
                 /* translators: %d: number */
-                $notes = sprintf(__('API returned %d items. Showing first 3.', 'tradepress'), count($json_body));
+                $notes = sprintf(esc_html__('API returned %d items. Showing first 3.', 'tradepress'), count($json_body));
             } else {
                 $sample_data = $json_body;
                 $notes = __('API response received successfully.', 'tradepress');

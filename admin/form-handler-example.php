@@ -5,7 +5,7 @@
  * Based on the setup wizard pattern - shows proper WordPress form handling
  * 
  * @package TradePress
- * @version 1.0
+ * @version 1.0.7
  */
 
 // Prohibit direct script loading
@@ -179,12 +179,12 @@ class TradePress_Form_Handler_Example {
             switch ( $message ) {
                 case 'settings_saved':
                     echo '<div class="notice notice-success is-dismissible"><p>' . 
-                         __( 'Settings saved successfully.', 'tradepress' ) . '</p></div>';
+                         esc_html__( 'Settings saved successfully.', 'tradepress' ) . '</p></div>';
                     break;
                     
                 case 'watchlist_updated':
                     echo '<div class="notice notice-success is-dismissible"><p>' . 
-                         __( 'Watchlist updated successfully.', 'tradepress' ) . '</p></div>';
+                         esc_html__( 'Watchlist updated successfully.', 'tradepress' ) . '</p></div>';
                     break;
                     
                 default:

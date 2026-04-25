@@ -5,7 +5,7 @@
  * @author   Ryan Bayne
  * @category Admin
  * @package  TradePress/Admin
- * @version  1.0.0
+ * @version 1.0.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -95,7 +95,7 @@ class TradePress_Admin_Settings {
         global $current_tab;
 
         if ( empty( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'TradePress-settings' ) ) {
-            wp_die( __( 'Action failed. Please refresh the page and retry.', 'tradepress' ) );
+            wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'tradepress' ) );
         }
             
         // Trigger actions

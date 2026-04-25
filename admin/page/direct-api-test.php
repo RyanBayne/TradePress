@@ -141,12 +141,12 @@ if (empty($api_key) || empty($api_secret)) {
         </div>
         
         <div class="panel result-container">
-            <h2>API Test Results <span class="debug-badge"><?php echo htmlspecialchars($endpoint); ?></span></h2>
+            <h2>API Test Results <span class="debug-badge"><?php echo esc_html($endpoint); ?></span></h2>
             
             <?php if ($result['success']): ?>
                 <h3 class="success">Success</h3>
             <?php else: ?>
-                <h3 class="error">Error: <?php echo htmlspecialchars($result['message']); ?></h3>
+                <h3 class="error">Error: <?php echo esc_html($result['message']); ?></h3>
             <?php endif; ?>
             
             <div class="api-response">
@@ -156,15 +156,15 @@ if (empty($api_key) || empty($api_secret)) {
             
             <div class="debug-info">
                 <h3>Debug Information</h3>
-                <p><strong>Timestamp:</strong> <?php echo htmlspecialchars($result['timestamp']); ?></p>
-                <p><strong>Endpoint:</strong> <?php echo htmlspecialchars($result['endpoint']); ?></p>
-                <p><strong>Trading Mode:</strong> <?php echo htmlspecialchars($result['mode']); ?></p>
+                <p><strong>Timestamp:</strong> <?php echo esc_html($result['timestamp']); ?></p>
+                <p><strong>Endpoint:</strong> <?php echo esc_html($result['endpoint']); ?></p>
+                <p><strong>Trading Mode:</strong> <?php echo esc_html($result['mode']); ?></p>
                 <p><strong>API Key Present:</strong> <?php echo !empty($api_key) ? 'Yes' : 'No'; ?></p>
                 <p><strong>API Secret Present:</strong> <?php echo !empty($api_secret) ? 'Yes' : 'No'; ?></p>
                 
                 <?php if (!empty($result['debug'])): ?>
                     <h4>Debug Log:</h4>
-                    <pre><?php echo htmlspecialchars(implode("\n", $result['debug'])); ?></pre>
+                    <pre><?php echo esc_html(implode("\n", $result['debug'])); ?></pre>
                 <?php endif; ?>
             </div>
         </div>

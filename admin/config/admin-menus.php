@@ -116,8 +116,8 @@ class TradePress_Admin_Menus {
         
         // Debug output to help identify issues
         if (!class_exists('TradePress_Research')) {
-            echo '<div class="wrap"><h1>' . __('Research', 'tradepress') . '</h1>';
-            echo '<div class="notice notice-error"><p>' . __('Error: TradePress_Research class not found. Check file path and class name.', 'tradepress') . '</p>';
+            echo '<div class="wrap"><h1>' . esc_html__('Research', 'tradepress') . '</h1>';
+            echo '<div class="notice notice-error"><p>' . esc_html__('Error: TradePress_Research class not found. Check file path and class name.', 'tradepress') . '</p>';
             echo '<p>Looking for file at: ' . TRADEPRESS_PLUGIN_DIR . 'admin/page/research/research-tabs.php</p></div>';
             echo '</div>';
             return;
@@ -162,19 +162,19 @@ class TradePress_Admin_Menus {
             
             // Basic help sidebar
             $current_screen->set_help_sidebar(
-                '<p><strong>' . __('For more information:', 'tradepress') . '</strong></p>' .
-                '<p><a href="https://github.com/ryanbayne/TradePress" target="_blank">' . __('GitHub', 'tradepress') . '</a></p>' .
-                '<p><a href="https://TradePress.wordpress.com" target="_blank">' . __('Blog', 'tradepress') . '</a></p>' .
-                '<p><a href="https://discord.gg/ScrhXPE" target="_blank">' . __('Discord', 'tradepress') . '</a></p>'
+                '<p><strong>' . esc_html__('For more information:', 'tradepress') . '</strong></p>' .
+                '<p><a href="https://github.com/ryanbayne/TradePress" target="_blank">' . esc_html__('GitHub', 'tradepress') . '</a></p>' .
+                '<p><a href="https://TradePress.wordpress.com" target="_blank">' . esc_html__('Blog', 'tradepress') . '</a></p>' .
+                '<p><a href="https://discord.gg/ScrhXPE" target="_blank">' . esc_html__('Discord', 'tradepress') . '</a></p>'
             );
             
             // Add basic help tab
             $current_screen->add_help_tab(array(
                 'id'      => 'social_overview',
                 'title'   => __('Social Platforms Help', 'tradepress'),
-                'content' => '<h2>' . __('Social Platforms Overview', 'tradepress') . '</h2>' .
-                            '<p>' . __('The Social Platforms page allows you to configure and manage integrations with various social media platforms.', 'tradepress') . '</p>' .
-                            '<p>' . __('Use the tabs below to navigate between different platform settings.', 'tradepress') . '</p>'
+                'content' => '<h2>' . esc_html__('Social Platforms Overview', 'tradepress') . '</h2>' .
+                            '<p>' . esc_html__('The Social Platforms page allows you to configure and manage integrations with various social media platforms.', 'tradepress') . '</p>' .
+                            '<p>' . esc_html__('Use the tabs below to navigate between different platform settings.', 'tradepress') . '</p>'
             ));
         }
         

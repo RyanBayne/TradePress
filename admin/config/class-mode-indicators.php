@@ -5,7 +5,7 @@
  * Displays developer mode and demo mode indicators in admin
  *
  * @package TradePress/Admin/Config
- * @version 1.0.0
+ * @version 1.0.7
  */
 
 if (!defined('ABSPATH')) {
@@ -52,7 +52,7 @@ class TradePress_Mode_Indicators {
             <div class="tradepress-demo-indicator-wrap">
                 <button type="button" id="tradepress-demo-indicator" class="button show-settings <?php echo $demo_mode ? 'demo-on' : 'demo-off'; ?>" aria-expanded="false" data-demo-mode="<?php echo $demo_mode ? '1' : '0'; ?>">
                     <span class="dashicons <?php echo $demo_mode ? 'dashicons-yes-alt' : 'dashicons-dismiss'; ?>"></span>
-                    <span class="screen-reader-text"><?php echo $demo_mode ? __('Demo Mode On', 'tradepress') : __('Demo Mode Off', 'tradepress'); ?></span>
+                    <span class="screen-reader-text"><?php echo $demo_mode ? esc_html__('Demo Mode On', 'tradepress') : esc_html__('Demo Mode Off', 'tradepress'); ?></span>
                     Demo: <?php echo $demo_mode ? 'ON' : 'OFF'; ?>
                 </button>
             </div>
@@ -129,7 +129,7 @@ class TradePress_Mode_Indicators {
                     type: 'POST',
                     data: {
                         action: 'tradepress_demo_mode_toggle',
-                        nonce: '<?php echo wp_create_nonce('tradepress_demo_mode_toggle'); ?>'
+                        nonce: '<?php echo esc_attr( wp_create_nonce('tradepress_demo_mode_toggle') ); ?>'
                     },
                     success: function(response) {
                         if (response.success) {

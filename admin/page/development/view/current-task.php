@@ -39,7 +39,7 @@ class TradePress_Admin_Development_Current_Task {
             delete_transient('TRADEPRESS_GITHUB_issue_created');
             echo '<div class="notice notice-success is-dismissible"><p>' . 
                  /* translators: %s: component name */
-                 sprintf(__('GitHub issue #%s created successfully!', 'tradepress'), esc_html($github_issue_created)) .
+                 sprintf(esc_html__('GitHub issue #%s created successfully!', 'tradepress'), esc_html($github_issue_created)) .
                  '</p></div>';
         }
         
@@ -47,7 +47,7 @@ class TradePress_Admin_Development_Current_Task {
             delete_transient('TRADEPRESS_GITHUB_issue_error');
             echo '<div class="notice notice-error is-dismissible"><p>' . 
                  /* translators: %s: issue description */
-                 sprintf(__('Error creating GitHub issue: %s', 'tradepress'), esc_html($github_issue_error)) .
+                 sprintf(esc_html__('Error creating GitHub issue: %s', 'tradepress'), esc_html($github_issue_error)) .
                  '</p></div>';
         }
         
@@ -99,7 +99,7 @@ class TradePress_Admin_Development_Current_Task {
                                 <span class="task-phase">
                                     <span class="dashicons dashicons-chart-bar"></span>
                                     <?php /* translators: %d: number */ ?>
-                                    <?php echo esc_html(sprintf(__('Phase %d', 'tradepress'), $current_task['phase'])); ?>
+                                    <?php echo esc_html(sprintf(esc_html__('Phase %d', 'tradepress'), $current_task['phase'])); ?>
                                 </span>
                                 <span class="task-priority">
                                     <span class="dashicons dashicons-flag"></span>

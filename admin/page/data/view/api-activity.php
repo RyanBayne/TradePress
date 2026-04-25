@@ -64,15 +64,15 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
                 <h3><?php echo esc_html($stat['service']); ?></h3>
                 <div class="stat-numbers">
                     <div class="stat-item">
-                        <span class="stat-value"><?php echo tradepress_number_format(isset($stat['total_calls']) ? $stat['total_calls'] : 0); ?></span>
+                        <span class="stat-value"><?php echo esc_html( tradepress_number_format(isset($stat['total_calls']) ? $stat['total_calls'] : 0) ); ?></span>
                         <span class="stat-label"><?php esc_html_e('Calls', 'tradepress'); ?></span>
                     </div>
                     <div class="stat-item success">
-                        <span class="stat-value"><?php echo tradepress_number_format(isset($stat['successful_calls']) ? $stat['successful_calls'] : 0); ?></span>
+                        <span class="stat-value"><?php echo esc_html( tradepress_number_format(isset($stat['successful_calls']) ? $stat['successful_calls'] : 0) ); ?></span>
                         <span class="stat-label"><?php esc_html_e('Success', 'tradepress'); ?></span>
                     </div>
                     <div class="stat-item error">
-                        <span class="stat-value"><?php echo tradepress_number_format(isset($stat['error_calls']) ? $stat['error_calls'] : 0); ?></span>
+                        <span class="stat-value"><?php echo esc_html( tradepress_number_format(isset($stat['error_calls']) ? $stat['error_calls'] : 0) ); ?></span>
                         <span class="stat-label"><?php esc_html_e('Errors', 'tradepress'); ?></span>
                     </div>
                 </div>
@@ -207,7 +207,7 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
                         <span class="paging-input">
                             <span class="tablenav-paging-text">
                                 <?php /* translators: %1$s: string value, %2$s: string value */ ?>
-                                <?php printf(__('Page %1$s of %2$s', 'tradepress'), $page, $total_pages); ?>
+                                <?php printf(esc_html__('Page %1$s of %2$s', 'tradepress'), $page, $total_pages); ?>
                             </span>
                         </span>
                         

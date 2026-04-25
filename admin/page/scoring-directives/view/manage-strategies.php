@@ -5,7 +5,7 @@
  * Edit and configure existing scoring strategies
  *
  * @package TradePress/Admin/ScoringDirectives
- * @version 2.0.0
+ * @version 1.0.7
  */
 
 if (!defined('ABSPATH')) {
@@ -55,7 +55,7 @@ foreach ($strategies as $strategy) {
         <p><?php esc_html_e('Edit existing strategies, modify directive weights, and configure per-strategy settings.', 'tradepress'); ?></p>
         
         <div class="header-actions">
-            <a href="<?php echo admin_url('admin.php?page=tradepress_scoring_directives&tab=create_strategies'); ?>" class="button button-primary">
+            <a href="<?php echo esc_url( admin_url('admin.php?page=tradepress_scoring_directives&tab=create_strategies') ); ?>" class="button button-primary">
                 <?php esc_html_e('Create New Strategy', 'tradepress'); ?>
             </a>
         </div>
@@ -136,7 +136,7 @@ foreach ($strategies as $strategy) {
                 <span class="dashicons dashicons-chart-line"></span>
                 <h3><?php esc_html_e('No Strategies Found', 'tradepress'); ?></h3>
                 <p><?php esc_html_e('You haven\'t created any scoring strategies yet.', 'tradepress'); ?></p>
-                <a href="<?php echo admin_url('admin.php?page=tradepress_scoring_directives&tab=create_strategies'); ?>" class="button button-primary">
+                <a href="<?php echo esc_url( admin_url('admin.php?page=tradepress_scoring_directives&tab=create_strategies') ); ?>" class="button button-primary">
                     <?php esc_html_e('Create Your First Strategy', 'tradepress'); ?>
                 </a>
             </div>
@@ -329,7 +329,7 @@ jQuery(document).ready(function($) {
         
         $.post(ajaxurl, {
             action: 'tradepress_duplicate_strategy',
-            nonce: '<?php echo wp_create_nonce('tradepress_strategy_nonce'); ?>',
+            nonce: '<?php echo esc_attr( wp_create_nonce('tradepress_strategy_nonce') ); ?>',
             strategy_id: strategyId
         })
         .done(function(response) {
@@ -369,7 +369,7 @@ jQuery(document).ready(function($) {
             
             $.post(ajaxurl, {
                 action: 'tradepress_delete_strategy',
-                nonce: '<?php echo wp_create_nonce('tradepress_strategy_nonce'); ?>',
+                nonce: '<?php echo esc_attr( wp_create_nonce('tradepress_strategy_nonce') ); ?>',
                 strategy_id: strategyId
             })
             .done(function(response) {

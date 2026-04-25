@@ -5,7 +5,7 @@
  * Handles AJAX requests for the TradePress plugin
  *
  * @package TradePress/Admin
- * @version 1.0.0
+ * @version 1.0.7
  */
 
 if (!defined('ABSPATH')) {
@@ -698,6 +698,8 @@ add_action('wp_ajax_tradepress_render_github_markdown', 'tradepress_render_githu
 
 /**
  * AJAX handler for getting API call details
+ *
+ * @version 1.0.7
  */
 function tradepress_ajax_get_api_call_details() {
     // Check nonce
@@ -749,26 +751,26 @@ function tradepress_ajax_get_api_call_details() {
     ob_start();
     ?>
     <div class="api-details-section">
-        <h3><?php _e('Basic Information', 'tradepress'); ?></h3>
+        <h3><?php esc_html_e('Basic Information', 'tradepress'); ?></h3>
         <table class="widefat fixed">
             <tr>
-                <th><?php _e('Entry ID', 'tradepress'); ?></th>
+                <th><?php esc_html_e('Entry ID', 'tradepress'); ?></th>
                 <td><?php echo esc_html($call['entryid']); ?></td>
             </tr>
             <tr>
-                <th><?php _e('Service', 'tradepress'); ?></th>
+                <th><?php esc_html_e('Service', 'tradepress'); ?></th>
                 <td><?php echo esc_html($call['service']); ?></td>
             </tr>
             <tr>
-                <th><?php _e('Function/Endpoint', 'tradepress'); ?></th>
+                <th><?php esc_html_e('Function/Endpoint', 'tradepress'); ?></th>
                 <td><?php echo esc_html($call['function']); ?></td>
             </tr>
             <tr>
-                <th><?php _e('Type', 'tradepress'); ?></th>
+                <th><?php esc_html_e('Type', 'tradepress'); ?></th>
                 <td><?php echo esc_html($call['type']); ?></td>
             </tr>
             <tr>
-                <th><?php _e('Status', 'tradepress'); ?></th>
+                <th><?php esc_html_e('Status', 'tradepress'); ?></th>
                 <td>
                     <span class="status-badge status-<?php echo esc_attr(strtolower($call['status'])); ?>">
                         <?php echo esc_html($call['status']); ?>
@@ -776,28 +778,28 @@ function tradepress_ajax_get_api_call_details() {
                 </td>
             </tr>
             <tr>
-                <th><?php _e('Timestamp', 'tradepress'); ?></th>
+                <th><?php esc_html_e('Timestamp', 'tradepress'); ?></th>
                 <td><?php echo esc_html(date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($call['timestamp']))); ?></td>
             </tr>
             <tr>
-                <th><?php _e('Description', 'tradepress'); ?></th>
+                <th><?php esc_html_e('Description', 'tradepress'); ?></th>
                 <td><?php echo esc_html($call['description']); ?></td>
             </tr>
             <tr>
-                <th><?php _e('Outcome', 'tradepress'); ?></th>
+                <th><?php esc_html_e('Outcome', 'tradepress'); ?></th>
                 <td><?php echo esc_html($call['outcome']); ?></td>
             </tr>
             <?php if (!empty($endpoint)): ?>
             <tr>
-                <th><?php _e('Endpoint', 'tradepress'); ?></th>
+                <th><?php esc_html_e('Endpoint', 'tradepress'); ?></th>
                 <td><?php echo esc_html($endpoint['endpoint']); ?></td>
             </tr>
             <tr>
-                <th><?php _e('Call Count', 'tradepress'); ?></th>
-                <td><?php echo esc_html($endpoint['counter']); ?> <?php _e('calls', 'tradepress'); ?></td>
+                <th><?php esc_html_e('Call Count', 'tradepress'); ?></th>
+                <td><?php echo esc_html($endpoint['counter']); ?> <?php esc_html_e('calls', 'tradepress'); ?></td>
             </tr>
             <tr>
-                <th><?php _e('First Used', 'tradepress'); ?></th>
+                <th><?php esc_html_e('First Used', 'tradepress'); ?></th>
                 <td><?php echo esc_html(date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($endpoint['firstuse']))); ?></td>
             </tr>
             <?php endif; ?>
@@ -806,15 +808,15 @@ function tradepress_ajax_get_api_call_details() {
     
     <?php if (!empty($errors)): ?>
     <div class="api-details-section">
-        <h3><?php _e('Errors', 'tradepress'); ?></h3>
+        <h3><?php esc_html_e('Errors', 'tradepress'); ?></h3>
         <table class="widefat fixed striped">
             <thead>
                 <tr>
-                    <th><?php _e('Error Code', 'tradepress'); ?></th>
-                    <th><?php _e('Error Message', 'tradepress'); ?></th>
-                    <th><?php _e('Function', 'tradepress'); ?></th>
-                    <th><?php _e('File', 'tradepress'); ?></th>
-                    <th><?php _e('Timestamp', 'tradepress'); ?></th>
+                    <th><?php esc_html_e('Error Code', 'tradepress'); ?></th>
+                    <th><?php esc_html_e('Error Message', 'tradepress'); ?></th>
+                    <th><?php esc_html_e('Function', 'tradepress'); ?></th>
+                    <th><?php esc_html_e('File', 'tradepress'); ?></th>
+                    <th><?php esc_html_e('Timestamp', 'tradepress'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -834,13 +836,13 @@ function tradepress_ajax_get_api_call_details() {
     
     <?php if (!empty($meta)): ?>
     <div class="api-details-section">
-        <h3><?php _e('Metadata', 'tradepress'); ?></h3>
+        <h3><?php esc_html_e('Metadata', 'tradepress'); ?></h3>
         <table class="widefat fixed striped">
             <thead>
                 <tr>
-                    <th><?php _e('Key', 'tradepress'); ?></th>
-                    <th><?php _e('Value', 'tradepress'); ?></th>
-                    <th><?php _e('Timestamp', 'tradepress'); ?></th>
+                    <th><?php esc_html_e('Key', 'tradepress'); ?></th>
+                    <th><?php esc_html_e('Value', 'tradepress'); ?></th>
+                    <th><?php esc_html_e('Timestamp', 'tradepress'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -867,7 +869,7 @@ function tradepress_ajax_get_api_call_details() {
     
     <?php if (!empty($endpoint) && !empty($endpoint['parameters'])): ?>
     <div class="api-details-section">
-        <h3><?php _e('Request Parameters', 'tradepress'); ?></h3>
+        <h3><?php esc_html_e('Request Parameters', 'tradepress'); ?></h3>
         <?php 
         $parameters = json_decode($endpoint['parameters'], true);
         if (is_array($parameters) && !empty($parameters)):
@@ -875,8 +877,8 @@ function tradepress_ajax_get_api_call_details() {
         <table class="widefat fixed striped">
             <thead>
                 <tr>
-                    <th><?php _e('Parameter', 'tradepress'); ?></th>
-                    <th><?php _e('Value', 'tradepress'); ?></th>
+                    <th><?php esc_html_e('Parameter', 'tradepress'); ?></th>
+                    <th><?php esc_html_e('Value', 'tradepress'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -897,7 +899,7 @@ function tradepress_ajax_get_api_call_details() {
             </tbody>
         </table>
         <?php else: ?>
-        <p><?php _e('No parameters available for this request.', 'tradepress'); ?></p>
+        <p><?php esc_html_e('No parameters available for this request.', 'tradepress'); ?></p>
         <?php endif; ?>
     </div>
     <?php endif; ?>
