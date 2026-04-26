@@ -513,11 +513,11 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
             
             <div class="wp-list-table widefat fixed striped">
                 <div class="table-header" style="display: flex; background: #f1f1f1; padding: 12px 15px; font-weight: 600; border-bottom: 1px solid #c3c4c7;">
-                    <div style="flex: 2;"><?php _e('API Provider', 'tradepress'); ?></div>
-                    <div style="flex: 1;"><?php _e('Status', 'tradepress'); ?></div>
-                    <div style="flex: 1;"><?php _e('Type', 'tradepress'); ?></div>
-                    <div style="flex: 1;"><?php _e('Trading Mode', 'tradepress'); ?></div>
-                    <div style="flex: 1;"><?php _e('Rate Limit', 'tradepress'); ?></div>
+                    <div style="flex: 2;"><?php esc_html_e('API Provider', 'tradepress'); ?></div>
+                    <div style="flex: 1;"><?php esc_html_e('Status', 'tradepress'); ?></div>
+                    <div style="flex: 1;"><?php esc_html_e('Type', 'tradepress'); ?></div>
+                    <div style="flex: 1;"><?php esc_html_e('Trading Mode', 'tradepress'); ?></div>
+                    <div style="flex: 1;"><?php esc_html_e('Rate Limit', 'tradepress'); ?></div>
                 </div>
             </div>
 
@@ -597,7 +597,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
 
                                 <div>
                                     <strong>Rate Limiting:</strong><br>
-                                    <span class="rate-limit-badge rate-<?php echo strtolower($rate_limit_status); ?>"><?php echo esc_html($rate_limit_status); ?></span> - <?php echo esc_html($rate_limit_count); ?>/<?php echo esc_html($rate_limit_max); ?> calls today
+                                    <span class="rate-limit-badge rate-<?php echo strtolower($rate_limit_status); ?>"><?php echo esc_html($rate_limit_status); ?></span> - <?php echo esc_html($rate_limit_count); ?>/<?php echo esc_html($rate_limit_max); ?> calls today // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 </div>
                             </div>
                             
@@ -609,7 +609,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                                     <?php esc_html_e('Status Details', 'tradepress'); ?>
                                 </button>
                                 <form method="post" style="display: inline;">
-                                    <input type="hidden" name="test_api_nonce" value="<?php echo wp_create_nonce('tradepress_test_api'); ?>">
+                                    <input type="hidden" name="test_api_nonce" value="<?php echo esc_attr( wp_create_nonce('tradepress_test_api') ); ?>">
                                     <input type="hidden" name="action" value="test_api">
                                     <input type="hidden" name="api_id" value="<?php echo esc_attr($api_id); ?>">
                                     <button type="submit" class="button">
@@ -617,7 +617,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                                     </button>
                                 </form>
                                 <form method="post" style="display: inline;">
-                                    <input type="hidden" name="test_api_nonce" value="<?php echo wp_create_nonce('tradepress_test_api'); ?>">
+                                    <input type="hidden" name="test_api_nonce" value="<?php echo esc_attr( wp_create_nonce('tradepress_test_api') ); ?>">
                                     <input type="hidden" name="action" value="query_test">
                                     <input type="hidden" name="api_id" value="<?php echo esc_attr($api_id); ?>">
                                     <button type="submit" class="button">
@@ -626,7 +626,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                                 </form>
                                 <?php if (!$is_data_only): ?>
                                 <form method="post" style="display: inline;">
-                                    <input type="hidden" name="trading_mode_nonce" value="<?php echo wp_create_nonce('tradepress_toggle_trading_mode'); ?>">
+                                    <input type="hidden" name="trading_mode_nonce" value="<?php echo esc_attr( wp_create_nonce('tradepress_toggle_trading_mode') ); ?>">
                                     <input type="hidden" name="action" value="toggle_trading_mode">
                                     <input type="hidden" name="api_id" value="<?php echo esc_attr($api_id); ?>">
                                     <input type="hidden" name="new_mode" value="<?php echo $trading_mode === 'live' ? 'paper' : 'live'; ?>">
@@ -636,7 +636,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                                 </form>
                                 <?php endif; ?>
                                 <form method="post" style="display: inline;">
-                                    <input type="hidden" name="toggle_nonce" value="<?php echo wp_create_nonce('tradepress_toggle_api'); ?>">
+                                    <input type="hidden" name="toggle_nonce" value="<?php echo esc_attr( wp_create_nonce('tradepress_toggle_api') ); ?>">
                                     <input type="hidden" name="action" value="toggle_api_status">
                                     <input type="hidden" name="api_id" value="<?php echo esc_attr($api_id); ?>">
                                     <input type="hidden" name="new_state" value="<?php echo $api_enabled === 'yes' ? '0' : '1'; ?>">
@@ -781,7 +781,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                         </div>
                         <div class="section-content">
                             <form method="post">
-                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo wp_create_nonce('tradepress_save_' . $api_id . '_settings'); ?>">
+                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo esc_attr( wp_create_nonce('tradepress_save_' . $api_id . '_settings') ); ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 <input type="hidden" name="action" value="tradepress_save_<?php echo esc_attr($api_id); ?>_settings">
                                 <input type="hidden" name="api_id" value="<?php echo esc_attr($api_id); ?>">
                                 
@@ -873,7 +873,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                         </div>
                         <div class="section-content">
                             <form method="post">
-                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo wp_create_nonce('tradepress_save_' . $api_id . '_settings'); ?>">
+                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo esc_attr( wp_create_nonce('tradepress_save_' . $api_id . '_settings') ); ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 <input type="hidden" name="action" value="tradepress_save_<?php echo esc_attr($api_id); ?>_settings">
                                 <input type="hidden" name="api_id" value="<?php echo esc_attr($api_id); ?>">
                                 
@@ -890,7 +890,10 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                                                    value="<?php echo esc_attr($api_key); ?>" 
                                                    class="regular-text">
                                             <p class="description">
-                                                <?php esc_html_e('Your API key ID for real money trading on ' . ucfirst($api_id) . '.', 'tradepress'); ?>
+                                                <?php
+                                                /* translators: %s: API name */
+                                                printf( esc_html__( 'Your API key ID for real money trading on %s.', 'tradepress' ), esc_html( ucfirst( $api_id ) ) );
+                                                ?>
                                             </p>
                                         </td>
                                     </tr>
@@ -906,7 +909,10 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                                                    value="<?php echo esc_attr($api_secret); ?>" 
                                                    class="regular-text">
                                             <p class="description">
-                                                <?php esc_html_e('Your API secret key for real money trading on ' . ucfirst($api_id) . '.', 'tradepress'); ?>
+                                                <?php
+                                                /* translators: %s: API name */
+                                                printf( esc_html__( 'Your API secret key for real money trading on %s.', 'tradepress' ), esc_html( ucfirst( $api_id ) ) );
+                                                ?>
                                             </p>
                                         </td>
                                     </tr>
@@ -930,7 +936,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                         </div>
                         <div class="section-content">
                             <form method="post">
-                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo wp_create_nonce('tradepress_save_' . $api_id . '_settings'); ?>">
+                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo esc_attr( wp_create_nonce('tradepress_save_' . $api_id . '_settings') ); ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 <input type="hidden" name="action" value="tradepress_save_<?php echo esc_attr($api_id); ?>_settings">
                                 <input type="hidden" name="api_id" value="<?php echo esc_attr($api_id); ?>">
                                 
@@ -947,7 +953,10 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                                                    value="<?php echo esc_attr($paper_api_key); ?>" 
                                                    class="regular-text">
                                             <p class="description">
-                                                <?php esc_html_e('Your API key ID for paper trading on ' . ucfirst($api_id) . '.', 'tradepress'); ?>
+                                                <?php
+                                                /* translators: %s: API name */
+                                                printf( esc_html__( 'Your API key ID for paper trading on %s.', 'tradepress' ), esc_html( ucfirst( $api_id ) ) );
+                                                ?>
                                             </p>
                                         </td>
                                     </tr>
@@ -963,7 +972,10 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                                                    value="<?php echo esc_attr($paper_api_secret); ?>" 
                                                    class="regular-text">
                                             <p class="description">
-                                                <?php esc_html_e('Your API secret key for paper trading on ' . ucfirst($api_id) . '.', 'tradepress'); ?>
+                                                <?php
+                                                /* translators: %s: API name */
+                                                printf( esc_html__( 'Your API secret key for paper trading on %s.', 'tradepress' ), esc_html( ucfirst( $api_id ) ) );
+                                                ?>
                                             </p>
                                         </td>
                                     </tr>
@@ -987,7 +999,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                         </div>
                         <div class="section-content">
                             <form method="post">
-                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo wp_create_nonce('tradepress_save_' . $api_id . '_settings'); ?>">
+                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo esc_attr( wp_create_nonce('tradepress_save_' . $api_id . '_settings') ); ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 <input type="hidden" name="action" value="tradepress_save_<?php echo esc_attr($api_id); ?>_settings">
                                 <input type="hidden" name="api_id" value="<?php echo esc_attr($api_id); ?>">
                                 

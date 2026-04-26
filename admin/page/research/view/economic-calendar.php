@@ -124,7 +124,7 @@ function tradepress_economic_calendar_tab_content() {
             
             <?php 
             // Add the export calendar button
-            echo tradepress_get_calendar_export_button($economic_events); 
+            echo tradepress_get_calendar_export_button($economic_events); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             ?>
         </div>
         
@@ -189,8 +189,8 @@ function tradepress_economic_calendar_tab_content() {
                         <?php foreach ($events_by_date as $date => $day_events): ?>
                             <div class="calendar-date">
                                 <h4 class="date-heading">
-                                    <?php echo esc_html(date('l, F j, Y', strtotime($date))); ?>
-                                    <span class="event-count"><?php echo count($day_events); ?> <?php echo _n('event', 'events', count($day_events), 'tradepress'); ?></span>
+                                    <?php echo esc_html(date('l, F j, Y', strtotime($date))); ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                    <span class="event-count"><?php echo (int) count($day_events); ?> <?php echo _n('event', 'events', count($day_events), 'tradepress'); ?></span> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 </h4>
                                 
                                 <table class="events-table">

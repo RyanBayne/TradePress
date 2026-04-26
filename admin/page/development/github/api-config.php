@@ -27,9 +27,9 @@ function TRADEPRESS_GITHUB_api_config_content($repo_owner, $repo_name) {
         // Verify nonce
         if (check_admin_referer('TRADEPRESS_GITHUB_config_nonce', 'TRADEPRESS_GITHUB_nonce')) {
             // Sanitize and save settings
-            $github_token = isset($_POST['github_token']) ? sanitize_text_field($_POST['github_token']) : '';
-            $repo_owner = isset($_POST['repo_owner']) ? sanitize_text_field($_POST['repo_owner']) : '';
-            $repo_name = isset($_POST['repo_name']) ? sanitize_text_field($_POST['repo_name']) : '';
+            $github_token = isset($_POST['github_token']) ? sanitize_text_field(wp_unslash($_POST['github_token'])) : '';
+            $repo_owner = isset($_POST['repo_owner']) ? sanitize_text_field(wp_unslash($_POST['repo_owner'])) : '';
+            $repo_name = isset($_POST['repo_name']) ? sanitize_text_field(wp_unslash($_POST['repo_name'])) : '';
             $sync_frequency = isset($_POST['sync_frequency']) ? absint($_POST['sync_frequency']) : 24;
             
             // Feature toggles

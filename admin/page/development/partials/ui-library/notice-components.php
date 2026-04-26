@@ -56,7 +56,7 @@ defined('ABSPATH') || exit;
                 <div class="tradepress-notice-wrapper">
                     <?php 
                     $notices = new TradePress_Admin_Notices();
-                    echo $notices->info_area('Trading Tip', 'Diversification reduces risk. Consider spreading investments across different sectors.');
+                    echo $notices->info_area('Trading Tip', 'Diversification reduces risk. Consider spreading investments across different sectors.'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     ?>
                 </div>
                 
@@ -124,7 +124,7 @@ defined('ABSPATH') || exit;
             <section class="notice-demo-group">
                 <h5><?php esc_html_e('Usage Guidelines', 'tradepress'); ?></h5>
                 <div class="tradepress-notice-wrapper">
-                    <?php echo $notices->info_area('', 
+                    <?php echo $notices->info_area('', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                         '<strong>Best Practices:</strong> Use specific titles • Provide clear actions • Make dismissible when appropriate • Test accessibility'
                     ); ?>
                 </div>

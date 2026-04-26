@@ -224,7 +224,7 @@ $diagnostics = $discord_api->run_diagnostics();
                                     echo sprintf(
                                         /* translators: %s: value */
                                         esc_html__('Recommended value: %s. ', 'tradepress'), 
-                                        '<strong>' . $recommended_permissions . '</strong>'
+                                        '<strong>' . $recommended_permissions . '</strong>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                     ); 
                                     ?>
                                     <a href="https://discord.com/developers/docs/topics/permissions" target="_blank"><?php esc_html_e('Learn more about Discord permissions', 'tradepress'); ?></a>

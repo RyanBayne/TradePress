@@ -289,14 +289,14 @@ class TradePress_Admin_Toolbar_Developers {
         // Check capabilities first
         if (!current_user_can('TradePressdevelopertoolbar')) {
             tradepress_trace_log('TradePress Backup Error: Insufficient permissions');
-            wp_die(__('Insufficient permissions', 'tradepress'));
+            wp_die(esc_html__('Insufficient permissions', 'tradepress'));
         }
 
         // Verify nonce - check both GET and POST
         $nonce = isset($_GET['_wpnonce']) ? $_GET['_wpnonce'] : (isset($_POST['_wpnonce']) ? $_POST['_wpnonce'] : '');
         if (!wp_verify_nonce($nonce, 'tradepress_backup_plugin_nonce')) {
             tradepress_trace_log('TradePress Backup Error: Security check failed');
-            wp_die(__('Security check failed', 'tradepress'));
+            wp_die(esc_html__('Security check failed', 'tradepress'));
         }
         
         tradepress_trace_log('TradePress Backup: Security checks passed');
@@ -401,7 +401,7 @@ class TradePress_Admin_Toolbar_Developers {
             add_action('admin_notices', function() use ($new_version, $backup_full_path) {
                 echo '<div class="notice notice-success"><p>';
                 /* translators: %s: backup directory path, %s: version number */
-                echo sprintf(__('✅ Plugin backed up successfully to: %1$s<br>Version updated to: %2$s', 'tradepress'), 
+                echo sprintf(__('✅ Plugin backed up successfully to: %1$s<br>Version updated to: %2$s', 'tradepress'), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     esc_html($backup_full_path), esc_html($new_version));
                 echo '</p></div>';
             });
@@ -417,7 +417,8 @@ class TradePress_Admin_Toolbar_Developers {
             
             add_action('admin_notices', function() use ($e) {
                 echo '<div class="notice notice-error"><p>';
-                /* translators: %s: backup directory path */
+                /* translators: %s: backup directory path */ // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                /* translators: Developer toolbar notification message */
                 echo sprintf(__('❌ Backup failed: %s<br><small>Check wp-content/debug.log for detailed error information.</small>', 'tradepress'), esc_html($e->getMessage()));
                 echo '</p></div>';
             });

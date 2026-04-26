@@ -53,11 +53,11 @@ function TRADEPRESS_GITHUB_create_issue_content($repo_owner, $repo_name) {
     
     if (isset($_POST['github_create_issue']) && check_admin_referer('tradepress_create_github_issue', 'github_issue_nonce')) {
         // Sanitize form data
-        $issue_title = isset($_POST['issue_title']) ? sanitize_text_field($_POST['issue_title']) : '';
-        $issue_body = isset($_POST['issue_body']) ? sanitize_textarea_field($_POST['issue_body']) : '';
-        $issue_labels = isset($_POST['issue_labels']) ? array_map('sanitize_text_field', $_POST['issue_labels']) : array();
+        $issue_title = isset($_POST['issue_title']) ? sanitize_text_field(wp_unslash($_POST['issue_title'])) : '';
+        $issue_body = isset($_POST['issue_body']) ? sanitize_textarea_field(wp_unslash($_POST['issue_body'])) : '';
+        $issue_labels = isset($_POST['issue_labels']) ? array_map('sanitize_text_field', wp_unslash($_POST['issue_labels'])) : array();
         $issue_milestone = isset($_POST['issue_milestone']) ? intval($_POST['issue_milestone']) : null;
-        $issue_assignees = isset($_POST['issue_assignees']) ? array_map('sanitize_text_field', $_POST['issue_assignees']) : array();
+        $issue_assignees = isset($_POST['issue_assignees']) ? array_map('sanitize_text_field', wp_unslash($_POST['issue_assignees'])) : array();
         
         // Validate required fields
         if (empty($issue_title)) {

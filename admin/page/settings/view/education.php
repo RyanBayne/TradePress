@@ -145,7 +145,7 @@ class TradePress_Settings_Education extends TradePress_Settings_Page {
             $this->reset_all_pointers();
             
             // Redirect with success message
-            wp_redirect( add_query_arg( array(
+            wp_safe_redirect( add_query_arg( array(
                 'page' => 'tradepress-settings',
                 'tab' => 'education',
                 'pointers_reset' => '1'

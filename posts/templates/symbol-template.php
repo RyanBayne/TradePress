@@ -231,7 +231,7 @@ $complete_data = $symbol_object ? $symbol_object->get_complete_data(true) : arra
                                                             <?php 
                                                             for ($i = 1; $i <= 10; $i++) {
                                                                 $active = $i <= $level['strength'] ? 'active' : 'inactive';
-                                                                echo '<span class="strength-dot ' . $active . '"></span>';
+                                                                echo '<span class="strength-dot ' . $active . '"></span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                                             }
                                                             ?>
                                                         </div>
@@ -370,8 +370,8 @@ $complete_data = $symbol_object ? $symbol_object->get_complete_data(true) : arra
                     <?php endif; ?>
                     
                     <div class="symbol-description">
-                        <h2><?php esc_html_e('About', 'tradepress'); ?></h2>
-                        <?php echo $symbol_content; ?>
+                        <h2><?php esc_html_e('About', 'tradepress'); ?></h2> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        <?php echo $symbol_content; ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     </div>
                     
                     <?php

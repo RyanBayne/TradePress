@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     <div class="daily-header">
         <div class="daily-controls">
             <button class="button button-primary refresh-daily"><?php esc_html_e( 'Refresh Data', 'tradepress' ); ?></button>
-            <span class="last-updated">Last updated: <?php echo current_time( 'M j, Y g:i A' ); ?></span>
+            <span class="last-updated">Last updated: <?php echo  esc_html( current_time( 'M j, Y g:i A' ) ); ?></span>
         </div>
     </div>
 

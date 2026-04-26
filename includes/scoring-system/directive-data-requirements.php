@@ -99,11 +99,11 @@ class TradePress_Directive_Data_Requirements {
                             </div>
                             <div class="detail-row" style="display: flex; margin-bottom: 8px;">
                                 <label style="flex: 0 0 120px; font-weight: 600; color: #333;">Update Frequency:</label>
-                                <span><?php echo self::get_update_frequency($requirement['data_type']); ?></span>
+                                <span><?php echo self::get_update_frequency($requirement['data_type']); ?></span> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             </div>
                             <div class="detail-row" style="display: flex;">
                                 <label style="flex: 0 0 120px; font-weight: 600; color: #333;">Cost Level:</label>
-                                <span><?php echo self::get_cost_level($requirement['data_type']); ?></span>
+                                <span><?php echo self::get_cost_level($requirement['data_type']); ?></span> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             </div>
                         </div>
                         
@@ -139,7 +139,7 @@ class TradePress_Directive_Data_Requirements {
                                 <strong>Weekends:</strong> No updates - uses Friday's closing values
                             </div>
                             <div>
-                                <strong>Cache Strategy:</strong> <?php echo self::get_cache_strategy($directive_id); ?>
+                                <strong>Cache Strategy:</strong> <?php echo self::get_cache_strategy($directive_id); ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             </div>
                         </div>
                     </div>

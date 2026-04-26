@@ -92,7 +92,7 @@ function tradepress_get_all_endpoints() {
 $all_endpoints = tradepress_get_all_endpoints();
 
 // Handle search filtering
-$search_term = isset($_GET['s']) ? sanitize_text_field($_GET['s']) : '';
+$search_term = isset($_GET['s']) ? sanitize_text_field(wp_unslash($_GET['s'])) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $filtered_endpoints = $all_endpoints;
 
 if (!empty($search_term)) {
@@ -151,7 +151,7 @@ usort($filtered_endpoints, function($a, $b) {
                                     <code><?php echo esc_html($endpoint['endpoint']); ?></code>
                                 </div>
                                 <div style="flex: 1;">
-                                    <span class="method-badge method-<?php echo strtolower($endpoint['method']); ?>">
+                                    <span class="method-badge method-<?php echo  esc_attr( strtolower($endpoint['method']) ); ?>">
                                         <?php echo esc_html($endpoint['method']); ?>
                                     </span>
                                 </div>

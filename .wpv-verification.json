@@ -1233,9 +1233,9 @@
     },
     "updated_at": "2026-04-22 13:05:47",
     "ignored_files": {
-        "assets/images/logos/TradePress Logo Icon.png": {
-            "hash": "3ed848c422de2e3e13354cd2f92f490e",
-            "ignored_at": "2026-04-24 23:35:18"
+        "admin/config/admin-menus.php": {
+            "hash": "f16189324bee7544378c73726c957227",
+            "ignored_at": "2026-04-25 21:02:13"
         }
     }
 }

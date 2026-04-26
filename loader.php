@@ -78,7 +78,7 @@ final class WordPressTradePress {
      * @since 1.0
      */
     public function __clone() {
-        _doing_it_wrong( __FUNCTION__, __( 'You\'re not allowed to do that!', 'tradepress' ), '1.0' );
+        _doing_it_wrong( __FUNCTION__, esc_html__( 'You\'re not allowed to do that!', 'tradepress' ), '1.0' );
     }
 
     /**
@@ -86,7 +86,7 @@ final class WordPressTradePress {
      * @since 1.0
      */
     public function __wakeup() {
-        _doing_it_wrong( __FUNCTION__, __( 'You\'re not allowed to do that!', 'tradepress' ), '1.0' );
+        _doing_it_wrong( __FUNCTION__, esc_html__( 'You\'re not allowed to do that!', 'tradepress' ), '1.0' );
     }
     
     /**
@@ -790,7 +790,7 @@ final class WordPressTradePress {
     public static function show_errors() {      
         global $wpdb;
         echo '<div id="bugnet-wperror-dump">';       
-            _e( '<h1>BugNet: Possible Errors</h1>', 'tradepress' );
+        echo '<h1>' . esc_html__( 'BugNet: Possible Errors', 'tradepress' ) . '</h1>';
             $wpdb->show_errors( true );
         echo '</div>';   
     }   
@@ -803,7 +803,7 @@ final class WordPressTradePress {
     public function show_actions() {
         global $wp_actions;
         echo '<div id="bugnet-wpactions-dump">';
-        _e( '<h1>BugNet: WordPress Actions</h1>', 'tradepress' );
+        echo '<h1>' . esc_html__( 'BugNet: WordPress Actions', 'tradepress' ) . '</h1>';
         echo '<pre>';       
         print_r( $wp_actions );
         echo '</pre>';
@@ -813,7 +813,7 @@ final class WordPressTradePress {
     public function show_filters() {
         global $wp_filter;
         echo '<div id="bugnet-wpfilters-dump">';
-        _e( '<h1>BugNet: WordPress Filters</h1>', 'tradepress' );
+        echo '<h1>' . esc_html__( 'BugNet: WordPress Filters', 'tradepress' ) . '</h1>';
         echo '<pre>';
         //print_r( $wp_filter['admin_bar_menu'] );
         print_r( $wp_filter ); 

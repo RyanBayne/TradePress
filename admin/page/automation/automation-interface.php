@@ -299,7 +299,7 @@ class TradePress_Admin_Automation {
         }
         
         // Get and sanitize schedule data
-        $schedule_type = isset($_POST['schedule_type']) ? sanitize_text_field($_POST['schedule_type']) : 'manual';
+        $schedule_type = isset($_POST['schedule_type']) ? sanitize_text_field(wp_unslash($_POST['schedule_type'])) : 'manual';
         
         // Save basic schedule settings
         update_option('tradepress_schedule_type', $schedule_type);
@@ -323,7 +323,7 @@ class TradePress_Admin_Automation {
                 break;
                 
             case 'daily':
-                $daily_time = isset($_POST['daily_time']) ? sanitize_text_field($_POST['daily_time']) : '18:00';
+                $daily_time = isset($_POST['daily_time']) ? sanitize_text_field(wp_unslash($_POST['daily_time'])) : '18:00';
                 update_option('tradepress_daily_time', $daily_time);
                 
                 // Schedule the daily cron at the specified time
@@ -366,7 +366,7 @@ class TradePress_Admin_Automation {
             list($hours, $minutes) = explode(':', $time);
             
             // Create a timestamp for today at the specified time
-            $timestamp = strtotime(date('Y-m-d') . ' ' . $hours . ':' . $minutes . ':00');
+            $timestamp = strtotime(wp_date('Y-m-d') . ' ' . $hours . ':' . $minutes . ':00');
             
             // If the time has already passed today, schedule for tomorrow
             if ($timestamp < time()) {

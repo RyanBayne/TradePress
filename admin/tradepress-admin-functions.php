@@ -217,7 +217,7 @@ function tradepress_toggle_demo_mode() {
     check_admin_referer('tradepress-toggle-demo-mode');
 
     if (!current_user_can('TradePressdevelopertoolbar')) {
-        wp_die(__('You do not have permission to perform this action.', 'tradepress'));
+        wp_die(esc_html__('You do not have permission to perform this action.', 'tradepress'));
     }
     
     // Ensure we have access to the is_demo_mode function
@@ -296,14 +296,14 @@ function tradepress_handle_cron_actions() {
     if ($action === 'run_earnings_calendar') {
         // Verify nonce
         if (!isset($_GET['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce'], 'tradepress_run_cron')) {
-            wp_die(__('Security check failed. Please try again.', 'tradepress'));
+            wp_die(esc_html__('Security check failed. Please try again.', 'tradepress'));
         }
         
         // Run the cron job manually
         do_action('tradepress_fetch_earnings_calendar');
         
         // Redirect back with a success message
-        wp_redirect(add_query_arg(array(
+        wp_safe_redirect(add_query_arg(array(
             'page' => 'tradepress_automation',
             'tab' => 'cron',
             'cron_run' => 'success',
@@ -315,7 +315,7 @@ function tradepress_handle_cron_actions() {
     if ($action === 'clear_all_tradepress_crons') {
         // Verify nonce
         if (!isset($_GET['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce'], 'tradepress_clear_cron')) {
-            wp_die(__('Security check failed. Please try again.', 'tradepress'));
+            wp_die(esc_html__('Security check failed. Please try again.', 'tradepress'));
         }
         
         // Get all cron jobs
@@ -333,7 +333,7 @@ function tradepress_handle_cron_actions() {
         }
         
         // Redirect back with a success message
-        wp_redirect(add_query_arg(array(
+        wp_safe_redirect(add_query_arg(array(
             'page' => 'tradepress_automation',
             'tab' => 'cron',
             'cron_clear' => 'success'
@@ -379,12 +379,12 @@ add_action('admin_notices', 'tradepress_display_cron_notices');
  */
 function tradepress_update_earnings_cron() {
     if (!current_user_can('manage_options')) {
-        wp_die(__('You do not have permission to perform this action.', 'tradepress'));
+        wp_die(esc_html__('You do not have permission to perform this action.', 'tradepress'));
     }
     
     // Verify nonce
     if (!isset($_POST['tradepress_earnings_cron_nonce']) || !wp_verify_nonce($_POST['tradepress_earnings_cron_nonce'], 'tradepress_earnings_cron_settings')) {
-        wp_die(__('Security check failed. Please try again.', 'tradepress'));
+        wp_die(esc_html__('Security check failed. Please try again.', 'tradepress'));
     }
     
     // Handle enable request
@@ -427,7 +427,7 @@ function tradepress_update_earnings_cron() {
     
     // Redirect back to the CRON tab with status message
     set_transient('settings_errors', get_settings_errors(), 30);
-    wp_redirect(add_query_arg(array('page' => 'tradepress_automation', 'tab' => 'cron', 'settings-updated' => 1), admin_url('admin.php')));
+    wp_safe_redirect(add_query_arg(array('page' => 'tradepress_automation', 'tab' => 'cron', 'settings-updated' => 1), admin_url('admin.php')));
     exit;
 }
 add_action('admin_post_tradepress_update_earnings_cron', 'tradepress_update_earnings_cron');
@@ -450,12 +450,12 @@ add_filter('cron_schedules', 'tradepress_add_weekly_cron_schedule');
 function tradepress_save_favorite_tabs() {
     // Check user capabilities
     if (!current_user_can('manage_options')) {
-        wp_die(__('You do not have permission to perform this action.', 'tradepress'));
+        wp_die(esc_html__('You do not have permission to perform this action.', 'tradepress'));
     }
     
     // Verify nonce
     if (!isset($_POST['favorite_tabs_nonce']) || !wp_verify_nonce($_POST['favorite_tabs_nonce'], 'save_tradepress_favorite_tabs')) {
-        wp_die(__('Security check failed. Please try again.', 'tradepress'));
+        wp_die(esc_html__('Security check failed. Please try again.', 'tradepress'));
     }
     
     // Process favorite tabs data
@@ -468,7 +468,7 @@ function tradepress_save_favorite_tabs() {
     update_option('tradepress_favorite_tabs', $favorite_tabs);
     
     // Redirect back to settings page with success message - FIX: use TradePress (uppercase) instead of tradepress-settings
-    wp_redirect(add_query_arg(array(
+    wp_safe_redirect(add_query_arg(array(
         'page' => 'tradepress', // Changed from tradepress-settings to match actual menu slug
         'tab' => 'general',
         'section' => 'favetabs',

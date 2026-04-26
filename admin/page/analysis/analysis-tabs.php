@@ -26,7 +26,7 @@ class TradePress_Admin_Analysis_Tabs {
         require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/functions/function.tradepress-features-helpers.php';
         
         // Get the current tab
-        $current_tab = isset( $_GET['tab'] ) ? sanitize_title( $_GET['tab'] ) : 'recent_symbols';
+        $current_tab = isset( $_GET['tab'] ) ? sanitize_title( wp_unslash($_GET['tab']) ) : 'recent_symbols';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         
         // Define available tabs
         $tabs = self::get_tabs();

@@ -46,22 +46,22 @@ class TradePress_Background_Updater extends TradePress_Background_Processing {
      */
     public function handle_cron_healthcheck() {
         // Log healthcheck for monitoring
-        error_log('TradePress Background Updater: Healthcheck running');
+        error_log('TradePress Background Updater: Healthcheck running');  // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
         
         if ( $this->is_process_running() ) {
             // Background process already running.
-            error_log('TradePress Background Updater: Process already running, skipping');
+            error_log('TradePress Background Updater: Process already running, skipping');  // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
             return;
         }
 
         if ( $this->is_queue_empty() ) {
             // No data to process.
-            error_log('TradePress Background Updater: Queue empty, clearing scheduled event');
+            error_log('TradePress Background Updater: Queue empty, clearing scheduled event');  // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
             $this->clear_scheduled_event();
             return;
         }
 
-        error_log('TradePress Background Updater: Starting background process');
+        error_log('TradePress Background Updater: Starting background process');  // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
         $this->handle();
     }
 
@@ -83,7 +83,7 @@ class TradePress_Background_Updater extends TradePress_Background_Processing {
      */
     protected function get_optimal_schedule_delay() {
         // Check if this is during peak hours (9 AM - 5 PM)
-        $current_hour = (int) date('H');
+        $current_hour = (int) wp_date('H');
         $is_peak_hours = ($current_hour >= 9 && $current_hour <= 17);
         
         // Shorter delay during off-peak hours

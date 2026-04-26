@@ -36,20 +36,20 @@ echo "2. Testing capability lookups...\n";
 
 // Test CCI support
 $cci_platforms = TradePress_API_Capability_Matrix::get_platforms_for_data_type('cci');
-echo "CCI supported by: " . implode(', ', $cci_platforms) . "\n";
+echo "CCI supported by: " . implode(', ', $cci_platforms) . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 // Test MACD support  
 $macd_platforms = TradePress_API_Capability_Matrix::get_platforms_for_data_type('macd');
-echo "MACD supported by: " . implode(', ', $macd_platforms) . "\n";
+echo "MACD supported by: " . implode(', ', $macd_platforms) . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 // Test Alpha Vantage capabilities
 $av_capabilities = TradePress_API_Capability_Matrix::get_platform_capabilities('alphavantage');
-echo "Alpha Vantage supports: " . implode(', ', $av_capabilities) . "\n\n";
+echo "Alpha Vantage supports: " . implode(', ', $av_capabilities) . "\n\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 // Test freshness requirements
 echo "3. Testing freshness requirements...\n";
-echo "CCI freshness: " . TradePress_API_Capability_Matrix::get_freshness_requirement('cci') . " seconds\n";
-echo "Volume freshness: " . TradePress_API_Capability_Matrix::get_freshness_requirement('volume') . " seconds\n\n";
+echo "CCI freshness: " . TradePress_API_Capability_Matrix::get_freshness_requirement('cci') . " seconds\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+echo "Volume freshness: " . TradePress_API_Capability_Matrix::get_freshness_requirement('volume') . " seconds\n\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 // Test platform support checks
 echo "4. Testing platform support checks...\n";
@@ -60,8 +60,8 @@ echo "Finnhub supports CCI: " . (TradePress_API_Capability_Matrix::platform_supp
 echo "5. Cache status...\n";
 $status = TradePress_API_Capability_Matrix::get_cache_status();
 echo "Cached: " . ($status['cached'] ? 'Yes' : 'No') . "\n";
-echo "Last Updated: " . date('Y-m-d H:i:s', $status['last_updated']) . "\n";
-echo "Expires: " . date('Y-m-d H:i:s', $status['expires']) . "\n";
+echo "Last Updated: " . date('Y-m-d H:i:s', $status['last_updated']) . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+echo "Expires: " . date('Y-m-d H:i:s', $status['expires']) . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 echo "\n✅ API Capability Matrix Cache System Working!\n";
 ?>

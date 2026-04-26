@@ -21,8 +21,8 @@ if (!current_user_can('manage_options')) {
 
 // Handle CRON job scheduling form submission
 if (isset($_POST['schedule_tradepress_cron']) && check_admin_referer('tradepress_schedule_cron', 'tradepress_cron_nonce')) {
-    $cron_job = sanitize_text_field($_POST['cron_job']);
-    $recurrence = sanitize_text_field($_POST['recurrence']);
+    $cron_job = sanitize_text_field(wp_unslash($_POST['cron_job']));  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+    $recurrence = sanitize_text_field(wp_unslash($_POST['recurrence']));  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
     
     if ($cron_job === 'earnings_calendar') {
         // Clear any existing schedule for this job

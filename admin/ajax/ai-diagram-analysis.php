@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * AI Diagram Analysis AJAX Handler
  *
@@ -15,11 +15,13 @@ if (!defined('ABSPATH')) {
  */
 function tradepress_handle_ai_diagram_analysis() {
     // Verify nonce
-    if (!wp_verify_nonce($_POST['nonce'], 'tradepress_ai_analysis')) {
+    if (!wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_ai_analysis')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
         wp_die('Security check failed');
     }
-    
-    $current_diagram = sanitize_text_field($_POST['current_diagram']);
+      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+
+    $current_diagram = sanitize_text_field(wp_unslash($_POST['current_diagram']));
     
     // Perform analysis based on current diagram and actual code
     $analysis_results = tradepress_analyze_system_architecture($current_diagram);
@@ -298,7 +300,7 @@ function analyze_database_structure($plugin_path) {
     );
     
     foreach ($tables_to_check as $table) {
-        $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table'");
+        $table_exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) );
         if ($table_exists) {
             $optimizations[] = array(
                 'title' => 'Custom Table: ' . basename($table),

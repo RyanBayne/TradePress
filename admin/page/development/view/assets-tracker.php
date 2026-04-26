@@ -236,7 +236,7 @@ class TradePress_Admin_Development_Assets {
         $manage_assets_path = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/manage-assets.php';
 
         if (!file_exists($manage_assets_path)) {
-            error_log('TradePress: manage-assets.php not found at: ' . $manage_assets_path);
+            error_log('TradePress: manage-assets.php not found at: ' . $manage_assets_path);  // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
             return false;
         }
 

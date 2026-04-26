@@ -100,7 +100,7 @@ class TradePress_Scoring_Strategies_Schema {
             KEY success_rate (success_rate),
             KEY created_at (created_at)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -149,7 +149,7 @@ class TradePress_Scoring_Strategies_Schema {
             KEY is_active (is_active),
             KEY sort_order (sort_order)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -186,7 +186,7 @@ class TradePress_Scoring_Strategies_Schema {
             KEY overrides_global (overrides_global),
             KEY is_valid (is_valid)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -245,7 +245,7 @@ class TradePress_Scoring_Strategies_Schema {
             KEY recommendation (recommendation),
             KEY user_id (user_id)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -309,7 +309,7 @@ class TradePress_Scoring_Strategies_Schema {
             KEY avg_score (avg_score),
             KEY calculation_date (calculation_date)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -353,7 +353,7 @@ class TradePress_Scoring_Strategies_Schema {
             KEY is_active (is_active),
             KEY created_at (created_at)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -397,7 +397,7 @@ class TradePress_Scoring_Strategies_Schema {
             KEY is_active (is_active),
             KEY sort_order (sort_order)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -409,7 +409,7 @@ class TradePress_Scoring_Strategies_Schema {
         $table_name = $wpdb->prefix . "tradepress_strategy_categories";
         
         // Check if categories already exist
-        $count = $wpdb->get_var("SELECT COUNT(*) FROM $table_name");
+        $count = $wpdb->get_var("SELECT COUNT(*) FROM $table_name");  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
         if ($count > 0) {
             return; // Categories already exist
         }
@@ -529,7 +529,7 @@ class TradePress_Scoring_Strategies_Schema {
             );
             
             foreach ($constraints as $constraint) {
-                $wpdb->query($constraint);
+                $wpdb->query($constraint);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
             }
         }
     }

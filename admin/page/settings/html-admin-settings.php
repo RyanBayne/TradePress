@@ -48,7 +48,7 @@ defined( 'ABSPATH' ) || exit;
             <?php if ( empty( $GLOBALS['hide_save_button'] ) ) : ?>
                 <button name="save" class="button-primary tradepress-save-button" type="submit" value="<?php echo esc_attr( $save_button_text ); ?>"><?php echo esc_html( $save_button_text ); ?></button>
                 <?php if ( $current_tab === 'bugnet' && ( empty( $current_section ) || $current_section === 'settings' ) ) : ?>
-                    <a href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=TradePress&tab=bugnet&action=clear_logs' ), 'tradepress_clear_logs', 'nonce' ); ?>" class="button button-secondary" onclick="return confirm('Clear logs for selected output types only?');" style="margin-left: 10px; height: 28px; padding: 0 10px; box-sizing: border-box;"><?php echo esc_html__( 'Clear Logs', 'tradepress' ); ?></a>
+                    <a href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=TradePress&tab=bugnet&action=clear_logs' ), 'tradepress_clear_logs', 'nonce' ); ?>" class="button button-secondary" onclick="return confirm('Clear logs for selected output types only?');" style="margin-left: 10px; height: 28px; padding: 0 10px; box-sizing: border-box;"><?php echo esc_html__( 'Clear Logs', 'tradepress' ); ?></a> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 <?php endif; ?>
             <?php endif; ?>
             <?php wp_nonce_field( 'TradePress-settings' ); ?>

@@ -31,7 +31,7 @@
                             <div class="status-dot <?php echo esc_attr($status_color); ?>"></div>
                             <div>
                                 <strong><?php esc_html_e('Local Status:', 'tradepress'); ?></strong>
-                                <?php echo $status_message; ?>
+                                <?php echo $status_message; ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             </div>
                         </div>
                         

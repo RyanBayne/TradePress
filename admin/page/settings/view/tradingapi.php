@@ -91,7 +91,7 @@ class TradePress_Settings_TradingAPI extends TradePress_Settings_Page {
         // Add sections for each API provider
         $api_display_names = $this->get_api_display_names();
         foreach ($api_display_names as $api_id => $display_name) {
-            $this->sections_array[$api_id] = __( $display_name, 'tradepress' );
+            $this->sections_array[$api_id] = __( $display_name, 'tradepress' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
         }
       
         return apply_filters( 'TradePress_get_sections_' . $this->id, $this->sections_array );
@@ -211,7 +211,7 @@ class TradePress_Settings_TradingAPI extends TradePress_Settings_Page {
             foreach ($this->api_array as $api) {
                 $display_name = isset($api_display_names[$api]) ? $api_display_names[$api] : ucfirst($api);
                 $settings[] = array(
-                    'title'         => __($display_name, 'tradepress'),
+                    'title'         => __($display_name, 'tradepress'), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
                     /* translators: %s: string value */
                     'desc'          => sprintf(__('Activate %s API', 'tradepress'), $display_name),
                     'id'            => 'TradePress_switch_' . $api . '_api_services',

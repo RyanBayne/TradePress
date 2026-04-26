@@ -106,12 +106,12 @@ try {
     
     echo "RESULTS:\n";
     echo "--------\n";
-    echo "Score: " . $result['score'] . "/100\n";
-    echo "Signal: " . $result['signal'] . "\n";
-    echo "MACD Line: " . $result['macd_line'] . "\n";
-    echo "Signal Line: " . $result['signal_line'] . "\n";
-    echo "Histogram: " . $result['histogram'] . "\n";
-    echo "Crossover Type: " . $result['crossover_type'] . "\n\n";
+    echo "Score: " . $result['score'] . "/100\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "Signal: " . $result['signal'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "MACD Line: " . $result['macd_line'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "Signal Line: " . $result['signal_line'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "Histogram: " . $result['histogram'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "Crossover Type: " . $result['crossover_type'] . "\n\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     
     // Test bearish condition
     echo "Testing with Bearish MACD Crossover:\n";
@@ -149,18 +149,18 @@ try {
     
     echo "RESULTS:\n";
     echo "--------\n";
-    echo "Score: " . $result2['score'] . "/100\n";
-    echo "Signal: " . $result2['signal'] . "\n";
-    echo "MACD Line: " . $result2['macd_line'] . "\n";
-    echo "Signal Line: " . $result2['signal_line'] . "\n";
-    echo "Histogram: " . $result2['histogram'] . "\n";
-    echo "Crossover Type: " . $result2['crossover_type'] . "\n\n";
+    echo "Score: " . $result2['score'] . "/100\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "Signal: " . $result2['signal'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "MACD Line: " . $result2['macd_line'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "Signal Line: " . $result2['signal_line'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "Histogram: " . $result2['histogram'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "Crossover Type: " . $result2['crossover_type'] . "\n\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     
     echo "✅ MACD DIRECTIVE TEST PASSED\n";
     echo "Ready for alpha release integration\n";
     
 } catch (Exception $e) {
     echo "❌ MACD DIRECTIVE TEST FAILED\n";
-    echo "Error: " . $e->getMessage() . "\n";
+    echo "Error: " . $e->getMessage() . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 ?>

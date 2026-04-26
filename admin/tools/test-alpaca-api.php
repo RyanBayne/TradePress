@@ -26,7 +26,7 @@ function tradepress_test_alpaca_api() {
     // Check if API settings are configured
     if (empty($settings['api_key']) || empty($settings['api_secret'])) {
         echo '<div class="notice notice-error"><p>';
-        echo __('Error: Alpaca API settings are not configured. Please configure them in the API Settings page.', 'tradepress');
+        echo esc_html__('Error: Alpaca API settings are not configured. Please configure them in the API Settings page.', 'tradepress');
         echo '</p></div>';
         return;
     }
@@ -35,33 +35,33 @@ function tradepress_test_alpaca_api() {
     require_once TRADEPRESS_PLUGIN_DIR . 'api/alpaca/alpaca-api.php';
     $api = new TradePress_Alpaca_API($settings['api_key'], $settings['api_secret'], isset($settings['use_sandbox']) ? (bool) $settings['use_sandbox'] : true);
     
-    echo '<h2>' . __('Alpaca API Test Results', 'tradepress') . '</h2>';
+    echo '<h2>' . __('Alpaca API Test Results', 'tradepress') . '</h2>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     
     // Test 1: Validate credentials
-    echo '<h3>' . __('Test 1: API Credentials', 'tradepress') . '</h3>';
+    echo '<h3>' . __('Test 1: API Credentials', 'tradepress') . '</h3>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     $result = $api->validate_credentials();
     
-    if (is_wp_error($result)) {
+    if (is_wp_error($result)) { // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo '<div class="notice notice-error"><p>';
-        echo __('Failed: ', 'tradepress') . $result->get_error_message();
+        echo esc_html__('Failed: ', 'tradepress') . $result->get_error_message();
         echo '</p></div>';
     } else {
         echo '<div class="notice notice-success"><p>';
-        echo __('Success: API credentials are valid.', 'tradepress');
+        echo esc_html__('Success: API credentials are valid.', 'tradepress');
         echo '</p></div>';
     }
     
     // Test 2: Get account information
-    echo '<h3>' . __('Test 2: Account Information', 'tradepress') . '</h3>';
+    echo '<h3>' . __('Test 2: Account Information', 'tradepress') . '</h3>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     $account = $api->get_account();
-    
+ // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     if (is_wp_error($account)) {
         echo '<div class="notice notice-error"><p>';
-        echo __('Failed: ', 'tradepress') . $account->get_error_message();
+        echo esc_html__('Failed: ', 'tradepress') . $account->get_error_message();
         echo '</p></div>';
     } else {
         echo '<div class="notice notice-success"><p>';
-        echo __('Success: Account information retrieved.', 'tradepress');
+        echo esc_html__('Success: Account information retrieved.', 'tradepress');
         echo '</p></div>';
         
         echo '<pre>';
@@ -70,16 +70,16 @@ function tradepress_test_alpaca_api() {
     }
     
     // Test 3: Get market clock
-    echo '<h3>' . __('Test 3: Market Clock', 'tradepress') . '</h3>';
-    $clock = $api->get_clock();
+    echo '<h3>' . __('Test 3: Market Clock', 'tradepress') . '</h3>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    $clock = $api->get_clock(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     
     if (is_wp_error($clock)) {
         echo '<div class="notice notice-error"><p>';
-        echo __('Failed: ', 'tradepress') . $clock->get_error_message();
+        echo esc_html__('Failed: ', 'tradepress') . $clock->get_error_message();
         echo '</p></div>';
     } else {
         echo '<div class="notice notice-success"><p>';
-        echo __('Success: Market clock information retrieved.', 'tradepress');
+        echo esc_html__('Success: Market clock information retrieved.', 'tradepress');
         echo '</p></div>';
         
         echo '<pre>';
@@ -88,16 +88,16 @@ function tradepress_test_alpaca_api() {
     }
     
     // Test 4: Get market data
-    echo '<h3>' . __('Test 4: Market Data API - Latest Quote', 'tradepress') . '</h3>';
+    echo '<h3>' . __('Test 4: Market Data API - Latest Quote', 'tradepress') . '</h3>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     $quote = $api->get_latest_quote('AAPL');
     
     if (is_wp_error($quote)) {
         echo '<div class="notice notice-error"><p>';
-        echo __('Failed: ', 'tradepress') . $quote->get_error_message();
+        echo esc_html__('Failed: ', 'tradepress') . $quote->get_error_message();
         echo '</p></div>';
     } else {
         echo '<div class="notice notice-success"><p>';
-        echo __('Success: Latest quote information retrieved.', 'tradepress');
+        echo esc_html__('Success: Latest quote information retrieved.', 'tradepress');
         echo '</p></div>';
         
         echo '<pre>';
@@ -106,18 +106,18 @@ function tradepress_test_alpaca_api() {
     }
     
     // Test 5: Get bars
-    echo '<h3>' . __('Test 5: Market Data API - Daily Bars', 'tradepress') . '</h3>';
-    $bars = $api->get_bars('1D', 'AAPL', array(
+    echo '<h3>' . __('Test 5: Market Data API - Daily Bars', 'tradepress') . '</h3>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    $bars = $api->get_bars('1D', 'AAPL', array( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         'limit' => 5
     ));
     
     if (is_wp_error($bars)) {
         echo '<div class="notice notice-error"><p>';
-        echo __('Failed: ', 'tradepress') . $bars->get_error_message();
+        echo esc_html__('Failed: ', 'tradepress') . $bars->get_error_message();
         echo '</p></div>';
     } else {
         echo '<div class="notice notice-success"><p>';
-        echo __('Success: Bar data retrieved.', 'tradepress');
+        echo esc_html__('Success: Bar data retrieved.', 'tradepress');
         echo '</p></div>';
         
         echo '<pre>';

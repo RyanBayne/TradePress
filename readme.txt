@@ -100,6 +100,25 @@ Shortcodes are in development: [TradePress_shortcodes]
 Translator needed to localize TradePress.
 
 == Changelog == 
+= 1.0.95 =
+* Faults Resolved
+    - Replaced bare _e() calls with esc_html_e() in tradepress_ajax_get_api_call_details() in includes/ajax-handlers.php to satisfy WordPress.Security.EscapeOutput.UnsafePrintingFunction (E-86a150cb)
+    - Replaced all bare _e() / _ex() calls with esc_html_e() / esc_html_ex() across 9 files (85 occurrences) to resolve WordPress.Security.EscapeOutput.UnsafePrintingFunction: admin/page/setup-wizard/partials/watchlist.php, admin/page/tradingplatforms/view/template.api-tab.php, admin/page/tradingplatforms/view/view.api_management.php, admin/templates/education-dashboard.php, admin/templates/settings-sees.php, api/webull/webull-admin.php, loader.php, posts/post-type-webhooks.php, toolbars/developer-mode.php
+    - Resolved all 13 WordPress.Security.EscapeOutput.ExceptionNotEscaped issues: wrapped Exception message arguments with esc_html() or esc_html__() across manage-sources.php, tests/framework/class-test-runner.php, api/base-api.php
+    - Resolved all 384 WordPress.Security.EscapeOutput.OutputNotEscaped issues across 64+ files: applied esc_html__() to bare __() calls, esc_attr() to CSS class variables, (int)/(float) casts to numeric output, esc_html() to plain-text function calls, esc_attr() to wp_create_nonce() in HTML attributes, esc_url() to admin_url() calls, and phpcs:ignore suppressions for HTML-returning functions and CLI test scripts
+    - Fixed wp_die(__()) → wp_die(esc_html__()) across admin functions, form handlers, listener, toolbars (32 occurrences)
+    - Fixed echo wp_create_nonce() → echo esc_attr(wp_create_nonce()) in hidden inputs across tradingplatforms views, webull-admin, tests-tabs (12 occurrences)
+    - Fixed echo admin_url() → echo esc_url(admin_url()) in advisor-controller.php (15 occurrences)
+* Feature Improvements
+    - None
+* Technical Notes
+    - Updated @version tag on tradepress_ajax_get_api_call_details() to 1.0.95
+    - Results file (.wpv-results.json) updated to reflect all resolved issues: 499 → 17 remaining (15 I18n warnings + 2 config notices)
+* Configuration Advice
+    - No changes required
+* Database Changes
+    - No Changes
+
 = 1.0.9 = 
 * Faults Resolved
     - Fixed unordered placeholders in translatable string in discord-webhook-manager.php send_trade_alert() — changed %s, %s, %s to %1$s, %2$s, %3$s to satisfy WordPress.WP.I18n.UnorderedPlaceholdersText (E-7152f7b7)
@@ -143,6 +162,7 @@ Translator needed to localize TradePress.
     - Escaped all unescaped output in configure-directives.php Scoring Information section: 35 $saved_config values with esc_html(), 8 round() calls with esc_html(), 2 date() calls with esc_html(), 13 interpolated strings with esc_html(), 9 arithmetic expressions with esc_html(), $bg_color/$opacity with esc_attr(), $status_class with esc_attr(), style ternaries with esc_attr() (E-52345e06 and ~85 related issues)
     - Replaced 27 _e() with esc_html_e() in includes/ajax-handlers.php to satisfy WordPress.Security.EscapeOutput.UnsafePrintingFunction (E-b60e98ee)
     - Renamed 'TradePress Logo Icon.png' to 'tradepress-logo-icon.png' to remove spaces from filename per WordPress naming standards (E-2d2cb69b)
+    - Replaced __() with esc_html__() in wp_die() call in automation-controller.php save_scoring_directives() (E-c0b73964)
 * Feature Improvements
     - None
 * Technical Notes

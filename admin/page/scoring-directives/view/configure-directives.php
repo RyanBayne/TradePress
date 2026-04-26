@@ -237,7 +237,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'report_feature_issue') {
     delete_transient('tradepress_feedback_return_' . get_current_user_id());
     
     if ($return_url) {
-        wp_redirect($return_url);
+        wp_safe_redirect($return_url);
         exit;
     }
 }
@@ -267,7 +267,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'toggle_directive') {
                 );
                 add_settings_error('tradepress_directives', 'composite_dependencies_missing', $message, 'error');
                 set_transient('settings_errors', get_settings_errors(), 30);
-                wp_redirect(admin_url('admin.php?page=tradepress_scoring_directives&tab=configure_directives'));
+                wp_safe_redirect(admin_url('admin.php?page=tradepress_scoring_directives&tab=configure_directives'));
                 exit;
             }
         }
@@ -278,7 +278,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'toggle_directive') {
             if (!$validation['success']) {
                 add_settings_error('tradepress_directives', 'directive_disable_blocked', $validation['message'], 'error');
                 set_transient('settings_errors', get_settings_errors(), 30);
-                wp_redirect(admin_url('admin.php?page=tradepress_scoring_directives&tab=configure_directives'));
+                wp_safe_redirect(admin_url('admin.php?page=tradepress_scoring_directives&tab=configure_directives'));
                 exit;
             }
         }
@@ -311,7 +311,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'toggle_directive') {
         if ($new_state) {
             $redirect_url = add_query_arg('configure', $directive_id, $redirect_url);
         }
-        wp_redirect($redirect_url);
+        wp_safe_redirect($redirect_url);
         exit;
     }
 }
@@ -1608,7 +1608,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                     $surge_bonus = $saved_config['surge_bonus'] ?? 50;
                                     // Max base assuming 10x volume ratio
                                     $max_base = 50 + (10 * 25 * $base_mult);
-                                    echo $max_base + $high_bonus + $surge_bonus;
+                                    echo $max_base + $high_bonus + $surge_bonus; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 ?></span>
                                 <p class="setting-description"><?php esc_html_e('Calculated maximum score with current settings.', 'tradepress'); ?></p>
                             </div>
@@ -2186,7 +2186,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                 <span><?php 
                                     $sector_bonus = $saved_config['sector_comparison_bonus'] ?? 20;
                                     $high_yield_bonus = $saved_config['high_yield_bonus'] ?? 30;
-                                    echo 50 + $sector_bonus + $high_yield_bonus;
+                                    echo 50 + $sector_bonus + $high_yield_bonus; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 ?></span>
                                 <p class="setting-description"><?php esc_html_e('Base score plus sector and high yield bonuses.', 'tradepress'); ?></p>
                             </div>

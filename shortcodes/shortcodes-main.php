@@ -109,7 +109,7 @@ function TradePress_shortcode_init($atts, $content = null)
             // If a refresh is not due then output the existing content...
             $refresh_due = $cache['time'] + $atts['refresh'];
             if ($refresh_due < time()) {
-                echo $cache['content'];
+                echo esc_html( $cache['content'] );
                 return ob_get_clean(); // return earlier due to existing cache of HTML!
             }
         }
@@ -139,7 +139,7 @@ function TradePress_shortcode_init($atts, $content = null)
         set_transient($cache_name, $new_cache_value, $atts['cacheexpiry']);
     }
 
-    echo $html;
+    echo esc_html( $html );
 
     return ob_get_clean();
 }
@@ -213,7 +213,7 @@ function TradePress_shortcode_sortable_securities($atts, $content = null)
             // If a refresh is not due then output the existing content...
             $refresh_due = $cache['time'] + $atts['cacheexpiry'];
             if ($refresh_due < time()) {
-                echo $cache['content'];
+                echo esc_html( $cache['content'] );
                 return ob_get_clean(); // return earlier due to existing cache of HTML!
             }
         }
@@ -242,7 +242,7 @@ function TradePress_shortcode_sortable_securities($atts, $content = null)
         set_transient($cache_name, $new_cache_value, $atts['cacheexpiry']);
     }
 
-    echo $html_output;
+    echo esc_html( $html_output );
 
     return ob_get_clean();
 }

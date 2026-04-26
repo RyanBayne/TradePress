@@ -102,14 +102,14 @@ foreach ($all_providers as $api_id => $provider) {
                         </div>
                         <div class="card-content">
                             <div class="usage-bar">
-                                <div class="usage-fill" style="width: <?php echo min(100, $usage_percent); ?>%"></div>
+                                <div class="usage-fill" style="width: <?php echo (int) min(100, $usage_percent); ?>%"></div> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             </div>
                             <div class="usage-stats">
                                 <span><?php echo esc_html($calls_today); ?> / <?php echo esc_html($daily_limit); ?> calls</span>
-                                <span class="percentage"><?php echo round($usage_percent, 1); ?>%</span>
+                                <span class="percentage"><?php echo (int) round($usage_percent, 1); ?>%</span> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             </div>
                             <div class="last-call">
-                                Last call: <?php echo date('H:i:s'); ?>
+                                Last call: <?php echo  esc_html( date('H:i:s') ); ?>
                             </div>
                         </div>
                     </div>
@@ -140,10 +140,10 @@ foreach ($all_providers as $api_id => $provider) {
                     <div class="cache-efficiency-item">
                         <div class="cache-header">
                             <strong><?php echo esc_html($provider['name']); ?></strong>
-                            <span class="cache-percentage"><?php echo round($cache_efficiency); ?>% cached</span>
+                            <span class="cache-percentage"><?php echo (int) round($cache_efficiency); ?>% cached</span> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                         </div>
                         <div class="cache-details">
-                            <small><?php echo $cache_hits; ?>/<?php echo $total_checks; ?> symbols cached</small>
+                            <small><?php echo (int) $cache_hits; ?>/<?php echo (int) $total_checks; ?> symbols cached</small> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -152,19 +152,19 @@ foreach ($all_providers as $api_id => $provider) {
             <h3><?php esc_html_e('Recent API Activity', 'tradepress'); ?></h3>
             <div class="api-activity-log">
                 <div class="activity-item">
-                    <span class="timestamp"><?php echo date('H:i:s'); ?></span>
+                    <span class="timestamp"><?php echo  esc_html( date('H:i:s') ); ?></span>
                     <span class="api-name">Alpaca</span>
                     <span class="endpoint">bars/NVDA</span>
                     <span class="status success">Success</span>
                 </div>
                 <div class="activity-item">
-                    <span class="timestamp"><?php echo date('H:i:s', time() - 120); ?></span>
+                    <span class="timestamp"><?php echo  esc_html( date('H:i:s', time() - 120) ); ?></span>
                     <span class="api-name">Alpha Vantage</span>
                     <span class="endpoint">TIME_SERIES_INTRADAY</span>
                     <span class="status success">Success</span>
                 </div>
                 <div class="activity-item">
-                    <span class="timestamp"><?php echo date('H:i:s', time() - 300); ?></span>
+                    <span class="timestamp"><?php echo  esc_html( date('H:i:s', time() - 300) ); ?></span>
                     <span class="api-name">Polygon</span>
                     <span class="endpoint">aggregates/AAPL</span>
                     <span class="status error">Rate Limited</span>
@@ -181,7 +181,7 @@ foreach ($all_providers as $api_id => $provider) {
                     </div>
                     <div class="section-content">
                         <form method="post">
-                            <input type="hidden" name="priority_nonce" value="<?php echo wp_create_nonce('tradepress_api_priorities'); ?>">
+                            <input type="hidden" name="priority_nonce" value="<?php echo esc_attr( wp_create_nonce('tradepress_api_priorities') ); ?>">
                             <input type="hidden" name="action" value="save_api_priorities">
                             
                             <h4><?php esc_html_e('Primary APIs', 'tradepress'); ?></h4>

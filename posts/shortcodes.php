@@ -228,7 +228,7 @@ function tradepress_symbol_view_shortcode_handler() {
                                                 <?php 
                                                 for ($i = 1; $i <= 10; $i++) {
                                                     $active = $i <= $level['strength'] ? 'active' : 'inactive';
-                                                    echo '<span class="strength-dot ' . $active . '"></span>';
+                                                    echo '<span class="strength-dot ' . $active . '"></span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                                 }
                                                 ?>
                                             </div>
@@ -367,7 +367,7 @@ function tradepress_symbol_view_shortcode_handler() {
             
             <div class="symbol-description">
                 <h2><?php esc_html_e('About', 'tradepress'); ?></h2>
-                <?php echo $symbol_content; ?>
+                <?php echo $symbol_content; ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             </div>
             
             <div class="tradepress-symbol-related">

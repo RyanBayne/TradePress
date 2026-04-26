@@ -555,28 +555,28 @@ class TradePress_Dashboard_Widgets {
         // Sample data - in production this would come from database
         $trades = array(
             array(
-                'date' => date( 'Y-m-d H:i:s', strtotime( '-2 hours' ) ),
+                'date' => wp_date( 'Y-m-d H:i:s', strtotime( '-2 hours' ) ),
                 'symbol' => 'AAPL',
                 'type' => 'buy',
                 'price' => 185.92,
                 'quantity' => 10,
             ),
             array(
-                'date' => date( 'Y-m-d H:i:s', strtotime( '-1 day' ) ),
+                'date' => wp_date( 'Y-m-d H:i:s', strtotime( '-1 day' ) ),
                 'symbol' => 'MSFT',
                 'type' => 'sell',
                 'price' => 376.17,
                 'quantity' => 5,
             ),
             array(
-                'date' => date( 'Y-m-d H:i:s', strtotime( '-3 days' ) ),
+                'date' => wp_date( 'Y-m-d H:i:s', strtotime( '-3 days' ) ),
                 'symbol' => 'NVDA',
                 'type' => 'buy',
                 'price' => 920.45,
                 'quantity' => 2,
             ),
             array(
-                'date' => date( 'Y-m-d H:i:s', strtotime( '-1 week' ) ),
+                'date' => wp_date( 'Y-m-d H:i:s', strtotime( '-1 week' ) ),
                 'symbol' => 'TSLA',
                 'type' => 'sell',
                 'price' => 228.82,

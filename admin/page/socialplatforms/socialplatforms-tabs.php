@@ -408,7 +408,7 @@ class TradePress_Admin_SocialPlatforms_Tabs {
             set_transient('tradepress_social_settings_updated', true, 30);
             
             // Redirect to avoid form resubmission
-            wp_redirect(add_query_arg('tab', 'settings', admin_url('admin.php?page=tradepress_social')));
+            wp_safe_redirect(add_query_arg('tab', 'settings', admin_url('admin.php?page=tradepress_social')));
             exit;
         }
         
@@ -444,7 +444,7 @@ class TradePress_Admin_SocialPlatforms_Tabs {
             set_transient('tradepress_social_settings_updated', true, 30);
             
             // Redirect to avoid form resubmission
-            wp_redirect(add_query_arg(array('tab' => 'settings', 'section' => $service), admin_url('admin.php?page=tradepress_social')));
+            wp_safe_redirect(add_query_arg(array('tab' => 'settings', 'section' => $service), admin_url('admin.php?page=tradepress_social')));
             exit;
         }
         
@@ -500,7 +500,7 @@ class TradePress_Admin_SocialPlatforms_Tabs {
             set_transient('tradepress_social_settings_updated', true, 30);
             
             // Redirect to avoid form resubmission
-            wp_redirect(add_query_arg('tab', 'platform_switches', admin_url('admin.php?page=tradepress_social')));
+            wp_safe_redirect(add_query_arg('tab', 'platform_switches', admin_url('admin.php?page=tradepress_social')));
             exit;
         }
         

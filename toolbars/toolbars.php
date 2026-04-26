@@ -50,7 +50,7 @@ class TradePress_Toolbars {
     public function handle_beta_testing_switch() {
         // Check capabilities
         if (!current_user_can('TradePressdevelopertoolbar')) {
-            wp_die(__('Insufficient permissions', 'tradepress'));
+            wp_die(esc_html__('Insufficient permissions', 'tradepress'));
         }
 
         // Get current status
@@ -79,7 +79,7 @@ class TradePress_Toolbars {
     public function handle_demo_mode_switch() {
         // Check capabilities
         if (!current_user_can('TradePressdevelopertoolbar')) {
-            wp_die(__('Insufficient permissions', 'tradepress'));
+            wp_die(esc_html__('Insufficient permissions', 'tradepress'));
         }
 
         // Check for demo mode function
@@ -113,13 +113,13 @@ class TradePress_Toolbars {
     public function handle_backup_plugin() {
         // Check capabilities
         if (!current_user_can('TradePressdevelopertoolbar')) {
-            wp_die(__('Insufficient permissions', 'tradepress'));
+            wp_die(esc_html__('Insufficient permissions', 'tradepress'));
         }
 
         // Verify nonce
         $nonce = isset($_GET['_wpnonce']) ? $_GET['_wpnonce'] : (isset($_POST['_wpnonce']) ? $_POST['_wpnonce'] : '');
         if (!wp_verify_nonce($nonce, 'tradepress_backup_plugin_nonce')) {
-            wp_die(__('Security check failed', 'tradepress'));
+            wp_die(esc_html__('Security check failed', 'tradepress'));
         }
 
         try {
@@ -301,13 +301,13 @@ class TradePress_Toolbars {
     public function handle_reset_pointers() {
         // Check capabilities
         if (!current_user_can('manage_options')) {
-            wp_die(__('Insufficient permissions', 'tradepress'));
+            wp_die(esc_html__('Insufficient permissions', 'tradepress'));
         }
 
         // Verify nonce
         $nonce = isset($_GET['_wpnonce']) ? $_GET['_wpnonce'] : '';
         if (!wp_verify_nonce($nonce, 'tradepress_reset_pointers')) {
-            wp_die(__('Security check failed', 'tradepress'));
+            wp_die(esc_html__('Security check failed', 'tradepress'));
         }
         
         // Reset dismissed pointers for current user

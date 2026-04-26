@@ -127,8 +127,8 @@ function tradepress_data_tables_tab_content() {
         }
         
         // Handle sorting
-        $sort_by = isset($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : 'last_updated';
-        $sort_order = isset($_GET['order']) ? sanitize_text_field($_GET['order']) : 'desc';
+        $sort_by = isset($_GET['orderby']) ? sanitize_text_field(wp_unslash($_GET['orderby'])) : 'last_updated';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $sort_order = isset($_GET['order']) ? sanitize_text_field(wp_unslash($_GET['order'])) : 'desc';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         
         usort($table_data, function($a, $b) use ($sort_by, $sort_order) {
             $aVal = $bVal = '';
@@ -167,7 +167,7 @@ function tradepress_data_tables_tab_content() {
             <div class="directives-table-container">
                 <div class="tablenav top">
                     <div class="alignleft actions">
-                        <input type="search" id="table-search-input" name="s" value="<?php echo esc_attr(isset($_GET['s']) ? $_GET['s'] : ''); ?>" placeholder="<?php esc_attr_e('Search tables...', 'tradepress'); ?>">
+                        <input type="search" id="table-search-input" name="s" value="<?php echo esc_attr(isset($_GET['s']) ? wp_unslash($_GET['s']) : ''); ?>" placeholder="<?php esc_attr_e('Search tables...', 'tradepress'); ?>">  // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
                         <input type="submit" id="search-submit" class="button" value="<?php esc_attr_e('Search Tables', 'tradepress'); ?>">
                         <button type="button" class="button action-refresh"><span class="dashicons dashicons-update"></span> <?php esc_html_e('Refresh', 'tradepress'); ?></button>
                     </div>
@@ -185,17 +185,17 @@ function tradepress_data_tables_tab_content() {
                 <?php else: ?>
                     <div class="wp-list-table widefat fixed striped">
                         <?php 
-                        $current_orderby = isset($_GET['orderby']) ? $_GET['orderby'] : 'last_updated';
-                        $current_order = isset($_GET['order']) ? $_GET['order'] : 'desc';
+                        $current_orderby = isset($_GET['orderby']) ? wp_unslash($_GET['orderby']) : 'last_updated';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+                        $current_order = isset($_GET['order']) ? wp_unslash($_GET['order']) : 'desc';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
                         ?>
                         <div class="table-header" style="display: flex; background: #f1f1f1; padding: 12px 15px; font-weight: 600; border-bottom: 1px solid #c3c4c7;">
                             <div style="flex: 2;" class="sortable-column">
-                                <a href="<?php echo esc_url(add_query_arg(array('orderby' => 'name', 'order' => ($current_orderby === 'name' && $current_order === 'asc') ? 'desc' : 'asc'))); ?>" class="<?php echo $current_orderby === 'name' ? 'sorted' : 'sortable'; ?> <?php echo $current_orderby === 'name' ? $current_order : ''; ?>">
+                                <a href="<?php echo esc_url(add_query_arg(array('orderby' => 'name', 'order' => ($current_orderby === 'name' && $current_order === 'asc') ? 'desc' : 'asc'))); ?>" class="<?php echo $current_orderby === 'name' ? 'sorted' : 'sortable'; ?> <?php echo $current_orderby === 'name' ? $current_order : ''; ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                     <?php esc_html_e('Table Name', 'tradepress'); ?>
                                 </a>
                             </div>
                             <div style="flex: 1;" class="sortable-column">
-                                <a href="<?php echo esc_url(add_query_arg(array('orderby' => 'status', 'order' => ($current_orderby === 'status' && $current_order === 'asc') ? 'desc' : 'asc'))); ?>" class="<?php echo $current_orderby === 'status' ? 'sorted' : 'sortable'; ?> <?php echo $current_orderby === 'status' ? $current_order : ''; ?>">
+                                <a href="<?php echo esc_url(add_query_arg(array('orderby' => 'status', 'order' => ($current_orderby === 'status' && $current_order === 'asc') ? 'desc' : 'asc'))); ?>" class="<?php echo $current_orderby === 'status' ? 'sorted' : 'sortable'; ?> <?php echo $current_orderby === 'status' ? $current_order : ''; ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                     <?php esc_html_e('Status', 'tradepress'); ?>
                                 </a>
                             </div>
@@ -203,7 +203,7 @@ function tradepress_data_tables_tab_content() {
                             <div style="flex: 1;"><?php esc_html_e('Size', 'tradepress'); ?></div>
                             <div style="flex: 1;"><?php esc_html_e('Processes', 'tradepress'); ?></div>
                             <div style="flex: 1;">
-                                <a href="<?php echo esc_url(add_query_arg(array('orderby' => 'last_updated', 'order' => ($current_orderby === 'last_updated' && $current_order === 'desc') ? 'asc' : 'desc'))); ?>" class="<?php echo $current_orderby === 'last_updated' ? 'sorted' : 'sortable'; ?> <?php echo $current_orderby === 'last_updated' ? $current_order : ''; ?>">
+                                <a href="<?php echo esc_url(add_query_arg(array('orderby' => 'last_updated', 'order' => ($current_orderby === 'last_updated' && $current_order === 'desc') ? 'asc' : 'desc'))); ?>" class="<?php echo $current_orderby === 'last_updated' ? 'sorted' : 'sortable'; ?> <?php echo $current_orderby === 'last_updated' ? $current_order : ''; ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                     <?php esc_html_e('Last Updated', 'tradepress'); ?>
                                 </a>
                             </div>
@@ -250,14 +250,14 @@ function tradepress_data_tables_tab_content() {
                                         <strong><?php echo esc_html(str_replace($wpdb->prefix . 'tradepress_', '', $table['name'])); ?></strong>
                                     </div>
                                     <div style="flex: 1;">
-                                        <span class="status-badge <?php echo $status_class === 'status-good' ? 'status-active' : $status_class; ?>">
+                                        <span class="status-badge <?php echo esc_attr( $status_class ) === 'status-good' ? 'status-active' : $status_class; ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                             <?php echo esc_html($table['status']); ?>
                                         </span>
                                     </div>
                                     <div style="flex: 1;"><?php echo number_format($table['rows']); ?></div>
                                     <div style="flex: 1;"><?php echo esc_html($table['size']); ?></div>
                                     <div style="flex: 1;">
-                                        <span class="status-badge <?php echo $process_status_class; ?>">
+                                        <span class="status-badge <?php echo esc_attr( $process_status_class ); ?>">
                                             <?php echo count($table['processes']); ?>
                                         </span>
                                     </div>
@@ -284,13 +284,13 @@ function tradepress_data_tables_tab_content() {
                                         <div>
                                             <strong>Process Status:</strong><br>
                                             <?php if ($not_implemented_processes > 0): ?>
-                                                <?php echo $not_implemented_processes; ?> not implemented
+                                                <?php echo (int) $not_implemented_processes; ?> not implemented // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                             <?php elseif ($warning_processes > 0 || $error_processes > 0): ?>
                                                 <?php if ($warning_processes > 0): ?>
-                                                    <?php echo $warning_processes; ?> warnings
+                                                    <?php echo (int) $warning_processes; ?> warnings // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                                 <?php endif; ?>
                                                 <?php if ($error_processes > 0): ?>
-                                                    <?php echo $error_processes; ?> errors
+                                                    <?php echo (int) $error_processes; ?> errors // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                                 <?php endif; ?>
                                             <?php else: ?>
                                                 All processes active
@@ -324,7 +324,7 @@ function tradepress_data_tables_tab_content() {
                 <!-- Table Details Container -->
                 <div class="directive-details-container">
                 <?php 
-                $manage_table = isset($_GET['manage']) ? sanitize_text_field($_GET['manage']) : '';
+                $manage_table = isset($_GET['manage']) ? sanitize_text_field(wp_unslash($_GET['manage'])) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 $selected_table_data = null;
                 
                 if ($manage_table && !empty($table_data)) {

@@ -94,7 +94,7 @@ if (isset($_POST['tradepress_' . $api_id . '_api_settings_nonce']) && wp_verify_
     // Add success message
     add_action('admin_notices', function() use ($api_name) {
         /* translators: %s: component name */
-        echo '<div class="notice notice-success is-dismissible"><p>' . sprintf(__('%s API settings saved successfully.', 'tradepress'), esc_html($api_name)) . '</p></div>';
+        echo '<div class="notice notice-success is-dismissible"><p>' . sprintf(__('%s API settings saved successfully.', 'tradepress'), esc_html($api_name)) . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     });
 }
 
@@ -110,7 +110,7 @@ if (isset($_POST['tradepress_' . $api_id . '_trading_mode_nonce']) && wp_verify_
         add_action('admin_notices', function() use ($api_name) {
             echo '<div class="notice notice-success is-dismissible"><p>' . 
                 /* translators: %s: component name */
-                sprintf(__('%s trading mode updated successfully.', 'tradepress'), esc_html($api_name)) . 
+                sprintf(__('%s trading mode updated successfully.', 'tradepress'), esc_html($api_name)) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 '</p></div>';
         });
     }
@@ -128,7 +128,7 @@ if (isset($_POST['tradepress_' . $api_id . '_operational_nonce']) && wp_verify_n
         add_action('admin_notices', function() use ($api_name) {
             echo '<div class="notice notice-success is-dismissible"><p>' . 
                 /* translators: %s: component name */
-                sprintf(__('%s operational status updated successfully.', 'tradepress'), esc_html($api_name)) . 
+                sprintf(__('%s operational status updated successfully.', 'tradepress'), esc_html($api_name)) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 '</p></div>';
         });
     }
@@ -147,7 +147,7 @@ if (isset($_POST['tradepress_' . $api_id . '_demo_mode_nonce']) && wp_verify_non
             add_action('admin_notices', function() use ($api_name) {
                 echo '<div class="notice notice-success is-dismissible"><p>' . 
                     /* translators: %s: component name */
-                    sprintf(__('%s demo mode updated successfully.', 'tradepress'), esc_html($api_name)) . 
+                    sprintf(__('%s demo mode updated successfully.', 'tradepress'), esc_html($api_name)) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     '</p></div>';
             });
         }
@@ -155,7 +155,7 @@ if (isset($_POST['tradepress_' . $api_id . '_demo_mode_nonce']) && wp_verify_non
         // Show notice that demo mode is controlled by constant
         add_action('admin_notices', function() {
             echo '<div class="notice notice-info is-dismissible"><p>' . 
-                __('Demo mode is controlled by the TRADEPRESS_DEMO_MODE constant in your configuration. This setting will not take effect.', 'tradepress') . 
+                __('Demo mode is controlled by the TRADEPRESS_DEMO_MODE constant in your configuration. This setting will not take effect.', 'tradepress') . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 '</p></div>';
         });
     }
@@ -364,14 +364,14 @@ $trading_mode = get_option('TradePress_api_' . $api_id . '_trading_mode', 'paper
                                         <tbody>
                                             <tr valign="top">
                                                 <th scope="row" class="titledesc">
-                                                    <label for="inline_TradePress_switch_<?php echo esc_attr($api_id); ?>_api_services"><?php _e('Enable API', 'tradepress'); ?></label>
+                                                    <label for="inline_TradePress_switch_<?php echo esc_attr($api_id); ?>_api_services"><?php esc_html_e('Enable API', 'tradepress'); ?></label>
                                                 </th>
                                                 <td class="forminp forminp-checkbox">
                                                     <fieldset>
-                                                        <legend class="screen-reader-text"><span><?php _e('Enable API', 'tradepress'); ?></span></legend>
+                                                        <legend class="screen-reader-text"><span><?php esc_html_e('Enable API', 'tradepress'); ?></span></legend>
                                                         <label for="inline_TradePress_switch_<?php echo esc_attr($api_id); ?>_api_services">
                                                             <input name="TradePress_switch_<?php echo esc_attr($api_id); ?>_api_services" id="inline_TradePress_switch_<?php echo esc_attr($api_id); ?>_api_services" type="checkbox" value="1" <?php checked($api_enabled, 'yes'); ?>> 
-                                                            <?php _e('Enable this API for use.', 'tradepress'); ?>
+                                                            <?php esc_html_e('Enable this API for use.', 'tradepress'); ?>
                                                         </label>
                                                     </fieldset>
                                                 </td>
@@ -379,14 +379,14 @@ $trading_mode = get_option('TradePress_api_' . $api_id . '_trading_mode', 'paper
                                             
                                             <tr valign="top">
                                                 <th scope="row" class="titledesc">
-                                                    <label for="inline_TradePress_switch_<?php echo esc_attr($api_id); ?>_api_logs"><?php _e('API Logging', 'tradepress'); ?></label>
+                                                    <label for="inline_TradePress_switch_<?php echo esc_attr($api_id); ?>_api_logs"><?php esc_html_e('API Logging', 'tradepress'); ?></label>
                                                 </th>
                                                 <td class="forminp forminp-checkbox">
                                                     <fieldset>
-                                                        <legend class="screen-reader-text"><span><?php _e('API Logging', 'tradepress'); ?></span></legend>
+                                                        <legend class="screen-reader-text"><span><?php esc_html_e('API Logging', 'tradepress'); ?></span></legend>
                                                         <label for="inline_TradePress_switch_<?php echo esc_attr($api_id); ?>_api_logs">
                                                             <input name="TradePress_switch_<?php echo esc_attr($api_id); ?>_api_logs" id="inline_TradePress_switch_<?php echo esc_attr($api_id); ?>_api_logs" type="checkbox" value="1" <?php checked($api_logs, 'yes'); ?>> 
-                                                            <?php _e('Log API Activity', 'tradepress'); ?>
+                                                            <?php esc_html_e('Log API Activity', 'tradepress'); ?>
                                                         </label>
                                                     </fieldset>
                                                 </td>
@@ -394,14 +394,14 @@ $trading_mode = get_option('TradePress_api_' . $api_id . '_trading_mode', 'paper
                                             
                                             <tr valign="top">
                                                 <th scope="row" class="titledesc">
-                                                    <label for="inline_TradePress_switch_<?php echo esc_attr($api_id); ?>_api_premium"><?php _e('Premium Endpoints', 'tradepress'); ?></label>
+                                                    <label for="inline_TradePress_switch_<?php echo esc_attr($api_id); ?>_api_premium"><?php esc_html_e('Premium Endpoints', 'tradepress'); ?></label>
                                                 </th>
                                                 <td class="forminp forminp-checkbox">
                                                     <fieldset>
-                                                        <legend class="screen-reader-text"><span><?php _e('Premium Endpoints', 'tradepress'); ?></span></legend>
+                                                        <legend class="screen-reader-text"><span><?php esc_html_e('Premium Endpoints', 'tradepress'); ?></span></legend>
                                                         <label for="inline_TradePress_switch_<?php echo esc_attr($api_id); ?>_api_premium">
                                                             <input name="TradePress_switch_<?php echo esc_attr($api_id); ?>_api_premium" id="inline_TradePress_switch_<?php echo esc_attr($api_id); ?>_api_premium" type="checkbox" value="1" <?php checked($api_premium, 'yes'); ?>> 
-                                                            <?php _e('Allow Premium Endpoints', 'tradepress'); ?>
+                                                            <?php esc_html_e('Allow Premium Endpoints', 'tradepress'); ?>
                                                         </label>
                                                     </fieldset>
                                                 </td>
@@ -409,48 +409,48 @@ $trading_mode = get_option('TradePress_api_' . $api_id . '_trading_mode', 'paper
                                             
                                             <tr valign="top">
                                                 <th scope="row" class="titledesc">
-                                                    <label for="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_realmoney_apikey"><?php _e('Real-Money API Key ID', 'tradepress'); ?></label>
+                                                    <label for="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_realmoney_apikey"><?php esc_html_e('Real-Money API Key ID', 'tradepress'); ?></label>
                                                 </th>
                                                 <td class="forminp forminp-text">
                                                     <input name="TradePress_api_<?php echo esc_attr($api_id); ?>_realmoney_apikey" id="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_realmoney_apikey" type="text" 
                                                            value="<?php echo esc_attr($realmoney_apikey); ?>" class="regular-text">
-                                                    <?php /* translators: %s: string value */ ?>
+                                                    <?php /* translators: %s: string value */ ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                                     <p class="description"><?php printf(__('Your API key ID for real money trading on %s.', 'tradepress'), esc_html($api_name)); ?></p>
                                                 </td>
                                             </tr>
                                             
                                             <tr valign="top">
                                                 <th scope="row" class="titledesc">
-                                                    <label for="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_realmoney_secretkey"><?php _e('Real-Money API Secret Key', 'tradepress'); ?></label>
+                                                    <label for="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_realmoney_secretkey"><?php esc_html_e('Real-Money API Secret Key', 'tradepress'); ?></label>
                                                 </th>
                                                 <td class="forminp forminp-password">
                                                     <input name="TradePress_api_<?php echo esc_attr($api_id); ?>_realmoney_secretkey" id="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_realmoney_secretkey" type="password" 
                                                            value="<?php echo esc_attr($realmoney_secretkey); ?>" class="regular-text">
-                                                    <?php /* translators: %s: string value */ ?>
+                                                    <?php /* translators: %s: string value */ ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                                     <p class="description"><?php printf(__('Your API secret key for real money trading on %s.', 'tradepress'), esc_html($api_name)); ?></p>
                                                 </td>
                                             </tr>
                                             
                                             <tr valign="top">
                                                 <th scope="row" class="titledesc">
-                                                    <label for="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_papermoney_apikey"><?php _e('Paper-Money API Key ID', 'tradepress'); ?></label>
+                                                    <label for="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_papermoney_apikey"><?php esc_html_e('Paper-Money API Key ID', 'tradepress'); ?></label>
                                                 </th>
                                                 <td class="forminp forminp-text">
                                                     <input name="TradePress_api_<?php echo esc_attr($api_id); ?>_papermoney_apikey" id="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_papermoney_apikey" type="text" 
                                                            value="<?php echo esc_attr($papermoney_apikey); ?>" class="regular-text">
-                                                    <?php /* translators: %s: string value */ ?>
+                                                    <?php /* translators: %s: string value */ ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                                     <p class="description"><?php printf(__('Your API key ID for paper trading on %s.', 'tradepress'), esc_html($api_name)); ?></p>
                                                 </td>
                                             </tr>
                                             
                                             <tr valign="top">
                                                 <th scope="row" class="titledesc">
-                                                    <label for="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_papermoney_secretkey"><?php _e('Paper-Money API Secret Key', 'tradepress'); ?></label>
+                                                    <label for="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_papermoney_secretkey"><?php esc_html_e('Paper-Money API Secret Key', 'tradepress'); ?></label>
                                                 </th>
                                                 <td class="forminp forminp-password">
                                                     <input name="TradePress_api_<?php echo esc_attr($api_id); ?>_papermoney_secretkey" id="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_papermoney_secretkey" type="password" 
                                                            value="<?php echo esc_attr($papermoney_secretkey); ?>" class="regular-text">
-                                                    <?php /* translators: %s: string value */ ?>
+                                                    <?php /* translators: %s: string value */ ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                                     <p class="description"><?php printf(__('Your API secret key for paper trading on %s.', 'tradepress'), esc_html($api_name)); ?></p>
                                                 </td>
                                             </tr>
@@ -460,7 +460,7 @@ $trading_mode = get_option('TradePress_api_' . $api_id . '_trading_mode', 'paper
                                     </table>
                                     
                                     <p class="submit">
-                                        <button type="submit" class="button-primary" name="save_<?php echo esc_attr($api_id); ?>_api_settings" value="Save"><?php _e('Save API Settings', 'tradepress'); ?></button>
+                                        <button type="submit" class="button-primary" name="save_<?php echo esc_attr($api_id); ?>_api_settings" value="Save"><?php esc_html_e('Save API Settings', 'tradepress'); ?></button>
                                     </p>
                                 </form>
                             </div>

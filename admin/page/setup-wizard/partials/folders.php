@@ -41,9 +41,9 @@ $items_to_check = array(
                 $status_class = $exists ? 'status-success' : 'status-error';
             ?>
             <tr>
-                <td class="status-cell <?php echo $status_class; ?>">
-                    <span class="status-icon"><?php echo $status_icon; ?></span>
-                    <span class="status-text"><?php echo $status_text; ?></span>
+                <td class="status-cell <?php echo esc_attr( $status_class ); ?>">
+                    <span class="status-icon"><?php echo esc_attr( $status_icon ); ?></span>
+                    <span class="status-text"><?php echo $status_text; ?></span> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 </td>
                 <td class="type-cell"><?php echo esc_html($item['type']); ?></td>
                 <td class="path-cell"><code><?php echo esc_html($item['path']); ?></code></td>

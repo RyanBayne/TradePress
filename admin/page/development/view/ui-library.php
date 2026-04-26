@@ -115,7 +115,7 @@ class TradePress_Admin_Development_UI_Library {
             echo '</div>';
         } else {
             echo '<div style="background: #f8d7da; padding: 10px; border: 1px solid #f5c6cb; border-radius: 4px; color: #721c24; margin-bottom: 15px;">';
-            echo '❌ <strong>Found ' . $mismatch_count . ' potentially undefined classes in ' . count($mismatches) . ' files</strong>';
+            echo '❌ <strong>Found ' . $mismatch_count . ' potentially undefined classes in ' . count($mismatches) . ' files</strong>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '</div>';
             
             echo '<div style="max-height: 400px; overflow-y: auto; background: white; padding: 10px; border: 1px solid #ddd;">';

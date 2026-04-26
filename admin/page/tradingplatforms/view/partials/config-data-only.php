@@ -123,7 +123,7 @@ $data_priority = get_option('tradepress_' . $api_id . '_data_priority', 'normal'
                             if ($api_id === 'alphavantage') {
                                 printf(
                                     /* translators: %1$s: string value, %2$s: string value, %3$s: string value */
-                                    __('Enter your Alpha Vantage API key. You can get a free API key from %1$s<a href="%2$s" target="_blank">alphavantage.co</a>%3$s.', 'tradepress'),
+                                    __('Enter your Alpha Vantage API key. You can get a free API key from %1$s<a href="%2$s" target="_blank">alphavantage.co</a>%3$s.', 'tradepress'), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                     '<strong>',
                                     esc_url('https://www.alphavantage.co/support/#api-key'),
                                     '</strong>'

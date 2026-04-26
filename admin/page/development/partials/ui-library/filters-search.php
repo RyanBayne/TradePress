@@ -240,7 +240,7 @@ defined('ABSPATH') || exit;
             <div class="date-filter-demo">
                 <label class="filter-label"><?php esc_html_e('Single Date', 'tradepress'); ?></label>
                 <div class="date-input-wrapper">
-                    <input type="date" class="date-input" value="<?php echo esc_attr(date('Y-m-d')); ?>">
+                    <input type="date" class="date-input" value="<?php echo esc_attr(wp_date('Y-m-d')); ?>">
                     <span class="date-icon dashicons dashicons-calendar-alt"></span>
                 </div>
             </div>
@@ -250,12 +250,12 @@ defined('ABSPATH') || exit;
                 <label class="filter-label"><?php esc_html_e('Date Range', 'tradepress'); ?></label>
                 <div class="date-range-wrapper">
                     <div class="date-input-wrapper">
-                        <input type="date" class="date-input" value="<?php echo esc_attr(date('Y-m-d', strtotime('-7 days'))); ?>">
+                        <input type="date" class="date-input" value="<?php echo esc_attr(wp_date('Y-m-d', strtotime('-7 days'))); ?>">
                         <span class="date-icon dashicons dashicons-calendar-alt"></span>
                     </div>
                     <span class="date-range-separator"><?php esc_html_e('to', 'tradepress'); ?></span>
                     <div class="date-input-wrapper">
-                        <input type="date" class="date-input" value="<?php echo esc_attr(date('Y-m-d')); ?>">
+                        <input type="date" class="date-input" value="<?php echo esc_attr(wp_date('Y-m-d')); ?>">
                         <span class="date-icon dashicons dashicons-calendar-alt"></span>
                     </div>
                 </div>

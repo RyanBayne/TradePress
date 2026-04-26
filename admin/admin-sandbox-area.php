@@ -43,7 +43,7 @@ class TradePress_Admin_Sandbox_Page {
         $report .= "Time: " . current_time('d/m/Y, H:i:s') . "\n";
         
         // Error details
-        $report .= "Error: endpoint not found [DEBUG: " . date('Y-m-d\TH:i:s\Z', time()) . "]\n\n";
+        $report .= "Error: endpoint not found [DEBUG: " . wp_date('Y-m-d\TH:i:s\Z', time()) . "]\n\n";
         
         // Add raw response details
         $report .= "Error Details: \n";
@@ -70,8 +70,8 @@ class TradePress_Admin_Sandbox_Page {
         // Security check
         check_ajax_referer('tradepress_sandbox_nonce', 'nonce');
         
-        $endpoint = isset($_POST['endpoint']) ? sanitize_text_field($_POST['endpoint']) : '';
-        $platform = isset($_POST['platform']) ? sanitize_text_field($_POST['platform']) : 'Alpha Vantage';
+        $endpoint = isset($_POST['endpoint']) ? sanitize_text_field(wp_unslash($_POST['endpoint'])) : '';
+        $platform = isset($_POST['platform']) ? sanitize_text_field(wp_unslash($_POST['platform'])) : 'Alpha Vantage';
         
         // Here we would normally make the actual API call
         // For demo, let's simulate a response based on endpoint

@@ -175,10 +175,10 @@ class TradePress_Developer_Mode {
 				align-items: center;
 				font-size: 13px;
 			">
-				<span><?php _e( 'Developer Mode Active', 'tradepress' ); ?></span>
+				<span><?php esc_html_e( 'Developer Mode Active', 'tradepress' ); ?></span>
 				<?php if ( ! empty( $file_path ) ) : ?>
 					<span>
-						<?php _e( 'Current View File:', 'tradepress' ); ?>
+						<?php esc_html_e( 'Current View File:', 'tradepress' ); ?>
 						<a href="<?php echo esc_url( $vscode_link ); ?>" style="color: #00b9eb; text-decoration: none; margin-left: 5px;">
 							<?php echo esc_html( $file_path ); ?>
 						</a>
@@ -204,8 +204,8 @@ class TradePress_Developer_Mode {
 				align-items: center;
 				font-size: 13px;
 			">
-				<span><?php _e( 'Developer Mode Active', 'tradepress' ); ?></span>
-				<span><?php _e( 'Could not determine specific view file.', 'tradepress' ); ?></span>
+				<span><?php esc_html_e( 'Developer Mode Active', 'tradepress' ); ?></span>
+				<span><?php esc_html_e( 'Could not determine specific view file.', 'tradepress' ); ?></span>
 			</div>
 			<?php
 		}

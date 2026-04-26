@@ -169,7 +169,7 @@ class TradePress_Admin_Tests_Page {
                     data: {
                         action: 'tradepress_run_tests',
                         test_suite: 'phase3',
-                        nonce: '<?php echo wp_create_nonce('tradepress_tests'); ?>'
+                        nonce: '<?php echo esc_attr( wp_create_nonce('tradepress_tests') ); ?>'
                     },
                     success: function(response) {
                         if (response.success) {

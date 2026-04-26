@@ -174,8 +174,8 @@ class TradePress_WeBull_Admin {
      * Settings section description
      */
     public function section_description() {
-        echo '<p>' . __('Configure your WeBull API settings to integrate with TradePress. You\'ll need your WeBull account credentials to get started.', 'tradepress') . '</p>';
-        echo '<p>' . __('Note that WeBull does not offer an official API. TradePress uses a reverse-engineered client-facing API which may change without notice.', 'tradepress') . '</p>';
+        echo '<p>' . esc_html__('Configure your WeBull API settings to integrate with TradePress. You\'ll need your WeBull account credentials to get started.', 'tradepress') . '</p>';
+        echo '<p>' . esc_html__('Note that WeBull does not offer an official API. TradePress uses a reverse-engineered client-facing API which may change without notice.', 'tradepress') . '</p>';
     }
     
     /**
@@ -186,9 +186,9 @@ class TradePress_WeBull_Admin {
         ?>
         <label for="tradepress_webull_enabled">
             <input type="checkbox" id="tradepress_webull_enabled" name="tradepress_webull_enabled" value="yes" <?php checked($enabled, 'yes'); ?> />
-            <?php _e('Enable WeBull API integration', 'tradepress'); ?>
+            <?php esc_html_e('Enable WeBull API integration', 'tradepress'); ?>
         </label>
-        <p class="description"><?php _e('Check this box to enable the WeBull API integration.', 'tradepress'); ?></p>
+        <p class="description"><?php esc_html_e('Check this box to enable the WeBull API integration.', 'tradepress'); ?></p>
         <?php
     }
     
@@ -200,9 +200,9 @@ class TradePress_WeBull_Admin {
         ?>
         <label for="tradepress_webull_sandbox_mode">
             <input type="checkbox" id="tradepress_webull_sandbox_mode" name="tradepress_webull_sandbox_mode" value="yes" <?php checked($sandbox, 'yes'); ?> />
-            <?php _e('Use paper trading (recommended)', 'tradepress'); ?>
+            <?php esc_html_e('Use paper trading (recommended)', 'tradepress'); ?>
         </label>
-        <p class="description"><?php _e('Check this box to use paper trading (practice) instead of live trading.', 'tradepress'); ?></p>
+        <p class="description"><?php esc_html_e('Check this box to use paper trading (practice) instead of live trading.', 'tradepress'); ?></p>
         <?php
     }
     
@@ -213,7 +213,7 @@ class TradePress_WeBull_Admin {
         $email = get_option('tradepress_webull_email', '');
         ?>
         <input type="email" id="tradepress_webull_email" name="tradepress_webull_email" value="<?php echo esc_attr($email); ?>" class="regular-text" />
-        <p class="description"><?php _e('Enter your WeBull account email address.', 'tradepress'); ?></p>
+        <p class="description"><?php esc_html_e('Enter your WeBull account email address.', 'tradepress'); ?></p>
         <?php
     }
     
@@ -226,7 +226,7 @@ class TradePress_WeBull_Admin {
         ?>
         <input type="password" id="tradepress_webull_password" name="tradepress_webull_password" value="<?php echo esc_attr($masked); ?>" class="regular-text" 
         data-has-value="<?php echo !empty($password) ? 'true' : 'false'; ?>" />
-        <p class="description"><?php _e('Enter your WeBull account password. Leave blank to keep the existing password.', 'tradepress'); ?></p>
+        <p class="description"><?php esc_html_e('Enter your WeBull account password. Leave blank to keep the existing password.', 'tradepress'); ?></p>
         <script type="text/javascript">
             jQuery(document).ready(function($) {
                 var $password = $('#tradepress_webull_password');
@@ -247,8 +247,8 @@ class TradePress_WeBull_Admin {
         $device_id = get_option('tradepress_webull_device_id', '');
         ?>
         <input type="text" id="tradepress_webull_device_id" name="tradepress_webull_device_id" value="<?php echo esc_attr($device_id); ?>" class="regular-text" readonly />
-        <button type="button" id="generate_device_id" class="button"><?php _e('Generate New Device ID', 'tradepress'); ?></button>
-        <p class="description"><?php _e('WeBull Device ID. System generated - do not change this unless necessary.', 'tradepress'); ?></p>
+        <button type="button" id="generate_device_id" class="button"><?php esc_html_e('Generate New Device ID', 'tradepress'); ?></button>
+        <p class="description"><?php esc_html_e('WeBull Device ID. System generated - do not change this unless necessary.', 'tradepress'); ?></p>
         <script type="text/javascript">
             jQuery(document).ready(function($) {
                 $('#generate_device_id').on('click', function() {
@@ -257,7 +257,7 @@ class TradePress_WeBull_Admin {
                         type: 'POST',
                         data: {
                             action: 'tradepress_generate_webull_device_id',
-                            nonce: '<?php echo wp_create_nonce('tradepress-webull-nonce'); ?>'
+                            nonce: '<?php echo esc_attr( wp_create_nonce('tradepress-webull-nonce') ); ?>'
                         },
                         success: function(response) {
                             if(response.success) {
@@ -281,7 +281,7 @@ class TradePress_WeBull_Admin {
         $display = !empty($token) ? substr($token, 0, 10) . '...' : '';
         ?>
         <input type="text" id="tradepress_webull_access_token" name="tradepress_webull_access_token" value="<?php echo esc_attr($token); ?>" class="regular-text" />
-        <p class="description"><?php _e('System generated during authentication - do not modify manually.', 'tradepress'); ?></p>
+        <p class="description"><?php esc_html_e('System generated during authentication - do not modify manually.', 'tradepress'); ?></p>
         <?php
     }
     
@@ -293,7 +293,7 @@ class TradePress_WeBull_Admin {
         $display = !empty($token) ? substr($token, 0, 10) . '...' : '';
         ?>
         <input type="text" id="tradepress_webull_refresh_token" name="tradepress_webull_refresh_token" value="<?php echo esc_attr($token); ?>" class="regular-text" />
-        <p class="description"><?php _e('System generated during authentication - do not modify manually.', 'tradepress'); ?></p>
+        <p class="description"><?php esc_html_e('System generated during authentication - do not modify manually.', 'tradepress'); ?></p>
         <?php
     }
     
@@ -304,7 +304,7 @@ class TradePress_WeBull_Admin {
         $token = get_option('tradepress_webull_trade_token', '');
         ?>
         <input type="text" id="tradepress_webull_trade_token" name="tradepress_webull_trade_token" value="<?php echo esc_attr($token); ?>" class="regular-text" />
-        <p class="description"><?php _e('Trade token required for placing orders. System generated - do not modify manually.', 'tradepress'); ?></p>
+        <p class="description"><?php esc_html_e('Trade token required for placing orders. System generated - do not modify manually.', 'tradepress'); ?></p>
         <?php
     }
     
@@ -315,7 +315,7 @@ class TradePress_WeBull_Admin {
         $duration = get_option('tradepress_webull_cache_duration', 300);
         ?>
         <input type="number" id="tradepress_webull_cache_duration" name="tradepress_webull_cache_duration" value="<?php echo esc_attr($duration); ?>" class="small-text" min="0" step="1" />
-        <p class="description"><?php _e('How long to cache API responses in seconds (0 to disable caching).', 'tradepress'); ?></p>
+        <p class="description"><?php esc_html_e('How long to cache API responses in seconds (0 to disable caching).', 'tradepress'); ?></p>
         <?php
     }
     
@@ -336,10 +336,10 @@ class TradePress_WeBull_Admin {
             ?>
             
             <div class="webull-login-section">
-                <h3><?php _e('WeBull Authentication', 'tradepress'); ?></h3>
-                <p><?php _e('After entering your email and password above, click the button below to authenticate with WeBull:', 'tradepress'); ?></p>
+                <h3><?php esc_html_e('WeBull Authentication', 'tradepress'); ?></h3>
+                <p><?php esc_html_e('After entering your email and password above, click the button below to authenticate with WeBull:', 'tradepress'); ?></p>
                 <button type="button" id="tradepress_webull_login" class="button button-primary" <?php echo !$has_login_info ? 'disabled' : ''; ?>>
-                    <?php _e('Authenticate with WeBull', 'tradepress'); ?>
+                    <?php esc_html_e('Authenticate with WeBull', 'tradepress'); ?>
                 </button>
                 <span id="webull-login-status"></span>
                 
@@ -350,7 +350,7 @@ class TradePress_WeBull_Admin {
                             var $status = $('#webull-login-status');
                             
                             $button.prop('disabled', true);
-                            $status.html('<span style="color:#0073aa;"><?php _e('Authenticating...', 'tradepress'); ?></span>');
+                            $status.html('<span style="color:#0073aa;"><?php esc_html_e('Authenticating...', 'tradepress'); ?></span>');
                             
                             $.ajax({
                                 url: ajaxurl,
@@ -360,13 +360,13 @@ class TradePress_WeBull_Admin {
                                     email: $('#tradepress_webull_email').val(),
                                     password: $('#tradepress_webull_password').val(),
                                     device_id: $('#tradepress_webull_device_id').val(),
-                                    nonce: '<?php echo wp_create_nonce('tradepress-webull-nonce'); ?>'
+                                    nonce: '<?php echo esc_attr( wp_create_nonce('tradepress-webull-nonce') ); ?>'
                                 },
                                 success: function(response) {
                                     $button.prop('disabled', false);
                                     
                                     if(response.success) {
-                                        $status.html('<span style="color:green;"><?php _e('Authentication successful!', 'tradepress'); ?></span>');
+                                        $status.html('<span style="color:green;"><?php esc_html_e('Authentication successful!', 'tradepress'); ?></span>');
                                         
                                         // Update token fields with new values
                                         $('#tradepress_webull_access_token').val(response.data.access_token);
@@ -377,7 +377,7 @@ class TradePress_WeBull_Admin {
                                 },
                                 error: function() {
                                     $button.prop('disabled', false);
-                                    $status.html('<span style="color:red;"><?php _e('Error communicating with the server.', 'tradepress'); ?></span>');
+                                    $status.html('<span style="color:red;"><?php esc_html_e('Error communicating with the server.', 'tradepress'); ?></span>');
                                 }
                             });
                         });

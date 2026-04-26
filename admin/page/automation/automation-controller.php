@@ -60,7 +60,7 @@ class TradePress_Admin_Automation_Controller {
             wp_send_json_error(array('message' => __('Permission denied', 'tradepress')));
         }
         
-        $action = isset($_POST['algorithm_action']) ? sanitize_text_field($_POST['algorithm_action']) : '';
+        $action = isset($_POST['algorithm_action']) ? sanitize_text_field(wp_unslash($_POST['algorithm_action'])) : '';
         
         if ($action === 'start') {
             $result = $this->start_algorithm();
@@ -117,8 +117,8 @@ class TradePress_Admin_Automation_Controller {
             wp_send_json_error(array('message' => __('Permission denied', 'tradepress')));
         }
         
-        $component = isset($_POST['component']) ? sanitize_text_field($_POST['component']) : '';
-        $action = isset($_POST['action_type']) ? sanitize_text_field($_POST['action_type']) : '';
+        $component = isset($_POST['component']) ? sanitize_text_field(wp_unslash($_POST['component'])) : '';
+        $action = isset($_POST['action_type']) ? sanitize_text_field(wp_unslash($_POST['action_type'])) : '';
         
         if (!in_array($component, array('algorithm', 'signals', 'trading', 'data_import', 'scoring'))) {
             wp_send_json_error(array('message' => __('Invalid component', 'tradepress')));
@@ -207,7 +207,7 @@ class TradePress_Admin_Automation_Controller {
             wp_send_json_error(array('message' => __('Permission denied', 'tradepress')));
         }
         
-        $action = isset($_POST['action_type']) ? sanitize_text_field($_POST['action_type']) : '';
+        $action = isset($_POST['action_type']) ? sanitize_text_field(wp_unslash($_POST['action_type'])) : '';
         
         if (!in_array($action, array('start', 'stop'))) {
             wp_send_json_error(array('message' => __('Invalid action', 'tradepress')));
@@ -325,13 +325,16 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * Save scoring directives
+     *
+     * @version 1.0.7
      */
     public function save_scoring_directives() {
         // Verify nonce and permissions
         check_admin_referer('save_scoring_directives', 'scoring_directives_nonce');
         
         if (!current_user_can('manage_options')) {
-            wp_die(__('Permission denied', 'tradepress'));
+            // Use esc_html__() for safe translated output in wp_die
+            wp_die(esc_html__('Permission denied', 'tradepress'));
         }
         
         // Don't allow changes while algorithm is running
@@ -344,7 +347,7 @@ class TradePress_Admin_Automation_Controller {
             );
             
             // Redirect back to the directives tab
-            wp_redirect(add_query_arg(
+            wp_safe_redirect(add_query_arg(
                 array(
                     'page' => 'tradepress_automation',
                     'tab' => 'directives',
@@ -360,7 +363,7 @@ class TradePress_Admin_Automation_Controller {
         $existing_directives = $registry->get_directives();
         
         // Process and save directives
-        $directives = isset($_POST['directives']) ? $_POST['directives'] : array();
+        $directives = isset($_POST['directives']) ? wp_unslash($_POST['directives']) : array();  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         $sanitized_directives = array();
         
         foreach ($directives as $key => $directive) {
@@ -426,7 +429,7 @@ class TradePress_Admin_Automation_Controller {
         );
         
         // Redirect back to the directives tab
-        wp_redirect(add_query_arg(
+        wp_safe_redirect(add_query_arg(
             array(
                 'page' => 'tradepress_automation',
                 'tab' => 'directives',
@@ -608,7 +611,7 @@ class TradePress_Admin_Automation_Controller {
         $new_symbols = min(10, $batch_size);
         $symbols_processed += $new_symbols;
         $scores_generated += $new_symbols;
-        $trade_signals += rand(0, 2); // Random number of trade signals
+        $trade_signals += wp_rand(0, 2); // Random number of trade signals
         
         // Update counters (use scoring-specific option names for dashboard)
         update_option('tradepress_symbols_processed', $symbols_processed);
@@ -640,7 +643,7 @@ class TradePress_Admin_Automation_Controller {
         $signals_generated = get_option('tradepress_signals_generated', 0);
         
         // For now, just increment counter to simulate work
-        $signals_generated += rand(0, 2); // Random number of signals
+        $signals_generated += wp_rand(0, 2); // Random number of signals
         
         // Update counter
         update_option('tradepress_signals_generated', $signals_generated);
@@ -666,7 +669,7 @@ class TradePress_Admin_Automation_Controller {
         $trades_executed = get_option('tradepress_trades_executed', 0);
         
         // For now, just increment counter to simulate work
-        if (rand(0, 10) > 8) { // 20% chance of executing a trade
+        if (wp_rand(0, 10) > 8) { // 20% chance of executing a trade
             $trades_executed++;
         }
         
@@ -912,7 +915,7 @@ class TradePress_Admin_Automation_Controller {
             wp_send_json_error(array('message' => __('Permission denied', 'tradepress')));
         }
         
-        $import_type = isset($_POST['import_type']) ? sanitize_text_field($_POST['import_type']) : 'all';
+        $import_type = isset($_POST['import_type']) ? sanitize_text_field(wp_unslash($_POST['import_type'])) : 'all';
         
         // Initialize data import process
         $data_import = new TradePress_Data_Import_Process();
@@ -1002,10 +1005,10 @@ class TradePress_Admin_Automation_Controller {
         wp_send_json_success(array(
             'status' => $status,
             'runtime' => $runtime,
-            'last_run' => $last_run ? date('Y-m-d H:i:s', $last_run) : 'Never',
+            'last_run' => $last_run ? wp_date('Y-m-d H:i:s', $last_run) : 'Never',
             'data_freshness' => array(
-                'earnings' => $earnings_last_update ? date('Y-m-d H:i:s', $earnings_last_update) : 'Never',
-                'market_status' => $market_status_last_update ? date('Y-m-d H:i:s', $market_status_last_update) : 'Never'
+                'earnings' => $earnings_last_update ? wp_date('Y-m-d H:i:s', $earnings_last_update) : 'Never',
+                'market_status' => $market_status_last_update ? wp_date('Y-m-d H:i:s', $market_status_last_update) : 'Never'
             )
         ));
     }
@@ -1020,7 +1023,7 @@ class TradePress_Admin_Automation_Controller {
             wp_send_json_error(array('message' => __('Permission denied', 'tradepress')));
         }
         
-        $process_type = isset($_POST['process_type']) ? sanitize_text_field($_POST['process_type']) : 'all';
+        $process_type = isset($_POST['process_type']) ? sanitize_text_field(wp_unslash($_POST['process_type'])) : 'all';
         
         // Initialize scoring process
         $scoring_process = new TradePress_Scoring_Process();
@@ -1112,12 +1115,12 @@ class TradePress_Admin_Automation_Controller {
         wp_send_json_success(array(
             'status' => $status,
             'runtime' => $runtime,
-            'last_run' => $last_run ? date('Y-m-d H:i:s', $last_run) : 'Never',
+            'last_run' => $last_run ? wp_date('Y-m-d H:i:s', $last_run) : 'Never',
             'metrics' => array(
                 'symbols_processed' => $symbols_processed,
                 'scores_generated' => $scores_generated,
                 'signals_generated' => $signals_generated,
-                'rankings_last_update' => $rankings_last_update ? date('Y-m-d H:i:s', $rankings_last_update) : 'Never'
+                'rankings_last_update' => $rankings_last_update ? wp_date('Y-m-d H:i:s', $rankings_last_update) : 'Never'
             )
         ));
     }

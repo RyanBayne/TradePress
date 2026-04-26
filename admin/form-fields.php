@@ -445,7 +445,7 @@ class TradePress_Form_Fields {
      */
     public static function save_fields( $options ) {
         
-        if ( empty( $_POST ) ) {      
+        if ( empty( $_POST ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Missing
             return false;
         }
 
@@ -464,11 +464,11 @@ class TradePress_Form_Fields {
                 parse_str( $option['id'], $option_name_array );
                 $option_name  = current( array_keys( $option_name_array ) );
                 $setting_name = key( $option_name_array[ $option_name ] );
-                $raw_value    = isset( $_POST[ $option_name ][ $setting_name ] ) ? wp_unslash( $_POST[ $option_name ][ $setting_name ] ) : null;
+                $raw_value    = isset( $_POST[ $option_name ][ $setting_name ] ) ? wp_unslash( $_POST[ $option_name ][ $setting_name ] ) : null;  // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             } else {
                 $option_name  = $option['id'];
                 $setting_name = '';
-                $raw_value    = isset( $_POST[ $option['id'] ] ) ? wp_unslash( $_POST[ $option['id'] ] ) : null;
+                $raw_value    = isset( $_POST[ $option['id'] ] ) ? wp_unslash( $_POST[ $option['id'] ] ) : null;  // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             }
 
             // Format the value based on option type.

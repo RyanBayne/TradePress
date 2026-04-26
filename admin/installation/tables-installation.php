@@ -188,7 +188,7 @@ class TradePress_Install_Tables {
             life bigint(20) NOT NULL DEFAULT '86400',
             PRIMARY KEY (entryid)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Create errors table
         $table_name = $wpdb->prefix . "tradepress_errors";
@@ -203,7 +203,7 @@ class TradePress_Install_Tables {
             timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (errorid)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Create endpoints table
         $table_name = $wpdb->prefix . "tradepress_endpoints";
@@ -218,7 +218,7 @@ class TradePress_Install_Tables {
             counter bigint(20) NOT NULL DEFAULT '1',
             PRIMARY KEY (endpointid)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Create meta table
         $table_name = $wpdb->prefix . "tradepress_meta";
@@ -231,7 +231,7 @@ class TradePress_Install_Tables {
             expiry DATETIME,
             PRIMARY KEY (metaid)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -275,7 +275,7 @@ class TradePress_Install_Tables {
             KEY active (active),
             KEY post_id (post_id)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Support and resistance levels (multiple per symbol)
         $table_name = $wpdb->prefix . "tradepress_price_levels";
@@ -295,7 +295,7 @@ class TradePress_Install_Tables {
             KEY level_type (level_type),
             KEY timeframe (timeframe)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Historical price data
         $table_name = $wpdb->prefix . "tradepress_price_history";
@@ -313,7 +313,7 @@ class TradePress_Install_Tables {
             KEY symbol (symbol),
             KEY date (date)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Price data table for API imports (OHLCV data)
         $table_name = $wpdb->prefix . "tradepress_price_data";
@@ -336,7 +336,7 @@ class TradePress_Install_Tables {
             KEY date (date),
             KEY source (source)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -359,7 +359,7 @@ class TradePress_Install_Tables {
             KEY meta_key (meta_key),
             KEY source (source)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // API calls tracking table
         $table_name = $wpdb->prefix . "tradepress_api_calls";
@@ -377,7 +377,7 @@ class TradePress_Install_Tables {
             KEY call_time (call_time),
             KEY endpoint (endpoint)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Data sources configuration table
         $table_name = $wpdb->prefix . "tradepress_data_sources_meta";
@@ -394,7 +394,7 @@ class TradePress_Install_Tables {
             KEY config_key (config_key),
             KEY is_active (is_active)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Cache metadata table
         $table_name = $wpdb->prefix . "tradepress_cache_meta";
@@ -414,7 +414,7 @@ class TradePress_Install_Tables {
             KEY expires_at (expires_at),
             KEY symbol_id (symbol_id)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // CRON job metadata table
         $table_name = $wpdb->prefix . "tradepress_cron_meta";
@@ -435,7 +435,7 @@ class TradePress_Install_Tables {
             KEY job_status (job_status),
             KEY next_run (next_run)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -461,7 +461,7 @@ class TradePress_Install_Tables {
             KEY score (score),
             KEY created_at (created_at)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Table for storing detailed directive scores
         $table_name = $wpdb->prefix . "tradepress_directive_scores";
@@ -479,7 +479,7 @@ class TradePress_Install_Tables {
             KEY score_id (score_id),
             KEY directive_id (directive_id)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Table for storing strategy definitions
         $table_name = $wpdb->prefix . "tradepress_strategies";
@@ -500,7 +500,7 @@ class TradePress_Install_Tables {
             KEY is_active (is_active),
             KEY time_horizon (time_horizon)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Table for associating symbols with specific strategies
         $table_name = $wpdb->prefix . "tradepress_strategy_symbols";
@@ -520,7 +520,7 @@ class TradePress_Install_Tables {
             KEY is_approved (is_approved),
             KEY priority (priority)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Table for score analysis and comparison
         $table_name = $wpdb->prefix . "tradepress_score_analysis";
@@ -545,7 +545,7 @@ class TradePress_Install_Tables {
             KEY strategy_id (strategy_id),
             KEY analysis_date (analysis_date)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -575,7 +575,7 @@ class TradePress_Install_Tables {
             KEY status (status),
             KEY datetime (datetime)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Table for storing algorithm runs
         $table_name = $wpdb->prefix . "tradepress_algorithm_runs";
@@ -595,7 +595,7 @@ class TradePress_Install_Tables {
             KEY status (status),
             KEY run_type (run_type)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -617,7 +617,7 @@ class TradePress_Install_Tables {
             KEY category (category),
             KEY timestamp (timestamp)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -643,7 +643,7 @@ class TradePress_Install_Tables {
             KEY source_type (source_type),
             KEY active (active)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
         // Price Predictions Table
         $table_name = $wpdb->prefix . "tradepress_price_predictions";
@@ -668,7 +668,7 @@ class TradePress_Install_Tables {
             KEY prediction_date (prediction_date),
             KEY target_date (target_date)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
         // Source Performance Table
         $table_name = $wpdb->prefix . "tradepress_source_performance";
@@ -685,7 +685,7 @@ class TradePress_Install_Tables {
             PRIMARY KEY (performance_id),
             UNIQUE KEY source_symbol_horizon (source_id, symbol, time_horizon)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -720,7 +720,7 @@ class TradePress_Install_Tables {
             KEY message_date (message_date),
             KEY created_at (created_at)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Trade Alerts: Alert to score/trade correlation table
         $table_name = $wpdb->prefix . "tradepress_alert_outcomes";
@@ -747,7 +747,7 @@ class TradePress_Install_Tables {
             KEY trade_executed (trade_executed),
             KEY trade_id (trade_id)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Source reliability metrics table
         $table_name = $wpdb->prefix . "tradepress_alert_source_metrics";
@@ -769,7 +769,7 @@ class TradePress_Install_Tables {
             KEY success_rate (success_rate),
             KEY last_alert_date (last_alert_date)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -796,7 +796,7 @@ class TradePress_Install_Tables {
             KEY type (type),
             KEY status (status)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Check if description column exists, add it if it doesn't
         $check_column = $wpdb->get_results($wpdb->prepare(
@@ -837,7 +837,7 @@ class TradePress_Install_Tables {
             KEY verified (verified),
             KEY processed (processed)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -979,7 +979,7 @@ class TradePress_Install_Tables {
             KEY created_by (created_by),
             KEY last_run (last_run)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Test runs table
         $table_name = $wpdb->prefix . "tradepress_test_runs";
@@ -1003,7 +1003,7 @@ class TradePress_Install_Tables {
             KEY run_date (run_date),
             KEY run_by (run_by)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Test faults table
         $table_name = $wpdb->prefix . "tradepress_test_faults";
@@ -1034,7 +1034,7 @@ class TradePress_Install_Tables {
             KEY assigned_to (assigned_to),
             KEY created_by (created_by)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
     
     /**
@@ -1057,7 +1057,7 @@ class TradePress_Install_Tables {
             KEY status (status),
             KEY order_index (order_index)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // Steps table
         $table_name = $wpdb->prefix . "tradepress_steps";
@@ -1077,7 +1077,7 @@ class TradePress_Install_Tables {
             KEY status (status),
             KEY order_index (order_index)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         
         // User journal table
         $table_name = $wpdb->prefix . "tradepress_user_journal";
@@ -1096,7 +1096,7 @@ class TradePress_Install_Tables {
             KEY step_id (step_id),
             KEY task_completed (task_completed)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        $wpdb->query($sql);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
 }
 

@@ -26,7 +26,7 @@ $log_files = glob($log_directory . '*.log');
             <label for="log-file-select">Select Log File:</label>
             <select id="log-file-select">
                 <?php foreach ($log_files as $log_file) : ?>
-                    <option value="<?php echo basename($log_file); ?>"><?php echo basename($log_file); ?></option>
+                    <option value="<?php echo  esc_html( basename($log_file) ); ?>"><?php echo  esc_html( basename($log_file) ); ?></option>
                 <?php endforeach; ?>
             </select>
             <button type="button" class="button" id="load-log-file">Load Log</button>

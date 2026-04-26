@@ -523,7 +523,7 @@ class TradePress_Admin_Symbols_Page {
             set_transient('tradepress_api_settings_updated', true, 30);
             
             // Redirect to avoid form resubmission
-            wp_redirect(add_query_arg('tab', 'settings', admin_url('admin.php?page=tradepress_platforms')));
+            wp_safe_redirect(add_query_arg('tab', 'settings', admin_url('admin.php?page=tradepress_platforms')));
             exit;
         }
         
@@ -565,7 +565,7 @@ class TradePress_Admin_Symbols_Page {
             set_transient('tradepress_api_settings_updated', true, 30);
             
             // Redirect to avoid form resubmission
-            wp_redirect(add_query_arg(array('tab' => 'settings', 'section' => $service), admin_url('admin.php?page=tradepress_platforms')));
+            wp_safe_redirect(add_query_arg(array('tab' => 'settings', 'section' => $service), admin_url('admin.php?page=tradepress_platforms')));
             exit;
         }
         
@@ -620,7 +620,7 @@ class TradePress_Admin_Symbols_Page {
             set_transient('tradepress_api_settings_updated', true, 30);
             
             // Redirect to avoid form resubmission
-            wp_redirect(add_query_arg('tab', 'api_switches', admin_url('admin.php?page=tradepress_platforms')));
+            wp_safe_redirect(add_query_arg('tab', 'api_switches', admin_url('admin.php?page=tradepress_platforms')));
             exit;
         }
         

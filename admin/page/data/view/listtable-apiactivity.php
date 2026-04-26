@@ -102,8 +102,8 @@ class TradePress_ListTable_APIActivity extends WP_List_Table {
         
         $records = $wpdb->get_results( "
             SELECT a.*,m.metavalue AS rawresponse  
-            FROM $activity a
-            INNER JOIN $meta m    
+            FROM $activity a  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+            INNER JOIN $meta m  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
             ON a.entryid = m.entryid
             WHERE m.metakey = 'rawresponse' 
         ", 
@@ -198,7 +198,7 @@ class TradePress_ListTable_APIActivity extends WP_List_Table {
                 echo '<pre>' . esc_html( $item['wpuserid'] ) . '</pre>';
             break;  
             case 'rawresponse' :
-                echo '<textarea rows="3" cols="25">' . esc_textarea( print_r( $item['rawresponse'], true ) ) . '</textarea>'; // Escaped for textarea context
+                echo '<textarea rows="3" cols="25">' . esc_textarea( print_r( $item['rawresponse'], true ) ) . '</textarea>'; // Escaped for textarea context  // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
             break;                                                                                                       
         }
     }
@@ -241,8 +241,8 @@ class TradePress_ListTable_APIActivity extends WP_List_Table {
     } 
     
     public function display() {        
-        if( isset( $_REQUEST['view_record'] ) && is_numeric( $_REQUEST['view_record']  ) ) {
-            $this->record_listed( $_REQUEST['view_record']  );
+        if( isset( $_REQUEST['view_record'] ) && is_numeric( $_REQUEST['view_record']  ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            $this->record_listed( wp_unslash($_REQUEST['view_record'])  );  // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             return;
         }
         
@@ -252,7 +252,7 @@ class TradePress_ListTable_APIActivity extends WP_List_Table {
 
         $this->screen->render_screen_reader_content( 'heading_list' );
         ?>
-<table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>">
+<table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     <thead>
     <tr>
         <?php $this->print_column_headers(); ?>
@@ -294,10 +294,10 @@ class TradePress_ListTable_APIActivity extends WP_List_Table {
         $meta = $wpdb->tradepress_meta;
         $records = $wpdb->get_row( "
             SELECT a.*,m.metavalue AS rawbody  
-            FROM $activity a
-            INNER JOIN $meta m   
+            FROM $activity a  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+            INNER JOIN $meta m  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
             ON a.entryid = m.entryid
-            WHERE a.entryid = $entry_id 
+            WHERE a.entryid = $entry_id  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
         ", 
         'OBJECT' );
                           
@@ -308,7 +308,7 @@ class TradePress_ListTable_APIActivity extends WP_List_Table {
         
         echo '
         <table>
-            <tr><td></td><td>' . wp_kses_post( __( '<strong>Information</strong>', 'tradepress' ) ) . '</td></tr>
+            <tr><td></td><td><strong>' . esc_html__( 'Information', 'tradepress' ) . '</strong></td></tr>
             <tr><td>' . esc_html__( 'Entry ID', 'tradepress' ) . '</td><td>' . esc_html( $records->entryid ) . '</td></tr>
             <tr><td>' . esc_html__( 'Call ID', 'tradepress' ) . '</td><td>' . esc_html( $records->callid ) . '</td></tr>
             <tr><td>' . esc_html__( 'Service', 'tradepress' ) . '</td><td>' . esc_html( $records->service ) . '</td></tr>

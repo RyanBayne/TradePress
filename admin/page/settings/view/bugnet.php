@@ -142,7 +142,7 @@ class TradePress_Settings_BugNet extends TradePress_Settings_Page {
         if ( isset( $_GET['action'] ) && $_GET['action'] === 'clear_logs' && wp_verify_nonce( $_GET['nonce'], 'tradepress_clear_logs' ) ) {
             error_log( '[' . current_time( 'Y-m-d H:i:s' ) . '] TradePress BugNet: Nonce verified, clearing selected logs' . "\n", 3, WP_CONTENT_DIR . '/users.log' );
             $this->clear_selected_logs();
-            wp_redirect( admin_url( 'admin.php?page=TradePress&tab=bugnet&cleared=1' ) );
+            wp_safe_redirect( admin_url( 'admin.php?page=TradePress&tab=bugnet&cleared=1' ) );
             exit;
         }
         

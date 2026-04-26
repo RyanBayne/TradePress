@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 // Display API test results if available
 $test_results = get_transient('tradepress_api_test_results');
 if ($test_results) {
-    echo $test_results;
+    echo esc_html( $test_results );
     delete_transient('tradepress_api_test_results');
 }
 
@@ -39,9 +39,9 @@ $saved_symbols = get_option('TradePress_watchlist_symbols', '');
 $manual_symbols = $saved_symbols ? $saved_symbols : '';
 ?>
 
-<h1><?php _e('Start Your Watchlist', 'tradepress'); ?></h1>
+<h1><?php esc_html_e('Start Your Watchlist', 'tradepress'); ?></h1>
 
-<p><?php _e('The plugin needs to be initalised with some symbols to work. No less than three is recommended.', 'tradepress'); ?></p>
+<p><?php esc_html_e('The plugin needs to be initalised with some symbols to work. No less than three is recommended.', 'tradepress'); ?></p>
 
 <form method="post">
     <div class="tradepress-setup-content-inner">
@@ -97,19 +97,19 @@ $manual_symbols = $saved_symbols ? $saved_symbols : '';
 
         
         <div class="tradepress-symbol-controls">
-            <button type="button" class="button" id="select-all-symbols"><?php _e('Select All', 'tradepress'); ?></button>
-            <button type="button" class="button" id="deselect-all-symbols"><?php _e('Deselect All', 'tradepress'); ?></button>
+            <button type="button" class="button" id="select-all-symbols"><?php esc_html_e('Select All', 'tradepress'); ?></button>
+            <button type="button" class="button" id="deselect-all-symbols"><?php esc_html_e('Deselect All', 'tradepress'); ?></button>
         </div>
         
-        <h3><?php _e('Add Custom Symbols', 'tradepress'); ?></h3>
-        <p><?php _e('You can also manually add symbols that are not in the list above.', 'tradepress'); ?></p>
+        <h3><?php esc_html_e('Add Custom Symbols', 'tradepress'); ?></h3>
+        <p><?php esc_html_e('You can also manually add symbols that are not in the list above.', 'tradepress'); ?></p>
         
         <table class="form-table">
             <tr>
-                <th scope="row"><label for="TradePress_watchlist_symbols"><?php _e('Custom Symbols', 'tradepress'); ?></label></th>
+                <th scope="row"><label for="TradePress_watchlist_symbols"><?php esc_html_e('Custom Symbols', 'tradepress'); ?></label></th>
                 <td>
                     <textarea id="TradePress_watchlist_symbols" name="TradePress_watchlist_symbols" class="large-text" rows="3" placeholder="AAPL, MSFT, GOOGL, AMZN, TSLA"><?php echo esc_textarea($manual_symbols); ?></textarea>
-                    <p class="description"><?php _e('Enter additional stock symbols separated by commas. Example: AAPL, MSFT, GOOGL', 'tradepress'); ?></p>
+                    <p class="description"><?php esc_html_e('Enter additional stock symbols separated by commas. Example: AAPL, MSFT, GOOGL', 'tradepress'); ?></p>
                 </td>
             </tr>
         </table>

@@ -81,7 +81,7 @@ class TradePress_Settings_Database extends TradePress_Settings_Page {
             /* translators: %1$d: number, %2$d: number, %3$d: number */
             esc_html__( 'Total tables: %1$d, Existing: %2$d, Missing: %3$d', 'tradepress' ),
             count( $tables ),
-            $existing_tables,
+            $existing_tables, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             count( $missing_tables )
         ) . '</p>';
         

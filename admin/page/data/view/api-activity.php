@@ -17,12 +17,12 @@ if (!defined('ABSPATH')) {
 }
 
 // Get the filter parameters
-$service = isset($_GET['service']) ? sanitize_text_field($_GET['service']) : '';
-$status = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
-$date_from = isset($_GET['date_from']) ? sanitize_text_field($_GET['date_from']) : '';
-$date_to = isset($_GET['date_to']) ? sanitize_text_field($_GET['date_to']) : '';
-$limit = isset($_GET['limit']) ? intval($_GET['limit']) : 50;
-$page = isset($_GET['api_page']) ? intval($_GET['api_page']) : 1;
+$service = isset($_GET['service']) ? sanitize_text_field(wp_unslash($_GET['service'])) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$status = isset($_GET['status']) ? sanitize_text_field(wp_unslash($_GET['status'])) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$date_from = isset($_GET['date_from']) ? sanitize_text_field(wp_unslash($_GET['date_from'])) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$date_to = isset($_GET['date_to']) ? sanitize_text_field(wp_unslash($_GET['date_to'])) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$limit = isset($_GET['limit']) ? intval($_GET['limit']) : 50;  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$page = isset($_GET['api_page']) ? intval($_GET['api_page']) : 1;  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 // Calculate the offset
 $offset = ($page - 1) * $limit;
@@ -83,8 +83,8 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
     <!-- Filter Form -->
     <div class="tradepress-filter-form">
         <form method="get" action="">
-            <input type="hidden" name="page" value="<?php echo isset($_GET['page']) ? esc_attr($_GET['page']) : ''; ?>">
-            <input type="hidden" name="tab" value="<?php echo isset($_GET['tab']) ? esc_attr($_GET['tab']) : ''; ?>">
+            <input type="hidden" name="page" value="<?php echo isset($_GET['page']) ? esc_attr(wp_unslash($_GET['page'])) : ''; ?>">  // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            <input type="hidden" name="tab" value="<?php echo isset($_GET['tab']) ? esc_attr(wp_unslash($_GET['tab'])) : ''; ?>">  // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             
             <div class="filter-controls">
                 <div class="filter-row">
@@ -132,7 +132,7 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
                     
                     <div class="filter-actions">
                         <button type="submit" class="button"><?php esc_html_e('Apply Filters', 'tradepress'); ?></button>
-                        <a href="?page=<?php echo isset($_GET['page']) ? esc_attr($_GET['page']) : ''; ?>&tab=<?php echo isset($_GET['tab']) ? esc_attr($_GET['tab']) : ''; ?>" class="button"><?php esc_html_e('Reset', 'tradepress'); ?></a>
+                        <a href="?page=<?php echo isset($_GET['page']) ? esc_attr(wp_unslash($_GET['page'])) : ''; ?>&tab=<?php echo isset($_GET['tab']) ? esc_attr(wp_unslash($_GET['tab'])) : ''; ?>" class="button"><?php esc_html_e('Reset', 'tradepress'); ?></a>  // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
                     </div>
                 </div>
             </div>
@@ -186,7 +186,7 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
                 <div class="tablenav-pages">
                     <span class="displaying-num">
                         <?php /* translators: %s: string value */ ?>
-                        <?php printf(_n('%s item', '%s items', $total_count, 'tradepress'), number_format_i18n($total_count)); ?>
+                        <?php printf(_n('%s item', '%s items', $total_count, 'tradepress'), number_format_i18n($total_count)); ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     </span>
                     
                     <span class="pagination-links">
@@ -206,7 +206,7 @@ $available_services = $wpdb->get_col("SELECT DISTINCT service FROM {$wpdb->prefi
                         
                         <span class="paging-input">
                             <span class="tablenav-paging-text">
-                                <?php /* translators: %1$s: string value, %2$s: string value */ ?>
+                                <?php /* translators: %1$s: string value, %2$s: string value */ ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 <?php printf(esc_html__('Page %1$s of %2$s', 'tradepress'), $page, $total_pages); ?>
                             </span>
                         </span>

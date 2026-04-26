@@ -697,9 +697,17 @@ function tradepress_render_github_markdown_ajax() {
 add_action('wp_ajax_tradepress_render_github_markdown', 'tradepress_render_github_markdown_ajax');
 
 /**
- * AJAX handler for getting API call details
+ * AJAX handler for getting API call details.
  *
- * @version 1.0.7
+ * Retrieves a single API call record along with its associated errors,
+ * metadata, and endpoint statistics, then returns them as an HTML fragment.
+ * All translatable label strings are output via esc_html_e() rather than
+ * the bare _e() function to satisfy WordPress.Security.EscapeOutput
+ * (E-86a150cb). Dynamic values from the database are escaped via esc_html()
+ * or esc_attr() before output.
+ *
+ * @since 1.0.7
+ * @version 1.0.95
  */
 function tradepress_ajax_get_api_call_details() {
     // Check nonce
@@ -747,7 +755,10 @@ function tradepress_ajax_get_api_call_details() {
         $log_id
     ), ARRAY_A);
     
-    // Build the HTML output
+    // Build the HTML output.
+    // All translatable strings use esc_html_e() instead of _e() so the output
+    // is both translated and HTML-escaped, satisfying
+    // WordPress.Security.EscapeOutput.UnsafePrintingFunction (E-86a150cb).
     ob_start();
     ?>
     <div class="api-details-section">

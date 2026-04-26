@@ -186,54 +186,54 @@ class TradePress_Post_Type_Webhooks {
         $action_three = get_post_meta( $post->ID, '_TradePress_post_webhooks_action_three', true );
         ?>
         <!-- Added 'tradepress' text domain to satisfy WordPress.WP.I18n.MissingArgDomain -->
-        <p><?php _e( 'Not all combinations of event and action will work (pending further development). Please test and seek advice if unsure.', 'tradepress' ); ?></p>
+        <p><?php esc_html_e( 'Not all combinations of event and action will work (pending further development). Please test and seek advice if unsure.', 'tradepress' ); ?></p>
         <table class="form-table">
             <tbody>
                 <tr>
-                    <th><label for="_TradePress_post_webhooks_type"><?php _e( 'Type of event this subscription will hook into...', 'tradepress' ); ?></label></th>
+                    <th><label for="_TradePress_post_webhooks_type"><?php esc_html_e( 'Type of event this subscription will hook into...', 'tradepress' ); ?></label></th>
                     <td>
                         <select name="_TradePress_post_webhooks_type" id="_TradePress_post_webhooks_type" class="postbox">
                             <?php 
                             foreach( TradePress_eventsub_types() as $item ) { 
-                                echo '<option value="' . $item[1] . '"' . selected( $type, $item[1] ) . '>' . $item[0] . '</option>';    
+                                echo '<option value="' . $item[1] . '"' . selected( $type, $item[1] ) . '>' . $item[0] . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             }
                             ?> 
                         </select>
                     </td>
                 </tr>                
                 <tr>
-                    <th><label for="_TradePress_post_webhooks_action_one"><?php _e( 'The primary action to take for this webhook...', 'tradepress' ); ?></label></th>
+                    <th><label for="_TradePress_post_webhooks_action_one"><?php esc_html_e( 'The primary action to take for this webhook...', 'tradepress' ); ?></label></th>
                     <td>
                         <select name="_TradePress_post_webhooks_action_one" id="_TradePress_post_webhooks_action_one" class="postbox">
                             <?php 
                             foreach( self::get_actions() as $action_id => $action_label ) { 
-                                echo '<option value="' . $action_id . '"' . selected( $action_one, $action_id ) . '>' . $action_label . '</option>';    
+                                echo '<option value="' . $action_id . '"' . selected( $action_one, $action_id ) . '>' . $action_label . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             }
                             ?> 
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th><label for="_TradePress_post_webhooks_action_two"><?php _e( 'Second action to take for this webhook...', 'tradepress' ); ?></label></th>
+                    <th><label for="_TradePress_post_webhooks_action_two"><?php esc_html_e( 'Second action to take for this webhook...', 'tradepress' ); ?></label></th>
                     <td>
                         <select name="_TradePress_post_webhooks_action_two" id="_TradePress_post_webhooks_action_two" class="postbox">
-                            <option value="none" <?php selected( $action_two, 'none' ); ?>><?php _e( 'Not Required', 'tradepress' ); ?></option>                            
+                            <option value="none" <?php selected( $action_two, 'none' ); ?>><?php esc_html_e( 'Not Required', 'tradepress' ); ?></option>                            
                             <?php 
                             foreach( self::get_actions() as $action_id => $action_label ) { 
-                                echo '<option value="' . $action_id . '"' . selected( $action_two, $action_id ) . '>' . $action_label . '</option>';    
+                                echo '<option value="' . $action_id . '"' . selected( $action_two, $action_id ) . '>' . $action_label . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             }
                             ?> 
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th><label for="_TradePress_post_webhooks_action_three"><?php _e( 'Third action to take for this webhook...', 'tradepress' ); ?></label></th>
+                    <th><label for="_TradePress_post_webhooks_action_three"><?php esc_html_e( 'Third action to take for this webhook...', 'tradepress' ); ?></label></th>
                     <td>
                         <select name="_TradePress_post_webhooks_action_three" id="_TradePress_post_webhooks_action_three" class="postbox">
-                            <option value="none" <?php selected( $action_two, 'none' ); ?>><?php _e( 'Not Required', 'tradepress' ); ?></option> 
+                            <option value="none" <?php selected( $action_two, 'none' ); ?>><?php esc_html_e( 'Not Required', 'tradepress' ); ?></option> 
                             <?php 
                             foreach( self::get_actions() as $action_id => $action_label ) { 
-                                echo '<option value="' . $action_id . '"' . selected( $action_three, $action_id ) . '>' . $action_label . '</option>';    
+                                echo '<option value="' . $action_id . '"' . selected( $action_three, $action_id ) . '>' . $action_label . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             }
                             ?> 
                         </select>

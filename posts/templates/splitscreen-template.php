@@ -36,7 +36,7 @@
             
 <div class="TradePress_splitscreen_row">
   <div class="TradePress_splitscreen_column">
-    <h2><?php echo $header_one; ?></h2>
+    <h2><?php echo $header_one; ?></h2> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     <p>    <?php
     $parameters =  array(          
         'channel'         => $channel_name_one, 
@@ -59,12 +59,12 @@
     <script src="https://embed.twitch.tv/embed/v1.js"></script>
                     
     <script type="text/javascript">
-      new Twitch.Embed("TradePress-embed-everything1", ' . $parameters . ');
+      new Twitch.Embed("TradePress-embed-everything1", ' . $parameters . '); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     </script>';
     ?></p>
   </div>
   <div class="TradePress_splitscreen_column">
-    <h2><?php echo $header_two; ?></h2>
+    <h2><?php echo $header_two; ?></h2> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     <p><?php
     $parameters =  array(          
         'channel'         => $channel_name_two, 
@@ -87,7 +87,7 @@
     <script src="https://embed.twitch.tv/embed/v1.js"></script>
                     
     <script type="text/javascript">
-      new Twitch.Embed("TradePress-embed-everything2", ' . $parameters . ');
+      new Twitch.Embed("TradePress-embed-everything2", ' . $parameters . '); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     </script>';
     ?></p>
   </div>

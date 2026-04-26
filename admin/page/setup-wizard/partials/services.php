@@ -14,7 +14,7 @@ if (isset($_GET['api_test']) && $_GET['api_test'] === 'completed') {
     $test_results = get_transient('tradepress_api_test_results');
     if ($test_results) {
         echo '<div class="tradepress-api-test-results">';
-        echo $test_results;
+        echo esc_html( $test_results );
         echo '</div>';
         delete_transient('tradepress_api_test_results');
     }

@@ -97,7 +97,7 @@ class TradePress_Admin_Assets {
         );
         
         // Enqueue data page styles when on the data page
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_data') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_data') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-data-page');
             wp_enqueue_style('tradepress-data-elements');
             wp_enqueue_style('tradepress-admin-database');
@@ -112,12 +112,12 @@ class TradePress_Admin_Assets {
         );
         
         // Enqueue analysis page assets when on the analysis page
-        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_analysis' || $_GET['page'] === 'tradepress-analysis')) {
+        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_analysis' || $_GET['page'] === 'tradepress-analysis')) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-analysis');
         }
         
         // Enqueue analysis page styles when on the analysis page
-        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_analysis' || $_GET['page'] === 'tradepress-analysis')) {
+        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_analysis' || $_GET['page'] === 'tradepress-analysis')) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-analysis');
         }
         
@@ -384,41 +384,41 @@ class TradePress_Admin_Assets {
         }
         
         // Enqueue research page styles when on the research page
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_research') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_research') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-research-page');
             
             // Enqueue economic calendar styles when on the economic-calendar tab
-            if (!isset($_GET['tab']) || $_GET['tab'] === 'economic-calendar') {
+            if (!isset($_GET['tab']) || $_GET['tab'] === 'economic-calendar') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('tradepress-economic-calendar');
             }
             
             // Enqueue market correlations styles when on the market-correlations tab
-            if (isset($_GET['tab']) && $_GET['tab'] === 'market-correlations') {
+            if (isset($_GET['tab']) && $_GET['tab'] === 'market-correlations') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('tradepress-market-correlations');
             }
         }
         
         // Setup wizard styles
-        if ( isset( $_GET['page'] ) && $_GET['page'] === 'tradepress-setup' ) {
+        if ( isset( $_GET['page'] ) && $_GET['page'] === 'tradepress-setup' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style( 'tradepress-setup' );
         }
         
         // Test runner page
-        if ( isset( $_GET['page'] ) && $_GET['page'] === 'tradepress-tests' ) {
+        if ( isset( $_GET['page'] ) && $_GET['page'] === 'tradepress-tests' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style( 'tradepress-test-runner' );
         }
         
         // API tabs and settings pages - Updated to include Trading Platforms page
-        if ( isset( $_GET['page'] ) && ( 
-            $_GET['page'] === 'tradepress' || 
-            strpos( $_GET['page'], 'tradepress-api' ) !== false ||
-            $_GET['page'] === 'tradepress_platforms' // Added Trading Platforms page
+        if ( isset( $_GET['page'] ) && (   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            $_GET['page'] === 'tradepress' ||   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            strpos( wp_unslash($_GET['page']), 'tradepress-api' ) !== false ||  // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            $_GET['page'] === 'tradepress_platforms' // Added Trading Platforms page  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         ) ) {
             wp_enqueue_style( 'tradepress-admin-api-tabs' );
             wp_enqueue_style( 'tradepress-api-discord' );
             
             // Enqueue core API layout styles for Trading Platforms page
-            if ($_GET['page'] === 'tradepress_platforms') {
+            if ($_GET['page'] === 'tradepress_platforms') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style(
                     'tradepress-api-layout',
                     TRADEPRESS_PLUGIN_URL . 'assets/css/layouts/api.css',
@@ -454,14 +454,14 @@ class TradePress_Admin_Assets {
             }
             
             // Enqueue comparisons tab styles and scripts when on the comparisons tab
-            if (isset($_GET['tab']) && $_GET['tab'] === 'comparisons') {
+            if (isset($_GET['tab']) && $_GET['tab'] === 'comparisons') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('tradepress-tradingplatforms-comparisons');
                 wp_enqueue_style('tradepress-tradingplatforms-comparisons-toggles');
                 wp_enqueue_script('tradepress-tradingplatforms-comparisons');
             }
             
             // Enqueue Alpha Vantage API tab styles and scripts when on the alphavantage tab
-            if (isset($_GET['tab']) && $_GET['tab'] === 'alphavantage') {
+            if (isset($_GET['tab']) && $_GET['tab'] === 'alphavantage') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('tradepress-tradingplatforms-alphavantage');
                 wp_enqueue_script('tradepress-tradingplatforms-alphavantage');
                 
@@ -479,12 +479,12 @@ class TradePress_Admin_Assets {
             }
             
             // Enqueue API Switches tab styles when on the api_switches tab
-            if (isset($_GET['tab']) && $_GET['tab'] === 'api_switches') {
+            if (isset($_GET['tab']) && $_GET['tab'] === 'api_switches') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('tradepress-tradingplatforms-api-switches');
             }
             
             // Enqueue Endpoints tab styles and scripts when on the endpoints tab
-            if (isset($_GET['tab']) && $_GET['tab'] === 'endpoints') {
+            if (isset($_GET['tab']) && $_GET['tab'] === 'endpoints') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('tradepress-tradingplatforms-endpoints');
                 wp_enqueue_script('tradepress-tradingplatforms-endpoints');
                 
@@ -494,7 +494,7 @@ class TradePress_Admin_Assets {
                     'tradepress_endpoints_params',
                     array(
                         'nonce' => wp_create_nonce('tradepress_test_endpoint_nonce'),
-                        'current_platform' => isset($_GET['platform']) ? sanitize_text_field($_GET['platform']) : 'alpaca',
+                        'current_platform' => isset($_GET['platform']) ? sanitize_text_field(wp_unslash($_GET['platform'])) : 'alpaca',  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                         'testing_text' => __('Testing...', 'tradepress'),
                         'test_text' => __('Test', 'tradepress'),
                         'testing_endpoint_text' => __('Testing endpoint...', 'tradepress'),
@@ -515,7 +515,7 @@ class TradePress_Admin_Assets {
             }
             
             // Enqueue Trading API tab styles and scripts when on the tradingapi tab
-            if (isset($_GET['tab']) && $_GET['tab'] === 'tradingapi') {
+            if (isset($_GET['tab']) && $_GET['tab'] === 'tradingapi') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('tradepress-tradingplatforms-tradingapi');
                 wp_enqueue_script('tradepress-tradingplatforms-tradingapi');
                 
@@ -606,9 +606,9 @@ class TradePress_Admin_Assets {
         
         if ( 
             // Original condition for settings page with database tab
-            (isset( $_GET['page'] ) && isset( $_GET['tab'] ) && $_GET['page'] === 'tradepress' && $_GET['tab'] === 'database') ||
+            (isset( $_GET['page'] ) && isset( $_GET['tab'] ) && $_GET['page'] === 'tradepress' && $_GET['tab'] === 'database') ||  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             // New condition for data page
-            (isset( $_GET['page'] ) && $_GET['page'] === 'tradepress_data')
+            (isset( $_GET['page'] ) && $_GET['page'] === 'tradepress_data')  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         ) {
             wp_enqueue_style( 'tradepress-admin-database' );
         }
@@ -621,8 +621,8 @@ class TradePress_Admin_Assets {
             TRADEPRESS_VERSION
         );
         
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress' && 
-            isset($_GET['tab']) && $_GET['tab'] === 'database') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['tab']) && $_GET['tab'] === 'database') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-settings-database');
         }
         
@@ -634,8 +634,8 @@ class TradePress_Admin_Assets {
             TRADEPRESS_VERSION
         );
         
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress' && 
-            (!isset($_GET['tab']) || $_GET['tab'] === 'general')) {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            (!isset($_GET['tab']) || $_GET['tab'] === 'general')) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-settings-general');
         }
         
@@ -647,8 +647,8 @@ class TradePress_Admin_Assets {
             TRADEPRESS_VERSION
         );
         
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress' && 
-            isset($_GET['tab']) && $_GET['tab'] === 'shortcodes') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['tab']) && $_GET['tab'] === 'shortcodes') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-settings-shortcodes');
         }
         
@@ -686,7 +686,7 @@ class TradePress_Admin_Assets {
             );
             
             // Load pointers CSS and scripts for settings tab
-            if (isset($_GET['tab']) && $_GET['tab'] === 'settings') {
+            if (isset($_GET['tab']) && $_GET['tab'] === 'settings') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('wp-pointer');
                 wp_enqueue_script('wp-pointer');
                 wp_enqueue_style(
@@ -705,28 +705,28 @@ class TradePress_Admin_Assets {
         }
         
         // Research page - Earnings tab styles
-        if ( isset($_GET['page']) && $_GET['page'] === 'tradepress_research' && 
-             (!isset($_GET['tab']) || isset($_GET['tab']) && $_GET['tab'] === 'earnings') ) {
+        if ( isset($_GET['page']) && $_GET['page'] === 'tradepress_research' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+             (!isset($_GET['tab']) || isset($_GET['tab']) && $_GET['tab'] === 'earnings') ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style( 'tradepress-research-earnings-tab' );
         }
 
         // Research page - News Feed tab styles
-        if ( isset($_GET['page']) && $_GET['page'] === 'tradepress_research' && 
-             isset($_GET['tab']) && $_GET['tab'] === 'news_feed' ) {
+        if ( isset($_GET['page']) && $_GET['page'] === 'tradepress_research' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+             isset($_GET['tab']) && $_GET['tab'] === 'news_feed' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style( 'tradepress-research-news-feed-tab' );
         }
 
         // Settings page with Fave Tabs section
-        if (isset($_GET['page']) && isset($_GET['tab']) && isset($_GET['section']) && 
-            $_GET['page'] === 'tradepress' && 
-            $_GET['tab'] === 'general' && 
-            $_GET['section'] === 'favetabs') {
+        if (isset($_GET['page']) && isset($_GET['tab']) && isset($_GET['section']) &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            $_GET['page'] === 'tradepress' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            $_GET['tab'] === 'general' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            $_GET['section'] === 'favetabs') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-settings-favetabs');
         }
         
         // Development page - pointers table styles
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_development' && 
-            isset($_GET['tab']) && $_GET['tab'] === 'pointers') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_development' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['tab']) && $_GET['tab'] === 'pointers') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style(
                 'tradepress-education-pointers',
                 TRADEPRESS_PLUGIN_URL . 'assets/css/pages/education-pointers.css',
@@ -770,9 +770,9 @@ class TradePress_Admin_Assets {
         );
         
         // Development page styles - Current Task tab - Fixed conditional logic
-        if ( isset($_GET['page']) && $_GET['page'] === 'tradepress_development' ) {
+        if ( isset($_GET['page']) && $_GET['page'] === 'tradepress_development' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             // Load current task styles for current_task tab specifically
-            if ( !isset($_GET['tab']) || $_GET['tab'] === 'current_task' ) {
+            if ( !isset($_GET['tab']) || $_GET['tab'] === 'current_task' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('tradepress-development-current-task');
             }
             
@@ -803,7 +803,7 @@ class TradePress_Admin_Assets {
             );
             
             // Load jQuery UI styles for jQuery UI tab
-            if ( isset($_GET['tab']) && $_GET['tab'] === 'jquery_ui' ) {
+            if ( isset($_GET['tab']) && $_GET['tab'] === 'jquery_ui' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('jquery-ui-style');
                 wp_enqueue_style(
                     'tradepress-jquery-ui-demo',
@@ -814,10 +814,10 @@ class TradePress_Admin_Assets {
             }
             
             // Add debugging to check if styles are being loaded
-            error_log('TradePress: Loading development page styles');
+            error_log('TradePress: Loading development page styles'); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
             
-            if ( isset($_GET['tab']) && $_GET['tab'] === 'current_task' ) {
-                error_log('TradePress: Current task tab detected - styles should be loaded');
+            if ( isset($_GET['tab']) && $_GET['tab'] === 'current_task' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                error_log('TradePress: Current task tab detected - styles should be loaded'); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
             }
         }
         
@@ -838,18 +838,18 @@ class TradePress_Admin_Assets {
         );
         
         // Data page - Enqueue when on data page
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_data') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_data') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-data-page');
             
             // Data Elements tab styles
-            if (isset($_GET['tab']) && $_GET['tab'] === 'data-elements') {
+            if (isset($_GET['tab']) && $_GET['tab'] === 'data-elements') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('tradepress-data-elements');
             }
         }
         
         // Scoring directives logs page
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' && 
-            isset($_GET['tab']) && $_GET['tab'] === 'logs') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['tab']) && $_GET['tab'] === 'logs') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-scoring-directives-logs');
         }
         
@@ -861,20 +861,20 @@ class TradePress_Admin_Assets {
             TRADEPRESS_VERSION
         );
         
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' && 
-            isset($_GET['tab']) && $_GET['tab'] === 'directives_status') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['tab']) && $_GET['tab'] === 'directives_status') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-directives-status');
         }
         
         // Scoring directives overview page
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' && 
-            (!isset($_GET['tab']) || $_GET['tab'] === 'overview')) {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            (!isset($_GET['tab']) || $_GET['tab'] === 'overview')) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-scoring-directives-overview');
         }
         
         // Scoring directives configure page - load pointers CSS and scripts
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' && 
-            isset($_GET['tab']) && $_GET['tab'] === 'configure_directives') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['tab']) && $_GET['tab'] === 'configure_directives') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-scoring-directives');
             wp_enqueue_style('wp-pointer');
             wp_enqueue_script('wp-pointer');
@@ -903,28 +903,29 @@ class TradePress_Admin_Assets {
             // Add AJAX handler for pointer status check
             add_action('wp_ajax_tradepress_check_pointer_status', function() {
                 check_ajax_referer('tradepress_pointer_check', 'nonce');
-                $pointer = sanitize_text_field($_POST['pointer']);
+                $pointer = sanitize_text_field(wp_unslash($_POST['pointer']));  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+
                 $dismissed_pointers = explode(',', (string) get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
                 wp_send_json(array('dismissed' => in_array($pointer, $dismissed_pointers)));
             });
         }
         
         // Price forecast page
-        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_research' || $_GET['page'] === 'tradepress-research') && 
-            (!isset($_GET['tab']) || $_GET['tab'] === 'price_forecast')) {
+        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_research' || $_GET['page'] === 'tradepress-research') &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            (!isset($_GET['tab']) || $_GET['tab'] === 'price_forecast')) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-price-forecast');
         }
         
         // Sector rotation page
-        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_research' || $_GET['page'] === 'tradepress-research') && 
-            isset($_GET['tab']) && $_GET['tab'] === 'sector-rotation') {
+        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_research' || $_GET['page'] === 'tradepress-research') &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['tab']) && $_GET['tab'] === 'sector-rotation') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-sector-rotation');
         }
         
         // Social platforms switches page
-        if (isset($_GET['page']) && 
-            ($_GET['page'] === 'tradepress_socialplatforms' || $_GET['page'] === 'TradePress_social') && 
-            (!isset($_GET['tab']) || $_GET['tab'] === 'platform_switches')) {
+        if (isset($_GET['page']) &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            ($_GET['page'] === 'tradepress_socialplatforms' || $_GET['page'] === 'TradePress_social') &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            (!isset($_GET['tab']) || $_GET['tab'] === 'platform_switches')) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-socialplatforms-switches');
         }
         
@@ -969,41 +970,41 @@ class TradePress_Admin_Assets {
         );
         
         // Watchlists page - enqueue appropriate styles based on tab
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_watchlists') {
-            if (!isset($_GET['tab']) || $_GET['tab'] === 'active_symbols') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_watchlists') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            if (!isset($_GET['tab']) || $_GET['tab'] === 'active_symbols') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('tradepress-watchlists-active-symbols');
-            } else if (isset($_GET['tab']) && $_GET['tab'] === 'create_watchlist') {
+            } else if (isset($_GET['tab']) && $_GET['tab'] === 'create_watchlist') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('tradepress-watchlists-create-watchlist');
-            } else if (isset($_GET['tab']) && $_GET['tab'] === 'user_watchlists') {
+            } else if (isset($_GET['tab']) && $_GET['tab'] === 'user_watchlists') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('tradepress-watchlists-user-watchlists');
             }
         }
         
         // Social platforms settings page
-        if (isset($_GET['page']) && $_GET['page'] === 'TradePress_social') {
+        if (isset($_GET['page']) && $_GET['page'] === 'TradePress_social') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             // Either no tab specified (default view) or tab is 'settings'
-            if (!isset($_GET['tab']) || $_GET['tab'] === 'settings') {
+            if (!isset($_GET['tab']) || $_GET['tab'] === 'settings') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('tradepress-socialplatforms-settings');
             }
         }
         
         // StockTwits platform page
-        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_socialplatforms' || $_GET['page'] === 'TradePress_social') && 
-            isset($_GET['tab']) && $_GET['tab'] === 'stocktwits') {
+        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_socialplatforms' || $_GET['page'] === 'TradePress_social') &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['tab']) && $_GET['tab'] === 'stocktwits') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-socialplatforms-stocktwits');
             wp_enqueue_script('tradepress-socialplatforms-stocktwits');
         }
         
         // Twitter platform page
-        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_socialplatforms' || $_GET['page'] === 'TradePress_social') && 
-            isset($_GET['tab']) && $_GET['tab'] === 'twitter') {
+        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_socialplatforms' || $_GET['page'] === 'TradePress_social') &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['tab']) && $_GET['tab'] === 'twitter') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-socialplatforms-twitter');
         }
         
         // Discord settings page
-        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_socialplatforms' || $_GET['page'] === 'TradePress_social') && 
-            isset($_GET['tab']) && $_GET['tab'] === 'settings' && 
-            isset($_GET['section']) && $_GET['section'] === 'discord') {
+        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_socialplatforms' || $_GET['page'] === 'TradePress_social') &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['tab']) && $_GET['tab'] === 'settings' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['section']) && $_GET['section'] === 'discord') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-socialplatforms-discord-settings');
             wp_enqueue_script('tradepress-socialplatforms-discord-settings');
             
@@ -1031,8 +1032,8 @@ class TradePress_Admin_Assets {
         }
         
         // Trading Strategies page (merged tab with sub-tabs)
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_trading' && 
-            isset($_GET['tab']) && $_GET['tab'] === 'trading-strategies') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_trading' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['tab']) && $_GET['tab'] === 'trading-strategies') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-trading-create-strategy');
             wp_enqueue_script('tradepress-trading-create-strategy');
             wp_enqueue_style('tradepress-trading-strategies');
@@ -1040,15 +1041,15 @@ class TradePress_Admin_Assets {
         }
         
         // Portfolio page
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_trading' && 
-            isset($_GET['tab']) && $_GET['tab'] === 'portfolio') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_trading' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['tab']) && $_GET['tab'] === 'portfolio') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-trading-portfolio');
             wp_enqueue_script('tradepress-trading-portfolio');
         }
         
         // Scoring directives main page
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' && 
-            isset($_GET['tab']) && $_GET['tab'] === 'scoring_directives') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['tab']) && $_GET['tab'] === 'scoring_directives') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-scoring-directives');
         }
         
@@ -1060,8 +1061,8 @@ class TradePress_Admin_Assets {
             TRADEPRESS_VERSION
         );
         
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' && 
-            isset($_GET['tab']) && $_GET['tab'] === 'strategies') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['tab']) && $_GET['tab'] === 'strategies') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-scoring-strategies');
         }
         
@@ -1083,13 +1084,13 @@ class TradePress_Admin_Assets {
             TRADEPRESS_VERSION
         );
         
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' && 
-            isset($_GET['tab']) && $_GET['tab'] === 'testing') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            isset($_GET['tab']) && $_GET['tab'] === 'testing') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-directives-testing');
         }
         
         // Scoring directives page - Enqueue styles for all tabs
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-scoring-directives');
         }
     }
@@ -1102,9 +1103,9 @@ class TradePress_Admin_Assets {
     public function admin_scripts() {
         $screen    = get_current_screen();
         $screen_id = $screen ? $screen->id : '';
-        $action    = isset( $_GET['action'] ) ? sanitize_text_field( $_GET['action'] ) : '';
-        $page      = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
-        $tab       = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : '';
+        $action    = isset($_GET['action']) ? sanitize_text_field( wp_unslash($_GET['action']) ) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $page      = isset($_GET['page']) ? sanitize_text_field( wp_unslash($_GET['page']) ) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $tab       = isset($_GET['tab']) ? sanitize_text_field( wp_unslash($_GET['tab']) ) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
         // Register and enqueue jQuery UI core and accordion
         wp_enqueue_script('jquery-ui-core');
@@ -1134,7 +1135,7 @@ class TradePress_Admin_Assets {
         }
         
         // Test runner page script
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress-tests') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress-tests') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_script('tradepress-test-runner');
             wp_localize_script('tradepress-test-runner', 'tradePressTests', array(
                 'ajax_url' => admin_url('admin-ajax.php'),
@@ -1444,16 +1445,16 @@ class TradePress_Admin_Assets {
         );
         
         // Enqueue API tabs script on the same pages as the API tabs CSS
-        if ( isset( $_GET['page'] ) && ( 
-            $_GET['page'] === 'tradepress-settings' || 
-            strpos( $_GET['page'], 'tradepress-api' ) !== false ||
-            $_GET['page'] === 'tradepress_platforms'
+        if ( isset( $_GET['page'] ) && (   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            $_GET['page'] === 'tradepress-settings' ||   // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            strpos( wp_unslash($_GET['page']), 'tradepress-api' ) !== false ||  // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            $_GET['page'] === 'tradepress_platforms'  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         ) ) {
             wp_enqueue_script('tradepress-admin-api-tab');
         }
         
         // Development page scripts
-        if ( isset($_GET['page']) && $_GET['page'] === 'tradepress_development' ) {
+        if ( isset($_GET['page']) && $_GET['page'] === 'tradepress_development' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_script('tradepress-development-tabs');
             
             // Localize development tabs script
@@ -1467,7 +1468,7 @@ class TradePress_Admin_Assets {
             );
             
             // Add additional localization for assets tracker if on assets tab
-            if (isset($_GET['tab']) && $_GET['tab'] === 'assets') {
+            if (isset($_GET['tab']) && $_GET['tab'] === 'assets') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_localize_script(
                     'tradepress-development-tabs',
                     'tradepressData',
@@ -1485,12 +1486,12 @@ class TradePress_Admin_Assets {
             }
             
             // Assets tab
-            if ( isset($_GET['tab']) && $_GET['tab'] === 'assets' ) {
+            if ( isset($_GET['tab']) && $_GET['tab'] === 'assets' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_script('tradepress-assets-tab');
             }
             
             // Current Task tab
-            if ( isset($_GET['tab']) && $_GET['tab'] === 'current_task' ) {
+            if ( isset($_GET['tab']) && $_GET['tab'] === 'current_task' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_script('tradepress-current-task');
                 
                 // Add localized variables for the JavaScript
@@ -1516,8 +1517,8 @@ class TradePress_Admin_Assets {
         }
         
         // Tables tab script - enqueue for data page with tables tab active
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_data' && 
-            (!isset($_GET['tab']) || $_GET['tab'] === 'tables')) {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_data' &&   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            (!isset($_GET['tab']) || $_GET['tab'] === 'tables')) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             
             // Store table data in a global variable for use in the JS file
             global $wpdb;
@@ -1590,7 +1591,7 @@ class TradePress_Admin_Assets {
         
         // Automation page - CRON tab
         if ( 'tradepress_page_tradepress_automation' === $screen_id && 
-             (!isset($_GET['tab']) || (isset($_GET['tab']) && $_GET['tab'] === 'cron')) ) {
+             (!isset($_GET['tab']) || (isset($_GET['tab']) && $_GET['tab'] === 'cron')) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_script('tradepress-cron-tab');
             
             // Add localized data if there's a schedule to restore
@@ -1605,11 +1606,11 @@ class TradePress_Admin_Assets {
         }
         
         // Automation page - Directives tab
-        if ( 'tradepress_page_tradepress_automation' === $screen_id && isset($_GET['tab']) && $_GET['tab'] === 'directives' ) {
+        if ( 'tradepress_page_tradepress_automation' === $screen_id && isset($_GET['tab']) && $_GET['tab'] === 'directives' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_script('tradepress-scoring-directives');
             
             // Enqueue logs styles when on logs view
-            isset($_GET['view']) && $_GET['view'] === 'logs' && wp_enqueue_style('tradepress-scoring-directives-logs');
+            isset($_GET['view']) && $_GET['view'] === 'logs' && wp_enqueue_style('tradepress-scoring-directives-logs');  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             
             // Localize script with nonce and other data
             wp_localize_script(
@@ -1636,7 +1637,7 @@ class TradePress_Admin_Assets {
             // Always enqueue the main research script
             wp_enqueue_script( 'tradepress-research' );
             
-            $current_tab = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'overview';
+            $current_tab = isset($_GET['tab']) ? sanitize_text_field( wp_unslash($_GET['tab']) ) : 'overview';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             
             if ( $current_tab === 'earnings' ) {
                 wp_enqueue_script( 'tradepress-earnings-tab-script' );
@@ -1649,8 +1650,8 @@ class TradePress_Admin_Assets {
                 // Get today's events for notifications
                 $todays_events = array();
                 if (function_exists('tradepress_get_todays_economic_events') && function_exists('tradepress_get_demo_economic_events')) {
-                    $start_date = date('Y-m-d');
-                    $end_date = date('Y-m-d', strtotime('+7 days'));
+                    $start_date = wp_date('Y-m-d');
+                    $end_date = wp_date('Y-m-d', strtotime('+7 days'));
                     $events = tradepress_get_demo_economic_events($start_date, $end_date, 'all', array('us', 'eu', 'uk', 'jp', 'ca', 'au'));
                     $todays_events = tradepress_get_todays_economic_events($events);
                 }
@@ -1674,10 +1675,10 @@ class TradePress_Admin_Assets {
         }
         
         // Trading page - Calculators tab
-        if ( isset($_GET['page']) && $_GET['page'] === 'tradepress_trading' ) {
+        if ( isset($_GET['page']) && $_GET['page'] === 'tradepress_trading' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
             // Portfolio tab - either when it's the default tab (no tab parameter) or explicitly selected
-            if (!isset($_GET['tab']) || $_GET['tab'] === 'portfolio') {
+            if (!isset($_GET['tab']) || $_GET['tab'] === 'portfolio') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('tradepress-trading-portfolio');
             }
 
@@ -1686,24 +1687,24 @@ class TradePress_Admin_Assets {
             wp_enqueue_script('tradepress-calculators');
             
             // Specifically for calculators tab
-            if ( isset($_GET['tab']) && $_GET['tab'] === 'calculators' ) {
+            if ( isset($_GET['tab']) && $_GET['tab'] === 'calculators' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 // Additional scripts can be loaded here if needed
             }
         }
         
         // Education dashboard page
-        if ( isset($_GET['page']) && $_GET['page'] === 'tradepress_education' || 
-             (isset($_GET['page']) && $_GET['page'] === 'tradepress_education_dashboard')) {
+        if ( isset($_GET['page']) && $_GET['page'] === 'tradepress_education' ||   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+             (isset($_GET['page']) && $_GET['page'] === 'tradepress_education_dashboard')) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-education-dashboard');
         }
         
         // Discord Simple Admin page
-        if ( isset($_GET['page']) && $_GET['page'] === 'tradepress-discord-simple-tester') {
+        if ( isset($_GET['page']) && $_GET['page'] === 'tradepress-discord-simple-tester') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_style('tradepress-discord-simple-admin');
         }
         
         // Analysis page scripts
-        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_analysis' || $_GET['page'] === 'tradepress-analysis')) {
+        if (isset($_GET['page']) && ($_GET['page'] === 'tradepress_analysis' || $_GET['page'] === 'tradepress-analysis')) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_script('tradepress-admin-technical-analysis');
             
             // Localize script with translation strings
@@ -1718,7 +1719,7 @@ class TradePress_Admin_Assets {
         }
         
         // Data page scripts
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_data') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_data') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_script('tradepress-admin-data');
             
             // Prepare localization data
@@ -1736,7 +1737,7 @@ class TradePress_Admin_Assets {
             );
             
             // Add source types if on source form page
-            if (isset($_GET['action']) && ($_GET['action'] === 'new' || $_GET['action'] === 'edit')) {
+            if (isset($_GET['action']) && ($_GET['action'] === 'new' || $_GET['action'] === 'edit')) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 $source_types = array(
                     'website' => array(
                         'title' => __('Website (Scraping)', 'tradepress'),
@@ -1806,7 +1807,7 @@ class TradePress_Admin_Assets {
         }
         
         // Scoring directives page scripts
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_script('tradepress-scoring-directives');
             
             // Localize script with nonce and other data
@@ -1821,21 +1822,21 @@ class TradePress_Admin_Assets {
         }
         
         // Settings page scripts
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_script('tradepress-settings');
         }
         
 
         
         // Watchlists page scripts
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_watchlists') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_watchlists') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             wp_enqueue_script('tradepress-watchlists');
         }
         
         // Focus page styles
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_focus') {
+        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_focus') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             // Enqueue focus advisor styles when on advisor tab
-            if (isset($_GET['tab']) && $_GET['tab'] === 'advisor') {
+            if (isset($_GET['tab']) && $_GET['tab'] === 'advisor') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style('tradepress-focus-advisor');
             }
         }
@@ -1854,7 +1855,7 @@ class TradePress_Admin_Assets {
         if ( strpos( $hook_suffix, 'tradepress_trading' ) !== false ) {
             wp_enqueue_style( 'tradepress-trading-area-styles', TRADEPRESS_PLUGIN_URL . 'assets/css/trading-area.css', array(), $plugin_version );
             // Enqueue SEES Demo specific assets if on that tab
-            if ( isset( $_GET['page'] ) && $_GET['page'] === 'tradepress_trading' && isset( $_GET['tab'] ) && $_GET['tab'] === 'sees-demo' ) {
+            if ( isset( $_GET['page'] ) && $_GET['page'] === 'tradepress_trading' && isset( $_GET['tab'] ) && $_GET['tab'] === 'sees-demo' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 wp_enqueue_style( 'tradepress-sees-demo-styles', TRADEPRESS_PLUGIN_URL . 'assets/css/pages/sees-demo.css', array(), $plugin_version );
                 wp_enqueue_script( 'tradepress-sees-demo-js', TRADEPRESS_PLUGIN_URL . 'assets/js/sees-demo.js', array( 'jquery' ), $plugin_version, true );
                 

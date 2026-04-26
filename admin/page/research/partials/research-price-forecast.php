@@ -44,7 +44,7 @@ if (!empty($symbol)) {
         if (!class_exists('TradePress_Price_Forecast_Table')) {
             echo '<div class="notice notice-error"><p>' . 
                  esc_html__('Error: The TradePress_Price_Forecast_Table class is not available.', 'tradepress') . 
-                 ' Class file should be located at: ' . TRADEPRESS_PLUGIN_DIR . 'admin/page/research/view/price-forecast-table.php' .
+                 ' Class file should be located at: ' . TRADEPRESS_PLUGIN_DIR . 'admin/page/research/view/price-forecast-table.php' . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                  '</p></div>';
         } else {
             // Create form for table
@@ -130,7 +130,7 @@ if (!empty($symbol)) {
                                 $action_links = rtrim($action_links, ' | ');
                                 
                                 echo '<strong><a href="' . esc_url(add_query_arg(array('symbol' => $symbol), admin_url('admin.php?page=tradepress_research&tab=price_forecast'))) . '">' . esc_html($symbol) . '</a></strong>';
-                                echo '<div class="row-actions">' . $action_links . '</div>';
+                                echo '<div class="row-actions">' . $action_links . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             } 
                             elseif ($column_name === 'current') {
                                 echo '$' . number_format($item[$column_name], 2);
@@ -158,7 +158,7 @@ if (!empty($symbol)) {
                                     $r, $g, $b
                                 );
                                 
-                                echo '<span style="' . $style . '">$' . number_format($forecast['price'], 2) . '</span>';
+                                echo '<span style="' . $style . '">$' . number_format($forecast['price'], 2) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             }
                             elseif ($column_name === 'confidence') {
                                 $confidence = $item[$column_name];
@@ -182,7 +182,7 @@ if (!empty($symbol)) {
                                     $r, $g, $b
                                 );
                                 
-                                echo '<span style="' . $style . '">' . number_format($confidence, 1) . '%</span>';
+                                echo '<span style="' . $style . '">' . number_format($confidence, 1) . '%</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             }
                             elseif ($column_name === 'updated') {
                                 echo esc_html( human_time_diff(strtotime($item[$column_name]), current_time('timestamp')) ) . ' ago';

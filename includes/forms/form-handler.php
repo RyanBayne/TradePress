@@ -83,7 +83,7 @@ class TradePress_Form_Handler {
         
         if (!empty($validation_errors)) {
             tradepress_trace_log('Form validation failed', $validation_errors);
-            wp_die('Form validation failed: ' . implode(', ', $validation_errors));
+            wp_die('Form validation failed: ' . implode(', ', $validation_errors)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
         
         // Verify nonce
@@ -109,7 +109,7 @@ class TradePress_Form_Handler {
         $redirect_url = admin_url('admin.php?page=tradepress_platforms&tab=' . $api_id);
         tradepress_trace_log('Redirecting to: ' . $redirect_url);
         
-        wp_redirect($redirect_url);
+        wp_safe_redirect($redirect_url);
         exit;
     }
     

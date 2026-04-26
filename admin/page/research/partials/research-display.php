@@ -1,5 +1,5 @@
 <div class="wrap tradepress-research">
-    <h1><?php echo get_admin_page_title(); ?></h1>
+    <h1><?php echo  esc_html( get_admin_page_title() ); ?></h1>
     <p class="description">
         Research and analysis tools to visualize data used in the TradePress algorithm.
     </p>

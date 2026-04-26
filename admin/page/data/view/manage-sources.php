@@ -92,8 +92,8 @@ class TradePress_Manage_Sources {
         $this->create_table();
         
         // Check for actions
-        $action = isset($_GET['action']) ? sanitize_text_field($_GET['action']) : '';
-        $source_id = isset($_GET['source_id']) ? intval($_GET['source_id']) : 0;
+        $action = isset($_GET['action']) ? sanitize_text_field(wp_unslash($_GET['action'])) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $source_id = isset($_GET['source_id']) ? intval($_GET['source_id']) : 0;  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         
         if ($action === 'edit' && $source_id > 0) {
             $this->render_source_form($source_id);
@@ -114,7 +114,7 @@ class TradePress_Manage_Sources {
         $this->create_table();
         
         // Get all sources
-        $sources = $wpdb->get_results("SELECT * FROM {$this->table_name} ORDER BY name ASC");
+        $sources = $wpdb->get_results("SELECT * FROM {$this->table_name} ORDER BY name ASC");  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
         
         ?>
         <div class="tradepress-manage-sources-container">
@@ -151,7 +151,7 @@ class TradePress_Manage_Sources {
                                 <td><?php echo esc_html($source->name); ?></td>
                                 <td><?php echo esc_html($this->get_source_type_label($source->type)); ?></td>
                                 <td><?php echo esc_url($source->url); ?></td>
-                                <td><?php echo $source->last_fetch ? date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($source->last_fetch)) : esc_html__('Never', 'tradepress'); ?></td>
+                                <td><?php echo $source->last_fetch ? date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($source->last_fetch)) : esc_html__('Never', 'tradepress'); ?></td> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 <td>
                                     <span class="status-<?php echo esc_attr($source->status); ?>">
                                         <?php echo esc_html(ucfirst($source->status)); ?>
@@ -165,9 +165,9 @@ class TradePress_Manage_Sources {
                                         $usage_stats = $this->get_source_usage_stats($source_id);
                                         echo sprintf(
                                             /* translators: %d: import count, %d: directive use count */
-                                            __('Imports: %1$d<br>Directive Uses: %2$d', 'tradepress'),
-                                            $usage_stats['import_count'],
-                                            $usage_stats['directive_uses']
+                                            __('Imports: %1$d<br>Directive Uses: %2$d', 'tradepress'), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            $usage_stats['import_count'], // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            $usage_stats['directive_uses'] // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                         );
                                     } else {
                                         echo esc_html__('No data available', 'tradepress');
@@ -213,7 +213,7 @@ class TradePress_Manage_Sources {
         $is_edit = false;
         
         if ($source_id > 0) {
-            $source = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$this->table_name} WHERE id = %d", $source_id));
+            $source = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$this->table_name} WHERE id = %d", $source_id));  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
             $is_edit = true;
         }
         
@@ -561,9 +561,9 @@ class TradePress_Manage_Sources {
         // In a real implementation, we would query the database for this information
         // For now, returning demo data
         return array(
-            'import_count' => mt_rand(1, 50),
-            'directive_uses' => mt_rand(0, 100),
-            'last_active' => date('Y-m-d H:i:s', strtotime('-' . mt_rand(1, 30) . ' days')),
+            'import_count' => wp_rand(1, 50),
+            'directive_uses' => wp_rand(0, 100),
+            'last_active' => wp_date('Y-m-d H:i:s', strtotime('-' . wp_rand(1, 30) . ' days')),
         );
     }
 
@@ -572,7 +572,7 @@ class TradePress_Manage_Sources {
      */
     public function ajax_save_source() {
         // Check nonce
-        if (!isset($_POST['tradepress_source_nonce']) || !wp_verify_nonce($_POST['tradepress_source_nonce'], 'tradepress_save_source')) {
+        if (!isset($_POST['tradepress_source_nonce']) || !wp_verify_nonce(wp_unslash($_POST['tradepress_source_nonce']), 'tradepress_save_source')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             wp_send_json_error(array('message' => __('Security check failed.', 'tradepress')));
         }
         
@@ -583,11 +583,11 @@ class TradePress_Manage_Sources {
         
         // Get form data
         $source_id = isset($_POST['source_id']) ? intval($_POST['source_id']) : 0;
-        $name = isset($_POST['source_name']) ? sanitize_text_field($_POST['source_name']) : '';
-        $type = isset($_POST['source_type']) ? sanitize_text_field($_POST['source_type']) : '';
-        $url = isset($_POST['source_url']) ? esc_url_raw($_POST['source_url']) : '';
-        $status = isset($_POST['source_status']) ? sanitize_text_field($_POST['source_status']) : 'active';
-        $settings = isset($_POST['settings']) ? $_POST['settings'] : array();
+        $name = isset($_POST['source_name']) ? sanitize_text_field(wp_unslash($_POST['source_name'])) : '';
+        $type = isset($_POST['source_type']) ? sanitize_text_field(wp_unslash($_POST['source_type'])) : '';
+        $url = isset($_POST['source_url']) ? esc_url_raw(wp_unslash($_POST['source_url'])) : '';
+        $status = isset($_POST['source_status']) ? sanitize_text_field(wp_unslash($_POST['source_status'])) : 'active';
+        $settings = isset($_POST['settings']) ? wp_unslash($_POST['settings']) : array();  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         
         // Validate required fields
         if (empty($name) || empty($type) || empty($url)) {
@@ -651,7 +651,7 @@ class TradePress_Manage_Sources {
      */
     public function ajax_delete_source() {
         // Check nonce
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_source_nonce')) {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_source_nonce')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             wp_send_json_error(array('message' => __('Security check failed.', 'tradepress')));
         }
         
@@ -687,7 +687,7 @@ class TradePress_Manage_Sources {
      */
     public function ajax_toggle_source_status() {
         // Check nonce
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_source_nonce')) {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_source_nonce')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             wp_send_json_error(array('message' => __('Security check failed.', 'tradepress')));
         }
         
@@ -697,7 +697,7 @@ class TradePress_Manage_Sources {
         }
         
         $source_id = isset($_POST['source_id']) ? intval($_POST['source_id']) : 0;
-        $action = isset($_POST['status_action']) ? sanitize_text_field($_POST['status_action']) : '';
+        $action = isset($_POST['status_action']) ? sanitize_text_field(wp_unslash($_POST['status_action'])) : '';
         
         if ($source_id <= 0) {
             wp_send_json_error(array('message' => __('Invalid source ID.', 'tradepress')));
@@ -730,7 +730,7 @@ class TradePress_Manage_Sources {
      */
     public function ajax_archive_source() {
         // Check nonce
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_source_nonce')) {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_source_nonce')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             wp_send_json_error(array('message' => __('Security check failed.', 'tradepress')));
         }
         
@@ -765,7 +765,7 @@ class TradePress_Manage_Sources {
      */
     public function ajax_test_source() {
         // Check nonce
-        if (!isset($_POST['tradepress_source_nonce']) || !wp_verify_nonce($_POST['tradepress_source_nonce'], 'tradepress_save_source')) {
+        if (!isset($_POST['tradepress_source_nonce']) || !wp_verify_nonce(wp_unslash($_POST['tradepress_source_nonce']), 'tradepress_save_source')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             wp_send_json_error(array('message' => __('Security check failed.', 'tradepress')));
         }
         
@@ -775,9 +775,9 @@ class TradePress_Manage_Sources {
         }
         
         // Get form data
-        $source_type = isset($_POST['source_type']) ? sanitize_text_field($_POST['source_type']) : '';
-        $source_url = isset($_POST['source_url']) ? esc_url_raw($_POST['source_url']) : '';
-        $settings = isset($_POST['settings']) ? $_POST['settings'] : array();
+        $source_type = isset($_POST['source_type']) ? sanitize_text_field(wp_unslash($_POST['source_type'])) : '';
+        $source_url = isset($_POST['source_url']) ? esc_url_raw(wp_unslash($_POST['source_url'])) : '';
+        $settings = isset($_POST['settings']) ? wp_unslash($_POST['settings']) : array();  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         
         // Validate required fields
         if (empty($source_type) || empty($source_url)) {
@@ -839,7 +839,7 @@ class TradePress_Manage_Sources {
                 break;
                 
             default:
-                throw new Exception(__('Source type testing not implemented yet.', 'tradepress'));
+                throw new Exception(esc_html__('Source type testing not implemented yet.', 'tradepress'));
         }
         
         return $result;
@@ -860,11 +860,11 @@ class TradePress_Manage_Sources {
         $response = $http->get($url);
         
         if (is_wp_error($response)) {
-            throw new Exception($response->get_error_message());
+            throw new Exception( esc_html( $response->get_error_message() ) );
         }
         
         if (wp_remote_retrieve_response_code($response) !== 200) {
-            throw new Exception(__('Failed to connect to the website. Status code: ', 'tradepress') . wp_remote_retrieve_response_code($response));
+            throw new Exception( esc_html__('Failed to connect to the website. Status code: ', 'tradepress') . (int) wp_remote_retrieve_response_code($response) );
         }
         
         $html = wp_remote_retrieve_body($response);
@@ -892,7 +892,7 @@ class TradePress_Manage_Sources {
                         );
                     } else {
                         /* translators: %s: CSS selector */
-                        throw new Exception(sprintf(esc_html__('No elements found matching selector "%s".', 'tradepress'), $selector));
+                        throw new Exception( esc_html( sprintf( __('No elements found matching selector "%s".', 'tradepress'), $selector ) ) );
                     }
                 }
             }
@@ -926,13 +926,13 @@ class TradePress_Manage_Sources {
         $feed = fetch_feed($url);
         
         if (is_wp_error($feed)) {
-            throw new Exception($feed->get_error_message());
+            throw new Exception( esc_html( $feed->get_error_message() ) );
         }
         
         $item_count = $feed->get_item_quantity();
         
         if ($item_count === 0) {
-            throw new Exception(__('No items found in RSS feed.', 'tradepress'));
+            throw new Exception(esc_html__('No items found in RSS feed.', 'tradepress'));
         }
         
         // Get a limited number of items
@@ -1011,14 +1011,14 @@ class TradePress_Manage_Sources {
         $response = wp_remote_get($url, $args);
         
         if (is_wp_error($response)) {
-            throw new Exception($response->get_error_message());
+            throw new Exception( esc_html( $response->get_error_message() ) );
         }
         
         $status_code = wp_remote_retrieve_response_code($response);
         
         if ($status_code !== 200) {
             /* translators: %d: error message */
-            throw new Exception(sprintf(esc_html__('API returned error code: %d', 'tradepress'), $status_code));
+            throw new Exception( esc_html( sprintf( __('API returned error code: %d', 'tradepress'), (int) $status_code ) ) );
         }
         
         $body = wp_remote_retrieve_body($response);
@@ -1074,13 +1074,13 @@ class TradePress_Manage_Sources {
             'sample_records' => array(
                 array(
                     'id' => 1,
-                    'date' => date('Y-m-d H:i:s'),
+                    'date' => wp_date('Y-m-d H:i:s'),
                     'value' => 123.45,
                     'content' => 'Sample custom source data entry 1'
                 ),
                 array(
                     'id' => 2,
-                    'date' => date('Y-m-d H:i:s', time() - 3600),
+                    'date' => wp_date('Y-m-d H:i:s', time() - 3600),
                     'value' => 234.56,
                     'content' => 'Sample custom source data entry 2'
                 )

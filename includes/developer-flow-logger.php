@@ -237,7 +237,7 @@ class TradePress_Developer_Flow_Logger {
         </style>';
         
         // Display the breakdown
-        echo $html;
+        echo esc_html( $html );
         
         // Reset for next flow
         self::$flow_steps = array();

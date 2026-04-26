@@ -80,10 +80,10 @@ class TradePress_Feature_Feedback_System {
                 <div class="form-group">
                     <label for="issue_priority"><?php esc_html_e('Priority:', 'tradepress'); ?></label>
                     <select name="issue_priority" id="issue_priority">
-                        <option value="<?php echo self::PRIORITY_LOW; ?>"><?php esc_html_e('Low - Minor issue', 'tradepress'); ?></option>
-                        <option value="<?php echo self::PRIORITY_MEDIUM; ?>" selected><?php esc_html_e('Medium - Affects functionality', 'tradepress'); ?></option>
-                        <option value="<?php echo self::PRIORITY_HIGH; ?>"><?php esc_html_e('High - Significant problem', 'tradepress'); ?></option>
-                        <option value="<?php echo self::PRIORITY_CRITICAL; ?>"><?php esc_html_e('Critical - System breaking', 'tradepress'); ?></option>
+                        <option value="<?php echo self::PRIORITY_LOW; ?>"><?php esc_html_e('Low - Minor issue', 'tradepress'); ?></option> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        <option value="<?php echo self::PRIORITY_MEDIUM; ?>" selected><?php esc_html_e('Medium - Affects functionality', 'tradepress'); ?></option> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        <option value="<?php echo self::PRIORITY_HIGH; ?>"><?php esc_html_e('High - Significant problem', 'tradepress'); ?></option> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        <option value="<?php echo self::PRIORITY_CRITICAL; ?>"><?php esc_html_e('Critical - System breaking', 'tradepress'); ?></option> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     </select>
                 </div>
                 <?php endif; ?>

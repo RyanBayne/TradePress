@@ -58,7 +58,7 @@ class TradePress_Admin_Users {
         global $pagenow;
 
         if ( is_admin() && $pagenow == 'users.php' ) {
-            if ( ! isset( $_REQUEST['orderby'] ) ) {
+            if ( ! isset( $_REQUEST['orderby'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 $query->query_vars["order"] = 'desc';
                 $query->query_orderby = " ORDER BY user_registered " . ( $query->query_vars["order"] == 'desc' ? 'desc ' : 'asc ' ); //set sort order
             }
@@ -78,9 +78,9 @@ class TradePress_Admin_Users {
     function filter_users_by_status( $query ) {
         global $wpdb, $pagenow;
 
-        if ( is_admin() && $pagenow == 'users.php' && ! empty( $_GET['TradePress_status'] ) ) {
+        if ( is_admin() && $pagenow == 'users.php' && ! empty( $_GET['TradePress_status'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-            $status = sanitize_key( $_GET['TradePress_status'] );
+            $status = sanitize_key( $_GET['TradePress_status'] );  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
             $meta_key = 'TradePress_sub_plan_' . TradePress_get_main_channels_twitchid();
             
@@ -116,7 +116,7 @@ class TradePress_Admin_Users {
         );
 
         foreach ( $custom as $k => $v ) {
-            if ( isset( $_REQUEST['TradePress_status'] ) && sanitize_key( $_REQUEST['TradePress_status'] ) == $k ) {
+            if ( isset( $_REQUEST['TradePress_status'] ) && sanitize_key( $_REQUEST['TradePress_status'] ) == $k ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 $current = 'class="current"';
             } else {
                 $current = '';

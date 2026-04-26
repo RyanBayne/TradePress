@@ -110,7 +110,7 @@ class TradePress_DebugView_Endpoints extends TradePress_ListTable_Endpoints {
             case 'delete':
                 // This demonstrates how deletion might appear once processing is finished.
                 if( isset( $_POST['exampleitem'] ) ) {
-                    foreach( $_POST['exampleitem'] as $key => $item ) {
+                    foreach( wp_unslash($_POST['exampleitem']) as $key => $item ) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
                         unset( $this->items[ $key ] );
                     }
                 }

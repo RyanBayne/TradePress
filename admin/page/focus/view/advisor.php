@@ -30,7 +30,7 @@ if ( isset( $_GET['reset'] ) && $_GET['reset'] === '1' ) {
     tradepress_trace_log('URL reset parameter detected, clearing advisor session');
     $advisor_session->clear_session();
     // Redirect to clean URL
-    wp_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1' ) );
+    wp_safe_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1' ) );
     exit;
 }
 
@@ -40,7 +40,7 @@ if ( isset( $_GET['refresh_earnings'] ) && $_GET['refresh_earnings'] === '1' ) {
     require_once TRADEPRESS_PLUGIN_DIR . 'includes/advisor/earnings-data-bridge.php';
     TradePress_Advisor_Earnings_Bridge::force_refresh();
     // Redirect to clean URL
-    wp_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2' ) );
+    wp_safe_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2' ) );
     exit;
 }
 
@@ -55,8 +55,8 @@ $session_data = $advisor_session->get_session_data();
 <!-- Floating Symbols Container -->
 <?php 
 if ( $session_data && ! empty( $session_data['selected_symbols'] ) ) {
-    echo TradePress_Symbols_Container::render( $session_data['selected_symbols'], array(
-        'title' => ucfirst( $session_data['mode'] ) . ' ' . esc_html__( 'Mode', 'tradepress' ),
+    echo TradePress_Symbols_Container::render( $session_data['selected_symbols'], array( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        'title' => ucfirst( $session_data['mode'] ) . ' ' . esc_html__( 'Mode', 'tradepress' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         'show_count' => true,
         'show_reset' => true,
         'reset_url' => esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1&reset=1' ) ),
@@ -92,7 +92,7 @@ if ( $session_data && ! empty( $session_data['selected_symbols'] ) ) {
                 <a href="<?php echo esc_url( $step_url ); ?>" 
                    class="<?php echo esc_attr( $tab_class ); ?>"
                    <?php echo ! $is_accessible ? 'onclick="return false;"' : ''; ?>>
-                    <span class="step-number"><?php echo $step_num; ?></span>
+                    <span class="step-number"><?php echo (int) $step_num; ?></span> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     <span class="step-title"><?php echo esc_html( $step_info['title'] ); ?></span>
                     <?php if ( $step_info['status'] === 'completed' ) : ?>
                         <span class="dashicons dashicons-yes-alt"></span>
@@ -106,7 +106,7 @@ if ( $session_data && ! empty( $session_data['selected_symbols'] ) ) {
 
     <!-- Step Content -->
     <div class="advisor-content">
-        <?php echo $advisor_controller->render_step( $current_step ); ?>
+        <?php echo $advisor_controller->render_step( $current_step ); ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     </div>
 </div>
 

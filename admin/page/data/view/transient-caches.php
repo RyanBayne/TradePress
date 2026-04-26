@@ -87,7 +87,7 @@ function tradepress_get_transient_caches() {
     }
     
     $query = "SELECT option_name, option_value FROM $wpdb->options WHERE " . implode(' OR ', $like_patterns);
-    $results = $wpdb->get_results($query);
+    $results = $wpdb->get_results($query);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
     // Process results
     $transients = array();
@@ -120,7 +120,7 @@ function tradepress_get_transient_caches() {
             'added_in' => $info['added_in'],
             'normal_expiry' => $info['normal_expiry'],
             'exists' => ($value !== null),
-            'timeout' => $timeout ? date('Y-m-d H:i:s', $timeout) : 'N/A',
+            'timeout' => $timeout ? wp_date('Y-m-d H:i:s', $timeout) : 'N/A',
             'expires_in' => $timeout ? human_time_diff(time(), $timeout) : 'N/A',
             'size' => $value ? strlen(maybe_serialize($value)) : 0
         );

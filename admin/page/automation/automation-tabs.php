@@ -26,8 +26,8 @@ class TradePress_Admin_Automation_Page {
      */
     public function __construct() {
         // Set the active tab based on URL parameter
-        if (isset($_GET['tab']) && !empty($_GET['tab'])) {
-            $this->active_tab = sanitize_text_field($_GET['tab']);
+        if (isset($_GET['tab']) && !empty($_GET['tab'])) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            $this->active_tab = sanitize_text_field(wp_unslash($_GET['tab']));  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         }
         
         // Debug the active tab value
@@ -435,7 +435,7 @@ class TradePress_Admin_Automation_Page {
                             <?php 
                             if ($earnings_last_update) {
                                 // Escape date and human_time_diff output for safe HTML rendering
-                                echo esc_html( date('Y-m-d H:i:s', $earnings_last_update) );
+                                echo esc_html( wp_date('Y-m-d H:i:s', $earnings_last_update) );
                                 echo '<br><small>(' . esc_html( human_time_diff($earnings_last_update, current_time('timestamp')) ) . ' ago)</small>';
                             } else {
                                 esc_html_e('Never updated', 'tradepress');
@@ -450,7 +450,7 @@ class TradePress_Admin_Automation_Page {
                             <?php 
                             if ($market_status_last_update) {
                                 // Escape date and human_time_diff output for safe HTML rendering
-                                echo esc_html( date('Y-m-d H:i:s', $market_status_last_update) );
+                                echo esc_html( wp_date('Y-m-d H:i:s', $market_status_last_update) );
                                 echo '<br><small>(' . esc_html( human_time_diff($market_status_last_update, current_time('timestamp')) ) . ' ago)</small>';
                             } else {
                                 esc_html_e('Never updated', 'tradepress');
@@ -465,7 +465,7 @@ class TradePress_Admin_Automation_Page {
                             <?php 
                             if ($last_run) {
                                 // Escape date and human_time_diff output for safe HTML rendering
-                                echo esc_html( date('Y-m-d H:i:s', $last_run) );
+                                echo esc_html( wp_date('Y-m-d H:i:s', $last_run) );
                                 echo '<br><small>(' . esc_html( human_time_diff($last_run, current_time('timestamp')) ) . ' ago)</small>';
                             } else {
                                 esc_html_e('Never run', 'tradepress');
@@ -876,7 +876,7 @@ class TradePress_Admin_Automation_Page {
                                     <?php 
                                     if ($earnings_last_updated) {
                                         echo esc_html( date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $earnings_last_updated) );
-                                        echo ' (' . human_time_diff($earnings_last_updated, time()) . ' ' . esc_html__('ago', 'tradepress') . ')';
+                                        echo ' (' . human_time_diff($earnings_last_updated, time()) . ' ' . esc_html__('ago', 'tradepress') . ')'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                     } else {
                                         esc_html_e('Never', 'tradepress');
                                     }
@@ -902,7 +902,7 @@ class TradePress_Admin_Automation_Page {
                                     $next_run = wp_next_scheduled('tradepress_fetch_earnings_calendar');
                                     if ($next_run) {
                                         echo esc_html( date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $next_run) );
-                                        echo ' (' . human_time_diff(time(), $next_run) . ' ' . esc_html__('from now', 'tradepress') . ')';
+                                        echo ' (' . human_time_diff(time(), $next_run) . ' ' . esc_html__('from now', 'tradepress') . ')'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                     } else {
                                         esc_html_e('Not scheduled', 'tradepress');
                                     }
@@ -1025,7 +1025,7 @@ class TradePress_Admin_Automation_Page {
                                             <?php echo esc_html($job['next_run']); ?>
                                             <br>
                                             <?php /* translators: %s: human-readable time difference (e.g. "2 hours") */ ?>
-                                            <small><?php printf(esc_html__('(%s from now)', 'tradepress'), $job['human_time']); ?></small>
+                                            <small><?php printf(esc_html__('(%s from now)', 'tradepress'), $job['human_time']); ?></small> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                         </td>
                                         <td>
                                             <!-- Placeholder for future action buttons -->

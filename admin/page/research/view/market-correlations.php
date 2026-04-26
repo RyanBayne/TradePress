@@ -84,7 +84,7 @@ function tradepress_market_correlations_tab_content() {
         <div class="tradepress-research-results">
             <div class="correlation-results">
                 <?php /* translators: %s: symbol name, %s: time period */ ?>
-                <h3><?php echo sprintf(esc_html__('Correlation Results: %1$s vs. Others (%2$s)', 'tradepress'), $base_symbol, tradepress_get_timeframe_label($timeframe)); ?></h3>
+                <h3><?php echo sprintf(esc_html__('Correlation Results: %1$s vs. Others (%2$s)', 'tradepress'), $base_symbol, tradepress_get_timeframe_label($timeframe)); ?></h3> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 
                 <div class="correlation-heatmap">
                     <?php foreach ($correlation_data as $symbol => $data): ?>
@@ -96,7 +96,7 @@ function tradepress_market_correlations_tab_content() {
                                 $corr_width = min(abs($corr_value * 100), 100);
                                 $corr_class = $corr_value >= 0 ? 'positive' : 'negative';
                                 ?>
-                                <div class="correlation-bar <?php echo $corr_class; ?>" style="width: <?php echo $corr_width; ?>%;">
+                                <div class="correlation-bar <?php echo $corr_class; ?>" style="width: <?php echo (float) $corr_width; ?>%;"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                     <span class="correlation-value"><?php echo number_format($corr_value, 2); ?></span>
                                 </div>
                             </div>

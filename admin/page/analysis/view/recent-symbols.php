@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * TradePress Analysis - Recent Symbols tab view
  *
@@ -400,7 +400,7 @@ function getIntradayAdvice($symbol) {
                     </div>
                     
                     <div class="symbol-score">
-                        <div class="score-circle" style="background: conic-gradient(#4CAF50 0% <?php echo $weighted_percentage; ?>%, #f5f5f5 <?php echo $weighted_percentage; ?>% 100%);">
+                        <div class="score-circle" style="background: conic-gradient(#4CAF50 0% <?php echo (int) $weighted_percentage; ?>%, #f5f5f5 <?php echo (int) $weighted_percentage; ?>% 100%);"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             <span class="score-value"><?php echo esc_html($symbol['score']); ?></span>
                         </div>
                         <div class="score-details">
@@ -508,7 +508,7 @@ function getIntradayAdvice($symbol) {
                     </div>
                     
                     <div class="symbol-score">
-                        <div class="score-circle" style="background: conic-gradient(#4CAF50 0% <?php echo $weighted_percentage; ?>%, #f5f5f5 <?php echo $weighted_percentage; ?>% 100%);">
+                        <div class="score-circle" style="background: conic-gradient(#4CAF50 0% <?php echo (int) $weighted_percentage; ?>%, #f5f5f5 <?php echo (int) $weighted_percentage; ?>% 100%);"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             <span class="score-value"><?php echo esc_html($symbol['score']); ?></span>
                         </div>
                         <div class="score-details">
@@ -617,7 +617,7 @@ function getIntradayAdvice($symbol) {
                     </div>
                     
                     <div class="symbol-score">
-                        <div class="score-circle" style="background: conic-gradient(#4CAF50 0% <?php echo $weighted_percentage; ?>%, #f5f5f5 <?php echo $weighted_percentage; ?>% 100%);">
+                        <div class="score-circle" style="background: conic-gradient(#4CAF50 0% <?php echo (int) $weighted_percentage; ?>%, #f5f5f5 <?php echo (int) $weighted_percentage; ?>% 100%);"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             <span class="score-value"><?php echo esc_html($symbol['score']); ?></span>
                         </div>
                         <div class="score-details">

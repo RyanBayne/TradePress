@@ -106,11 +106,11 @@ class TradePress_Listener {
             // For sandbox GET request test, we'll allow with just the nonce check
             if ($_GET['TradePressaction'] === 'test_get_listener') {
                 if (!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], 'test_get_listener')) {
-                    wp_die(__('Security check failed. Please try again.', 'tradepress'));
+                    wp_die(esc_html__('Security check failed. Please try again.', 'tradepress'));
                 }
                 
                 $test_value = isset($_GET['test_value']) ? sanitize_text_field($_GET['test_value']) : '';
-                wp_redirect(add_query_arg('listener_get_processed', $test_value, wp_get_referer()));
+                wp_safe_redirect(add_query_arg('listener_get_processed', $test_value, wp_get_referer()));
                 exit;
             }
             
@@ -159,7 +159,7 @@ class TradePress_Listener {
         
         // Verify the nonce
         if( !isset( $_POST['_wpnonce'] ) || !wp_verify_nonce( $_POST['_wpnonce'], $action ) ) {
-            wp_die( __( 'Security check failed. Please try again.', 'tradepress' ) );
+            wp_die( esc_html__( 'Security check failed. Please try again.', 'tradepress' ) );
         }
         
         // Process the form based on the action
@@ -193,7 +193,7 @@ class TradePress_Listener {
      */
     public function handle_test_post_listener() {
         if (!is_user_logged_in() || !current_user_can('manage_options')) {
-            wp_die(__('You do not have permission to access this page.', 'tradepress'));
+            wp_die(esc_html__('You do not have permission to access this page.', 'tradepress'));
         }
         
         // Verify nonce
@@ -202,7 +202,7 @@ class TradePress_Listener {
         $test_value = isset($_POST['test_value']) ? sanitize_text_field($_POST['test_value']) : '';
         
         // Redirect back to the sandbox page with a success message
-        wp_redirect(add_query_arg(
+        wp_safe_redirect(add_query_arg(
             array(
                 'page' => 'tradepress_sandbox',
                 'tab' => 'listener',
@@ -254,7 +254,7 @@ class TradePress_Listener {
         
         // Verify the nonce
         if (!isset($_POST[$nonce_field]) || !wp_verify_nonce($_POST[$nonce_field], $nonce_action)) {
-            wp_die(__('Security check failed. Please try again.', 'tradepress'));
+            wp_die(esc_html__('Security check failed. Please try again.', 'tradepress'));
         }
         
         // Trigger the action to process the form
@@ -304,7 +304,7 @@ class TradePress_Listener {
         
         // Verify nonce matches the requested action
         if( ! wp_verify_nonce( $_REQUEST['_wpnonce'], $action ) ) {
-            wp_die( __( 'Security check failed. Please try again.', 'tradepress' ) );
+            wp_die( esc_html__( 'Security check failed. Please try again.', 'tradepress' ) );
         }
         
         // Process different admin actions
@@ -335,7 +335,7 @@ class TradePress_Listener {
         // Implementation would go here
         
         // Redirect back to the settings page with success message
-        wp_redirect( add_query_arg( 'updated', 'true', wp_get_referer() ) );
+        wp_safe_redirect( add_query_arg( 'updated', 'true', wp_get_referer() ) );
         exit;
     }
     
@@ -350,7 +350,7 @@ class TradePress_Listener {
         // Implementation would go here
         
         // Redirect back to the settings page with success message
-        wp_redirect( add_query_arg( 'updated', 'true', wp_get_referer() ) );
+        wp_safe_redirect( add_query_arg( 'updated', 'true', wp_get_referer() ) );
         exit;
     }
     

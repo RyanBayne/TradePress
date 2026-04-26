@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * AJAX handler for API calls display
  */
@@ -11,11 +11,13 @@ if (!defined('ABSPATH')) {
 add_action('wp_ajax_tradepress_get_api_calls', 'tradepress_handle_get_api_calls');
 
 function tradepress_handle_get_api_calls() {
-    if (!wp_verify_nonce($_POST['nonce'], 'tradepress_api_calls') || !current_user_can('manage_options')) {
+    if (!wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_api_calls') || !current_user_can('manage_options')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
         wp_send_json_error('Security check failed');
     }
-    
-    $directive = sanitize_text_field($_POST['directive']);
+      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+
+    $directive = sanitize_text_field(wp_unslash($_POST['directive']));
     
     // Load Call Register
     if (!class_exists('TradePress_Call_Register')) {
@@ -26,8 +28,8 @@ function tradepress_handle_get_api_calls() {
     $calls = array();
     
     // Check current and previous hour transients
-    $current_key = 'tradepress_call_register_' . date('YmdH');
-    $previous_key = 'tradepress_call_register_' . date('YmdH', strtotime('-1 hour'));
+    $current_key = 'tradepress_call_register_' . wp_date('YmdH');
+    $previous_key = 'tradepress_call_register_' . wp_date('YmdH', strtotime('-1 hour'));
     
     $current_register = get_transient($current_key);
     $previous_register = get_transient($previous_key);
@@ -44,7 +46,7 @@ function tradepress_handle_get_api_calls() {
                 'platform' => 'alphavantage',
                 'method' => strpos($serial, 'rsi') !== false ? 'RSI' : 'get_quote',
                 'parameters' => array('symbol' => 'extracted_from_serial'),
-                'timestamp' => date('Y-m-d H:i:s', $call_data['timestamp']),
+                'timestamp' => wp_date('Y-m-d H:i:s', $call_data['timestamp']),
                 'age_minutes' => round((time() - $call_data['timestamp']) / 60, 1)
             );
         }

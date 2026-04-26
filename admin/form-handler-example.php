@@ -30,16 +30,16 @@ class TradePress_Form_Handler_Example {
         }
         
         // Verify nonce
-        if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'tradepress_form_nonce' ) ) {
-            wp_die( __( 'Security check failed. Please refresh and try again.', 'tradepress' ) );
+        if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( wp_unslash($_POST['_wpnonce']), 'tradepress_form_nonce' ) ) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            wp_die( esc_html__( 'Security check failed. Please refresh and try again.', 'tradepress' ) );
         }
         
         // Check user permissions
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_die( __( 'You do not have permission to perform this action.', 'tradepress' ) );
+            wp_die( esc_html__( 'You do not have permission to perform this action.', 'tradepress' ) );
         }
         
-        $action = sanitize_text_field( $_POST['tradepress_form_action'] );
+        $action = sanitize_text_field( wp_unslash($_POST['tradepress_form_action']) );
         
         switch ( $action ) {
             case 'save_earnings_settings':
@@ -51,7 +51,7 @@ class TradePress_Form_Handler_Example {
                 break;
                 
             default:
-                wp_die( __( 'Invalid form action.', 'tradepress' ) );
+                wp_die( esc_html__( 'Invalid form action.', 'tradepress' ) );
         }
     }
     
@@ -62,22 +62,22 @@ class TradePress_Form_Handler_Example {
         // Sanitize and validate inputs
         $settings = array();
         
-        if ( isset( $_POST['earnings_api_key'] ) ) {
-            $settings['api_key'] = sanitize_text_field( $_POST['earnings_api_key'] );
+        if ( isset( $_POST['earnings_api_key'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Missing
+            $settings['api_key'] = sanitize_text_field( wp_unslash($_POST['earnings_api_key']) );  // phpcs:ignore WordPress.Security.NonceVerification.Missing
         }
         
-        if ( isset( $_POST['earnings_refresh_interval'] ) ) {
-            $interval = absint( $_POST['earnings_refresh_interval'] );
+        if ( isset( $_POST['earnings_refresh_interval'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Missing
+            $interval = absint( $_POST['earnings_refresh_interval'] );  // phpcs:ignore WordPress.Security.NonceVerification.Missing
             // Validate refresh interval is within reasonable bounds (1-1440 minutes)
             if ( $interval >= 1 && $interval <= 1440 ) {
                 $settings['refresh_interval'] = $interval;
             } else {
-                wp_die( __( 'Refresh interval must be between 1 and 1440 minutes.', 'tradepress' ) );
+                wp_die( esc_html__( 'Refresh interval must be between 1 and 1440 minutes.', 'tradepress' ) );
             }
         }
         
-        if ( isset( $_POST['earnings_sectors'] ) && is_array( $_POST['earnings_sectors'] ) ) {
-            $settings['sectors'] = array_map( 'sanitize_text_field', $_POST['earnings_sectors'] );
+        if ( isset( $_POST['earnings_sectors'] ) && is_array( $_POST['earnings_sectors'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Missing
+            $settings['sectors'] = array_map( 'sanitize_text_field', wp_unslash($_POST['earnings_sectors']) );  // phpcs:ignore WordPress.Security.NonceVerification.Missing
         }
         
         // Save settings
@@ -100,8 +100,8 @@ class TradePress_Form_Handler_Example {
     private function update_watchlist() {
         $symbols = array();
         
-        if ( isset( $_POST['watchlist_symbols'] ) ) {
-            $raw_symbols = sanitize_textarea_field( $_POST['watchlist_symbols'] );
+        if ( isset( $_POST['watchlist_symbols'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Missing
+            $raw_symbols = sanitize_textarea_field( wp_unslash($_POST['watchlist_symbols']) );  // phpcs:ignore WordPress.Security.NonceVerification.Missing
             $symbol_array = array_map( 'trim', explode( ',', $raw_symbols ) );
             
             foreach ( $symbol_array as $symbol ) {
@@ -173,8 +173,8 @@ class TradePress_Form_Handler_Example {
      * Display success/error messages
      */
     public static function display_messages() {
-        if ( isset( $_GET['message'] ) ) {
-            $message = sanitize_text_field( $_GET['message'] );
+        if ( isset( $_GET['message'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            $message = sanitize_text_field( wp_unslash($_GET['message']) );  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             
             switch ( $message ) {
                 case 'settings_saved':
@@ -189,7 +189,7 @@ class TradePress_Form_Handler_Example {
                     
                 default:
                     // Handle unexpected message values
-                    error_log( 'TradePress: Unknown message parameter: ' . $message );
+                    error_log( 'TradePress: Unknown message parameter: ' . $message );  // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
                     break;
             }
         }

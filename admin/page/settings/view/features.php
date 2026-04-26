@@ -326,7 +326,7 @@ class TradePress_Admin_Settings_Features {
         }
 
         if (!wp_verify_nonce($_POST['tradepress_features_nonce'], 'tradepress-save-features-settings')) {
-            wp_die(__('Action failed. Please refresh the page and retry.', 'tradepress'));
+            wp_die(esc_html__('Action failed. Please refresh the page and retry.', 'tradepress'));
         }
 
         // Get existing feature data

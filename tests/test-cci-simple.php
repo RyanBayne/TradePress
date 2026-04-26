@@ -69,11 +69,11 @@ try {
     
     echo "RESULTS:\n";
     echo "--------\n";
-    echo "Score: " . $result['score'] . "/100\n";
-    echo "Signal: " . $result['signal'] . "\n";
-    echo "CCI Value: " . $result['cci_value'] . "\n";
-    echo "Condition: " . $result['condition'] . "\n";
-    echo "Details: " . $result['calculation_details'] . "\n\n";
+    echo "Score: " . $result['score'] . "/100\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "Signal: " . $result['signal'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "CCI Value: " . $result['cci_value'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "Condition: " . $result['condition'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "Details: " . $result['calculation_details'] . "\n\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     
     // Test overbought condition
     $test_data['technical']['cci'] = 120.5;
@@ -84,17 +84,17 @@ try {
     
     echo "RESULTS:\n";
     echo "--------\n";
-    echo "Score: " . $result2['score'] . "/100\n";
-    echo "Signal: " . $result2['signal'] . "\n";
-    echo "CCI Value: " . $result2['cci_value'] . "\n";
-    echo "Condition: " . $result2['condition'] . "\n";
-    echo "Details: " . $result2['calculation_details'] . "\n\n";
+    echo "Score: " . $result2['score'] . "/100\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "Signal: " . $result2['signal'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "CCI Value: " . $result2['cci_value'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "Condition: " . $result2['condition'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo "Details: " . $result2['calculation_details'] . "\n\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     
     echo "✅ CCI DIRECTIVE TEST PASSED\n";
     echo "Ready for alpha release integration\n";
     
 } catch (Exception $e) {
     echo "❌ CCI DIRECTIVE TEST FAILED\n";
-    echo "Error: " . $e->getMessage() . "\n";
+    echo "Error: " . $e->getMessage() . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 ?>

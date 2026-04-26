@@ -116,7 +116,7 @@ wp_localize_script('jquery', 'tradepressScoringAjax', array(
                     <span class="metric-value">
                         <?php 
                         if ($rankings_last_update) {
-                            echo date('Y-m-d H:i:s', $rankings_last_update);
+                            echo  esc_html( date('Y-m-d H:i:s', $rankings_last_update) );
                         } else {
                             esc_html_e('Never', 'tradepress');
                         }

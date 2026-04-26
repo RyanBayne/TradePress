@@ -25,7 +25,7 @@ function handle_test_form_submit() {
     $test_value = sanitize_text_field($_POST['test_field'] ?? '');
     tradepress_trace_log('Test value: ' . $test_value);
     
-    wp_redirect(admin_url('admin.php?page=tradepress_focus&tab=advisor&test_result=' . urlencode($test_value)));
+    wp_safe_redirect(admin_url('admin.php?page=tradepress_focus&tab=advisor&test_result=' . urlencode($test_value)));
     exit;
 }
 
@@ -67,7 +67,7 @@ function tradepress_handle_advisor_step_1() {
     
     tradepress_trace_log('Session created/updated for mode: ' . $mode . ', Step 1 completed');
     
-    wp_redirect(admin_url('admin.php?page=tradepress_focus&tab=advisor&advisor_step=2'));
+    wp_safe_redirect(admin_url('admin.php?page=tradepress_focus&tab=advisor&advisor_step=2'));
     exit;
 }
 
@@ -96,7 +96,7 @@ function tradepress_handle_advisor_step_2() {
         tradepress_trace_log('Step 2 completed, symbols saved');
     }
     
-    wp_redirect(admin_url('admin.php?page=tradepress_focus&tab=advisor&advisor_step=3'));
+    wp_safe_redirect(admin_url('admin.php?page=tradepress_focus&tab=advisor&advisor_step=3'));
     exit;
 }
 
@@ -121,7 +121,7 @@ function tradepress_handle_advisor_step_3() {
         tradepress_trace_log('Step 3 completed, news analysis finished');
     }
     
-    wp_redirect(admin_url('admin.php?page=tradepress_focus&tab=advisor&advisor_step=4&message=news_analyzed'));
+    wp_safe_redirect(admin_url('admin.php?page=tradepress_focus&tab=advisor&advisor_step=4&message=news_analyzed'));
     exit;
 }
 
@@ -146,7 +146,7 @@ function tradepress_handle_advisor_step_4() {
         tradepress_trace_log('Step 4 completed, forecast analysis finished');
     }
     
-    wp_redirect(admin_url('admin.php?page=tradepress_focus&tab=advisor&advisor_step=5&message=forecasts_analyzed'));
+    wp_safe_redirect(admin_url('admin.php?page=tradepress_focus&tab=advisor&advisor_step=5&message=forecasts_analyzed'));
     exit;
 }
 
@@ -171,7 +171,7 @@ function tradepress_handle_advisor_step_5() {
         tradepress_trace_log('Step 5 completed, economic analysis finished');
     }
     
-    wp_redirect(admin_url('admin.php?page=tradepress_focus&tab=advisor&advisor_step=6&message=economic_analyzed'));
+    wp_safe_redirect(admin_url('admin.php?page=tradepress_focus&tab=advisor&advisor_step=6&message=economic_analyzed'));
     exit;
 }
 
@@ -212,7 +212,7 @@ function tradepress_handle_advisor_step_6() {
         tradepress_trace_log('Step 6 completed, technical settings saved');
     }
     
-    wp_redirect(admin_url('admin.php?page=tradepress_focus&tab=advisor&advisor_step=7&message=technical_configured'));
+    wp_safe_redirect(admin_url('admin.php?page=tradepress_focus&tab=advisor&advisor_step=7&message=technical_configured'));
     exit;
 }
 
@@ -246,7 +246,7 @@ function tradepress_handle_developer_mode_toggle() {
         echo '<div class="notice notice-success"><p>' . esc_html($message) . '</p></div>';
     });
     
-    wp_redirect(wp_get_referer() ?: admin_url());
+    wp_safe_redirect(wp_get_referer() ?: admin_url());
     exit;
 }
 

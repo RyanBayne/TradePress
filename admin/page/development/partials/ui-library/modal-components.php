@@ -65,7 +65,7 @@ defined('ABSPATH') || exit;
                             </div>
                             <div class="tradepress-task-detail-meta-item">
                                 <span class="tradepress-task-detail-meta-label"><?php esc_html_e('Created:', 'tradepress'); ?></span>
-                                <span><?php echo esc_html(date('Y-m-d H:i')); ?></span>
+                                <span><?php echo esc_html(wp_date('Y-m-d H:i')); ?></span>
                             </div>
                         </div>
 

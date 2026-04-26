@@ -38,7 +38,7 @@ abstract class TradePress_Base_API extends TradePress_Financial_API_Service {
         $this->provider_config = TradePress_API_Directory::get_provider($provider_id);
         
         if (!$this->provider_config) {
-            throw new Exception("Unknown API provider: {$provider_id}");
+            throw new Exception( 'Unknown API provider: ' . esc_html( $provider_id ) );
         }
         
         parent::__construct($args);

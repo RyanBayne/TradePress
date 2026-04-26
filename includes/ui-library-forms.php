@@ -57,7 +57,7 @@ class TradePress_UI_Library_Forms {
         ));
         
         // Redirect with success message
-        wp_redirect( add_query_arg( array(
+        wp_safe_redirect( add_query_arg( array(
             'page' => 'tradepress_development',
             'tab' => 'ui-library',
             'message' => 'contact_sent'
@@ -85,7 +85,7 @@ class TradePress_UI_Library_Forms {
         ));
         
         // Redirect with success message
-        wp_redirect( add_query_arg( array(
+        wp_safe_redirect( add_query_arg( array(
             'page' => 'tradepress_development',
             'tab' => 'ui-library',
             'message' => 'settings_saved'

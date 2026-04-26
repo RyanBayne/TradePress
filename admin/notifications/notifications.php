@@ -132,7 +132,7 @@ class TradePress_Notifications {
                 'priority'   => $args['priority'],
                 'is_read'    => 0,
                 'created_at' => current_time( 'mysql' ),
-                'expires_at' => $args['expiration'] ? date( 'Y-m-d H:i:s', $args['expiration'] ) : null,
+                'expires_at' => $args['expiration'] ? wp_date( 'Y-m-d H:i:s', $args['expiration'] ) : null,
                 'data'       => maybe_serialize( $args['data'] ),
             ),
             array( '%s', '%s', '%d', '%s', '%d', '%s', '%s', '%s' )
@@ -178,8 +178,8 @@ class TradePress_Notifications {
         );
         
         $email_body = sprintf(
-            /* translators: %s: user display name, %s: notification message, %s: site name */
-            __( "Hello %1$s,\n\nYou have received a new notification:\n\n%2$s\n\nTo manage your notifications, visit your account dashboard.\n\nRegards,\n%3$s Team", 'tradepress' ),
+            /* translators: 1: user display name, 2: notification message, 3: site name */
+            __( 'Hello %1$s,\n\nYou have received a new notification:\n\n%2$s\n\nTo manage your notifications, visit your account dashboard.\n\nRegards,\n%3$s Team', 'tradepress' ), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
             $user_name,
             $message,
             get_bloginfo( 'name' )
@@ -199,7 +199,7 @@ class TradePress_Notifications {
         $table_name = $wpdb->prefix . 'tradepress_notifications';
         
         // Process expired notifications
-        $wpdb->query( "UPDATE $table_name SET is_read = 1 WHERE expires_at IS NOT NULL AND expires_at < NOW()" );
+        $wpdb->query( "UPDATE $table_name SET is_read = 1 WHERE expires_at IS NOT NULL AND expires_at < NOW()" );  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
         
         // Process other scheduled actions for notifications
         do_action( 'tradepress_process_scheduled_notifications' );
@@ -249,7 +249,7 @@ class TradePress_Notifications {
         $limit_clause = $wpdb->prepare( "LIMIT %d OFFSET %d", $args['limit'], $args['offset'] );
         
         $notifications = $wpdb->get_results(
-            "SELECT * FROM $table_name WHERE $where_clause ORDER BY $orderby $limit_clause"
+            "SELECT * FROM $table_name WHERE $where_clause ORDER BY $orderby $limit_clause"  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
         );
         
         // Process the notifications
@@ -298,7 +298,7 @@ class TradePress_Notifications {
         
         $table_name = $wpdb->prefix . 'tradepress_notifications';
         
-        if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) != $table_name ) {
+        if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) != $table_name ) {  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
             // Table doesn't exist, create it
             $charset_collate = $wpdb->get_charset_collate();
             

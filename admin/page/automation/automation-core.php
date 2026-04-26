@@ -46,7 +46,7 @@ class TradePress_Automation {
      */
     public function ajax_toggle_algorithm() {
         // Check nonce for security
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_automation_nonce')) {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_automation_nonce')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             wp_send_json_error(array(
                 'message' => __('Security verification failed. Please refresh the page and try again.', 'tradepress')
             ));
@@ -60,7 +60,7 @@ class TradePress_Automation {
         }
         
         // Get action
-        $action = isset($_POST['algorithm_action']) ? sanitize_text_field($_POST['algorithm_action']) : '';
+        $action = isset($_POST['algorithm_action']) ? sanitize_text_field(wp_unslash($_POST['algorithm_action'])) : '';
         
         // Handle the action
         if ($action === 'start') {
@@ -85,7 +85,7 @@ class TradePress_Automation {
      */
     public function ajax_toggle_component() {
         // Check nonce for security
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_automation_nonce')) {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_automation_nonce')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             wp_send_json_error(array(
                 'message' => __('Security verification failed. Please refresh the page and try again.', 'tradepress')
             ));
@@ -99,8 +99,8 @@ class TradePress_Automation {
         }
         
         // Get parameters
-        $component = isset($_POST['component']) ? sanitize_text_field($_POST['component']) : '';
-        $action_type = isset($_POST['action_type']) ? sanitize_text_field($_POST['action_type']) : '';
+        $component = isset($_POST['component']) ? sanitize_text_field(wp_unslash($_POST['component'])) : '';
+        $action_type = isset($_POST['action_type']) ? sanitize_text_field(wp_unslash($_POST['action_type'])) : '';
         
         // Handle the action
         if ($action_type === 'start') {
@@ -127,7 +127,7 @@ class TradePress_Automation {
      */
     public function ajax_toggle_all_automation() {
         // Check nonce for security
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_automation_nonce')) {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_automation_nonce')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             wp_send_json_error(array(
                 'message' => __('Security verification failed. Please refresh the page and try again.', 'tradepress')
             ));
@@ -141,7 +141,7 @@ class TradePress_Automation {
         }
         
         // Get action type
-        $action_type = isset($_POST['action_type']) ? sanitize_text_field($_POST['action_type']) : '';
+        $action_type = isset($_POST['action_type']) ? sanitize_text_field(wp_unslash($_POST['action_type'])) : '';
         
         // Handle the action
         if ($action_type === 'stop') {
@@ -161,7 +161,7 @@ class TradePress_Automation {
      */
     public function ajax_get_algorithm_metrics() {
         // Check nonce for security
-        if (!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], 'tradepress_automation_nonce')) {
+        if (!isset($_GET['nonce']) || !wp_verify_nonce(wp_unslash($_GET['nonce']), 'tradepress_automation_nonce')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             wp_send_json_error(array(
                 'message' => __('Security verification failed. Please refresh the page and try again.', 'tradepress')
             ));
@@ -176,10 +176,10 @@ class TradePress_Automation {
         
         // Get metrics data
         $metrics = array(
-            'symbols_processed' => rand(100, 500),
-            'scores_generated' => rand(50, 200),
-            'trade_signals' => rand(5, 20),
-            'runtime' => sprintf('%02d:%02d:%02d', rand(0, 23), rand(0, 59), rand(0, 59))
+            'symbols_processed' => wp_rand(100, 500),
+            'scores_generated' => wp_rand(50, 200),
+            'trade_signals' => wp_rand(5, 20),
+            'runtime' => sprintf('%02d:%02d:%02d', wp_rand(0, 23), wp_rand(0, 59), wp_rand(0, 59))
         );
         
         wp_send_json_success($metrics);
@@ -190,7 +190,7 @@ class TradePress_Automation {
      */
     public function ajax_get_dashboard_metrics() {
         // Check nonce for security
-        if (!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], 'tradepress_automation_nonce')) {
+        if (!isset($_GET['nonce']) || !wp_verify_nonce(wp_unslash($_GET['nonce']), 'tradepress_automation_nonce')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             wp_send_json_error(array(
                 'message' => __('Security verification failed. Please refresh the page and try again.', 'tradepress')
             ));
@@ -206,17 +206,17 @@ class TradePress_Automation {
         // Get metrics data
         $metrics = array(
             'algorithm' => array(
-                'runtime' => sprintf('%02d:%02d:%02d', rand(0, 23), rand(0, 59), rand(0, 59)),
-                'symbols_processed' => rand(100, 500),
-                'scores_generated' => rand(50, 200)
+                'runtime' => sprintf('%02d:%02d:%02d', wp_rand(0, 23), wp_rand(0, 59), wp_rand(0, 59)),
+                'symbols_processed' => wp_rand(100, 500),
+                'scores_generated' => wp_rand(50, 200)
             ),
             'signals' => array(
-                'runtime' => sprintf('%02d:%02d:%02d', rand(0, 23), rand(0, 59), rand(0, 59)),
-                'signals_generated' => rand(5, 20)
+                'runtime' => sprintf('%02d:%02d:%02d', wp_rand(0, 23), wp_rand(0, 59), wp_rand(0, 59)),
+                'signals_generated' => wp_rand(5, 20)
             ),
             'trading' => array(
-                'runtime' => sprintf('%02d:%02d:%02d', rand(0, 23), rand(0, 59), rand(0, 59)),
-                'trades_executed' => rand(1, 10)
+                'runtime' => sprintf('%02d:%02d:%02d', wp_rand(0, 23), wp_rand(0, 59), wp_rand(0, 59)),
+                'trades_executed' => wp_rand(1, 10)
             )
         );
         
@@ -228,7 +228,7 @@ class TradePress_Automation {
      */
     public function ajax_start_all_automation() {
         // Check nonce for security
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_automation_nonce')) {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_automation_nonce')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             wp_send_json_error(array(
                 'message' => __('Security verification failed. Please refresh the page and try again.', 'tradepress')
             ));
@@ -242,7 +242,7 @@ class TradePress_Automation {
         }
         
         // Get and validate automation mode
-        $automation_mode = isset($_POST['automation_mode']) ? sanitize_text_field($_POST['automation_mode']) : 'all';
+        $automation_mode = isset($_POST['automation_mode']) ? sanitize_text_field(wp_unslash($_POST['automation_mode'])) : 'all';
         if ($automation_mode !== 'all') {
             wp_send_json_error(array(
                 'message' => __('Invalid automation mode.', 'tradepress')

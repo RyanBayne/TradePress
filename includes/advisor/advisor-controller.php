@@ -106,7 +106,7 @@ class TradePress_Advisor_Controller {
         
         if ( empty( $mode ) ) {
             tradepress_trace_log('No mode selected - redirecting with error');
-            wp_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1&error=no_mode' ) );
+            wp_safe_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1&error=no_mode' ) );
             exit;
         }
         
@@ -118,7 +118,7 @@ class TradePress_Advisor_Controller {
         tradepress_trace_log('Redirecting to step 2');
         
         // Redirect to step 2
-        wp_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2&message=mode_selected' ) );
+        wp_safe_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2&message=mode_selected' ) );
         exit;
     }
     
@@ -141,7 +141,7 @@ class TradePress_Advisor_Controller {
         $this->session->set_current_step( 3 );
         
         // Redirect to step 3
-        wp_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=3&message=symbols_selected' ) );
+        wp_safe_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=3&message=symbols_selected' ) );
         exit;
     }
     
@@ -166,7 +166,7 @@ class TradePress_Advisor_Controller {
         tradepress_trace_log('Redirecting to step 4');
         
         // Redirect to step 4
-        wp_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=4&message=news_analyzed' ) );
+        wp_safe_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=4&message=news_analyzed' ) );
         exit;
     }
     
@@ -191,7 +191,7 @@ class TradePress_Advisor_Controller {
         tradepress_trace_log('Redirecting to step 5');
         
         // Redirect to step 5
-        wp_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=5&message=forecasts_analyzed' ) );
+        wp_safe_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=5&message=forecasts_analyzed' ) );
         exit;
     }
     
@@ -216,7 +216,7 @@ class TradePress_Advisor_Controller {
         tradepress_trace_log('Redirecting to step 6');
         
         // Redirect to step 6
-        wp_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=6&message=economic_analyzed' ) );
+        wp_safe_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=6&message=economic_analyzed' ) );
         exit;
     }
     
@@ -261,7 +261,7 @@ class TradePress_Advisor_Controller {
         tradepress_trace_log('Redirecting to step 7 (final results)');
         
         // Redirect to step 7 (final results)
-        wp_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=7&message=technical_configured' ) );
+        wp_safe_redirect( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=7&message=technical_configured' ) );
         exit;
     }
 
@@ -478,7 +478,7 @@ class TradePress_Advisor_Controller {
                                     (<?php echo esc_html( $data_info['message'] ); ?>)
                                 </span></p>
                                 <?php if ( $data_info['status'] === 'stale' ) : ?>
-                                    <a href="<?php echo admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2&refresh_earnings=1' ); ?>" 
+                                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2&refresh_earnings=1' ) ); ?>" 
                                        class="button button-small"><?php esc_html_e( 'Refresh Data', 'tradepress' ); ?></a>
                                 <?php endif; ?>
                             </div>
@@ -513,7 +513,7 @@ class TradePress_Advisor_Controller {
                                 </p>
                                 <?php if ( $api_status['status'] === 'no_key' ) : ?>
                                     <p><strong><?php esc_html_e( 'Solution:', 'tradepress' ); ?></strong> 
-                                        <a href="<?php echo admin_url( 'admin.php?page=tradepress_platforms' ); ?>">
+                                        <a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_platforms' ) ); ?>">
                                             <?php esc_html_e( 'Configure Alpha Vantage API key', 'tradepress' ); ?>
                                         </a>
                                     </p>
@@ -524,8 +524,8 @@ class TradePress_Advisor_Controller {
                         <div class="notice notice-info">
                             <p><?php esc_html_e( 'No earnings data available. Please configure API access or update earnings calendar data.', 'tradepress' ); ?></p>
                             <p>
-                                <a href="<?php echo admin_url( 'admin.php?page=tradepress_platforms' ); ?>" class="button button-primary"><?php esc_html_e( 'Configure API', 'tradepress' ); ?></a>
-                                <a href="<?php echo admin_url( 'admin.php?page=tradepress_data&tab=earnings' ); ?>" class="button"><?php esc_html_e( 'Update Earnings Data', 'tradepress' ); ?></a>
+                                <a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_platforms' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Configure API', 'tradepress' ); ?></a>
+                                <a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_data&tab=earnings' ) ); ?>" class="button"><?php esc_html_e( 'Update Earnings Data', 'tradepress' ); ?></a>
                             </p>
                         </div>
                     <?php endif; ?>
@@ -542,7 +542,7 @@ class TradePress_Advisor_Controller {
                     <?php if ( ! $is_api_configured ) : ?>
                         <p class="description"><?php esc_html_e( 'Please configure Alpha Vantage API key to continue.', 'tradepress' ); ?></p>
                     <?php endif; ?>
-                    <a href="<?php echo admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1' ); ?>" class="button button-secondary"><?php esc_html_e( 'Back to Mode Selection', 'tradepress' ); ?></a>
+                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1' ) ); ?>" class="button button-secondary"><?php esc_html_e( 'Back to Mode Selection', 'tradepress' ); ?></a>
                 </p>
             </form>
         </div>
@@ -633,7 +633,7 @@ class TradePress_Advisor_Controller {
                 <h3><?php esc_html_e( 'Step 3: News Analysis', 'tradepress' ); ?></h3>
                 <div class="notice notice-warning">
                     <p><?php esc_html_e( 'No symbols selected from previous step.', 'tradepress' ); ?></p>
-                    <p><a href="<?php echo admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2' ); ?>" class="button"><?php esc_html_e( 'Back to Earnings', 'tradepress' ); ?></a></p>
+                    <p><a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2' ) ); ?>" class="button"><?php esc_html_e( 'Back to Earnings', 'tradepress' ); ?></a></p>
                 </div>
             </div>
             <?php
@@ -764,7 +764,7 @@ class TradePress_Advisor_Controller {
                     
                     <p class="submit">
                         <input type="submit" class="button button-primary" value="<?php esc_attr_e( 'Continue to Forecasts', 'tradepress' ); ?>">
-                        <a href="<?php echo admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2' ); ?>" class="button button-secondary"><?php esc_html_e( 'Back to Earnings', 'tradepress' ); ?></a>
+                        <a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2' ) ); ?>" class="button button-secondary"><?php esc_html_e( 'Back to Earnings', 'tradepress' ); ?></a>
                     </p>
                 </form>
             </div>
@@ -783,7 +783,7 @@ class TradePress_Advisor_Controller {
                 <h3><?php esc_html_e( 'Step 4: Price Forecasts', 'tradepress' ); ?></h3>
                 <div class="notice notice-warning">
                     <p><?php esc_html_e( 'No symbols selected from previous steps.', 'tradepress' ); ?></p>
-                    <p><a href="<?php echo admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2' ); ?>" class="button"><?php esc_html_e( 'Back to Earnings', 'tradepress' ); ?></a></p>
+                    <p><a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2' ) ); ?>" class="button"><?php esc_html_e( 'Back to Earnings', 'tradepress' ); ?></a></p>
                 </div>
             </div>
             <?php
@@ -908,7 +908,7 @@ class TradePress_Advisor_Controller {
                     
                     <p class="submit">
                         <input type="submit" class="button button-primary" value="<?php esc_attr_e( 'Continue to Economic Analysis', 'tradepress' ); ?>">
-                        <a href="<?php echo admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=3' ); ?>" class="button button-secondary"><?php esc_html_e( 'Back to News', 'tradepress' ); ?></a>
+                        <a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=3' ) ); ?>" class="button button-secondary"><?php esc_html_e( 'Back to News', 'tradepress' ); ?></a>
                     </p>
                 </form>
             </div>
@@ -927,7 +927,7 @@ class TradePress_Advisor_Controller {
                 <h3><?php esc_html_e( 'Step 5: Economic Impact', 'tradepress' ); ?></h3>
                 <div class="notice notice-warning">
                     <p><?php esc_html_e( 'No symbols selected from previous steps.', 'tradepress' ); ?></p>
-                    <p><a href="<?php echo admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2' ); ?>" class="button"><?php esc_html_e( 'Back to Earnings', 'tradepress' ); ?></a></p>
+                    <p><a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2' ) ); ?>" class="button"><?php esc_html_e( 'Back to Earnings', 'tradepress' ); ?></a></p>
                 </div>
             </div>
             <?php
@@ -1079,7 +1079,7 @@ class TradePress_Advisor_Controller {
                     
                     <p class="submit">
                         <input type="submit" class="button button-primary" value="<?php esc_attr_e( 'Continue to Technical Analysis', 'tradepress' ); ?>">
-                        <a href="<?php echo admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=4' ); ?>" class="button button-secondary"><?php esc_html_e( 'Back to Forecasts', 'tradepress' ); ?></a>
+                        <a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=4' ) ); ?>" class="button button-secondary"><?php esc_html_e( 'Back to Forecasts', 'tradepress' ); ?></a>
                     </p>
                 </form>
             </div>
@@ -1099,7 +1099,7 @@ class TradePress_Advisor_Controller {
                 <h3><?php esc_html_e( 'Step 6: Technical Analysis Configuration', 'tradepress' ); ?></h3>
                 <div class="notice notice-warning">
                     <p><?php esc_html_e( 'No symbols selected from previous steps.', 'tradepress' ); ?></p>
-                    <p><a href="<?php echo admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2' ); ?>" class="button"><?php esc_html_e( 'Back to Earnings', 'tradepress' ); ?></a></p>
+                    <p><a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=2' ) ); ?>" class="button"><?php esc_html_e( 'Back to Earnings', 'tradepress' ); ?></a></p>
                 </div>
             </div>
             <?php
@@ -1231,7 +1231,7 @@ class TradePress_Advisor_Controller {
                 <div class="step-actions">
                     <p class="submit">
                         <input type="submit" class="button button-primary" value="<?php esc_attr_e( 'Generate Final Results', 'tradepress' ); ?>" onclick="return validateTechnicalConfig()">
-                        <a href="<?php echo admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=5' ); ?>" class="button button-secondary"><?php esc_html_e( 'Back to Economic', 'tradepress' ); ?></a>
+                        <a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=5' ) ); ?>" class="button button-secondary"><?php esc_html_e( 'Back to Economic', 'tradepress' ); ?></a>
                     </p>
                 </div>
             </form>
@@ -1262,7 +1262,7 @@ class TradePress_Advisor_Controller {
                 <h3><?php esc_html_e( 'Step 7: Final Results', 'tradepress' ); ?></h3>
                 <div class="notice notice-warning">
                     <p><?php esc_html_e( 'Incomplete analysis data. Please complete all previous steps.', 'tradepress' ); ?></p>
-                    <p><a href="<?php echo admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1' ); ?>" class="button"><?php esc_html_e( 'Start Over', 'tradepress' ); ?></a></p>
+                    <p><a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1' ) ); ?>" class="button"><?php esc_html_e( 'Start Over', 'tradepress' ); ?></a></p>
                 </div>
             </div>
             <?php
@@ -1395,7 +1395,7 @@ class TradePress_Advisor_Controller {
                     <div class="action-item">
                         <h5><?php esc_html_e( 'New Analysis', 'tradepress' ); ?></h5>
                         <p><?php esc_html_e( 'Start a fresh investment analysis', 'tradepress' ); ?></p>
-                        <a href="<?php echo admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1&reset=1' ); ?>" class="button button-primary"><?php esc_html_e( 'Start New', 'tradepress' ); ?></a>
+                        <a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=advisor&advisor_step=1&reset=1' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Start New', 'tradepress' ); ?></a>
                     </div>
                 </div>
             </div>

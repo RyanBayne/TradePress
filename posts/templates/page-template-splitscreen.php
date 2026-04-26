@@ -130,7 +130,7 @@ class TradePress_Page_Template_Splitscreen {
         if ( file_exists( $file ) ) {
             return $file;
         } else {
-            echo $file;
+            echo esc_html( $file );
         }
 
         // Return template

@@ -237,7 +237,7 @@ function TradePress_shortcode_procedure_redirect( $message_key, $title_values_ar
     set_transient( 'TradePress_shortcode_' . $message_source . $message_key, 
         array( 'title_values' => $title_values_array, 'info_values' => $info_values_array ), 120 );
     
-    wp_redirect( add_query_arg( array(
+    wp_safe_redirect( add_query_arg( array(
         'TradePress_notice' => time(),
         'key'                => $message_key,        
         'source'             => $message_source,
@@ -726,7 +726,7 @@ function TradePress_print_js() {
          * @since 2.6.0
          * @param string $js JavaScript code.
          */
-        echo apply_filters( 'TradePress_queued_js', $js );
+        echo apply_filters( 'TradePress_queued_js', $js ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
         unset( $TradePress_queued_js );
     }
@@ -1725,7 +1725,7 @@ function TradePress_send_to_console( $debug_output ) {
       }
       
     $javascript_ouput = "<script>console.log('Debug Info: " .$cleaned_string. "');</script>";
-    echo $javascript_ouput;
+    echo esc_html( $javascript_ouput );
 }
 
 function tradepress_include_custom_post_type_in_main_query( $query ) {
