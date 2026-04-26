@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * AJAX handler for API calls display
  */
@@ -11,11 +11,10 @@ if (!defined('ABSPATH')) {
 add_action('wp_ajax_tradepress_get_api_calls', 'tradepress_handle_get_api_calls');
 
 function tradepress_handle_get_api_calls() {
-    if (!wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_api_calls') || !current_user_can('manage_options')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+    if (!wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_api_calls') || !current_user_can('manage_options')) {
 
         wp_send_json_error('Security check failed');
     }
-      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
     $directive = sanitize_text_field(wp_unslash($_POST['directive']));
     

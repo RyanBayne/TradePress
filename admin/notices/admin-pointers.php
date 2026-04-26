@@ -47,7 +47,7 @@ class TradePress_Admin_Pointers {
                 $this->automation_api_selection_pointer();
             break;
             case 'tradepress_page_tradepress_development' :
-                if ( isset( $_GET['tab'] ) && $_GET['tab'] === 'pointers' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                if ( isset( $_GET['tab'] ) && $_GET['tab'] === 'pointers' ) {
                     $this->pointers_page_automatic_pointer();
                 }
             break;
@@ -145,7 +145,7 @@ class TradePress_Admin_Pointers {
      * Pointers example with proper dismissal tracking.
      */
     public function create_tables_tutorial() {
-        if ( ! isset( $_GET['TradePresstutorial'] ) || ! current_user_can( 'manage_options' ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        if ( ! isset( $_GET['TradePresstutorial'] ) || ! current_user_can( 'manage_options' ) ) {
             return;
         }
         

@@ -351,7 +351,7 @@ class TRADEPRESS_DISCORD_Simple_Admin {
                 
                 <?php if (isset($_POST['run_diagnostics'])): ?>
                     <div id="diagnostics_report">
-                        <?php echo $this->troubleshooter->generate_report(); ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        <?php echo $this->troubleshooter->generate_report(); ?>
                     </div>
                 <?php endif; ?>
             </div>

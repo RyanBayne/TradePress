@@ -27,9 +27,9 @@ function tradepress_test_portfolio_directive() {
     echo '<h3>Test 1: Directive Initialization</h3>';
     if ($directive) {
         echo '<div class="notice notice-success"><p>Success: Portfolio Performance directive loaded</p></div>';
-        echo '<p><strong>Directive ID:</strong> ' . $directive->directive_id . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-        echo '<p><strong>Name:</strong> ' . $directive->name . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-        echo '<p><strong>Description:</strong> ' . $directive->description . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo '<p><strong>Directive ID:</strong> ' . $directive->directive_id . '</p>';
+        echo '<p><strong>Name:</strong> ' . $directive->name . '</p>';
+        echo '<p><strong>Description:</strong> ' . $directive->description . '</p>';
     } else {
         echo '<div class="notice notice-error"><p>Failed: Could not load directive</p></div>';
         return;
@@ -38,14 +38,14 @@ function tradepress_test_portfolio_directive() {
     echo '<h3>Test 2: API Requirements</h3>';
     $requirements = $directive->get_api_requirements();
     echo '<p><strong>Required APIs:</strong></p>';
-    echo '<pre>' . print_r($requirements, true) . '</pre>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo '<pre>' . print_r($requirements, true) . '</pre>';
     
     echo '<h3>Test 3: Calculate Score (Test Symbol: AAPL)</h3>';
     $result = $directive->calculate_score('AAPL');
     
     if (is_array($result)) {
         echo '<div class="notice notice-success"><p>Success: Score calculation completed</p></div>';
-        echo '<p><strong>Score:</strong> ' . $result['score'] . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo '<p><strong>Score:</strong> ' . $result['score'] . '</p>';
         echo '<p><strong>Signals:</strong></p>';
         if (!empty($result['signals'])) {
             echo '<ul>';
@@ -59,7 +59,7 @@ function tradepress_test_portfolio_directive() {
         
         if (!empty($result['debug'])) {
             echo '<p><strong>Debug Information:</strong></p>';
-            echo '<pre>' . print_r($result['debug'], true) . '</pre>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<pre>' . print_r($result['debug'], true) . '</pre>';
         }
     } else {
         echo '<div class="notice notice-error"><p>Failed: Score calculation failed</p></div>';
@@ -88,7 +88,7 @@ function tradepress_test_portfolio_directive() {
         $test_result = $api->test_connection();
         
         if (is_wp_error($test_result)) {
-            echo '<div class="notice notice-error"><p>API Connection Failed: ' . $test_result->get_error_message() . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<div class="notice notice-error"><p>API Connection Failed: ' . $test_result->get_error_message() . '</p></div>';
         } else {
             echo '<div class="notice notice-success"><p>API Connection: Working</p></div>';
         }

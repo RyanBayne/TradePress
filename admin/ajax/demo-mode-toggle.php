@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * TradePress Demo Mode Toggle AJAX Handler
  *
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
  */
 function tradepress_ajax_demo_mode_toggle() {
     // Verify nonce
-    if (!wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_demo_mode_toggle')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+    if (!wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_demo_mode_toggle')) {
 
         wp_die('Security check failed');
     }

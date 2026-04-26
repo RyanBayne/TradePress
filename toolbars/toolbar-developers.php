@@ -401,7 +401,7 @@ class TradePress_Admin_Toolbar_Developers {
             add_action('admin_notices', function() use ($new_version, $backup_full_path) {
                 echo '<div class="notice notice-success"><p>';
                 /* translators: %s: backup directory path, %s: version number */
-                echo sprintf(__('✅ Plugin backed up successfully to: %1$s<br>Version updated to: %2$s', 'tradepress'), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                echo sprintf(__('✅ Plugin backed up successfully to: %1$s<br>Version updated to: %2$s', 'tradepress'),
                     esc_html($backup_full_path), esc_html($new_version));
                 echo '</p></div>';
             });
@@ -417,7 +417,7 @@ class TradePress_Admin_Toolbar_Developers {
             
             add_action('admin_notices', function() use ($e) {
                 echo '<div class="notice notice-error"><p>';
-                /* translators: %s: backup directory path */ // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                /* translators: %s: backup directory path */
                 /* translators: Developer toolbar notification message */
                 echo sprintf(__('❌ Backup failed: %s<br><small>Check wp-content/debug.log for detailed error information.</small>', 'tradepress'), esc_html($e->getMessage()));
                 echo '</p></div>';

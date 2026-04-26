@@ -50,8 +50,8 @@ if (!class_exists('SupportZoneFinder')) {
 }
 
 // Process form submission if symbol is provided
-$symbol = isset($_POST['symbol']) ? sanitize_text_field(wp_unslash($_POST['symbol'])) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Missing
-$levels_type = isset($_POST['levels_type']) ? sanitize_text_field(wp_unslash($_POST['levels_type'])) : 'both';  // phpcs:ignore WordPress.Security.NonceVerification.Missing
+$symbol = isset($_POST['symbol']) ? sanitize_text_field(wp_unslash($_POST['symbol'])) : '';
+$levels_type = isset($_POST['levels_type']) ? sanitize_text_field(wp_unslash($_POST['levels_type'])) : 'both';
 $results = [];
 $has_results = false;
 
@@ -324,7 +324,7 @@ function get_demo_level_results($symbol, $levels_type) {
                                                     $formatted_levels = array_map(function($level) {
                                                         return '$' . number_format($level, 2);
                                                     }, $levels);
-                                                    echo implode(', ', $formatted_levels); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                                    echo implode(', ', $formatted_levels);
                                                     ?>
                                                 </td>
                                             </tr>
@@ -421,7 +421,7 @@ function get_demo_level_results($symbol, $levels_type) {
                                                     $formatted_levels = array_map(function($level) {
                                                         return '$' . number_format($level, 2);
                                                     }, $levels);
-                                                    echo implode(', ', $formatted_levels); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                                    echo implode(', ', $formatted_levels);
                                                     ?>
                                                 </td>
                                             </tr>

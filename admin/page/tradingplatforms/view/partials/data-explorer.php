@@ -38,13 +38,13 @@ if (!isset($explorer_data_types) || !is_array($explorer_data_types)) {
             ?>
             <form method="post" id="<?php echo esc_attr($form_id); ?>">
                 <div class="symbol-input">
-                    <label for="data-explorer-symbol-<?php echo esc_attr($api_id); ?>-<?php echo uniqid(); ?>"><?php esc_html_e('Symbol', 'tradepress'); ?></label> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                    <input type="text" id="data-explorer-symbol-<?php echo esc_attr($api_id); ?>-<?php echo uniqid(); ?>" name="symbol" placeholder="Enter symbol (e.g. AAPL.US)" class="regular-text"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    <label for="data-explorer-symbol-<?php echo esc_attr($api_id); ?>-<?php echo uniqid(); ?>"><?php esc_html_e('Symbol', 'tradepress'); ?></label>
+                    <input type="text" id="data-explorer-symbol-<?php echo esc_attr($api_id); ?>-<?php echo uniqid(); ?>" name="symbol" placeholder="Enter symbol (e.g. AAPL.US)" class="regular-text">
                 </div>
 
                 <div class="endpoint-select">
-                    <label for="data-explorer-endpoint-<?php echo esc_attr($api_id); ?>-<?php echo uniqid(); ?>"><?php esc_html_e('Endpoint', 'tradepress'); ?></label> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                    <select id="data-explorer-endpoint-<?php echo esc_attr($api_id); ?>-<?php echo uniqid(); ?>" name="endpoint" class="regular-text"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    <label for="data-explorer-endpoint-<?php echo esc_attr($api_id); ?>-<?php echo uniqid(); ?>"><?php esc_html_e('Endpoint', 'tradepress'); ?></label>
+                    <select id="data-explorer-endpoint-<?php echo esc_attr($api_id); ?>-<?php echo uniqid(); ?>" name="endpoint" class="regular-text">
                         <option value=""><?php esc_html_e('-- Select Endpoint --', 'tradepress'); ?></option>
                         <?php foreach ($endpoints as $key => $endpoint): ?>
                             <?php if ($endpoint['status'] === 'active'): ?>

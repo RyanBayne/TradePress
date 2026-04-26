@@ -102,11 +102,11 @@ foreach ($all_providers as $api_id => $provider) {
                         </div>
                         <div class="card-content">
                             <div class="usage-bar">
-                                <div class="usage-fill" style="width: <?php echo (int) min(100, $usage_percent); ?>%"></div> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                <div class="usage-fill" style="width: <?php echo (int) min(100, $usage_percent); ?>%"></div>
                             </div>
                             <div class="usage-stats">
                                 <span><?php echo esc_html($calls_today); ?> / <?php echo esc_html($daily_limit); ?> calls</span>
-                                <span class="percentage"><?php echo (int) round($usage_percent, 1); ?>%</span> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                <span class="percentage"><?php echo (int) round($usage_percent, 1); ?>%</span>
                             </div>
                             <div class="last-call">
                                 Last call: <?php echo  esc_html( date('H:i:s') ); ?>
@@ -140,10 +140,10 @@ foreach ($all_providers as $api_id => $provider) {
                     <div class="cache-efficiency-item">
                         <div class="cache-header">
                             <strong><?php echo esc_html($provider['name']); ?></strong>
-                            <span class="cache-percentage"><?php echo (int) round($cache_efficiency); ?>% cached</span> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            <span class="cache-percentage"><?php echo (int) round($cache_efficiency); ?>% cached</span>
                         </div>
                         <div class="cache-details">
-                            <small><?php echo (int) $cache_hits; ?>/<?php echo (int) $total_checks; ?> symbols cached</small> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            <small><?php echo (int) $cache_hits; ?>/<?php echo (int) $total_checks; ?> symbols cached</small>
                         </div>
                     </div>
                 <?php endforeach; ?>

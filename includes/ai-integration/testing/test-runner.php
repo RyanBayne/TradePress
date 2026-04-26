@@ -15,8 +15,8 @@ class TradePress_AI_Test_Runner {
      * Run single directive test
      */
     public static function run_single_test($directive_id) {
-        echo "Testing Directive: {$directive_id}\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-        echo str_repeat("=", 50) . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo "Testing Directive: {$directive_id}\n";
+        echo str_repeat("=", 50) . "\n";
         
         $result = TradePress_AI_Directive_Tester::test_directive($directive_id);
         
@@ -34,12 +34,12 @@ class TradePress_AI_Test_Runner {
         
         if ($result['success']) {
             echo "✅ SUCCESS\n";
-            echo "Class: {$result['class_name']}\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-            echo "Execution Time: {$result['execution_time']}\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-            echo "Result: " . print_r($result['result'], true) . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo "Class: {$result['class_name']}\n";
+            echo "Execution Time: {$result['execution_time']}\n";
+            echo "Result: " . print_r($result['result'], true) . "\n";
         } else {
             echo "❌ FAILED\n";
-            echo "Error: {$result['error']}\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo "Error: {$result['error']}\n";
         }
         
         echo "\n";

@@ -65,7 +65,7 @@ function tradepress_data_elements_tab() {
                             </td>
                             <td class="element-readiness">
                                 <span class="readiness-indicator" data-element="<?php echo esc_attr($element_id); ?>">
-                                    <?php echo tradepress_get_data_element_readiness($element_id); ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                    <?php echo tradepress_get_data_element_readiness($element_id); ?>
                                 </span>
                             </td>
                             <td class="element-validation">
@@ -93,7 +93,7 @@ function tradepress_data_elements_tab() {
                             </td>
                             <td class="element-status">
                                 <span class="status-indicator" data-element="<?php echo esc_attr($element_id); ?>">
-                                    <?php echo tradepress_get_data_element_status($element_id); ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                    <?php echo tradepress_get_data_element_status($element_id); ?>
                                 </span>
                             </td>
                         </tr>
@@ -313,7 +313,7 @@ function tradepress_get_data_element_readiness($element_id) {
     // Check if database table exists
     global $wpdb;
     $table_name = $wpdb->prefix . str_replace('tradepress_', '', $element['database_table']);
-    $table_exists = $wpdb->get_var("SHOW TABLES LIKE '{$table_name}'") === $table_name;  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+    $table_exists = $wpdb->get_var("SHOW TABLES LIKE '{$table_name}'") === $table_name;
     
     if (!$table_exists) {
         $is_ready = false;

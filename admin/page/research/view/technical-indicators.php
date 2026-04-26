@@ -64,7 +64,7 @@ function tradepress_technical_indicators_tab_content() {
             <!-- This section will contain technical indicator results -->
             <div class="tradepress-indicators-summary">
                 <?php /* translators: %s: string value */ ?>
-                <h3><?php echo sprintf(esc_html__('Technical Analysis for %s', 'tradepress'), $demo_stock); ?></h3> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                <h3><?php echo sprintf(esc_html__('Technical Analysis for %s', 'tradepress'), $demo_stock); ?></h3>
                 <!-- Indicator summary will go here -->
             </div>
             

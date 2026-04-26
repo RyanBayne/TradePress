@@ -142,7 +142,7 @@ function TradePress_offer_wizard() {
     }
     
     // Avoid registering notice during the Setup Wizard.
-    if( isset( $_GET['page'] ) && $_GET['page'] == 'tradepress-setup' ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    if( isset( $_GET['page'] ) && $_GET['page'] == 'tradepress-setup' ) {
         return;    
     }
     
@@ -328,9 +328,9 @@ function TradePress_installation_create_files() {
 
     foreach ( $files as $file ) {
         if ( wp_mkdir_p( $file['base'] ) && ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {
-            if ( $file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' ) ) {  // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
-                fwrite( $file_handle, $file['content'] );  // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
-                fclose( $file_handle );  // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
+            if ( $file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' ) ) {
+                fwrite( $file_handle, $file['content'] );
+                fclose( $file_handle );
             }
         }
     }

@@ -142,7 +142,7 @@ class TradePress_Admin_Development_Current_Task {
                                 <div class="task-description">
                                     <h4><?php esc_html_e('Description', 'tradepress'); ?></h4>
                                     <div class="description-content">
-                                        <?php echo self::format_markdown($current_task['description']); ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        <?php echo self::format_markdown($current_task['description']); ?>
                                     </div>
                                 </div>
                             <?php endif; ?>
@@ -150,17 +150,17 @@ class TradePress_Admin_Development_Current_Task {
                             <?php if (!empty($current_task['notes'])): ?>
                                 <div class="task-notes">
                                     <h4><?php esc_html_e('Implementation Notes', 'tradepress'); ?></h4>
-                                    <div class="notes-content"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                                        <?php echo self::format_markdown($current_task['notes']); ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                    <div class="notes-content">
+                                        <?php echo self::format_markdown($current_task['notes']); ?>
                                     </div>
                                 </div>
                             <?php endif; ?>
                             
                             <?php if (!empty($current_task['ai_guidance'])): ?>
                                 <div class="task-ai-guidance">
-                                    <h4><?php esc_html_e('AI Guidance', 'tradepress'); ?></h4> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                    <h4><?php esc_html_e('AI Guidance', 'tradepress'); ?></h4>
                                     <div class="ai-guidance-content">
-                                        <?php echo self::format_markdown($current_task['ai_guidance']); ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        <?php echo self::format_markdown($current_task['ai_guidance']); ?>
                                     </div>
                                 </div>
                             <?php endif; ?>
@@ -171,13 +171,12 @@ class TradePress_Admin_Development_Current_Task {
                                     <form method="post" id="update-subtasks-form">
                                         <?php wp_nonce_field('tradepress_update_subtasks', 'subtasks_nonce'); ?>
                                         <input type="hidden" name="task_id" value="<?php echo esc_attr($current_task['id']); ?>">
- // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                         <ul class="subtasks-list">
-                                            <?php foreach ($current_task['subtasks'] as $index => $subtask): ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                                                <li class="subtask-item <?php echo $subtask['status']; ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            <?php foreach ($current_task['subtasks'] as $index => $subtask): ?>
+                                                <li class="subtask-item <?php echo $subtask['status']; ?>">
                                                     <label>
                                                         <input type="checkbox" 
-                                                            name="subtask_complete[<?php echo $index; ?>]" // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                                            name="subtask_complete[<?php echo $index; ?>]"
                                                             value="1" 
                                                             <?php checked($subtask['status'], 'completed'); ?>>
                                                         <span class="subtask-title"><?php echo esc_html($subtask['title']); ?></span>
@@ -224,7 +223,7 @@ class TradePress_Admin_Development_Current_Task {
                                 
                                 <?php 
                                 // Display test message if set
-                                if (isset($_GET['test_message']) && !empty($_GET['test_message'])) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                                if (isset($_GET['test_message']) && !empty($_GET['test_message'])) {
                                     echo '<div class="task-test-message"><p>' . esc_html(urldecode($_GET['test_message'])) . '</p></div>';
                                 }
                                 ?>

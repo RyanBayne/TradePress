@@ -91,8 +91,8 @@ class TradePress_Mode_Indicators {
         }
 
         // Simplified check: any page parameter containing 'tradepress'
-        if (isset($_GET['page'])) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-            return strpos(strtolower(wp_unslash($_GET['page'])), 'tradepress') !== false;  // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        if (isset($_GET['page'])) {
+            return strpos(strtolower(wp_unslash($_GET['page'])), 'tradepress') !== false;
         }
 
         return false;

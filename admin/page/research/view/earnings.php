@@ -173,8 +173,8 @@ function tradepress_earnings_tab_content() {
                     } else {
                         /* translators: %s: start date, %s: end date */
                         echo sprintf(esc_html__('Earnings from %1$s to %2$s', 'tradepress'), 
-                            date_i18n(get_option('date_format'), strtotime($start_date)), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                            date_i18n(get_option('date_format'), strtotime($end_date)) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            date_i18n(get_option('date_format'), strtotime($start_date)),
+                            date_i18n(get_option('date_format'), strtotime($end_date))
                         );
                     }
                     ?>
@@ -201,9 +201,9 @@ function tradepress_earnings_tab_content() {
                         <?php foreach ($earnings_by_date as $date => $day_earnings): ?>
                             <div class="earnings-date-group">
                                 <h4 class="earnings-date-header">
-                                    <?php echo esc_html( date_i18n(get_option('date_format'), strtotime($date)) ); ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                    <?php echo esc_html( date_i18n(get_option('date_format'), strtotime($date)) ); ?>
                                     <span class="day-name"><?php echo esc_html( date_i18n('l', strtotime($date)) ); ?></span>
-                                    <span class="report-count"><?php echo (int) count($day_earnings); ?> <?php echo _n('report', 'reports', count($day_earnings), 'tradepress'); ?></span> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                    <span class="report-count"><?php echo (int) count($day_earnings); ?> <?php echo _n('report', 'reports', count($day_earnings), 'tradepress'); ?></span>
                                 </h4>
                                 
                                 <table class="earnings-table widefat striped">
@@ -283,7 +283,7 @@ function tradepress_earnings_tab_content() {
                                                 <td>
                                                     <div class="opp-score-container <?php echo esc_attr($opportunity_class); ?>">
                                                         <div class="opp-score-value"><?php echo esc_html($opportunity_score); ?></div>
-                                                        <div class="opp-score-bar" style="width: <?php echo (int) min(100, $opportunity_score); ?>%;"></div> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                                        <div class="opp-score-bar" style="width: <?php echo (int) min(100, $opportunity_score); ?>%;"></div>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -321,11 +321,11 @@ function tradepress_earnings_tab_content() {
                                 $opportunity_class = 'low-opportunity';
                             }
                         ?>
-                            <div class="earnings-card <?php echo esc_attr($opportunity_class); ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            <div class="earnings-card <?php echo esc_attr($opportunity_class); ?>">
                                 <div class="earnings-card-header">
                                     <div class="company-logo">
                                         <!-- Placeholder for company logo -->
-                                        <div class="logo-placeholder"><?php echo substr($earning['symbol'], 0, 1); ?></div> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        <div class="logo-placeholder"><?php echo substr($earning['symbol'], 0, 1); ?></div>
                                     </div>
                                     <div class="company-info">
                                         <h4 class="symbol"><?php echo esc_html($earning['symbol']); ?></h4>

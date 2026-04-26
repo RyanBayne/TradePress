@@ -120,7 +120,7 @@ $watchlists = TradePress_Admin_Watchlists_Page::get_user_watchlists();
                                         <?php 
                                             $time_diff = human_time_diff(strtotime($watchlist['score_updated']), current_time('timestamp'));
                                             /* translators: %s: human-readable time difference */
-                                            printf(esc_html__('Updated %s ago', 'tradepress'), $time_diff); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            printf(esc_html__('Updated %s ago', 'tradepress'), $time_diff);
                                         ?>
                                     </div>
                                 </div>

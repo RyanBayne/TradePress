@@ -101,7 +101,7 @@ class TradePress_Step_Wizard {
                     <a href="<?php echo esc_url( $step_url ); ?>" 
                        class="<?php echo esc_attr( $tab_class ); ?>"
                        <?php echo ! $is_accessible ? 'onclick="return false;"' : ''; ?>>
-                        <span class="step-number"><?php echo (int) $step_num; ?></span> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        <span class="step-number"><?php echo (int) $step_num; ?></span>
                         <span class="step-title"><?php echo esc_html( $step_info['title'] ); ?></span>
                         <?php if ( $step_info['status'] === 'completed' ) : ?>
                             <span class="dashicons dashicons-yes-alt"></span>

@@ -48,11 +48,11 @@ function TRADEPRESS_GITHUB_all_issues_content($repo_owner, $repo_name) {
     }
     
     // Get filter parameters
-    $state = isset($_GET['state']) ? sanitize_text_field(wp_unslash($_GET['state'])) : 'open';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-    $label = isset($_GET['label']) ? sanitize_text_field(wp_unslash($_GET['label'])) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-    $sort_by = isset($_GET['sort']) ? sanitize_text_field(wp_unslash($_GET['sort'])) : 'updated';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-    $sort_direction = isset($_GET['direction']) ? sanitize_text_field(wp_unslash($_GET['direction'])) : 'desc';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-    $page = isset($_GET['gh_page']) ? absint($_GET['gh_page']) : 1;  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    $state = isset($_GET['state']) ? sanitize_text_field(wp_unslash($_GET['state'])) : 'open';
+    $label = isset($_GET['label']) ? sanitize_text_field(wp_unslash($_GET['label'])) : '';
+    $sort_by = isset($_GET['sort']) ? sanitize_text_field(wp_unslash($_GET['sort'])) : 'updated';
+    $sort_direction = isset($_GET['direction']) ? sanitize_text_field(wp_unslash($_GET['direction'])) : 'desc';
+    $page = isset($_GET['gh_page']) ? absint($_GET['gh_page']) : 1;
     
     // Fetch issues
     $issues = tradepress_get_github_repository_issues($repo_owner, $repo_name, $github_token, array(
@@ -153,7 +153,7 @@ function TRADEPRESS_GITHUB_all_issues_content($repo_owner, $repo_name) {
                     echo sprintf(
                         /* translators: %d: issue description */
                         esc_html(_n('%d issue found', '%d issues found', $issues['total_count'], 'tradepress')), 
-                        $issues['total_count'] // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        $issues['total_count']
                     ); 
                     ?>
                 </div>
@@ -179,7 +179,7 @@ function TRADEPRESS_GITHUB_all_issues_content($repo_owner, $repo_name) {
                                 $now = new DateTime();
                                 $created_time_ago = TRADEPRESS_GITHUB_time_ago($created_date, $now);
                                 $updated_time_ago = TRADEPRESS_GITHUB_time_ago($updated_date, $now);
-                            ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            ?>
                                 <tr id="issue-<?php echo esc_attr($issue->number); ?>" class="issue-row <?php echo $issue->state; ?>">
                                     <td class="column-status">
                                         <div class="issue-status <?php echo esc_attr($issue->state); ?>">
@@ -254,7 +254,7 @@ function TRADEPRESS_GITHUB_all_issues_content($repo_owner, $repo_name) {
                                     echo sprintf(
                                         /* translators: %d: issue description */
                                         esc_html(_n('%d issue', '%d issues', $issues['total_count'], 'tradepress')),
-                                        $issues['total_count'] // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        $issues['total_count']
                                     ); 
                                     ?>
                                 </span>

@@ -32,8 +32,8 @@ class TradePress_Admin_Data_Tabs {
      * Constructor.
      */
     public function __construct() {
-        if ( isset( $_GET['tab'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-            $tab = sanitize_text_field( wp_unslash($_GET['tab']) );  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        if ( isset( $_GET['tab'] ) ) {
+            $tab = sanitize_text_field( wp_unslash($_GET['tab']) );
             $valid_tabs = array_keys( $this->get_tabs() );
             $this->active_tab = in_array( $tab, $valid_tabs, true ) ? $tab : 'sources';
         }
@@ -352,7 +352,7 @@ function tradepress_display_create_source_tab_content() {
         $manage_sources->init();
         
         // Check if we're editing an existing source
-        $source_id = isset($_GET['source_id']) ? intval(sanitize_text_field(wp_unslash($_GET['source_id']))) : 0;  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $source_id = isset($_GET['source_id']) ? intval(sanitize_text_field(wp_unslash($_GET['source_id']))) : 0;
         
         // Display the create/edit source form
         $manage_sources->render_source_form($source_id);

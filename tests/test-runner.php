@@ -222,9 +222,9 @@ class TradePress_Test_Runner {
             echo '<tr data-test-id="' . esc_attr($test->test_id) . '">';
             echo '<td class="test-title">' . esc_html($test->title) . '</td>';
             echo '<td class="test-description">' . esc_html($test->description) . '</td>';
-            echo '<td class="test-status">' . $this->get_status_badge($test->status) . '</td>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<td class="test-status">' . $this->get_status_badge($test->status) . '</td>';
             echo '<td class="test-last-run">' . ($test->last_run ? esc_html(human_time_diff(strtotime($test->last_run))) : '-') . '</td>';
-            echo '<td class="test-success-rate">' . ($test->success_rate ? round($test->success_rate, 1) . '%' : '-') . '</td>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<td class="test-success-rate">' . ($test->success_rate ? round($test->success_rate, 1) . '%' : '-') . '</td>';
             echo '<td class="test-actions">';
             echo '<button class="button run-test" data-test-id="' . esc_attr($test->test_id) . '">' . esc_html__('Run', 'tradepress') . '</button>';
             echo '</td>';

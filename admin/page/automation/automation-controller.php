@@ -363,7 +363,7 @@ class TradePress_Admin_Automation_Controller {
         $existing_directives = $registry->get_directives();
         
         // Process and save directives
-        $directives = isset($_POST['directives']) ? wp_unslash($_POST['directives']) : array();  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        $directives = isset($_POST['directives']) ? wp_unslash($_POST['directives']) : array();
         $sanitized_directives = array();
         
         foreach ($directives as $key => $directive) {

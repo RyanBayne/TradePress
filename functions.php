@@ -726,7 +726,7 @@ function TradePress_print_js() {
          * @since 2.6.0
          * @param string $js JavaScript code.
          */
-        echo apply_filters( 'TradePress_queued_js', $js ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo apply_filters( 'TradePress_queued_js', $js );
 
         unset( $TradePress_queued_js );
     }

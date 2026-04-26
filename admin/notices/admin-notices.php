@@ -113,7 +113,7 @@ class TradePress_Admin_Notices {
         global $current_user;
                                                
         // handling user action - hide notice and update user meta
-        if ( isset($_GET[ $dismissable_id ]) && 'dismiss' == $_GET[ $dismissable_id ] ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        if ( isset($_GET[ $dismissable_id ]) && 'dismiss' == $_GET[ $dismissable_id ] ) {
             add_user_meta( $current_user->ID, $dismissable_id, 'true', true );
             return;
         }
@@ -141,7 +141,7 @@ class TradePress_Admin_Notices {
         if( $dismissable_id !== false ) {
             $dismissable_button = sprintf( 
                 ' <a href="%s&%s=dismiss" class="button button-primary"> ' . __( 'Hide', 'tradepress' ) . ' </a>', 
-                esc_url($_SERVER['REQUEST_URI']),  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+                esc_url($_SERVER['REQUEST_URI']),
                 esc_attr($dismissable_id)
             );
         }
@@ -261,7 +261,7 @@ class TradePress_Admin_Notices {
      */
     public static function hide_notices() {
         if ( isset( $_GET['TradePress-hide-notice'] ) && isset( $_GET['_TradePress_notice_nonce'] ) ) {
-            if ( ! wp_verify_nonce( wp_unslash($_GET['_TradePress_notice_nonce']), 'TradePress_hide_notices_nonce' ) ) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            if ( ! wp_verify_nonce( wp_unslash($_GET['_TradePress_notice_nonce']), 'TradePress_hide_notices_nonce' ) ) {
                 wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'tradepress' ) ); // Escaped for safe output
             }
             
@@ -366,7 +366,7 @@ class TradePress_Admin_Notices {
     public static function update_notice() {
         if ( version_compare( get_option( 'TradePress_db_version' ), TRADEPRESS_VERSION, '<' ) ) {
             $updater = new TradePress_Background_Updater();
-            if ( $updater->is_updating() || ! empty( $_GET['do_update_TradePress'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            if ( $updater->is_updating() || ! empty( $_GET['do_update_TradePress'] ) ) {
                 include( 'notices/updating.php' );
             } else {
                 include( 'notices/update.php' );
@@ -500,7 +500,7 @@ class TradePress_Admin_Notices {
         }
         
         $notice_id = sanitize_text_field(wp_unslash($_GET['tradepress_dismiss_notice']));
-        if (!isset($_GET['_wpnonce']) || !wp_verify_nonce(wp_unslash($_GET['_wpnonce']), 'tradepress_dismiss_notice_' . $notice_id)) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        if (!isset($_GET['_wpnonce']) || !wp_verify_nonce(wp_unslash($_GET['_wpnonce']), 'tradepress_dismiss_notice_' . $notice_id)) {
             wp_die( esc_html__('Security check failed', 'tradepress') ); // Escaped for safe output
         }
         

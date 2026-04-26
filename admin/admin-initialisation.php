@@ -107,8 +107,8 @@ class TradePress_Admin {
         }
                 
         // Setup/welcome
-        if ( ! empty( $_GET['page'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-            switch ( $_GET['page'] ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        if ( ! empty( $_GET['page'] ) ) {
+            switch ( $_GET['page'] ) {
                  case 'tradepress-traces' :
                     require_once( TRADEPRESS_PLUGIN_DIR_PATH . '/views/dataviews/view-trace.php' );
                 break;
@@ -226,8 +226,8 @@ class TradePress_Admin {
     public function admin_redirects() {
 
         // Nonced plugin install redirects (whitelisted)
-        if ( ! empty( $_GET['TradePress-install-plugin-redirect'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-            $plugin_slug = TradePress_clean( wp_unslash($_GET['TradePress-install-plugin-redirect']) );  // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        if ( ! empty( $_GET['TradePress-install-plugin-redirect'] ) ) {
+            $plugin_slug = TradePress_clean( wp_unslash($_GET['TradePress-install-plugin-redirect']) );
 
             if ( current_user_can( 'install_plugins' ) && in_array( $plugin_slug, array( 'TradePress-gateway-stripe' ) ) ) {
                 $nonce = wp_create_nonce( 'install-plugin_' . $plugin_slug );
@@ -244,7 +244,7 @@ class TradePress_Admin {
         if ( get_transient( '_TradePress_activation_redirect' ) ) {
             delete_transient( '_TradePress_activation_redirect' );
 
-            if ( ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( 'tradepress-setup' ) ) ) || is_network_admin() || isset( $_GET['activate-multi'] ) || apply_filters( 'TradePress_prevent_automatic_wizard_redirect', false ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            if ( ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( 'tradepress-setup' ) ) ) || is_network_admin() || isset( $_GET['activate-multi'] ) || apply_filters( 'TradePress_prevent_automatic_wizard_redirect', false ) ) {
                 return;
             }
 

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * AI Diagram Analysis AJAX Handler
  *
@@ -15,11 +15,10 @@ if (!defined('ABSPATH')) {
  */
 function tradepress_handle_ai_diagram_analysis() {
     // Verify nonce
-    if (!wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_ai_analysis')) {  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+    if (!wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_ai_analysis')) {
 
         wp_die('Security check failed');
     }
-      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
     $current_diagram = sanitize_text_field(wp_unslash($_POST['current_diagram']));
     

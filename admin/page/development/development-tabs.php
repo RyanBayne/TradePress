@@ -115,7 +115,7 @@ class TradePress_Admin_Development_Page {
      * Development view wrapper start
      */
     private static function view_wrapper_start() {
-        $current_tab = isset($_GET['tab']) ? sanitize_title(wp_unslash($_GET['tab'])) : 'current_task';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $current_tab = isset($_GET['tab']) ? sanitize_title(wp_unslash($_GET['tab'])) : 'current_task';
         $tabs = self::get_tabs();
         $tab_title = isset($tabs[$current_tab]) ? $tabs[$current_tab] : '';
         
@@ -144,7 +144,7 @@ class TradePress_Admin_Development_Page {
      * Display the tabs
      */
     private static function tabs() {
-        $current_tab = isset($_GET['tab']) ? sanitize_title(wp_unslash($_GET['tab'])) : 'current_task';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $current_tab = isset($_GET['tab']) ? sanitize_title(wp_unslash($_GET['tab'])) : 'current_task';
         $tabs = self::get_tabs();
         ?>
         <h2 class="nav-tab-wrapper">
@@ -167,7 +167,7 @@ class TradePress_Admin_Development_Page {
      * Display the active tab content
      */
     private static function active_tab_content() {
-        $current_tab = isset($_GET['tab']) ? sanitize_title(wp_unslash($_GET['tab'])) : 'current_task';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $current_tab = isset($_GET['tab']) ? sanitize_title(wp_unslash($_GET['tab'])) : 'current_task';
         
         switch ($current_tab) {
             case 'architecture':
@@ -347,7 +347,7 @@ class TradePress_Admin_Development_Page {
      */
     private static function output_architecture_tab() {
         ?>
-        <style><?php echo TradePress_Architecture_Mapper::get_tree_styles(); ?></style> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        <style><?php echo TradePress_Architecture_Mapper::get_tree_styles(); ?></style>
         
         <div class="tradepress-architecture-container">
             <div class="architecture-header">
@@ -359,12 +359,10 @@ class TradePress_Admin_Development_Page {
                 <button id="expand-all" class="button"><?php esc_html_e('Expand All', 'tradepress'); ?></button>
                 <button id="collapse-all" class="button"><?php esc_html_e('Collapse All', 'tradepress'); ?></button>
             </div>
- // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-            <?php echo TradePress_Architecture_Mapper::render_tree(); ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            <?php echo TradePress_Architecture_Mapper::render_tree(); ?>
         </div>
- // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         <script>
-        <?php echo TradePress_Architecture_Mapper::get_tree_scripts(); ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        <?php echo TradePress_Architecture_Mapper::get_tree_scripts(); ?>
         
         // Additional controls
         document.getElementById('expand-all').addEventListener('click', function() {

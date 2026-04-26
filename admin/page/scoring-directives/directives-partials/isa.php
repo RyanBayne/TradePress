@@ -32,7 +32,7 @@ if (!defined('ABSPATH')) {
                                 <h4><?php esc_html_e('About ISA Reset', 'tradepress'); ?></h4>
                                 <p><?php esc_html_e('The ISA allowance resets on April 6th each year, which coincides with the UK tax year. During this period, investors often make significant contributions to their ISAs before the previous year\'s allowance expires, and then again as they utilize their new allowance.', 'tradepress'); ?></p>
                                 <p><?php esc_html_e('This increased investment activity can lead to price movements and trading opportunities, particularly in popular retail stocks and investment trusts. The directive automatically increases scores for applicable symbols during this period to highlight potential trading opportunities.', 'tradepress'); ?></p>
-                                <p><strong><?php esc_html_e('Next ISA Reset Date:', 'tradepress'); ?></strong> <?php echo date('F j, Y', strtotime('April 6, ' . (date('n') >= 4 && date('j') > 5 ? date('Y') + 1 : date('Y')))); ?></p> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                <p><strong><?php esc_html_e('Next ISA Reset Date:', 'tradepress'); ?></strong> <?php echo date('F j, Y', strtotime('April 6, ' . (date('n') >= 4 && date('j') > 5 ? date('Y') + 1 : date('Y')))); ?></p>
                             </div>
                         </div>
                         

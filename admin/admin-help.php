@@ -29,15 +29,15 @@ class TradePress_Admin_Help {
         }
         
         // Debug: Log current screen ID
-        error_log('Help tab screen ID: ' . $screen->id); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+        error_log('Help tab screen ID: ' . $screen->id);
         
         // Check if this is a TradePress admin page
         if ( strpos( $screen->id, 'tradepress' ) === false ) {
             return;
         }                                                                                                                                            
         
-        $page = empty($_GET['page']) ? '' : sanitize_title( wp_unslash($_GET['page']) );  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $tab  = empty($_GET['tab'])  ? '' : sanitize_title( wp_unslash($_GET['tab']) );  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $page = empty($_GET['page']) ? '' : sanitize_title( wp_unslash($_GET['page']) );
+        $tab  = empty($_GET['tab'])  ? '' : sanitize_title( wp_unslash($_GET['tab']) );
           
         /**
         * This is the right side sidebar, usually displaying a list of links. 
@@ -192,7 +192,7 @@ class TradePress_Admin_Help {
                 'content'   => '<h2>' . __( 'Developer Mode Active', 'tradepress' ) . '</h2>' .
                               '<p>' . __( 'Developer mode is currently enabled. This provides additional debugging information and developer tools.', 'tradepress' ) . '</p>' .
                               '<p><strong>' . __( 'Current Page:', 'tradepress' ) . '</strong> ' . $screen->id . '</p>' .
-                              '<p><strong>' . __( 'Page Parameters:', 'tradepress' ) . '</strong> ' . http_build_query($_GET) . '</p>',  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                              '<p><strong>' . __( 'Page Parameters:', 'tradepress' ) . '</strong> ' . http_build_query($_GET) . '</p>',
             ) );
         }
         
@@ -337,14 +337,14 @@ class TradePress_Admin_Help {
         $cache = get_transient( 'TradePresshelptabappstatus' );
         if( $cache )                                                                                          
         {
-            echo '<p>' . esc_html__( 'You are viewing cached data that is up to 120 seconds old. Refresh again soon to get the latest data.', 'tradepress' ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<p>' . esc_html__( 'You are viewing cached data that is up to 120 seconds old. Refresh again soon to get the latest data.', 'tradepress' ) . '</p>';
             echo wp_kses_post( $cache ); // Cached HTML output from previous render                                                                                              
             return;
         }                                                                                                          
         else
         {
             // No existing cache found, so test Twitch API, generate output, cache output, output output!
-            echo '<p>' . esc_html__( 'You are viewing real-time data on this request (not cached). The data will be cached for 120 seconds.', 'tradepress' ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<p>' . esc_html__( 'You are viewing real-time data on this request (not cached). The data will be cached for 120 seconds.', 'tradepress' ) . '</p>';
         }
         
         // Define variables. 
@@ -460,9 +460,9 @@ class TradePress_Admin_Help {
     private static function get_contextual_feedback_form() {
         require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/feedback/class-feature-feedback-system.php';
         
-        $page = empty($_GET['page']) ? '' : sanitize_title(wp_unslash($_GET['page']));  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $tab = empty($_GET['tab']) ? '' : sanitize_title(wp_unslash($_GET['tab']));  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $configure = empty($_GET['configure']) ? '' : sanitize_text_field(wp_unslash($_GET['configure']));  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $page = empty($_GET['page']) ? '' : sanitize_title(wp_unslash($_GET['page']));
+        $tab = empty($_GET['tab']) ? '' : sanitize_title(wp_unslash($_GET['tab']));
+        $configure = empty($_GET['configure']) ? '' : sanitize_text_field(wp_unslash($_GET['configure']));
         
         // Determine context and feature details
         $feature_type = 'general';

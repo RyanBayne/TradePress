@@ -67,7 +67,7 @@ function tradepress_sector_rotation_tab_content() {
                         // Render the market cycle diagram with current phase highlighted
                         foreach ($rotation_phases as $phase_id => $phase) {
                             $active_class = ($current_phase['id'] === $phase_id) ? ' active' : '';
-                            echo '<div class="phase-segment phase-' . esc_attr($phase_id) . $active_class . '" title="' . esc_attr($phase['name']) . '"></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            echo '<div class="phase-segment phase-' . esc_attr($phase_id) . $active_class . '" title="' . esc_attr($phase['name']) . '"></div>';
                         }
                         ?>
                         <div class="cycle-center">
@@ -127,9 +127,9 @@ function tradepress_sector_rotation_tab_content() {
                                         </div>
                                         <div class="performance-bar">
                                             <?php if ($sector['performance'] >= 0) : ?>
-                                                <div class="performance-fill positive" style="width: <?php echo (int) min(abs($sector['performance']) * 5, 100); ?>%;"></div> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                                <div class="performance-fill positive" style="width: <?php echo (int) min(abs($sector['performance']) * 5, 100); ?>%;"></div>
                                             <?php else : ?>
-                                                <div class="performance-fill negative" style="width: <?php echo (int) min(abs($sector['performance']) * 5, 100); ?>%;"></div> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                                <div class="performance-fill negative" style="width: <?php echo (int) min(abs($sector['performance']) * 5, 100); ?>%;"></div>
                                             <?php endif; ?>
                                         </div>
                                     </td>

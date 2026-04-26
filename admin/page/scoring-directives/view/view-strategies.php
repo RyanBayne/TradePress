@@ -63,21 +63,21 @@ foreach ($strategies as $strategy) {
                 <div class="summary-label"><?php esc_html_e('Active Strategies', 'tradepress'); ?></div>
             </div>
             <div class="summary-card">
-                <div class="summary-number"><?php echo (int) array_sum(array_column(array_column($sample_strategies, 'performance'), 'total_signals')); ?></div> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                <div class="summary-number"><?php echo (int) array_sum(array_column(array_column($sample_strategies, 'performance'), 'total_signals')); ?></div>
                 <div class="summary-label"><?php esc_html_e('Total Signals', 'tradepress'); ?></div>
             </div>
             <div class="summary-card">
                 <div class="summary-number"><?php 
                     $total_signals = array_sum(array_column(array_column($sample_strategies, 'performance'), 'total_signals'));
                     $positive_signals = array_sum(array_column(array_column($sample_strategies, 'performance'), 'positive_signals'));
-                    echo $total_signals > 0 ? round(($positive_signals / $total_signals) * 100, 1) : 0; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    echo $total_signals > 0 ? round(($positive_signals / $total_signals) * 100, 1) : 0;
                 ?>%</div>
                 <div class="summary-label"><?php esc_html_e('Success Rate', 'tradepress'); ?></div>
             </div>
             <div class="summary-card">
                 <div class="summary-number"><?php 
                     $scores = array_filter(array_column(array_column($sample_strategies, 'performance'), 'avg_score'));
-                    echo (int) count($scores) > 0 ? round(array_sum($scores) / count($scores), 1) : 0; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    echo (int) count($scores) > 0 ? round(array_sum($scores) / count($scores), 1) : 0;
                 ?></div>
                 <div class="summary-label"><?php esc_html_e('Avg Score', 'tradepress'); ?></div>
             </div>

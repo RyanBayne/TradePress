@@ -170,7 +170,7 @@ $logger = new TradePress_Logger();
                         <span id="tradepress-algorithm-last-run">
                             <?php 
                             $last_run = get_option('tradepress_algorithm_last_run');
-                            echo $last_run ? date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $last_run) : esc_html__('Never', 'tradepress'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            echo $last_run ? date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $last_run) : esc_html__('Never', 'tradepress');
                             ?>
                         </span>
                     </p>
@@ -332,9 +332,9 @@ $logger = new TradePress_Logger();
                             } else {
                                 foreach ($log_entries as $entry) {
                                     $level_class = sanitize_html_class($entry['level']);
-                                    echo '<div class="tradepress-log-entry ' . $level_class . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                                    echo '<span class="tradepress-log-timestamp">' . date_i18n('Y-m-d H:i:s', strtotime($entry['timestamp'])) . '</span> '; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                                    echo '<span class="tradepress-log-level">[' . strtoupper($entry['level']) . ']</span> '; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                    echo '<div class="tradepress-log-entry ' . $level_class . '">';
+                                    echo '<span class="tradepress-log-timestamp">' . date_i18n('Y-m-d H:i:s', strtotime($entry['timestamp'])) . '</span> ';
+                                    echo '<span class="tradepress-log-level">[' . strtoupper($entry['level']) . ']</span> ';
                                     echo '<span class="tradepress-log-category">[' . esc_html($entry['category']) . ']</span> ';
                                     echo '<span class="tradepress-log-message">' . esc_html($entry['message']) . '</span>';
                                     echo '</div>';
@@ -442,7 +442,7 @@ $logger = new TradePress_Logger();
                             <tr>
                                 <td><?php esc_html_e('Memory Limit', 'tradepress'); ?></td>
                                 <td><?php echo  esc_html( WP_MEMORY_LIMIT ); ?></td>
-                            </tr> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            </tr>
                             <tr>
                                 <td><?php esc_html_e('Max Execution Time', 'tradepress'); ?></td>
                                 <td><?php echo ini_get('max_execution_time') . ' ' . esc_html__('seconds', 'tradepress'); ?></td>

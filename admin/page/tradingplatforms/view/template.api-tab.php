@@ -94,7 +94,7 @@ if (isset($_POST['tradepress_' . $api_id . '_api_settings_nonce']) && wp_verify_
     // Add success message
     add_action('admin_notices', function() use ($api_name) {
         /* translators: %s: component name */
-        echo '<div class="notice notice-success is-dismissible"><p>' . sprintf(__('%s API settings saved successfully.', 'tradepress'), esc_html($api_name)) . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo '<div class="notice notice-success is-dismissible"><p>' . sprintf(__('%s API settings saved successfully.', 'tradepress'), esc_html($api_name)) . '</p></div>';
     });
 }
 
@@ -110,7 +110,7 @@ if (isset($_POST['tradepress_' . $api_id . '_trading_mode_nonce']) && wp_verify_
         add_action('admin_notices', function() use ($api_name) {
             echo '<div class="notice notice-success is-dismissible"><p>' . 
                 /* translators: %s: component name */
-                sprintf(__('%s trading mode updated successfully.', 'tradepress'), esc_html($api_name)) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                sprintf(__('%s trading mode updated successfully.', 'tradepress'), esc_html($api_name)) .
                 '</p></div>';
         });
     }
@@ -128,7 +128,7 @@ if (isset($_POST['tradepress_' . $api_id . '_operational_nonce']) && wp_verify_n
         add_action('admin_notices', function() use ($api_name) {
             echo '<div class="notice notice-success is-dismissible"><p>' . 
                 /* translators: %s: component name */
-                sprintf(__('%s operational status updated successfully.', 'tradepress'), esc_html($api_name)) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                sprintf(__('%s operational status updated successfully.', 'tradepress'), esc_html($api_name)) .
                 '</p></div>';
         });
     }
@@ -147,7 +147,7 @@ if (isset($_POST['tradepress_' . $api_id . '_demo_mode_nonce']) && wp_verify_non
             add_action('admin_notices', function() use ($api_name) {
                 echo '<div class="notice notice-success is-dismissible"><p>' . 
                     /* translators: %s: component name */
-                    sprintf(__('%s demo mode updated successfully.', 'tradepress'), esc_html($api_name)) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    sprintf(__('%s demo mode updated successfully.', 'tradepress'), esc_html($api_name)) .
                     '</p></div>';
             });
         }
@@ -155,7 +155,7 @@ if (isset($_POST['tradepress_' . $api_id . '_demo_mode_nonce']) && wp_verify_non
         // Show notice that demo mode is controlled by constant
         add_action('admin_notices', function() {
             echo '<div class="notice notice-info is-dismissible"><p>' . 
-                __('Demo mode is controlled by the TRADEPRESS_DEMO_MODE constant in your configuration. This setting will not take effect.', 'tradepress') . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                __('Demo mode is controlled by the TRADEPRESS_DEMO_MODE constant in your configuration. This setting will not take effect.', 'tradepress') .
                 '</p></div>';
         });
     }
@@ -414,7 +414,7 @@ $trading_mode = get_option('TradePress_api_' . $api_id . '_trading_mode', 'paper
                                                 <td class="forminp forminp-text">
                                                     <input name="TradePress_api_<?php echo esc_attr($api_id); ?>_realmoney_apikey" id="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_realmoney_apikey" type="text" 
                                                            value="<?php echo esc_attr($realmoney_apikey); ?>" class="regular-text">
-                                                    <?php /* translators: %s: string value */ ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                                    <?php /* translators: %s: string value */ ?>
                                                     <p class="description"><?php printf(__('Your API key ID for real money trading on %s.', 'tradepress'), esc_html($api_name)); ?></p>
                                                 </td>
                                             </tr>
@@ -426,7 +426,7 @@ $trading_mode = get_option('TradePress_api_' . $api_id . '_trading_mode', 'paper
                                                 <td class="forminp forminp-password">
                                                     <input name="TradePress_api_<?php echo esc_attr($api_id); ?>_realmoney_secretkey" id="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_realmoney_secretkey" type="password" 
                                                            value="<?php echo esc_attr($realmoney_secretkey); ?>" class="regular-text">
-                                                    <?php /* translators: %s: string value */ ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                                    <?php /* translators: %s: string value */ ?>
                                                     <p class="description"><?php printf(__('Your API secret key for real money trading on %s.', 'tradepress'), esc_html($api_name)); ?></p>
                                                 </td>
                                             </tr>
@@ -438,7 +438,7 @@ $trading_mode = get_option('TradePress_api_' . $api_id . '_trading_mode', 'paper
                                                 <td class="forminp forminp-text">
                                                     <input name="TradePress_api_<?php echo esc_attr($api_id); ?>_papermoney_apikey" id="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_papermoney_apikey" type="text" 
                                                            value="<?php echo esc_attr($papermoney_apikey); ?>" class="regular-text">
-                                                    <?php /* translators: %s: string value */ ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                                    <?php /* translators: %s: string value */ ?>
                                                     <p class="description"><?php printf(__('Your API key ID for paper trading on %s.', 'tradepress'), esc_html($api_name)); ?></p>
                                                 </td>
                                             </tr>
@@ -450,7 +450,7 @@ $trading_mode = get_option('TradePress_api_' . $api_id . '_trading_mode', 'paper
                                                 <td class="forminp forminp-password">
                                                     <input name="TradePress_api_<?php echo esc_attr($api_id); ?>_papermoney_secretkey" id="inline_TradePress_api_<?php echo esc_attr($api_id); ?>_papermoney_secretkey" type="password" 
                                                            value="<?php echo esc_attr($papermoney_secretkey); ?>" class="regular-text">
-                                                    <?php /* translators: %s: string value */ ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                                    <?php /* translators: %s: string value */ ?>
                                                     <p class="description"><?php printf(__('Your API secret key for paper trading on %s.', 'tradepress'), esc_html($api_name)); ?></p>
                                                 </td>
                                             </tr>

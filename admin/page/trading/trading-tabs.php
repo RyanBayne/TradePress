@@ -303,7 +303,7 @@ function tradepress_display_trading_strategies_tab_content() {
         $active_class = ($sub_tab === $key) ? ' current' : '';
         $url = admin_url('admin.php?page=tradepress_trading&tab=trading-strategies&sub_tab=' . $key);
         $separator = ($count > 0) ? ' | ' : '';
-        echo '<li><a href="' . esc_url($url) . '" class="' . esc_attr($active_class) . '">' . esc_html($label) . '</a>' . $separator . '</li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo '<li><a href="' . esc_url($url) . '" class="' . esc_attr($active_class) . '">' . esc_html($label) . '</a>' . $separator . '</li>';
         $count++;
     }
     echo '</ul>';

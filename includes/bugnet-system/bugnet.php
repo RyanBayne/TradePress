@@ -253,7 +253,7 @@ class TradePress_BugNet {
         
         foreach ( $GLOBALS['tradepress_console_logs'] as $log ) {
             $method = in_array( $log['level'], array( 'error', 'warning' ) ) ? $log['level'] : 'log';
-            echo 'console.' . $method . '(' . wp_json_encode( $log['message'] ) . ');'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo 'console.' . $method . '(' . wp_json_encode( $log['message'] ) . ');';
         }
         
         echo 'console.groupEnd();';

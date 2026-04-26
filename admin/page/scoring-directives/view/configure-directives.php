@@ -1608,7 +1608,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                     $surge_bonus = $saved_config['surge_bonus'] ?? 50;
                                     // Max base assuming 10x volume ratio
                                     $max_base = 50 + (10 * 25 * $base_mult);
-                                    echo $max_base + $high_bonus + $surge_bonus; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                    echo $max_base + $high_bonus + $surge_bonus;
                                 ?></span>
                                 <p class="setting-description"><?php esc_html_e('Calculated maximum score with current settings.', 'tradepress'); ?></p>
                             </div>
@@ -2186,7 +2186,7 @@ function tradepress_validate_directive_disable($directive_id) {
                                 <span><?php 
                                     $sector_bonus = $saved_config['sector_comparison_bonus'] ?? 20;
                                     $high_yield_bonus = $saved_config['high_yield_bonus'] ?? 30;
-                                    echo 50 + $sector_bonus + $high_yield_bonus; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                    echo 50 + $sector_bonus + $high_yield_bonus;
                                 ?></span>
                                 <p class="setting-description"><?php esc_html_e('Base score plus sector and high yield bonuses.', 'tradepress'); ?></p>
                             </div>

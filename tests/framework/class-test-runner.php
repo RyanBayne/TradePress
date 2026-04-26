@@ -109,14 +109,14 @@ class TradePress_Test_Runner {
         $file_path = TRADEPRESS_PLUGIN_DIR_PATH . $test->file_path;
         if (!class_exists($test->class_name)) {
             if (!file_exists($file_path)) {
-                throw new Exception( 'Test file not found: ' . esc_html( $test->file_path ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                throw new Exception( 'Test file not found: ' . esc_html( $test->file_path ) );
             }
             require_once $file_path;
         }
         
         // Create test instance
         if (!class_exists($test->class_name)) {
-            throw new Exception( 'Test class not found: ' . esc_html( $test->class_name ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            throw new Exception( 'Test class not found: ' . esc_html( $test->class_name ) );
         }
         
         $test_instance = new $test->class_name();
@@ -131,7 +131,7 @@ class TradePress_Test_Runner {
         // Run test method or all test methods
         if ($test->method_name) {
             if (!method_exists($test_instance, $test->method_name)) {
-                throw new Exception( 'Test method not found: ' . esc_html( $test->method_name ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                throw new Exception( 'Test method not found: ' . esc_html( $test->method_name ) );
             }
             $result = $test_instance->{$test->method_name}();
         } else {

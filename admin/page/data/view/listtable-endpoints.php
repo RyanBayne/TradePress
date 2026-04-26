@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
@@ -116,15 +116,15 @@ class TradePress_ListTable_Endpoints extends WP_List_Table {
     public function column_default( $item, $column_name ) {
         switch( $column_name ) {
             case 'endpointid' :
-                echo '<pre>'; print_r( $item['endpointid'] ); echo '</pre>';  // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+                echo '<pre>'; print_r( $item['endpointid'] ); echo '</pre>';
             break;
 
             case 'entryid' :
-                echo '<pre>'; print_r( $item['entryid'] ); echo '</pre>';  // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+                echo '<pre>'; print_r( $item['entryid'] ); echo '</pre>';
             break;    
                     
             case 'endpoint' :
-                echo '<textarea rows="3" cols="25">' . print_r( $item['endpoint'], true ) . '</textarea>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                echo '<textarea rows="3" cols="25">' . print_r( $item['endpoint'], true ) . '</textarea>';
             break;
                         
             case 'firstuse' :

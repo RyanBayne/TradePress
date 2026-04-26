@@ -57,7 +57,7 @@ foreach (array_merge($tradepress_tables, $bugnet_tables) as $table => $descripti
         <h2>✅ <?php esc_html_e('Already Installed', 'tradepress'); ?></h2>
         <ul>
             <?php foreach ($existing_tables as $table => $description) : ?>
-                <li><strong><?php echo $wpdb->prefix . $table; ?></strong> - <?php echo esc_html($description); ?></li> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                <li><strong><?php echo $wpdb->prefix . $table; ?></strong> - <?php echo esc_html($description); ?></li>
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
@@ -66,7 +66,7 @@ foreach (array_merge($tradepress_tables, $bugnet_tables) as $table => $descripti
         <h2>📋 <?php esc_html_e('To Be Installed', 'tradepress'); ?></h2>
         <ul>
             <?php foreach ($missing_tables as $table => $description) : ?>
-                <li><strong><?php echo $wpdb->prefix . $table; ?></strong> - <?php echo esc_html($description); ?></li> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                <li><strong><?php echo $wpdb->prefix . $table; ?></strong> - <?php echo esc_html($description); ?></li>
             <?php endforeach; ?>
         </ul>
         <p><?php esc_html_e('The above tables will be created when you continue.', 'tradepress'); ?></p>

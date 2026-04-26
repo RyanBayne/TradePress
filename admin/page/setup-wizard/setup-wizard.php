@@ -149,8 +149,8 @@ class TradePress_Admin_Setup_Wizard_Page {
                     $classes[] = 'disabled';
                 }
             ?>
-                <div class="<?php echo implode(' ', $classes); ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                    <div class="step-number"><?php echo (int) $step_number; ?></div> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                <div class="<?php echo implode(' ', $classes); ?>">
+                    <div class="step-number"><?php echo (int) $step_number; ?></div>
                     <div class="step-label"><?php echo esc_html( $step['name'] ); ?></div>
                 </div>
             <?php 

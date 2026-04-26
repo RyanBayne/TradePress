@@ -19,11 +19,11 @@ class TradePress_Data_Decoder_Tab {
      */
     public static function output() {
         // Check for form submission results
-        $decoder_processed_status = isset($_GET['decoder_processed']) ? sanitize_text_field(wp_unslash($_GET['decoder_processed'])) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $decoded_data_key = isset($_GET['decoded_data_key']) ? sanitize_key($_GET['decoded_data_key']) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $decoded_content_raw = isset($_GET['decoded_content']) ? esc_textarea(urldecode(wp_unslash($_GET['decoded_content']))) : ''; // For raw display  // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-        $decoder_error = isset($_GET['decoder_error']) ? sanitize_text_field(urldecode(wp_unslash($_GET['decoder_error']))) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-        $decoder_info = isset($_GET['decoder_info']) ? sanitize_text_field(urldecode(wp_unslash($_GET['decoder_info']))) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        $decoder_processed_status = isset($_GET['decoder_processed']) ? sanitize_text_field(wp_unslash($_GET['decoder_processed'])) : '';
+        $decoded_data_key = isset($_GET['decoded_data_key']) ? sanitize_key($_GET['decoded_data_key']) : '';
+        $decoded_content_raw = isset($_GET['decoded_content']) ? esc_textarea(urldecode(wp_unslash($_GET['decoded_content']))) : ''; // For raw display
+        $decoder_error = isset($_GET['decoder_error']) ? sanitize_text_field(urldecode(wp_unslash($_GET['decoder_error']))) : '';
+        $decoder_info = isset($_GET['decoder_info']) ? sanitize_text_field(urldecode(wp_unslash($_GET['decoder_info']))) : '';
 
         if ($decoder_processed_status === 'true' && !empty($decoded_data_key)) {
             $parsed_data = get_transient($decoded_data_key);
@@ -44,8 +44,8 @@ class TradePress_Data_Decoder_Tab {
                     
                     echo '<div class="company-header">';
                     /* translators: %d: rank position, %s: symbol name, %s: ticker symbol */
-                    echo '<h3 class="decoded-data-title">' . sprintf(esc_html__('Rank #%1$d: %2$s (%3$s)', 'tradepress'), $index + 1, esc_html($company_data['company_name'] ?? 'Unknown'), esc_html($company_data['ticker_symbol'])) . '</h3>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                    echo '<div class="opportunity-score ' . $score_class . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    echo '<h3 class="decoded-data-title">' . sprintf(esc_html__('Rank #%1$d: %2$s (%3$s)', 'tradepress'), $index + 1, esc_html($company_data['company_name'] ?? 'Unknown'), esc_html($company_data['ticker_symbol'])) . '</h3>';
+                    echo '<div class="opportunity-score ' . $score_class . '">';
                     echo '<span class="score-label">Opportunity Score:</span>';
                     echo '<span class="score-value">' . esc_html($company_data['total_score']) . '/100</span>';
                     echo '</div>';
@@ -109,7 +109,7 @@ class TradePress_Data_Decoder_Tab {
             echo '<div class="notice notice-info is-dismissible"><p>' . esc_html($decoder_info) . '</p></div>';
             if (!empty($decoded_content_raw)) {
                 echo '<h4>' . esc_html__('Submitted Raw Content:', 'tradepress') . '</h4>';
-                echo '<div class="tradepress-raw-content-box"><pre>' . $decoded_content_raw . '</pre></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                echo '<div class="tradepress-raw-content-box"><pre>' . $decoded_content_raw . '</pre></div>';
             }
         } elseif (!empty($decoder_error)) {
             echo '<div class="notice notice-error is-dismissible"><p>' .
@@ -117,7 +117,7 @@ class TradePress_Data_Decoder_Tab {
                  '</p></div>';
             if ($decoder_processed_status === 'false' && !empty($decoded_content_raw)) {
                  echo '<h4>' . esc_html__('Submitted Raw Content:', 'tradepress') . '</h4>';
-                 echo '<div class="tradepress-raw-content-box"><pre>' . $decoded_content_raw . '</pre></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                 echo '<div class="tradepress-raw-content-box"><pre>' . $decoded_content_raw . '</pre></div>';
             }
         }
         
@@ -177,7 +177,7 @@ class TradePress_Data_Decoder_Tab {
         check_admin_referer('decode_data_nonce_action', 'decode_data_nonce');
 
         $decoder_source = isset($_POST['decoder_source']) ? sanitize_text_field(wp_unslash($_POST['decoder_source'])) : '';
-        $content_to_parse = isset($_POST['decoder_content']) ? stripslashes(wp_unslash($_POST['decoder_content'])) : '';  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        $content_to_parse = isset($_POST['decoder_content']) ? stripslashes(wp_unslash($_POST['decoder_content'])) : '';
         
         $args = array(
             'page' => 'tradepress_data',

@@ -92,7 +92,7 @@ function tradepress_get_all_endpoints() {
 $all_endpoints = tradepress_get_all_endpoints();
 
 // Handle search filtering
-$search_term = isset($_GET['s']) ? sanitize_text_field(wp_unslash($_GET['s'])) : '';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$search_term = isset($_GET['s']) ? sanitize_text_field(wp_unslash($_GET['s'])) : '';
 $filtered_endpoints = $all_endpoints;
 
 if (!empty($search_term)) {

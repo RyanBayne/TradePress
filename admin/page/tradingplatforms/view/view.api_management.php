@@ -597,7 +597,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
 
                                 <div>
                                     <strong>Rate Limiting:</strong><br>
-                                    <span class="rate-limit-badge rate-<?php echo strtolower($rate_limit_status); ?>"><?php echo esc_html($rate_limit_status); ?></span> - <?php echo esc_html($rate_limit_count); ?>/<?php echo esc_html($rate_limit_max); ?> calls today // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                    <span class="rate-limit-badge rate-<?php echo strtolower($rate_limit_status); ?>"><?php echo esc_html($rate_limit_status); ?></span> - <?php echo esc_html($rate_limit_count); ?>/<?php echo esc_html($rate_limit_max); ?> calls today
                                 </div>
                             </div>
                             
@@ -781,7 +781,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                         </div>
                         <div class="section-content">
                             <form method="post">
-                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo esc_attr( wp_create_nonce('tradepress_save_' . $api_id . '_settings') ); ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo esc_attr( wp_create_nonce('tradepress_save_' . $api_id . '_settings') ); ?>">
                                 <input type="hidden" name="action" value="tradepress_save_<?php echo esc_attr($api_id); ?>_settings">
                                 <input type="hidden" name="api_id" value="<?php echo esc_attr($api_id); ?>">
                                 
@@ -873,7 +873,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                         </div>
                         <div class="section-content">
                             <form method="post">
-                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo esc_attr( wp_create_nonce('tradepress_save_' . $api_id . '_settings') ); ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo esc_attr( wp_create_nonce('tradepress_save_' . $api_id . '_settings') ); ?>">
                                 <input type="hidden" name="action" value="tradepress_save_<?php echo esc_attr($api_id); ?>_settings">
                                 <input type="hidden" name="api_id" value="<?php echo esc_attr($api_id); ?>">
                                 
@@ -936,7 +936,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                         </div>
                         <div class="section-content">
                             <form method="post">
-                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo esc_attr( wp_create_nonce('tradepress_save_' . $api_id . '_settings') ); ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo esc_attr( wp_create_nonce('tradepress_save_' . $api_id . '_settings') ); ?>">
                                 <input type="hidden" name="action" value="tradepress_save_<?php echo esc_attr($api_id); ?>_settings">
                                 <input type="hidden" name="api_id" value="<?php echo esc_attr($api_id); ?>">
                                 
@@ -999,7 +999,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                         </div>
                         <div class="section-content">
                             <form method="post">
-                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo esc_attr( wp_create_nonce('tradepress_save_' . $api_id . '_settings') ); ?>"> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                <input type="hidden" name="<?php echo 'tradepress_' . $api_id . '_nonce'; ?>" value="<?php echo esc_attr( wp_create_nonce('tradepress_save_' . $api_id . '_settings') ); ?>">
                                 <input type="hidden" name="action" value="tradepress_save_<?php echo esc_attr($api_id); ?>_settings">
                                 <input type="hidden" name="api_id" value="<?php echo esc_attr($api_id); ?>">
                                 

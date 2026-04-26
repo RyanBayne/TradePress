@@ -354,7 +354,7 @@ $is_demo = function_exists('is_demo_mode') ? is_demo_mode() : false;
                     ?>
                     <div class="webhook-event-item">
                         <label>
-                            <input type="checkbox" name="api_webhook_events[]" value="<?php echo esc_attr($event); ?>" <?php echo $checked; ?>> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            <input type="checkbox" name="api_webhook_events[]" value="<?php echo esc_attr($event); ?>" <?php echo $checked; ?>>
                             <?php echo esc_html($label); ?>
                         </label>
                     </div>

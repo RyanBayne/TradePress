@@ -154,7 +154,7 @@ function TRADEPRESS_GITHUB_next_issue_content($repo_owner, $repo_name) {
                             <div class="meta-item">
                                 <span class="dashicons dashicons-admin-comments"></span>
                                 <?php /* translators: %d: number */ ?>
-                                <?php echo sprintf(esc_html(_n('%d comment', '%d comments', $next_issue->comments, 'tradepress')), $next_issue->comments); ?> // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                <?php echo sprintf(esc_html(_n('%d comment', '%d comments', $next_issue->comments, 'tradepress')), $next_issue->comments); ?>
                             </div>
                         <?php endif; ?>
                     </div>

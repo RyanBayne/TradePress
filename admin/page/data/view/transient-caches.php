@@ -87,7 +87,7 @@ function tradepress_get_transient_caches() {
     }
     
     $query = "SELECT option_name, option_value FROM $wpdb->options WHERE " . implode(' OR ', $like_patterns);
-    $results = $wpdb->get_results($query);  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+    $results = $wpdb->get_results($query);
 
     // Process results
     $transients = array();

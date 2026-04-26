@@ -46,22 +46,22 @@ class TradePress_Background_Updater extends TradePress_Background_Processing {
      */
     public function handle_cron_healthcheck() {
         // Log healthcheck for monitoring
-        error_log('TradePress Background Updater: Healthcheck running');  // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+        error_log('TradePress Background Updater: Healthcheck running');
         
         if ( $this->is_process_running() ) {
             // Background process already running.
-            error_log('TradePress Background Updater: Process already running, skipping');  // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+            error_log('TradePress Background Updater: Process already running, skipping');
             return;
         }
 
         if ( $this->is_queue_empty() ) {
             // No data to process.
-            error_log('TradePress Background Updater: Queue empty, clearing scheduled event');  // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+            error_log('TradePress Background Updater: Queue empty, clearing scheduled event');
             $this->clear_scheduled_event();
             return;
         }
 
-        error_log('TradePress Background Updater: Starting background process');  // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+        error_log('TradePress Background Updater: Starting background process');
         $this->handle();
     }
 

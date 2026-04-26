@@ -282,7 +282,7 @@ trait TradePress_OptionsTrait {
             }
         }
 
-        trigger_error( sprintf( 'Invalid TradePress option name: %s', $name ), E_USER_WARNING ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        trigger_error( sprintf( 'Invalid TradePress option name: %s', $name ), E_USER_WARNING );
 
         return $default;
     }
@@ -335,7 +335,7 @@ trait TradePress_OptionsTrait {
             }
         }
 
-        trigger_error( sprintf( 'Invalid TradePress option name: %s', $name ), E_USER_WARNING ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        trigger_error( sprintf( 'Invalid TradePress option name: %s', $name ), E_USER_WARNING );
 
         return false;
     }
@@ -350,7 +350,7 @@ trait TradePress_OptionsTrait {
         $names = array_keys( $array );
 
         foreach ( array_diff( $names, self::get_option_names(), self::get_option_names( 'non_compact' ), self::get_option_names( 'private' ) ) as $unknown_name ) {
-            trigger_error( sprintf( 'Invalid TradePress option name: %s', $unknown_name ), E_USER_WARNING ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            trigger_error( sprintf( 'Invalid TradePress option name: %s', $unknown_name ), E_USER_WARNING );
             unset( $array[ $unknown_name ] );
         }
 
@@ -370,7 +370,7 @@ trait TradePress_OptionsTrait {
         $names  = (array) $names;
 
         if ( ! self::is_valid( $names ) ) {
-            trigger_error( sprintf( 'Invalid TradePress option names: %s', print_r( $names, 1 ) ), E_USER_WARNING ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            trigger_error( sprintf( 'Invalid TradePress option names: %s', print_r( $names, 1 ) ), E_USER_WARNING );
 
             return false;
         }

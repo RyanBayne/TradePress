@@ -83,7 +83,7 @@ class TradePress_Form_Handler {
         
         if (!empty($validation_errors)) {
             tradepress_trace_log('Form validation failed', $validation_errors);
-            wp_die('Form validation failed: ' . implode(', ', $validation_errors)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            wp_die('Form validation failed: ' . implode(', ', $validation_errors));
         }
         
         // Verify nonce

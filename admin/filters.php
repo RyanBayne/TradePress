@@ -18,9 +18,9 @@ if (!defined('ABSPATH')) {
  * @package TradePress
  */
 function tradepress_filter_admin_title( $admin_title, $title ) {
-    if (isset($_GET['page']) && $_GET['page'] == 'tradepress_development') {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    if (isset($_GET['page']) && $_GET['page'] == 'tradepress_development') {
         $tabs = TradePress_Admin_Development_Page::get_tabs();
-        $current_tab = isset($_GET['tab']) ? sanitize_title(wp_unslash($_GET['tab'])) : 'current_task';  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $current_tab = isset($_GET['tab']) ? sanitize_title(wp_unslash($_GET['tab'])) : 'current_task';
         $tab_title = isset($tabs[$current_tab]) ? $tabs[$current_tab] : '';
         $main_title = __('TradePress Development', 'tradepress');
         if ($tab_title) {

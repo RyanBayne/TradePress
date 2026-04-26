@@ -26,7 +26,7 @@ $tab_mode = tradepress_get_tab_mode($page_id, $tab_id);
 // Add header with mode indicator
 echo '<div class="tradepress-tab-header">';
 echo '<h2>' . esc_html__('Available Endpoints', 'tradepress') . '</h2>';
-echo tradepress_get_tab_mode_indicator($page_id, $tab_id); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+echo tradepress_get_tab_mode_indicator($page_id, $tab_id);
 echo '</div>';
 
 // Show demo notice if in demo mode
