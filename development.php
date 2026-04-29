@@ -26,48 +26,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-// Include all feature files
-// Roadmap files moved to Google Drive for project management
-define('TRADEPRESS_ROADMAP_DIR', 'G:/My Drive/Project Management/Live/TradePress Project/roadmap/');
-
-if (is_dir(TRADEPRESS_ROADMAP_DIR)) {
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/dashboard-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/settings-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/trading-platforms-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/social-platforms-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/debug-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/automation-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/research-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/sandbox-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/development-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/trading-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/watchlists-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/data-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/analysis-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/api-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/database-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/trading-strategies-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/scoring-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/cron-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/user-management-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/integration-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/ui-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/technical-architecture.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/scoring-implementation.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/data-strategy-implementation.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/symbols-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/documentation-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/advanced-trading-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/forecast-implementation.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/forecast-management-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/plugin-modes-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/api-integrations-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/education-academy-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/daasg-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/trend-calculator-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/frontend-features.php';
-    require_once TRADEPRESS_ROADMAP_DIR . 'features/community-features.php';
-}
+// Roadmap feature PHP files removed. Tasks now tracked in GitHub Issues and ROADMAP.md.
 
 /**
  * Class TradePress_Development

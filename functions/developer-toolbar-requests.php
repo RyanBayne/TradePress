@@ -119,8 +119,9 @@ function tradepress_reset_setup_wizard_toolbar() {
     if( !current_user_can( 'TradePressdevelopertoolbar' ) ) {
         wp_die( esc_html__( 'Insufficient permissions', 'tradepress' ) );
     }
-    
-    if( !wp_verify_nonce( $_GET['_wpnonce'], 'tradepress_reset_setup_wizard_nonce' ) ) {
+
+    $nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
+    if ( empty( $nonce ) || !wp_verify_nonce( $nonce, 'tradepress_reset_setup_wizard_nonce' ) ) {
         wp_die( esc_html__( 'Security check failed', 'tradepress' ) );
     }
     
@@ -149,8 +150,9 @@ function tradepress_toggle_developer_mode_toolbar() {
     if( !current_user_can( 'TradePressdevelopertoolbar' ) ) {
         wp_die( esc_html__( 'Insufficient permissions', 'tradepress' ) );
     }
-    
-    if( !wp_verify_nonce( $_GET['_wpnonce'], 'tradepress_developer_mode_nonce' ) ) {
+
+    $nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
+    if ( empty( $nonce ) || !wp_verify_nonce( $nonce, 'tradepress_developer_mode_nonce' ) ) {
         wp_die( esc_html__( 'Security check failed', 'tradepress' ) );
     }
     
@@ -185,8 +187,9 @@ function tradepress_refresh_api_matrix_cache() {
     if( !current_user_can( 'TradePressdevelopertoolbar' ) ) {
         wp_die( esc_html__( 'Insufficient permissions', 'tradepress' ) );
     }
-    
-    if( !wp_verify_nonce( $_GET['_wpnonce'], 'tradepress_refresh_api_cache_nonce' ) ) {
+
+    $nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
+    if ( empty( $nonce ) || !wp_verify_nonce( $nonce, 'tradepress_refresh_api_cache_nonce' ) ) {
         wp_die( esc_html__( 'Security check failed', 'tradepress' ) );
     }
     

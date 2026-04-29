@@ -62,11 +62,11 @@ class TradePress_Scoring_Directive_Volume extends TradePress_Scoring_Directive_B
             TradePress_Directive_Logger::log("D22 Volume | {$symbol} | Starting calculation with base_multiplier={$base_multiplier}, high_bonus={$high_volume_bonus}, surge_bonus={$surge_bonus}, min_score={$min_score}");
         }
         
-        // Get volume data - fetch if not provided
+        // Get volume data - fetch only when a usable symbol context exists.
         if (isset($symbol_data['volume']) && isset($symbol_data['avg_volume'])) {
             $current_volume = $symbol_data['volume'];
             $avg_volume = $symbol_data['avg_volume'];
-        } else {
+        } elseif ('UNKNOWN' !== $symbol && !empty($symbol_data['price'])) {
             // Fetch fresh volume data
             $volume_data = $this->fetch_fresh_volume_data($symbol);
             if (is_wp_error($volume_data)) {
@@ -77,6 +77,8 @@ class TradePress_Scoring_Directive_Volume extends TradePress_Scoring_Directive_B
             }
             $current_volume = $volume_data['volume'];
             $avg_volume = $volume_data['avg_volume'];
+        } else {
+            return $trading_mode === 'both' ? array('long' => 50, 'short' => 50) : 50;
         }
         
         // If we don't have valid data, return neutral score

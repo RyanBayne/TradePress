@@ -13,12 +13,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-// Include the feature loader if not already included
-if (!function_exists('tradepress_get_all_development_data')) {
-    if (defined('TRADEPRESS_ROADMAP_DIR') && file_exists(TRADEPRESS_ROADMAP_DIR . 'feature-loader.php')) {
-        require_once TRADEPRESS_ROADMAP_DIR . 'feature-loader.php';
-    }
-}
+// Roadmap feature PHP files removed. Tasks now tracked in GitHub Issues and ROADMAP.md.
 
 /**
  * TradePress_Features_Data Class

@@ -21,7 +21,8 @@ $all_providers = TradePress_API_Directory::get_all_providers();
 
 // Handle form submissions for priority settings
 if (isset($_POST['action']) && $_POST['action'] === 'save_api_priorities') {
-    if (wp_verify_nonce($_POST['priority_nonce'], 'tradepress_api_priorities') && current_user_can('manage_options')) {
+    $priority_nonce = isset( $_POST['priority_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['priority_nonce'] ) ) : '';
+    if ( ! empty( $priority_nonce ) && wp_verify_nonce( $priority_nonce, 'tradepress_api_priorities' ) && current_user_can( 'manage_options' ) ) {
         
         // Save primary API selections
         $primary_apis = [

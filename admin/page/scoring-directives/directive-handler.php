@@ -22,8 +22,9 @@ class TradePress_Directive_Handler {
             require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/data-freshness-manager.php';
         }
         
-        if (!wp_verify_nonce($_POST['save_nonce'], 'tradepress_save_directive') || !current_user_can('manage_options')) {
-            return array('success' => false, 'message' => 'Security check failed.');
+        $save_nonce = isset( $_POST['save_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['save_nonce'] ) ) : '';
+        if ( empty( $save_nonce ) || ! wp_verify_nonce( $save_nonce, 'tradepress_save_directive' ) || ! current_user_can( 'manage_options' ) ) {
+            return array( 'success' => false, 'message' => 'Security check failed.' );
         }
         
         

@@ -197,8 +197,10 @@ function tradepress_test_alpaca_connection($environment = 'demo') {
  */
 function tradepress_test_alpaca_endpoint_handler() {
     // Verify nonce for security
-    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_test_alpaca_endpoint')) {
-        wp_send_json_error(array('message' => 'Security check failed'));
+    $nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+    if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'tradepress_test_alpaca_endpoint' ) ) {
+        wp_send_json_error( array( 'message' => 'Security check failed' ) );
+        return;
     }
 
     // Get endpoint from request
@@ -347,8 +349,10 @@ add_action('wp_ajax_tradepress_test_alpaca_endpoint', 'tradepress_test_alpaca_en
  */
 function tradepress_test_alpaca_endpoint_direct() {
     // Verify nonce for security
-    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_test_alpaca_endpoint')) {
-        wp_send_json_error(array('message' => 'Security check failed'));
+    $nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+    if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'tradepress_test_alpaca_endpoint' ) ) {
+        wp_send_json_error( array( 'message' => 'Security check failed' ) );
+        return;
     }
 
     // Get endpoint from request
@@ -477,8 +481,10 @@ add_action('wp_ajax_tradepress_test_alpaca_endpoint_direct', 'tradepress_test_al
  */
 function tradepress_test_alpaca_connection_handler() {
     // Verify nonce for security
-    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_test_alpaca_connection')) {
-        wp_send_json_error(array('message' => 'Security check failed'));
+    $nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+    if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'tradepress_test_alpaca_connection' ) ) {
+        wp_send_json_error( array( 'message' => 'Security check failed' ) );
+        return;
     }
     
     // Get environment from request

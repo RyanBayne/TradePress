@@ -19,7 +19,8 @@ require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-directi
  */
 function tradepress_ajax_test_directive() {
     // Verify nonce
-    if (!wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_directive_test')) {
+    $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+    if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress_directive_test')) {
 
         wp_die('Security check failed');
     }
@@ -29,9 +30,14 @@ function tradepress_ajax_test_directive() {
         wp_die('Insufficient permissions');
     }
 
-    $directive_id = sanitize_text_field(wp_unslash($_POST['directive_id']));
+    $directive_id = isset($_POST['directive_id']) ? sanitize_key(wp_unslash($_POST['directive_id'])) : '';
+    if ('' === $directive_id) {
+        wp_send_json_error(array('message' => 'Invalid directive id'));
+    }
+
     $symbol = isset($_POST['symbol']) ? sanitize_text_field(wp_unslash($_POST['symbol'])) : 'NVDA';
-    $force_fresh = isset($_POST['force_fresh']) ? (bool)$_POST['force_fresh'] : true;
+    $force_fresh_raw = isset($_POST['force_fresh']) ? sanitize_text_field(wp_unslash($_POST['force_fresh'])) : '1';
+    $force_fresh = in_array(strtolower($force_fresh_raw), array('1', 'true', 'yes', 'on'), true);
     
     // Test the directive
     $result = TradePress_Directive_Tester::test_directive($directive_id, $symbol, $force_fresh);

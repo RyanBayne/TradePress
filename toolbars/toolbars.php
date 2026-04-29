@@ -133,8 +133,14 @@ class TradePress_Toolbars {
         }
 
         // Verify nonce
-        $nonce = isset($_GET['_wpnonce']) ? $_GET['_wpnonce'] : (isset($_POST['_wpnonce']) ? $_POST['_wpnonce'] : '');
-        if (!wp_verify_nonce($nonce, 'tradepress_backup_plugin_nonce')) {
+        $nonce = '';
+        if (isset($_GET['_wpnonce'])) {
+            $nonce = sanitize_text_field(wp_unslash($_GET['_wpnonce']));
+        } elseif (isset($_POST['_wpnonce'])) {
+            $nonce = sanitize_text_field(wp_unslash($_POST['_wpnonce']));
+        }
+
+        if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress_backup_plugin_nonce')) {
             wp_die(esc_html__('Security check failed', 'tradepress'));
         }
 
@@ -325,8 +331,8 @@ class TradePress_Toolbars {
         }
 
         // Verify nonce
-        $nonce = isset($_GET['_wpnonce']) ? $_GET['_wpnonce'] : '';
-        if (!wp_verify_nonce($nonce, 'tradepress_reset_pointers')) {
+        $nonce = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
+        if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress_reset_pointers')) {
             wp_die(esc_html__('Security check failed', 'tradepress'));
         }
         

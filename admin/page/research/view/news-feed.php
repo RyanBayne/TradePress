@@ -17,25 +17,87 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Resolve the first non-empty option value from a list of keys.
+ *
+ * @param array $keys Option keys to check.
+ * @return string
+ */
+function tradepress_news_get_first_option_value($keys) {
+    foreach ($keys as $key) {
+        $value = get_option($key, '');
+        if (!empty($value)) {
+            return (string) $value;
+        }
+    }
+
+    return '';
+}
+
+/**
+ * Build provider and import status information for News Feed.
+ *
+ * @return array
+ */
+function tradepress_news_get_provider_status() {
+    $alpha_enabled = ('yes' === get_option('TradePress_switch_alphavantage_api_services', 'no'));
+    $alpaca_enabled = ('yes' === get_option('TradePress_switch_alpaca_api_services', 'no'));
+
+    $alpha_key = tradepress_news_get_first_option_value(array(
+        'tradepress_api_alphavantage_key',
+        'TradePress_alphavantage_api_key',
+        'tradepress_alphavantage_api_key',
+        'TradePress_api_alphavantage_key',
+    ));
+
+    $alpaca_key = tradepress_news_get_first_option_value(array(
+        'tradepress_alpaca_api_key',
+        'TradePress_api_alpaca_key',
+        'TradePress_api_alpaca_papermoney_apikey',
+        'TradePress_api_alpaca_realmoney_apikey',
+    ));
+
+    $last_import = (int) max(
+        (int) get_option('tradepress_news_last_imported', 0),
+        (int) get_option('tradepress_news_last_updated', 0),
+        (int) get_option('tradepress_news_last_update', 0)
+    );
+
+    $queue_status = get_option('tradepress_data_import_status', 'stopped');
+
+    return array(
+        'alpha_enabled' => $alpha_enabled,
+        'alpha_key_configured' => !empty($alpha_key),
+        'alpaca_enabled' => $alpaca_enabled,
+        'alpaca_key_configured' => !empty($alpaca_key),
+        'last_import' => $last_import,
+        'queue_status' => $queue_status,
+    );
+}
+
+/**
  * Display the News Feed tab content
   *
   * @version 1.0.0
  */
 function tradepress_news_feed_tab_content() {
-    // Check if we're in demo mode
-    $is_demo = function_exists('is_demo_mode') ? is_demo_mode() : true;
-    
-    // Get active symbol for filtering if available
-    $active_symbol = isset($_GET['symbol']) ? sanitize_text_field($_GET['symbol']) : '';
-    
-    // Get filter parameters
-    $source_filter = isset($_GET['source']) ? sanitize_text_field($_GET['source']) : 'all';
-    $date_filter = isset($_GET['date_range']) ? sanitize_text_field($_GET['date_range']) : '7d';
-    $sentiment_filter = isset($_GET['sentiment']) ? sanitize_text_field($_GET['sentiment']) : 'all';
-    
-    // Get feed items based on mode and filters
-    $feed_items = $is_demo ? get_demo_feed_items($active_symbol, $source_filter, $date_filter, $sentiment_filter) : 
-                             get_live_feed_items($active_symbol, $source_filter, $date_filter, $sentiment_filter);
+    $is_demo_mode = function_exists('is_demo_mode') ? is_demo_mode() : false;
+    $can_show_demo = function_exists('tradepress_can_access_development_views') && tradepress_can_access_development_views();
+    $use_demo_data = $is_demo_mode && $can_show_demo;
+
+    // Get active symbol for filtering if available.
+    $active_symbol = isset($_GET['symbol']) ? sanitize_text_field(wp_unslash($_GET['symbol'])) : '';
+
+    // Get filter parameters.
+    $source_filter = isset($_GET['source']) ? sanitize_text_field(wp_unslash($_GET['source'])) : 'all';
+    $date_filter = isset($_GET['date_range']) ? sanitize_text_field(wp_unslash($_GET['date_range'])) : '7d';
+    $sentiment_filter = isset($_GET['sentiment']) ? sanitize_text_field(wp_unslash($_GET['sentiment'])) : 'all';
+
+    // Demo content is available only to development users. Regular users see stored/imported data or an empty state.
+    $feed_items = $use_demo_data
+        ? get_demo_feed_items($active_symbol, $source_filter, $date_filter, $sentiment_filter)
+        : get_live_feed_items($active_symbol, $source_filter, $date_filter, $sentiment_filter);
+
+    $provider_status = tradepress_news_get_provider_status();
     
     // Available sources for filter dropdown
     $sources = array(
@@ -66,7 +128,62 @@ function tradepress_news_feed_tab_content() {
     ?>
     
     <div class="tradepress-news-feed-container">
+        <?php if ($use_demo_data): ?>
+            <div class="demo-indicator">
+                <span class="demo-icon dashicons dashicons-admin-tools" aria-hidden="true"></span>
+                <div class="demo-text">
+                    <h4><?php esc_html_e('Developer demo feed', 'tradepress'); ?></h4>
+                    <p><?php esc_html_e('These items are sample records and are hidden from regular users.', 'tradepress'); ?></p>
+                </div>
+                <span class="demo-badge"><?php esc_html_e('Developer', 'tradepress'); ?></span>
+            </div>
+        <?php endif; ?>
 
+        <div class="notice notice-info inline" style="margin: 10px 0 16px 0;">
+            <p><strong><?php esc_html_e('Provider status', 'tradepress'); ?></strong></p>
+            <ul style="margin: 8px 0 0 20px; list-style: disc;">
+                <li>
+                    <?php
+                    echo esc_html(
+                        sprintf(
+                            /* translators: %1$s: enabled/disabled text, %2$s: configured/missing text */
+                            __('Alpha Vantage news support: %1$s, key %2$s', 'tradepress'),
+                            $provider_status['alpha_enabled'] ? __('enabled', 'tradepress') : __('disabled', 'tradepress'),
+                            $provider_status['alpha_key_configured'] ? __('configured', 'tradepress') : __('missing', 'tradepress')
+                        )
+                    );
+                    ?>
+                </li>
+                <li>
+                    <?php
+                    echo esc_html(
+                        sprintf(
+                            /* translators: %1$s: enabled/disabled text, %2$s: configured/missing text */
+                            __('Alpaca news support: %1$s, key %2$s', 'tradepress'),
+                            $provider_status['alpaca_enabled'] ? __('enabled', 'tradepress') : __('disabled', 'tradepress'),
+                            $provider_status['alpaca_key_configured'] ? __('configured', 'tradepress') : __('missing', 'tradepress')
+                        )
+                    );
+                    ?>
+                </li>
+                <li>
+                    <?php
+                    if ($provider_status['last_import'] > 0) {
+                        printf(
+                            esc_html__('Last imported: %s', 'tradepress'),
+                            esc_html(date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $provider_status['last_import']))
+                        );
+                    } else {
+                        printf(
+                            esc_html__('Import state: %1$s (data import process is %2$s).', 'tradepress'),
+                            esc_html__('not yet imported', 'tradepress'),
+                            esc_html($provider_status['queue_status'])
+                        );
+                    }
+                    ?>
+                </li>
+            </ul>
+        </div>
         
         <div class="news-feed-header">
             <div class="feed-filters">
@@ -102,12 +219,12 @@ function tradepress_news_feed_tab_content() {
                             </select>
                         </div>
                         
-                        <div id="custom-date-container" class="filter-group" style="<?php echo $date_filter === 'custom' ? '' : 'display: none;'; ?>">
+                        <div id="custom-date-container" class="filter-group"<?php if ('custom' !== $date_filter) : ?> hidden<?php endif; ?>>
                             <label for="start_date"><?php esc_html_e('From:', 'tradepress'); ?></label>
-                            <input type="date" id="start_date" name="start_date" value="<?php echo esc_attr(isset($_GET['start_date']) ? $_GET['start_date'] : date('Y-m-d', strtotime('-7 days'))); ?>">
+                            <input type="date" id="start_date" name="start_date" value="<?php echo esc_attr(isset($_GET['start_date']) ? sanitize_text_field(wp_unslash($_GET['start_date'])) : date('Y-m-d', strtotime('-7 days'))); ?>">
                             
                             <label for="end_date"><?php esc_html_e('To:', 'tradepress'); ?></label>
-                            <input type="date" id="end_date" name="end_date" value="<?php echo esc_attr(isset($_GET['end_date']) ? $_GET['end_date'] : date('Y-m-d')); ?>">
+                            <input type="date" id="end_date" name="end_date" value="<?php echo esc_attr(isset($_GET['end_date']) ? sanitize_text_field(wp_unslash($_GET['end_date'])) : date('Y-m-d')); ?>">
                         </div>
                         
                         <div class="filter-group">
@@ -132,8 +249,10 @@ function tradepress_news_feed_tab_content() {
         
         <div class="news-feed-content">
             <?php if (empty($feed_items)): ?>
-                <div class="no-feed-items">
-                    <p><?php esc_html_e('No feed items found matching your criteria.', 'tradepress'); ?></p>
+                <div class="no-feed-items" data-state="no-data">
+                    <span class="dashicons dashicons-rss" aria-hidden="true"></span>
+                    <h3><?php esc_html_e('No imported news items', 'tradepress'); ?></h3>
+                    <p><?php esc_html_e('Configure at least one news-capable provider, run/queue data import, then return here to review stored market news.', 'tradepress'); ?></p>
                 </div>
             <?php else: ?>
                 <div class="feed-items-container">
@@ -345,8 +464,13 @@ function get_demo_feed_items($symbol = '', $source = 'all', $date_range = '7d', 
   * @version 1.0.0
  */
 function get_live_feed_items($symbol = '', $source = 'all', $date_range = '7d', $sentiment = 'all') {
-    // This would be implemented to fetch real data from APIs and databases
-    // For now, return the same demo data
-    return get_demo_feed_items($symbol, $source, $date_range, $sentiment);
+    /**
+     * Live news import is intentionally not fetched inline here.
+     *
+     * The Research page must read stored/imported data only. Provider calls
+     * should be queued through the data import process, then rendered from the
+     * storage layer once a news table/import path is finalised.
+     */
+    return array();
 }
 ?>

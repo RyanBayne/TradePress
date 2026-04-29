@@ -526,21 +526,7 @@ class TradePress_Admin_Development_Tasks {
       * @version 1.0.0
      */
     public static function get_feature_tasks() {
-        // Check if the function exists
-        if (!function_exists('tradepress_get_features_as_tasks')) {
-            // Include the feature loader if it's not already included
-            if (defined('TRADEPRESS_ROADMAP_DIR') && file_exists(TRADEPRESS_ROADMAP_DIR . 'feature-loader.php')) {
-                require_once TRADEPRESS_ROADMAP_DIR . 'feature-loader.php';
-            }
-        }
-        
-        // Return empty array if function still doesn't exist
-        if (!function_exists('tradepress_get_features_as_tasks')) {
-            return array();
-        }
-        
-        // Get tasks from feature definitions
-        return tradepress_get_features_as_tasks();
+        return array();
     }
     
     /**

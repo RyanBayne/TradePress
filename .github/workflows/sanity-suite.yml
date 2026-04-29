@@ -1,0 +1,28 @@
+name: TradePress Sanity Suite
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  sanity-suite:
+    name: Fixture, Indicator, and Directive Sanity Suite
+    runs-on: ubuntu-latest
+    env:
+      TRADEPRESS_TESTING: 'true'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Run TradePress sanity suite
+        run: php tests/run-sanity-suite.php

@@ -22,6 +22,115 @@ This testing framework is designed to provide clear, measurable outputs that bot
 - **System Tests**: End-to-end workflow validation
 - **Performance Tests**: Speed, memory, API call efficiency
 
+## One-Command Sanity Suite
+
+Use this first before changing scoring, indicators, directives, fixtures, or test infrastructure:
+
+```powershell
+& "c:\wamp64\bin\php\php8.3.14\php.exe" "tests\run-sanity-suite.php"
+```
+
+The suite runs:
+
+- `tests/run-fixture-sanity.php`
+- `tests/run-indicator-sanity.php`
+- `tests/run-directive-sanity.php --summary`
+
+Expected successful summary:
+
+```json
+{
+  "status": "passed",
+  "suites_run": 3,
+  "suites_passed": 3,
+  "suites_failed": 0
+}
+```
+
+If this fails, fix the failing suite before making broader scoring changes. The child suite summaries are included in the JSON output so humans and AI sessions can see where to focus next.
+
+This suite is also wired into GitHub Actions as `.github/workflows/sanity-suite.yml`.
+
+## Current Deterministic Fixture Slice
+
+The first package-safe fixture is `tests/fixtures/canonical-24h-v1.json`.
+
+This is a small synthetic dataset, not downloaded market data. It contains 24 hourly candles each for `NVDA`, `BTCUSD`, and `GBPUSD`, giving the project a stable surface for early correctness checks without provider access, licensing risk, or live API calls.
+
+Run the standalone sanity runner from the plugin root:
+
+```powershell
+& "c:\wamp64\bin\php\php8.3.14\php.exe" "tests\run-fixture-sanity.php"
+```
+
+The runner returns JSON for developers and AI sessions. It currently verifies:
+
+- fixture JSON decoding
+- top-level metadata and package-safety contract
+- symbol list to candle-key consistency
+- 24 candles per symbol
+- timestamp ordering
+- OHLCV numeric and range invariants
+- RSI output is numeric and within `0..100`
+
+This fixture is only a starter correctness slice. Full directive regression testing still needs the larger canonical dataset and approved baselines described in the directive testing strategy.
+
+## Current Indicator Sanity Runner
+
+The first standalone indicator maths runner is `tests/run-indicator-sanity.php`.
+
+Run it from the plugin root:
+
+```powershell
+& "c:\wamp64\bin\php\php8.3.14\php.exe" "tests\run-indicator-sanity.php"
+```
+
+It currently checks known-value cases for:
+
+- EMA
+- RSI
+- MACD
+- Bollinger Bands
+- Stochastic
+- ADX
+- OBV
+- VWAP
+- MFI
+- CCI
+
+The runner may return `passed_with_warnings` when all hard checks pass but a formula edge case needs review. Zero-range and flat-price edge cases are hard checks where the expected neutral behaviour is known. Examples: RSI flat prices should return `50`, CCI flat prices should return `0`, ADX flat prices should return zero trend strength, and Stochastic flat prices should return neutral `K/D` values.
+
+## Current Directive Sanity Runner
+
+The first standalone directive contract runner is `tests/run-directive-sanity.php`.
+
+Run it from the plugin root:
+
+```powershell
+& "c:\wamp64\bin\php\php8.3.14\php.exe" "tests\run-directive-sanity.php"
+```
+
+For a shorter report, use:
+
+```powershell
+& "c:\wamp64\bin\php\php8.3.14\php.exe" "tests\run-directive-sanity.php" --summary
+```
+
+This runner does not assume that every score is a `0..100` percentage. It validates scores against each directive's `get_max_score()` contract when available. Strategy totals may have a different maximum and may later be transformed into a percentage for display.
+
+The runner currently checks:
+
+- directive file discovery
+- direct compatibility with `TradePress_Scoring_Directive_Base`
+- required method presence: `calculate_score()`, `get_max_score()`, `get_explanation()`
+- class load and instantiation
+- positive numeric max-score contract
+- rich sample input score extraction
+- minimal input safety
+- score values do not fall below zero or exceed the directive's declared max score
+
+Files using old base classes or incomplete contracts are reported as `skipped`, not treated as passing. Files that fatal, throw, or return no score are reported as `failed`.
+
 ## Phase 3 Testing Implementation
 
 ### Recent Call Register Testing Suite

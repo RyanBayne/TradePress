@@ -63,6 +63,10 @@ class TradePress_Admin_Automation_Controller {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(array('message' => __('Permission denied', 'tradepress')));
         }
+
+        if (!$this->can_access_development_automation()) {
+            wp_send_json_error(array('message' => __('Algorithm automation controls are available only when Developer Mode is enabled.', 'tradepress')), 403);
+        }
         
         $action = isset($_POST['algorithm_action']) ? sanitize_text_field(wp_unslash($_POST['algorithm_action'])) : '';
         
@@ -103,6 +107,10 @@ class TradePress_Admin_Automation_Controller {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(array('message' => __('Permission denied', 'tradepress')));
         }
+
+        if (!$this->can_access_development_automation()) {
+            wp_send_json_error(array('message' => __('Algorithm metrics are available only when Developer Mode is enabled.', 'tradepress')), 403);
+        }
         
         wp_send_json_success(array(
             'symbols_processed' => get_option('tradepress_symbols_processed', 0),
@@ -134,6 +142,10 @@ class TradePress_Admin_Automation_Controller {
         
         if (!in_array($action, array('start', 'stop'))) {
             wp_send_json_error(array('message' => __('Invalid action', 'tradepress')));
+        }
+
+        if ('data_import' !== $component && !$this->can_access_development_automation()) {
+            wp_send_json_error(array('message' => __('This automation component is available only when Developer Mode is enabled.', 'tradepress')), 403);
         }
         
         $result = false;
@@ -222,6 +234,10 @@ class TradePress_Admin_Automation_Controller {
         if (!in_array($action, array('start', 'stop'))) {
             wp_send_json_error(array('message' => __('Invalid action', 'tradepress')));
         }
+
+        if (!$this->can_access_development_automation()) {
+            wp_send_json_error(array('message' => __('Bulk automation controls are available only when Developer Mode is enabled.', 'tradepress')), 403);
+        }
         
         $results = array(
             'data_import' => false,
@@ -294,6 +310,10 @@ class TradePress_Admin_Automation_Controller {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(array('message' => __('Permission denied', 'tradepress')));
         }
+
+        if (!$this->can_access_development_automation()) {
+            wp_send_json_error(array('message' => __('Automation dashboard metrics are available only when Developer Mode is enabled.', 'tradepress')), 403);
+        }
         
         // Get data import runtime
         $data_import_status = get_option('tradepress_data_import_status', 'stopped');
@@ -333,6 +353,21 @@ class TradePress_Admin_Automation_Controller {
             'scoring_health' => $scoring_health,
             'overall_health' => $overall_health
         ));
+    }
+
+    /**
+     * Check whether the current request may access development-only automation controls.
+     *
+     * Data Import remains part of the normal release surface. Dashboard, scoring,
+     * algorithm, signals, trading, and bulk controls are still development-only
+     * because they can expose incomplete or simulated automation behaviour.
+     *
+     * @return bool True when development-only automation controls may be used.
+     */
+    private function can_access_development_automation() {
+        return function_exists('tradepress_can_access_development_views')
+            ? tradepress_can_access_development_views()
+            : false;
     }
     
     /**

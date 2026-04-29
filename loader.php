@@ -434,8 +434,8 @@ final class WordPressTradePress {
         }
         
         // Get symbol
-        $symbol_id = isset($_POST['symbol_id']) ? intval($_POST['symbol_id']) : 0;
-        $ticker = isset($_POST['ticker']) ? sanitize_text_field($_POST['ticker']) : '';
+        $symbol_id = isset($_POST['symbol_id']) ? absint(wp_unslash($_POST['symbol_id'])) : 0;
+        $ticker = isset($_POST['ticker']) ? sanitize_text_field(wp_unslash($_POST['ticker'])) : '';
         
         if (empty($symbol_id) && empty($ticker)) {
             wp_send_json_error(array('message' => __('No symbol specified.', 'tradepress')));
@@ -470,11 +470,15 @@ final class WordPressTradePress {
       * @version 1.0.0
      */
     public function ajax_get_api_calls() {
-        if (!wp_verify_nonce($_POST['nonce'], 'tradepress_api_calls') || !current_user_can('manage_options')) {
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+        if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress_api_calls') || !current_user_can('manage_options')) {
             wp_send_json_error('Security check failed');
         }
         
-        $directive = sanitize_text_field($_POST['directive']);
+        $directive = isset($_POST['directive']) ? sanitize_key(wp_unslash($_POST['directive'])) : '';
+        if ('' === $directive) {
+            wp_send_json_error('Invalid directive');
+        }
         
         // Load Call Register
         if (!class_exists('TradePress_Call_Register')) {
@@ -524,13 +528,18 @@ final class WordPressTradePress {
       * @version 1.0.0
      */
     public function ajax_get_directive_outcome() {
-        if (!wp_verify_nonce($_POST['nonce'], 'tradepress_directive_outcome') || !current_user_can('manage_options')) {
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+        if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress_directive_outcome') || !current_user_can('manage_options')) {
             wp_send_json_error('Security check failed');
         }
         
-        $directive = sanitize_text_field($_POST['directive']);
-        $symbol = sanitize_text_field($_POST['symbol'] ?? 'AAPL');
-        $trading_mode = sanitize_text_field($_POST['trading_mode'] ?? 'long');
+        $directive = isset($_POST['directive']) ? sanitize_key(wp_unslash($_POST['directive'])) : '';
+        $symbol = isset($_POST['symbol']) ? sanitize_text_field(wp_unslash($_POST['symbol'])) : 'AAPL';
+        $trading_mode = isset($_POST['trading_mode']) ? sanitize_text_field(wp_unslash($_POST['trading_mode'])) : 'long';
+
+        if ('' === $directive) {
+            wp_send_json_error('Invalid directive');
+        }
         
         // Load directive configuration
         $config = get_option('tradepress_directive_' . $directive, array());

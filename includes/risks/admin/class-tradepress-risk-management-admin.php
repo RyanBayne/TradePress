@@ -37,8 +37,10 @@ class TradePress_Risk_Management_Admin {
      */
     public function ajax_save_risk_factors() {
         // Check nonce
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_risk_nonce')) {
-            wp_send_json_error(array('message' => __('Security check failed.', 'tradepress')));
+        $nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+        if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'tradepress_risk_nonce' ) ) {
+            wp_send_json_error( array( 'message' => __( 'Security check failed.', 'tradepress' ) ) );
+            return;
         }
         
         // Check user permissions
@@ -154,8 +156,10 @@ class TradePress_Risk_Management_Admin {
      */
     public function ajax_get_risk_report() {
         // Check nonce
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_risk_nonce')) {
-            wp_send_json_error(array('message' => __('Security check failed.', 'tradepress')));
+        $nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+        if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'tradepress_risk_nonce' ) ) {
+            wp_send_json_error( array( 'message' => __( 'Security check failed.', 'tradepress' ) ) );
+            return;
         }
         
         // Check user permissions
@@ -307,8 +311,10 @@ class TradePress_Risk_Management_Admin {
      */
     public function ajax_get_position_risk() {
         // Check nonce
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_risk_nonce')) {
-            wp_send_json_error(array('message' => __('Security check failed.', 'tradepress')));
+        $nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+        if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'tradepress_risk_nonce' ) ) {
+            wp_send_json_error( array( 'message' => __( 'Security check failed.', 'tradepress' ) ) );
+            return;
         }
         
         // Check user permissions

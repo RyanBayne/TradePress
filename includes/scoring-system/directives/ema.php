@@ -42,15 +42,17 @@ class TradePress_Scoring_Directive_EMA extends TradePress_Scoring_Directive_Base
         $current_price = $symbol_data['price'] ?? 0;
         $symbol = $symbol_data['symbol'] ?? 'UNKNOWN';
         
-        // Get EMA data - fetch if not provided
+        // Get EMA data - fetch only when a usable price context exists.
         if (isset($symbol_data['technical']['ema'])) {
             $ema_value = $symbol_data['technical']['ema'];
-        } else {
+        } elseif ($current_price > 0) {
             // Fetch fresh EMA data
             $ema_value = $this->fetch_fresh_ema_data($symbol, $config);
             if (is_wp_error($ema_value)) {
                 return array('score' => 0, 'signal' => 'API Error: ' . $ema_value->get_error_message());
             }
+        } else {
+            return array('score' => 0, 'signal' => 'No EMA data');
         }
         
         if (!$ema_value || $current_price <= 0) {

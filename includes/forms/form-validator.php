@@ -53,8 +53,9 @@ class TradePress_Form_Validator {
             tradepress_trace_log('Nonce field missing: ' . $nonce_field);
             return false;
         }
-        
-        if (!wp_verify_nonce($_POST[$nonce_field], $nonce_action)) {
+
+        $nonce = sanitize_text_field(wp_unslash($_POST[$nonce_field]));
+        if (empty($nonce) || !wp_verify_nonce($nonce, $nonce_action)) {
             tradepress_trace_log('Nonce verification failed', array(
                 'field' => $nonce_field,
                 'action' => $nonce_action
@@ -90,11 +91,13 @@ class TradePress_Form_Validator {
       * @param array $additional_data
      */
     public static function log_form_submission($form_name, $additional_data = array()) {
+        $post_keys = array_map('sanitize_key', array_keys($_POST));
+
         $log_data = array(
             'form' => $form_name,
             'user_id' => get_current_user_id(),
             'timestamp' => current_time('mysql'),
-            'post_keys' => array_keys($_POST),
+            'post_keys' => $post_keys,
             'additional' => $additional_data
         );
         

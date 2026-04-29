@@ -113,14 +113,155 @@
 }
 
 /* Legacy classes mapping for backward compatibility */
-.tradepress-bot-wrap { @extend .tradepress-automation-wrap; }
-.tab-content { @extend .tradepress-tab-content; }
-.algorithm-control-panel { @extend .tradepress-algorithm-control-panel; }
-.scheduling-wrapper { @extend .tradepress-scheduling-wrapper; }
-.scheduling-options { @extend .tradepress-scheduling-options; }
-.log-wrapper { @extend .tradepress-log-wrapper; }
-.trades-wrapper { @extend .tradepress-trades-wrapper; }
-.trades-summary { @extend .tradepress-trades-summary; }
-.directive-totals { @extend .tradepress-directive-totals; }
-.weight-warning { @extend .tradepress-weight-warning; }
-.directive-help { @extend .tradepress-directive-help; }
+.tradepress-bot-wrap {
+    margin: var(--tp-spacing-xl) 0;
+}
+
+.tab-content {
+    background: var(--tp-color-white);
+    border: 1px solid #ccd0d4;
+    border-top: none;
+    padding: var(--tp-spacing-xl);
+    margin-top: -1px;
+}
+
+.algorithm-control-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--tp-spacing-xl);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.scheduling-wrapper,
+.log-wrapper,
+.trades-wrapper {
+    max-width: 1200px;
+}
+
+.scheduling-options {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--tp-spacing-xl);
+}
+
+.trades-summary {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: var(--tp-spacing-xl);
+    margin-bottom: var(--tp-spacing-xl);
+}
+
+.directive-totals {
+    margin: 15px 0;
+    padding: 10px;
+    background: #f0f6fc;
+    border-left: 4px solid #2271b1;
+}
+
+.weight-warning {
+    color: #d63638;
+    font-style: italic;
+    margin-left: var(--tp-spacing-md);
+}
+
+.directive-help {
+    color: #2271b1;
+    cursor: help;
+    vertical-align: middle;
+    margin-left: var(--tp-spacing-xs);
+}
+
+/* CRON tab readability */
+#cron .tradepress-card {
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    padding: 18px;
+    margin-bottom: 16px;
+}
+
+#cron .form-table th {
+    width: 180px;
+}
+
+#cron select {
+    min-width: 220px;
+}
+
+#cron .job-details {
+    margin: 14px 0;
+    padding: 14px;
+    background: #f8f9fa;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+}
+
+#cron .job-details ul {
+    margin: 10px 0 0 18px;
+    list-style: disc;
+}
+
+#cron .tradepress-accordion .accordion-header {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+}
+
+#cron .tradepress-accordion .accordion-header h3 {
+    margin: 0;
+}
+
+#cron .tradepress-accordion .accordion-content {
+    border: 1px solid #dcdcde;
+    border-top: none;
+    padding: 12px;
+    background: #fff;
+}
+
+#cron .widefat td code {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+#cron .tradepress-cron-job td:first-child {
+    border-left: 4px solid #2271b1;
+}
+
+#cron .cron-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#cron .cron-status.enabled,
+#cron .cron-status.alternate {
+    background: #edfaef;
+    color: #0a7a23;
+}
+
+#cron .cron-status.disabled {
+    background: #fdecec;
+    color: #a02222;
+}
+
+#cron .cron-status.standard {
+    background: #f0f0f1;
+    color: #3c434a;
+}
+
+@media screen and (max-width: 782px) {
+    #cron .form-table th,
+    #cron .form-table td {
+        display: block;
+        width: 100%;
+    }
+
+    #cron select {
+        min-width: 0;
+        width: 100%;
+    }
+}

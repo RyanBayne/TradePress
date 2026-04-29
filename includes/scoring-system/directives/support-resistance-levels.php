@@ -37,7 +37,7 @@ class SupportResistanceLevels extends TradePress_Scoring_Directive_Base {
      *
      * @version 1.0.0
      */
-    public function __construct(string $symbol, TradePress_Financial_API_Service $api_service, array $config = []) {
+    public function __construct(string $symbol = 'UNKNOWN', $api_service = null, array $config = []) {
         $this->id = 'support_resistance_levels';
         $this->name = 'Support & Resistance Levels';
         $this->description = 'Identifies support and resistance zones using 6 technical methods with confluence analysis.';
@@ -82,6 +82,10 @@ class SupportResistanceLevels extends TradePress_Scoring_Directive_Base {
      */
     private function _fetch_data(): bool {
         try {
+            if (!$this->api_service || !method_exists($this->api_service, 'get_historical_data') || !method_exists($this->api_service, 'get_quote')) {
+                return false;
+            }
+
             $this->historical_data = $this->api_service->get_historical_data(
                 $this->symbol,
                 $this->config['data_interval'],

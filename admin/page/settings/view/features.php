@@ -341,8 +341,9 @@ class TradePress_Admin_Settings_Features {
             return;
         }
 
-        if (!wp_verify_nonce($_POST['tradepress_features_nonce'], 'tradepress-save-features-settings')) {
-            wp_die(esc_html__('Action failed. Please refresh the page and retry.', 'tradepress'));
+        $features_nonce = isset( $_POST['tradepress_features_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['tradepress_features_nonce'] ) ) : '';
+        if ( empty( $features_nonce ) || ! wp_verify_nonce( $features_nonce, 'tradepress-save-features-settings' ) ) {
+            wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'tradepress' ) );
         }
 
         // Get existing feature data

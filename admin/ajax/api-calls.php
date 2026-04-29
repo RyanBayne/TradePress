@@ -16,12 +16,16 @@ add_action('wp_ajax_tradepress_get_api_calls', 'tradepress_handle_get_api_calls'
  * @version 1.0.0
  */
 function tradepress_handle_get_api_calls() {
-    if (!wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_api_calls') || !current_user_can('manage_options')) {
+    $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+    if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress_api_calls') || !current_user_can('manage_options')) {
 
         wp_send_json_error('Security check failed');
     }
 
-    $directive = sanitize_text_field(wp_unslash($_POST['directive']));
+    $directive = isset($_POST['directive']) ? sanitize_key(wp_unslash($_POST['directive'])) : '';
+    if ('' === $directive) {
+        wp_send_json_error('Invalid directive');
+    }
     
     // Load Call Register
     if (!class_exists('TradePress_Call_Register')) {

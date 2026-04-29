@@ -17,7 +17,8 @@ if (!defined('ABSPATH')) {
  */
 function tradepress_ajax_toggle_directive() {
     // Verify nonce
-    if (!wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_directive_toggle')) {
+    $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+    if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress_directive_toggle')) {
 
         wp_die('Security check failed');
     }
@@ -27,9 +28,13 @@ function tradepress_ajax_toggle_directive() {
         wp_die('Insufficient permissions');
     }
 
-    $directive_id = sanitize_text_field(wp_unslash($_POST['directive_id']));
+    $directive_id = isset($_POST['directive_id']) ? sanitize_key(wp_unslash($_POST['directive_id'])) : '';
+    if ('' === $directive_id) {
+        wp_send_json_error(array('message' => 'Invalid directive id'));
+    }
 
-    $active = (bool) wp_unslash( $_POST['active'] );
+    $active_raw = isset($_POST['active']) ? sanitize_text_field(wp_unslash($_POST['active'])) : '0';
+    $active = in_array(strtolower($active_raw), array('1', 'true', 'yes', 'on'), true);
     
     // Get current directive states
     $directive_states = get_option('tradepress_directive_states', array());

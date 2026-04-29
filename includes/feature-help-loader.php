@@ -64,11 +64,20 @@ class TradePress_Feature_Help_Loader {
       * @version 1.0.0
      */
     public static function ajax_get_feature_help() {
-        if (!wp_verify_nonce($_POST['nonce'], 'tradepress_feature_help')) {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => __('Permission denied', 'tradepress')), 403);
+        }
+
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+        if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress_feature_help')) {
             wp_die('Security check failed');
         }
-        
-        $feature_id = sanitize_text_field($_POST['feature_id']);
+
+        $feature_id = isset($_POST['feature_id']) ? sanitize_key(wp_unslash($_POST['feature_id'])) : '';
+        if ('' === $feature_id) {
+            wp_send_json_error('Invalid feature id');
+        }
+
         $help_content = self::get_feature_help($feature_id);
         
         if ($help_content) {

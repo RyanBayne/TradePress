@@ -181,7 +181,7 @@ class TradePress_Admin_Assets {
         // Register research news feed tab styles
         wp_register_style( 
             'tradepress-research-news-feed-tab', 
-            TRADEPRESS_PLUGIN_URL . 'assets/css/pages/research-news-feed.css', 
+            TRADEPRESS_PLUGIN_URL . 'assets/css/pages/news-feed.css',
             array(), 
             TRADEPRESS_VERSION 
         );
@@ -674,11 +674,16 @@ class TradePress_Admin_Assets {
         }
         
         if ( 'tradepress_page_tradepress_automation' === $screen_id ) {
+            $automation_layout_file = TRADEPRESS_PLUGIN_DIR . 'assets/css/layouts/automation.css';
+            $automation_components_file = TRADEPRESS_PLUGIN_DIR . 'assets/css/admin-automation.css';
+            $automation_layout_version = file_exists($automation_layout_file) ? (string) filemtime($automation_layout_file) : TRADEPRESS_VERSION;
+            $automation_components_version = file_exists($automation_components_file) ? (string) filemtime($automation_components_file) : TRADEPRESS_VERSION;
+
             wp_enqueue_style(
                 'tradepress-admin-automation',
                 TRADEPRESS_PLUGIN_URL . 'assets/css/layouts/automation.css',
                 array(),
-                TRADEPRESS_VERSION
+                $automation_layout_version
             );
             
             // Enqueue the admin-automation.css for dashboard tab styling
@@ -686,7 +691,7 @@ class TradePress_Admin_Assets {
                 'tradepress-admin-automation-components',
                 TRADEPRESS_PLUGIN_URL . 'assets/css/admin-automation.css',
                 array(),
-                TRADEPRESS_VERSION
+                $automation_components_version
             );
             
             // Load pointers CSS and scripts for settings tab
@@ -1229,11 +1234,13 @@ class TradePress_Admin_Assets {
         );
         
         // Register CRON tab script
+        $cron_tab_script_file = TRADEPRESS_PLUGIN_DIR . 'assets/js/cron-tab.js';
+        $cron_tab_script_version = file_exists($cron_tab_script_file) ? (string) filemtime($cron_tab_script_file) : TRADEPRESS_VERSION;
         wp_register_script(
             'tradepress-cron-tab',
             TRADEPRESS_PLUGIN_URL . 'assets/js/cron-tab.js',
             array('jquery'),
-            TRADEPRESS_VERSION,
+            $cron_tab_script_version,
             true
         );
         
@@ -1524,11 +1531,13 @@ class TradePress_Admin_Assets {
         
         // Automation admin scripts
         if ('tradepress_page_tradepress_automation' === $screen_id) {
+            $automation_script_file = TRADEPRESS_PLUGIN_DIR . 'assets/js/admin-automation.js';
+            $automation_script_version = file_exists($automation_script_file) ? (string) filemtime($automation_script_file) : TRADEPRESS_VERSION;
             wp_register_script(
                 'tradepress-admin-automation',
                 TRADEPRESS_PLUGIN_URL . 'assets/js/admin-automation.js',
                 array('jquery'),
-                TRADEPRESS_VERSION,
+                $automation_script_version,
                 true
             );
             

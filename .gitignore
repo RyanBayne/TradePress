@@ -27,3 +27,11 @@ wp-config.php
 # Tooling backups
 *.wpv-bak-*
 **/*.wpv-bak-*
+
+# WP Verifier artifacts
+.wpv-config.json
+.wpv-results.json
+.wpv-verification.json
+
+# Local temp workspace
+.temp/

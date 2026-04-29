@@ -16,13 +16,21 @@ if (!defined('ABSPATH')) {
   * @version 1.0.0
  */
 function tradepress_handle_ai_diagram_analysis() {
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error(array('message' => __('Permission denied', 'tradepress')), 403);
+    }
+
     // Verify nonce
-    if (!wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_ai_analysis')) {
+    $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+    if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress_ai_analysis')) {
 
         wp_die('Security check failed');
     }
 
-    $current_diagram = sanitize_text_field(wp_unslash($_POST['current_diagram']));
+    $current_diagram = isset($_POST['current_diagram']) ? sanitize_text_field(wp_unslash($_POST['current_diagram'])) : '';
+    if ('' === $current_diagram) {
+        wp_send_json_error(array('message' => __('Invalid diagram type', 'tradepress')), 400);
+    }
     
     // Perform analysis based on current diagram and actual code
     $analysis_results = tradepress_analyze_system_architecture($current_diagram);

@@ -257,7 +257,8 @@ class TradePress_AJAX {
      */
     public static function ajax_refresh_debug_info() {
         // Verify nonce
-        if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'refresh-debug-info')) {
+        $nonce = isset($_POST['security']) ? sanitize_text_field(wp_unslash($_POST['security'])) : '';
+        if (empty($nonce) || !wp_verify_nonce($nonce, 'refresh-debug-info')) {
             wp_send_json_error(array('message' => __('Security check failed.', 'tradepress')));
         }
         
@@ -267,7 +268,7 @@ class TradePress_AJAX {
         }
         
         // Get API ID
-        $api_id = isset($_POST['api_id']) ? sanitize_text_field($_POST['api_id']) : '';
+        $api_id = isset($_POST['api_id']) ? sanitize_key(wp_unslash($_POST['api_id'])) : '';
         if (empty($api_id)) {
             wp_send_json_error(array('message' => __('API ID is required.', 'tradepress')));
         }
@@ -335,7 +336,8 @@ class TradePress_AJAX {
      */
     public static function ajax_manual_import() {
         // Verify nonce
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_data_elements_nonce')) {
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+        if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress_data_elements_nonce')) {
             wp_send_json_error(array('message' => __('Security check failed.', 'tradepress')));
         }
         
@@ -344,7 +346,7 @@ class TradePress_AJAX {
             wp_send_json_error(array('message' => __('You do not have permission to do this.', 'tradepress')));
         }
         
-        $element_id = isset($_POST['element_id']) ? sanitize_text_field($_POST['element_id']) : '';
+        $element_id = isset($_POST['element_id']) ? sanitize_key(wp_unslash($_POST['element_id'])) : '';
         if (empty($element_id)) {
             wp_send_json_error(array('message' => __('Element ID is required.', 'tradepress')));
         }
@@ -393,7 +395,8 @@ class TradePress_AJAX {
      */
     public static function ajax_refresh_data_status() {
         // Verify nonce
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_data_elements_nonce')) {
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+        if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress_data_elements_nonce')) {
             wp_send_json_error(array('message' => __('Security check failed.', 'tradepress')));
         }
         
@@ -424,7 +427,8 @@ class TradePress_AJAX {
      */
     public static function ajax_run_all_imports() {
         // Verify nonce
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_data_elements_nonce')) {
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+        if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress_data_elements_nonce')) {
             wp_send_json_error(array('message' => __('Security check failed.', 'tradepress')));
         }
         

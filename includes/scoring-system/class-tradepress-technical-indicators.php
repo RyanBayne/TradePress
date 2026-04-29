@@ -44,8 +44,16 @@ class TradePress_Technical_Indicators {
         $avg_gain = array_sum(array_slice($gains, 0, $period)) / $period;
         $avg_loss = array_sum(array_slice($losses, 0, $period)) / $period;
 
+        if ($avg_loss == 0) {
+            if ($avg_gain == 0) {
+                return 50.0;
+            }
+
+            return 100.0;
+        }
+
         // Calculate smoothed RS
-        $rs = ($avg_loss == 0) ? 100 : $avg_gain / $avg_loss;
+        $rs = $avg_gain / $avg_loss;
 
         // Calculate RSI
         $rsi = 100 - (100 / (1 + $rs));
@@ -71,7 +79,7 @@ class TradePress_Technical_Indicators {
         $fast_ema = $this->calculate_ema($prices, $fast_period);
         $slow_ema = $this->calculate_ema($prices, $slow_period);
 
-        if (!$fast_ema || !$slow_ema) {
+        if (null === $fast_ema || null === $slow_ema) {
             return null;
         }
 
@@ -183,7 +191,7 @@ class TradePress_Technical_Indicators {
             $lowest_low = min(array_slice($low, $i - $k_period + 1, $k_period));
             $highest_high = max(array_slice($high, $i - $k_period + 1, $k_period));
             
-            if ($highest_high - $lowest_low === 0) {
+            if ($highest_high - $lowest_low == 0) {
                 $k_values[] = 50; // Default to 50 if there's no range
             } else {
                 $k_values[] = 100 * (($close[$i] - $lowest_low) / ($highest_high - $lowest_low));
@@ -217,7 +225,7 @@ class TradePress_Technical_Indicators {
 
         return array(
             'k' => end($k_values),
-            'd' => end($d_values)
+            'd' => ! empty($d_values) ? end($d_values) : end($k_values)
         );
     }
 
@@ -262,9 +270,25 @@ class TradePress_Technical_Indicators {
         $smoothed_minus_dm = $this->calculate_smoothed_average($minus_dm, $period);
         $smoothed_tr = $this->calculate_smoothed_average($tr, $period);
 
+        if ($smoothed_tr == 0) {
+            return array(
+                'adx' => 0.0,
+                'plus_di' => 0.0,
+                'minus_di' => 0.0
+            );
+        }
+
         // Calculate +DI and -DI
         $plus_di = 100 * ($smoothed_plus_dm / $smoothed_tr);
         $minus_di = 100 * ($smoothed_minus_dm / $smoothed_tr);
+
+        if (($plus_di + $minus_di) == 0) {
+            return array(
+                'adx' => 0.0,
+                'plus_di' => $plus_di,
+                'minus_di' => $minus_di
+            );
+        }
 
         // Calculate DX
         $dx = 100 * (abs($plus_di - $minus_di) / ($plus_di + $minus_di));
@@ -371,9 +395,12 @@ class TradePress_Technical_Indicators {
             if ($typical_prices[$i] > $typical_prices[$i - 1]) {
                 $positive_flows[] = $money_flow[$i];
                 $negative_flows[] = 0;
-            } else {
+            } elseif ($typical_prices[$i] < $typical_prices[$i - 1]) {
                 $positive_flows[] = 0;
                 $negative_flows[] = $money_flow[$i];
+            } else {
+                $positive_flows[] = 0;
+                $negative_flows[] = 0;
             }
         }
 
@@ -381,6 +408,10 @@ class TradePress_Technical_Indicators {
         $positive_flow_sum = array_sum(array_slice($positive_flows, -$period));
         $negative_flow_sum = array_sum(array_slice($negative_flows, -$period));
         
+        if ($positive_flow_sum == 0 && $negative_flow_sum == 0) {
+            return 50.0;
+        }
+
         if ($negative_flow_sum == 0) {
             return 100; // All positive flows
         }
@@ -423,6 +454,10 @@ class TradePress_Technical_Indicators {
             $mean_deviation += abs($tp - $sma);
         }
         $mean_deviation /= $period;
+
+        if ($mean_deviation == 0) {
+            return 0.0;
+        }
         
         // Calculate CCI
         $current_typical_price = end($typical_prices);

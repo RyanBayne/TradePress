@@ -259,6 +259,91 @@ add_action('admin_post_TradePress_demo_mode_switch', 'tradepress_toggle_demo_mod
   *
   * @version 1.0.0
  */
+function tradepress_to_numeric_value($value) {
+    if (is_int($value) || is_float($value)) {
+        return (float) $value;
+    }
+
+    if (is_string($value)) {
+        $normalized = preg_replace('/[^0-9.\-]/', '', $value);
+        if ('' !== $normalized && is_numeric($normalized)) {
+            return (float) $normalized;
+        }
+    }
+
+    return null;
+}
+
+/**
+ * Normalize earnings records into stable key set for UI rendering.
+ *
+ * @param mixed $records Raw earnings records.
+ * @return array
+ */
+function tradepress_normalize_earnings_records_for_storage($records) {
+    if (!is_array($records)) {
+        return array();
+    }
+
+    $normalized_records = array();
+
+    foreach ($records as $record) {
+        if (!is_array($record)) {
+            continue;
+        }
+
+        $estimate_value = tradepress_to_numeric_value($record['estimate'] ?? ($record['eps_estimate'] ?? null));
+        $previous_eps_value = tradepress_to_numeric_value($record['previous_eps'] ?? ($record['reportedEPS'] ?? ($record['reported_eps'] ?? null)));
+
+        $eps_change_percent = tradepress_to_numeric_value($record['eps_change_percent'] ?? null);
+        if (null === $eps_change_percent && null !== $estimate_value && null !== $previous_eps_value && 0.0 !== $previous_eps_value) {
+            $eps_change_percent = (($estimate_value - $previous_eps_value) / abs($previous_eps_value)) * 100;
+        }
+        if (null === $eps_change_percent) {
+            $eps_change_percent = 0.0;
+        }
+
+        $opportunity_score = tradepress_to_numeric_value($record['opportunity_score'] ?? ($record['algorithm_score'] ?? null));
+        if (null === $opportunity_score) {
+            $opportunity_score = max(0, min(100, round(50 + ($eps_change_percent * 2))));
+        }
+
+        $sentiment = isset($record['sentiment']) ? (string) $record['sentiment'] : '';
+        if ('' === trim($sentiment)) {
+            if ($eps_change_percent > 0) {
+                $sentiment = 'Bullish';
+            } elseif ($eps_change_percent < 0) {
+                $sentiment = 'Bearish';
+            } else {
+                $sentiment = 'Neutral';
+            }
+        }
+
+        $sentiment_percent = isset($record['sentiment_percent']) ? (string) $record['sentiment_percent'] : '';
+        if ('' === trim($sentiment_percent)) {
+            $sentiment_percent = number_format(min(100, max(0, abs($eps_change_percent))), 1) . '%';
+        }
+
+        $normalized_records[] = array_merge($record, array(
+            'reportDate' => isset($record['reportDate']) ? (string) $record['reportDate'] : (string) ($record['report_date'] ?? ''),
+            'name' => isset($record['name']) ? (string) $record['name'] : (string) ($record['company_name'] ?? ''),
+            'estimate' => null !== $estimate_value ? $estimate_value : ($record['estimate'] ?? null),
+            'previous_eps' => null !== $previous_eps_value ? '$' . number_format($previous_eps_value, 2) : (string) ($record['previous_eps'] ?? 'N/A'),
+            'eps_change_percent' => (float) $eps_change_percent,
+            'current_price' => tradepress_to_numeric_value($record['current_price'] ?? ($record['price'] ?? null)),
+            'estimated_price' => tradepress_to_numeric_value($record['estimated_price'] ?? ($record['price_estimate'] ?? $estimate_value)),
+            'price_change_percent' => tradepress_to_numeric_value($record['price_change_percent'] ?? null),
+            'opportunity_score' => (int) round($opportunity_score),
+            'algorithm_score' => (int) round($opportunity_score),
+            'sentiment' => $sentiment,
+            'sentiment_percent' => $sentiment_percent,
+            'whisper' => isset($record['whisper']) ? trim((string) $record['whisper']) : '',
+        ));
+    }
+
+    return $normalized_records;
+}
+
 function tradepress_fetch_earnings_calendar_cron() {
     // Check if we have a valid API key
     $api_key = get_option('tradepress_alphavantage_api_key', '');
@@ -283,8 +368,10 @@ function tradepress_fetch_earnings_calendar_cron() {
         return;
     }
     
+    $normalized_response = tradepress_normalize_earnings_records_for_storage($response);
+
     // Store the data
-    update_option('tradepress_earnings_calendar_data', $response);
+    update_option('tradepress_earnings_calendar_data', $normalized_response);
     update_option('tradepress_earnings_last_updated', time());
     update_option('tradepress_earnings_data_source', 'Alpha Vantage');
     
@@ -302,17 +389,25 @@ add_action('tradepress_fetch_earnings_calendar', 'tradepress_fetch_earnings_cale
   * @version 1.0.0
  */
 function tradepress_handle_cron_actions() {
-    if (!isset($_GET['page']) || $_GET['page'] !== 'tradepress_automation' || 
-        !isset($_GET['tab']) || $_GET['tab'] !== 'cron' || 
+    $page = isset($_GET['page']) ? sanitize_text_field(wp_unslash($_GET['page'])) : '';
+    $tab = isset($_GET['tab']) ? sanitize_text_field(wp_unslash($_GET['tab'])) : '';
+
+    if ($page !== 'tradepress_automation' ||
+        $tab !== 'cron' ||
         !isset($_GET['action'])) {
         return;
     }
+
+    if (!current_user_can('manage_options')) {
+        wp_die(esc_html__('You do not have permission to perform this action.', 'tradepress'));
+    }
     
-    $action = sanitize_text_field($_GET['action']);
+    $action = sanitize_text_field(wp_unslash($_GET['action']));
     
     if ($action === 'run_earnings_calendar') {
         // Verify nonce
-        if (!isset($_GET['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce'], 'tradepress_run_cron')) {
+        $nonce = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
+        if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress_run_cron')) {
             wp_die(esc_html__('Security check failed. Please try again.', 'tradepress'));
         }
         
@@ -331,7 +426,8 @@ function tradepress_handle_cron_actions() {
     
     if ($action === 'clear_all_tradepress_crons') {
         // Verify nonce
-        if (!isset($_GET['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce'], 'tradepress_clear_cron')) {
+        $nonce = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
+        if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress_clear_cron')) {
             wp_die(esc_html__('Security check failed. Please try again.', 'tradepress'));
         }
         
@@ -404,14 +500,15 @@ function tradepress_update_earnings_cron() {
     }
     
     // Verify nonce
-    if (!isset($_POST['tradepress_earnings_cron_nonce']) || !wp_verify_nonce($_POST['tradepress_earnings_cron_nonce'], 'tradepress_earnings_cron_settings')) {
+    $nonce = isset($_POST['tradepress_earnings_cron_nonce']) ? sanitize_text_field(wp_unslash($_POST['tradepress_earnings_cron_nonce'])) : '';
+    if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress_earnings_cron_settings')) {
         wp_die(esc_html__('Security check failed. Please try again.', 'tradepress'));
     }
     
     // Handle enable request
     if (isset($_POST['tradepress_enable_earnings_cron'])) {
         // Get the selected interval
-        $interval = isset($_POST['tradepress_earnings_cron_interval']) ? sanitize_text_field($_POST['tradepress_earnings_cron_interval']) : 'daily';
+        $interval = isset($_POST['tradepress_earnings_cron_interval']) ? sanitize_text_field(wp_unslash($_POST['tradepress_earnings_cron_interval'])) : 'daily';
         
         // Valid WordPress schedules
         $valid_schedules = array('hourly', 'twicedaily', 'daily', 'weekly');
@@ -486,12 +583,15 @@ function tradepress_save_favorite_tabs() {
     }
     
     // Verify nonce
-    if (!isset($_POST['favorite_tabs_nonce']) || !wp_verify_nonce($_POST['favorite_tabs_nonce'], 'save_tradepress_favorite_tabs')) {
+    $nonce = isset($_POST['favorite_tabs_nonce']) ? sanitize_text_field(wp_unslash($_POST['favorite_tabs_nonce'])) : '';
+    if (empty($nonce) || !wp_verify_nonce($nonce, 'save_tradepress_favorite_tabs')) {
         wp_die(esc_html__('Security check failed. Please try again.', 'tradepress'));
     }
     
     // Process favorite tabs data
-    $favorite_tabs = isset($_POST['tradepress_favorite_tabs']) ? $_POST['tradepress_favorite_tabs'] : array();
+    $favorite_tabs = isset($_POST['tradepress_favorite_tabs']) && is_array($_POST['tradepress_favorite_tabs'])
+        ? array_map('wp_unslash', $_POST['tradepress_favorite_tabs'])
+        : array();
     
     // Sanitize each tab ID
     $favorite_tabs = array_map('sanitize_text_field', $favorite_tabs);

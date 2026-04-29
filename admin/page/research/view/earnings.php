@@ -17,6 +17,161 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Resolve the first non-empty option value from a list of keys.
+ *
+ * @param array $keys Option keys to check.
+ * @return string
+ */
+function tradepress_earnings_get_first_option_value($keys) {
+    foreach ($keys as $key) {
+        $value = get_option($key, '');
+        if (!empty($value)) {
+            return (string) $value;
+        }
+    }
+
+    return '';
+}
+
+/**
+ * Build provider and scheduling status information for Earnings Calendar.
+ *
+ * @return array
+ */
+function tradepress_earnings_get_provider_status() {
+    $alpha_enabled = ('yes' === get_option('TradePress_switch_alphavantage_api_services', 'no'));
+    $alpha_key = tradepress_earnings_get_first_option_value(array(
+        'tradepress_api_alphavantage_key',
+        'TradePress_alphavantage_api_key',
+        'tradepress_alphavantage_api_key',
+        'TradePress_api_alphavantage_key',
+    ));
+
+    $cron_enabled = (bool) get_option('tradepress_earnings_cron_enabled', false);
+    $cron_interval = get_option('tradepress_earnings_cron_interval', 'daily');
+    $next_scheduled = wp_next_scheduled('tradepress_fetch_earnings_calendar');
+
+    $last_import = (int) max(
+        (int) get_option('tradepress_earnings_last_update', 0),
+        (int) get_option('tradepress_earnings_last_updated', 0)
+    );
+
+    return array(
+        'alpha_enabled' => $alpha_enabled,
+        'alpha_key_configured' => !empty($alpha_key),
+        'cron_enabled' => $cron_enabled,
+        'cron_interval' => $cron_interval,
+        'next_scheduled' => $next_scheduled,
+        'last_import' => $last_import,
+    );
+}
+
+/**
+ * Convert a potentially formatted value to float when possible.
+ *
+ * @param mixed $value Value to normalize.
+ * @return float|null
+ */
+function tradepress_earnings_to_float($value) {
+    if (is_numeric($value)) {
+        return (float) $value;
+    }
+
+    if (is_string($value)) {
+        $normalized = preg_replace('/[^0-9.\-]/', '', $value);
+        if ($normalized !== '' && is_numeric($normalized)) {
+            return (float) $normalized;
+        }
+    }
+
+    return null;
+}
+
+/**
+ * Build deterministic display metrics from stored earnings fields.
+ *
+ * @param array $earning Earnings item.
+ * @return array
+ */
+function tradepress_earnings_build_display_metrics($earning) {
+    $eps_change_percent = isset($earning['eps_change_percent']) ? (float) $earning['eps_change_percent'] : 0.0;
+
+    $score_source = null;
+    if (isset($earning['opportunity_score']) && is_numeric($earning['opportunity_score'])) {
+        $score_source = (float) $earning['opportunity_score'];
+    } elseif (isset($earning['algorithm_score']) && is_numeric($earning['algorithm_score'])) {
+        $score_source = (float) $earning['algorithm_score'];
+    }
+
+    $opportunity_score = null !== $score_source
+        ? (int) round($score_source)
+        : (int) round(max(0, min(100, 50 + ($eps_change_percent * 2))));
+
+    if ($opportunity_score >= 75) {
+        $opportunity_class = 'high-opportunity';
+    } elseif ($opportunity_score >= 50) {
+        $opportunity_class = 'medium-opportunity';
+    } else {
+        $opportunity_class = 'low-opportunity';
+    }
+
+    $sentiment = isset($earning['sentiment']) ? sanitize_text_field((string) $earning['sentiment']) : '';
+    if ('' === $sentiment) {
+        if ($eps_change_percent > 0) {
+            $sentiment = 'Bullish';
+        } elseif ($eps_change_percent < 0) {
+            $sentiment = 'Bearish';
+        } else {
+            $sentiment = 'Neutral';
+        }
+    }
+
+    $sentiment_percent = isset($earning['sentiment_percent']) ? sanitize_text_field((string) $earning['sentiment_percent']) : '';
+    if ('' === $sentiment_percent) {
+        $sentiment_percent = number_format(min(100, max(0, abs($eps_change_percent))), 1) . '%';
+    }
+
+    $sentiment_class = strtolower($sentiment);
+
+    $whisper = isset($earning['whisper']) && '' !== trim((string) $earning['whisper'])
+        ? (string) $earning['whisper']
+        : 'N/A';
+
+    $current_price = null;
+    if (isset($earning['current_price'])) {
+        $current_price = tradepress_earnings_to_float($earning['current_price']);
+    }
+
+    $estimated_price = null;
+    if (isset($earning['estimated_price'])) {
+        $estimated_price = tradepress_earnings_to_float($earning['estimated_price']);
+    } elseif (isset($earning['price_estimate'])) {
+        $estimated_price = tradepress_earnings_to_float($earning['price_estimate']);
+    }
+
+    $price_change_pct = isset($earning['price_change_percent'])
+        ? tradepress_earnings_to_float($earning['price_change_percent'])
+        : null;
+
+    if (null === $price_change_pct && null !== $current_price && null !== $estimated_price && 0.0 !== $current_price) {
+        $price_change_pct = (($estimated_price - $current_price) / $current_price) * 100;
+    }
+
+    return array(
+        'opportunity_score' => $opportunity_score,
+        'opportunity_class' => $opportunity_class,
+        'sentiment' => $sentiment,
+        'sentiment_class' => sanitize_html_class($sentiment_class),
+        'sentiment_percent' => $sentiment_percent,
+        'whisper' => $whisper,
+        'current_price' => $current_price,
+        'estimated_price' => $estimated_price,
+        'price_change_pct' => $price_change_pct,
+        'eps_change_percent' => $eps_change_percent,
+    );
+}
+
+/**
  * Display the Earnings tab content
   *
   * @version 1.0.0
@@ -27,19 +182,19 @@ function tradepress_earnings_tab_content() {
     $end_date = date('Y-m-d', strtotime('+7 days', strtotime($current_date)));
     
     // Get filter parameters with defaults
-    $view_mode = isset($_GET['view']) ? sanitize_text_field($_GET['view']) : 'week';
-    $start_date = isset($_GET['start_date']) ? sanitize_text_field($_GET['start_date']) : $current_date;
+    $view_mode = isset($_GET['view']) ? sanitize_text_field(wp_unslash($_GET['view'])) : 'week';
+    $start_date = isset($_GET['start_date']) ? sanitize_text_field(wp_unslash($_GET['start_date'])) : $current_date;
     if ($view_mode === 'week') {
         $end_date = date('Y-m-d', strtotime('+7 days', strtotime($start_date)));
     } elseif ($view_mode === 'month') {
         $end_date = date('Y-m-d', strtotime('+30 days', strtotime($start_date)));
     } else {
-        $end_date = isset($_GET['end_date']) ? sanitize_text_field($_GET['end_date']) : $end_date;
+        $end_date = isset($_GET['end_date']) ? sanitize_text_field(wp_unslash($_GET['end_date'])) : $end_date;
     }
     
-    $sector_filter = isset($_GET['sector']) ? sanitize_text_field($_GET['sector']) : 'all';
-    $importance_filter = isset($_GET['importance']) ? sanitize_text_field($_GET['importance']) : 'all';
-    $display_mode = isset($_GET['display']) ? sanitize_text_field($_GET['display']) : 'table';
+    $sector_filter = isset($_GET['sector']) ? sanitize_text_field(wp_unslash($_GET['sector'])) : 'all';
+    $importance_filter = isset($_GET['importance']) ? sanitize_text_field(wp_unslash($_GET['importance'])) : 'all';
+    $display_mode = isset($_GET['display']) ? sanitize_text_field(wp_unslash($_GET['display'])) : 'table';
     
     // Get user's timezone setting
     $user_timezone = get_option('timezone_string');
@@ -54,15 +209,18 @@ function tradepress_earnings_tab_content() {
     }
     
     $is_demo = function_exists('is_demo_mode') ? is_demo_mode() : false;
+    $can_show_demo = function_exists('tradepress_can_access_development_views') && tradepress_can_access_development_views();
+    $use_demo_data = $is_demo && $can_show_demo;
+    $provider_status = tradepress_earnings_get_provider_status();
     $earnings_data = array();
     
-    if ($is_demo) {
-        // Generate mock earnings data in demo mode only
+    if ($use_demo_data) {
+        // Generate mock earnings data in developer demo mode only.
         $earnings_data = tradepress_get_mock_earnings_data($start_date, $end_date, $sector_filter, $importance_filter);
         $data_source = 'Demo Mode';
         $last_updated_text = date_i18n(get_option('date_format') . ' ' . get_option('time_format'), current_time('timestamp'));
     } else {
-        // In real mode, fetch data from Alpha Vantage API
+        // In real mode, read stored/imported earnings data only.
         $earnings_data = tradepress_fetch_earnings_calendar_data($start_date, $end_date, $sector_filter);
         
         // Get data source and last updated information for display
@@ -70,6 +228,10 @@ function tradepress_earnings_tab_content() {
         $last_updated = get_option('tradepress_earnings_last_updated', 0);
         $last_updated_text = $last_updated ? date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $last_updated) : 'Never';
     }
+
+    $empty_state_message = $provider_status['alpha_key_configured']
+        ? __('No earnings records are stored for this filter yet. Run or schedule an earnings import, then refresh this view.', 'tradepress')
+        : __('Alpha Vantage API key is not configured. Add a key in API Management, then run or schedule earnings import.', 'tradepress');
     
     // Group earnings by date
     $earnings_by_date = array();
@@ -86,12 +248,71 @@ function tradepress_earnings_tab_content() {
     ?>
     
     <div class="tradepress-earnings-container">
+        <?php if ($use_demo_data): ?>
+            <div class="demo-indicator">
+                <span class="demo-icon dashicons dashicons-admin-tools" aria-hidden="true"></span>
+                <div class="demo-text">
+                    <h4><?php esc_html_e('Developer demo earnings', 'tradepress'); ?></h4>
+                    <p><?php esc_html_e('These earnings records include generated values and are hidden from regular users.', 'tradepress'); ?></p>
+                </div>
+                <span class="demo-badge"><?php esc_html_e('Developer', 'tradepress'); ?></span>
+            </div>
+        <?php endif; ?>
 
+        <?php if (!$use_demo_data): ?>
+            <div class="notice notice-info inline" style="margin: 10px 0 16px 0;">
+                <p><strong><?php esc_html_e('Provider status', 'tradepress'); ?></strong></p>
+                <ul style="margin: 8px 0 0 20px; list-style: disc;">
+                    <li>
+                        <?php
+                        echo esc_html(
+                            sprintf(
+                                /* translators: %1$s: enabled/disabled text, %2$s: configured/missing text */
+                                __('Alpha Vantage: %1$s, key %2$s', 'tradepress'),
+                                $provider_status['alpha_enabled'] ? __('enabled', 'tradepress') : __('disabled', 'tradepress'),
+                                $provider_status['alpha_key_configured'] ? __('configured', 'tradepress') : __('missing', 'tradepress')
+                            )
+                        );
+                        ?>
+                    </li>
+                    <li>
+                        <?php
+                        if ($provider_status['cron_enabled'] && $provider_status['next_scheduled']) {
+                            printf(
+                                esc_html__('Scheduled import: enabled (%1$s), next run %2$s', 'tradepress'),
+                                esc_html($provider_status['cron_interval']),
+                                esc_html(date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $provider_status['next_scheduled']))
+                            );
+                        } elseif ($provider_status['cron_enabled']) {
+                            printf(
+                                esc_html__('Scheduled import: enabled (%s), next run pending schedule registration', 'tradepress'),
+                                esc_html($provider_status['cron_interval'])
+                            );
+                        } else {
+                            esc_html_e('Scheduled import: disabled', 'tradepress');
+                        }
+                        ?>
+                    </li>
+                    <li>
+                        <?php
+                        if ($provider_status['last_import'] > 0) {
+                            printf(
+                                esc_html__('Last imported: %s', 'tradepress'),
+                                esc_html(date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $provider_status['last_import']))
+                            );
+                        } else {
+                            esc_html_e('Last imported: not yet imported', 'tradepress');
+                        }
+                        ?>
+                    </li>
+                </ul>
+            </div>
+        <?php endif; ?>
         
         <div class="tradepress-research-section">
             <!-- Earnings Calendar Controls -->
             <div class="earnings-filters">
-                <form method="get" action="">
+                <form class="earnings-filter-form" method="get" action="">
                     <input type="hidden" name="page" value="tradepress_research">
                     <input type="hidden" name="tab" value="earnings">
                     
@@ -105,12 +326,16 @@ function tradepress_earnings_tab_content() {
                             </select>
                         </div>
                         
-                        <div class="filter-group date-filter <?php echo ($view_mode === 'custom') ? 'visible' : ''; ?>">
-                            <label for="start_date"><?php esc_html_e('From:', 'tradepress'); ?></label>
-                            <input type="date" id="start_date" name="start_date" value="<?php echo esc_attr($start_date); ?>">
-                            
-                            <label for="end_date"><?php esc_html_e('To:', 'tradepress'); ?></label>
-                            <input type="date" id="end_date" name="end_date" value="<?php echo esc_attr($end_date); ?>">
+                        <div class="filter-group date-filter <?php echo ('custom' === $view_mode) ? 'visible' : ''; ?>">
+                            <div class="date-field">
+                                <label for="start_date"><?php esc_html_e('From:', 'tradepress'); ?></label>
+                                <input type="date" id="start_date" name="start_date" value="<?php echo esc_attr($start_date); ?>">
+                            </div>
+
+                            <div class="date-field">
+                                <label for="end_date"><?php esc_html_e('To:', 'tradepress'); ?></label>
+                                <input type="date" id="end_date" name="end_date" value="<?php echo esc_attr($end_date); ?>">
+                            </div>
                         </div>
                         
                         <div class="filter-group">
@@ -158,7 +383,7 @@ function tradepress_earnings_tab_content() {
                 </form>
                 
                 <div class="timezone-info">
-                    <span class="dashicons dashicons-clock"></span>
+                    <span class="dashicons dashicons-clock" aria-hidden="true"></span>
                     <?php /* translators: %s: string value */ ?>
                     <?php echo sprintf(esc_html__('All times shown in your local timezone: %s', 'tradepress'), '<strong>' . esc_html($user_timezone) . '</strong>'); ?>
                 </div>
@@ -183,8 +408,10 @@ function tradepress_earnings_tab_content() {
                 </h3>
                 
                 <?php if (empty($earnings_data)): ?>
-                    <div class="no-earnings-message">
-                        <p><?php esc_html_e('No earnings reports found for the selected criteria.', 'tradepress'); ?></p>
+                    <div class="no-earnings-message" data-state="no-data">
+                        <span class="dashicons dashicons-calendar-alt" aria-hidden="true"></span>
+                        <h4><?php esc_html_e('No imported earnings reports', 'tradepress'); ?></h4>
+                        <p><?php echo esc_html($empty_state_message); ?></p>
                     </div>
                 <?php else: ?>
                     <div class="earnings-summary">
@@ -226,29 +453,8 @@ function tradepress_earnings_tab_content() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($day_earnings as $index => $earning): 
-                                            // Generate sentiment data 
-                                            $sentiment_options = array('Bullish', 'Neutral', 'Bearish');
-                                            $sentiment = $sentiment_options[array_rand($sentiment_options)];
-                                            $sentiment_percent = mt_rand(20, 80) . '%';
-                                            $sentiment_class = strtolower($sentiment);
-                                            
-                                            // Generate opportunity score
-                                            $opportunity_score = mt_rand(10, 95);
-                                            if ($opportunity_score >= 75) {
-                                                $opportunity_class = 'high-opportunity';
-                                            } elseif ($opportunity_score >= 50) {
-                                                $opportunity_class = 'medium-opportunity';
-                                            } else {
-                                                $opportunity_class = 'low-opportunity';
-                                            }
-                                            
-                                            // Generate whisper value if not present
-                                            if (!isset($earning['whisper']) || empty($earning['whisper'])) {
-                                                $eps_value = (float)substr($earning['eps_estimate'], 1);
-                                                $whisper_diff = (mt_rand(-10, 15) / 100) * $eps_value;
-                                                $earning['whisper'] = '$' . number_format($eps_value + $whisper_diff, 2);
-                                            }
+                                        <?php foreach ($day_earnings as $index => $earning):
+                                            $display = tradepress_earnings_build_display_metrics($earning);
                                         ?>
                                             <tr>
                                                 <td><?php echo esc_html($earning['time']); ?></td>
@@ -257,11 +463,11 @@ function tradepress_earnings_tab_content() {
                                                 <td><?php echo esc_html($earning['market_cap']); ?></td>
                                                 <td><?php echo esc_html($earning['sector']); ?></td>
                                                 <td><?php echo esc_html($earning['eps_estimate']); ?></td>
-                                                <td><?php echo esc_html($earning['whisper']); ?></td>
+                                                <td><?php echo esc_html($display['whisper']); ?></td>
                                                 <td><?php echo esc_html($earning['previous_eps']); ?></td>
                                                 <td>
                                                     <?php
-                                                    $eps_percent = $earning['eps_change_percent'];
+                                                    $eps_percent = $display['eps_change_percent'];
                                                     $eps_class = '';
                                                     
                                                     if ($eps_percent > 0) {
@@ -277,15 +483,15 @@ function tradepress_earnings_tab_content() {
                                                     ?>
                                                 </td>
                                                 <td>
-                                                    <span class="sentiment-badge sentiment-<?php echo esc_attr( $sentiment_class ); ?>">
-                                                        <?php echo esc_html($sentiment); ?>
+                                                    <span class="sentiment-badge sentiment-<?php echo esc_attr($display['sentiment_class']); ?>">
+                                                        <?php echo esc_html($display['sentiment']); ?>
                                                     </span>
-                                                    <span class="sentiment-pct"><?php echo esc_html($sentiment_percent); ?></span>
+                                                    <span class="sentiment-pct"><?php echo esc_html($display['sentiment_percent']); ?></span>
                                                 </td>
                                                 <td>
-                                                    <div class="opp-score-container <?php echo esc_attr($opportunity_class); ?>">
-                                                        <div class="opp-score-value"><?php echo esc_html($opportunity_score); ?></div>
-                                                        <div class="opp-score-bar" style="width: <?php echo (int) min(100, $opportunity_score); ?>%;"></div>
+                                                    <div class="opp-score-container <?php echo esc_attr($display['opportunity_class']); ?>">
+                                                        <div class="opp-score-value"><?php echo esc_html($display['opportunity_score']); ?></div>
+                                                        <div class="opp-score-bar" style="width: <?php echo (int) min(100, $display['opportunity_score']); ?>%;"></div>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -306,24 +512,10 @@ function tradepress_earnings_tab_content() {
                 <?php else: ?>
                     <!-- Card View -->
                     <div class="earnings-cards-view">
-                        <?php foreach ($earnings_data as $earning): 
-                            // Generate random current price and estimated price for card view
-                            $current_price = mt_rand(1000, 50000) / 100;
-                            $price_change_pct = mt_rand(-1000, 2000) / 100;
-                            $estimated_price = $current_price * (1 + $price_change_pct / 100);
-                            $algorithm_score = mt_rand(10, 100);
-                            
-                            // Determine if this is a potential opportunity based on score
-                            $opportunity_class = '';
-                            if ($algorithm_score >= 75) {
-                                $opportunity_class = 'high-opportunity';
-                            } elseif ($algorithm_score >= 50) {
-                                $opportunity_class = 'medium-opportunity';
-                            } else {
-                                $opportunity_class = 'low-opportunity';
-                            }
+                        <?php foreach ($earnings_data as $earning):
+                            $display = tradepress_earnings_build_display_metrics($earning);
                         ?>
-                            <div class="earnings-card <?php echo esc_attr($opportunity_class); ?>">
+                            <div class="earnings-card <?php echo esc_attr($display['opportunity_class']); ?>">
                                 <div class="earnings-card-header">
                                     <div class="company-logo">
                                         <!-- Placeholder for company logo -->
@@ -354,13 +546,25 @@ function tradepress_earnings_tab_content() {
                                     <div class="earnings-data-row">
                                         <div class="data-item">
                                             <span class="label"><?php esc_html_e('Current Price', 'tradepress'); ?></span>
-                                            <span class="value price-value">$<?php echo number_format($current_price, 2); ?></span>
+                                            <span class="value price-value">
+                                                <?php
+                                                echo null !== $display['current_price']
+                                                    ? esc_html('$' . number_format($display['current_price'], 2))
+                                                    : esc_html__('N/A', 'tradepress');
+                                                ?>
+                                            </span>
                                         </div>
                                         <div class="data-item">
                                             <span class="label"><?php esc_html_e('Est. Price', 'tradepress'); ?></span>
-                                            <span class="value estimated-price <?php echo $price_change_pct >= 0 ? 'positive' : 'negative'; ?>">
-                                                $<?php echo number_format($estimated_price, 2); ?>
-                                                <span class="price-change">(<?php echo $price_change_pct >= 0 ? '+' : ''; ?><?php echo number_format($price_change_pct, 2); ?>%)</span>
+                                            <span class="value estimated-price <?php echo (null !== $display['price_change_pct'] && $display['price_change_pct'] >= 0) ? 'positive' : 'negative'; ?>">
+                                                <?php
+                                                echo null !== $display['estimated_price']
+                                                    ? esc_html('$' . number_format($display['estimated_price'], 2))
+                                                    : esc_html__('N/A', 'tradepress');
+                                                ?>
+                                                <?php if (null !== $display['price_change_pct']): ?>
+                                                    <span class="price-change">(<?php echo $display['price_change_pct'] >= 0 ? '+' : ''; ?><?php echo esc_html(number_format($display['price_change_pct'], 2)); ?>%)</span>
+                                                <?php endif; ?>
                                             </span>
                                         </div>
                                     </div>
@@ -378,9 +582,9 @@ function tradepress_earnings_tab_content() {
                                     
                                     <div class="algorithm-score">
                                         <div class="score-label"><?php esc_html_e('Algorithm Score', 'tradepress'); ?></div>
-                                        <div class="score-container <?php echo esc_attr($opportunity_class); ?>">
-                                            <div class="score-bar" style="width: <?php echo esc_attr($algorithm_score); ?>%;"></div>
-                                            <div class="score-value"><?php echo esc_html($algorithm_score); ?></div>
+                                        <div class="score-container <?php echo esc_attr($display['opportunity_class']); ?>">
+                                            <div class="score-bar" style="width: <?php echo esc_attr($display['opportunity_score']); ?>%;"></div>
+                                            <div class="score-value"><?php echo esc_html($display['opportunity_score']); ?></div>
                                         </div>
                                     </div>
                                 </div>
@@ -399,7 +603,7 @@ function tradepress_earnings_tab_content() {
                 <?php endif; ?>
             <?php else: ?>
                 <!-- Empty state - Display loading state when refresh is clicked -->
-                <div class="earnings-loading-state" style="display: none;">
+                <div class="earnings-loading-state" hidden>
                     <p>
                         <span class="spinner is-active"></span>
                         <?php esc_html_e('Loading earnings data...', 'tradepress'); ?>
@@ -541,7 +745,7 @@ function tradepress_get_mock_earnings_data($start_date, $end_date, $sector_filte
 }
 
 /**
- * Fetch earnings calendar data from Alpha Vantage API
+ * Read stored earnings data and format for the Earnings tab.
  * 
  * @param string $start_date Start date in Y-m-d format
  * @param string $end_date End date in Y-m-d format
@@ -550,95 +754,66 @@ function tradepress_get_mock_earnings_data($start_date, $end_date, $sector_filte
   * @version 1.0.0
  */
 function tradepress_fetch_earnings_calendar_data($start_date, $end_date, $sector_filter = 'all') {
-    // Check if we have cached data
-    $transient_key = 'tradepress_earnings_data_' . md5($start_date . $end_date . $sector_filter);
-    $cached_data = get_transient($transient_key);
-    
-    if (false !== $cached_data) {
-        return $cached_data;
+    $raw_data = get_option('tradepress_earnings_data', array());
+
+    if (empty($raw_data)) {
+        $raw_data = get_option('tradepress_earnings_calendar_data', array());
     }
-    
-    // Load the Alpha Vantage API class
-    if (!class_exists('TradePress_AlphaVantage_API')) {
-        require_once TRADEPRESS_PLUGIN_DIR . 'api/alphavantage/alphavantage-api.php';
-    }
-    
-    // Get Alpha Vantage API key
-    $api_key = get_option('tradepress_alphavantage_api_key', '');
-    
-    // Create API instance
-    $api = new TradePress_AlphaVantage_API('alphavantage', array('api_key' => $api_key));
-    
-    // Get earnings calendar data
-    $response = $api->get_earnings_calendar('3month'); // Using 3month horizon as default
-    
-    // Return empty array if there's an error
-    if (is_wp_error($response)) {
-        // Log the error for admin reference
+
+    if (empty($raw_data)) {
         return array();
     }
-    
-    // Process the raw earnings data into our standardized format
+
     $formatted_data = array();
-    
-    foreach ($response as $earning) {
-        // Skip if the report date is outside our date range
-        $report_date = isset($earning['reportDate']) ? $earning['reportDate'] : '';
+
+    foreach ($raw_data as $earning) {
+        $report_date = isset($earning['reportDate']) ? (string) $earning['reportDate'] : (isset($earning['report_date']) ? (string) $earning['report_date'] : '');
         if (empty($report_date) || $report_date < $start_date || $report_date > $end_date) {
             continue;
         }
-        
-        // Extract values and set defaults for missing data
-        $symbol = isset($earning['symbol']) ? $earning['symbol'] : '';
-        $company = isset($earning['name']) ? $earning['name'] : '';
-        $fiscal_date_ending = isset($earning['fiscalDateEnding']) ? $earning['fiscalDateEnding'] : '';
-        $estimate = isset($earning['estimate']) ? $earning['estimate'] : '';
-        $currency = isset($earning['currency']) ? $earning['currency'] : 'USD';
-        
-        // Get additional company data if possible
-        $market_cap = '';
-        $sector = '';
-        
-        // Apply sector filtering
+
+        $sector = isset($earning['sector']) ? (string) $earning['sector'] : '';
         if ($sector_filter !== 'all' && !empty($sector) && strtolower($sector) !== strtolower($sector_filter)) {
             continue;
         }
-        
-        // Determine reporting time based on convention
-        // The Alpha Vantage API doesn't provide exact time, so we set a default
-        $time = 'TBA'; // To Be Announced
-        
-        // Format the estimate value
-        $eps_estimate = !empty($estimate) ? '$' . number_format((float)$estimate, 2) : 'N/A';
-        
-        // Previous EPS data isn't provided in the API call, so we set placeholders
-        $previous_eps = 'N/A';
-        $eps_change_percent = 0;
-        
-        // Add to formatted data
+
+        $estimate = isset($earning['estimate']) ? $earning['estimate'] : (isset($earning['eps_estimate']) ? $earning['eps_estimate'] : '');
+        $estimate_value = tradepress_earnings_to_float($estimate);
+        $eps_estimate = null !== $estimate_value ? '$' . number_format($estimate_value, 2) : 'N/A';
+
+        $previous_eps_raw = isset($earning['previous_eps']) ? $earning['previous_eps'] : (isset($earning['reportedEPS']) ? $earning['reportedEPS'] : (isset($earning['reported_eps']) ? $earning['reported_eps'] : 'N/A'));
+        $previous_eps_value = tradepress_earnings_to_float($previous_eps_raw);
+        $previous_eps = null !== $previous_eps_value ? '$' . number_format($previous_eps_value, 2) : (string) $previous_eps_raw;
+
+        $eps_change_percent = isset($earning['eps_change_percent']) ? (float) $earning['eps_change_percent'] : 0.0;
+        if (0.0 === $eps_change_percent && null !== $estimate_value && null !== $previous_eps_value && 0.0 !== $previous_eps_value) {
+            $eps_change_percent = (($estimate_value - $previous_eps_value) / abs($previous_eps_value)) * 100;
+        }
+
         $formatted_data[] = array(
             'date' => $report_date,
-            'time' => $time,
-            'symbol' => $symbol,
-            'company' => $company,
-            'market_cap' => $market_cap,
+            'time' => isset($earning['time']) ? (string) $earning['time'] : 'TBA',
+            'symbol' => isset($earning['symbol']) ? (string) $earning['symbol'] : '',
+            'company' => isset($earning['name']) ? (string) $earning['name'] : (isset($earning['company_name']) ? (string) $earning['company_name'] : ''),
+            'market_cap' => isset($earning['market_cap']) ? (string) $earning['market_cap'] : '',
             'sector' => $sector,
             'eps_estimate' => $eps_estimate,
             'previous_eps' => $previous_eps,
             'eps_change_percent' => $eps_change_percent,
-            'importance' => 'medium', // Default importance
-            'fiscal_date_ending' => $fiscal_date_ending,
-            'currency' => $currency
+            'importance' => isset($earning['importance']) ? (string) $earning['importance'] : 'medium',
+            'fiscal_date_ending' => isset($earning['fiscalDateEnding']) ? (string) $earning['fiscalDateEnding'] : (isset($earning['fiscal_date_ending']) ? (string) $earning['fiscal_date_ending'] : ''),
+            'currency' => isset($earning['currency']) ? (string) $earning['currency'] : 'USD',
+            'whisper' => isset($earning['whisper']) ? (string) $earning['whisper'] : '',
+            'current_price' => isset($earning['current_price']) ? $earning['current_price'] : (isset($earning['price']) ? $earning['price'] : null),
+            'estimated_price' => isset($earning['estimated_price']) ? $earning['estimated_price'] : (isset($earning['price_estimate']) ? $earning['price_estimate'] : $estimate_value),
+            'price_change_percent' => isset($earning['price_change_percent']) ? $earning['price_change_percent'] : null,
+            'opportunity_score' => isset($earning['opportunity_score']) ? $earning['opportunity_score'] : (isset($earning['algorithm_score']) ? $earning['algorithm_score'] : null),
+            'algorithm_score' => isset($earning['algorithm_score']) ? $earning['algorithm_score'] : (isset($earning['opportunity_score']) ? $earning['opportunity_score'] : null),
+            'sentiment' => isset($earning['sentiment']) ? (string) $earning['sentiment'] : '',
+            'sentiment_percent' => isset($earning['sentiment_percent']) ? (string) $earning['sentiment_percent'] : '',
         );
     }
-    
-    // Store the last updated time
-    update_option('tradepress_earnings_last_updated', time());
-    update_option('tradepress_earnings_data_source', 'Alpha Vantage');
-    
-    // Cache the data for 6 hours (earning data doesn't change frequently)
-    set_transient($transient_key, $formatted_data, 6 * HOUR_IN_SECONDS);
-    
+
     return $formatted_data;
 }
 ?>

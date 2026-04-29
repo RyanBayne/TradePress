@@ -32,7 +32,7 @@ class TradePress_UI_Library_Forms {
             return;
         }
         
-        $action = sanitize_text_field( $_POST['tradepress_form_action'] );
+        $action = sanitize_text_field( wp_unslash( $_POST['tradepress_form_action'] ) );
         
         switch ( $action ) {
             case 'contact_form':
@@ -50,13 +50,17 @@ class TradePress_UI_Library_Forms {
       * @version 1.0.0
      */
     private function handle_contact_form() {
-        if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'tradepress_ui_contact_form' ) ) {
+        if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'tradepress_ui_contact_form' ) ) {
             wp_die( 'Security check failed' );
         }
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_die( 'Permission denied' );
+        }
         
-        $name = sanitize_text_field( $_POST['contact_name'] );
-        $email = sanitize_email( $_POST['contact_email'] );
-        $message = sanitize_textarea_field( $_POST['contact_message'] );
+        $name = isset( $_POST['contact_name'] ) ? sanitize_text_field( wp_unslash( $_POST['contact_name'] ) ) : '';
+        $email = isset( $_POST['contact_email'] ) ? sanitize_email( wp_unslash( $_POST['contact_email'] ) ) : '';
+        $message = isset( $_POST['contact_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['contact_message'] ) ) : '';
         
         // Log the submission
         tradepress_ai_log( 'Contact form submitted', array(
@@ -80,13 +84,23 @@ class TradePress_UI_Library_Forms {
       * @version 1.0.0
      */
     private function handle_trading_settings() {
-        if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'tradepress_ui_trading_settings' ) ) {
+        if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'tradepress_ui_trading_settings' ) ) {
             wp_die( 'Security check failed' );
         }
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_die( 'Permission denied' );
+        }
         
-        $risk_level = sanitize_text_field( $_POST['risk_level'] );
-        $max_investment = absint( $_POST['max_investment'] );
-        $preferences = isset( $_POST['preferences'] ) ? array_map( 'sanitize_text_field', $_POST['preferences'] ) : array();
+        $risk_level = isset( $_POST['risk_level'] ) ? sanitize_text_field( wp_unslash( $_POST['risk_level'] ) ) : '';
+        $max_investment = isset( $_POST['max_investment'] ) ? absint( wp_unslash( $_POST['max_investment'] ) ) : 0;
+        $preferences = array();
+        if ( isset( $_POST['preferences'] ) && is_array( $_POST['preferences'] ) ) {
+            $preferences = array_map(
+                'sanitize_text_field',
+                array_map( 'wp_unslash', $_POST['preferences'] )
+            );
+        }
         
         // Log the submission
         tradepress_ai_log( 'Trading settings updated', array(
@@ -110,11 +124,16 @@ class TradePress_UI_Library_Forms {
       * @version 1.0.0
      */
     public function validate_username() {
-        if ( ! wp_verify_nonce( $_POST['nonce'], 'tradepress_ui_ajax_validation' ) ) {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( array( 'message' => 'Permission denied' ) );
+        }
+
+        $nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+        if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'tradepress_ui_ajax_validation' ) ) {
             wp_send_json_error( array( 'message' => 'Security check failed' ) );
         }
         
-        $username = sanitize_text_field( $_POST['username'] );
+        $username = isset( $_POST['username'] ) ? sanitize_text_field( wp_unslash( $_POST['username'] ) ) : '';
         
         if ( strlen( $username ) < 3 ) {
             wp_send_json_error( array( 'message' => 'Username must be at least 3 characters' ) );
@@ -133,11 +152,16 @@ class TradePress_UI_Library_Forms {
       * @version 1.0.0
      */
     public function validate_symbol() {
-        if ( ! wp_verify_nonce( $_POST['nonce'], 'tradepress_ui_ajax_validation' ) ) {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( array( 'message' => 'Permission denied' ) );
+        }
+
+        $nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+        if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'tradepress_ui_ajax_validation' ) ) {
             wp_send_json_error( array( 'message' => 'Security check failed' ) );
         }
         
-        $symbol = strtoupper( sanitize_text_field( $_POST['symbol'] ) );
+        $symbol = isset( $_POST['symbol'] ) ? strtoupper( sanitize_text_field( wp_unslash( $_POST['symbol'] ) ) ) : '';
         
         // Simple validation - check if it's a valid format
         if ( ! preg_match( '/^[A-Z]{1,5}$/', $symbol ) ) {
@@ -160,12 +184,17 @@ class TradePress_UI_Library_Forms {
       * @version 1.0.0
      */
     public function submit_ajax_form() {
-        if ( ! wp_verify_nonce( $_POST['nonce'], 'tradepress_ui_ajax_validation' ) ) {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( array( 'message' => 'Permission denied' ) );
+        }
+
+        $nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+        if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'tradepress_ui_ajax_validation' ) ) {
             wp_send_json_error( array( 'message' => 'Security check failed' ) );
         }
         
-        $username = sanitize_text_field( $_POST['username'] );
-        $symbol = strtoupper( sanitize_text_field( $_POST['symbol'] ) );
+        $username = isset( $_POST['username'] ) ? sanitize_text_field( wp_unslash( $_POST['username'] ) ) : '';
+        $symbol = isset( $_POST['symbol'] ) ? strtoupper( sanitize_text_field( wp_unslash( $_POST['symbol'] ) ) ) : '';
         
         // Log the submission
         tradepress_ai_log( 'Ajax form submitted', array(

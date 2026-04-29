@@ -15,7 +15,23 @@
 
 /* Table styling */
 .directives-table-header {
+    cursor: pointer;
     margin-bottom: 15px;
+}
+#cron .tp-accordion-header:focus {
+    outline: 2px solid #2271b1;
+    outline-offset: 1px;
+}
+
+#cron .tp-accordion-header::after {
+    content: '+';
+    margin-left: auto;
+    font-weight: 700;
+    color: #1d2327;
+}
+
+#cron .tp-accordion-header.is-open::after {
+    content: '-';
 }
 
 .directives-table-header h3 {
@@ -358,6 +374,156 @@ input:checked + .slider:before {
 
 .component-metrics .metric-item:last-child {
     border-bottom: none;
+}
+
+/* CRON tab readability and structure */
+#cron .automation-section {
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+#cron .automation-section > h2,
+#cron .automation-section > h3 {
+    margin-top: 0;
+}
+
+#cron .tp-accordion {
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+#cron .tp-accordion-item + .tp-accordion-item {
+    border-top: 1px solid #dcdcde;
+}
+
+#cron .tp-accordion-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
+    background: #f6f7f7;
+}
+
+#cron .tp-accordion-panel {
+    padding: 10px 14px;
+    background: #fff;
+}
+
+#cron .earnings-cron-manager {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 14px;
+}
+
+#cron .earnings-cron-status,
+#cron .earnings-cron-actions,
+#cron .api-credentials {
+    background: #f8f9fa;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+#cron .cron-action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+#cron .inline-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+#cron .schedule-interval {
+    min-width: 150px;
+}
+
+#cron .all-cron-jobs-list .widefat td,
+#cron .all-cron-jobs-list .widefat th {
+    vertical-align: top;
+}
+
+#cron .column-job {
+    width: 34%;
+}
+
+#cron .column-schedule,
+#cron .column-next-run,
+#cron .column-actions {
+    width: 22%;
+}
+
+#cron .cron-global-actions {
+    margin-top: 12px;
+}
+
+#cron .api-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 8px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+#cron .api-status.configured {
+    background: #edfaef;
+    color: #0a7a23;
+}
+
+#cron .api-status.missing {
+    background: #fdecec;
+    color: #a02222;
+}
+
+#cron .cron-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#cron .cron-status.enabled {
+    background: #edfaef;
+    color: #0a7a23;
+}
+
+#cron .cron-status.disabled {
+    background: #fdecec;
+    color: #a02222;
+}
+
+#cron .form-table th {
+    width: 190px;
+}
+
+@media screen and (max-width: 782px) {
+    #cron .form-table th,
+    #cron .form-table td {
+        display: block;
+        width: 100%;
+    }
+
+    #cron .cron-action-buttons,
+    #cron .inline-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #cron .schedule-interval {
+        width: 100%;
+        min-width: 0;
+    }
 }
 
 .component-controls {

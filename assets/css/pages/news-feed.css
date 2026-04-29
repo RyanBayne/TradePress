@@ -93,6 +93,26 @@
     border-radius: 4px;
 }
 
+.no-feed-items .dashicons {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 10px;
+    color: #646970;
+    font-size: 32px;
+}
+
+.no-feed-items h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: #1d2327;
+}
+
+.no-feed-items p {
+    max-width: 520px;
+    margin: 0 auto;
+    color: #646970;
+}
+
 .feed-items-container {
     display: flex;
     flex-direction: column;

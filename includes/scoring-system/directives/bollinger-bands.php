@@ -43,15 +43,17 @@ class TradePress_Scoring_Directive_BOLLINGER_BANDS extends TradePress_Scoring_Di
         $current_price = $symbol_data['price'] ?? 0;
         $symbol = $symbol_data['symbol'] ?? 'UNKNOWN';
         
-        // Get Bollinger Bands data - fetch if not provided
+        // Get Bollinger Bands data - fetch only when a usable price context exists.
         if (isset($symbol_data['technical']['bollinger_bands'])) {
             $bb_data = $symbol_data['technical']['bollinger_bands'];
-        } else {
+        } elseif ($current_price > 0) {
             // Fetch fresh Bollinger Bands data
             $bb_data = $this->fetch_fresh_bollinger_data($symbol, $config);
             if (is_wp_error($bb_data)) {
                 return array('score' => 0, 'signal' => 'API Error: ' . $bb_data->get_error_message());
             }
+        } else {
+            return array('score' => 0, 'signal' => 'No data');
         }
         
         if (!$bb_data || $current_price <= 0) {

@@ -111,7 +111,8 @@ if (!function_exists('tradepress_get_symbol')) {
 
 // Handle test directive form submission
 if (isset($_POST['action']) && $_POST['action'] === 'test_directive') {
-    if (wp_verify_nonce($_POST['test_nonce'], 'tradepress_test_directive') && current_user_can('manage_options')) {
+    $test_nonce = isset( $_POST['test_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['test_nonce'] ) ) : '';
+    if ( ! empty( $test_nonce ) && wp_verify_nonce( $test_nonce, 'tradepress_test_directive' ) && current_user_can( 'manage_options' ) ) {
         $directive_id = sanitize_text_field($_POST['directive_id']);
         $directive_code = sanitize_text_field($_POST['directive_code'] ?? '');
         
@@ -218,7 +219,8 @@ if (isset($_POST['action']) && $_POST['action'] === 'report_feature_issue') {
 
 // Handle form submission
 if (isset($_POST['action']) && $_POST['action'] === 'toggle_directive') {
-    if (wp_verify_nonce($_POST['toggle_nonce'], 'tradepress_toggle_directive') && current_user_can('manage_options')) {
+    $toggle_nonce = isset( $_POST['toggle_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['toggle_nonce'] ) ) : '';
+    if ( ! empty( $toggle_nonce ) && wp_verify_nonce( $toggle_nonce, 'tradepress_toggle_directive' ) && current_user_can( 'manage_options' ) ) {
         $directive_id = sanitize_text_field($_POST['directive_id']);
         $new_state = (bool)intval($_POST['new_state']);
         

@@ -27,6 +27,14 @@ class TradePress_News_Sentiment_Positive_Directive extends TradePress_Scoring_Di
      * @version 1.0.0
      */
     public function calculate_score($symbol, $trading_mode = 'long', $config = array()) {
+        if (is_array($symbol)) {
+            $symbol = $symbol['symbol'] ?? '';
+        }
+
+        if (!is_string($symbol) || $symbol === '') {
+            return 0;
+        }
+
         $sentiment_threshold = $config['sentiment_threshold'] ?? 0.6;
         $lookback_days = $config['lookback_days'] ?? 7;
         $strong_sentiment_bonus = $config['strong_sentiment_bonus'] ?? 25;

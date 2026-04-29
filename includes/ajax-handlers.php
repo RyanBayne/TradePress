@@ -41,23 +41,30 @@ add_action('wp_ajax_tradepress_get_discord_status', 'tradepress_ajax_get_discord
   * @version 1.0.0
  */
 function tradepress_ajax_update_trading_mode() {
+    // Sanitize api_id first so it can be safely used in nonce key construction.
+    $api_id = isset( $_POST['api_id'] ) ? sanitize_key( wp_unslash( $_POST['api_id'] ) ) : '';
+    if ( empty( $api_id ) ) {
+        wp_send_json_error( array( 'message' => 'Missing API identifier' ) );
+        return;
+    }
+
     // Verify nonce
-    if (!isset($_POST['tradepress_' . $_POST['api_id'] . '_trading_mode_nonce']) || 
-        !wp_verify_nonce($_POST['tradepress_' . $_POST['api_id'] . '_trading_mode_nonce'], 'tradepress_' . $_POST['api_id'] . '_api_settings')) {
-        wp_send_json_error(array('message' => 'Security check failed'));
+    $nonce_key  = 'tradepress_' . $api_id . '_trading_mode_nonce';
+    $nonce_action = 'tradepress_' . $api_id . '_api_settings';
+    $nonce_value  = isset( $_POST[ $nonce_key ] ) ? sanitize_text_field( wp_unslash( $_POST[ $nonce_key ] ) ) : '';
+    if ( empty( $nonce_value ) || ! wp_verify_nonce( $nonce_value, $nonce_action ) ) {
+        wp_send_json_error( array( 'message' => 'Security check failed' ) );
         return;
     }
 
     // Check if user has permission
-    if (!current_user_can('manage_options')) {
-        wp_send_json_error(array('message' => 'Permission denied'));
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( array( 'message' => 'Permission denied' ) );
         return;
     }
 
-    // Get parameters
-    $api_id = isset($_POST['api_id']) ? sanitize_key($_POST['api_id']) : '';
-    $trading_mode = isset($_POST['TradePress_api_' . $api_id . '_trading_mode']) ? 
-                  sanitize_text_field($_POST['TradePress_api_' . $api_id . '_trading_mode']) : 'paper';
+    $trading_mode = isset( $_POST[ 'TradePress_api_' . $api_id . '_trading_mode' ] ) ?
+                  sanitize_text_field( wp_unslash( $_POST[ 'TradePress_api_' . $api_id . '_trading_mode' ] ) ) : 'paper';
 
     // Save the trading mode
     update_option('TradePress_api_' . $api_id . '_trading_mode', $trading_mode);
@@ -76,23 +83,30 @@ function tradepress_ajax_update_trading_mode() {
   * @version 1.0.0
  */
 function tradepress_ajax_update_api_operational_status() {
+    // Sanitize api_id first so it can be safely used in nonce key construction.
+    $api_id = isset( $_POST['api_id'] ) ? sanitize_key( wp_unslash( $_POST['api_id'] ) ) : '';
+    if ( empty( $api_id ) ) {
+        wp_send_json_error( array( 'message' => 'Missing API identifier' ) );
+        return;
+    }
+
     // Verify nonce
-    if (!isset($_POST['tradepress_' . $_POST['api_id'] . '_operational_nonce']) || 
-        !wp_verify_nonce($_POST['tradepress_' . $_POST['api_id'] . '_operational_nonce'], 'tradepress_' . $_POST['api_id'] . '_api_settings')) {
-        wp_send_json_error(array('message' => 'Security check failed'));
+    $nonce_key    = 'tradepress_' . $api_id . '_operational_nonce';
+    $nonce_action = 'tradepress_' . $api_id . '_api_settings';
+    $nonce_value  = isset( $_POST[ $nonce_key ] ) ? sanitize_text_field( wp_unslash( $_POST[ $nonce_key ] ) ) : '';
+    if ( empty( $nonce_value ) || ! wp_verify_nonce( $nonce_value, $nonce_action ) ) {
+        wp_send_json_error( array( 'message' => 'Security check failed' ) );
         return;
     }
 
     // Check if user has permission
-    if (!current_user_can('manage_options')) {
-        wp_send_json_error(array('message' => 'Permission denied'));
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( array( 'message' => 'Permission denied' ) );
         return;
     }
 
-    // Get parameters
-    $api_id = isset($_POST['api_id']) ? sanitize_key($_POST['api_id']) : '';
-    $api_enabled = isset($_POST['TradePress_switch_' . $api_id . '_api_services']) ? 
-                 sanitize_text_field($_POST['TradePress_switch_' . $api_id . '_api_services']) : 'no';
+    $api_enabled = isset( $_POST[ 'TradePress_switch_' . $api_id . '_api_services' ] ) ?
+                 sanitize_text_field( wp_unslash( $_POST[ 'TradePress_switch_' . $api_id . '_api_services' ] ) ) : 'no';
 
     // Save the API enabled setting
     update_option('TradePress_switch_' . $api_id . '_api_services', $api_enabled);
@@ -749,8 +763,9 @@ add_action('wp_ajax_tradepress_render_github_markdown', 'tradepress_render_githu
  */
 function tradepress_ajax_get_api_call_details() {
     // Check nonce
-    if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'tradepress_api_details_nonce')) {
-        wp_send_json_error('Security check failed');
+    $security_nonce = isset( $_POST['security'] ) ? sanitize_text_field( wp_unslash( $_POST['security'] ) ) : '';
+    if ( empty( $security_nonce ) || ! wp_verify_nonce( $security_nonce, 'tradepress_api_details_nonce' ) ) {
+        wp_send_json_error( 'Security check failed' );
         return;
     }
     

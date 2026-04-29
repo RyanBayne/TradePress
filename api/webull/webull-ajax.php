@@ -38,7 +38,8 @@ class TradePress_WeBull_AJAX {
      */
     public function generate_device_id() {
         // Check nonce
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress-webull-nonce')) {
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+        if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress-webull-nonce')) {
             wp_send_json_error(array('message' => __('Security check failed.', 'tradepress')));
         }
         
@@ -73,7 +74,8 @@ class TradePress_WeBull_AJAX {
      */
     public function authenticate() {
         // Check nonce
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress-webull-nonce')) {
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+        if (empty($nonce) || !wp_verify_nonce($nonce, 'tradepress-webull-nonce')) {
             wp_send_json_error(array('message' => __('Security check failed.', 'tradepress')));
         }
         
@@ -83,9 +85,9 @@ class TradePress_WeBull_AJAX {
         }
         
         // Get credentials from POST data
-        $email = isset($_POST['email']) ? sanitize_email($_POST['email']) : '';
-        $password = isset($_POST['password']) ? $_POST['password'] : '';
-        $device_id = isset($_POST['device_id']) ? sanitize_text_field($_POST['device_id']) : '';
+        $email = isset($_POST['email']) ? sanitize_email(wp_unslash($_POST['email'])) : '';
+        $password = isset($_POST['password']) ? wp_unslash($_POST['password']) : '';
+        $device_id = isset($_POST['device_id']) ? sanitize_text_field(wp_unslash($_POST['device_id'])) : '';
         
         // Validate inputs
         if (empty($email) || empty($device_id)) {

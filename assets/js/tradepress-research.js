@@ -82,9 +82,13 @@ jQuery(document).ready(function($) {
 // News Feed custom date range toggle
 function toggleCustomDateRange(value) {
     const customDateContainer = document.getElementById('custom-date-container');
+    if (!customDateContainer) {
+        return;
+    }
+
     if (value === 'custom') {
-        customDateContainer.style.display = 'block';
+        customDateContainer.hidden = false;
     } else {
-        customDateContainer.style.display = 'none';
+        customDateContainer.hidden = true;
     }
 }

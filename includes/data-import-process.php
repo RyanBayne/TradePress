@@ -86,15 +86,19 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
             $earnings_data = $alpha_vantage->get_earnings_calendar();
             
             if ($earnings_data && !is_wp_error($earnings_data)) {
+                $normalized_earnings_data = $this->normalize_earnings_records($earnings_data);
+
                 // Store in database
-                update_option('tradepress_earnings_data', $earnings_data);
+                update_option('tradepress_earnings_data', $normalized_earnings_data);
                 update_option('tradepress_earnings_last_update', current_time('timestamp'));
                 
                 // Clear any previous error state
                 delete_option('tradepress_data_import_error_state');
                 
                 // Log success
-                $this->log_process_activity('info', 'Earnings data imported successfully', array('data_count' => count($earnings_data)));
+                $this->log_process_activity('info', 'Earnings data imported successfully', array(
+                    'data_count' => count($normalized_earnings_data)
+                ));
                 return false; // Task completed
             }
             
@@ -326,6 +330,126 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
         }
         
         return $symbol_codes;
+    }
+
+    /**
+     * Normalize earnings records to include stable display fields.
+     *
+     * @param mixed $records
+     * @return array
+     */
+    private function normalize_earnings_records($records) {
+        if (!is_array($records)) {
+            return array();
+        }
+
+        $normalized = array();
+        foreach ($records as $record) {
+            if (!is_array($record)) {
+                continue;
+            }
+
+            $normalized[] = $this->normalize_earnings_record($record);
+        }
+
+        return $normalized;
+    }
+
+    /**
+     * Normalize a single earnings record.
+     *
+     * @param array $record
+     * @return array
+     */
+    private function normalize_earnings_record($record) {
+        $estimate_value = $this->to_numeric_value(
+            $record['estimate'] ?? ($record['eps_estimate'] ?? null)
+        );
+
+        $previous_eps_value = $this->to_numeric_value(
+            $record['previous_eps'] ?? ($record['reportedEPS'] ?? ($record['reported_eps'] ?? null))
+        );
+
+        $eps_change_percent = $this->to_numeric_value($record['eps_change_percent'] ?? null);
+        if (null === $eps_change_percent && null !== $estimate_value && null !== $previous_eps_value && 0.0 !== $previous_eps_value) {
+            $eps_change_percent = (($estimate_value - $previous_eps_value) / abs($previous_eps_value)) * 100;
+        }
+
+        if (null === $eps_change_percent) {
+            $eps_change_percent = 0.0;
+        }
+
+        $current_price = $this->to_numeric_value($record['current_price'] ?? ($record['price'] ?? null));
+        $estimated_price = $this->to_numeric_value(
+            $record['estimated_price'] ?? ($record['price_estimate'] ?? $estimate_value)
+        );
+
+        $price_change_percent = $this->to_numeric_value($record['price_change_percent'] ?? null);
+        if (null === $price_change_percent && null !== $current_price && null !== $estimated_price && 0.0 !== $current_price) {
+            $price_change_percent = (($estimated_price - $current_price) / $current_price) * 100;
+        }
+
+        $opportunity_score = $this->to_numeric_value($record['opportunity_score'] ?? ($record['algorithm_score'] ?? null));
+        if (null === $opportunity_score) {
+            $opportunity_score = max(0, min(100, round(50 + ($eps_change_percent * 2))));
+        }
+
+        $sentiment = isset($record['sentiment']) ? (string) $record['sentiment'] : '';
+        if ('' === trim($sentiment)) {
+            if ($eps_change_percent > 0) {
+                $sentiment = 'Bullish';
+            } elseif ($eps_change_percent < 0) {
+                $sentiment = 'Bearish';
+            } else {
+                $sentiment = 'Neutral';
+            }
+        }
+
+        $sentiment_percent = isset($record['sentiment_percent']) ? (string) $record['sentiment_percent'] : '';
+        if ('' === trim($sentiment_percent)) {
+            $sentiment_percent = number_format(min(100, max(0, abs($eps_change_percent))), 1) . '%';
+        }
+
+        $whisper = isset($record['whisper']) ? trim((string) $record['whisper']) : '';
+
+        $normalized_record = array_merge($record, array(
+            'reportDate' => isset($record['reportDate']) ? (string) $record['reportDate'] : (string) ($record['report_date'] ?? ''),
+            'name' => isset($record['name']) ? (string) $record['name'] : (string) ($record['company_name'] ?? ''),
+            'estimate' => null !== $estimate_value ? $estimate_value : ($record['estimate'] ?? null),
+            'previous_eps' => null !== $previous_eps_value ? '$' . number_format($previous_eps_value, 2) : (string) ($record['previous_eps'] ?? 'N/A'),
+            'eps_change_percent' => (float) $eps_change_percent,
+            'current_price' => $current_price,
+            'estimated_price' => $estimated_price,
+            'price_change_percent' => $price_change_percent,
+            'opportunity_score' => (int) round($opportunity_score),
+            'algorithm_score' => (int) round($opportunity_score),
+            'sentiment' => $sentiment,
+            'sentiment_percent' => $sentiment_percent,
+            'whisper' => $whisper,
+        ));
+
+        return $normalized_record;
+    }
+
+    /**
+     * Convert scalar values to numeric floats where possible.
+     *
+     * @param mixed $value
+     * @return float|null
+     */
+    private function to_numeric_value($value) {
+        if (is_int($value) || is_float($value)) {
+            return (float) $value;
+        }
+
+        if (is_string($value)) {
+            $normalized = preg_replace('/[^0-9.\-]/', '', $value);
+            if ('' !== $normalized && is_numeric($normalized)) {
+                return (float) $normalized;
+            }
+        }
+
+        return null;
     }
     
     /**

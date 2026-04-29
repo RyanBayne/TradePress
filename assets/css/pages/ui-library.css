@@ -2697,3 +2697,25 @@
     background: var(--tradepress-color-gray-50, #f8f9fa);
     border-top: 1px solid var(--tradepress-color-gray-200, #ddd);
 }
+
+/* ============================================================
+   Data Analysis Section
+   ============================================================ */
+.tradepress-ui-section--data-analysis .tradepress-grid-3-cols {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* ============================================================
+   Chart Visualization Section
+   ============================================================ */
+.tradepress-ui-section--chart-visualization .chart-card-body {
+    min-height: 240px;
+}
+
+.tradepress-ui-section--chart-visualization .candlestick-placeholder-bars {
+    height: 200px;
+}
+
+.tradepress-ui-section--chart-visualization .candlestick-chart-placeholder {
+    min-height: 200px;
+}

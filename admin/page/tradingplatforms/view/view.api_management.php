@@ -23,7 +23,8 @@ $all_providers = TradePress_API_Directory::get_all_providers();
 
 // Handle form submissions
 if (isset($_POST['action']) && $_POST['action'] === 'toggle_api_status') {
-    if (wp_verify_nonce($_POST['toggle_nonce'], 'tradepress_toggle_api') && current_user_can('manage_options')) {
+    $toggle_nonce = isset( $_POST['toggle_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['toggle_nonce'] ) ) : '';
+    if ( ! empty( $toggle_nonce ) && wp_verify_nonce( $toggle_nonce, 'tradepress_toggle_api' ) && current_user_can( 'manage_options' ) ) {
         $api_id = sanitize_text_field($_POST['api_id']);
         $new_state = (bool)intval($_POST['new_state']);
         
@@ -41,7 +42,8 @@ if (isset($_POST['action']) && $_POST['action'] === 'toggle_api_status') {
 }
 
 if (isset($_POST['action']) && $_POST['action'] === 'toggle_trading_mode') {
-    if (wp_verify_nonce($_POST['trading_mode_nonce'], 'tradepress_toggle_trading_mode') && current_user_can('manage_options')) {
+    $tm_nonce = isset( $_POST['trading_mode_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['trading_mode_nonce'] ) ) : '';
+    if ( ! empty( $tm_nonce ) && wp_verify_nonce( $tm_nonce, 'tradepress_toggle_trading_mode' ) && current_user_can( 'manage_options' ) ) {
         $api_id = sanitize_text_field($_POST['api_id']);
         $new_mode = sanitize_text_field($_POST['new_mode']);
         
@@ -60,7 +62,8 @@ if (isset($_POST['action']) && strpos($_POST['action'], 'tradepress_save_') === 
     $nonce_field = 'tradepress_' . $api_id . '_nonce';
     $nonce_action = 'tradepress_save_' . $api_id . '_settings';
     
-    if (wp_verify_nonce($_POST[$nonce_field], $nonce_action) && current_user_can('manage_options')) {
+    $settings_nonce_val = isset( $_POST[ $nonce_field ] ) ? sanitize_text_field( wp_unslash( $_POST[ $nonce_field ] ) ) : '';
+    if ( ! empty( $settings_nonce_val ) && wp_verify_nonce( $settings_nonce_val, $nonce_action ) && current_user_can( 'manage_options' ) ) {
         // Handle checkboxes first
         $checkbox_fields = [
             $api_id . '_enable_api' => 'TradePress_switch_' . $api_id . '_api_services',
