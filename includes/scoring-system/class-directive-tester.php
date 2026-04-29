@@ -26,6 +26,7 @@ class TradePress_Directive_Tester {
      * @param string $symbol Symbol ticker (default: NVDA)
      * @param bool $force_fresh Force fresh data import
      * @return array Test results
+      * @version 1.0.0
      */
     public static function test_directive($directive_id, $symbol = 'NVDA', $force_fresh = true) {
         $start_time = microtime(true);
@@ -66,6 +67,7 @@ class TradePress_Directive_Tester {
      * @param string $symbol Symbol ticker
      * @param array $symbol_data Symbol data
      * @return int Score result
+      * @version 1.0.0
      */
     private static function execute_directive_test($directive_id, $symbol, $symbol_data) {
         switch ($directive_id) {
@@ -86,6 +88,10 @@ class TradePress_Directive_Tester {
 
     /**
      * Test ISA Reset directive
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol_data
      */
     private static function test_isa_reset_directive($symbol_data) {
         $current_date = current_time('Y-m-d');
@@ -105,6 +111,10 @@ class TradePress_Directive_Tester {
 
     /**
      * Test RSI Oversold directive
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol_data
      */
     private static function test_rsi_oversold_directive($symbol_data) {
         // Demo RSI calculation
@@ -121,6 +131,10 @@ class TradePress_Directive_Tester {
 
     /**
      * Test Earnings Proximity directive
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol_data
      */
     private static function test_earnings_proximity_directive($symbol_data) {
         if (empty($symbol_data['earnings'])) {
@@ -139,6 +153,10 @@ class TradePress_Directive_Tester {
 
     /**
      * Get required data types for directive
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
      */
     private static function get_required_data_types($directive_id) {
         $requirements = array(
@@ -154,6 +172,10 @@ class TradePress_Directive_Tester {
 
     /**
      * Get directive definition
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
      */
     private static function get_directive_definition($directive_id) {
         if (function_exists('tradepress_get_directive_by_id')) {
@@ -172,6 +194,11 @@ class TradePress_Directive_Tester {
 
     /**
      * Get data status summary
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
+      * @param mixed $required_data
      */
     private static function get_data_status_summary($symbol, $required_data) {
         $status = array();
@@ -185,6 +212,11 @@ class TradePress_Directive_Tester {
 
     /**
      * Get test message based on score
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
+      * @param mixed $score
      */
     private static function get_test_message($directive_id, $score) {
         if ($score > 15) {
@@ -198,6 +230,10 @@ class TradePress_Directive_Tester {
 
     /**
      * Get data analysis for display
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol_data
      */
     private static function get_data_analysis($symbol_data) {
         $analysis = array();
@@ -226,6 +262,10 @@ class TradePress_Directive_Tester {
 
     /**
      * Return error result
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $message
      */
     private static function error_result($message) {
         return array(

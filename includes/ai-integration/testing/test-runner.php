@@ -13,6 +13,10 @@ class TradePress_AI_Test_Runner {
     
     /**
      * Run single directive test
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
      */
     public static function run_single_test($directive_id) {
         echo "Testing Directive: {$directive_id}\n";
@@ -48,6 +52,8 @@ class TradePress_AI_Test_Runner {
     
     /**
      * Test all directives in priority order
+      *
+      * @version 1.0.0
      */
     public static function test_all_directives() {
         $directives = array(

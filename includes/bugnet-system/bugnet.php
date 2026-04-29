@@ -52,6 +52,7 @@ class TradePress_BugNet {
      * Get instance
      *
      * @return TradePress_BugNet
+      * @version 1.0.0
      */
     public static function instance() {
         if ( is_null( self::$instance ) ) {
@@ -62,6 +63,8 @@ class TradePress_BugNet {
 
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     private function __construct() {
         $this->load_settings();
@@ -70,6 +73,8 @@ class TradePress_BugNet {
 
     /**
      * Load settings
+      *
+      * @version 1.0.0
      */
     private function load_settings() {
         $this->settings = array(
@@ -89,6 +94,8 @@ class TradePress_BugNet {
 
     /**
      * Initialize hooks
+      *
+      * @version 1.0.0
      */
     private function init_hooks() {
         add_action( 'wp_footer', array( $this, 'output_console_logs' ) );
@@ -102,6 +109,7 @@ class TradePress_BugNet {
      * @param string $level   Log level
      * @param array  $context Additional context
      * @param string $output  Output type
+      * @version 1.0.0
      */
     public function log( $message, $level = self::INFO, $context = array(), $output = self::OUTPUT_ERRORS ) {
         // Check if level is enabled
@@ -139,6 +147,7 @@ class TradePress_BugNet {
      *
      * @param string $action  Action performed
      * @param array  $context Additional context
+      * @version 1.0.0
      */
     public function log_user_action( $action, $context = array() ) {
         $context['user_id'] = get_current_user_id();
@@ -153,6 +162,7 @@ class TradePress_BugNet {
      *
      * @param string $message Message to log
      * @param array  $context Additional context
+      * @version 1.0.0
      */
     public function trace( $message, $context = array() ) {
         $context['backtrace'] = $this->get_backtrace();
@@ -164,6 +174,7 @@ class TradePress_BugNet {
      *
      * @param string $level Log level
      * @return bool
+      * @version 1.0.0
      */
     private function is_level_enabled( $level ) {
         $setting_key = 'level_' . $level;
@@ -175,6 +186,7 @@ class TradePress_BugNet {
      *
      * @param string $output Output type
      * @return bool
+      * @version 1.0.0
      */
     private function is_output_enabled( $output ) {
         $setting_key = 'output_' . $output;
@@ -188,6 +200,7 @@ class TradePress_BugNet {
      * @param string $level   Level
      * @param array  $context Context
      * @return string
+      * @version 1.0.0
      */
     private function format_message( $message, $level, $context ) {
         $timestamp = current_time( 'Y-m-d H:i:s' );
@@ -205,6 +218,7 @@ class TradePress_BugNet {
      *
      * @param string $message  Message
      * @param string $filename Filename
+      * @version 1.0.0
      */
     private function log_to_file( $message, $filename ) {
         $log_dir = $this->get_log_directory();
@@ -217,6 +231,7 @@ class TradePress_BugNet {
      * Get log directory (same as debug.log)
      *
      * @return string
+      * @version 1.0.0
      */
     private function get_log_directory() {
         // Use WordPress content directory where debug.log is located
@@ -228,6 +243,7 @@ class TradePress_BugNet {
      *
      * @param string $message Message
      * @param string $level   Level
+      * @version 1.0.0
      */
     private function add_console_log( $message, $level ) {
         if ( ! isset( $GLOBALS['tradepress_console_logs'] ) ) {
@@ -242,6 +258,8 @@ class TradePress_BugNet {
 
     /**
      * Output console logs
+      *
+      * @version 1.0.0
      */
     public function output_console_logs() {
         if ( ! isset( $GLOBALS['tradepress_console_logs'] ) || empty( $GLOBALS['tradepress_console_logs'] ) ) {
@@ -264,6 +282,7 @@ class TradePress_BugNet {
      * Get user IP
      *
      * @return string
+      * @version 1.0.0
      */
     private function get_user_ip() {
         if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
@@ -279,6 +298,7 @@ class TradePress_BugNet {
      * Get backtrace
      *
      * @return array
+      * @version 1.0.0
      */
     private function get_backtrace() {
         $trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, $this->settings['depth_level'] );
@@ -291,44 +311,121 @@ class TradePress_BugNet {
 
     /**
      * Static logging methods for easy access
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $message
+      * @param array $context
      */
     public static function emergency( $message, $context = array() ) {
         self::instance()->log( $message, self::EMERGENCY, $context );
     }
 
+    /**
+     * Log an alert-level message.
+     *
+     * @param mixed $message
+     * @param array $context
+     *
+     * @version 1.0.0
+     */
     public static function alert( $message, $context = array() ) {
         self::instance()->log( $message, self::ALERT, $context );
     }
 
+    /**
+     * Critical.
+     *
+     * @param mixed $message
+     * @param array $context
+     *
+     * @version 1.0.0
+     */
     public static function critical( $message, $context = array() ) {
         self::instance()->log( $message, self::CRITICAL, $context );
     }
 
+    /**
+     * Log an error-level message.
+     *
+     * @param mixed $message
+     * @param array $context
+     *
+     * @version 1.0.0
+     */
     public static function error( $message, $context = array() ) {
         self::instance()->log( $message, self::ERROR, $context );
     }
 
+    /**
+     * Warning.
+     *
+     * @param mixed $message
+     * @param array $context
+     *
+     * @version 1.0.0
+     */
     public static function warning( $message, $context = array() ) {
         self::instance()->log( $message, self::WARNING, $context );
     }
 
+    /**
+     * Notice.
+     *
+     * @param mixed $message
+     * @param array $context
+     *
+     * @version 1.0.0
+     */
     public static function notice( $message, $context = array() ) {
         self::instance()->log( $message, self::NOTICE, $context );
     }
 
+    /**
+     * Log an info-level message.
+     *
+     * @param mixed $message
+     * @param array $context
+     *
+     * @version 1.0.0
+     */
     public static function info( $message, $context = array() ) {
         self::instance()->log( $message, self::INFO, $context );
     }
 
+    /**
+     * Log a debug-level message.
+     *
+     * @param mixed $message
+     * @param array $context
+     *
+     * @version 1.0.0
+     */
     public static function debug( $message, $context = array() ) {
         self::instance()->log( $message, self::DEBUG, $context );
     }
 
+    /**
+     * User action.
+     *
+     * @param mixed $action
+     * @param array $context
+     *
+     * @version 1.0.0
+     */
     public static function user_action( $action, $context = array() ) {
         self::instance()->log_user_action( $action, $context );
     }
 
-    public static function trace( $message, $context = array() ) {
+    /**
+     * Static trace proxy.
+     *
+     * @param mixed $message
+     * @param array $context
+     *
+     * @version 1.0.0
+     */
+    public static function static_trace( $message, $context = array() ) {
         self::instance()->trace( $message, $context );
     }
 }

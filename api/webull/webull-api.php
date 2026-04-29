@@ -173,6 +173,8 @@ class TradePress_WeBull_API {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->curl_object = new TradePress_Curl();
@@ -190,6 +192,7 @@ class TradePress_WeBull_API {
      * Get platform metadata
      * 
      * @return array Platform metadata
+      * @version 1.0.0
      */
     public function get_platform_metadata() {
         return $this->platform_metadata;
@@ -200,6 +203,7 @@ class TradePress_WeBull_API {
      * 
      * @param string $symbol Stock symbol
      * @return array|WP_Error Quote data or error
+      * @version 1.0.0
      */
     public function get_quote($symbol) {
         if (empty($this->access_token) || defined('TRADEPRESS_DEMO_MODE')) {
@@ -222,6 +226,7 @@ class TradePress_WeBull_API {
      * @param string $period Time period
      * @param string $interval Data interval
      * @return array|WP_Error Historical data or error
+      * @version 1.0.0
      */
     public function get_historical_data($symbol, $period = '1mo', $interval = 'd1') {
         if (empty($this->access_token) || defined('TRADEPRESS_DEMO_MODE')) {
@@ -250,6 +255,7 @@ class TradePress_WeBull_API {
      * Get account balance
      * 
      * @return array|WP_Error Account balance or error
+      * @version 1.0.0
      */
     public function get_account_balance() {
         if (empty($this->access_token) || defined('TRADEPRESS_DEMO_MODE')) {
@@ -262,6 +268,7 @@ class TradePress_WeBull_API {
      * Get portfolio positions
      * 
      * @return array|WP_Error Portfolio positions or error
+      * @version 1.0.0
      */
     public function get_portfolio_positions() {
         if (empty($this->access_token) || defined('TRADEPRESS_DEMO_MODE')) {
@@ -274,6 +281,7 @@ class TradePress_WeBull_API {
      * Get open orders
      * 
      * @return array|WP_Error Open orders or error
+      * @version 1.0.0
      */
     public function get_open_orders() {
         if (empty($this->access_token) || defined('TRADEPRESS_DEMO_MODE')) {
@@ -287,6 +295,7 @@ class TradePress_WeBull_API {
      * 
      * @param string $query Search query
      * @return array|WP_Error Search results or error
+      * @version 1.0.0
      */
     public function search_symbols($query) {
         if (empty($this->access_token) || defined('TRADEPRESS_DEMO_MODE')) {
@@ -300,6 +309,7 @@ class TradePress_WeBull_API {
      * 
      * @param string $watchlist_id Watchlist ID
      * @return array|WP_Error Watchlist symbols or error
+      * @version 1.0.0
      */
     public function get_watchlist_symbols($watchlist_id = null) {
         if (empty($this->access_token) || defined('TRADEPRESS_DEMO_MODE')) {
@@ -316,6 +326,8 @@ class TradePress_WeBull_API {
     
     /**
      * Load credentials from WordPress options
+      *
+      * @version 1.0.0
      */
     private function load_credentials() {
         $this->device_id = get_option('tradepress_webull_device_id', '');
@@ -329,6 +341,8 @@ class TradePress_WeBull_API {
     
     /**
      * Save credentials to WordPress options
+      *
+      * @version 1.0.0
      */
     private function save_credentials() {
         update_option('tradepress_webull_device_id', $this->device_id);
@@ -344,6 +358,7 @@ class TradePress_WeBull_API {
      * Generate a device ID
      *
      * @return string|WP_Error Device ID or error
+      * @version 1.0.0
      */
     public function generate_device_id() {
         $endpoint = '/api/user/getDeviceId';
@@ -373,6 +388,7 @@ class TradePress_WeBull_API {
      * @param string $account Email address or phone number
      * @param int $account_type Account type (2 for phone, 3 for email)
      * @return bool|WP_Error Success status or error
+      * @version 1.0.0
      */
     public function send_login_code($account, $account_type = 3) {
         if (empty($this->device_id)) {
@@ -417,6 +433,7 @@ class TradePress_WeBull_API {
      * @param int $account_type Account type (2 for phone, 3 for email)
      * @param string $code Verification code (if required)
      * @return bool|WP_Error Success status or error
+      * @version 1.0.0
      */
     public function login($account, $password, $account_type = 3, $code = '') {
         if (empty($this->device_id)) {
@@ -476,6 +493,7 @@ class TradePress_WeBull_API {
      * Fetch account ID after login
      *
      * @return bool|WP_Error Success status or error
+      * @version 1.0.0
      */
     private function fetch_account_id() {
         if (empty($this->access_token)) {
@@ -520,6 +538,7 @@ class TradePress_WeBull_API {
      *
      * @param int $ticker_id WeBull ticker ID
      * @return array|WP_Error Ticker information or error
+      * @version 1.0.0
      */
     public function get_ticker_info($ticker_id) {
         $endpoint = '/api/securities/ticker/v5/full';
@@ -551,6 +570,7 @@ class TradePress_WeBull_API {
      * @param string $keyword Search keyword (symbol or company name)
      * @param int $region_id Region ID (6 for US)
      * @return array|WP_Error Search results or error
+      * @version 1.0.0
      */
     public function search_ticker($keyword, $region_id = 6) {
         $endpoint = '/api/securities/v5/new-stock/query';
@@ -582,6 +602,7 @@ class TradePress_WeBull_API {
      *
      * @param array $ticker_ids Array of ticker IDs
      * @return array|WP_Error Quote data or error
+      * @version 1.0.0
      */
     public function get_quotes($ticker_ids) {
         if (!is_array($ticker_ids) || empty($ticker_ids)) {
@@ -642,6 +663,7 @@ class TradePress_WeBull_API {
      * @param int $count Number of bars to return
      * @param bool $extended_hours Include extended hours data
      * @return array|WP_Error Bar data or error
+      * @version 1.0.0
      */
     public function get_bars($ticker_id, $timeframe = 'd1', $count = 100, $extended_hours = false) {
         $endpoint = '/api/quote/v5/kline';
@@ -690,6 +712,7 @@ class TradePress_WeBull_API {
      * Get account information
      *
      * @return array|WP_Error Account information or error
+      * @version 1.0.0
      */
     public function get_account_info() {
         if (empty($this->access_token) || empty($this->account_id)) {
@@ -729,6 +752,7 @@ class TradePress_WeBull_API {
      * Get account balance and values
      *
      * @return array|WP_Error Account values or error
+      * @version 1.0.0
      */
     public function get_account_values() {
         if (empty($this->access_token) || empty($this->sec_account_id)) {
@@ -774,6 +798,7 @@ class TradePress_WeBull_API {
      * Get current positions
      *
      * @return array|WP_Error Positions or error
+      * @version 1.0.0
      */
     public function get_positions() {
         if (empty($this->access_token) || empty($this->account_id) || empty($this->sec_account_id)) {
@@ -835,6 +860,7 @@ class TradePress_WeBull_API {
      * @param int $end_time End timestamp (milliseconds)
      * @param string $status Order status filter
      * @return array|WP_Error Orders or error
+      * @version 1.0.0
      */
     public function get_orders($start_time = null, $end_time = null, $status = null) {
         if (empty($this->access_token) || empty($this->sec_account_id)) {
@@ -909,6 +935,7 @@ class TradePress_WeBull_API {
      *
      * @param array $order_data Order parameters
      * @return array|WP_Error Order result or error
+      * @version 1.0.0
      */
     public function place_order($order_data) {
         if (empty($this->access_token) || empty($this->sec_account_id)) {
@@ -967,6 +994,7 @@ class TradePress_WeBull_API {
      *
      * @param string $order_id Order ID to cancel
      * @return bool|WP_Error Success status or error
+      * @version 1.0.0
      */
     public function cancel_order($order_id) {
         if (empty($this->access_token) || empty($this->sec_account_id)) {
@@ -1013,6 +1041,7 @@ class TradePress_WeBull_API {
      * Get all watchlists
      *
      * @return array|WP_Error Watchlists or error
+      * @version 1.0.0
      */
     public function get_watchlists() {
         if (empty($this->access_token)) {
@@ -1049,6 +1078,7 @@ class TradePress_WeBull_API {
      *
      * @param int $watchlist_id Watchlist ID
      * @return array|WP_Error Watchlist items or error
+      * @version 1.0.0
      */
     public function get_watchlist_items($watchlist_id) {
         if (empty($this->access_token)) {
@@ -1086,6 +1116,7 @@ class TradePress_WeBull_API {
      * @param int $watchlist_id Watchlist ID
      * @param int $ticker_id Ticker ID to add
      * @return bool|WP_Error Success status or error
+      * @version 1.0.0
      */
     public function add_to_watchlist($watchlist_id, $ticker_id) {
         if (empty($this->access_token)) {
@@ -1127,6 +1158,7 @@ class TradePress_WeBull_API {
      * @param string $endpoint Endpoint being accessed
      * @param array $data Raw data from API
      * @return array Formatted data for TradePress
+      * @version 1.0.0
      */
     public function format_for_financial_service($endpoint, $data) {
         // Implementation depends on specific requirements of TradePress_Financial_API_Service
@@ -1139,6 +1171,7 @@ class TradePress_WeBull_API {
      * 
      * @param string $method Method being called
      * @return array Sample data
+      * @version 1.0.0
      */
     private function get_demo_data($method) {
         switch ($method) {
@@ -1206,6 +1239,7 @@ class TradePress_WeBull_API {
      *
      * @param string $message Error message
      * @param mixed $details Additional error details
+      * @version 1.0.0
      */
     private function log_error($message, $details = '') {
         if ($this->logger) {
@@ -1221,6 +1255,7 @@ class TradePress_WeBull_API {
      * Get platform capabilities for directive support
      * 
      * @return array Platform capabilities
+      * @version 1.0.0
      */
     public function get_platform_capabilities() {
         return array(

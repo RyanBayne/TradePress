@@ -121,6 +121,14 @@ $scores = tradepress_get_symbol_scores('AAPL');
 
 ## Development
 
+### Asset Management Policy
+
+- Route all admin and front-end CSS/JS through the central asset management system.
+- Register assets in `assets/style-assets.php` and `assets/script-assets.php`.
+- Enqueue page-specific assets in `assets/queue-assets.php` based on page/tab context.
+- Avoid direct `wp_enqueue_script()` / `wp_enqueue_style()` inside feature pages unless there is a documented exceptional reason.
+- If a page needs dynamic script data, localize the centrally enqueued handle instead of directly enqueuing from the page class.
+
 ### Project Structure
 ```
 tradepress/

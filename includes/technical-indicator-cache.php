@@ -36,6 +36,7 @@ class TradePress_Technical_Indicator_Cache {
      * @param array $parameters Indicator parameters
      * @param int $max_age_minutes Maximum age in minutes
      * @return mixed Cached data or false if not found/stale
+      * @version 1.0.0
      */
     public static function get_cached_indicator($symbol, $indicator, $parameters = array(), $max_age_minutes = null) {
         if ($max_age_minutes === null) {
@@ -69,6 +70,7 @@ class TradePress_Technical_Indicator_Cache {
      * @param mixed $data Data to cache
      * @param int $cache_minutes Cache duration in minutes
      * @return bool Success status
+      * @version 1.0.0
      */
     public static function cache_indicator($symbol, $indicator, $parameters, $data, $cache_minutes = null) {
         if ($cache_minutes === null) {
@@ -98,6 +100,7 @@ class TradePress_Technical_Indicator_Cache {
      * @param string $indicator Indicator name
      * @param array $parameters Parameters
      * @return string Cache key
+      * @version 1.0.0
      */
     private static function generate_cache_key($symbol, $indicator, $parameters = array()) {
         return TradePress_Call_Register::generate_serial(
@@ -115,6 +118,7 @@ class TradePress_Technical_Indicator_Cache {
      * @param array $parameters Parameters
      * @param int $max_age_minutes Maximum age
      * @return array Status information
+      * @version 1.0.0
      */
     public static function check_indicator_freshness($symbol, $indicator, $parameters = array(), $max_age_minutes = null) {
         if ($max_age_minutes === null) {
@@ -138,6 +142,7 @@ class TradePress_Technical_Indicator_Cache {
      * @param array $parameters Parameters
      * @param callable $fetch_callback Callback to fetch fresh data
      * @return mixed Indicator data
+      * @version 1.0.0
      */
     public static function get_or_fetch_indicator($symbol, $indicator, $parameters, $fetch_callback) {
         // Try cache first
@@ -165,6 +170,7 @@ class TradePress_Technical_Indicator_Cache {
      * @param string $indicator Indicator name
      * @param array $parameters Parameters
      * @return bool Success status
+      * @version 1.0.0
      */
     public static function clear_indicator_cache($symbol, $indicator, $parameters = array()) {
         // Note: Call Register uses transients which auto-expire
@@ -180,6 +186,7 @@ class TradePress_Technical_Indicator_Cache {
      * @param array $parameters Parameters
      * @param int $cache_seconds Cache duration in seconds
      * @return mixed Indicator data
+      * @version 1.0.0
      */
     public function get_indicator_data($indicator, $symbol, $parameters = array(), $cache_seconds = 1800) {
         $cache_minutes = intval($cache_seconds / 60);
@@ -211,6 +218,7 @@ class TradePress_Technical_Indicator_Cache {
      * @param array $parameters Parameters
      * @param int $cache_minutes Cache duration
      * @return mixed CCI data
+      * @version 1.0.0
      */
     private function fetch_cci_data($symbol, $parameters, $cache_minutes) {
         if (!class_exists('TradePress_API_Factory')) {
@@ -257,6 +265,7 @@ class TradePress_Technical_Indicator_Cache {
      * Get cache statistics
      * 
      * @return array Cache statistics
+      * @version 1.0.0
      */
     public static function get_cache_stats() {
         // TODO: Implement cache statistics

@@ -23,6 +23,9 @@ if (!defined('ABSPATH')) {
  * @since 1.0.0
  *
  * @version 2.0
+  *
+  * @param mixed $atts
+  * @param mixed $content
  */
 function TradePress_shortcode_init($atts, $content = null)
 {
@@ -151,6 +154,9 @@ add_shortcode('tradepress_shortcodes', 'TradePress_shortcode_init');
  * @since 1.0.0
  *
  * @version 2.0
+  *
+  * @param mixed $atts
+  * @param mixed $content
  */
 function TradePress_shortcode_sortable_securities($atts, $content = null)
 {
@@ -254,6 +260,15 @@ add_shortcode('tradepress_sortable_securities', 'TradePress_shortcode_sortable_s
  * @since 1.1.0
  */
 if (!function_exists('tradepress_sortable_securities_v2_shortcode')) {
+    /**
+     * Sortable securities v2 shortcode.
+     *
+     * @param mixed $atts
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     function tradepress_sortable_securities_v2_shortcode($atts) {
         // Include the class file
         require_once TRADEPRESS_PLUGIN_DIR_PATH . 'shortcodes/sortablesecurities-v2/sortable-securities-v2.php';
@@ -274,6 +289,7 @@ if (!function_exists('tradepress_sortable_securities_v2_shortcode')) {
  * @param string|null $content The shortcode content (if any).
  *
  * @return string The API connection status and sample data, or an error message.
+  * @version 1.0.0
  */
 function TradePress_shortcode_alpaca_api_status($atts, $content)
 {
@@ -355,6 +371,7 @@ function TradePress_shortcode_alpaca_api_status($atts, $content)
  * @param string|null $content The shortcode content (if any).
  *
  * @return string The API connection status and sample data.
+  * @version 1.0.0
  */
 function TradePress_shortcode_alphavantage_api_status($atts, $content)
 {
@@ -374,6 +391,7 @@ function TradePress_shortcode_alphavantage_api_status($atts, $content)
  * @param string|null $content The shortcode content (if any).
  *
  * @return string The API connection status and sample data.
+  * @version 1.0.0
  */
 function TradePress_shortcode_polygon_api_status($atts, $content)
 {
@@ -394,6 +412,7 @@ function TradePress_shortcode_polygon_api_status($atts, $content)
  * @param string|null $content The shortcode content (if any).
  *
  * @return string The API connection status and sample data.
+  * @version 1.0.0
  */
 function TradePress_shortcode_tradier_api_status($atts, $content)
 {
@@ -414,6 +433,7 @@ function TradePress_shortcode_tradier_api_status($atts, $content)
  * @param string|null $content The shortcode content (if any).
  *
  * @return string The API connection status and sample data.
+  * @version 1.0.0
  */
 function TradePress_shortcode_twelvedata_api_status($atts, $content)
 {
@@ -434,6 +454,7 @@ function TradePress_shortcode_twelvedata_api_status($atts, $content)
  * @param string|null $content The shortcode content (if any).
  *
  * @return string The API connection status and sample data.
+  * @version 1.0.0
  */
 function TradePress_shortcode_iexcloud_api_status($atts, $content)
 {
@@ -454,6 +475,7 @@ function TradePress_shortcode_iexcloud_api_status($atts, $content)
  * @param string|null $content The shortcode content (if any).
  *
  * @return string The API connection status and sample data.
+  * @version 1.0.0
  */
 function TradePress_shortcode_alltick_api_status($atts, $content)
 {
@@ -474,6 +496,7 @@ function TradePress_shortcode_alltick_api_status($atts, $content)
  * @param string|null $content The shortcode content (if any).
  *
  * @return string The API connection status and sample data.
+  * @version 1.0.0
  */
 function TradePress_shortcode_eodhd_api_status($atts, $content)
 {
@@ -499,6 +522,7 @@ function TradePress_shortcode_eodhd_api_status($atts, $content)
  * @param string|null $content The shortcode content (if any).
  *
  * @return string The API connection status and sample data.
+  * @version 1.0.0
  */
 function TradePress_shortcode_finnhub_api_status($atts, $content)
 {
@@ -523,6 +547,7 @@ function TradePress_shortcode_finnhub_api_status($atts, $content)
  * @param string|null $content The shortcode content (if any).
  *
  * @return string The API connection status and sample data.
+  * @version 1.0.0
  */
 function TradePress_shortcode_fmp_api_status($atts, $content)
 {
@@ -548,6 +573,7 @@ function TradePress_shortcode_fmp_api_status($atts, $content)
  * @param string|null $content The shortcode content (if any).
  *
  * @return string The API connection status and sample data.
+  * @version 1.0.0
  */
 function TradePress_shortcode_intrinio_api_status($atts, $content)
 {
@@ -568,6 +594,7 @@ function TradePress_shortcode_intrinio_api_status($atts, $content)
  * @param string|null $content The shortcode content (if any).
  *
  * @return string The API connection status and sample data.
+  * @version 1.0.0
  */
 function TradePress_shortcode_marketstack_api_status($atts, $content)
 {
@@ -592,6 +619,7 @@ function TradePress_shortcode_marketstack_api_status($atts, $content)
  * @param string|null $content The shortcode content (if any).
  *
  * @return string The API connection status and sample data.
+  * @version 1.0.0
  */
 function TradePress_shortcode_trading212_api_status($atts, $content)
 {
@@ -612,6 +640,7 @@ function TradePress_shortcode_trading212_api_status($atts, $content)
  * @param string|null $content The shortcode content (if any).
  *
  * @return string The API connection status and sample data.
+  * @version 1.0.0
  */
 function TradePress_shortcode_tradingview_api_status($atts, $content)
 {
@@ -635,6 +664,13 @@ if (!defined('ABSPATH')) {
 }
 
 // Register the original sortable securities shortcode
+/**
+ * Register sortable securities shortcode.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function tradepress_register_sortable_securities_shortcode() {
     if (file_exists(TRADEPRESS_PLUGIN_DIR_PATH . 'shortcodes/sortablesecurities/sortable-securities.php')) {
         require_once TRADEPRESS_PLUGIN_DIR_PATH . 'shortcodes/sortablesecurities/sortable-securities.php';
@@ -647,6 +683,13 @@ function tradepress_register_sortable_securities_shortcode() {
 }
 
 // Register the V2 sortable securities shortcode
+/**
+ * Register sortable securities v2 shortcode.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function tradepress_register_sortable_securities_v2_shortcode() {
     if (file_exists(TRADEPRESS_PLUGIN_DIR_PATH . 'shortcodes/sortablesecurities-v2/sortable-securities-v2.php')) {
         require_once TRADEPRESS_PLUGIN_DIR_PATH . 'shortcodes/sortablesecurities-v2/sortable-securities-v2.php';
@@ -667,6 +710,7 @@ add_action('init', 'tradepress_register_sortable_securities_v2_shortcode');
  *
  * @param array $atts Shortcode attributes.
  * @return string The shortcode output.
+  * @version 1.0.0
  */
 function tradepress_course_shortcode_handler($atts) {
     // For now, just return a placeholder message.

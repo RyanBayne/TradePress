@@ -31,6 +31,11 @@ class TradePress_Set_App {
     public $app_ready = true;
     public $app_status = null;
 
+    /**
+     * S Et.
+     *
+     * @version 1.0.0
+     */
     public function set() {
         $this->app_id            = get_option( 'TradePress_app_id', 0 ); 
         $this->app_secret        = get_option( 'TradePress_app_secret', 0 );
@@ -42,6 +47,15 @@ class TradePress_Set_App {
         $this->app_status        = $this->status( false ); 
     }
     
+    /**
+     * Status.
+     *
+     * @param bool $code_only
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function status( $code_only = false ) {                            
                                
         if( !$this->app_id && !$this->app_secret && !$this->app_redirect && !$this->app_token && !$this->app_scopes && !$this->app_expiry ) 
@@ -93,9 +107,35 @@ class TradePress_Set_App {
         return array( 1, __( 'Twitch API application is ready!', 'tradepress' ) );
     }
     
+    /**
+     * G Et.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get( $value = null ) {
         if( $value ) {
-            return eval( '$this->main_app_$value' );
+            $property_map = array(
+                'id'         => 'app_id',
+                'secret'     => 'app_secret',
+                'redirect'   => 'app_redirect',
+                'token'      => 'app_token',
+                'scopes'     => 'app_scopes',
+                'expiry'     => 'app_expiry',
+                'expires_in' => 'app_expires_in',
+                'app_status' => 'app_status',
+            );
+
+            $key = sanitize_key( $value );
+
+            if ( isset( $property_map[ $key ] ) ) {
+                return $this->{$property_map[ $key ]};
+            }
+
+            return null;
         }   
         return array(
             'id'         => $this->app_id,
@@ -109,6 +149,13 @@ class TradePress_Set_App {
         );
     }
 
+    /**
+     * Missing token.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function missing_token() {
 
         // Create our own special Curl object which uses WP_Http_Curl()
@@ -160,6 +207,13 @@ class TradePress_Set_App {
         $this->app_token = $call_object->curl_reply_body->access_token;
     }
 
+    /**
+     * Validate token.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function validate_token() {
                      
         // Lets be sure we actually have a token...
@@ -205,6 +259,13 @@ class TradePress_Set_App {
         $this->new_token();
     }
     
+    /**
+     * New token.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function new_token() {            
         // Create our own special Curl object which uses WP_Http_Curl()
         $call_object = new TradePress_Curl();
@@ -256,6 +317,11 @@ class TradePress_Set_App {
 
 endif;
 
+/**
+ * Init main app.
+ *
+ * @version 1.0.0
+ */
 function TradePress_init_main_app() {          
     $set_app = new TradePress_Set_App();
     $set_app->set();

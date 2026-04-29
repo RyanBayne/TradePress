@@ -23,6 +23,8 @@ if( !class_exists( 'TradePress_Listener' ) ) :
 class TradePress_Listener {  
     /**
      * Constructor - sets up action hooks
+      *
+      * @version 1.0.0
      */
     public function __construct() {              
         // Process requests after WordPress is fully loaded but before headers are sent
@@ -50,6 +52,7 @@ class TradePress_Listener {
      * 
      * @since 1.4.0
      * @return void
+      * @version 1.0.0
      */
     public function process_requests() {      
         // Exit early if we're doing an autosave, ajax request or cron
@@ -81,6 +84,7 @@ class TradePress_Listener {
      * 
      * @since 1.4.0
      * @return void
+      * @version 1.0.0
      */
     private function process_get_requests() {
         // One of these values must be set for it to be TradePress related
@@ -128,6 +132,7 @@ class TradePress_Listener {
      * @since 1.4.0
      * @see TradePress_Current_Task_Handler For handling current task form submissions
      * @return void
+      * @version 1.0.0
      */
     private function process_post_requests() {
         // Check if this is a TradePress-related POST request
@@ -190,6 +195,7 @@ class TradePress_Listener {
      * This is registered with admin_post_{action} hook
      *
      * @return void
+      * @version 1.0.0
      */
     public function handle_test_post_listener() {
         if (!is_user_logged_in() || !current_user_can('manage_options')) {
@@ -220,6 +226,7 @@ class TradePress_Listener {
      * @param string $action The form action to process
      * @see TradePress_Current_Task_Handler For the actual processing logic
      * @return void
+      * @version 1.0.0
      */
     private function process_current_task_forms($action) {
         // All POST actions require authentication
@@ -265,6 +272,7 @@ class TradePress_Listener {
      * Display admin notices stored in transients
      *
      * @return void
+      * @version 1.0.0
      */
     public function display_admin_notices() {
         $notices = get_transient('tradepress_admin_notices');
@@ -285,6 +293,7 @@ class TradePress_Listener {
      * 
      * @since 1.4.0
      * @return void
+      * @version 1.0.0
      */
     private function process_oauth_returns() {
         // Process twitch OAuth returns
@@ -298,6 +307,7 @@ class TradePress_Listener {
      * 
      * @since 1.4.0
      * @return void
+      * @version 1.0.0
      */
     private function process_admin_actions() {
         $action = sanitize_key( $_GET['TradePressaction'] );
@@ -329,6 +339,7 @@ class TradePress_Listener {
      * 
      * @since 1.4.0
      * @return void
+      * @version 1.0.0
      */
     private function process_api_settings() {
         // Process and save API settings
@@ -344,6 +355,7 @@ class TradePress_Listener {
      * 
      * @since 1.4.0
      * @return void
+      * @version 1.0.0
      */
     private function process_plugin_settings() {
         // Process and save plugin settings
@@ -359,6 +371,7 @@ class TradePress_Listener {
      * 
      * @since 1.0.0
      * @return void
+      * @version 1.0.0
      */
     public function uninstall_settings() {
         // Security is already checked in process_admin_actions()
@@ -391,6 +404,7 @@ class TradePress_Listener {
      * 
      * @since 1.0.0
      * @return void
+      * @version 1.0.0
      */
     public function twitch_oauth_unlocksubcontent_return() {
         if( !isset( $_GET['state'] ) || !isset( $_GET['scope'] ) || !isset( $_GET['code'] ) ){
@@ -441,6 +455,7 @@ class TradePress_Listener {
      * @param object $user User data from Twitch API
      * @param object $auth Authorization data from Twitch API
      * @return void
+      * @version 1.0.0
      */
     private function set_secure_cookies( $user, $auth ) {
         $secure = is_ssl();

@@ -18,6 +18,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Display the Earnings tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_earnings_tab_content() {
     // Get current date for filtering
@@ -417,6 +419,7 @@ function tradepress_earnings_tab_content() {
  * @param string $sector_filter Sector to filter by, or 'all'
  * @param string $importance_filter Importance to filter by, or 'all'
  * @return array Array of earnings data
+  * @version 1.0.0
  */
 function tradepress_get_mock_earnings_data($start_date, $end_date, $sector_filter = 'all', $importance_filter = 'all') {
     // Sample company data
@@ -544,6 +547,7 @@ function tradepress_get_mock_earnings_data($start_date, $end_date, $sector_filte
  * @param string $end_date End date in Y-m-d format
  * @param string $sector_filter Sector to filter by, or 'all'
  * @return array Array of earnings data
+  * @version 1.0.0
  */
 function tradepress_fetch_earnings_calendar_data($start_date, $end_date, $sector_filter = 'all') {
     // Check if we have cached data
@@ -563,7 +567,7 @@ function tradepress_fetch_earnings_calendar_data($start_date, $end_date, $sector
     $api_key = get_option('tradepress_alphavantage_api_key', '');
     
     // Create API instance
-    $api = new TradePress_AlphaVantage_API(array('api_key' => $api_key));
+    $api = new TradePress_AlphaVantage_API('alphavantage', array('api_key' => $api_key));
     
     // Get earnings calendar data
     $response = $api->get_earnings_calendar('3month'); // Using 3month horizon as default
@@ -571,7 +575,6 @@ function tradepress_fetch_earnings_calendar_data($start_date, $end_date, $sector
     // Return empty array if there's an error
     if (is_wp_error($response)) {
         // Log the error for admin reference
-        error_log('TradePress Earnings Calendar Error: ' . $response->get_error_message());
         return array();
     }
     

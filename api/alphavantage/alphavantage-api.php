@@ -106,6 +106,7 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
      * 
      * @param string $provider_id The API provider ID
      * @param array $args Optional. Arguments for the API setup.
+      * @version 1.0.0
      */
     public function __construct($provider_id = 'alphavantage', $args = array()) {
         if (isset($args['api_key'])) {
@@ -121,6 +122,7 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
      * Get platform metadata
      *
      * @return array Platform metadata
+      * @version 1.0.0
      */
     public function get_platform_meta() {
         return $this->platform_meta;
@@ -130,6 +132,7 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
      * Get platform capabilities
      *
      * @return array Platform capabilities
+      * @version 1.0.0
      */
     public function get_capabilities() {
         return $this->platform_meta['capabilities'];
@@ -140,6 +143,7 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
      *
      * @param string $data_type Data type to check
      * @return bool True if supported
+      * @version 1.0.0
      */
     public function supports_data_type($data_type) {
         return isset($this->platform_meta['data_types'][$data_type]);
@@ -150,6 +154,7 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
      *
      * @param string $data_type Data type
      * @return string|false Endpoint name or false
+      * @version 1.0.0
      */
     public function get_data_type_endpoint($data_type) {
         return $this->supports_data_type($data_type) ? $this->platform_meta['data_types'][$data_type] : false;
@@ -159,6 +164,7 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
      * Test connection to Alpha Vantage API
      * 
      * @return bool|WP_Error True on success, WP_Error on failure
+      * @version 1.0.0
      */
     public function test_connection() {
         if (empty($this->api_key)) {
@@ -191,6 +197,7 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
      * @param array $params Additional parameters for the API request
      * @param string $method Request method (always GET for Alpha Vantage)
      * @return array|WP_Error API response or error
+      * @version 1.0.0
      */
     public function make_request($endpoint, $params = array(), $method = 'GET') {
         $function = $endpoint; // Alpha Vantage uses 'function' parameter
@@ -407,6 +414,7 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
      * @param string $csv_data CSV data string
      * @param int $call_entry_id The API call entry ID for logging
      * @return array|WP_Error Parsed data or error
+      * @version 1.0.0
      */
     protected function parse_csv_response($csv_data, $call_entry_id) {
         // Store raw response metadata
@@ -482,6 +490,7 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
      * @param string $horizon The time horizon for earnings data (3month, 6month, 12month)
      * @param string $symbol Optional. Limit results to a specific symbol
      * @return array|WP_Error Earnings calendar data or error
+      * @version 1.0.0
      */
     public function get_earnings_calendar($horizon = '3month', $symbol = null) {
         $params = array(
@@ -509,6 +518,7 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
      * Get API call statistics
      * 
      * @return array API call statistics
+      * @version 1.0.0
      */
     public function get_api_call_stats() {
         global $wpdb;
@@ -545,6 +555,7 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
      * Get a random symbol for testing
      * 
      * @return string A random stock symbol
+      * @version 1.0.0
      */
     public function get_random_symbol() {
         $symbols = array('AAPL', 'MSFT', 'GOOG', 'AMZN', 'FB', 'TSLA', 'NVDA', 'JPM', 'JNJ', 'V', 'PG', 'MA', 'UNH', 'HD', 'BAC');
@@ -556,6 +567,7 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
      * 
      * @param string $symbol The stock symbol
      * @return array|WP_Error Quote data or error
+      * @version 1.0.0
      */
     public function get_quote($symbol) {
         return $this->get_global_quote($symbol);
@@ -566,6 +578,7 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
      * 
      * @param string $symbol The stock symbol to get a quote for
      * @return array|WP_Error Quote data or WP_Error on failure
+      * @version 1.0.0
      */
     public function get_global_quote($symbol) {
         $params = array(

@@ -15,12 +15,19 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Symbol_Update_Cron {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         add_action('tradepress_update_symbols', array($this, 'process_symbol_batch'));
     }
     
     /**
      * Schedule regular symbol updates
+      *
+      * @version 1.0.0
      */
     public function schedule_symbol_updates() {
         if (!wp_next_scheduled('tradepress_update_symbols')) {
@@ -37,6 +44,7 @@ class TradePress_Symbol_Update_Cron {
      * Process batch of symbols
      *
      * @param array $symbols
+      * @version 1.0.0
      */
     public function process_symbol_batch($symbols = null) {
         $this->update_cron_meta('symbol_updates', array(
@@ -71,6 +79,7 @@ class TradePress_Symbol_Update_Cron {
      *
      * @param string $symbol
      * @return bool
+      * @version 1.0.0
      */
     public function update_single_symbol($symbol) {
         try {
@@ -87,6 +96,8 @@ class TradePress_Symbol_Update_Cron {
     
     /**
      * Cleanup stale data
+      *
+      * @version 1.0.0
      */
     public function cleanup_stale_data() {
         global $wpdb;
@@ -105,6 +116,7 @@ class TradePress_Symbol_Update_Cron {
      *
      * @param string $job_name
      * @param array $data
+      * @version 1.0.0
      */
     private function update_cron_meta($job_name, $data) {
         global $wpdb;
@@ -128,6 +140,7 @@ class TradePress_Symbol_Update_Cron {
      * Get current run count
      *
      * @return int
+      * @version 1.0.0
      */
     private function get_run_count() {
         global $wpdb;
@@ -146,6 +159,7 @@ class TradePress_Symbol_Update_Cron {
      *
      * @param string $symbol
      * @param string $message
+      * @version 1.0.0
      */
     private function log_error($symbol, $message) {
         global $wpdb;
@@ -165,6 +179,7 @@ class TradePress_Symbol_Update_Cron {
      * Get current error count
      *
      * @return int
+      * @version 1.0.0
      */
     private function get_error_count() {
         global $wpdb;

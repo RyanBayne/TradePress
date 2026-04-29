@@ -26,8 +26,14 @@ class TradePress_Admin_Menus {
     var $slug = 'TradePress';
     public $pagehook = null;
 
+    /**
+     * Primary admin menu.
+     *
+     * @version 1.0.0
+     */
     function primary_admin_menu() {
         $setup_complete = get_option('tradepress_setup_complete', false);
+        $is_dev_mode = tradepress_is_developer_mode();
         
         $this->pagehook = add_menu_page( __('TradePress', 'tradepress'), __('TradePress', 'tradepress'), 'manage_options', $this->slug, array(&$this, 'settings_page'), 'dashicons-admin-users', '42.78578' ); // Text domain must be a string literal for translation tools
         
@@ -42,12 +48,14 @@ class TradePress_Admin_Menus {
         add_submenu_page( $this->slug, __('Settings', 'tradepress'), __('Settings', 'tradepress'), 'manage_options', $this->slug, array(&$this, 'settings_page') );
         
         // 2. Development (only when developer mode is enabled)
-        if (get_option('tradepress_developer_mode', false)) {
+        if ( $is_dev_mode ) {
             add_submenu_page( $this->slug, __('Development', 'tradepress'), __('Development', 'tradepress'), 'manage_options', 'tradepress_development', array( $this, 'development_page' ) );
         }
         
-        // 3. Focus (daily trading routine and priorities)
-        add_submenu_page( $this->slug, __('Focus', 'tradepress'), __('Focus', 'tradepress'), 'manage_options', 'tradepress_focus', array( $this, 'focus_page' ) );
+        // 3. Focus
+        if ( $is_dev_mode ) {
+            add_submenu_page( $this->slug, __('Focus', 'tradepress'), __('Focus', 'tradepress'), 'manage_options', 'tradepress_focus', array( $this, 'focus_page' ) );
+        }
         
         // 4. Data (needs development before automation)
         add_submenu_page( $this->slug, __('Data', 'tradepress'), __('Data', 'tradepress'), 'manage_options', 'tradepress_data', array( $this, 'data_page' ) );
@@ -58,16 +66,20 @@ class TradePress_Admin_Menus {
         // 6. Automation (needs smooth operation for all-day scoring)
         add_submenu_page( $this->slug, __('Automation', 'tradepress'), __('Automation', 'tradepress'), 'manage_options', 'tradepress_automation', array( $this, 'automation_page' ) );
         
-        // 7. Scoring Directives (first major milestone)
-        add_submenu_page( $this->slug, __('Scoring Directives', 'tradepress'), __('Scoring Directives', 'tradepress'), 'manage_options', 'tradepress_scoring_directives', array( $this, 'scoring_directives_page' ) );
+        // 7. Scoring Directives
+        if ( $is_dev_mode ) {
+            add_submenu_page( $this->slug, __('Scoring Directives', 'tradepress'), __('Scoring Directives', 'tradepress'), 'manage_options', 'tradepress_scoring_directives', array( $this, 'scoring_directives_page' ) );
+        }
         
         // 8. Research (mix of automatic and manual import) - now includes Social Networks
         add_submenu_page( $this->slug, __('Research', 'tradepress'), __('Research', 'tradepress'), 'manage_options', 'tradepress_research', array( $this, 'research_page' ) );
         
-        // 9. Analysis (results important for trading strategies)
-        add_submenu_page( $this->slug, __('Analysis', 'tradepress'), __('Analysis', 'tradepress'), 'manage_options', 'tradepress_analysis', array( $this, 'analysis_page' ) );
+        // 9. Analysis
+        if ( $is_dev_mode ) {
+            add_submenu_page( $this->slug, __('Analysis', 'tradepress'), __('Analysis', 'tradepress'), 'manage_options', 'tradepress_analysis', array( $this, 'analysis_page' ) );
+        }
         
-        // 10. Trading (paper trading early, live trading later)
+        // 10. Trading (keep visible but hide incomplete tabs within the page)
         add_submenu_page( $this->slug, __('Trading', 'tradepress'), __('Trading', 'tradepress'), 'manage_options', 'tradepress_trading', array( $this, 'trading_page' ) );
         
         // Trading Platforms (keep for now)
@@ -91,6 +103,8 @@ class TradePress_Admin_Menus {
     
     /**
      * Settings page
+      *
+      * @version 1.0.0
      */
     public function settings_page() {
         if (!class_exists('TradePress_Admin_Settings')) {
@@ -105,12 +119,29 @@ class TradePress_Admin_Menus {
         
         TradePress_Admin_Settings::output();
     }
+
+    /**
+     * Platforms page.
+     *
+     * @version 1.0.0
+     */
     public function platforms_page() {
         TradePress_Admin_TradingPlatforms_Page::output(); # TODO: rename from views to tabs    
     }   
+    
+    /**
+     * Automation page.
+     *
+     * @version 1.0.0
+     */
     public function automation_page() {
         TradePress_Admin_Automation_Page::output(); # TODO: rename from area to tabs   
     } 
+    /**
+     * Research page.
+     *
+     * @version 1.0.0
+     */
     public function research_page() {
         require_once(TRADEPRESS_PLUGIN_DIR . 'admin/page/research/research-tabs.php');
         
@@ -118,7 +149,10 @@ class TradePress_Admin_Menus {
         if (!class_exists('TradePress_Research')) {
             echo '<div class="wrap"><h1>' . esc_html__('Research', 'tradepress') . '</h1>';
             echo '<div class="notice notice-error"><p>' . esc_html__('Error: TradePress_Research class not found. Check file path and class name.', 'tradepress') . '</p>';
-            echo '<p>Looking for file at: ' . TRADEPRESS_PLUGIN_DIR . 'admin/page/research/research-tabs.php</p></div>';
+            if ( function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views() ) {
+                echo '<p>' . esc_html__( 'Expected view: admin/page/research/research-tabs.php', 'tradepress' ) . '</p>';
+            }
+            echo '</div>';
             echo '</div>';
             return;
         }
@@ -127,15 +161,30 @@ class TradePress_Admin_Menus {
         $research = new TradePress_Research('tradepress', TRADEPRESS_VERSION);
         $research->display_page();
     }    
+    /**
+     * Development page.
+     *
+     * @version 1.0.0
+     */
     public function development_page() {
         TradePress_Admin_Development_Page::output();    
     }    
+    /**
+     * Trading page.
+     *
+     * @version 1.0.0
+     */
     public function trading_page() {
         require_once(TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/trading/trading-tabs.php');
         $trading = new TradePress_Admin_Trading_Page();
         $trading->output();
     }
 
+    /**
+     * Watchlists page.
+     *
+     * @version 1.0.0
+     */
     public function watchlists_page() {
         require_once(TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/watchlists/watchlists-tabs.php');
         
@@ -145,17 +194,14 @@ class TradePress_Admin_Menus {
     
     /**
      * Social platforms page
+      *
+      * @version 1.0.0
      */
     public function social_page() {
         require_once(TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/socialplatforms/socialplatforms-tabs.php');
         
-        // Add debug to discover the current screen ID
         global $current_screen;
         if ($current_screen) {
-            // Write the current screen ID to a temporary file for debugging
-            $debug_file = TRADEPRESS_PLUGIN_DIR_PATH . 'debug_screen_id.txt';
-            file_put_contents($debug_file, "Current screen ID: " . $current_screen->id);
-            
             // Force help tabs to display directly on this screen
             require_once(TRADEPRESS_PLUGIN_DIR_PATH . 'admin/admin-help.php');
             $help = new TradePress_Admin_Help();
@@ -183,22 +229,42 @@ class TradePress_Admin_Menus {
     }
 
     // Output the Data tab content
+    /**
+     * Data page.
+     *
+     * @version 1.0.0
+     */
     public function data_page() {
         require_once(TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/data/data-tabs.php');
         TradePress_Admin_Data_Tabs::output();
     }
 
     // Output the Analysis tab content
+    /**
+     * Analysis page.
+     *
+     * @version 1.0.0
+     */
     public function analysis_page() {
         TradePress_Admin_Analysis_Tabs::output();
     }
 
+    /**
+     * Focus page.
+     *
+     * @version 1.0.0
+     */
     public function focus_page() {
         require_once(TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/focus/focus-tabs.php');
         $focus = new TradePress_Admin_Focus_Page();
         $focus->output();
     }
 
+    /**
+     * Scoring directives page.
+     *
+     * @version 1.0.0
+     */
     public function scoring_directives_page() {
         // Ensure the main tabs controller for Scoring Directives is loaded
         $tabs_file = TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/scoring-directives/scoring-directives-tabs.php';

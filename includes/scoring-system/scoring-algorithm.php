@@ -35,6 +35,8 @@ class TradePress_Scoring_Algorithm {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Initialize the logger only if the class exists
@@ -43,7 +45,6 @@ class TradePress_Scoring_Algorithm {
         } else {
             // Create a simple fallback logger or disable logging
             $this->logger = null;
-            error_log('TradePress_Logger class not found - logging disabled for scoring algorithm');
         }
     }
     
@@ -52,6 +53,7 @@ class TradePress_Scoring_Algorithm {
      *
      * @param string $run_type Type of run (manual, cron)
      * @return int The run ID
+      * @version 1.0.0
      */
     public function start_new_run($run_type = 'manual') {
         global $wpdb;
@@ -85,6 +87,7 @@ class TradePress_Scoring_Algorithm {
      *
      * @param string $status Final status of the run
      * @return bool True on success
+      * @version 1.0.0
      */
     public function end_run($status = 'completed') {
         global $wpdb;
@@ -125,6 +128,7 @@ class TradePress_Scoring_Algorithm {
      *
      * @param int $max_symbols Maximum number of symbols to process
      * @return array Processing statistics
+      * @version 1.0.0
      */
     public function process_symbols($max_symbols = 100) {
         // Get symbols to process
@@ -191,6 +195,7 @@ class TradePress_Scoring_Algorithm {
      *
      * @param int $max_symbols Maximum number of symbols to process
      * @return array Array of symbols
+      * @version 1.0.0
      */
     private function get_symbols_to_process($max_symbols = 100) {
         // Get symbols based on priority or other criteria
@@ -207,6 +212,7 @@ class TradePress_Scoring_Algorithm {
      *
      * @param string $symbol_ticker Symbol ticker
      * @return array Symbol data array
+      * @version 1.0.0
      */
     private function get_symbol_data($symbol_ticker) {
         $api_calls = 0;
@@ -251,6 +257,7 @@ class TradePress_Scoring_Algorithm {
      * @param WP_Post $symbol Symbol post object
      * @param array $symbol_data Symbol data from APIs
      * @return array Score data
+      * @version 1.0.0
      */
     private function calculate_score($symbol, $symbol_data) {
         $score_components = array();
@@ -380,6 +387,7 @@ class TradePress_Scoring_Algorithm {
      * @param int $previous_score Previous score
      * @param array $components Score components
      * @return int|false The inserted ID or false on failure
+      * @version 1.0.0
      */
     private function save_score($symbol_id, $symbol_ticker, $score, $previous_score, $components) {
         global $wpdb;
@@ -404,6 +412,7 @@ class TradePress_Scoring_Algorithm {
      * @param int|string $symbol Symbol ID or ticker
      * @param int $limit Maximum number of scores to return
      * @return array Array of scores
+      * @version 1.0.0
      */
     public function get_score_history($symbol, $limit = 10) {
         global $wpdb;
@@ -440,6 +449,7 @@ class TradePress_Scoring_Algorithm {
      * @param string $order_by Field to order by
      * @param string $order Sort order (ASC or DESC)
      * @return array Array of scores
+      * @version 1.0.0
      */
     public function get_latest_scores($min_score = 0, $limit = 100, $order_by = 'score', $order = 'DESC') {
         global $wpdb;
@@ -493,6 +503,7 @@ class TradePress_Scoring_Algorithm {
      * @param int $threshold_change Change threshold to consider significant
      * @param int $limit Maximum number of signals to return
      * @return array Array of signals
+      * @version 1.0.0
      */
     public function get_score_change_signals($threshold_change = 10, $limit = 50) {
         global $wpdb;
@@ -533,6 +544,7 @@ class TradePress_Scoring_Algorithm {
      *
      * @param array $stats Run statistics
      * @return bool True on success
+      * @version 1.0.0
      */
     private function update_run_stats($stats) {
         global $wpdb;
@@ -566,6 +578,7 @@ class TradePress_Scoring_Algorithm {
      * to avoid WordPress AJAX conflicts. No external API calls or complex operations.
      * 
      * @return array Array of boxes with security data and scores
+      * @version 1.0.0
      */
     public function calculate_scores() {
         // Use only basic PHP operations to avoid AJAX conflicts
@@ -607,6 +620,7 @@ class TradePress_Scoring_Algorithm {
      * Get simple test stock symbols - no external dependencies
      * 
      * @return array Array of stock symbols and names
+      * @version 1.0.0
      */
     private function get_simple_test_symbols() {
         // Hardcoded array to avoid any file system or external dependencies

@@ -370,6 +370,11 @@ defined('ABSPATH') || exit;
     $data_analysis_script = "
         jQuery(document).ready(function($) {
             // Simulate real-time price updates
+            /**
+             * Update prices.
+             *
+             * @version 1.0.0
+             */
             function updatePrices() {
                 $('.data-feed-item').each(function() {
                     var priceElement = $(this).find('.data-price');
@@ -400,6 +405,11 @@ defined('ABSPATH') || exit;
             setInterval(updatePrices, 3000);
             
             // Animate progress bars and score bars
+            /**
+             * Animate bars.
+             *
+             * @version 1.0.0
+             */
             function animateBars() {
                 $('.media-progress-bar div, .score-fill, .percentage-fill').each(function() {
                     var targetWidth = $(this).css('width');

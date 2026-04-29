@@ -111,6 +111,7 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
      * 
      * @param string $provider_id Provider ID (should be 'alpaca')
      * @param array $args Optional. Arguments for the API setup.
+      * @version 1.0.0
      */
     public function __construct($provider_id = 'alpaca', $args = array()) {
         // Call parent constructor
@@ -149,6 +150,7 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
      * Get platform metadata
      *
      * @return array Platform metadata
+      * @version 1.0.0
      */
     public function get_platform_meta() {
         return $this->platform_meta;
@@ -158,6 +160,7 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
      * Get platform capabilities
      *
      * @return array Platform capabilities
+      * @version 1.0.0
      */
     public function get_capabilities() {
         return $this->platform_meta['capabilities'];
@@ -168,6 +171,7 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
      *
      * @param string $data_type Data type to check
      * @return bool True if supported
+      * @version 1.0.0
      */
     public function supports_data_type($data_type) {
         return isset($this->platform_meta['data_types'][$data_type]);
@@ -178,6 +182,7 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
      *
      * @param string $data_type Data type
      * @return string|false Endpoint name or false
+      * @version 1.0.0
      */
     public function get_data_type_endpoint($data_type) {
         return $this->supports_data_type($data_type) ? $this->platform_meta['data_types'][$data_type] : false;
@@ -187,6 +192,7 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
      * Test connection to Alpaca API
      * 
      * @return bool|WP_Error True on success, WP_Error on failure
+      * @version 1.0.0
      */
     public function test_connection() {
         if (empty($this->api_key) || empty($this->api_secret)) {
@@ -207,6 +213,7 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
      * Get account information
      * 
      * @return array|WP_Error Account data or error
+      * @version 1.0.0
      */
     public function get_account() {
         return $this->make_request('account');
@@ -217,6 +224,7 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
      * 
      * @param string $symbol Stock symbol
      * @return array|WP_Error Normalized quote data
+      * @version 1.0.0
      */
     public function get_quote($symbol) {
         // Implementation for getting quote from Alpaca
@@ -249,6 +257,7 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
      * @param string $method HTTP method (GET, POST, PUT, DELETE)
      * @param array $body Request body for POST/PUT requests
      * @return array|WP_Error Response data or error
+      * @version 1.0.0
      */
     public function make_request($endpoint, $params = array(), $method = 'GET', $body = array()) {
         if (empty($this->api_key) || empty($this->api_secret)) {
@@ -435,6 +444,7 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
      * Get positions
      * 
      * @return array|WP_Error Positions or error
+      * @version 1.0.0
      */
     public function get_positions() {
         return $this->make_request('positions');
@@ -445,6 +455,7 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
      * 
      * @param array $params Query parameters
      * @return array|WP_Error Orders or error
+      * @version 1.0.0
      */
     public function get_orders($params = array()) {
         return $this->make_request('orders', $params);
@@ -455,6 +466,7 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
      * 
      * @param array $order_data Order details
      * @return array|WP_Error Order result or error
+      * @version 1.0.0
      */
     public function place_order($order_data) {
         return $this->make_request('orders', array(), 'POST', $order_data);
@@ -465,6 +477,7 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
      * 
      * @param array $params Query parameters
      * @return array|WP_Error Bars data or error
+      * @version 1.0.0
      */
     public function get_bars($params) {
         return $this->make_request('bars/1Day', $params);
@@ -476,6 +489,7 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
      * @param string $endpoint_name Endpoint name
      * @param array $params Parameters
      * @return array|WP_Error Response or error
+      * @version 1.0.0
      */
     public function call_endpoint($endpoint_name, $params = array()) {
         switch ($endpoint_name) {

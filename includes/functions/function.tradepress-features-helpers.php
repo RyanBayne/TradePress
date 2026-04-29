@@ -19,6 +19,7 @@ if (!defined('ABSPATH')) {
  * @param string $page_id The page ID in the features system
  * @param string $tab_id The tab ID in the features system
  * @return array Array containing mode, status, and whether the tab is enabled
+  * @version 1.0.0
  */
 function tradepress_get_tab_mode($page_id, $tab_id) {
     $features = get_option('tradepress_features_data', array());
@@ -52,6 +53,7 @@ function tradepress_get_tab_mode($page_id, $tab_id) {
  * @param string $page_id The page ID in the features system
  * @param string $tab_id The tab ID in the features system
  * @return bool Whether the tab is enabled
+  * @version 1.0.0
  */
 function tradepress_is_tab_enabled($page_id, $tab_id) {
     $tab_data = tradepress_get_tab_mode($page_id, $tab_id);
@@ -64,6 +66,7 @@ function tradepress_is_tab_enabled($page_id, $tab_id) {
  * @param string $page_id The page ID in the features system
  * @param string $tab_id The tab ID in the features system
  * @return string HTML for the mode indicator
+  * @version 1.0.0
  */
 function tradepress_get_tab_mode_indicator($page_id, $tab_id) {
     $tab_data = tradepress_get_tab_mode($page_id, $tab_id);
@@ -82,6 +85,8 @@ function tradepress_get_tab_mode_indicator($page_id, $tab_id) {
 
 /**
  * Add CSS for the tab mode indicators
+  *
+  * @version 1.0.0
  */
 function tradepress_add_tab_mode_indicator_styles() {
     ?>

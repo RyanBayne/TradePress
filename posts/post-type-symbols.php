@@ -18,6 +18,8 @@ class TradePress_Post_Type_Symbols {
 
     /**
      * Hook in methods.
+      *
+      * @version 1.0.0
      */
     public static function init() {
         add_action( 'init', array( __CLASS__, 'register_taxonomies' ), 5 );
@@ -48,6 +50,11 @@ class TradePress_Post_Type_Symbols {
         add_filter('manage_edit-symbols_sortable_columns', array(__CLASS__, 'set_custom_symbols_sortable_columns'));
     }
     
+    /**
+     * Register taxonomies.
+     *
+     * @version 1.0.0
+     */
     public static function register_taxonomies() {
         
         if ( ! is_blog_installed() ) {
@@ -92,6 +99,8 @@ class TradePress_Post_Type_Symbols {
      * Register core post types.
      * 
      * @link https://developer.wordpress.org/reference/functions/register_post_type/   
+      *
+      * @version 1.0.0
      */
     public static function register_post_type() {
         if ( ! is_blog_installed() || post_type_exists( 'symbols' ) ) {
@@ -179,6 +188,7 @@ class TradePress_Post_Type_Symbols {
      *
      * @param  array $post_types
      * @return array
+      * @version 1.0.0
      */
     public static function rest_api_allowed_post_types( $post_types ) {
 
@@ -262,6 +272,11 @@ class TradePress_Post_Type_Symbols {
         $post_type = get_post_type($post);
     }   
 
+    /**
+     * Register post meta.
+     *
+     * @version 1.0.0
+     */
     public static function register_post_meta() {
         // Register core symbol meta fields
         register_post_meta('symbols', '_tradepress_ticker', array(
@@ -310,6 +325,7 @@ class TradePress_Post_Type_Symbols {
      * @param int $post_id The post ID
      * @param WP_Post $post The post object
      * @param bool $update Whether this is an update
+      * @version 1.0.0
      */
     public static function update_data_timestamp($post_id, $post, $update) {
         // Only run for symbols post type
@@ -348,6 +364,7 @@ class TradePress_Post_Type_Symbols {
      *
      * @param array $args Widget arguments
      * @return array Modified arguments
+      * @version 1.0.0
      */
     public static function include_symbols_in_recent_posts($args) {
         if (!isset($args['post_type'])) {
@@ -361,6 +378,7 @@ class TradePress_Post_Type_Symbols {
      * 
      * @param array $messages Post updated messages.
      * @return array
+      * @version 1.0.0
      */
     public static function updated_messages($messages) {
         global $post;
@@ -394,6 +412,7 @@ class TradePress_Post_Type_Symbols {
      * @param array $bulk_messages Arrays of messages, each keyed by the corresponding post type.
      * @param array $bulk_counts Array of item counts for each message.
      * @return array
+      * @version 1.0.0
      */
     public static function bulk_updated_messages($bulk_messages, $bulk_counts) {
         $bulk_messages['symbols'] = array(
@@ -417,6 +436,7 @@ class TradePress_Post_Type_Symbols {
      *
      * @param array $columns Default columns.
      * @return array Modified columns.
+      * @version 1.0.0
      */
     public static function set_custom_edit_symbols_columns($columns) {
         // Add the demo notice at the top of the page
@@ -431,6 +451,8 @@ class TradePress_Post_Type_Symbols {
 
     /**
      * Display a demo indicator notice at the top of the Symbols listing page
+      *
+      * @version 1.0.0
      */
     public static function display_demo_notice() {
         $screen = get_current_screen();
@@ -451,6 +473,7 @@ class TradePress_Post_Type_Symbols {
      *
      * @param string $column Column name.
      * @param int $post_id Post ID.
+      * @version 1.0.0
      */
     public static function custom_symbols_column($column, $post_id) {
         switch ($column) {
@@ -486,6 +509,7 @@ class TradePress_Post_Type_Symbols {
      * Render a visual score indicator
      *
      * @param int $score The score value (0-100)
+      * @version 1.0.0
      */
     public static function render_score_indicator($score) {
         // Ensure the score is within valid range
@@ -533,6 +557,7 @@ class TradePress_Post_Type_Symbols {
      *
      * @param array $columns Default sortable columns.
      * @return array Modified sortable columns.
+      * @version 1.0.0
      */
     public static function set_custom_symbols_sortable_columns($columns) {
         $columns['ticker'] = 'ticker';

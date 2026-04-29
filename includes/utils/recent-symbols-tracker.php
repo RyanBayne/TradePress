@@ -33,6 +33,7 @@ class TradePress_Recent_Symbols {
      * @param string $symbol The stock symbol to add (e.g., 'AAPL')
      * @param int $user_id Optional user ID, defaults to current user
      * @return array Updated list of recent symbols
+      * @version 1.0.0
      */
     public static function add_recent_symbol($symbol, $user_id = 0) {
         if (!$user_id) {
@@ -72,6 +73,7 @@ class TradePress_Recent_Symbols {
      *
      * @param int $user_id Optional user ID, defaults to current user
      * @return array List of recent symbols
+      * @version 1.0.0
      */
     public static function get_recent_symbols($user_id = 0) {
         if (!$user_id) {
@@ -99,6 +101,7 @@ class TradePress_Recent_Symbols {
      * @param string $symbol The stock symbol to remove
      * @param int $user_id Optional user ID, defaults to current user
      * @return array Updated list of recent symbols
+      * @version 1.0.0
      */
     public static function remove_recent_symbol($symbol, $user_id = 0) {
         if (!$user_id) {
@@ -134,6 +137,7 @@ class TradePress_Recent_Symbols {
      *
      * @param int $user_id Optional user ID, defaults to current user
      * @return bool True if successful
+      * @version 1.0.0
      */
     public static function clear_recent_symbols($user_id = 0) {
         if (!$user_id) {
@@ -153,6 +157,7 @@ class TradePress_Recent_Symbols {
      *
      * @param int $user_id Optional user ID, defaults to current user
      * @return array Array of symbol data
+      * @version 1.0.0
      */
     public static function get_recent_symbols_data($user_id = 0) {
         $symbols = self::get_recent_symbols($user_id);
@@ -172,6 +177,7 @@ class TradePress_Recent_Symbols {
      * 
      * @param string $symbol Stock symbol
      * @return array Symbol data
+      * @version 1.0.0
      */
     private static function get_demo_symbol_data($symbol) {
         // Set seed based on symbol name for consistent random values
@@ -201,6 +207,7 @@ class TradePress_Recent_Symbols {
      *
      * @param string $symbol Stock symbol
      * @return string Company name
+      * @version 1.0.0
      */
     private static function get_demo_company_name($symbol) {
         $common_names = array(

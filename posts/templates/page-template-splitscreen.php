@@ -28,6 +28,8 @@ class TradePress_Page_Template_Splitscreen {
 
     /**
      * Initializes the plugin by setting filters and administration functions.
+      *
+      * @version 1.0.0
      */
     function __construct() {
 
@@ -51,6 +53,11 @@ class TradePress_Page_Template_Splitscreen {
         );
     }
     
+    /**
+     * Enqueue public css.
+     *
+     * @version 1.0.0
+     */
     public function enqueue_public_css() {
         wp_register_style( 'TradePress-splitscreen-styles', TRADEPRESS_PLUGIN_URL . '/assets/css/TradePress-splitscreen.css' );            
         wp_enqueue_style( 'TradePress-splitscreen-styles', TRADEPRESS_PLUGIN_URL . '/assets/css/TradePress-splitscreen.css' );        
@@ -59,6 +66,10 @@ class TradePress_Page_Template_Splitscreen {
     /**
      * Adds our template to the page dropdown for v4.7+
      *
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $posts_templates
      */
     public function add_new_template( $posts_templates ) {
         $posts_templates = array_merge( $posts_templates, $this->templates );
@@ -68,6 +79,10 @@ class TradePress_Page_Template_Splitscreen {
     /**
      * Adds our template to the pages cache in order to trick WordPress
      * into thinking the template file exists where it doens't really exist.
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $atts
      */
     public function register_project_templates( $atts ) {
 
@@ -97,6 +112,10 @@ class TradePress_Page_Template_Splitscreen {
 
     /**
      * Checks if the template is assigned to the page
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $template
      */
     public function view_project_template( $template ) {
         // Return the search template if we're searching (instead of the template for the first result)

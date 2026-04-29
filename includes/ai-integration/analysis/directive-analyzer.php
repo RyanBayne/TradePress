@@ -14,6 +14,10 @@ class TradePress_AI_Directive_Analyzer {
     
     /**
      * Analyze directive implementation completeness
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
      */
     public static function analyze_directive($directive_id) {
         $analysis = array(
@@ -58,6 +62,10 @@ class TradePress_AI_Directive_Analyzer {
     
     /**
      * Determine directive status
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $analysis
      */
     private static function determine_status($analysis) {
         if (!$analysis['files']['class']) {
@@ -89,6 +97,10 @@ class TradePress_AI_Directive_Analyzer {
     
     /**
      * Generate recommendations
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $analysis
      */
     private static function generate_recommendations($analysis) {
         $recommendations = array();

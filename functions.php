@@ -15,6 +15,13 @@ require_once( plugin_basename( 'functions/functions.tradepress-get.php' ) );
 require_once( plugin_basename( 'functions/functions.tradepress-database.php' ) );                
 require_once( plugin_basename( 'functions/database/functions.tradepress-table-endpoints.php' ) );                
 
+/**
+ * Is backend login.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_is_backend_login(){
     $ABSPATH_MY = str_replace(array('\\','/'), DIRECTORY_SEPARATOR, ABSPATH);
     return ((in_array($ABSPATH_MY.'wp-login.php', get_included_files()) || in_array($ABSPATH_MY.'wp-register.php', get_included_files()) ) || $GLOBALS['pagenow'] === 'wp-login.php' || $_SERVER['PHP_SELF']== '/wp-login.php');
@@ -37,6 +44,7 @@ function TradePress_login_error( $message ) {
  * Provides the string for populating parent value in Twitch.tv embeds
  *
  * @return void
+  * @version 1.0.0
  */
 function embed_parent_string() {
     $urlparts = wp_parse_url(home_url());
@@ -249,6 +257,7 @@ function TradePress_shortcode_procedure_redirect( $message_key, $title_values_ar
  * Get slug from path
  * @param  string $key
  * @return string
+  * @version 1.0.0
  */
 function TradePress_format_plugin_slug( $key ) {
     $slug = explode( '/', $key );
@@ -298,11 +307,28 @@ function TradePress_update_user_token( $wp_user_id, $token ) {
     }        
 }
 
+/**
+ * Update user bot token.
+ *
+ * @param mixed $user_id
+ * @param mixed $token
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_user_bot_token( $user_id, $token ) { 
     update_user_meta( $user_id, 'TradePress_bot_auth_time', time() );   
     update_user_meta( $user_id, 'TradePress_bot_token', $token );        
 }
 
+/**
+ * Get users token scopes.
+ *
+ * @param mixed $user_id
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_get_users_token_scopes( $user_id ) {
     return get_user_meta( $user_id, 'TradePress_token_scope', true );    
 }
@@ -319,6 +345,16 @@ function TradePress_get_user_token_refresh( $user_id, $single = true ) {
     return get_user_meta( $user_id, 'TradePress_token_refresh', $single );    
 }
 
+/**
+ * Get user bot token refresh.
+ *
+ * @param mixed $user_id
+ * @param bool $single
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_get_user_bot_token_refresh( $user_id, $single = true ) {
     return get_user_meta( $user_id, 'TradePress_bot_token_refresh', $single );
 }
@@ -339,6 +375,14 @@ function TradePress_update_user_token_refresh( $wp_user_id, $token ) {
     }       
 }
 
+/**
+ * Update user bot token refresh.
+ *
+ * @param mixed $user_id
+ * @param mixed $token
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_user_bot_token_refresh( $user_id, $token ) { 
     update_user_meta( $user_id, 'TradePress_bot_token_refresh', $token );    
 }
@@ -356,6 +400,16 @@ function TradePress_get_sub_plan( $wp_user_id, $twitch_channel_id = null ) {
     return get_user_meta( $wp_user_id, 'TradePress_sub_plan_' . $twitch_channel_id, true  );    
 }
 
+/**
+ * Update user token expires in.
+ *
+ * @param mixed $wp_user_id
+ * @param mixed $expires_in
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_user_token_expires_in( $wp_user_id, $expires_in ) {
     update_user_meta( $wp_user_id, 'TradePress_twitch_expires_in', $expires_in );
     if( TradePress_CURRENTUSERID == $wp_user_id ) {
@@ -363,6 +417,16 @@ function TradePress_update_user_token_expires_in( $wp_user_id, $expires_in ) {
     }    
 }
                               
+/**
+ * Update user token authtime.
+ *
+ * @param mixed $wp_user_id
+ * @param mixed $time
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_user_token_authtime( $wp_user_id, $time ) {
     update_user_meta( $wp_user_id, 'TradePress_auth_time', $time );
     if( TradePress_CURRENTUSERID == $wp_user_id ) {
@@ -370,6 +434,16 @@ function TradePress_update_user_token_authtime( $wp_user_id, $time ) {
     }    
 }
 
+/**
+ * Update user token scope.
+ *
+ * @param mixed $wp_user_id
+ * @param mixed $scope
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_user_token_scope( $wp_user_id, $scope ) {   
     update_user_meta( $wp_user_id, 'TradePress_token_scope', $scope );
     if( TradePress_CURRENTUSERID == $wp_user_id ) {
@@ -436,6 +510,13 @@ function TradePress_get_main_channels_wpowner_id() {
     return isset( $obj->main_channels_wpowner_id ) ? $obj->main_channels_wpowner_id : null;
 }
 
+/**
+ * Get main channels refresh.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_get_main_channels_refresh() {
     $obj = TradePress_Object_Registry::get( 'mainchannelauth' );
     return isset( $obj->main_channels_refresh ) ? $obj->main_channels_refresh : null;
@@ -467,16 +548,43 @@ function TradePress_get_main_channels_postid() {
 #                                                                    #
 ######################################################################
 
+/**
+ * Update main channels code.
+ *
+ * @param mixed $new_code
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_main_channels_code( $new_code ) {
     update_option( 'TradePress_main_channels_code', $new_code, false ); 
     return TradePress_Object_Registry::update_var( 'mainchannelauth', 'main_channels_code', $new_code );
 }
 
+/**
+ * Update main channels wpowner id.
+ *
+ * @param mixed $wp_user_id
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_main_channels_wpowner_id( $wp_user_id ) {
     update_option( 'TradePress_main_channels_wpowner_id', $wp_user_id, false ); 
     return TradePress_Object_Registry::update_var( 'mainchannelauth', 'main_channels_wpowner_id', $wp_user_id );
 }
 
+/**
+ * Update main channels token.
+ *
+ * @param mixed $new_token
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_main_channels_token( $new_token ) {  
     update_option( 'TradePress_main_channels_token', $new_token, false ); 
     return TradePress_Object_Registry::update_var( 'mainchannelauth', 'main_channels_token', $new_token );
@@ -510,6 +618,13 @@ function TradePress_update_main_channels_scopes( $new_main_channels_scopes ) {
     return TradePress_Object_Registry::update_var( 'mainchannelauth', 'main_channels_scopes', $new_main_channels_scopes );
 }
 
+/**
+ * Update main channels authtime.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_main_channels_authtime() {    
     $time = time();     
     update_option( 'TradePress_main_channels_authtime', $time, false ); 
@@ -552,6 +667,15 @@ function TradePress_update_main_channels_postid( $new_main_channels_postid ) {
     return TradePress_Object_Registry::update_var( 'mainchannelauth', 'main_channels_postid', $new_main_channels_postid );
 }                                  
 
+/**
+ * Update main channels expires in.
+ *
+ * @param mixed $expires_in
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_main_channels_expires_in( $expires_in ) {
     update_option( 'TradePress_main_channels_expires_in', $expires_in, false ); 
     return TradePress_Object_Registry::update_var( 'mainchannelauth', 'main_channels_postid', $expires_in );
@@ -563,36 +687,85 @@ function TradePress_update_main_channels_expires_in( $expires_in ) {
 #                                                                    #
 ######################################################################
          
+/**
+ * Get app id.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_get_app_id() {
     $obj = TradePress_Object_Registry::get( 'twitchapp' );
     return isset( $obj->app_id ) ? $obj->app_id : null;
 }          
 
+/**
+ * Get app secret.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_get_app_secret() {
     $obj = TradePress_Object_Registry::get( 'twitchapp' );
     return isset( $obj->app_secret ) ? $obj->app_secret : null;    
 }   
 
+/**
+ * Get main client token.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_get_main_client_token() {   
     $obj = TradePress_Object_Registry::get( 'twitchapp' );
     return isset( $obj->app_token ) ? $obj->app_token : null;
 }  
 
+/**
+ * Get app redirect.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_get_app_redirect() {
     $obj = TradePress_Object_Registry::get( 'twitchapp' );
     return isset( $obj->app_redirect ) ? $obj->app_redirect : null; 
 }
                    
+/**
+ * Get app token.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_get_app_token() {
     $obj = TradePress_Object_Registry::get( 'twitchapp' );
     return isset( $obj->app_token ) ? $obj->app_token : null;    
 }
 
+/**
+ * Get app token scopes.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_get_app_token_scopes() {
     $obj = TradePress_Object_Registry::get( 'twitchapp' );
     return isset( $obj->app_scopes ) ? $obj->app_scopes : null;    
 }
 
+/**
+ * Get app token expiry.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_get_app_token_expiry() {
     $obj = TradePress_Object_Registry::get( 'twitchapp' );
     return isset( $obj->token_expiry ) ? $obj->token_expiry : null;    
@@ -604,31 +777,85 @@ function TradePress_get_app_token_expiry() {
 #                                                                    #
 ######################################################################
 
+/**
+ * Update app id.
+ *
+ * @param mixed $new_app_id
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_app_id( $new_app_id ) {
     update_option( 'TradePress_app_id', $new_app_id, true );
     return TradePress_Object_Registry::update_var( 'twitchapp', 'app_id', $new_app_id );    
 }
 
+/**
+ * Update app secret.
+ *
+ * @param mixed $new_app_secret
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_app_secret( $new_app_secret ) {
     update_option( 'TradePress_app_secret', $new_app_secret, true );
     return TradePress_Object_Registry::update_var( 'twitchapp', 'app_secret', $new_app_secret );    
 }
 
+/**
+ * Update app redirect.
+ *
+ * @param mixed $new_app_redirect
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_app_redirect( $new_app_redirect ) {
     update_option( 'TradePress_app_redirect', $new_app_redirect, true );
     return TradePress_Object_Registry::update_var( 'twitchapp', 'app_redirect', $new_app_redirect );    
 }
 
+/**
+ * Update app token.
+ *
+ * @param mixed $new_app_token
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_app_token( $new_app_token ) {
     update_option( 'TradePress_app_token', $new_app_token, true );
     return TradePress_Object_Registry::update_var( 'twitchapp', 'app_token', $new_app_token );    
 }
 
+/**
+ * Update app token expiry.
+ *
+ * @param mixed $new_app_token_expiry
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_app_token_expiry( $new_app_token_expiry ) {
     update_option( 'TradePress_app_expiry', $new_app_token_expiry, true );
     return TradePress_Object_Registry::update_var( 'twitchapp', 'app_expiry', $new_app_token_expiry );    
 }
 
+/**
+ * Update app token scopes.
+ *
+ * @param mixed $new_app_scopes
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_app_token_scopes( $new_app_scopes ) {
     update_option( 'TradePress_app_scopes', $new_app_scopes, true );
     return TradePress_Object_Registry::update_var( 'twitchapp', 'app_scopes', $new_app_scopes );    
@@ -676,6 +903,7 @@ function TradePress_generate_authorization_url( $permitted_scopes, $local_state 
  * The DOING_AJAX constant is set by WordPress.
  * 
  * @return bool
+  * @version 1.0.0
  */
 function TradePress_is_ajax() {          
     return defined( 'DOING_AJAX' );
@@ -686,6 +914,7 @@ function TradePress_is_ajax() {
 * If it is, we don't need to do things such as 'force ssl'.
 *
 * @return bool
+ * @version 1.0.0
 */
 function TradePress_is_https() {      
     return false !== strstr( get_option( 'home' ), 'https:' );
@@ -694,6 +923,8 @@ function TradePress_is_https() {
 /**
 * Use to check for Ajax or XMLRPC request. Use this function to avoid
 * running none urgent tasks during existing operations and demanding requests.
+ *
+ * @version 1.0.0
 */
 function TradePress_is_background_process() {   
     if ( ( 'wp-login.php' === basename( $_SERVER['SCRIPT_FILENAME'] ) )
@@ -708,6 +939,8 @@ function TradePress_is_background_process() {
 
 /**
  * Output any queued javascript code in the footer.
+  *
+  * @version 1.0.0
  */
 function TradePress_print_js() {
     global $TradePress_queued_js;
@@ -757,6 +990,7 @@ function TradePress_help_tip( $tip, $allow_html = false ) {
  * Queue some JavaScript code to be output in the footer.
  *
  * @param string $code
+  * @version 1.0.0
  */
 function TradePress_enqueue_js( $code ) {
     global $TradePress_queued_js;
@@ -870,6 +1104,7 @@ function TradePress_returning_url_nonced( $new_parameters_array, $action, $speci
  * 
  * @param  string $type admin, ajax, cron or frontend.
  * @return bool
+  * @version 1.0.0
  */
 function TradePress_is_request( $type ) {
     switch ( $type ) {
@@ -890,6 +1125,8 @@ function TradePress_is_request( $type ) {
 * @return boolean false if not valid else true
 * 
 * @version 1.0
+ *
+ * @param mixed $code
 */
 function TradePress_validate_code( $code ) {
     if( strlen ( $code ) !== 30  ) {
@@ -909,6 +1146,8 @@ function TradePress_validate_code( $code ) {
 * @return boolean false if not valid else true
 * 
 * @version 1.0
+ *
+ * @param mixed $token
 */
 function TradePress_validate_token( $token ) {     
     if( strlen ( $token ) !== 30  ) {         
@@ -931,6 +1170,8 @@ function TradePress_validate_token( $token ) {
 * @returns boolean true if the value appears normal.
 * 
 * @version 1.0
+ *
+ * @param mixed $returned_value
 */
 function TradePress_was_valid_token_returned( $returned_value ){
                                              
@@ -955,6 +1196,8 @@ function TradePress_was_valid_token_returned( $returned_value ){
 * @returns boolean true if the value appears normal.
 * 
 * @version 1.0
+ *
+ * @param mixed $token_obj
 */
 function TradePress_was_valid_token_returned_from_helix( $token_obj ){
                                              
@@ -991,6 +1234,10 @@ function TradePress_schedule_sync_channel_to_wp() {
 * have a specific meta key and specific meta value.
 * 
 * @version 1.0
+ *
+ * @param mixed $post_meta_key
+ * @param mixed $post_meta_value
+ * @param int $limit
 */
 function TradePress_get_channel_posts_by_meta( $post_meta_key, $post_meta_value, $limit = 100 ) {
     // args to query for your key
@@ -1200,6 +1447,13 @@ function tradepress_var_dump( $var = null, $levels = 2, $additional = array() ) 
     echo '<pre>'; var_dump( $var ); echo '</pre>';  # DO NOT REMOVE # 
 }
 
+/**
+ * Wp die trade press.
+ *
+ * @param mixed $html
+ *
+ * @version 1.0.0
+ */
 function wp_die_TradePress( $html ) {
     if( !TradePress_are_errors_allowed() ){ return; }
     wp_die( esc_html( $html ) ); 
@@ -1285,6 +1539,15 @@ function TradePress_prepare_scopes( $scopes_array ) {
     return $prepped_scopes;
 }
 
+/**
+ * Scopecheckbox required icon.
+ *
+ * @param mixed $scope
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_scopecheckbox_required_icon( $scope ){
     global $system_scopes_status;
  
@@ -1311,6 +1574,15 @@ function TradePress_scopecheckbox_required_icon( $scope ){
     return $icon;
 }
 
+/**
+ * Scopecheckboxpublic required icon.
+ *
+ * @param mixed $scope
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_scopecheckboxpublic_required_icon( $scope ){
     global $system_scopes_status;
                  
@@ -1417,6 +1689,13 @@ function TradePress_get_sync_timing() {
     return $sync_timing_array;
 }
 
+/**
+ * Update sync timing.
+ *
+ * @param mixed $sync_timing_array
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_sync_timing( $sync_timing_array ) {
     update_option( 'TradePress_sync_timing', $sync_timing_array, false );    
 }
@@ -1479,6 +1758,16 @@ function TradePress_is_sync_due( $file, $function, $line, $delay ) {
     }
 }
 
+/**
+ * Flood protector.
+ *
+ * @param mixed $file
+ * @param mixed $function
+ * @param mixed $line
+ * @param mixed $delay
+ *
+ * @version 1.0.0
+ */
 function TradePress_flood_protector(  $file, $function, $line, $delay ) {
     TradePress_is_sync_due( $file, $function, $line, $delay );    
 }
@@ -1487,6 +1776,8 @@ function TradePress_flood_protector(  $file, $function, $line, $delay ) {
 * Determines if the current logged in user is also the owner of the main channel.
 * 
 * @version 2.0
+ *
+ * @param mixed $wp_user_id
 */
 function TradePress_is_current_user_main_channel_owner( $wp_user_id = null ) {
     if( !$wp_user_id ) {$wp_user_id = get_current_user_id(); }
@@ -1503,6 +1794,8 @@ function TradePress_is_current_user_main_channel_owner( $wp_user_id = null ) {
 * 
 * @returns integer time set using time() or false/null. 
 * @version 1.0
+ *
+ * @param mixed $user_id
 */
 function TradePress_get_user_sync_time( $user_id ) {
     return get_user_meta( $user_id, 'TradePress_sync_time', true );
@@ -1515,6 +1808,11 @@ function TradePress_get_user_sync_time( $user_id ) {
 * processed within the function or should the procedure be ended early. 
 * 
 * @version 1.0
+ *
+ * @param mixed $function
+ * @param mixed $line
+ * @param mixed $file
+ * @param mixed $seconds
 */
 function TradePress_is_current_user_sync_due( $function, $line, $file, $seconds ) {
     return TradePress_is_users_sync_due( TradePress_CURRENTUSERID, $function, $line, $file, $seconds );
@@ -1564,6 +1862,13 @@ function TradePress_is_users_sync_due( $wp_user_id, $function, $line, $file, $se
     }
 }
 
+/**
+ * Update current user sync transient.
+ *
+ * @param mixed $sync_data
+ *
+ * @version 1.0.0
+ */
 function TradePress_update_current_user_sync_transient( $sync_data ) {
     delete_transient( 'TradePress_current_user_syncing_' . date('Ymd') );
     set_transient( 'TradePress_current_user_syncing_' . date('Ymd'), $sync_data, 3600 );    
@@ -1605,10 +1910,24 @@ function TradePress_encode_transient_name( $endpoint, $originating_function, $or
     return base64_encode( serialize( array( $endpoint, $originating_function, $origination_line ) ) );   
 }
 
+/**
+ * Get call count.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_get_call_count() {
     return get_option( 'TradePress_twitchapi_call_count' );
 }
 
+/**
+ * Get new call id.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_get_new_call_id() {
     $old_call_count = TradePress_get_call_count();
     $new_call_count = $old_call_count + 1;
@@ -1616,6 +1935,13 @@ function TradePress_get_new_call_id() {
     return $new_call_count;       
 }
 
+/**
+ * Login prevent redirect.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_login_prevent_redirect() {
     if( 'yes' == get_option( 'TradePress_login_prevent_redirect' ) ) {
         return true;
@@ -1651,6 +1977,7 @@ function TradePress_get_transient_oauth_state( $state_code ) {
  *
  * @param [type] $stocksymbol
  * @return void
+  * @version 1.0.0
  */
 function TradePress_is_stocksymbol_in_postmeta( $stocksymbol ) {
     $args = array(
@@ -1679,6 +2006,7 @@ function TradePress_is_stocksymbol_in_postmeta( $stocksymbol ) {
  * @param $status
  *
  * @return int
+  * @version 1.0.0
  */
 function TradePress_count_users_by_status( $status ) {
     $args = array( 'fields' => 'ID', 'number' => 0 );
@@ -1699,6 +2027,11 @@ function TradePress_count_users_by_status( $status ) {
     return count( $users->results );
 }
 
+/**
+ * Memory report.
+ *
+ * @version 1.0.0
+ */
 function TradePress_memory_report() {
     $b = debug_backtrace();
     var_dump( '<br><br>FILE 1: ', $b[0]['file'], '<br>' );  # DO NOT REMOVE #
@@ -1713,6 +2046,13 @@ function TradePress_memory_report() {
     var_dump( 'PEAK: ', memory_get_peak_usage(), '<br>' );  # DO NOT REMOVE #     
 }
 
+/**
+ * Send to console.
+ *
+ * @param mixed $debug_output
+ *
+ * @version 1.0.0
+ */
 function TradePress_send_to_console( $debug_output ) {
 
     $cleaned_string = '';
@@ -1728,6 +2068,15 @@ function TradePress_send_to_console( $debug_output ) {
     echo esc_html( $javascript_ouput );
 }
 
+/**
+ * Include custom post type in main query.
+ *
+ * @param mixed $query
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function tradepress_include_custom_post_type_in_main_query( $query ) {
     if ( is_home() || is_front_page() || is_archive() ) {
         $query->set( 'post_type', array( 'post', 'page', 'symbols' ) );
@@ -1747,6 +2096,7 @@ add_filter( 'pre_get_posts', 'tradepress_include_custom_post_type_in_main_query'
  * @param mixed  $response      The response received from the API
  * @param string $method        The HTTP method used (GET, POST, etc.)
  * @return bool                 Whether the data was cached successfully
+  * @version 1.0.0
  */
 function tradepress_cache_api_call($api_id, $endpoint, $request_data = [], $response = null, $method = 'GET') {
     // Only cache if testing mode is enabled
@@ -1777,6 +2127,7 @@ function tradepress_cache_api_call($api_id, $endpoint, $request_data = [], $resp
  * @since 1.0.1
  * @param string $api_id  The API identifier (e.g., 'alpaca', 'alltick')
  * @return array|false    The cached API call data or false if none exists
+  * @version 1.0.0
  */
 function tradepress_get_latest_api_call($api_id) {
     $transient_name = 'tradepress_latest_api_call_' . sanitize_key($api_id);
@@ -1787,6 +2138,7 @@ function tradepress_get_latest_api_call($api_id) {
  * Get the current environment mode (Live or Demo)
  *
  * @return string Environment mode
+  * @version 1.0.0
  */
 function get_environment_mode() {
     // Check for TRADEPRESS_DEMO_MODE constant first
@@ -1802,7 +2154,68 @@ function get_environment_mode() {
  * Check if developer mode is active
  *
  * @return bool True if developer mode is enabled
+  * @version 1.0.0
  */
 function tradepress_is_developer_mode() {
-    return get_option('tradepress_developer_mode', false);
+    $developer_mode_option = get_option( 'tradepress_developer_mode', false );
+    $option_enabled = false;
+
+    if ( is_string( $developer_mode_option ) ) {
+        $option_enabled = in_array( strtolower( $developer_mode_option ), array( '1', 'true', 'yes', 'on' ), true );
+    } else {
+        $option_enabled = true === $developer_mode_option || 1 === $developer_mode_option;
+    }
+
+    $wp_development_mode = false;
+    if ( defined( 'WP_DEVELOPMENT_MODE' ) ) {
+        $wp_development_mode_value = constant( 'WP_DEVELOPMENT_MODE' );
+
+        if ( is_array( $wp_development_mode_value ) ) {
+            $wp_development_mode = ! empty( $wp_development_mode_value );
+        } elseif ( is_string( $wp_development_mode_value ) ) {
+            $wp_development_mode = '' !== trim( $wp_development_mode_value )
+                && ! in_array( strtolower( $wp_development_mode_value ), array( '0', 'false', 'off' ), true );
+        } else {
+            $wp_development_mode = (bool) $wp_development_mode_value;
+        }
+    }
+
+    return $option_enabled || $wp_development_mode;
+}
+
+/**
+ * Check whether the current user may access development-only admin surfaces.
+ *
+ * Demo-only, mock-data, and unfinished trading/advisor views must not be visible
+ * to regular users. Developer Mode is the product gate; manage_options is the
+ * capability gate for direct URL access.
+ *
+ * @return bool True when development-only UI may be shown.
+ */
+function tradepress_can_access_development_views() {
+    return tradepress_is_developer_mode() && current_user_can( 'manage_options' );
+}
+
+/**
+ * Remove development-only tabs when Developer Mode is disabled.
+ *
+ * Tab controllers should call this after local tabs and extension filters have
+ * been applied. It keeps the release rule explicit: if a view exists mainly for
+ * demo data, diagnostics, or unfinished workflows, list it here and hide it from
+ * regular users until the view is backed by live data.
+ *
+ * @param array $tabs                 Associative array of tabs.
+ * @param array $development_tab_ids  Tab IDs that require Developer Mode.
+ * @return array Filtered tabs.
+ */
+function tradepress_filter_development_tabs( $tabs, $development_tab_ids ) {
+    if ( tradepress_can_access_development_views() ) {
+        return $tabs;
+    }
+
+    foreach ( (array) $development_tab_ids as $tab_id ) {
+        unset( $tabs[ $tab_id ] );
+    }
+
+    return $tabs;
 }

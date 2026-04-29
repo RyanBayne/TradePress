@@ -30,6 +30,8 @@ class TradePress_Admin_Settings_Shortcodes {
     
     /**
      * Constructor.
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->id    = 'shortcodes';
@@ -45,6 +47,10 @@ class TradePress_Admin_Settings_Shortcodes {
 
     /**
      * Enqueue necessary styles and scripts
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $hook
      */
     public function enqueue_assets( $hook ) {
         // Only load on settings page
@@ -72,6 +78,10 @@ class TradePress_Admin_Settings_Shortcodes {
 
     /**
      * Add this page to settings
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $pages
      */
     public function add_settings_page($pages) {
         $pages[$this->id] = $this->label;
@@ -80,6 +90,8 @@ class TradePress_Admin_Settings_Shortcodes {
 
     /**
      * Output the settings
+      *
+      * @version 1.0.0
      */
     public function output() {
         ?>
@@ -253,6 +265,8 @@ class TradePress_Admin_Settings_Shortcodes {
 
     /**
      * Save settings
+      *
+      * @version 1.0.0
      */
     public function save() {
         // No settings to save for shortcodes tab

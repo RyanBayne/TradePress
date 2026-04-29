@@ -13,10 +13,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 } 
 
 add_action( 'wp_head', 'TradePress_display_frontend_notices', 1 );
+/**
+ * Display frontend notices.
+ *
+ * @version 1.0.0
+ */
 function TradePress_display_frontend_notices() {     
     add_filter( 'the_content', 'TradePress_display_frontend_notices_the_content' );
 }
 
+/**
+ * Frontend notice types.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_frontend_notice_types() {
     return array( 'error', 'success', 'warning', 'info' );
 }

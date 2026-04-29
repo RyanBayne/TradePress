@@ -18,6 +18,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Display the News Feed tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_news_feed_tab_content() {
     // Check if we're in demo mode
@@ -211,6 +213,7 @@ function tradepress_news_feed_tab_content() {
  * @param string $date_range Date range filter
  * @param string $sentiment Sentiment filter
  * @return array Array of feed items
+  * @version 1.0.0
  */
 function get_demo_feed_items($symbol = '', $source = 'all', $date_range = '7d', $sentiment = 'all') {
     // Sample items to demonstrate the UI
@@ -339,6 +342,7 @@ function get_demo_feed_items($symbol = '', $source = 'all', $date_range = '7d', 
  * @param string $date_range Date range filter
  * @param string $sentiment Sentiment filter
  * @return array Array of feed items
+  * @version 1.0.0
  */
 function get_live_feed_items($symbol = '', $source = 'all', $date_range = '7d', $sentiment = 'all') {
     // This would be implemented to fetch real data from APIs and databases

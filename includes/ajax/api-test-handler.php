@@ -22,6 +22,7 @@ if (!defined('ABSPATH')) {
  * @param string $environment Optional. The environment to test ('demo' or 'live'). Default 'demo'.
  * @return array Connection test results with status and details
  * @since 1.1.0
+  * @version 1.0.0
  */
 function tradepress_test_alpaca_connection($environment = 'demo') {
     // Initialize result array
@@ -191,6 +192,8 @@ function tradepress_test_alpaca_connection($environment = 'demo') {
 
 /**
  * Process Alpaca API endpoint test requests
+  *
+  * @version 1.0.0
  */
 function tradepress_test_alpaca_endpoint_handler() {
     // Verify nonce for security
@@ -339,6 +342,8 @@ add_action('wp_ajax_tradepress_test_alpaca_endpoint', 'tradepress_test_alpaca_en
 
 /**
  * Process Alpaca API endpoint test requests with direct implementation
+  *
+  * @version 1.0.0
  */
 function tradepress_test_alpaca_endpoint_direct() {
     // Verify nonce for security
@@ -467,6 +472,8 @@ add_action('wp_ajax_tradepress_test_alpaca_endpoint_direct', 'tradepress_test_al
 
 /**
  * AJAX handler for testing Alpaca API connection
+  *
+  * @version 1.0.0
  */
 function tradepress_test_alpaca_connection_handler() {
     // Verify nonce for security

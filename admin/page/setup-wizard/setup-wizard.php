@@ -27,6 +27,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         add_action( 'admin_menu', array( $this, 'admin_menus' ) );
@@ -36,6 +38,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Add admin menus/screens.
+      *
+      * @version 1.0.0
      */
     public function admin_menus() {
         // Check if setup is complete
@@ -56,6 +60,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Main output method following TradePress pattern
+      *
+      * @version 1.0.0
      */
     public function output() {
         echo '<div class="wrap">';
@@ -73,6 +79,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Initialize wizard when on wizard page
+      *
+      * @version 1.0.0
      */
     public function setup_wizard() {
         if ( empty( $_GET['page'] ) || 'tradepress-setup-wizard' !== $_GET['page'] ) {
@@ -126,6 +134,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Output the steps progress
+      *
+      * @version 1.0.0
      */
     public function setup_wizard_steps() {
         if (empty($this->steps)) return;
@@ -163,6 +173,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Output the content for the current step
+      *
+      * @version 1.0.0
      */
     public function setup_wizard_content() {
         if( !isset( $this->steps[ $this->step ]['view'] ) ) {
@@ -175,6 +187,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Get next step link
+      *
+      * @version 1.0.0
      */
     public function get_next_step_link() {
         $keys = array_keys( $this->steps );
@@ -184,6 +198,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Introduction step
+      *
+      * @version 1.0.0
      */
     public function setup_introduction() {
         include TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/setup-wizard/partials/introduction.php';
@@ -191,6 +207,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Save introduction step
+      *
+      * @version 1.0.0
      */
     public function setup_introduction_save() {
         check_admin_referer('tradepress-setup');
@@ -252,6 +270,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Watchlist step
+      *
+      * @version 1.0.0
      */
     public function setup_watchlist() {
         include TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/setup-wizard/partials/watchlist.php';
@@ -259,6 +279,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Save watchlist step
+      *
+      * @version 1.0.0
      */
     public function setup_watchlist_save() {
         check_admin_referer('tradepress-setup');
@@ -268,6 +290,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Folders step
+      *
+      * @version 1.0.0
      */
     public function setup_folders() {
         include TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/setup-wizard/partials/folders.php';
@@ -275,6 +299,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Save folders step
+      *
+      * @version 1.0.0
      */
     public function setup_folders_save() {
         check_admin_referer('tradepress-setup');
@@ -305,6 +331,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Database step
+      *
+      * @version 1.0.0
      */
     public function setup_database() {
         include TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/setup-wizard/partials/database.php';
@@ -312,6 +340,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Save database step
+      *
+      * @version 1.0.0
      */
     public function setup_database_save() {
         check_admin_referer('tradepress-setup');
@@ -330,6 +360,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Improvement step
+      *
+      * @version 1.0.0
      */
     public function setup_improvement() {
         include TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/setup-wizard/partials/improvement.php';
@@ -337,6 +369,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Save improvement step
+      *
+      * @version 1.0.0
      */
     public function setup_improvement_save() {
         check_admin_referer('tradepress-setup');
@@ -365,6 +399,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * Ready step
+      *
+      * @version 1.0.0
      */
     public function setup_ready() {
         // Mark setup as complete when reaching ready step
@@ -374,6 +410,8 @@ class TradePress_Admin_Setup_Wizard_Page {
 
     /**
      * AJAX handler for API testing
+      *
+      * @version 1.0.0
      */
     public function ajax_test_apis() {
         check_ajax_referer('tradepress_api_test', 'nonce');
@@ -382,6 +420,8 @@ class TradePress_Admin_Setup_Wizard_Page {
     
     /**
      * Perform API tests
+      *
+      * @version 1.0.0
      */
     private function perform_api_tests() {
         $test_symbol = 'AAPL';
@@ -409,6 +449,17 @@ class TradePress_Admin_Setup_Wizard_Page {
         return $this->format_api_test_results($test_symbol, $results);
     }
     
+    /**
+     * Test alpaca api.
+     *
+     * @param mixed $symbol
+     * @param mixed $key
+     * @param mixed $secret
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function test_alpaca_api($symbol, $key, $secret) {
         $url = 'https://paper-api.alpaca.markets/v2/assets/' . $symbol;
         
@@ -435,6 +486,16 @@ class TradePress_Admin_Setup_Wizard_Page {
         }
     }
     
+    /**
+     * Test alpha vantage api.
+     *
+     * @param mixed $symbol
+     * @param mixed $key
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function test_alpha_vantage_api($symbol, $key) {
         $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $symbol . '&apikey=' . $key;
         
@@ -459,6 +520,16 @@ class TradePress_Admin_Setup_Wizard_Page {
         }
     }
     
+    /**
+     * Format api test results.
+     *
+     * @param mixed $symbol
+     * @param mixed $results
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function format_api_test_results($symbol, $results) {
         $html = '<div class="tp-notice tp-notice-info">';
         $html .= '<div class="tp-notice-icon">🔍</div>';

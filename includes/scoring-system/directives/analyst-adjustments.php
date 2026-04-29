@@ -20,6 +20,8 @@ class TradePress_Scoring_Directive_Analyst_Post_Drop_Update extends TradePress_S
 
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->id = 'analyst_post_drop_update';
@@ -69,6 +71,7 @@ class TradePress_Scoring_Directive_Analyst_Post_Drop_Update extends TradePress_S
      *                           Requires: ['price']['current'], ['price']['historical'] (array [date=>close]), ['analyst']['last_update_date'] (YYYY-MM-DD)
      * @param array $params Parameters for the directive (drop_percentage, drop_lookback_days, update_recency_days, penalty_active).
      * @return int Score from 0-100
+      * @version 1.0.0
      */
     public function calculate_score($symbol_data, $params = array()) {
         // Merge default parameters with any provided overrides
@@ -167,6 +170,7 @@ class TradePress_Scoring_Directive_Analyst_Post_Drop_Update extends TradePress_S
      * Get default parameters for the directive.
      *
      * @return array Default parameters.
+      * @version 1.0.0
      */
     private function get_default_parameters() {
         $defaults = array();

@@ -24,6 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string      $action Action for which the nonce is needed.
  * @param string|bool $item   Optional. Item for which the action will be performed, like "table".
  * @return string The resulting nonce string.
+  * @version 1.0.0
  */
 function TradePress_nonce_prepend( $action, $item = false ) {
     $nonce = "TradePress_{$action}";
@@ -112,6 +113,10 @@ function TradePress_get_screen_ids() {
 * Creates a new symbol post.
 * 
 * @version 1.1
+ *
+ * @param string $company
+ * @param string $stock_symbol
+ * @param bool $validated
 */
 function TradePress_insert_symbol( string $company, string $stock_symbol, bool $validated = false ) {
     // Ensure $company begins with a capital letter.
@@ -156,6 +161,8 @@ function TradePress_insert_symbol( string $company, string $stock_symbol, bool $
 
 /**
  * Initialize dashboard widgets
+  *
+  * @version 1.0.0
  */
 function tradepress_init_dashboard_widgets() {
     require_once plugin_dir_path(__FILE__) . 'dashboard/dashboard-widgets.php';
@@ -168,6 +175,7 @@ add_action('init', 'tradepress_init_dashboard_widgets');
  * Track symbol views across different parts of the plugin
  *
  * @param string $symbol The stock symbol being viewed
+  * @version 1.0.0
  */
 function tradepress_track_symbol_view($symbol) {
     if (empty($symbol)) {
@@ -180,6 +188,8 @@ function tradepress_track_symbol_view($symbol) {
 
 /**
  * Hook into various plugin activities to track symbol views
+  *
+  * @version 1.0.0
  */
 function tradepress_register_symbol_tracking() {
     // Track symbols from URL parameters across the plugin
@@ -195,6 +205,8 @@ add_action('admin_init', 'tradepress_register_symbol_tracking');
 /**
  * Add a direct API test link to the TradePress menu
  * This is for debugging the Alpaca API connection issues
+  *
+  * @version 1.0.0
  */
 function tradepress_add_direct_api_test_link() {
     if (!current_user_can('manage_options')) {
@@ -211,6 +223,8 @@ add_action('admin_menu', 'tradepress_add_direct_api_test_link', 999);
 
 /**
  * Process demo mode toggle from developer toolbar
+  *
+  * @version 1.0.0
  */
 function tradepress_toggle_demo_mode() {
     // Security: Verify the nonce to prevent CSRF attacks.
@@ -242,6 +256,8 @@ add_action('admin_post_TradePress_demo_mode_switch', 'tradepress_toggle_demo_mod
 
 /**
  * Fetch earnings calendar data from Alpha Vantage
+  *
+  * @version 1.0.0
  */
 function tradepress_fetch_earnings_calendar_cron() {
     // Check if we have a valid API key
@@ -264,7 +280,6 @@ function tradepress_fetch_earnings_calendar_cron() {
     // Check for errors
     if (is_wp_error($response)) {
         // Log the error
-        error_log('TradePress Earnings Calendar CRON Error: ' . $response->get_error_message());
         return;
     }
     
@@ -283,6 +298,8 @@ add_action('tradepress_fetch_earnings_calendar', 'tradepress_fetch_earnings_cale
 
 /**
  * Handle manual CRON job execution requests
+  *
+  * @version 1.0.0
  */
 function tradepress_handle_cron_actions() {
     if (!isset($_GET['page']) || $_GET['page'] !== 'tradepress_automation' || 
@@ -345,6 +362,8 @@ add_action('admin_init', 'tradepress_handle_cron_actions');
 
 /**
  * Display admin notices for CRON operations
+  *
+  * @version 1.0.0
  */
 function tradepress_display_cron_notices() {
     $screen = get_current_screen();
@@ -376,6 +395,8 @@ add_action('admin_notices', 'tradepress_display_cron_notices');
 
 /**
  * Handle earnings calendar CRON settings update
+  *
+  * @version 1.0.0
  */
 function tradepress_update_earnings_cron() {
     if (!current_user_can('manage_options')) {
@@ -433,6 +454,15 @@ function tradepress_update_earnings_cron() {
 add_action('admin_post_tradepress_update_earnings_cron', 'tradepress_update_earnings_cron');
 
 // Make sure WordPress registers a weekly schedule
+/**
+ * Add weekly cron schedule.
+ *
+ * @param mixed $schedules
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function tradepress_add_weekly_cron_schedule($schedules) {
     if (!isset($schedules['weekly'])) {
         $schedules['weekly'] = array(
@@ -446,6 +476,8 @@ add_filter('cron_schedules', 'tradepress_add_weekly_cron_schedule');
 
 /**
  * Process saving favorite tabs from settings
+  *
+  * @version 1.0.0
  */
 function tradepress_save_favorite_tabs() {
     // Check user capabilities

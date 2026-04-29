@@ -25,11 +25,19 @@ class TradePress_Admin_Development_GitHub {
     
     /**
      * Output the GitHub view
+      *
+      * @version 1.0.0
      */
     public static function output() {
-        $current_subtab = isset($_GET['subtab']) ? sanitize_title($_GET['subtab']) : 'next-issue';
-        $repo_owner = 'your-github-username';
-        $repo_name = 'TradePress';
+        $allowed_subtabs = array( 'next-issue', 'all-issues', 'create-issue', 'api-config' );
+        $current_subtab = isset( $_GET['subtab'] ) ? sanitize_title( wp_unslash( $_GET['subtab'] ) ) : 'next-issue';
+
+        if ( ! in_array( $current_subtab, $allowed_subtabs, true ) ) {
+            $current_subtab = 'next-issue';
+        }
+
+        $repo_owner = get_option( 'TRADEPRESS_GITHUB_repo_owner', 'RyanBayne' );
+        $repo_name = get_option( 'TRADEPRESS_GITHUB_repo_name', 'TradePress' );
         ?>
         <div class="tab-content" id="github">
             <div class="tradepress-github-container">

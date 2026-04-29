@@ -17,6 +17,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 #                             LIVE MENU FUNCTIONS                              #
 #                                                                              #
 ################################################################################
+/**
+ *  C Us To M N Av M En U I Te M.
+ *
+ * @param mixed $title
+ * @param mixed $url
+ * @param mixed $order
+ * @param int $parent
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function _custom_nav_menu_item( $title, $url, $order, $parent = 0 ){            
   $item = new stdClass();
   $item->ID = 1000000 + $order + $parent;
@@ -37,6 +49,16 @@ function _custom_nav_menu_item( $title, $url, $order, $parent = 0 ){
   return $item;
 }
 
+/**
+ * Custom nav menu items.
+ *
+ * @param mixed $items
+ * @param mixed $menu
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function custom_nav_menu_items( $items, $menu ){       
   // only add item to a specific menu
   if ( $menu->slug == 'main' ){
@@ -50,6 +72,16 @@ function custom_nav_menu_items( $items, $menu ){
   return $items;
 }
 
+/**
+ * Custom nav menu items2.
+ *
+ * @param mixed $items
+ * @param mixed $menu
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function custom_nav_menu_items2( $items, $menu ) {          
   if ( $menu->slug == 'main' ) {
     $top = _custom_nav_menu_item( 'Live Members', '/some-url', 100 );

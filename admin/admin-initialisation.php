@@ -26,6 +26,8 @@ class TradePress_Admin {
 
     /**
      * Constructor.
+      *
+      * @version 1.0.0
      */
     public function __construct() {         
         add_action( 'init',               array( $this, 'includes_requiring_main_init' ), 1 );
@@ -59,6 +61,8 @@ class TradePress_Admin {
 
     /**
      * Output buffering allows admin screens to make redirects later on.
+      *
+      * @version 1.0.0
      */
     public function buffer() {
         ob_start();
@@ -78,6 +82,13 @@ class TradePress_Admin {
         
         // Add screen IDs function if not exists
         if (!function_exists('TradePress_get_screen_ids')) {
+            /**
+             * Get screen ids.
+             *
+             * @return mixed
+             *
+             * @version 1.0.0
+             */
             function TradePress_get_screen_ids() {
                 return array(
                     'toplevel_page_tradepress',
@@ -259,6 +270,10 @@ class TradePress_Admin {
 
     /**
      * Change the admin footer text on WordPress TradePress admin pages.
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $footer_text
      */
     public function admin_footer_text( $footer_text ) {
         if ( ! current_user_can( 'manage_TradePress' ) ) {

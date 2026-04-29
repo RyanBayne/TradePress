@@ -23,6 +23,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * Constructor - Initialize hooks for menu page and assets
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // The menu page is already added by TradePress_Admin_Menus, so we don't need to add it again
@@ -31,6 +33,10 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * Enqueue styles and scripts for Trading Platforms page
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $hook
      */
     public function enqueue_assets($hook) {
         // Check if we're on the Trading Platforms page
@@ -60,6 +66,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * Output the API tabs page
+      *
+      * @version 1.0.0
      */
     public static function output() {
         // Enqueue jQuery UI for the test dialogs
@@ -71,6 +79,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * Display tabs interface
+      *
+      * @version 1.0.0
      */
     private static function tabs_interface() {
         // Get the available tabs
@@ -131,6 +141,7 @@ class TradePress_Admin_TradingPlatforms_Page {
      * Get available tabs
      * 
      * @return array Array of tab data
+      * @version 1.0.0
      */
     public static function get_tabs() {
         $tabs = array(
@@ -245,6 +256,10 @@ class TradePress_Admin_TradingPlatforms_Page {
             if ($api_id === 'api_switches' || $api_id === 'comparisons') {
                 continue;
             }
+
+            if ( ! tradepress_can_access_development_views() && ! in_array( $api_id, array( 'trading212', 'alpaca', 'alphavantage', 'api_management' ), true ) ) {
+                continue;
+            }
             
             // Check if this API tab should be displayed
             $show_tab = false;
@@ -291,8 +306,8 @@ class TradePress_Admin_TradingPlatforms_Page {
             $filtered_tabs = array('api_management' => $api_management_tab) + $filtered_tabs;
         }
         
-        // Add API Efficiency tab second (always visible)
-        if (isset($tabs['api_efficiency'])) {
+        // API Efficiency remains hidden for regular users, but is available in developer mode for testing.
+        if ( tradepress_is_developer_mode() && isset($tabs['api_efficiency']) ) {
             $api_efficiency_tab = $tabs['api_efficiency'];
             $filtered_tabs = array_slice($filtered_tabs, 0, 1, true) + 
                            array('api_efficiency' => $api_efficiency_tab) + 
@@ -314,6 +329,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * AllTick tab content
+      *
+      * @version 1.0.0
      */
     public static function alltick_tab() {
         // Check for specific AllTick actions
@@ -375,6 +392,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * Alpaca tab content
+      *
+      * @version 1.0.0
      */
     public static function alpaca_tab() {
         include( dirname( __FILE__ ) . '/view/view.alpaca.php' );
@@ -382,6 +401,8 @@ class TradePress_Admin_TradingPlatforms_Page {
     
     /**
      * IEX Cloud tab content
+      *
+      * @version 1.0.0
      */
     public static function iexcloud_tab() {
         include( dirname( __FILE__ ) . '/view/view.iexcloud.php' );
@@ -389,6 +410,8 @@ class TradePress_Admin_TradingPlatforms_Page {
     
     /**
      * Polygon tab content
+      *
+      * @version 1.0.0
      */
     public static function polygon_tab() {
         include( dirname( __FILE__ ) . '/view/view.polygon.php' );
@@ -396,6 +419,8 @@ class TradePress_Admin_TradingPlatforms_Page {
     
     /**
      * Tradier tab content
+      *
+      * @version 1.0.0
      */
     public static function tradier_tab() {
         include( dirname( __FILE__ ) . '/view/view.tradier.php' );
@@ -403,6 +428,8 @@ class TradePress_Admin_TradingPlatforms_Page {
     
     /**
      * Finnhub tab content
+      *
+      * @version 1.0.0
      */
     public static function finnhub_tab() {
         include( dirname( __FILE__ ) . '/view/view.finnhub.php' );
@@ -410,6 +437,8 @@ class TradePress_Admin_TradingPlatforms_Page {
     
     /**
      * Twitter tab content
+      *
+      * @version 1.0.0
      */
     public static function twitter_tab() {
         include( dirname( __FILE__ ) . '/view/view.twitter.php' );
@@ -417,6 +446,8 @@ class TradePress_Admin_TradingPlatforms_Page {
     
     /**
      * StockTwits tab content
+      *
+      * @version 1.0.0
      */
     public static function stocktwits_tab() {
         include( dirname( __FILE__ ) . '/view/view.stocktwits.php' );
@@ -424,6 +455,8 @@ class TradePress_Admin_TradingPlatforms_Page {
     
     /**
      * Twelve Data tab content
+      *
+      * @version 1.0.0
      */
     public static function twelvedata_tab() {
         include( dirname( __FILE__ ) . '/view/view.twelvedata.php' );
@@ -431,6 +464,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * Interactive Brokers tab content
+      *
+      * @version 1.0.0
      */
     public static function ibkr_tab() {
         include( dirname( __FILE__ ) . '/view/view.ibkr.php' );
@@ -438,6 +473,8 @@ class TradePress_Admin_TradingPlatforms_Page {
     
     /**
      * TradingView tab content
+      *
+      * @version 1.0.0
      */
     public static function tradingview_tab() {
         include( dirname( __FILE__ ) . '/view/view.tradingview.php' );
@@ -445,6 +482,8 @@ class TradePress_Admin_TradingPlatforms_Page {
     
     /**
      * Marketstack tab content
+      *
+      * @version 1.0.0
      */
     public static function marketstack_tab() {
         include( dirname( __FILE__ ) . '/view/view.marketstack.php' );
@@ -452,6 +491,8 @@ class TradePress_Admin_TradingPlatforms_Page {
     
     /**
      * EOD Historical Data tab content
+      *
+      * @version 1.0.0
      */
     public static function eodhistoricaldata_tab() {
         include( dirname( __FILE__ ) . '/view/view.eodhistoricaldata.php' );
@@ -459,6 +500,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * Yahoo Finance tab content
+      *
+      * @version 1.0.0
      */
     public static function yahoofinance_tab() {
         include( dirname( __FILE__ ) . '/view/view.yahoofinance.php' );
@@ -466,6 +509,8 @@ class TradePress_Admin_TradingPlatforms_Page {
     
     /**
      * Tiingo tab content
+      *
+      * @version 1.0.0
      */
     public static function tiingo_tab() {
         include( dirname( __FILE__ ) . '/view/view.tiingo.php' );
@@ -473,6 +518,8 @@ class TradePress_Admin_TradingPlatforms_Page {
     
     /**
      * Alpha Vantage tab content
+      *
+      * @version 1.0.0
      */
     public static function alphavantage_tab() {
         include( dirname( __FILE__ ) . '/view/view.alphavantage.php' );
@@ -480,6 +527,8 @@ class TradePress_Admin_TradingPlatforms_Page {
     
     /**
      * Quandl tab content
+      *
+      * @version 1.0.0
      */
     public static function quandl_tab() {
         include( dirname( __FILE__ ) . '/view/view.quandl.php' );
@@ -487,6 +536,8 @@ class TradePress_Admin_TradingPlatforms_Page {
     
     /**
      * FRED tab content
+      *
+      * @version 1.0.0
      */
     public static function fred_tab() {
         include( dirname( __FILE__ ) . '/view/view.fred.php' );
@@ -494,6 +545,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * Gemini tab content
+      *
+      * @version 1.0.0
      */
     public static function gemini_tab() {
         include( dirname( __FILE__ ) . '/view/view.gemini.php' );
@@ -501,6 +554,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * WeBull tab content
+      *
+      * @version 1.0.0
      */
     public static function webull_tab() {
         include( dirname( __FILE__ ) . '/view/view.webull.php' );
@@ -508,6 +563,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * Trading212 tab content
+      *
+      * @version 1.0.0
      */
     public static function trading212_tab() {
         include( dirname( __FILE__ ) . '/view/view.trading212.php' );
@@ -515,6 +572,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * Comparisons tab content
+      *
+      * @version 1.0.0
      */
     public static function comparisons_tab() {
         require_once TRADEPRESS_PLUGIN_DIR . 'admin/page/tradingplatforms/comparisons.php';
@@ -525,6 +584,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * Overview tab content
+      *
+      * @version 1.0.0
      */
     public static function overview_tab() {
         include( dirname( __FILE__ ) . '/view/view.overview.php' );
@@ -534,6 +595,8 @@ class TradePress_Admin_TradingPlatforms_Page {
      * Settings tab content 
      * 
      * @todo this method doesn't appear to be used in the current context, is it included for completeness or should it be removed?
+      *
+      * @version 1.0.0
      */
     public static function settings_tab() {
         // Process form submission for API switches
@@ -622,6 +685,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * Display notice when settings are updated
+      *
+      * @version 1.0.0
      */
     public static function settings_updated_notice() {
         echo '<div class="notice notice-success is-dismissible"><p>' . 
@@ -631,6 +696,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * API Management tab content
+      *
+      * @version 1.0.0
      */
     public static function api_management_tab() {
         include( dirname( __FILE__ ) . '/view/view.api_management.php' );
@@ -638,6 +705,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * API Efficiency tab content
+      *
+      * @version 1.0.0
      */
     public static function api_efficiency_tab() {
         include( dirname( __FILE__ ) . '/view/view.api_efficiency.php' );
@@ -645,6 +714,8 @@ class TradePress_Admin_TradingPlatforms_Page {
 
     /**
      * API Switches tab content
+      *
+      * @version 1.0.0
      */
     public static function api_switches_tab() {
         // Process form submission for API switches

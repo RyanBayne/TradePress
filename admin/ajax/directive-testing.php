@@ -14,6 +14,8 @@ require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-directi
 
 /**
  * Handle directive testing AJAX request
+  *
+  * @version 1.0.0
  */
 function tradepress_ajax_test_directive() {
     // Verify nonce

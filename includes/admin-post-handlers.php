@@ -15,14 +15,20 @@ if ( ! function_exists( 'tradepress_trace_log' ) ) {
 // Test form handler
 add_action('admin_post_test_form_submit', 'handle_test_form_submit');
 
+/**
+ * Handle test form submit.
+ *
+ * @version 1.0.0
+ */
 function handle_test_form_submit() {
     tradepress_trace_log('Test form handler called');
-    
-    if (!wp_verify_nonce($_POST['_wpnonce'], 'test_form_nonce')) {
-        wp_die('Nonce failed');
+
+    $nonce = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : '';
+    if ( ! wp_verify_nonce( $nonce, 'test_form_nonce' ) ) {
+        wp_die( esc_html__( 'Security check failed.', 'tradepress' ) );
     }
     
-    $test_value = sanitize_text_field($_POST['test_field'] ?? '');
+    $test_value = isset( $_POST['test_field'] ) ? sanitize_text_field( wp_unslash( $_POST['test_field'] ) ) : '';
     tradepress_trace_log('Test value: ' . $test_value);
     
     wp_safe_redirect(admin_url('admin.php?page=tradepress_focus&tab=advisor&test_result=' . urlencode($test_value)));
@@ -37,18 +43,24 @@ add_action('admin_post_tradepress_advisor_step_4', 'tradepress_handle_advisor_st
 add_action('admin_post_tradepress_advisor_step_5', 'tradepress_handle_advisor_step_5');
 add_action('admin_post_tradepress_advisor_step_6', 'tradepress_handle_advisor_step_6');
 
+/**
+ * Handle advisor step 1.
+ *
+ * @version 1.0.0
+ */
 function tradepress_handle_advisor_step_1() {
     tradepress_trace_log('Advisor Step 1 handler called');
-    
-    if (!wp_verify_nonce($_POST['_wpnonce'], 'tradepress_advisor_step_1')) {
-        wp_die('Security check failed');
+
+    $nonce = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : '';
+    if ( ! wp_verify_nonce( $nonce, 'tradepress_advisor_step_1' ) ) {
+        wp_die( esc_html__( 'Security check failed.', 'tradepress' ) );
     }
     
     if (!current_user_can('manage_options')) {
-        wp_die('Permission denied');
+        wp_die( esc_html__( 'Permission denied.', 'tradepress' ) );
     }
     
-    $mode = sanitize_text_field($_POST['advisor_mode'] ?? 'invest');
+    $mode = isset( $_POST['advisor_mode'] ) ? sanitize_text_field( wp_unslash( $_POST['advisor_mode'] ) ) : 'invest';
     tradepress_trace_log('Selected mode: ' . $mode);
     
     // Save mode to session
@@ -71,18 +83,24 @@ function tradepress_handle_advisor_step_1() {
     exit;
 }
 
+/**
+ * Handle advisor step 2.
+ *
+ * @version 1.0.0
+ */
 function tradepress_handle_advisor_step_2() {
     tradepress_trace_log('Advisor Step 2 handler called');
-    
-    if (!wp_verify_nonce($_POST['_wpnonce'], 'tradepress_advisor_step_2')) {
-        wp_die('Security check failed');
+
+    $nonce = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : '';
+    if ( ! wp_verify_nonce( $nonce, 'tradepress_advisor_step_2' ) ) {
+        wp_die( esc_html__( 'Security check failed.', 'tradepress' ) );
     }
     
     if (!current_user_can('manage_options')) {
-        wp_die('Permission denied');
+        wp_die( esc_html__( 'Permission denied.', 'tradepress' ) );
     }
     
-    $selected_symbols = isset($_POST['selected_symbols']) ? array_map('sanitize_text_field', $_POST['selected_symbols']) : array();
+    $selected_symbols = isset( $_POST['selected_symbols'] ) && is_array( $_POST['selected_symbols'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['selected_symbols'] ) ) : array();
     tradepress_trace_log('Selected symbols', array('symbols' => $selected_symbols));
     
     // Save symbols to session
@@ -100,15 +118,21 @@ function tradepress_handle_advisor_step_2() {
     exit;
 }
 
+/**
+ * Handle advisor step 3.
+ *
+ * @version 1.0.0
+ */
 function tradepress_handle_advisor_step_3() {
     tradepress_trace_log('Advisor Step 3 handler called');
-    
-    if (!wp_verify_nonce($_POST['_wpnonce'], 'tradepress_advisor_step_3')) {
-        wp_die('Security check failed');
+
+    $nonce = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : '';
+    if ( ! wp_verify_nonce( $nonce, 'tradepress_advisor_step_3' ) ) {
+        wp_die( esc_html__( 'Security check failed.', 'tradepress' ) );
     }
     
     if (!current_user_can('manage_options')) {
-        wp_die('Permission denied');
+        wp_die( esc_html__( 'Permission denied.', 'tradepress' ) );
     }
     
     // Load session and mark step 3 as completed
@@ -125,15 +149,21 @@ function tradepress_handle_advisor_step_3() {
     exit;
 }
 
+/**
+ * Handle advisor step 4.
+ *
+ * @version 1.0.0
+ */
 function tradepress_handle_advisor_step_4() {
     tradepress_trace_log('Advisor Step 4 handler called');
-    
-    if (!wp_verify_nonce($_POST['_wpnonce'], 'tradepress_advisor_step_4')) {
-        wp_die('Security check failed');
+
+    $nonce = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : '';
+    if ( ! wp_verify_nonce( $nonce, 'tradepress_advisor_step_4' ) ) {
+        wp_die( esc_html__( 'Security check failed.', 'tradepress' ) );
     }
     
     if (!current_user_can('manage_options')) {
-        wp_die('Permission denied');
+        wp_die( esc_html__( 'Permission denied.', 'tradepress' ) );
     }
     
     // Load session and mark step 4 as completed
@@ -150,15 +180,21 @@ function tradepress_handle_advisor_step_4() {
     exit;
 }
 
+/**
+ * Handle advisor step 5.
+ *
+ * @version 1.0.0
+ */
 function tradepress_handle_advisor_step_5() {
     tradepress_trace_log('Advisor Step 5 handler called');
-    
-    if (!wp_verify_nonce($_POST['_wpnonce'], 'tradepress_advisor_step_5')) {
-        wp_die('Security check failed');
+
+    $nonce = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : '';
+    if ( ! wp_verify_nonce( $nonce, 'tradepress_advisor_step_5' ) ) {
+        wp_die( esc_html__( 'Security check failed.', 'tradepress' ) );
     }
     
     if (!current_user_can('manage_options')) {
-        wp_die('Permission denied');
+        wp_die( esc_html__( 'Permission denied.', 'tradepress' ) );
     }
     
     // Load session and mark step 5 as completed
@@ -175,21 +211,27 @@ function tradepress_handle_advisor_step_5() {
     exit;
 }
 
+/**
+ * Handle advisor step 6.
+ *
+ * @version 1.0.0
+ */
 function tradepress_handle_advisor_step_6() {
     tradepress_trace_log('Advisor Step 6 handler called');
-    
-    if (!wp_verify_nonce($_POST['_wpnonce'], 'tradepress_advisor_step_6')) {
-        wp_die('Security check failed');
+
+    $nonce = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : '';
+    if ( ! wp_verify_nonce( $nonce, 'tradepress_advisor_step_6' ) ) {
+        wp_die( esc_html__( 'Security check failed.', 'tradepress' ) );
     }
     
     if (!current_user_can('manage_options')) {
-        wp_die('Permission denied');
+        wp_die( esc_html__( 'Permission denied.', 'tradepress' ) );
     }
     
     // Process technical indicator selections
-    $selected_indicators = isset($_POST['selected_indicators']) ? array_map('sanitize_text_field', $_POST['selected_indicators']) : array();
-    $scoring_strategy = sanitize_text_field($_POST['scoring_strategy'] ?? 'balanced');
-    $time_horizon = sanitize_text_field($_POST['time_horizon'] ?? '1m');
+    $selected_indicators = isset( $_POST['selected_indicators'] ) && is_array( $_POST['selected_indicators'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['selected_indicators'] ) ) : array();
+    $scoring_strategy = isset( $_POST['scoring_strategy'] ) ? sanitize_text_field( wp_unslash( $_POST['scoring_strategy'] ) ) : 'balanced';
+    $time_horizon = isset( $_POST['time_horizon'] ) ? sanitize_text_field( wp_unslash( $_POST['time_horizon'] ) ) : '1m';
     
     tradepress_trace_log('Technical settings processed', array(
         'indicators' => $selected_indicators,
@@ -219,15 +261,21 @@ function tradepress_handle_advisor_step_6() {
 // Developer Mode Toggle Handler
 add_action('admin_post_tradepress_toggle_developer_mode_toolbar', 'tradepress_handle_developer_mode_toggle');
 
+/**
+ * Handle developer mode toggle.
+ *
+ * @version 1.0.0
+ */
 function tradepress_handle_developer_mode_toggle() {
     tradepress_trace_log('Developer mode toggle handler called');
-    
-    if (!wp_verify_nonce($_GET['_wpnonce'], 'tradepress_developer_mode_nonce')) {
-        wp_die('Security check failed');
+
+    $nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
+    if ( ! wp_verify_nonce( $nonce, 'tradepress_developer_mode_nonce' ) ) {
+        wp_die( esc_html__( 'Security check failed.', 'tradepress' ) );
     }
     
     if (!current_user_can('TradePressdevelopertoolbar')) {
-        wp_die('Permission denied');
+        wp_die( esc_html__( 'Permission denied.', 'tradepress' ) );
     }
     
     $current_status = get_option('tradepress_developer_mode', false);

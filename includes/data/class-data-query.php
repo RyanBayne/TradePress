@@ -35,6 +35,7 @@ class TradePress_Data_Query {
      * @param array $data_types Required data types
      * @param bool $force_fresh Force fresh import
      * @return array Symbol data
+      * @version 1.0.0
      */
     public static function get_symbol_data($symbol, $data_types = array(), $force_fresh = false) {
         $data = array();
@@ -53,6 +54,7 @@ class TradePress_Data_Query {
      * @param string $type Data type
      * @param bool $force_fresh Force fresh import
      * @return mixed Data or null if unavailable
+      * @version 1.0.0
      */
     private static function get_data_by_type($symbol, $type, $force_fresh = false) {
         if (!$force_fresh && self::is_data_fresh($symbol, $type)) {
@@ -72,6 +74,7 @@ class TradePress_Data_Query {
      * @param string $symbol Symbol ticker
      * @param string $type Data type
      * @return bool True if data is fresh
+      * @version 1.0.0
      */
     private static function is_data_fresh($symbol, $type) {
         global $wpdb;
@@ -96,6 +99,7 @@ class TradePress_Data_Query {
      * @param string $symbol Symbol ticker
      * @param string $type Data type
      * @return mixed Cached data
+      * @version 1.0.0
      */
     private static function get_cached_data($symbol, $type) {
         global $wpdb;
@@ -129,6 +133,7 @@ class TradePress_Data_Query {
      *
      * @param string $symbol Symbol ticker
      * @param string $type Data type
+      * @version 1.0.0
      */
     private static function trigger_data_import($symbol, $type) {
         // Add to import queue for background processing
@@ -140,6 +145,7 @@ class TradePress_Data_Query {
      *
      * @param string $type Data type
      * @return string|null Table name
+      * @version 1.0.0
      */
     private static function get_table_for_type($type) {
         global $wpdb;
@@ -161,6 +167,7 @@ class TradePress_Data_Query {
      * @param string $symbol Symbol ticker
      * @param string $type Data type
      * @return array Status information
+      * @version 1.0.0
      */
     public static function get_data_status($symbol, $type) {
         $is_fresh = self::is_data_fresh($symbol, $type);
@@ -180,6 +187,7 @@ class TradePress_Data_Query {
      * @param string $symbol Symbol ticker
      * @param string $type Data type
      * @return int|null Unix timestamp
+      * @version 1.0.0
      */
     private static function get_last_update_time($symbol, $type) {
         global $wpdb;

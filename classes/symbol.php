@@ -73,6 +73,7 @@ class TradePress_Symbol {
      * 
      * @param string|int $symbol_or_id Symbol ticker or database ID
      * @param string $by_field Field to query by ('symbol', 'id', or 'post_id')
+      * @version 1.0.0
      */
     public function __construct($symbol_or_id = null, $by_field = 'symbol') {
         if (!is_null($symbol_or_id)) {
@@ -86,6 +87,7 @@ class TradePress_Symbol {
      * @param string|int $symbol_or_id Symbol ticker or database ID
      * @param string $by_field Field to query by ('symbol', 'id', or 'post_id')
      * @return bool Success or failure
+      * @version 1.0.0
      */
     public function load($symbol_or_id, $by_field = 'symbol') {
         global $wpdb;
@@ -154,6 +156,7 @@ class TradePress_Symbol {
      * 
      * @param int $post_id Post ID
      * @return bool Success or failure
+      * @version 1.0.0
      */
     public function create_from_post($post_id) {
         $post = get_post($post_id);
@@ -214,6 +217,7 @@ class TradePress_Symbol {
      * @param string $timeframe For price history, which timeframe to include
      * @param int $limit Maximum number of price history records
      * @return array Complete symbol data
+      * @version 1.0.0
      */
     public function get_complete_data($with_history = false, $timeframe = 'daily', $limit = 30) {
         if (empty($this->data)) {
@@ -252,6 +256,7 @@ class TradePress_Symbol {
      * Get price levels (support/resistance)
      * 
      * @return array Price levels
+      * @version 1.0.0
      */
     public function get_price_levels() {
         global $wpdb;
@@ -274,6 +279,7 @@ class TradePress_Symbol {
      * @param string $timeframe Timeframe (daily, weekly, etc)
      * @param int $limit Maximum number of records
      * @return array Price history data
+      * @version 1.0.0
      */
     public function get_price_history($timeframe = 'daily', $limit = 30) {
         global $wpdb;
@@ -301,6 +307,7 @@ class TradePress_Symbol {
      * Get the latest score for this symbol
      * 
      * @return array|null Score data or null if not found
+      * @version 1.0.0
      */
     public function get_latest_score() {
         global $wpdb;
@@ -344,6 +351,7 @@ class TradePress_Symbol {
      * 
      * @param int $limit Maximum number of predictions
      * @return array Predictions
+      * @version 1.0.0
      */
     public function get_predictions($limit = 5) {
         global $wpdb;
@@ -374,6 +382,7 @@ class TradePress_Symbol {
      * 
      * @param int $limit Maximum number of alerts
      * @return array Social alerts
+      * @version 1.0.0
      */
     public function get_social_alerts($limit = 5) {
         global $wpdb;
@@ -400,6 +409,7 @@ class TradePress_Symbol {
      * Get post metadata for this symbol
      * 
      * @return array Post metadata
+      * @version 1.0.0
      */
     public function get_post_metadata() {
         if (empty($this->post_id)) {
@@ -439,6 +449,7 @@ class TradePress_Symbol {
      * 
      * @param string $source API source name
      * @return bool Success or failure
+      * @version 1.0.0
      */
     public function update_from_api($source = 'alphavantage') {
         if (empty($this->symbol)) {
@@ -475,6 +486,7 @@ class TradePress_Symbol {
      * Update symbol data from Alpha Vantage API
      * 
      * @return bool Success or failure
+      * @version 1.0.0
      */
     private function update_from_alphavantage() {
         // Check if AlphaVantage API class exists
@@ -533,6 +545,8 @@ class TradePress_Symbol {
     
     /**
      * Update the last updated timestamp
+      *
+      * @version 1.0.0
      */
     private function update_last_updated() {
         if ($this->post_id > 0) {
@@ -545,6 +559,7 @@ class TradePress_Symbol {
      * 
      * @param string $key Data key to get
      * @return mixed Data value or null if not found
+      * @version 1.0.0
      */
     public function get($key) {
         if (isset($this->data[$key])) {
@@ -558,6 +573,7 @@ class TradePress_Symbol {
      * Get ID
      * 
      * @return int Symbol ID
+      * @version 1.0.0
      */
     public function get_id() {
         return $this->id;
@@ -567,6 +583,7 @@ class TradePress_Symbol {
      * Get symbol ticker
      * 
      * @return string Symbol ticker
+      * @version 1.0.0
      */
     public function get_symbol() {
         return $this->symbol;
@@ -576,6 +593,7 @@ class TradePress_Symbol {
      * Get post ID
      * 
      * @return int Post ID
+      * @version 1.0.0
      */
     public function get_post_id() {
         return $this->post_id;
@@ -585,6 +603,7 @@ class TradePress_Symbol {
      * Get symbol name
      * 
      * @return string Symbol name
+      * @version 1.0.0
      */
     public function get_name() {
         return isset($this->data['name']) ? $this->data['name'] : '';

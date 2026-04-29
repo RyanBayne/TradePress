@@ -30,6 +30,7 @@ class TradePress_AI_Code_Analyzer {
      *
      * @param string $file_path Path to the file to analyze
      * @return array Array of suggestions for improvement
+      * @version 1.0.0
      */
     public function analyze_file($file_path) {
         // Basic implementation placeholder
@@ -69,6 +70,7 @@ class TradePress_AI_Code_Analyzer {
      * @param string $code PHP code to analyze
      * @param string $file_path Path to the file being analyzed
      * @return array Array of suggestions for improvement
+      * @version 1.0.0
      */
     private function analyze_php_code($code, $file_path) {
         $suggestions = array();
@@ -112,6 +114,7 @@ class TradePress_AI_Code_Analyzer {
      * @param string $code JavaScript code to analyze
      * @param string $file_path Path to the file being analyzed
      * @return array Array of suggestions for improvement
+      * @version 1.0.0
      */
     private function analyze_js_code($code, $file_path) {
         $suggestions = array();
@@ -140,6 +143,7 @@ class TradePress_AI_Code_Analyzer {
      * @param string $code CSS code to analyze
      * @param string $file_path Path to the file being analyzed
      * @return array Array of suggestions for improvement
+      * @version 1.0.0
      */
     private function analyze_css_code($code, $file_path) {
         $suggestions = array();
@@ -162,6 +166,7 @@ class TradePress_AI_Code_Analyzer {
      *
      * @param string $code PHP code to analyze
      * @return array Array of function blocks
+      * @version 1.0.0
      */
     private function extract_php_functions($code) {
         // This is a simplified implementation
@@ -175,6 +180,7 @@ class TradePress_AI_Code_Analyzer {
      *
      * @param string $directory Directory to analyze
      * @return array Array of architectural suggestions
+      * @version 1.0.0
      */
     public function analyze_architecture($directory) {
         // This would be a more complex implementation looking at:
@@ -197,6 +203,7 @@ class TradePress_AI_Code_Analyzer {
      *
      * @param string $file_path File to analyze for test data needs
      * @return array Array of test data suggestions
+      * @version 1.0.0
      */
     public function suggest_test_data($file_path) {
         // Analyze file to determine what kind of test data would be useful

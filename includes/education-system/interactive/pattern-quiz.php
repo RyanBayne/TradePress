@@ -46,6 +46,7 @@ class TradePress_Pattern_Quiz {
      *
      * @param int    $quiz_id    Optional quiz ID to load
      * @param string $difficulty Difficulty level (beginner, intermediate, advanced)
+      * @version 1.0.0
      */
     public function __construct($quiz_id = 0, $difficulty = 'beginner') {
         $this->difficulty = $difficulty;
@@ -64,6 +65,8 @@ class TradePress_Pattern_Quiz {
     
     /**
      * Generate a new quiz
+      *
+      * @version 1.0.0
      */
     private function generate_new_quiz() {
         // This is just a placeholder implementation
@@ -98,6 +101,7 @@ class TradePress_Pattern_Quiz {
      *
      * @param int $quiz_id Quiz ID to load
      * @return bool Success status
+      * @version 1.0.0
      */
     private function load_quiz($quiz_id) {
         // This is a placeholder for loading quiz data from database
@@ -108,6 +112,8 @@ class TradePress_Pattern_Quiz {
     
     /**
      * Handle submission of an answer via AJAX
+      *
+      * @version 1.0.0
      */
     public function handle_answer_submission() {
         // Verify nonce
@@ -155,6 +161,7 @@ class TradePress_Pattern_Quiz {
      * Render the quiz interface
      *
      * @return string HTML for displaying the quiz
+      * @version 1.0.0
      */
     public function render() {
         // This is a placeholder - in real implementation, this would:
@@ -171,6 +178,7 @@ class TradePress_Pattern_Quiz {
      * Get quiz questions
      *
      * @return array Array of quiz questions
+      * @version 1.0.0
      */
     public function get_questions() {
         return $this->questions;
@@ -180,6 +188,7 @@ class TradePress_Pattern_Quiz {
      * Get quiz ID
      *
      * @return int Quiz ID
+      * @version 1.0.0
      */
     public function get_quiz_id() {
         return $this->quiz_id;

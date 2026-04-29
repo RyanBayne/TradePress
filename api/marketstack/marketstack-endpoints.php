@@ -27,6 +27,7 @@ class TradePress_MarketStack_Endpoints {
      * Based on MarketStack API documentation
      * 
      * @return array API restrictions information
+      * @version 1.0.0
      */
     public static function get_api_restrictions() {
         return array(
@@ -69,6 +70,7 @@ class TradePress_MarketStack_Endpoints {
      * Get all available endpoints
      *
      * @return array Array of available endpoints with their configurations
+      * @version 1.0.0
      */
     public static function get_endpoints() {
         return array(
@@ -504,6 +506,7 @@ class TradePress_MarketStack_Endpoints {
      *
      * @param string $endpoint_name The name of the endpoint
      * @return array|false Endpoint configuration or false if not found
+      * @version 1.0.0
      */
     public static function get_endpoint($endpoint_name) {
         $endpoints = self::get_endpoints();
@@ -518,6 +521,7 @@ class TradePress_MarketStack_Endpoints {
      * @param string $base_url Base API URL
      * @param bool $use_https Whether to use HTTPS encryption (available on paid plans)
      * @return string Complete endpoint URL
+      * @version 1.0.0
      */
     public static function get_endpoint_url($endpoint_name, $params = array(), $base_url = '', $use_https = false) {
         $endpoint = self::get_endpoint($endpoint_name);

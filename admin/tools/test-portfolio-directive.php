@@ -14,6 +14,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Test Portfolio Performance Directive
+  *
+  * @version 1.0.0
  */
 function tradepress_test_portfolio_directive() {
     echo '<h2>Portfolio Performance Directive Test</h2>';

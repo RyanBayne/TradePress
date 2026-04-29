@@ -13,132 +13,122 @@ defined('ABSPATH') || exit;
     <p><?php esc_html_e('Collapsible content panels, expandable sections, tree-view components, and FAQ-style accordions for organizing information.', 'tradepress'); ?></p>
     
     <div class="tradepress-component-group">
-        <!-- Basic Accordion -->
+        <!-- Accordion with Table -->
         <div class="component-demo">
-            <h4><?php esc_html_e('Basic Accordion', 'tradepress'); ?></h4>
-            <div class="tradepress-accordion">
-                <div class="tradepress-accordion-item">
-                    <div class="tradepress-accordion-header">
-                        <h4><?php esc_html_e('Trading Strategy Overview', 'tradepress'); ?></h4>
-                        <span class="tradepress-accordion-icon dashicons dashicons-arrow-down-alt2"></span>
+            <h4><?php esc_html_e('Accordion with Table', 'tradepress'); ?></h4>
+            <div class="tp-accordion-container">
+                <div class="tp-accordion-item">
+                    <div class="tp-accordion-header">
+                        <h4 class="tp-accordion-title"><?php esc_html_e('API Connections', 'tradepress'); ?></h4>
+                        <span class="tp-accordion-icon dashicons dashicons-arrow-down-alt2"></span>
                     </div>
-                    <div class="tradepress-accordion-content">
-                        <p><?php esc_html_e('This section contains detailed information about the current trading strategy, including entry and exit criteria, risk management parameters, and performance metrics.', 'tradepress'); ?></p>
-                        <div class="tradepress-grid tradepress-grid-2">
-                            <div class="tradepress-card">
-                                <h5><?php esc_html_e('Entry Criteria', 'tradepress'); ?></h5>
-                                <ul>
-                                    <li><?php esc_html_e('Moving average crossover', 'tradepress'); ?></li>
-                                    <li><?php esc_html_e('Volume confirmation', 'tradepress'); ?></li>
-                                    <li><?php esc_html_e('RSI below 30', 'tradepress'); ?></li>
-                                </ul>
-                            </div>
-                            <div class="tradepress-card">
-                                <h5><?php esc_html_e('Exit Criteria', 'tradepress'); ?></h5>
-                                <ul>
-                                    <li><?php esc_html_e('10% profit target', 'tradepress'); ?></li>
-                                    <li><?php esc_html_e('5% stop loss', 'tradepress'); ?></li>
-                                    <li><?php esc_html_e('Trailing stop at 7%', 'tradepress'); ?></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="tradepress-accordion-item">
-                    <div class="tradepress-accordion-header">
-                        <h4><?php esc_html_e('Market Analysis', 'tradepress'); ?></h4>
-                        <span class="tradepress-accordion-icon dashicons dashicons-arrow-down-alt2"></span>
-                    </div>
-                    <div class="tradepress-accordion-content">
-                        <p><?php esc_html_e('Current market conditions and technical analysis indicators for informed trading decisions.', 'tradepress'); ?></p>
-                        <div class="tradepress-table-container">
-                            <table class="tradepress-table">
-                                <thead>
-                                    <tr>
-                                        <th><?php esc_html_e('Indicator', 'tradepress'); ?></th>
-                                        <th><?php esc_html_e('Value', 'tradepress'); ?></th>
-                                        <th><?php esc_html_e('Signal', 'tradepress'); ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><?php esc_html_e('RSI', 'tradepress'); ?></td>
-                                        <td>42.5</td>
-                                        <td><span class="tradepress-badge tradepress-badge-warning"><?php esc_html_e('Neutral', 'tradepress'); ?></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><?php esc_html_e('MACD', 'tradepress'); ?></td>
-                                        <td>0.75</td>
-                                        <td><span class="tradepress-badge tradepress-badge-success"><?php esc_html_e('Bullish', 'tradepress'); ?></span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="tp-accordion-content">
+                        <table class="wp-list-table widefat fixed striped">
+                            <thead>
+                                <tr>
+                                    <th><?php esc_html_e('Provider', 'tradepress'); ?></th>
+                                    <th><?php esc_html_e('Status', 'tradepress'); ?></th>
+                                    <th><?php esc_html_e('Type', 'tradepress'); ?></th>
+                                    <th><?php esc_html_e('Mode', 'tradepress'); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Trading 212</strong></td>
+                                    <td><span class="tradepress-badge tradepress-badge-success"><?php esc_html_e('Operational', 'tradepress'); ?></span></td>
+                                    <td><?php esc_html_e('Trading', 'tradepress'); ?></td>
+                                    <td><?php esc_html_e('Paper', 'tradepress'); ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Alpha Vantage</strong></td>
+                                    <td><span class="tradepress-badge tradepress-badge-success"><?php esc_html_e('Operational', 'tradepress'); ?></span></td>
+                                    <td><?php esc_html_e('Data Only', 'tradepress'); ?></td>
+                                    <td><?php esc_html_e('N/A', 'tradepress'); ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Finnhub</strong></td>
+                                    <td><span class="tradepress-badge tradepress-badge-warning"><?php esc_html_e('Disabled', 'tradepress'); ?></span></td>
+                                    <td><?php esc_html_e('Data Only', 'tradepress'); ?></td>
+                                    <td><?php esc_html_e('N/A', 'tradepress'); ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                
-                <div class="tradepress-accordion-item">
-                    <div class="tradepress-accordion-header">
-                        <h4><?php esc_html_e('Portfolio Performance', 'tradepress'); ?></h4>
-                        <span class="tradepress-accordion-icon dashicons dashicons-arrow-down-alt2"></span>
+                <div class="tp-accordion-item">
+                    <div class="tp-accordion-header">
+                        <h4 class="tp-accordion-title"><?php esc_html_e('Active Positions', 'tradepress'); ?></h4>
+                        <span class="tp-accordion-icon dashicons dashicons-arrow-down-alt2"></span>
                     </div>
-                    <div class="tradepress-accordion-content">
-                        <p><?php esc_html_e('Detailed portfolio metrics and performance analytics.', 'tradepress'); ?></p>
-                        <div class="media-progress-bar">
-                            <div style="width: 75%;"><?php esc_html_e('75% Target Achievement', 'tradepress'); ?></div>
-                        </div>
+                    <div class="tp-accordion-content">
+                        <table class="wp-list-table widefat fixed striped">
+                            <thead>
+                                <tr>
+                                    <th><?php esc_html_e('Symbol', 'tradepress'); ?></th>
+                                    <th><?php esc_html_e('Quantity', 'tradepress'); ?></th>
+                                    <th><?php esc_html_e('Entry Price', 'tradepress'); ?></th>
+                                    <th><?php esc_html_e('P&amp;L', 'tradepress'); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>AAPL</strong></td>
+                                    <td>10</td>
+                                    <td>$172.40</td>
+                                    <td><span class="tradepress-badge tradepress-badge-success">+$84.50</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>MSFT</strong></td>
+                                    <td>5</td>
+                                    <td>$418.20</td>
+                                    <td><span class="tradepress-badge tradepress-badge-error">&minus;$22.10</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NVDA</strong></td>
+                                    <td>3</td>
+                                    <td>$875.00</td>
+                                    <td><span class="tradepress-badge tradepress-badge-success">+$142.60</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- FAQ Style Accordion -->
+        <!-- Standard Accordion -->
         <div class="component-demo">
-            <h4><?php esc_html_e('FAQ Style Accordion', 'tradepress'); ?></h4>
-            <div class="tradepress-accordion">
-                <div class="tradepress-accordion-item">
-                    <div class="tradepress-accordion-header">
-                        <h4><?php esc_html_e('How do I set up automated trading?', 'tradepress'); ?></h4>
-                        <span class="tradepress-accordion-icon dashicons dashicons-plus"></span>
+            <h4><?php esc_html_e('Standard Accordion', 'tradepress'); ?></h4>
+            <div class="tp-accordion-container">
+                <div class="tp-accordion-item">
+                    <div class="tp-accordion-header">
+                        <h4 class="tp-accordion-title"><?php esc_html_e('Scoring Directives', 'tradepress'); ?></h4>
+                        <span class="tp-accordion-icon dashicons dashicons-arrow-down-alt2"></span>
                     </div>
-                    <div class="tradepress-accordion-content">
-                        <p><?php esc_html_e('To set up automated trading, follow these steps:', 'tradepress'); ?></p>
-                        <ol>
-                            <li><?php esc_html_e('Navigate to the Trading page', 'tradepress'); ?></li>
-                            <li><?php esc_html_e('Configure your API settings', 'tradepress'); ?></li>
-                            <li><?php esc_html_e('Set up your trading strategies', 'tradepress'); ?></li>
-                            <li><?php esc_html_e('Enable automated execution', 'tradepress'); ?></li>
-                        </ol>
+                    <div class="tp-accordion-content">
+                        <p><?php esc_html_e('Directives evaluate securities based on technical indicators and market conditions to produce a ranked score used for trade selection.', 'tradepress'); ?></p>
                     </div>
                 </div>
-                
-                <div class="tradepress-accordion-item">
-                    <div class="tradepress-accordion-header">
-                        <h4><?php esc_html_e('What are scoring directives?', 'tradepress'); ?></h4>
-                        <span class="tradepress-accordion-icon dashicons dashicons-plus"></span>
+                <div class="tp-accordion-item">
+                    <div class="tp-accordion-header">
+                        <h4 class="tp-accordion-title"><?php esc_html_e('Risk Management', 'tradepress'); ?></h4>
+                        <span class="tp-accordion-icon dashicons dashicons-arrow-down-alt2"></span>
                     </div>
-                    <div class="tradepress-accordion-content">
-                        <p><?php esc_html_e('Scoring directives are rules that evaluate securities based on various criteria including technical indicators, fundamental analysis, and market sentiment.', 'tradepress'); ?></p>
-                        <div class="tradepress-notice tradepress-notice-info">
-                            <p><?php esc_html_e('Each directive contributes to an overall score that helps prioritize trading opportunities.', 'tradepress'); ?></p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="tradepress-accordion-item">
-                    <div class="tradepress-accordion-header">
-                        <h4><?php esc_html_e('How do I manage risk in my trades?', 'tradepress'); ?></h4>
-                        <span class="tradepress-accordion-icon dashicons dashicons-plus"></span>
-                    </div>
-                    <div class="tradepress-accordion-content">
-                        <p><?php esc_html_e('Risk management is crucial for successful trading. TradePress offers several tools:', 'tradepress'); ?></p>
+                    <div class="tp-accordion-content">
                         <ul>
                             <li><?php esc_html_e('Position sizing calculators', 'tradepress'); ?></li>
                             <li><?php esc_html_e('Stop-loss and take-profit automation', 'tradepress'); ?></li>
-                            <li><?php esc_html_e('Portfolio diversification analysis', 'tradepress'); ?></li>
                             <li><?php esc_html_e('Real-time risk monitoring', 'tradepress'); ?></li>
                         </ul>
+                    </div>
+                </div>
+                <div class="tp-accordion-item">
+                    <div class="tp-accordion-header">
+                        <h4 class="tp-accordion-title"><?php esc_html_e('API Configuration', 'tradepress'); ?></h4>
+                        <span class="tp-accordion-icon dashicons dashicons-arrow-down-alt2"></span>
+                    </div>
+                    <div class="tp-accordion-content">
+                        <p><?php esc_html_e('Connect trading platforms and data providers via the API Management page. Each provider requires an API key and optional trading mode configuration.', 'tradepress'); ?></p>
                     </div>
                 </div>
             </div>

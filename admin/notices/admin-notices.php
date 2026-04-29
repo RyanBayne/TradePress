@@ -44,6 +44,8 @@ class TradePress_Admin_Notices {
      * Constructor.
      * 
      * @package TradePress
+      *
+      * @version 1.0.0
      */
     public static function init() {             
         self::$notices = get_option( 'TradePress_admin_notices', array() );
@@ -67,6 +69,12 @@ class TradePress_Admin_Notices {
     * 
     * @author Ryan Bayne
     * @package TradePress
+     *
+     * @version 1.0.0
+     *
+     * @param mixed $title
+     * @param mixed $intro
+     * @param array $progress_array
     */    
     public function progress_box( $title, $intro, $progress_array = array() ){
         $progress_html = '';
@@ -108,6 +116,16 @@ class TradePress_Admin_Notices {
     * 
     * @author Ryan Bayne
     * @package TradePress
+     *
+     * @version 1.0.0
+     *
+     * @param mixed $title
+     * @param mixed $intro
+     * @param bool $info_area
+     * @param string $info_area_title
+     * @param string $info_area_content
+     * @param bool $footer
+     * @param bool $dismissable_id
     */
     public function intro_box( $title, $intro, $info_area = false, $info_area_title = '', $info_area_content = '', $footer = false, $dismissable_id = false ){
         global $current_user;
@@ -173,6 +191,7 @@ class TradePress_Admin_Notices {
     * 
     * @author Ryan Bayne
     * @package TradePress 
+     * @version 1.0.0
     */
     public function info_area( $title, $message, $admin_only = true ){   
         if( $admin_only == true && current_user_can( 'manage_options' ) || $admin_only !== true){
@@ -192,6 +211,8 @@ class TradePress_Admin_Notices {
 
     /**
      * Store notices to DB
+      *
+      * @version 1.0.0
      */
     public static function store_notices() {
         update_option( 'TradePress_admin_notices', self::get_notices() );
@@ -200,6 +221,7 @@ class TradePress_Admin_Notices {
     /**
      * Get notices
      * @return array
+      * @version 1.0.0
      */
     public static function get_notices() {
         return self::$notices;
@@ -207,6 +229,8 @@ class TradePress_Admin_Notices {
                                   
     /**
      * Remove all notices.
+      *
+      * @version 1.0.0
      */
     public static function remove_all_notices() {
         self::$notices = array();
@@ -215,6 +239,7 @@ class TradePress_Admin_Notices {
     /**
      * Remove a notice from being displayed.
      * @param  string $name
+      * @version 1.0.0
      */
     public static function remove_notice( $name ) {
         self::$notices = array_diff( self::get_notices(), array( $name ) );
@@ -242,6 +267,8 @@ class TradePress_Admin_Notices {
 
     /**
      * When theme is switched or new version detected, reset notices.
+      *
+      * @version 1.0.0
      */
     public static function reset_admin_notices() {
 
@@ -251,6 +278,7 @@ class TradePress_Admin_Notices {
      * See if a notice is being shown.
      * @param  string  $name
      * @return boolean
+      * @version 1.0.0
      */
     public static function has_notice( $name ) {
         return in_array( $name, self::get_notices() );
@@ -258,6 +286,8 @@ class TradePress_Admin_Notices {
                                        
     /**
      * Hide a notice if the GET variable is set.
+      *
+      * @version 1.0.0
      */
     public static function hide_notices() {
         if ( isset( $_GET['TradePress-hide-notice'] ) && isset( $_GET['_TradePress_notice_nonce'] ) ) {
@@ -295,6 +325,7 @@ class TradePress_Admin_Notices {
      * 
      * @param string $name
      * @param string $notice_html
+      * @version 1.0.0
      */
     public static function add_custom_notice( $name, $notice_html ) {
         self::add_notice( $name );
@@ -329,6 +360,8 @@ class TradePress_Admin_Notices {
                                         
     /**
      * Output any stored custom notices.
+      *
+      * @version 1.0.0
      */
     public static function output_custom_notices() {
         $notices = self::get_notices();
@@ -362,6 +395,8 @@ class TradePress_Admin_Notices {
  
     /**
      * If we need to update, include a message with the update button.
+      *
+      * @version 1.0.0
      */
     public static function update_notice() {
         if ( version_compare( get_option( 'TradePress_db_version' ), TRADEPRESS_VERSION, '<' ) ) {
@@ -378,6 +413,8 @@ class TradePress_Admin_Notices {
 
     /**
      * If we have just installed, show a message with the install pages button.
+      *
+      * @version 1.0.0
      */
     public static function install_notice() {
         include( 'notices/install.php' );
@@ -458,6 +495,7 @@ class TradePress_Admin_Notices {
      *
      * @since 1.0.0
      * @return void
+      * @version 1.0.0
      */
     public static function display_notices() {
         $notices = self::get_all_notices();
@@ -493,6 +531,7 @@ class TradePress_Admin_Notices {
      *
      * @since 1.0.0
      * @return void
+      * @version 1.0.0
      */
     public static function dismiss_notices() {
         if (!isset($_GET['tradepress_dismiss_notice'])) {
@@ -517,6 +556,7 @@ class TradePress_Admin_Notices {
      *
      * @since 1.0.0
      * @return array Array of notices
+      * @version 1.0.0
      */
     public static function get_all_notices() {
         return apply_filters('tradepress_admin_notices', self::$notices);
@@ -527,6 +567,7 @@ class TradePress_Admin_Notices {
      *
      * @since 1.0.0
      * @return void
+      * @version 1.0.0
      */
     public static function clear_notices() {
         self::$notices = array();
@@ -538,6 +579,7 @@ class TradePress_Admin_Notices {
      * @since 1.0.0
      * @param string $id The notice ID to remove
      * @return void
+      * @version 1.0.0
      */
     public static function remove_notice_by_id($id) {
         if (isset(self::$notices[$id])) {
@@ -550,6 +592,7 @@ class TradePress_Admin_Notices {
      *
      * @since 1.0.0
      * @return bool True if requirements are met, false otherwise
+      * @version 1.0.0
      */
     public static function check_plugin_requirements() {
         $requirements_met = true;

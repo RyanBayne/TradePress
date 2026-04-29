@@ -69,14 +69,12 @@ class TradePress_Admin_Settings {
             include_once( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/settings/page.php' );
                                                                            
             $settings[] = include( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/settings/view/general.php' ); 
-            $settings[] = include( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/settings/view/users.php' );    
             $settings[] = include( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/settings/view/tradingapi.php' );    
             $settings[] = include( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/settings/view/features.php' );
             $settings[] = include( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/settings/view/shortcodes.php' );
             $settings[] = include( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/settings/view/symbols.php' );
             $settings[] = include( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/settings/view/database.php' );
             $settings[] = include( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/settings/view/bugnet.php' );
-            $settings[] = include( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/settings/view/sees.php' );
             $settings[] = include( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/settings/view/education.php' );
             
             // If the core does not have a tab an extension can still add it.
@@ -112,6 +110,7 @@ class TradePress_Admin_Settings {
     /**
      * Add a gree-style message for display under the tabs on settings pages...
      * @param string $text
+      * @version 1.0.0
      */
     public static function add_message( $text ) {
         self::$messages[] = $text;
@@ -120,6 +119,7 @@ class TradePress_Admin_Settings {
     /**
      * Add an error for display under the tabs on settings pages...
      * @param string $text
+      * @version 1.0.0
      */
     public static function add_error( $text ) {
         self::$errors[] = $text;
@@ -128,6 +128,7 @@ class TradePress_Admin_Settings {
     /**
     * Display a blue-style message... 
     * @param mixed $text
+     * @version 1.0.0
     */
     public static function add_info( $text ) {
         self::$info[] = $text;
@@ -136,6 +137,7 @@ class TradePress_Admin_Settings {
     /**
      * Output messages + errors.
      * @return string
+      * @version 1.0.0
      */
     public static function show_messages() {
         if ( sizeof( self::$errors ) > 0 ) {
@@ -210,6 +212,7 @@ class TradePress_Admin_Settings {
      *
      * @param mixed $option_name
      * @return string
+      * @version 1.0.0
      */
     public static function get_option( $option_name, $default = '' ) {
         return TradePress_Form_Fields::get_option( $option_name, $default );
@@ -221,6 +224,7 @@ class TradePress_Admin_Settings {
      * Loops though the TradePress options array and outputs each field.
      *
      * @param array $options Opens array to output
+      * @version 1.0.0
      */
     public static function output_fields( $options ) {
         TradePress_Form_Fields::output_fields( $options );
@@ -257,6 +261,7 @@ class TradePress_Admin_Settings {
      *
      * @param array $options Options array to output
      * @return bool
+      * @version 1.0.0
      */
     public static function save_fields( $options ) {
         return TradePress_Form_Fields::save_fields( $options );
@@ -266,6 +271,8 @@ class TradePress_Admin_Settings {
      * Checks which method we're using to serve downloads.
      *
      * If using force or x-sendfile, this ensures the .htaccess is in place.
+      *
+      * @version 1.0.0
      */
     public static function check_download_folder_protection() {
         $upload_dir      = wp_upload_dir();

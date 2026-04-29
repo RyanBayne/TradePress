@@ -7,6 +7,10 @@ class TradePress_Test_Export {
     
     /**
      * Export test results to JSON for AI analysis
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
      */
     public static function export_for_ai_analysis($directive_id = null) {
         $tests = TradePress_Test_Logger::get_recent_tests($directive_id, 50);
@@ -38,6 +42,10 @@ class TradePress_Test_Export {
     
     /**
      * Check if test needs validation
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $test
      */
     private static function needs_validation($test) {
         return $test['validation_status'] === 'pending' || 

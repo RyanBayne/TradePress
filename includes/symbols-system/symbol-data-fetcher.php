@@ -17,6 +17,11 @@ class TradePress_Symbol_Data_Fetcher {
     
     private $symbol_manager;
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         $this->symbol_manager = new TradePress_Symbol_Manager();
     }
@@ -26,6 +31,7 @@ class TradePress_Symbol_Data_Fetcher {
      *
      * @param string $symbol
      * @return array|false
+      * @version 1.0.0
      */
     public function fetch_symbol_info($symbol) {
         // Use existing API classes
@@ -47,6 +53,7 @@ class TradePress_Symbol_Data_Fetcher {
      *
      * @param string $symbol
      * @return array|false
+      * @version 1.0.0
      */
     public function fetch_price_data($symbol) {
         if (class_exists('TradePress_Alpha_Vantage_API')) {
@@ -67,6 +74,7 @@ class TradePress_Symbol_Data_Fetcher {
      *
      * @param string $symbol
      * @return array|false
+      * @version 1.0.0
      */
     public function fetch_earnings_calendar($symbol) {
         if (class_exists('TradePress_Alpha_Vantage_API')) {
@@ -87,6 +95,7 @@ class TradePress_Symbol_Data_Fetcher {
      *
      * @param string $symbol
      * @return bool
+      * @version 1.0.0
      */
     public function update_symbol_from_api($symbol) {
         $symbol_id = $this->symbol_manager->ensure_symbol_exists($symbol);
@@ -128,6 +137,7 @@ class TradePress_Symbol_Data_Fetcher {
      * @param string $provider
      * @param string $endpoint
      * @param int $response_code
+      * @version 1.0.0
      */
     private function track_api_call($provider, $endpoint, $response_code) {
         global $wpdb;

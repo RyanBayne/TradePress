@@ -18,6 +18,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Display the Technical Indicators tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_technical_indicators_tab_content() {
     // Check if demo mode is active

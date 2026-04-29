@@ -20,6 +20,8 @@ class TradePress_Automation {
 
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Register AJAX handlers
@@ -28,6 +30,8 @@ class TradePress_Automation {
 
     /**
      * Register AJAX handlers
+      *
+      * @version 1.0.0
      */
     private function register_ajax_handlers() {
         // Register the AJAX handlers for automation management
@@ -43,6 +47,8 @@ class TradePress_Automation {
 
     /**
      * AJAX handler for toggling an algorithm
+      *
+      * @version 1.0.0
      */
     public function ajax_toggle_algorithm() {
         // Check nonce for security
@@ -82,6 +88,8 @@ class TradePress_Automation {
 
     /**
      * AJAX handler for toggling a component
+      *
+      * @version 1.0.0
      */
     public function ajax_toggle_component() {
         // Check nonce for security
@@ -124,6 +132,8 @@ class TradePress_Automation {
 
     /**
      * AJAX handler for toggling all automation
+      *
+      * @version 1.0.0
      */
     public function ajax_toggle_all_automation() {
         // Check nonce for security
@@ -158,6 +168,8 @@ class TradePress_Automation {
 
     /**
      * AJAX handler for getting algorithm metrics
+      *
+      * @version 1.0.0
      */
     public function ajax_get_algorithm_metrics() {
         // Check nonce for security
@@ -187,6 +199,8 @@ class TradePress_Automation {
 
     /**
      * AJAX handler for getting dashboard metrics
+      *
+      * @version 1.0.0
      */
     public function ajax_get_dashboard_metrics() {
         // Check nonce for security
@@ -225,6 +239,8 @@ class TradePress_Automation {
 
     /**
      * AJAX handler for starting all automations
+      *
+      * @version 1.0.0
      */
     public function ajax_start_all_automation() {
         // Check nonce for security

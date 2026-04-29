@@ -47,6 +47,8 @@ class TradePress_AI_Assistant {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->context_manager = new TradePress_AI_Context_Manager();
@@ -59,6 +61,8 @@ class TradePress_AI_Assistant {
     
     /**
      * Initialize the AI assistant
+      *
+      * @version 1.0.0
      */
     public function init() {
         // Register AJAX handlers
@@ -73,6 +77,8 @@ class TradePress_AI_Assistant {
     
     /**
      * Process AI request
+      *
+      * @version 1.0.0
      */
     public function process_ai_request() {
         // Check nonce
@@ -126,6 +132,8 @@ class TradePress_AI_Assistant {
     
     /**
      * Process file analysis request
+      *
+      * @version 1.0.0
      */
     public function process_file_analysis() {
         // Check nonce
@@ -162,6 +170,8 @@ class TradePress_AI_Assistant {
     
     /**
      * Process diagnostics request
+      *
+      * @version 1.0.0
      */
     public function process_diagnostics() {
         // Check nonce
@@ -196,6 +206,8 @@ class TradePress_AI_Assistant {
     
     /**
      * Process suggestion feedback
+      *
+      * @version 1.0.0
      */
     public function process_suggestion_feedback() {
         // Check nonce
@@ -243,6 +255,7 @@ class TradePress_AI_Assistant {
      * @param string $content Code content to analyze
      * @param array $context Request context
      * @return array Response data
+      * @version 1.0.0
      */
     private function handle_code_analysis_request($content, $context) {
         $response = array(
@@ -288,6 +301,7 @@ class TradePress_AI_Assistant {
      *
      * @param array $context Request context
      * @return array Response data
+      * @version 1.0.0
      */
     private function handle_diagnostics_request($context) {
         $response = array(
@@ -313,6 +327,7 @@ class TradePress_AI_Assistant {
      * @param string $content Content to base suggestions on
      * @param array $context Request context
      * @return array Response data
+      * @version 1.0.0
      */
     private function handle_suggestion_request($content, $context) {
         $response = array(
@@ -381,6 +396,7 @@ class TradePress_AI_Assistant {
      * @param string $content Content to document
      * @param array $context Request context
      * @return array Response data
+      * @version 1.0.0
      */
     private function handle_documentation_request($content, $context) {
         $response = array(
@@ -404,6 +420,8 @@ class TradePress_AI_Assistant {
     
     /**
      * Add activity monitor script to admin footer
+      *
+      * @version 1.0.0
      */
     public function add_activity_monitor_script() {
         // Only on development and sandbox pages
@@ -451,6 +469,11 @@ class TradePress_AI_Assistant {
                 });
                 
                 // Function to track activity
+                /**
+                 * Track activity.
+                 *
+                 * @version 1.0.0
+                 */
                 function trackActivity(activity_type, description, metadata) {
                     // This would actually send the data to the server in a real implementation
                     console.log('Activity tracked:', activity_type, description, metadata);
@@ -467,6 +490,7 @@ class TradePress_AI_Assistant {
      * Get proactive suggestions based on current context
      *
      * @return array Array of suggestions
+      * @version 1.0.0
      */
     public function get_proactive_suggestions() {
         // Get current context

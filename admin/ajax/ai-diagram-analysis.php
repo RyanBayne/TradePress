@@ -12,6 +12,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Handle AI diagram analysis request
+  *
+  * @version 1.0.0
  */
 function tradepress_handle_ai_diagram_analysis() {
     // Verify nonce
@@ -31,6 +33,10 @@ add_action('wp_ajax_tradepress_ai_diagram_analysis', 'tradepress_handle_ai_diagr
 
 /**
  * Analyze system architecture against diagrams
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $diagram_type
  */
 function tradepress_analyze_system_architecture($diagram_type) {
     $plugin_path = plugin_dir_path(__FILE__) . '../../../';
@@ -73,6 +79,10 @@ function tradepress_analyze_system_architecture($diagram_type) {
 
 /**
  * Analyze API Management System
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $plugin_path
  */
 function analyze_api_management_system($plugin_path) {
     $issues = array();
@@ -136,6 +146,10 @@ function analyze_api_management_system($plugin_path) {
 
 /**
  * Analyze Logging System
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $plugin_path
  */
 function analyze_logging_system($plugin_path) {
     $issues = array();
@@ -181,6 +195,10 @@ function analyze_logging_system($plugin_path) {
 
 /**
  * Analyze Error Handling
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $plugin_path
  */
 function analyze_error_handling($plugin_path) {
     $issues = array();
@@ -233,6 +251,10 @@ function analyze_error_handling($plugin_path) {
 
 /**
  * Analyze Cache System
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $plugin_path
  */
 function analyze_cache_system($plugin_path) {
     $issues = array();
@@ -284,6 +306,10 @@ function analyze_cache_system($plugin_path) {
 
 /**
  * Analyze Database Structure
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $plugin_path
  */
 function analyze_database_structure($plugin_path) {
     global $wpdb;
@@ -326,6 +352,11 @@ function analyze_database_structure($plugin_path) {
 
 /**
  * General architecture analysis
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $plugin_path
+  * @param mixed $diagram_type
  */
 function analyze_general_architecture($plugin_path, $diagram_type) {
     return array(

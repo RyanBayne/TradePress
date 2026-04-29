@@ -106,6 +106,7 @@ class TradePress_IBKR_API {
      * @param string $access_token Access token
      * @param string $account_id Account ID
      * @param string $base_url Base URL (default: localhost gateway)
+      * @version 1.0.0
      */
     public function __construct($access_token = '', $account_id = '', $base_url = '') {
         $this->access_token = $access_token;
@@ -120,6 +121,7 @@ class TradePress_IBKR_API {
      * Get platform metadata
      *
      * @return array Platform metadata
+      * @version 1.0.0
      */
     public function get_platform_meta() {
         return $this->platform_meta;
@@ -129,6 +131,7 @@ class TradePress_IBKR_API {
      * Get platform capabilities
      *
      * @return array Platform capabilities
+      * @version 1.0.0
      */
     public function get_capabilities() {
         return $this->platform_meta['capabilities'];
@@ -139,6 +142,7 @@ class TradePress_IBKR_API {
      *
      * @param string $data_type Data type to check
      * @return bool True if supported
+      * @version 1.0.0
      */
     public function supports_data_type($data_type) {
         return isset($this->platform_meta['data_types'][$data_type]);
@@ -149,6 +153,7 @@ class TradePress_IBKR_API {
      *
      * @param string $data_type Data type
      * @return string|false Endpoint name or false
+      * @version 1.0.0
      */
     public function get_data_type_endpoint($data_type) {
         return $this->supports_data_type($data_type) ? $this->platform_meta['data_types'][$data_type] : false;
@@ -158,6 +163,7 @@ class TradePress_IBKR_API {
      * Check authentication status
      *
      * @return array|WP_Error Auth status or error
+      * @version 1.0.0
      */
     public function check_auth_status() {
         return $this->make_request('auth_status');
@@ -167,6 +173,7 @@ class TradePress_IBKR_API {
      * Get portfolio accounts
      *
      * @return array|WP_Error Accounts or error
+      * @version 1.0.0
      */
     public function get_accounts() {
         return $this->make_request('portfolio_accounts');
@@ -177,6 +184,7 @@ class TradePress_IBKR_API {
      *
      * @param string $account_id Account ID
      * @return array|WP_Error Account summary or error
+      * @version 1.0.0
      */
     public function get_account($account_id = '') {
         $account_id = $account_id ?: $this->account_id;
@@ -189,6 +197,7 @@ class TradePress_IBKR_API {
      * @param string $account_id Account ID
      * @param int $page_id Page number
      * @return array|WP_Error Positions or error
+      * @version 1.0.0
      */
     public function get_positions($account_id = '', $page_id = 0) {
         $account_id = $account_id ?: $this->account_id;
@@ -200,6 +209,7 @@ class TradePress_IBKR_API {
      *
      * @param string $account_id Account ID
      * @return array|WP_Error P&L data or error
+      * @version 1.0.0
      */
     public function get_pnl($account_id = '') {
         $account_id = $account_id ?: $this->account_id;
@@ -211,6 +221,7 @@ class TradePress_IBKR_API {
      *
      * @param string $account_id Account ID
      * @return array|WP_Error Ledger data or error
+      * @version 1.0.0
      */
     public function get_ledger($account_id = '') {
         $account_id = $account_id ?: $this->account_id;
@@ -223,6 +234,7 @@ class TradePress_IBKR_API {
      * @param array $contract_ids Contract IDs
      * @param array $fields Field codes
      * @return array|WP_Error Quote data or error
+      * @version 1.0.0
      */
     public function get_quote($contract_ids, $fields = array()) {
         $conids = is_array($contract_ids) ? implode(',', $contract_ids) : $contract_ids;
@@ -242,6 +254,7 @@ class TradePress_IBKR_API {
      * @param string $period Time period
      * @param string $bar Bar size
      * @return array|WP_Error Historical data or error
+      * @version 1.0.0
      */
     public function get_bars($contract_id, $period = '1m', $bar = '1d') {
         return $this->make_request('market_data_history', array(
@@ -258,6 +271,7 @@ class TradePress_IBKR_API {
      * @param string $sec_type Security type
      * @param int $limit Result limit
      * @return array|WP_Error Search results or error
+      * @version 1.0.0
      */
     public function search_contracts($symbol, $sec_type = 'STK', $limit = 10) {
         return $this->make_request('contract_search', array(
@@ -272,6 +286,7 @@ class TradePress_IBKR_API {
      *
      * @param int $contract_id Contract ID
      * @return array|WP_Error Contract details or error
+      * @version 1.0.0
      */
     public function get_contract_details($contract_id) {
         return $this->make_request('contract_details', array('conid' => $contract_id));
@@ -283,6 +298,7 @@ class TradePress_IBKR_API {
      * @param array $order_data Order parameters
      * @param string $account_id Account ID
      * @return array|WP_Error Order result or error
+      * @version 1.0.0
      */
     public function place_order($order_data, $account_id = '') {
         $account_id = $account_id ?: $this->account_id;
@@ -296,6 +312,7 @@ class TradePress_IBKR_API {
      *
      * @param string $account_id Account ID
      * @return array|WP_Error Orders or error
+      * @version 1.0.0
      */
     public function get_orders($account_id = '') {
         $account_id = $account_id ?: $this->account_id;
@@ -308,6 +325,7 @@ class TradePress_IBKR_API {
      * @param int $order_id Order ID
      * @param string $account_id Account ID
      * @return array|WP_Error Cancel result or error
+      * @version 1.0.0
      */
     public function cancel_order($order_id, $account_id = '') {
         $account_id = $account_id ?: $this->account_id;
@@ -321,6 +339,7 @@ class TradePress_IBKR_API {
      * Logout
      *
      * @return array|WP_Error Logout result or error
+      * @version 1.0.0
      */
     public function logout() {
         return $this->make_request('auth_logout', array(), 'POST');
@@ -333,6 +352,7 @@ class TradePress_IBKR_API {
      * @param array $params Request parameters
      * @param string $method HTTP method
      * @return array|WP_Error Response data or error
+      * @version 1.0.0
      */
     private function make_request($endpoint, $params = array(), $method = 'GET') {
         if (!class_exists('TradePress_IBKR_Endpoints')) {

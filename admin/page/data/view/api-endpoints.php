@@ -16,9 +16,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Enqueue the configure-directives CSS for consistent layout
-wp_enqueue_style('tradepress-configure-directives', TRADEPRESS_PLUGIN_URL . 'assets/css/pages/configure-directives.css', array(), TRADEPRESS_VERSION);
-
 // Load API Directory
 if (!class_exists('TradePress_API_Directory')) {
     require_once TRADEPRESS_PLUGIN_DIR_PATH . '/api/api-directory.php';
@@ -26,6 +23,8 @@ if (!class_exists('TradePress_API_Directory')) {
 
 /**
  * Get all endpoints from all API providers
+  *
+  * @version 1.0.0
  */
 function tradepress_get_all_endpoints() {
     $all_providers = TradePress_API_Directory::get_all_providers();
@@ -256,6 +255,11 @@ jQuery(document).ready(function($) {
         performSearch();
     });
     
+    /**
+     * Perform search.
+     *
+     * @version 1.0.0
+     */
     function performSearch() {
         var searchTerm = $('#endpoint-search-input').val();
         var url = new URL(window.location);

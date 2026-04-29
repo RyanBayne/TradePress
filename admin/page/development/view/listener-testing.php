@@ -22,6 +22,8 @@ class TradePress_Admin_Page_Listener_Testing {
     
     /**
      * Output the listener testing tab
+      *
+      * @version 1.0.0
      */
     public static function output() {
         // Ensure styles are loaded
@@ -86,6 +88,11 @@ class TradePress_Admin_Page_Listener_Testing {
                         <h4><?php esc_html_e('How it works:', 'tradepress'); ?></h4>
                         <pre>
                             // In listener.php
+                            /**
+                             * Process get requests.
+                             *
+                             * @version 1.0.0
+                             */
                             private function process_get_requests() {
                                 // Check for TradePressaction parameter
                                 if( !isset( $_GET['TradePressaction'] ) ) {
@@ -134,6 +141,11 @@ class TradePress_Admin_Page_Listener_Testing {
                         <h4><?php esc_html_e('How it works:', 'tradepress'); ?></h4>
                         <pre>
                             // In listener.php
+                            /**
+                             * Process post requests.
+                             *
+                             * @version 1.0.0
+                             */
                             private function process_post_requests() {
                                 // Check for TradePress_form_action
                                 if( !isset( $_POST['TradePress_form_action'] ) ) {

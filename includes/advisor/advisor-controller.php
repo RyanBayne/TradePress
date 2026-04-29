@@ -30,6 +30,8 @@ class TradePress_Advisor_Controller {
 
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->session = new TradePress_Advisor_Session();
@@ -39,6 +41,8 @@ class TradePress_Advisor_Controller {
     
     /**
      * Initialize WordPress hooks
+      *
+      * @version 1.0.0
      */
     private function init_hooks() {
         add_action( 'admin_init', array( $this, 'handle_form_submission' ) );
@@ -46,6 +50,8 @@ class TradePress_Advisor_Controller {
     
     /**
      * Handle form submissions
+      *
+      * @version 1.0.0
      */
     public function handle_form_submission() {
         tradepress_trace_log('Admin init hook fired', array('post_data' => !empty($_POST), 'advisor_action' => isset($_POST['tradepress_advisor_action'])));
@@ -88,6 +94,8 @@ class TradePress_Advisor_Controller {
     
     /**
      * Handle step 1 form submission
+      *
+      * @version 1.0.0
      */
     public function handle_step_1_submission() {
         tradepress_trace_log('Step 1 handler called');
@@ -124,6 +132,8 @@ class TradePress_Advisor_Controller {
     
     /**
      * Handle step 2 form submission
+      *
+      * @version 1.0.0
      */
     public function handle_step_2_submission() {
         // Verify nonce
@@ -147,6 +157,8 @@ class TradePress_Advisor_Controller {
     
     /**
      * Handle step 3 form submission
+      *
+      * @version 1.0.0
      */
     public function handle_step_3_submission() {
         tradepress_trace_log('Step 3 handler called');
@@ -172,6 +184,8 @@ class TradePress_Advisor_Controller {
     
     /**
      * Handle step 4 form submission
+      *
+      * @version 1.0.0
      */
     public function handle_step_4_submission() {
         tradepress_trace_log('Step 4 handler called');
@@ -197,6 +211,8 @@ class TradePress_Advisor_Controller {
     
     /**
      * Handle step 5 form submission
+      *
+      * @version 1.0.0
      */
     public function handle_step_5_submission() {
         tradepress_trace_log('Step 5 handler called');
@@ -222,6 +238,8 @@ class TradePress_Advisor_Controller {
     
     /**
      * Handle step 6 form submission
+      *
+      * @version 1.0.0
      */
     public function handle_step_6_submission() {
         tradepress_trace_log('Step 6 handler called');
@@ -270,6 +288,7 @@ class TradePress_Advisor_Controller {
      *
      * @param int $step_number Step number to render
      * @return string HTML output
+      * @version 1.0.0
      */
     public function render_step( $step_number ) {
         if ( ! $this->validate_step_access( $step_number ) ) {
@@ -307,6 +326,7 @@ class TradePress_Advisor_Controller {
      * @param int   $step Step number
      * @param array $data Form data
      * @return bool Success status
+      * @version 1.0.0
      */
     public function process_step_submission( $step, $data ) {
         // Validate and sanitize data based on step
@@ -321,6 +341,7 @@ class TradePress_Advisor_Controller {
      *
      * @param int $step Step number
      * @return bool True if user can access step
+      * @version 1.0.0
      */
     public function validate_step_access( $step ) {
         // Step 1 is always accessible
@@ -360,6 +381,7 @@ class TradePress_Advisor_Controller {
      * Get progress status for all steps
      *
      * @return array Progress status array
+      * @version 1.0.0
      */
     public function get_progress_status() {
         $session_data = $this->session->get_session_data();
@@ -391,6 +413,7 @@ class TradePress_Advisor_Controller {
      * Render mode selection step
      *
      * @return string HTML output
+      * @version 1.0.0
      */
     private function render_mode_selection() {
         $modes = $this->mode_handler->get_available_modes();
@@ -428,6 +451,13 @@ class TradePress_Advisor_Controller {
         </div>
         
         <script>
+        /**
+         * Validate mode selection.
+         *
+         * @return mixed
+         *
+         * @version 1.0.0
+         */
         function validateModeSelection() {
             var selectedMode = document.querySelector('input[name="advisor_mode"]:checked');
             if (!selectedMode) {
@@ -443,6 +473,8 @@ class TradePress_Advisor_Controller {
 
     /**
      * Render earnings opportunities step
+      *
+      * @version 1.0.0
      */
     private function render_earnings_step() {
         // Get earnings data from existing system
@@ -554,6 +586,8 @@ class TradePress_Advisor_Controller {
     
     /**
      * Get earnings opportunities from real API data
+      *
+      * @version 1.0.0
      */
     private function get_earnings_opportunities() {
         try {
@@ -580,6 +614,10 @@ class TradePress_Advisor_Controller {
     
     /**
      * Get company name for symbol
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
      */
     private function get_company_name( $symbol ) {
         // Load symbols data functions if not already loaded
@@ -596,6 +634,8 @@ class TradePress_Advisor_Controller {
     
     /**
      * Get Alpha Vantage API status
+      *
+      * @version 1.0.0
      */
     private function get_alphavantage_status() {
         $api_key = get_option('TradePress_api_alphavantage_key', '');
@@ -623,6 +663,13 @@ class TradePress_Advisor_Controller {
         );
     }
 
+    /**
+     * Render news step.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function render_news_step() {
         $selected_symbols = $this->session->get_selected_symbols();
         
@@ -773,6 +820,13 @@ class TradePress_Advisor_Controller {
         return ob_get_clean();
     }
 
+    /**
+     * Render forecasts step.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function render_forecasts_step() {
         $selected_symbols = $this->session->get_selected_symbols();
         
@@ -917,6 +971,13 @@ class TradePress_Advisor_Controller {
         return ob_get_clean();
     }
 
+    /**
+     * Render economic step.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function render_economic_step() {
         $selected_symbols = $this->session->get_selected_symbols();
         
@@ -1088,6 +1149,13 @@ class TradePress_Advisor_Controller {
         return ob_get_clean();
     }
 
+    /**
+     * Render technical step.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function render_technical_step() {
         $selected_symbols = $this->session->get_selected_symbols();
         $current_settings = $this->session->get_technical_settings();
@@ -1238,6 +1306,13 @@ class TradePress_Advisor_Controller {
         </div>
         
         <script>
+        /**
+         * Validate technical config.
+         *
+         * @return mixed
+         *
+         * @version 1.0.0
+         */
         function validateTechnicalConfig() {
             var selectedIndicators = document.querySelectorAll('input[name="selected_indicators[]"]:checked');
             if (selectedIndicators.length === 0) {
@@ -1251,6 +1326,13 @@ class TradePress_Advisor_Controller {
         return ob_get_clean();
     }
     
+    /**
+     * Render results step.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function render_results_step() {
         $selected_symbols = $this->session->get_selected_symbols();
         $session_data = $this->session->get_session_data();
@@ -1410,6 +1492,7 @@ class TradePress_Advisor_Controller {
      * @param int   $step Step number
      * @param array $data Raw form data
      * @return array Sanitized data
+      * @version 1.0.0
      */
     private function sanitize_step_data( $step, $data ) {
         switch ( $step ) {

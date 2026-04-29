@@ -14,6 +14,10 @@ class TradePress_AI_Directive_Tester {
     
     /**
      * Get test symbol based on settings
+      *
+      * @version 1.0.0
+      *
+      * @param string $fallback
      */
     public static function get_test_symbol($fallback = 'NVDA') {
         // Check if we should use default symbol
@@ -34,6 +38,11 @@ class TradePress_AI_Directive_Tester {
     
     /**
      * Test single directive with real data
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
+      * @param mixed $symbol
      */
     public static function test_directive($directive_id, $symbol = null) {
         // Get symbol from settings if not provided
@@ -76,6 +85,10 @@ class TradePress_AI_Directive_Tester {
     
     /**
      * Get test data for directive testing
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
      */
     private static function get_test_data($symbol) {
         return array(
@@ -99,6 +112,10 @@ class TradePress_AI_Directive_Tester {
     
     /**
      * Return error result
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $message
      */
     private static function error_result($message) {
         return array(

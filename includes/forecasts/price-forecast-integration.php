@@ -19,6 +19,7 @@ class TradePress_Price_Forecast_Integration {
      *
      * @param array $symbols Selected symbols from previous steps
      * @return array Forecast analysis data
+      * @version 1.0.0
      */
     public function get_forecast_analysis( $symbols = array() ) {
         if ( empty( $symbols ) ) {
@@ -53,6 +54,7 @@ class TradePress_Price_Forecast_Integration {
      *
      * @param array $symbols Stock symbols
      * @return array Forecast data
+      * @version 1.0.0
      */
     private function get_symbol_forecasts( $symbols ) {
         $forecast_data = array();
@@ -69,6 +71,7 @@ class TradePress_Price_Forecast_Integration {
      *
      * @param string $symbol Stock symbol
      * @return array Forecast data
+      * @version 1.0.0
      */
     private function get_demo_forecast_for_symbol( $symbol ) {
         // Generate current price between $10 and $1000
@@ -118,6 +121,7 @@ class TradePress_Price_Forecast_Integration {
      * @param array $forecast_data Forecast data by symbol
      * @param array $symbols Selected symbols
      * @return array Analysis results
+      * @version 1.0.0
      */
     private function analyze_forecast_data( $forecast_data, $symbols ) {
         $analysis = array();
@@ -177,6 +181,7 @@ class TradePress_Price_Forecast_Integration {
      * @param float $current_price Current stock price
      * @param array $forecasts Forecast data
      * @return float Upside potential percentage
+      * @version 1.0.0
      */
     private function calculate_upside_potential( $current_price, $forecasts ) {
         // Use 1-year forecast for upside potential, fallback to 6-month
@@ -196,6 +201,7 @@ class TradePress_Price_Forecast_Integration {
      * @param float $upside_potential Upside potential percentage
      * @param array $forecasts Forecast data
      * @return string Recommendation (strong_buy, buy, hold, sell, strong_sell)
+      * @version 1.0.0
      */
     private function generate_forecast_recommendation( $upside_potential, $forecasts ) {
         // Get average confidence across all forecasts
@@ -230,6 +236,7 @@ class TradePress_Price_Forecast_Integration {
      *
      * @param array $forecasts Forecast data
      * @return string Risk level (low, medium, high)
+      * @version 1.0.0
      */
     private function assess_risk_level( $forecasts ) {
         // Calculate volatility based on confidence spread
@@ -260,6 +267,7 @@ class TradePress_Price_Forecast_Integration {
      *
      * @param string $recommendation Recommendation type
      * @return string CSS class
+      * @version 1.0.0
      */
     public function get_recommendation_class( $recommendation ) {
         switch ( $recommendation ) {
@@ -283,6 +291,7 @@ class TradePress_Price_Forecast_Integration {
      *
      * @param string $risk_level Risk level
      * @return string CSS class
+      * @version 1.0.0
      */
     public function get_risk_class( $risk_level ) {
         switch ( $risk_level ) {
@@ -300,6 +309,7 @@ class TradePress_Price_Forecast_Integration {
      *
      * @param float $distance_percent Distance percentage
      * @return string CSS class
+      * @version 1.0.0
      */
     public function get_distance_class( $distance_percent ) {
         if ( $distance_percent >= 15 ) {

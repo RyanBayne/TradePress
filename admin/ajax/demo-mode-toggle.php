@@ -12,6 +12,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Handle demo mode toggle AJAX request
+  *
+  * @version 1.0.0
  */
 function tradepress_ajax_demo_mode_toggle() {
     // Verify nonce

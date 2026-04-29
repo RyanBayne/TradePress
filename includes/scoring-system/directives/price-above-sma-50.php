@@ -15,6 +15,16 @@ require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-tradepr
 
 class TradePress_Scoring_Directive_PRICE_ABOVE_SMA_50 extends TradePress_Scoring_Directive_Base {
     
+    /**
+     * Calculate score.
+     *
+     * @param mixed $symbol_data
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function calculate_score($symbol_data, $config = array()) {
         $sma_period = $config['sma_period'] ?? 50;
         $distance_bonus = $config['distance_bonus'] ?? 15;
@@ -58,11 +68,29 @@ class TradePress_Scoring_Directive_PRICE_ABOVE_SMA_50 extends TradePress_Scoring
         return max(0, round($base_score, 1));
     }
     
+    /**
+     * Get max score.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_max_score($config = array()) {
         $distance_bonus = $config['distance_bonus'] ?? 15;
         return round(50 + $distance_bonus + ($distance_bonus * 0.5), 1);
     }
     
+    /**
+     * Get explanation.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_explanation($config = array()) {
         $sma_period = $config['sma_period'] ?? 50;
         $distance_bonus = $config['distance_bonus'] ?? 15;

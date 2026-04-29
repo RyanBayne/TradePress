@@ -34,11 +34,24 @@ class TradePress_Public_PreSet_Notices {
 
     public $messages = array(); 
  
+    /**
+     *   S Et.
+     *
+     * @param mixed $key
+     * @param mixed $value
+     *
+     * @version 1.0.0
+     */
     public function __set($key, $value)
     {
         $this->$key = $value;
     }
 
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {      
         if ( did_action( 'init' ) ) {
             $this->bootstrap_messages();
@@ -51,6 +64,7 @@ class TradePress_Public_PreSet_Notices {
     * Build translated message definitions only after init.
     *
     * @return void
+     * @version 1.0.0
     */
     public function bootstrap_messages() {
         if ( ! empty( $this->messages ) ) {
@@ -69,6 +83,8 @@ class TradePress_Public_PreSet_Notices {
     * Allow this method to become complex.
     * 
     * @version 1.0
+     *
+     * @param mixed $atts
     */
     public function get_messages( $atts ) {
         $args = shortcode_atts( 
@@ -106,18 +122,38 @@ class TradePress_Public_PreSet_Notices {
         
     }
     
+    /**
+     * Get message by title strict.
+     *
+     * @version 1.0.0
+     */
     public function get_message_by_title_strict() {
         
     }
     
+    /**
+     * Get message by title search.
+     *
+     * @version 1.0.0
+     */
     public function get_message_by_title_search() {
         
     }
     
+    /**
+     * Get message by info strict.
+     *
+     * @version 1.0.0
+     */
     public function get_message_by_info_strict() {
         
     }
     
+    /**
+     * Get message by info search.
+     *
+     * @version 1.0.0
+     */
     public function get_message_by_info_search() {
         
     }

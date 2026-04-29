@@ -18,6 +18,7 @@ if (!defined('ABSPATH')) {
  *
  * @param int $post_id The symbol post ID
  * @param array $company_data Company data array
+  * @version 1.0.0
  */
 function tradepress_generate_symbol_taxonomy_terms($post_id, $company_data) {
     if (empty($post_id) || empty($company_data)) {

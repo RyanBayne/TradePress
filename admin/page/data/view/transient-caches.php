@@ -20,6 +20,7 @@ if (!defined('ABSPATH')) {
  * Get all TradePress transient caches
  * 
  * @return array List of transient caches with their details
+  * @version 1.0.0
  */
 function tradepress_get_transient_caches() {
     global $wpdb;
@@ -131,6 +132,8 @@ function tradepress_get_transient_caches() {
 
 /**
  * Display the Transient Caches tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_transient_caches_tab_content() {
     // Get all transient caches

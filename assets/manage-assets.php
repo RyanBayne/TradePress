@@ -39,6 +39,8 @@ class TradePress_Asset_Manager {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->assets_dir = plugin_dir_path(__FILE__);
@@ -48,6 +50,8 @@ class TradePress_Asset_Manager {
     
     /**
      * Initialize asset registry with metadata
+      *
+      * @version 1.0.0
      */
     private function init_assets() {
         $this->assets = array(
@@ -62,6 +66,7 @@ class TradePress_Asset_Manager {
      * @param string $type Asset type (css|js)
      * @param string $name Asset name
      * @return string|false Asset path or false if not found
+      * @version 1.0.0
      */
     public function tp_include($type, $name) {
         if (!isset($this->assets[$type])) {
@@ -84,6 +89,7 @@ class TradePress_Asset_Manager {
      * @param string $type Asset type (css|js)
      * @param string $name Asset name
      * @return string|false Asset URL or false if not found
+      * @version 1.0.0
      */
     public function get_asset_url($type, $name) {
         if (!isset($this->assets[$type])) {
@@ -105,6 +111,7 @@ class TradePress_Asset_Manager {
      * 
      * @param string $type Asset type (css|js)
      * @return array Array of all assets of specified type
+      * @version 1.0.0
      */
     public function get_all_assets($type = null) {
         if ($type && isset($this->assets[$type])) {
@@ -124,6 +131,7 @@ class TradePress_Asset_Manager {
      * @param string $page Page identifier
      * @param string $type Asset type (css|js) or null for all
      * @return array Assets used by the specified page
+      * @version 1.0.0
      */
     public function get_assets_by_page($page, $type = null) {
         $page_assets = array();
@@ -171,6 +179,7 @@ class TradePress_Asset_Manager {
      * @param string $type Asset type (css|js)
      * @param string $name Asset name
      * @return array Asset dependencies
+      * @version 1.0.0
      */
     public function get_dependencies($type, $name) {
         if (!isset($this->assets[$type])) {
@@ -192,6 +201,7 @@ class TradePress_Asset_Manager {
      * @param string $type Asset type (css|js)
      * @param string $name Asset name
      * @return array|false Asset metadata or false if not found
+      * @version 1.0.0
      */
     public function get_asset_metadata($type, $name) {
         if (!isset($this->assets[$type])) {
@@ -213,6 +223,7 @@ class TradePress_Asset_Manager {
      * @param string $type Asset type (css|js)
      * @param string $name Asset name
      * @return bool True if asset exists
+      * @version 1.0.0
      */
     public function asset_exists($type, $name) {
         if (!isset($this->assets[$type])) {
@@ -234,6 +245,7 @@ class TradePress_Asset_Manager {
      * @param string $type Asset type (css|js)
      * @param string $category Category name
      * @return array Assets in the specified category
+      * @version 1.0.0
      */
     public function get_assets_by_category($type, $category) {
         if (isset($this->assets[$type][$category])) {
@@ -249,6 +261,7 @@ class TradePress_Asset_Manager {
      * @param string $search Search term
      * @param string $type Asset type (css|js) or null for all
      * @return array Matching assets
+      * @version 1.0.0
      */
     public function search_assets($search, $type = null) {
         $results = array();
@@ -283,6 +296,7 @@ if (!isset($tradepress_assets) || !is_object($tradepress_assets)) {
  * @param string $type Asset type (css|js)
  * @param string $name Asset name
  * @return string|false Asset path or false if not found
+  * @version 1.0.0
  */
 function tradepress_get_asset($type, $name) {
     global $tradepress_assets;
@@ -295,6 +309,7 @@ function tradepress_get_asset($type, $name) {
  * @param string $type Asset type (css|js)
  * @param string $name Asset name
  * @return string|false Asset URL or false if not found
+  * @version 1.0.0
  */
 function tradepress_get_asset_url($type, $name) {
     global $tradepress_assets;

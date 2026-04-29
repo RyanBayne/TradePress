@@ -20,6 +20,7 @@ class TradePress_Symbols_Container {
      * @param array $symbols Array of symbol strings
      * @param array $options Container options
      * @return string HTML output
+      * @version 1.0.0
      */
     public static function render( $symbols = array(), $options = array() ) {
         if ( empty( $symbols ) ) {

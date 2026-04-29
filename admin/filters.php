@@ -16,6 +16,11 @@ if (!defined('ABSPATH')) {
  * Filters for the TradePress admin pages.
  *
  * @package TradePress
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $admin_title
+  * @param mixed $title
  */
 function tradepress_filter_admin_title( $admin_title, $title ) {
     if (isset($_GET['page']) && $_GET['page'] == 'tradepress_development') {

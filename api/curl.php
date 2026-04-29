@@ -202,6 +202,11 @@ class TradePress_Curl extends WP_Http_Curl {
     public $paginate = false;
     public $pagination_array = array(); 
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         $this->curl_version = curl_version();
         $this->current_user = get_current_user_id();
@@ -216,6 +221,8 @@ class TradePress_Curl extends WP_Http_Curl {
     * @uses curl_version() 
     *            
     * @version 3.0
+     *
+     * @param array $optional_args
     */    
     public function do_call( $optional_args = array() ) {
         // Establish a call ID that can be used in logs...
@@ -252,6 +259,15 @@ class TradePress_Curl extends WP_Http_Curl {
     * 
     * @since 2.5.0
     * @version 3.0
+     *
+     * @param mixed $can_cache
+     * @param mixed $cache_time
+     * @param mixed $can_queue
+     * @param mixed $giving_user
+     * @param mixed $user_specific
+     * @param mixed $retry
+     * @param mixed $originating_function
+     * @param mixed $originating_line
     */    
     public function call_params( $can_cache = null, $cache_time = null, $can_queue = null, $giving_user = null, $user_specific = null, $retry = null, $originating_function = null, $originating_line = null ) {
 
@@ -429,7 +445,6 @@ class TradePress_Curl extends WP_Http_Curl {
         );
                            
         if( is_wp_error( $this->loggingid ) ) {
-            error_log( __( 'Logging is failing in TradePress in function logging_initiate().', 'tradepress' ) );    
         } else {
             TradePress_API_Logging::endpoint( 
                 $this->loggingid,
@@ -443,6 +458,10 @@ class TradePress_Curl extends WP_Http_Curl {
     * Log a general error to the database...
     * 
     * @version 1.0
+     *
+     * @param mixed $code
+     * @param mixed $error
+     * @param array $meta
     */                                             
     public function logging_error( $code, $error, $meta = array() ) {
         if( !TradePress_API_Logging::ready() ) {return;} 
@@ -521,10 +540,6 @@ class TradePress_Curl extends WP_Http_Curl {
                 
                 // Log the SSL settings being used for debugging
                 if (defined('WP_DEBUG') && WP_DEBUG) {
-                    error_log('TradePress API Request to: ' . $this->endpoint);
-                    error_log('SSL Verify: ' . ($this->curl_request['sslverify'] ? 'true' : 'false'));
-                    error_log('SSL Certificates: ' . $this->curl_request['sslcertificates']);
-                    error_log('Using TLS 1.2 for secure connection');
                 }
             }
 
@@ -604,22 +619,53 @@ class TradePress_Curl extends WP_Http_Curl {
         $this->logging_finalize( 'success' );
     }  
               
+    /**
+     * Get curl request.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_curl_request() {
         return $this->curl_request;
     }
     
+    /**
+     * Get curl request body.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_curl_request_body() {
         return $this->curl_request_body;
     }
     
+    /**
+     * User output.
+     *
+     * @version 1.0.0
+     */
     public function user_output() {
         
     }
     
+    /**
+     * Developer output.
+     *
+     * @version 1.0.0
+     */
     public function developer_output() {
         
     }
     
+    /**
+     * Get decoded body.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_decoded_body() {
         if( !$this->curl_reply_body ) { return false; }
         return $this->curl_reply_body;    
@@ -629,6 +675,7 @@ class TradePress_Curl extends WP_Http_Curl {
      * Set the body for the curl request
      *
      * @param mixed $body Body data (can be array or string)
+      * @version 1.0.0
      */
     public function set_curl_body($body) {
         if (is_array($body)) {
@@ -639,6 +686,13 @@ class TradePress_Curl extends WP_Http_Curl {
         }
     }
     
+    /**
+     * Get call id.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_call_id() {
         return $this->call_id;
     }

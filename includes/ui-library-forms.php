@@ -10,6 +10,11 @@ defined( 'ABSPATH' ) || exit;
 
 class TradePress_UI_Library_Forms {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         add_action( 'admin_init', array( $this, 'handle_form_submissions' ) );
         add_action( 'wp_ajax_tradepress_validate_username', array( $this, 'validate_username' ) );
@@ -19,6 +24,8 @@ class TradePress_UI_Library_Forms {
     
     /**
      * Handle form submissions
+      *
+      * @version 1.0.0
      */
     public function handle_form_submissions() {
         if ( empty( $_POST['tradepress_form_action'] ) ) {
@@ -39,6 +46,8 @@ class TradePress_UI_Library_Forms {
     
     /**
      * Handle contact form submission
+      *
+      * @version 1.0.0
      */
     private function handle_contact_form() {
         if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'tradepress_ui_contact_form' ) ) {
@@ -67,6 +76,8 @@ class TradePress_UI_Library_Forms {
     
     /**
      * Handle trading settings form
+      *
+      * @version 1.0.0
      */
     private function handle_trading_settings() {
         if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'tradepress_ui_trading_settings' ) ) {
@@ -95,6 +106,8 @@ class TradePress_UI_Library_Forms {
     
     /**
      * Ajax username validation
+      *
+      * @version 1.0.0
      */
     public function validate_username() {
         if ( ! wp_verify_nonce( $_POST['nonce'], 'tradepress_ui_ajax_validation' ) ) {
@@ -116,6 +129,8 @@ class TradePress_UI_Library_Forms {
     
     /**
      * Ajax symbol validation
+      *
+      * @version 1.0.0
      */
     public function validate_symbol() {
         if ( ! wp_verify_nonce( $_POST['nonce'], 'tradepress_ui_ajax_validation' ) ) {
@@ -141,6 +156,8 @@ class TradePress_UI_Library_Forms {
     
     /**
      * Ajax form submission
+      *
+      * @version 1.0.0
      */
     public function submit_ajax_form() {
         if ( ! wp_verify_nonce( $_POST['nonce'], 'tradepress_ui_ajax_validation' ) ) {
@@ -161,6 +178,8 @@ class TradePress_UI_Library_Forms {
     
     /**
      * Display success messages
+      *
+      * @version 1.0.0
      */
     public static function display_messages() {
         if ( isset( $_GET['message'] ) ) {

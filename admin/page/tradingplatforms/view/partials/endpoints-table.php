@@ -35,6 +35,15 @@ if (current_user_can('manage_options')) {
 
 // Function to determine status color class if not already defined
 if (!function_exists('get_status_color')) {
+    /**
+     * Get status color.
+     *
+     * @param mixed $status
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     function get_status_color($status) {
         switch ($status) {
             case 'active':

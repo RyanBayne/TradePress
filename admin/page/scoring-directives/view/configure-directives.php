@@ -25,14 +25,8 @@ if (!function_exists('tradepress_get_all_directives')) {
 // Load directive handler
 require_once dirname(__FILE__) . '/../directive-handler.php';
 
-// Enqueue new CSS
-wp_enqueue_style('tradepress-configure-directives', TRADEPRESS_PLUGIN_URL . 'assets/css/pages/configure-directives.css', array(), TRADEPRESS_VERSION);
-
-// Dequeue any conflicting JavaScript
-wp_dequeue_script('tradepress-scoring-directives');
-wp_deregister_script('tradepress-scoring-directives');
-wp_dequeue_script('tradepress-directive-testing');
-wp_deregister_script('tradepress-directive-testing');
+// Inline CSS for directive test notices and section visibility — added via wp_add_inline_style
+// to attach to the already-enqueued tradepress-configure-directives handle.
 
 // Add inline CSS to force visibility and style new sections
 wp_add_inline_style('tradepress-configure-directives', '
@@ -113,28 +107,14 @@ if (!function_exists('tradepress_get_symbol')) {
     require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/object-registry-enhanced.php';
 }
 
-// Log all POST requests to this page
-if (!empty($_POST)) {
-    error_log('[' . date('Y-m-d H:i:s') . '] POST received: ' . print_r($_POST, true), 3, TRADEPRESS_PLUGIN_DIR_PATH . 'trace.log');
-}
-
 
 
 // Handle test directive form submission
 if (isset($_POST['action']) && $_POST['action'] === 'test_directive') {
-    // Log user action
-    error_log('[' . date('Y-m-d H:i:s') . '] User ' . get_current_user_id() . ' clicked Test button for directive: ' . ($_POST['directive_id'] ?? 'unknown'), 3, TRADEPRESS_PLUGIN_DIR_PATH . 'trace.log');
-    
     if (wp_verify_nonce($_POST['test_nonce'], 'tradepress_test_directive') && current_user_can('manage_options')) {
         $directive_id = sanitize_text_field($_POST['directive_id']);
         $directive_code = sanitize_text_field($_POST['directive_code'] ?? '');
         
-        // Log developer mode status
-        $dev_mode = get_option('tradepress_developer_mode', 'no');
-        error_log('[' . date('Y-m-d H:i:s') . '] Developer mode status: ' . $dev_mode, 3, TRADEPRESS_PLUGIN_DIR_PATH . 'trace.log');
-        error_log('[' . date('Y-m-d H:i:s') . '] is_admin(): ' . (is_admin() ? 'true' : 'false'), 3, TRADEPRESS_PLUGIN_DIR_PATH . 'trace.log');
-        
-        // Get selected symbol and trading mode from form
         $test_symbol = sanitize_text_field($_POST['test_symbol'] ?? 'AAPL');
         $trading_mode = sanitize_text_field($_POST['trading_mode'] ?? 'long');
         
@@ -189,13 +169,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'test_directive') {
 if (isset($_POST['action']) && $_POST['action'] === 'save_directive') {
     $directive_id = sanitize_text_field($_POST['directive_id']);
     
-    // Debug output
-    error_log('Save directive called for: ' . $directive_id);
-    error_log('POST data: ' . print_r($_POST, true));
-    
     $result = TradePress_Directive_Handler::save_configuration($directive_id, $_POST);
-    
-    error_log('Save result: ' . print_r($result, true));
     
     if ($result['success']) {
         $message = __('Configuration saved successfully.', 'tradepress');
@@ -347,6 +321,7 @@ $all_directives = tradepress_get_all_directives();
  * 
  * @param string $directive_id The directive ID
  * @return array Array of strategies using this directive
+  * @version 1.0.0
  */
 function tradepress_get_directive_strategies($directive_id) {
     // TODO: Implement actual database lookup when strategy management is ready
@@ -369,6 +344,7 @@ function tradepress_get_directive_strategies($directive_id) {
  * 
  * @param string $directive_id The directive ID
  * @return array Validation result with success/message
+  * @version 1.0.0
  */
 function tradepress_validate_directive_disable($directive_id) {
     // TODO: Implement when strategy management is ready
@@ -462,6 +438,15 @@ function tradepress_validate_directive_disable($directive_id) {
                     return $order === 'desc' ? -$result : $result;
                 });
                 
+                /**
+                 * Get sort url.
+                 *
+                 * @param mixed $column
+                 *
+                 * @return mixed
+                 *
+                 * @version 1.0.0
+                 */
                 function get_sort_url($column) {
                     global $orderby, $order;
                     // If clicking the same column, toggle order
@@ -2603,6 +2588,11 @@ jQuery(document).ready(function($) {
         });
     });
     
+    /**
+     * Show api call modal.
+     *
+     * @version 1.0.0
+     */
     function showApiCallModal(directive, calls) {
         var modal = '<div id="api-call-modal" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 1px solid #ccc; box-shadow: 0 4px 8px rgba(0,0,0,0.1); z-index: 10000; max-width: 80%; max-height: 80%; overflow-y: auto;">';
         modal += '<h3>Recent API Calls - ' + directive.toUpperCase() + '</h3>';
@@ -2631,6 +2621,11 @@ jQuery(document).ready(function($) {
         $('body').append(modal);
     }
     
+    /**
+     * Show api response modal.
+     *
+     * @version 1.0.0
+     */
     function showApiResponseModal(directive, calls) {
         var modal = '<div id="api-response-modal" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 1px solid #ccc; box-shadow: 0 4px 8px rgba(0,0,0,0.1); z-index: 10000; max-width: 90%; max-height: 80%; overflow-y: auto;">';
         modal += '<h3>Recent API Responses - ' + directive.toUpperCase() + '</h3>';
@@ -2665,6 +2660,11 @@ jQuery(document).ready(function($) {
         $('#api-response-modal, #api-response-overlay').remove();
     };
     
+    /**
+     * Show directive outcome modal.
+     *
+     * @version 1.0.0
+     */
     function showDirectiveOutcomeModal(directive, data) {
         var modal = '<div id="directive-outcome-modal" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 1px solid #ccc; box-shadow: 0 4px 8px rgba(0,0,0,0.1); z-index: 10000; max-width: 90%; max-height: 80%; overflow-y: auto;">';
         modal += '<h3>Directive Outcome - ' + directive.toUpperCase() + '</h3>';
@@ -2774,6 +2774,11 @@ jQuery(document).ready(function($) {
         performSearch();
     });
     
+    /**
+     * Perform search.
+     *
+     * @version 1.0.0
+     */
     function performSearch() {
         var searchTerm = $('#directive-search-input').val();
         var url = new URL(window.location);

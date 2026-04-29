@@ -47,6 +47,15 @@ class TradePress_Webhooks_Event_Processing extends TradePress_Background_Process
         }        
     }
     
+    /**
+     * T As K.
+     *
+     * @param mixed $item
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     protected function task( $item ) {
         
         # actions to perform based on the webhook post
@@ -72,10 +81,20 @@ class TradePress_Webhooks_Event_Processing extends TradePress_Background_Process
         parent::complete(); 
     }
 
+    /**
+     * Handle single.
+     *
+     * @version 1.0.0
+     */
     protected function handle_single() {
 
     }
 
+    /**
+     * Handle all.
+     *
+     * @version 1.0.0
+     */
     protected function handle_all() {
 
     }

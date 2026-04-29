@@ -18,6 +18,11 @@ if( !class_exists( 'TradePress_Toolbars' ) ) :
 
 class TradePress_Toolbars {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {     
         // This is admin side only bars not administrator only. Security is done deeper into toolbar classes.
         add_action( 'wp_before_admin_bar_render', array( $this, 'admin_only_toolbars' ) );
@@ -29,6 +34,11 @@ class TradePress_Toolbars {
         add_action( 'admin_post_tradepress_reset_pointers', array( $this, 'handle_reset_pointers' ) );
     }   
     
+    /**
+     * Admin only toolbars.
+     *
+     * @version 1.0.0
+     */
     public function admin_only_toolbars() {       
         if( !current_user_can( 'activate_plugins' ) ) return;  
         
@@ -46,6 +56,8 @@ class TradePress_Toolbars {
     
     /**
      * Handle beta testing toggle
+      *
+      * @version 1.0.0
      */
     public function handle_beta_testing_switch() {
         // Check capabilities
@@ -75,6 +87,8 @@ class TradePress_Toolbars {
     
     /**
      * Handle demo mode toggle
+      *
+      * @version 1.0.0
      */
     public function handle_demo_mode_switch() {
         // Check capabilities
@@ -109,6 +123,8 @@ class TradePress_Toolbars {
     
     /**
      * Handle plugin backup with version increment
+      *
+      * @version 1.0.0
      */
     public function handle_backup_plugin() {
         // Check capabilities
@@ -271,6 +287,8 @@ class TradePress_Toolbars {
     
     /**
      * Get WAMP Google Drive solutions
+      *
+      * @version 1.0.0
      */
     private function get_wamp_solutions() {
         $solutions = array(
@@ -297,6 +315,8 @@ class TradePress_Toolbars {
     
     /**
      * Handle reset all pointers
+      *
+      * @version 1.0.0
      */
     public function handle_reset_pointers() {
         // Check capabilities
@@ -323,6 +343,12 @@ class TradePress_Toolbars {
     
     /**
      * Add a standardized toolbar notice
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $type
+      * @param mixed $title
+      * @param mixed $message
      */
     private function add_toolbar_notice($type, $title, $message) {
         // Generate unique notice ID
@@ -340,6 +366,11 @@ class TradePress_Toolbars {
     
     /**
      * Recursively copy directory
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $src
+      * @param mixed $dst
      */
     private function copy_directory($src, $dst) {
         if (!is_dir($src)) {
@@ -384,6 +415,10 @@ class TradePress_Toolbars {
     
     /**
      * Update version numbers in plugin files
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $new_version
      */
     private function update_version_in_files($new_version) {
         // Update tradepress.php

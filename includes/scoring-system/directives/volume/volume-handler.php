@@ -6,6 +6,16 @@
 
 class TradePress_Volume_Handler {
     
+    /**
+     * Test directive.
+     *
+     * @param string $symbol
+     * @param string $trading_mode
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public static function test_directive($symbol = 'AAPL', $trading_mode = 'long') {
         // Load API factory
         if (!class_exists('TradePress_API_Factory')) {
@@ -64,6 +74,15 @@ class TradePress_Volume_Handler {
         );
     }
     
+    /**
+     * Validate config.
+     *
+     * @param mixed $data
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public static function validate_config($data) {
         $validated = array();
         $validated['weight'] = max(0, min(100, intval($data['weight'] ?? 10)));
@@ -75,6 +94,15 @@ class TradePress_Volume_Handler {
         return $validated;
     }
     
+    /**
+     * Generate warnings.
+     *
+     * @param mixed $data
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public static function generate_warnings($data) {
         $warnings = array();
         

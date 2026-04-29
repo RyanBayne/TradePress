@@ -30,6 +30,8 @@ class TradePress_Admin_Watchlists_Page {
 
     /**
      * Constructor.
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         if ( isset( $_GET['tab'] ) ) {
@@ -41,6 +43,7 @@ class TradePress_Admin_Watchlists_Page {
      * Get tabs for the watchlists area.
      *
      * @return array
+      * @version 1.0.0
      */
     public function get_tabs() {
         $tabs = array(
@@ -54,6 +57,8 @@ class TradePress_Admin_Watchlists_Page {
 
     /**
      * Output the Watchlists area.
+      *
+      * @version 1.0.0
      */
     public function output() {
         $tabs = $this->get_tabs();
@@ -92,6 +97,7 @@ class TradePress_Admin_Watchlists_Page {
      * Load tab content based on the active tab.
      *
      * @param string $tab Tab to load.
+      * @version 1.0.0
      */
     private function load_tab_content( $tab ) {
         switch ( $tab ) {
@@ -112,6 +118,8 @@ class TradePress_Admin_Watchlists_Page {
 
     /**
      * Active Symbols tab content.
+      *
+      * @version 1.0.0
      */
     private function active_symbols_tab() {
         // Include the active symbols view
@@ -120,6 +128,8 @@ class TradePress_Admin_Watchlists_Page {
 
     /**
      * User Watchlists tab content.
+      *
+      * @version 1.0.0
      */
     private function user_watchlists_tab() {
         // Include the user watchlists view
@@ -128,6 +138,8 @@ class TradePress_Admin_Watchlists_Page {
 
     /**
      * Create Watchlist tab content.
+      *
+      * @version 1.0.0
      */
     private function create_watchlist_tab() {
         // Include the create watchlist view
@@ -139,6 +151,7 @@ class TradePress_Admin_Watchlists_Page {
      * In a real implementation, this would fetch from database based on user activity.
      *
      * @return array Active symbols data
+      * @version 1.0.0
      */
     public static function get_active_symbols() {
         // Sample data - in production this would come from user's activity
@@ -223,6 +236,7 @@ class TradePress_Admin_Watchlists_Page {
      * In a real implementation, this would fetch from user metadata.
      *
      * @return array User watchlists data
+      * @version 1.0.0
      */
     public static function get_user_watchlists() {
         // Sample data - in production this would come from user metadata
@@ -339,6 +353,7 @@ class TradePress_Admin_Watchlists_Page {
      * 
      * @param int $watchlist_id The ID of the watchlist to toggle
      * @return bool True if successful, false otherwise
+      * @version 1.0.0
      */
     public static function toggle_watchlist_scoring($watchlist_id) {
         // In a real implementation, this would update the watchlist metadata

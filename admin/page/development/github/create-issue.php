@@ -23,6 +23,7 @@ require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/development/github/github-
  * 
  * @param string $repo_owner GitHub repository owner
  * @param string $repo_name GitHub repository name
+  * @version 1.0.0
  */
 function TRADEPRESS_GITHUB_create_issue_content($repo_owner, $repo_name) {
     // Get GitHub API settings

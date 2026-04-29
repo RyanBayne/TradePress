@@ -11,6 +11,11 @@ class TradePress_API_Data_Adapter {
     
     /**
      * Standardize RSI data from any API provider
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $raw_data
+      * @param mixed $provider_id
      */
     public static function standardize_rsi_data($raw_data, $provider_id) {
         switch ($provider_id) {
@@ -25,6 +30,11 @@ class TradePress_API_Data_Adapter {
     
     /**
      * Standardize quote data from any API provider
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $raw_data
+      * @param mixed $provider_id
      */
     public static function standardize_quote_data($raw_data, $provider_id) {
         switch ($provider_id) {
@@ -39,6 +49,10 @@ class TradePress_API_Data_Adapter {
     
     /**
      * Parse Alpha Vantage RSI response
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $data
      */
     private static function parse_alphavantage_rsi($data) {
         // Check for error messages first
@@ -68,6 +82,10 @@ class TradePress_API_Data_Adapter {
     
     /**
      * Parse Finnhub RSI response
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $data
      */
     private static function parse_finnhub_rsi($data) {
         if (isset($data['rsi']) && !empty($data['rsi'])) {
@@ -78,6 +96,10 @@ class TradePress_API_Data_Adapter {
     
     /**
      * Parse Alpha Vantage quote response
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $data
      */
     private static function parse_alphavantage_quote($data) {
         $quote = $data['Global Quote'] ?? array();
@@ -95,6 +117,10 @@ class TradePress_API_Data_Adapter {
     
     /**
      * Parse Finnhub quote response
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $data
      */
     private static function parse_finnhub_quote($data) {
         return array(

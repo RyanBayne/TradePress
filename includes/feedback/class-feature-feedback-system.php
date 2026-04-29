@@ -50,6 +50,7 @@ class TradePress_Feature_Feedback_System {
      * @param string $feature_id Unique identifier for the feature
      * @param array $options Form configuration options
      * @return string HTML form
+      * @version 1.0.0
      */
     public static function render_issue_form($feature_type, $feature_id, $options = array()) {
         $defaults = array(
@@ -111,6 +112,7 @@ class TradePress_Feature_Feedback_System {
      * @todo Add GitHub issue creation
      * @todo Add email notifications for critical issues
      * @todo Implement strategy impact checking
+      * @version 1.0.0
      */
     public static function handle_issue_submission($data) {
         if (!wp_verify_nonce($data['issue_nonce'], 'tradepress_feature_issue') || !current_user_can('manage_options')) {
@@ -180,6 +182,7 @@ class TradePress_Feature_Feedback_System {
      * @todo Check if directive is used in active strategies
      * @todo Provide strategy impact warnings
      * @todo Implement strategy auto-pause functionality
+      * @version 1.0.0
      */
     private static function disable_directive($directive_id, $reason) {
         // Get current directives configuration

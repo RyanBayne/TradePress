@@ -51,6 +51,8 @@ class TradePress_Risk_Management_Monitor extends TradePress_Background_Process {
     
     /**
      * Initialize the risk monitor with configurable settings
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         parent::__construct();
@@ -73,6 +75,8 @@ class TradePress_Risk_Management_Monitor extends TradePress_Background_Process {
     
     /**
      * Register a custom CRON schedule that adapts to market volatility
+      *
+      * @version 1.0.0
      */
     public function register_cron_schedule() {
         add_filter('cron_schedules', function($schedules) {
@@ -107,6 +111,8 @@ class TradePress_Risk_Management_Monitor extends TradePress_Background_Process {
     
     /**
      * Trigger a risk check for all active positions
+      *
+      * @version 1.0.0
      */
     public function trigger_risk_check() {
         $positions = $this->get_active_positions();
@@ -125,6 +131,7 @@ class TradePress_Risk_Management_Monitor extends TradePress_Background_Process {
      *
      * @param array $position Position data
      * @return boolean False to remove item from queue
+      * @version 1.0.0
      */
     protected function task($position) {
         // Calculate current risk metrics
@@ -144,6 +151,7 @@ class TradePress_Risk_Management_Monitor extends TradePress_Background_Process {
      * Get all active trading positions
      *
      * @return array Array of position objects
+      * @version 1.0.0
      */
     private function get_active_positions() {
         global $wpdb;
@@ -163,6 +171,7 @@ class TradePress_Risk_Management_Monitor extends TradePress_Background_Process {
      *
      * @param array $risk_metrics Risk metrics data
      * @return boolean True if threshold exceeded
+      * @version 1.0.0
      */
     private function is_risk_threshold_exceeded($risk_metrics) {
         // Get user-defined or default thresholds
@@ -177,6 +186,7 @@ class TradePress_Risk_Management_Monitor extends TradePress_Background_Process {
      * @param array $position Position data
      * @param array $risk_metrics Risk metrics data
      * @return array Action results
+      * @version 1.0.0
      */
     private function execute_risk_mitigation($position, $risk_metrics) {
         $action_taken = 'none';
@@ -230,6 +240,7 @@ class TradePress_Risk_Management_Monitor extends TradePress_Background_Process {
      * @param float $current_stop Current stop loss
      * @param string $risk_level Risk level (moderate/high)
      * @return float New stop loss price
+      * @version 1.0.0
      */
     private function calculate_tighter_stop_loss($position, $current_stop, $risk_level) {
         $current_price = $position['current_price'];
@@ -262,6 +273,7 @@ class TradePress_Risk_Management_Monitor extends TradePress_Background_Process {
      * @param string $action_taken Action taken
      * @param string $reason Reason for action
      * @param mixed $result Action result
+      * @version 1.0.0
      */
     private function log_risk_action($position, $risk_metrics, $action_taken, $reason, $result) {
         global $wpdb;
@@ -294,6 +306,7 @@ class TradePress_Risk_Management_Monitor extends TradePress_Background_Process {
      *
      * @param string $time_period Time period for report
      * @return array Performance metrics
+      * @version 1.0.0
      */
     public function generate_performance_report($time_period = '30days') {
         global $wpdb;

@@ -34,6 +34,8 @@ class TradePress_TradingAPI_API {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Initialize Trading API
@@ -43,6 +45,7 @@ class TradePress_TradingAPI_API {
      * Get account information
      *
      * @return array|WP_Error Account information or error
+      * @version 1.0.0
      */
     public function get_account() {
         // Implement account retrieval
@@ -53,6 +56,7 @@ class TradePress_TradingAPI_API {
      * Get positions
      *
      * @return array|WP_Error Positions or error
+      * @version 1.0.0
      */
     public function get_positions() {
         // Implement positions retrieval
@@ -64,6 +68,7 @@ class TradePress_TradingAPI_API {
      *
      * @param array $order_data Order parameters
      * @return array|WP_Error Order result or error
+      * @version 1.0.0
      */
     public function place_order($order_data) {
         // Implement order placement

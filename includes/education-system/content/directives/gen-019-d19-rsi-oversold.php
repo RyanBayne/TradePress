@@ -32,7 +32,7 @@ return [
             'data' => 'Buying a stock just because its RSI is oversold can be like trying to catch a falling knife. A stock with truly bad news or in a powerful downtrend can stay oversold for a long time as its price continues to fall. A low RSI reading is not a sufficient reason to buy.'
         ],
         [
-            'type's' => 'header',
+            'types' => 'header',
             'data' => 'A Higher-Probability Approach'
         ],
         [

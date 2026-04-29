@@ -382,6 +382,11 @@ defined('ABSPATH') || exit;
             });
             
             // Animate progress bars
+            /**
+             * Animate indicators.
+             *
+             * @version 1.0.0
+             */
             function animateIndicators() {
                 $('.media-progress-bar div').each(function() {
                     var width = $(this).css('width');

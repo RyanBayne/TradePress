@@ -69,6 +69,8 @@ class TradePress_Admin_Development_Feature_Status {
     
     /**
      * Output the Feature Status tab content
+      *
+      * @version 1.0.0
      */
     public static function output() {
         // Get features data from the existing class
@@ -462,6 +464,8 @@ class TradePress_Admin_Development_Feature_Status {
     
     /**
      * Enqueue help functionality assets
+      *
+      * @version 1.0.0
      */
     private static function enqueue_help_assets() {
         // Add inline CSS for help functionality
@@ -574,6 +578,7 @@ class TradePress_Admin_Development_Feature_Status {
      * 2. Prioritize features based on their importance and current status
      * 3. Track overall implementation completion percentages
      * 4. Suggest updates to the data structure when adding new features
+      * @version 1.0.0
      */
     protected static function get_features_data() {
         // Check if TradePress_Features_Data exists and has the get_features_data method

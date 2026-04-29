@@ -16,6 +16,8 @@ class TradePress_Scoring_Strategies_Schema {
     
     /**
      * Create enhanced scoring strategy tables
+      *
+      * @version 1.0.0
      */
     public static function create_tables() {
         global $wpdb, $charset_collate;
@@ -48,6 +50,8 @@ class TradePress_Scoring_Strategies_Schema {
     
     /**
      * Enhanced strategies table
+      *
+      * @version 1.0.0
      */
     private static function create_strategies_table() {
         global $wpdb, $charset_collate;
@@ -105,6 +109,8 @@ class TradePress_Scoring_Strategies_Schema {
     
     /**
      * Strategy directives relationship table
+      *
+      * @version 1.0.0
      */
     private static function create_strategy_directives_table() {
         global $wpdb, $charset_collate;
@@ -154,6 +160,8 @@ class TradePress_Scoring_Strategies_Schema {
     
     /**
      * Strategy directive configurations (per-strategy overrides)
+      *
+      * @version 1.0.0
      */
     private static function create_strategy_directive_configs_table() {
         global $wpdb, $charset_collate;
@@ -191,6 +199,8 @@ class TradePress_Scoring_Strategies_Schema {
     
     /**
      * Strategy test results table
+      *
+      * @version 1.0.0
      */
     private static function create_strategy_tests_table() {
         global $wpdb, $charset_collate;
@@ -250,6 +260,8 @@ class TradePress_Scoring_Strategies_Schema {
     
     /**
      * Strategy performance metrics table
+      *
+      * @version 1.0.0
      */
     private static function create_strategy_performance_table() {
         global $wpdb, $charset_collate;
@@ -314,6 +326,8 @@ class TradePress_Scoring_Strategies_Schema {
     
     /**
      * Strategy versions table (for tracking changes)
+      *
+      * @version 1.0.0
      */
     private static function create_strategy_versions_table() {
         global $wpdb, $charset_collate;
@@ -358,6 +372,8 @@ class TradePress_Scoring_Strategies_Schema {
     
     /**
      * Strategy categories table
+      *
+      * @version 1.0.0
      */
     private static function create_strategy_categories_table() {
         global $wpdb, $charset_collate;
@@ -402,6 +418,8 @@ class TradePress_Scoring_Strategies_Schema {
     
     /**
      * Insert default strategy categories
+      *
+      * @version 1.0.0
      */
     public static function insert_default_categories() {
         global $wpdb;
@@ -490,6 +508,8 @@ class TradePress_Scoring_Strategies_Schema {
     
     /**
      * Create foreign key relationships (if supported)
+      *
+      * @version 1.0.0
      */
     public static function create_foreign_keys() {
         global $wpdb;
@@ -536,6 +556,8 @@ class TradePress_Scoring_Strategies_Schema {
     
     /**
      * Get table relationships for documentation
+      *
+      * @version 1.0.0
      */
     public static function get_table_relationships() {
         return array(

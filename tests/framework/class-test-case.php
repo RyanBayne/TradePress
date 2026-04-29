@@ -43,6 +43,10 @@ class TradePress_Test_Case {
     
     /**
      * Initialize a new test case
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $test_id
      */
     public function __construct($test_id = null) {
         $this->test_id = $test_id;
@@ -53,6 +57,8 @@ class TradePress_Test_Case {
     
     /**
      * Load test metadata from database
+      *
+      * @version 1.0.0
      */
     protected function load_test_metadata() {
         global $wpdb;
@@ -73,6 +79,8 @@ class TradePress_Test_Case {
     
     /**
      * Set up test environment before running a test
+      *
+      * @version 1.0.0
      */
     protected function setUp() {
         // Initialize timing and memory tracking
@@ -85,6 +93,8 @@ class TradePress_Test_Case {
     
     /**
      * Clean up after test execution
+      *
+      * @version 1.0.0
      */
     protected function tearDown() {
         $this->end_time = microtime(true);
@@ -96,6 +106,8 @@ class TradePress_Test_Case {
     
     /**
      * Create a new test run record
+      *
+      * @version 1.0.0
      */
     protected function create_test_run() {
         global $wpdb;
@@ -115,6 +127,8 @@ class TradePress_Test_Case {
     
     /**
      * Update test run record with results
+      *
+      * @version 1.0.0
      */
     protected function update_test_run() {
         global $wpdb;
@@ -148,6 +162,8 @@ class TradePress_Test_Case {
     
     /**
      * Update overall test statistics
+      *
+      * @version 1.0.0
      */
     protected function update_test_statistics() {
         global $wpdb;
@@ -180,6 +196,12 @@ class TradePress_Test_Case {
     
     /**
      * Assertion methods
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $expected
+      * @param mixed $actual
+      * @param string $message
      */
     protected function assertEquals($expected, $actual, $message = '') {
         $result = $expected === $actual;
@@ -190,6 +212,14 @@ class TradePress_Test_Case {
         ]);
     }
     
+    /**
+     * Assert true.
+     *
+     * @param mixed $condition
+     * @param string $message
+     *
+     * @version 1.0.0
+     */
     protected function assertTrue($condition, $message = '') {
         $result = $condition === true;
         $this->record_assertion($result, $message, [
@@ -198,6 +228,14 @@ class TradePress_Test_Case {
         ]);
     }
     
+    /**
+     * Assert false.
+     *
+     * @param mixed $condition
+     * @param string $message
+     *
+     * @version 1.0.0
+     */
     protected function assertFalse($condition, $message = '') {
         $result = $condition === false;
         $this->record_assertion($result, $message, [
@@ -206,6 +244,14 @@ class TradePress_Test_Case {
         ]);
     }
     
+    /**
+     * Assert not null.
+     *
+     * @param mixed $value
+     * @param string $message
+     *
+     * @version 1.0.0
+     */
     protected function assertNotNull($value, $message = '') {
         $result = $value !== null;
         $this->record_assertion($result, $message, [
@@ -216,6 +262,12 @@ class TradePress_Test_Case {
     
     /**
      * Record an assertion result
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $passed
+      * @param mixed $message
+      * @param array $data
      */
     protected function record_assertion($passed, $message, $data = []) {
         $assertion = array_merge($data, [
@@ -234,6 +286,10 @@ class TradePress_Test_Case {
     
     /**
      * Record test output
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $message
      */
     protected function log($message) {
         $this->output[] = [
@@ -244,6 +300,11 @@ class TradePress_Test_Case {
     
     /**
      * Record an error
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $message
+      * @param mixed $exception
      */
     protected function recordError($message, $exception = null) {
         $error = [
@@ -261,6 +322,11 @@ class TradePress_Test_Case {
 
     /**
      * Set run context for test execution
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $run_id
+      * @param mixed $test
      */
     public function set_run_context($run_id, $test) {
         $this->run_id = $run_id;
@@ -275,6 +341,8 @@ class TradePress_Test_Case {
 
     /**
      * Run all test methods in the class
+      *
+      * @version 1.0.0
      */
     public function run_all_tests() {
         $methods = get_class_methods($this);

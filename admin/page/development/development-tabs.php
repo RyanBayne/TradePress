@@ -15,10 +15,19 @@ require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/development/github/github-
 
 /**
  * TradePress_Admin_Development_Page Class
+ *
+ * UI status and release direction for all tabs in this page:
+ * @see roadmap/admin-ui-status-index.md#development-tabs
+ *
+ * NOTE: This entire page is only accessible when the tradepress_developer_mode option is enabled.
+ * All tabs here are therefore already gated — the visibility column in the status index reflects
+ * which tabs have working implementations vs. which are pending removal or extension work.
  */
 class TradePress_Admin_Development_Page {
     /**
      * Output the development view
+      *
+      * @version 1.0.0
      */
     public static function output() {
         self::enqueue_assets();
@@ -30,6 +39,8 @@ class TradePress_Admin_Development_Page {
     
     /**
      * Get the tabs array (single source of truth)
+      *
+      * @version 1.0.0
      */
     public static function get_tabs() {
         return array(
@@ -37,13 +48,11 @@ class TradePress_Admin_Development_Page {
             'architecture' => __('Architecture Map', 'tradepress'),
             'algorithm_debugger' => __('Algorithm Debugger', 'tradepress'),
             'diagrams' => __('Diagrams', 'tradepress'),
-            'tasks' => __('Tasks', 'tradepress'),
+            'tasks' => __('Explore Tasks', 'tradepress'),
             'duplicate_checker' => __('Duplicate Checker', 'tradepress'),
-            'github' => __('GitHub', 'tradepress'),
-            'changes' => __('Change Log', 'tradepress'),
-            'discussion' => __('Discussion', 'tradepress'),
-            'notes' => __('Notes', 'tradepress'),
-            'feature_status' => __('Feature Status', 'tradepress'),
+            'github' => __('Create Task', 'tradepress'),
+            // 'changes', 'discussion', 'notes' removed — view files do not exist and tabs are Planned Remove.
+            // See: roadmap/admin-ui-status-index.md#development-tabs
             'ai' => __('AI', 'tradepress'),
             'pointers' => __('Pointers', 'tradepress'),
             'layouts' => __('Layouts', 'tradepress'),
@@ -61,6 +70,8 @@ class TradePress_Admin_Development_Page {
      * Enqueue required assets for the development tabs
      * 
      * @todo use the asset system for better performance and delete this method when ready
+      *
+      * @version 1.0.0
      */
     private static function enqueue_assets() {
         wp_enqueue_script(
@@ -113,6 +124,8 @@ class TradePress_Admin_Development_Page {
     
     /**
      * Development view wrapper start
+      *
+      * @version 1.0.0
      */
     private static function view_wrapper_start() {
         $current_tab = isset($_GET['tab']) ? sanitize_title(wp_unslash($_GET['tab'])) : 'current_task';
@@ -133,6 +146,8 @@ class TradePress_Admin_Development_Page {
     
     /**
      * Development view wrapper end
+      *
+      * @version 1.0.0
      */
     private static function view_wrapper_end() {
         ?>
@@ -142,6 +157,8 @@ class TradePress_Admin_Development_Page {
     
     /**
      * Display the tabs
+      *
+      * @version 1.0.0
      */
     private static function tabs() {
         $current_tab = isset($_GET['tab']) ? sanitize_title(wp_unslash($_GET['tab'])) : 'current_task';
@@ -165,6 +182,8 @@ class TradePress_Admin_Development_Page {
     
     /**
      * Display the active tab content
+      *
+      * @version 1.0.0
      */
     private static function active_tab_content() {
         $current_tab = isset($_GET['tab']) ? sanitize_title(wp_unslash($_GET['tab'])) : 'current_task';
@@ -204,30 +223,6 @@ class TradePress_Admin_Development_Page {
                     require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/development/view/current-task.php';
                 }
                 TradePress_Admin_Development_Current_Task::output();
-                break;
-            case 'changes':
-                if (!class_exists('TradePress_Admin_Development_Changes')) {
-                    require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/development/view/changes.php';
-                }
-                TradePress_Admin_Development_Changes::output();
-                break;
-            case 'discussion':
-                if (!class_exists('TradePress_Admin_Development_Discussion')) {
-                    require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/development/view/discussion.php';
-                }
-                TradePress_Admin_Development_Discussion::output();
-                break;
-            case 'notes':
-                if (!class_exists('TradePress_Admin_Development_Notes')) {
-                    require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/development/view/notes.php';
-                }
-                TradePress_Admin_Development_Notes::output();
-                break;
-            case 'feature_status':
-                if (!class_exists('TradePress_Admin_Development_Feature_Status')) {
-                    require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/development/view/feature-status.php';
-                }
-                TradePress_Admin_Development_Feature_Status::output();
                 break;
             case 'tasks':
                 if (!class_exists('TradePress_Admin_Development_Tasks')) {
@@ -311,6 +306,8 @@ class TradePress_Admin_Development_Page {
     
     /**
      * Get development notes from DEVELOPMENT.md
+      *
+      * @version 1.0.0
      */
     private static function get_development_notes() {
         $development_path = TRADEPRESS_PLUGIN_DIR . 'DEVELOPMENT.md';
@@ -322,6 +319,8 @@ class TradePress_Admin_Development_Page {
     
     /**
      * Get AI notes from AI.md
+      *
+      * @version 1.0.0
      */
     private static function get_ai_notes() {
         $ai_path = TRADEPRESS_PLUGIN_DIR . 'AI.md';
@@ -333,6 +332,8 @@ class TradePress_Admin_Development_Page {
     
     /**
      * Get Gemini notes from GEMINI.md
+      *
+      * @version 1.0.0
      */
     private static function get_gemini_notes() {
         $gemini_path = TRADEPRESS_PLUGIN_DIR . 'GEMINI.md';
@@ -344,6 +345,8 @@ class TradePress_Admin_Development_Page {
     
     /**
      * Output the architecture map tab
+      *
+      * @version 1.0.0
      */
     private static function output_architecture_tab() {
         ?>

@@ -15,6 +15,10 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
     
     /**
      * Process queue item
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $item
      */
     protected function task($item) {
         // Load queue schema
@@ -40,6 +44,12 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
     
     /**
      * Add item to queue instead of processing immediately
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $action
+      * @param array $data
+      * @param int $priority
      */
     public static function queue_data_fetch($action, $data = array(), $priority = 10) {
         require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/queue-schema.php';
@@ -56,6 +66,10 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
     
     /**
      * Fetch earnings calendar data
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $item
      */
     private function fetch_earnings_data($item) {
         $retry_count = isset($item['retry_count']) ? $item['retry_count'] : 0;
@@ -103,6 +117,10 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
     
     /**
      * Fetch price data for symbols
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $item
      */
     private function fetch_price_data($item) {
         $retry_count = isset($item['retry_count']) ? $item['retry_count'] : 0;
@@ -180,6 +198,10 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
     
     /**
      * Fetch historical data for advanced directive support
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
      */
     private function fetch_historical_data($symbol) {
         try {
@@ -239,6 +261,10 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
     
     /**
      * Fetch market status
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $item
      */
     private function fetch_market_status($item) {
         $retry_count = isset($item['retry_count']) ? $item['retry_count'] : 0;
@@ -280,6 +306,8 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
     
     /**
      * Get active symbols for price updates
+      *
+      * @version 1.0.0
      */
     private function get_active_symbols() {
         $symbols = get_posts(array(
@@ -306,18 +334,30 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
     
     /**
      * Log process activity using TradePress Logger
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $level
+      * @param mixed $message
+      * @param array $context
      */
     private function log_process_activity($level, $message, $context = array()) {
         if (class_exists('TradePress_Logger')) {
             $logger = new TradePress_Logger();
             $logger->log($level, $message, TradePress_Logger::CAT_API, $context);
         } else {
-            error_log("TradePress Data Import [{$level}]: {$message}");
         }
     }
     
     /**
      * Handle API errors with detailed logging
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $endpoint
+      * @param mixed $wp_error
+      * @param mixed $retry_count
+      * @param mixed $max_retries
      */
     private function handle_api_error($endpoint, $wp_error, $retry_count, $max_retries) {
         $error_data = array(
@@ -342,6 +382,13 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
     
     /**
      * Handle retry logic with exponential backoff
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $item
+      * @param mixed $retry_count
+      * @param mixed $max_retries
+      * @param mixed $error_type
      */
     private function handle_retry($item, $retry_count, $max_retries, $error_type) {
         if ($retry_count >= $max_retries) {
@@ -374,6 +421,11 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
     
     /**
      * Set error state for UI display
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $error_type
+      * @param mixed $error_data
      */
     private function set_error_state($error_type, $error_data) {
         $error_states = get_option('tradepress_data_import_error_state', array());
@@ -386,6 +438,8 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
     
     /**
      * Get process health status
+      *
+      * @version 1.0.0
      */
     public function get_health_status() {
         $error_states = get_option('tradepress_data_import_error_state', array());
@@ -404,6 +458,11 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
     
     /**
      * Calculate health score (0-100)
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $error_states
+      * @param mixed $last_run
      */
     private function calculate_health_score($error_states, $last_run) {
         $score = 100;
@@ -434,6 +493,10 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
     
     /**
      * Fetch technical data for symbols
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $item
      */
     private function fetch_technical_data($item) {
         $retry_count = isset($item['retry_count']) ? $item['retry_count'] : 0;
@@ -483,6 +546,8 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
     
     /**
      * Process queue items from database
+      *
+      * @version 1.0.0
      */
     public function process_queue_items() {
         require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/queue-schema.php';
@@ -534,6 +599,8 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
     
     /**
      * Complete processing
+      *
+      * @version 1.0.0
      */
     protected function complete() {
         parent::complete();

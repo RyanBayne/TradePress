@@ -9,6 +9,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Scoring_Directive_MOVING_AVERAGES extends TradePress_Scoring_Directive_Base {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         $this->id = 'moving_averages';
         $this->name = 'Moving Averages';
@@ -20,6 +25,16 @@ class TradePress_Scoring_Directive_MOVING_AVERAGES extends TradePress_Scoring_Di
         $this->priority = 15;
     }
     
+    /**
+     * Calculate score.
+     *
+     * @param mixed $symbol_data
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function calculate_score($symbol_data, $config = array()) {
         $alignment_bonus = $config['alignment_bonus'] ?? 25;
         
@@ -107,10 +122,28 @@ class TradePress_Scoring_Directive_MOVING_AVERAGES extends TradePress_Scoring_Di
         );
     }
     
+    /**
+     * Get max score.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_max_score($config = array()) {
         return 100;
     }
     
+    /**
+     * Get explanation.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_explanation($config = array()) {
         $short_period = $config['short_period'] ?? 20;
         $long_period = $config['long_period'] ?? 50;

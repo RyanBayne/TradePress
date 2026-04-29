@@ -17,6 +17,12 @@ if (!defined('ABSPATH')) {
 return array(
     // Admin Scripts
     'admin' => array(
+        'test-runner' => array(
+            'path' => 'js/test-runner.js',
+            'purpose' => 'Testing page interactions and UI crawl execution',
+            'pages' => array('tradepress-tests'),
+            'dependencies' => array('jquery')
+        ),
         'admin-common' => array(
             'path' => 'js/admin-common.js',
             'purpose' => 'Common admin functionality and utilities',
@@ -213,20 +219,20 @@ return array(
     
     // Setup Scripts
     'setup' => array(
-        'twitchpress-setup' => array(
-            'path' => 'js/twitchpress-setup.js',
+        'tradepress-setup' => array(
+            'path' => 'js/tradepress-setup.js',
             'purpose' => 'Plugin setup wizard functionality',
             'pages' => array('setup'),
             'dependencies' => array('jquery')
         ),
-        'twitchpress-faq' => array(
-            'path' => 'js/twitchpress-faq.js',
+        'tradepress-faq' => array(
+            'path' => 'js/tradepress-faq.js',
             'purpose' => 'FAQ accordion and help system',
             'pages' => array('faq'),
             'dependencies' => array('jquery')
         ),
-        'twitchpress-enhanced-select' => array(
-            'path' => 'js/twitchpress-enhanced-select.js',
+        'tradepress-enhanced-select' => array(
+            'path' => 'js/tradepress-enhanced-select.js',
             'purpose' => 'Enhanced select dropdown functionality',
             'pages' => array('all'),
             'dependencies' => array('jquery', 'select2')

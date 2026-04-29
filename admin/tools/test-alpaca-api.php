@@ -18,6 +18,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Run Alpaca API tests
+  *
+  * @version 1.0.0
  */
 function tradepress_test_alpaca_api() {
     // Get the API settings

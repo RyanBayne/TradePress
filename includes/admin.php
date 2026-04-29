@@ -20,6 +20,8 @@ if (!defined('ABSPATH')) {
 class TradePress_Admin {
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Add admin menu and settings
@@ -32,6 +34,8 @@ class TradePress_Admin {
 
     /**
      * Add admin menu
+      *
+      * @version 1.0.0
      */
     public function add_admin_menu() {
         // Add top-level menu
@@ -52,6 +56,8 @@ class TradePress_Admin {
 
     /**
      * Register settings
+      *
+      * @version 1.0.0
      */
     public function register_settings() {
         // Register settings for each tab
@@ -61,6 +67,8 @@ class TradePress_Admin {
 
     /**
      * Register settings tabs
+      *
+      * @version 1.0.0
      */
     public function register_settings_tabs() {
         $this->register_tab('settings', new TradePress_Admin_Settings_SEES());
@@ -68,6 +76,8 @@ class TradePress_Admin {
 
     /**
      * Admin page callback
+      *
+      * @version 1.0.0
      */
     public function admin_page() {
         // Render the admin page
@@ -78,6 +88,8 @@ class TradePress_Admin {
 
     /**
      * Settings page callback
+      *
+      * @version 1.0.0
      */
     public function settings_page() {
         // Render the settings page
@@ -88,6 +100,8 @@ class TradePress_Admin {
 
     /**
      * SEES page callback
+      *
+      * @version 1.0.0
      */
     public function sees_page() {
         // Render the SEES settings page

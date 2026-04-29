@@ -15,6 +15,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Scoring_Directive_VOLUME_RHYTHM extends TradePress_Scoring_Directive_Base {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         $this->id = 'volume_rhythm';
         $this->name = 'Volume Rhythm';
@@ -29,6 +34,16 @@ class TradePress_Scoring_Directive_VOLUME_RHYTHM extends TradePress_Scoring_Dire
         $this->api_cost = 'LOW';
     }
     
+    /**
+     * Calculate score.
+     *
+     * @param mixed $symbol_data
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function calculate_score($symbol_data, $config = array()) {
         $lookback_weeks = $config['lookback_weeks'] ?? 8;
         $volume_weight = $config['volume_weight'] ?? 30;
@@ -127,6 +142,16 @@ class TradePress_Scoring_Directive_VOLUME_RHYTHM extends TradePress_Scoring_Dire
         );
     }
     
+    /**
+     * Analyze volume rhythm.
+     *
+     * @param mixed $historical_data
+     * @param mixed $lookback_weeks
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function analyze_volume_rhythm($historical_data, $lookback_weeks) {
         $day_volumes = array(1 => array(), 2 => array(), 3 => array(), 4 => array(), 5 => array());
         $volume_returns = array();
@@ -225,6 +250,15 @@ class TradePress_Scoring_Directive_VOLUME_RHYTHM extends TradePress_Scoring_Dire
         );
     }
     
+    /**
+     * Detect institutional patterns.
+     *
+     * @param mixed $day_patterns
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function detect_institutional_patterns($day_patterns) {
         // Typical institutional patterns:
         // - Higher volume Monday/Friday (rebalancing)
@@ -255,6 +289,16 @@ class TradePress_Scoring_Directive_VOLUME_RHYTHM extends TradePress_Scoring_Dire
         return array('score' => 0, 'pattern' => 'No Clear Institutional Pattern');
     }
     
+    /**
+     * Calculate correlation.
+     *
+     * @param mixed $x
+     * @param mixed $y
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function calculate_correlation($x, $y) {
         $n = min(count($x), count($y));
         if ($n < 2) return 0;
@@ -278,15 +322,42 @@ class TradePress_Scoring_Directive_VOLUME_RHYTHM extends TradePress_Scoring_Dire
         return ($n * $sum_xy - $sum_x * $sum_y) / $denominator;
     }
     
+    /**
+     * Get day name.
+     *
+     * @param mixed $day_number
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function get_day_name($day_number) {
         $days = array(1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday', 7 => 'Sunday');
         return $days[$day_number] ?? 'Unknown';
     }
     
+    /**
+     * Get max score.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_max_score($config = array()) {
         return 100;
     }
     
+    /**
+     * Get explanation.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_explanation($config = array()) {
         $lookback_weeks = $config['lookback_weeks'] ?? 8;
         $volume_weight = $config['volume_weight'] ?? 30;

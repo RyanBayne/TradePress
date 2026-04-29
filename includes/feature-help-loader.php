@@ -13,6 +13,10 @@ class TradePress_Feature_Help_Loader {
     
     /**
      * Load feature help content
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $feature_id
      */
     public static function get_feature_help($feature_id) {
         $help_file = TRADEPRESS_PLUGIN_DIR . 'docs/features/' . $feature_id . '.md';
@@ -31,6 +35,10 @@ class TradePress_Feature_Help_Loader {
     
     /**
      * Basic markdown to HTML conversion
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $markdown
      */
     private static function convert_markdown_to_html($markdown) {
         // Headers
@@ -52,6 +60,8 @@ class TradePress_Feature_Help_Loader {
     
     /**
      * AJAX handler for feature help
+      *
+      * @version 1.0.0
      */
     public static function ajax_get_feature_help() {
         if (!wp_verify_nonce($_POST['nonce'], 'tradepress_feature_help')) {

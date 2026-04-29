@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string $symbol Symbol ticker
  * @param bool $force_refresh Force API refresh
  * @return object Symbol object with fresh data
+  * @version 1.0.0
  */
 function tradepress_build_symbol_data( $symbol, $force_refresh = false ) {
     $registry_key = 'symbol_' . $symbol;
@@ -88,6 +89,7 @@ function tradepress_build_symbol_data( $symbol, $force_refresh = false ) {
  * @param string $symbol Symbol ticker
  * @param bool $force_refresh Force API refresh
  * @return object Symbol object
+  * @version 1.0.0
  */
 function tradepress_get_symbol( $symbol, $force_refresh = false ) {
     return tradepress_build_symbol_data( $symbol, $force_refresh );
@@ -98,6 +100,7 @@ function tradepress_get_symbol( $symbol, $force_refresh = false ) {
  * 
  * @param string $symbol Symbol ticker
  * @return object Symbol object with guaranteed fresh data
+  * @version 1.0.0
  */
 function tradepress_get_fresh_symbol( $symbol ) {
     return tradepress_build_symbol_data( $symbol, true );

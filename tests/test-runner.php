@@ -35,27 +35,45 @@ class TradePress_Test_Runner {
         'phase3' => [
             'title' => 'Phase 3 Tests',
             'description' => 'Recent Call Register testing suite'
+        ],
+        'feature_status' => [
+            'title' => 'Feature Status',
+            'description' => 'Current implementation and readiness status across plugin features'
+        ],
+        'ui_crawl' => [
+            'title' => 'UI Crawl',
+            'description' => 'Visit admin tabs one by one and report page-level errors'
         ]
     ];
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         add_action('wp_ajax_tradepress_run_tests', [$this, 'ajax_run_tests']);
+        add_action('wp_ajax_tradepress_discover_tests', [$this, 'ajax_discover_tests']);
+        add_action('wp_ajax_tradepress_ui_crawl_log', [$this, 'ajax_ui_crawl_log']);
         add_action('admin_menu', [$this, 'add_test_menu'], 999);
         
         // Load test framework
         require_once TRADEPRESS_PLUGIN_DIR_PATH . 'tests/framework/class-test-registry.php';
         require_once TRADEPRESS_PLUGIN_DIR_PATH . 'tests/framework/class-test-case.php';
+        require_once TRADEPRESS_PLUGIN_DIR_PATH . 'tests/framework/class-test-results.php';
+        require_once TRADEPRESS_PLUGIN_DIR_PATH . 'tests/framework/class-test-utils.php';
     }
-    
     /**
      * Add test runner to admin menu (only in developer mode)
+      *
+      * @version 1.0.0
      */
     public function add_test_menu() {
-        if (get_option('tradepress_developer_mode', false)) {
+        if ( tradepress_is_developer_mode() ) {
             add_submenu_page(
                 'TradePress',
-                'Test Runner',
-                'Tests',
+                'Testing',
+                'Testing',
                 'manage_options',
                 'tradepress-tests',
                 [$this, 'render_test_page']
@@ -65,16 +83,18 @@ class TradePress_Test_Runner {
     
     /**
      * Render test runner page
+      *
+      * @version 1.0.0
      */
     public function render_test_page() {
-        $current_tab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'active';
+        $current_tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : 'active';
         
         if (!isset($this->tabs[$current_tab])) {
             $current_tab = 'active';
         }
         
         echo '<div class="wrap tradepress-tests">';
-        echo '<h1>' . esc_html__('TradePress Tests', 'tradepress') . '</h1>';
+        echo '<h1>' . esc_html__('TradePress Testing', 'tradepress') . '</h1>';
         
         // Tab navigation
         echo '<nav class="nav-tab-wrapper">';
@@ -103,44 +123,65 @@ class TradePress_Test_Runner {
     }
     
     /**
-     * Enqueue necessary assets
+     * Localize Testing page script data.
+     *
+     * Script/style handles are enqueued by the central asset queue.
+      *
+      * @version 1.0.0
      */
     private function enqueue_test_assets() {
-        wp_enqueue_style(
-            'tradepress-test-styles',
-            TRADEPRESS_PLUGIN_URL . 'assets/css/test-runner.css',
-            [],
-            TRADEPRESS_VERSION
-        );
-        
-        wp_enqueue_script(
-            'tradepress-test-runner',
-            TRADEPRESS_PLUGIN_URL . 'assets/js/test-runner.js',
-            ['jquery'],
-            TRADEPRESS_VERSION,
-            true
-        );
+        if ( ! wp_script_is( 'tradepress-test-runner', 'enqueued' ) && ! wp_script_is( 'tradepress-test-runner', 'registered' ) ) {
+            return;
+        }
         
         wp_localize_script('tradepress-test-runner', 'tradePressTests', [
             'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('tradepress_tests')
+            'nonce' => wp_create_nonce('tradepress_tests'),
+            'i18n' => [
+                'run' => __('Run', 'tradepress'),
+                'running' => __('Running...', 'tradepress'),
+                'runPhase3' => __('Run Phase 3 Tests', 'tradepress'),
+                'error' => __('Error', 'tradepress'),
+                'ajaxError' => __('AJAX request failed', 'tradepress'),
+                'resultsCleared' => __('Test results cleared.', 'tradepress'),
+                'testResults' => __('Test Results', 'tradepress'),
+                'overallStatus' => __('Overall Status', 'tradepress'),
+                'executionTime' => __('Execution Time', 'tradepress'),
+                'requirementsSatisfied' => __('Requirements Satisfied', 'tradepress'),
+                'individualResults' => __('Individual Test Results', 'tradepress'),
+                'requirement' => __('Requirement', 'tradepress'),
+                'performanceSummary' => __('Performance Summary', 'tradepress'),
+                'apiCallsSaved' => __('API Calls Saved', 'tradepress'),
+                'cacheHitRate' => __('Cache Hit Rate', 'tradepress'),
+                'memoryUsage' => __('Memory Usage', 'tradepress'),
+                'recommendations' => __('Recommendations', 'tradepress'),
+                'discovering' => __('Discovering tests...', 'tradepress'),
+                'discoverTests' => __('Discover Tests', 'tradepress'),
+                'discoveryComplete' => __('Discovery complete. Reloading results...', 'tradepress')
+            ]
         ]);
     }
     
     /**
      * Render Active Tests tab
+      *
+      * @version 1.0.0
      */
     private function render_active_tab() {
         $active_tests = TradePress_Test_Registry::get_tests(['status' => 'active']);
         
         echo '<h2>' . esc_html($this->tabs['active']['title']) . '</h2>';
         echo '<p class="description">' . esc_html($this->tabs['active']['description']) . '</p>';
+        echo '<p><button type="button" id="discover-tests" class="button button-secondary">' . esc_html__( 'Discover Tests', 'tradepress' ) . '</button></p>';
+        echo '<div id="discover-tests-result" style="margin: 10px 0;"></div>';
         
         $this->render_test_table($active_tests);
     }
     
     /**
      * Render Standard Tests tab
+      *
+      * @version 1.0.0
      */
     private function render_standard_tab() {
         $standard_tests = TradePress_Test_Registry::get_tests(['category' => 'standard']);
@@ -153,6 +194,8 @@ class TradePress_Test_Runner {
     
     /**
      * Render Bug Investigation tab
+      *
+      * @version 1.0.0
      */
     private function render_bugs_tab() {
         $bug_tests = TradePress_Test_Registry::get_tests(['category' => 'bugs']);
@@ -165,6 +208,8 @@ class TradePress_Test_Runner {
     
     /**
      * Render Performance Tests tab
+      *
+      * @version 1.0.0
      */
     private function render_performance_tab() {
         $perf_tests = TradePress_Test_Registry::get_tests(['category' => 'performance']);
@@ -177,6 +222,8 @@ class TradePress_Test_Runner {
     
     /**
      * Render Phase 3 Tests tab
+      *
+      * @version 1.0.0
      */
     private function render_phase3_tab() {
         echo '<h2>' . esc_html($this->tabs['phase3']['title']) . '</h2>';
@@ -195,9 +242,172 @@ class TradePress_Test_Runner {
         echo '<p><em>' . esc_html__('Click "Run Phase 3 Tests" to execute the Recent Call Register test suite.', 'tradepress') . '</em></p>';
         echo '</div>';
     }
+
+    /**
+     * Render Feature Status tab using the existing implementation view.
+      *
+      * @version 1.0.0
+     */
+    private function render_feature_status_tab() {
+        echo '<h2>' . esc_html($this->tabs['feature_status']['title']) . '</h2>';
+        echo '<p class="description">' . esc_html($this->tabs['feature_status']['description']) . '</p>';
+
+        $feature_status_view = TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/development/view/feature-status.php';
+        if ( ! file_exists( $feature_status_view ) ) {
+            echo '<div class="notice notice-warning"><p>' . esc_html__( 'Feature status view is not available.', 'tradepress' ) . '</p></div>';
+            return;
+        }
+
+        require_once $feature_status_view;
+
+        $feature_status_class = 'TradePress_Admin_Development_Feature_Status';
+        if ( class_exists( $feature_status_class ) && is_callable( array( $feature_status_class, 'output' ) ) ) {
+            call_user_func( array( $feature_status_class, 'output' ) );
+            return;
+        }
+
+        echo '<div class="notice notice-warning"><p>' . esc_html__( 'Feature status class could not be loaded.', 'tradepress' ) . '</p></div>';
+    }
+
+    /**
+     * Render UI Crawl tab.
+      *
+      * @version 1.0.0
+     */
+    private function render_ui_crawl_tab() {
+        $seed_urls = $this->get_ui_crawl_seed_urls();
+
+        echo '<section class="tradepress-ui-crawl">';
+        echo '<div class="tradepress-ui-crawl__hero">';
+        echo '<div class="tradepress-ui-crawl__hero-copy">';
+        echo '<h2>' . esc_html($this->tabs['ui_crawl']['title']) . '</h2>';
+        echo '<p class="description">' . esc_html($this->tabs['ui_crawl']['description']) . '</p>';
+        echo '<p class="description">' . esc_html__( 'This scan checks each discovered tab URL for HTTP failures and common PHP/WordPress error signals in page HTML.', 'tradepress' ) . '</p>';
+        echo '</div>';
+        echo '<div class="tradepress-ui-crawl__meta">';
+        echo '<div class="tradepress-ui-crawl__meta-card">';
+        echo '<span class="tradepress-ui-crawl__meta-label">' . esc_html__( 'Seed URLs', 'tradepress' ) . '</span>';
+        echo '<strong class="tradepress-ui-crawl__meta-value">' . esc_html( count( $seed_urls ) ) . '</strong>';
+        echo '</div>';
+        echo '<div class="tradepress-ui-crawl__meta-card">';
+        echo '<span class="tradepress-ui-crawl__meta-label">' . esc_html__( 'Mode', 'tradepress' ) . '</span>';
+        echo '<strong class="tradepress-ui-crawl__meta-value">' . esc_html__( 'HTML signal scan', 'tradepress' ) . '</strong>';
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+
+        echo '<div class="tradepress-ui-crawl__actions">';
+        echo '<button id="run-ui-crawl" class="button button-primary">' . esc_html__( 'Run UI Crawl', 'tradepress' ) . '</button>';
+        echo '<button id="clear-ui-crawl" class="button">' . esc_html__( 'Clear Results', 'tradepress' ) . '</button>';
+        echo '</div>';
+
+        echo '<div class="tradepress-ui-crawl__panels">';
+        echo '<div class="tradepress-ui-crawl__panel tradepress-ui-crawl__panel--summary">';
+        echo '<h3>' . esc_html__( 'Run Summary', 'tradepress' ) . '</h3>';
+        echo '<div id="ui-crawl-summary" class="tradepress-ui-crawl__summary"></div>';
+        echo '</div>';
+        echo '<div class="tradepress-ui-crawl__panel tradepress-ui-crawl__panel--results">';
+        echo '<h3>' . esc_html__( 'URL Results', 'tradepress' ) . '</h3>';
+        echo '<div id="ui-crawl-results" class="tradepress-ui-crawl__results"></div>';
+        echo '</div>';
+        echo '</div>';
+
+        $ui_crawl_payload = array(
+            'seeds'  => $seed_urls,
+            'config' => array(
+                'ajax_url' => admin_url( 'admin-ajax.php' ),
+                'nonce'    => wp_create_nonce( 'tradepress_tests' ),
+            ),
+        );
+
+        echo '<div id="tradepress-ui-crawl-data" data-ui-crawl="' . esc_attr( wp_json_encode( $ui_crawl_payload ) ) . '"></div>';
+        echo '</section>';
+    }
+
+    /**
+     * AJAX logger for UI crawl failures.
+      *
+      * @version 1.0.0
+     */
+    public function ajax_ui_crawl_log() {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'tradepress_tests')) {
+            wp_send_json_error('Security check failed');
+            return;
+        }
+
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error('Insufficient permissions');
+            return;
+        }
+
+        if ( ! function_exists( 'tradepress_trace_log' ) ) {
+            $bugnet_file = TRADEPRESS_PLUGIN_DIR_PATH . 'includes/bugnet-system/functions.tradepress-bugnet.php';
+            if ( file_exists( $bugnet_file ) ) {
+                require_once $bugnet_file;
+            }
+        }
+
+        $url = isset($_POST['url']) ? esc_url_raw(wp_unslash($_POST['url'])) : '';
+        $status = isset($_POST['status']) ? sanitize_text_field(wp_unslash($_POST['status'])) : '';
+        $error_message = isset($_POST['error_message']) ? sanitize_text_field(wp_unslash($_POST['error_message'])) : '';
+
+        $signals_raw = isset($_POST['signals']) ? wp_unslash($_POST['signals']) : '[]';
+        $signals = json_decode($signals_raw, true);
+        if (!is_array($signals)) {
+            $signals = array();
+        }
+
+        if ( function_exists( 'tradepress_trace_log' ) ) {
+            tradepress_trace_log(
+                'UI Crawl Failure',
+                array(
+                    'url' => $url,
+                    'status' => $status,
+                    'signals' => $signals,
+                    'error' => $error_message,
+                )
+            );
+        }
+
+        wp_send_json_success(array('logged' => true));
+    }
+
+    /**
+     * Seed admin URLs used to discover all tab links.
+     *
+     * @return array
+      * @version 1.0.0
+     */
+    private function get_ui_crawl_seed_urls() {
+        $is_dev_mode = function_exists( 'tradepress_is_developer_mode' ) ? tradepress_is_developer_mode() : false;
+
+        $seed_urls = array(
+            admin_url( 'admin.php?page=TradePress' ),
+            admin_url( 'admin.php?page=tradepress_data' ),
+            admin_url( 'admin.php?page=tradepress_watchlists' ),
+            admin_url( 'admin.php?page=tradepress_automation' ),
+            admin_url( 'admin.php?page=tradepress_research' ),
+            admin_url( 'admin.php?page=tradepress_trading' ),
+            admin_url( 'admin.php?page=tradepress_platforms' ),
+            admin_url( 'admin.php?page=tradepress-tests' ),
+        );
+
+        if ( $is_dev_mode ) {
+            $seed_urls[] = admin_url( 'admin.php?page=tradepress_development' );
+            $seed_urls[] = admin_url( 'admin.php?page=tradepress_focus' );
+            $seed_urls[] = admin_url( 'admin.php?page=tradepress_analysis' );
+            $seed_urls[] = admin_url( 'admin.php?page=tradepress_scoring_directives' );
+        }
+
+        return array_values( array_unique( $seed_urls ) );
+    }
     
     /**
      * Render test table
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $tests
      */
     private function render_test_table($tests) {
         if (empty($tests)) {
@@ -236,9 +446,15 @@ class TradePress_Test_Runner {
     }
     
     /**
-     * Get status badge HTML
+     * Get status badge HTML.
+     *
+     * @param string $status Test status value.
+     * @return string Badge markup.
+      * @version 1.0.0
      */
     private function get_status_badge($status) {
+        $status = sanitize_key( (string) $status );
+
         $status_classes = [
             'active' => 'status-active',
             'passed' => 'status-passed',
@@ -251,78 +467,181 @@ class TradePress_Test_Runner {
         return '<span class="status-badge ' . esc_attr($class) . '">' . esc_html($status) . '</span>';
     }
     
-    /**
-     * AJAX handler for running tests
-     */
-    public function ajax_run_tests() {
-        // Log the start of AJAX request
-        error_log('TradePress Test Runner: AJAX request started');
-        
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tradepress_tests')) {
-            error_log('TradePress Test Runner: Security check failed');
-            wp_send_json_error('Security check failed');
-            return;
-        }
-        
-        if (!current_user_can('manage_options')) {
-            error_log('TradePress Test Runner: Insufficient permissions');
-            wp_send_json_error('Insufficient permissions');
-            return;
-        }
-        
-        $test_suite = sanitize_text_field($_POST['test_suite']);
-        error_log('TradePress Test Runner: Running test suite: ' . $test_suite);
-        
-        try {
-            switch ($test_suite) {
-                case 'phase3':
-                    // Load dependencies
-                    $query_register_path = TRADEPRESS_PLUGIN_DIR_PATH . 'includes/query-register.php';
-                    $test_file_path = plugin_dir_path(__FILE__) . 'recent-call-register-tests.php';
-                    
-                    error_log('TradePress Test Runner: Loading ' . $query_register_path);
-                    if (!file_exists($query_register_path)) {
-                        throw new Exception('Query register file not found: ' . $query_register_path);
-                    }
-                    require_once $query_register_path;
-                    
-                    error_log('TradePress Test Runner: Loading ' . $test_file_path);
-                    if (!file_exists($test_file_path)) {
-                        throw new Exception('Test file not found: ' . $test_file_path);
-                    }
-                    require_once $test_file_path;
-                    
-                    if (!class_exists('TradePress_Call_Register')) {
-                        throw new Exception('TradePress_Call_Register class not found');
-                    }
-                    
-                    if (!class_exists('TradePress_Recent_Call_Register_Tests')) {
-                        throw new Exception('TradePress_Recent_Call_Register_Tests class not found');
-                    }
-                    
-                    error_log('TradePress Test Runner: Creating test instance');
-                    $tester = new TradePress_Recent_Call_Register_Tests();
-                    
-                    error_log('TradePress Test Runner: Running tests');
-                    $results = $tester->run_phase3_tests();
-                    
-                    error_log('TradePress Test Runner: Tests completed successfully');
-                    break;
-                    
-                default:
-                    throw new Exception('Unknown test suite: ' . $test_suite);
-            }
-            
-            wp_send_json_success($results);
-            
-        } catch (Exception $e) {
-            error_log('TradePress Test Runner: Error - ' . $e->getMessage());
-            wp_send_json_error('Test execution failed: ' . $e->getMessage());
-        }
-    }
     
     /**
+     * AJAX handler for running tests
+      *
+      * @version 1.0.0
+     */
+    public function ajax_run_tests() {
+        $raw_nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+
+        if ( ! wp_verify_nonce( $raw_nonce, 'tradepress_tests' ) ) {
+            wp_send_json_error( 'Security check failed' );
+            return;
+        }
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( 'Insufficient permissions' );
+            return;
+        }
+
+        $test_suite = sanitize_text_field( wp_unslash( $_POST['test_suite'] ?? '' ) );
+        $test_id    = isset( $_POST['test_id'] ) ? absint( wp_unslash( $_POST['test_id'] ) ) : 0;
+
+        $this->trace( 'Test Runner: ajax_run_tests called', array( 'suite' => $test_suite, 'test_id' => $test_id ) );
+
+        try {
+            if ( $test_id > 0 ) {
+                $result = $this->execute_registered_file_test( $test_id );
+                wp_send_json_success( $result );
+                return;
+            }
+
+            switch ( $test_suite ) {
+                case 'phase3':
+                    $query_register_path = TRADEPRESS_PLUGIN_DIR_PATH . 'includes/query-register.php';
+                    $test_file_path      = plugin_dir_path( __FILE__ ) . 'recent-call-register-tests.php';
+
+                    if ( ! file_exists( $query_register_path ) ) {
+                        throw new Exception( 'Query register file not found: ' . $query_register_path );
+                    }
+                    require_once $query_register_path;
+
+                    if ( ! file_exists( $test_file_path ) ) {
+                        throw new Exception( 'Test file not found: ' . $test_file_path );
+                    }
+                    require_once $test_file_path;
+
+                    if ( ! class_exists( 'TradePress_Call_Register' ) ) {
+                        throw new Exception( 'TradePress_Call_Register class not found' );
+                    }
+
+                    if ( ! class_exists( 'TradePress_Recent_Call_Register_Tests' ) ) {
+                        throw new Exception( 'TradePress_Recent_Call_Register_Tests class not found' );
+                    }
+
+                    $tester  = new TradePress_Recent_Call_Register_Tests();
+                    $results = $tester->run_phase3_tests();
+                    break;
+
+                default:
+                    throw new Exception( 'Unknown test suite: ' . $test_suite );
+            }
+
+            wp_send_json_success( $results );
+
+        } catch ( Exception $e ) {
+            $this->trace( 'Test Runner: ajax_run_tests error', array( 'error' => $e->getMessage() ) );
+            wp_send_json_error( 'Test execution failed: ' . $e->getMessage() );
+        }
+    }
+
+    /**
+     * AJAX handler for discovering and registering tests from configured directories.
+      *
+      * @version 1.0.0
+     */
+    public function ajax_discover_tests() {
+        $raw_nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+
+        if ( ! wp_verify_nonce( $raw_nonce, 'tradepress_tests' ) ) {
+            wp_send_json_error( 'Security check failed' );
+            return;
+        }
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( 'Insufficient permissions' );
+            return;
+        }
+
+        $directory = sanitize_text_field( wp_unslash( $_POST['directory'] ?? '' ) );
+        $summary   = TradePress_Test_Registry::discover_tests( $directory );
+
+        $this->trace( 'Test Runner: discovery complete', array( 'directory' => $directory, 'summary' => $summary ) );
+
+        wp_send_json_success( $summary );
+    }
+
+    /**
+     * Execute one registered file-based test by ID.
+     *
+     * @param int $test_id
+     * @return array
+     * @throws Exception
+      * @version 1.0.0
+     */
+    private function execute_registered_file_test( $test_id ) {
+        $test = TradePress_Test_Registry::get_test( $test_id );
+        if ( ! $test ) {
+            throw new Exception( 'Test not found: ' . $test_id );
+        }
+
+        if ( 'file' !== $test->test_type ) {
+            throw new Exception( 'Only file tests are supported in this endpoint.' );
+        }
+
+        $class_name = (string) $test->class_name;
+        $file_path  = TRADEPRESS_PLUGIN_DIR_PATH . ltrim( (string) $test->file_path, '/' );
+
+        if ( ! class_exists( $class_name, false ) ) {
+            TradePress_Test_Registry::autoload_registered_test_class( $class_name );
+        }
+
+        if ( ! class_exists( $class_name, false ) ) {
+            if ( ! file_exists( $file_path ) ) {
+                throw new Exception( 'Test file not found: ' . $test->file_path );
+            }
+            require_once $file_path;
+        }
+
+        if ( ! class_exists( $class_name, false ) ) {
+            throw new Exception( 'Test class not found: ' . $class_name );
+        }
+
+        $instance = new $class_name( (int) $test->test_id );
+        if ( ! $instance instanceof TradePress_Test_Case ) {
+            throw new Exception( 'Test class must extend TradePress_Test_Case' );
+        }
+
+        $result = $instance->run_all_tests();
+        $fresh  = TradePress_Test_Registry::get_test( $test_id );
+
+        return array(
+            'test_id' => (int) $test->test_id,
+            'status' => ( ! empty( $result['passed'] ) ? 'passed' : 'failed' ),
+            'success_rate' => $fresh ? (float) $fresh->success_rate : null,
+            'run_count' => $fresh ? (int) $fresh->run_count : null,
+            'results' => $result,
+        );
+    }
+
+    /**
+     * Trace helper with lazy BugNet load.
+     *
+     * @param string $message
+     * @param array  $context
+      * @version 1.0.0
+     */
+    private function trace( $message, $context = array() ) {
+        if ( ! function_exists( 'tradepress_trace_log' ) ) {
+            $bugnet_file = TRADEPRESS_PLUGIN_DIR_PATH . 'includes/bugnet-system/functions.tradepress-bugnet.php';
+            if ( file_exists( $bugnet_file ) ) {
+                require_once $bugnet_file;
+            }
+        }
+
+        if ( function_exists( 'tradepress_trace_log' ) ) {
+            tradepress_trace_log( $message, $context );
+        }
+    }
+
+    /**
      * Run tests programmatically (for AI or automated testing)
+      *
+      * @version 1.0.0
+      *
+      * @param string $test_suite
      */
     public static function run_tests_programmatically($test_suite = 'phase3') {
         switch ($test_suite) {

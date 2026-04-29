@@ -35,6 +35,7 @@ abstract class TradePress_Prediction_Scraper {
      * 
      * @param int $source_id Source ID
      * @param array $config Optional config override
+      * @version 1.0.0
      */
     public function __construct($source_id, $config = null) {
         $this->source_id = $source_id;
@@ -52,6 +53,8 @@ abstract class TradePress_Prediction_Scraper {
     
     /**
      * Load configuration from database
+      *
+      * @version 1.0.0
      */
     protected function load_config() {
         global $wpdb;
@@ -73,6 +76,7 @@ abstract class TradePress_Prediction_Scraper {
      * Check if scraping is allowed for the source
      * 
      * @return bool Whether scraping is allowed
+      * @version 1.0.0
      */
     public function is_scraping_allowed() {
         // Check robots.txt and other restrictions
@@ -83,6 +87,7 @@ abstract class TradePress_Prediction_Scraper {
      * Check robots.txt for the source URL
      * 
      * @return bool Whether allowed by robots.txt
+      * @version 1.0.0
      */
     protected function check_robots_txt() {
         // Implementation to check robots.txt
@@ -92,6 +97,7 @@ abstract class TradePress_Prediction_Scraper {
      * Check if enough time has passed since last scrape
      * 
      * @return bool Whether enough time has passed
+      * @version 1.0.0
      */
     protected function check_last_scrape_time() {
         // Implementation to prevent too frequent requests
@@ -103,6 +109,7 @@ abstract class TradePress_Prediction_Scraper {
      * @param string $status Status of the scrape
      * @param string $notes Additional notes
      * @return bool Success status
+      * @version 1.0.0
      */
     protected function log_scrape($status, $notes = '') {
         // Implementation to log scraping activity

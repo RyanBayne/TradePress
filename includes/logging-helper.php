@@ -16,6 +16,12 @@ class TradePress_Logging_Helper {
     
     /**
      * Log scoring algorithm results
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $strategy_name
+      * @param string $strategy_id
+      * @param array $results
      */
     public static function log_scoring($strategy_name, $strategy_id = 'unknown', $results = array()) {
         if (get_option('bugnet_output_scoring', 'no') !== 'yes') {
@@ -32,6 +38,12 @@ class TradePress_Logging_Helper {
     
     /**
      * Log real trading activities
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $action
+      * @param mixed $symbol
+      * @param array $details
      */
     public static function log_trading($action, $symbol, $details = array()) {
         if (get_option('bugnet_output_trading', 'no') !== 'yes') {
@@ -48,6 +60,12 @@ class TradePress_Logging_Helper {
     
     /**
      * Log paper trading activities
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $action
+      * @param mixed $symbol
+      * @param array $details
      */
     public static function log_paper($action, $symbol, $details = array()) {
         if (get_option('bugnet_output_paper', 'no') !== 'yes') {
@@ -64,6 +82,13 @@ class TradePress_Logging_Helper {
     
     /**
      * Log trading platform API calls
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $platform
+      * @param mixed $reason
+      * @param array $symbols
+      * @param string $result
      */
     public static function log_calls($platform, $reason, $symbols = array(), $result = 'success') {
         if (get_option('bugnet_output_calls', 'no') !== 'yes') {
@@ -78,6 +103,11 @@ class TradePress_Logging_Helper {
     
     /**
      * Write to log file
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $filename
+      * @param mixed $message
      */
     private static function write_log($filename, $message) {
         $file_path = TRADEPRESS_PLUGIN_DIR_PATH . $filename;

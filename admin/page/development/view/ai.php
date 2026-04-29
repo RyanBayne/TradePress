@@ -25,6 +25,8 @@ class TradePress_Admin_Development_AI {
     
     /**
      * Output the AI view
+      *
+      * @version 1.0.0
      */
     public static function output() {
         $ai_notes = self::get_ai_notes();
@@ -71,6 +73,8 @@ class TradePress_Admin_Development_AI {
     
     /**
      * Get AI notes from AI.md
+      *
+      * @version 1.0.0
      */
     private static function get_ai_notes() {
         $ai_path = TRADEPRESS_PLUGIN_DIR . 'docs/AI.md';
@@ -82,6 +86,10 @@ class TradePress_Admin_Development_AI {
     
     /**
      * Convert markdown to HTML
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $markdown
      */
     private static function markdown_to_html($markdown) {
         $html = $markdown;

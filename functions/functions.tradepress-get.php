@@ -52,6 +52,7 @@ function TradePress_get_ip_address() {
  * @param $matchSymbols - [bool] Sets the search to look for symbols in the value
  * 
  * @return $value - [string] The string value of that parameter searched for
+  * @version 1.0.0
  */ 
 function TradePress_getURLParamValue($url, $param, $maxMatchLength = 40, $matchSymbols = false){
     if ($matchSymbols){
@@ -92,6 +93,7 @@ function TradePress_getURLParamValue($url, $param, $maxMatchLength = 40, $matchS
 * @param $matchSymbols - [bool] Sets the search to look for symbols in the value
 * 
 * @return $parameters - [array] A keyed array of all values returned, key is param
+ * @version 1.0.0
 */
 function TradePress_getURLParams( $url, $maxMatchLength = 40, $matchSymbols = false ){
     if ($matchSymbols){
@@ -116,6 +118,15 @@ function TradePress_getURLParams( $url, $maxMatchLength = 40, $matchSymbols = fa
     return $parameters;
 }
 
+/**
+ * Get users subscription status.
+ *
+ * @param mixed $wp_user_id
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_get_users_subscription_status( $wp_user_id ) {
     return get_user_meta( $wp_user_id, 'TradePress_substatus_mainchannel', true );    
 }
@@ -135,6 +146,15 @@ function TradePress_get_users_sub_plan_name( $wp_user_id ) {
     return get_user_meta( $wp_user_id, 'TradePress_sub_plan_name_' . $channel_id, true );
 }
 
+/**
+ * Get users follower status.
+ *
+ * @param mixed $wp_user_id
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_get_users_follower_status( $wp_user_id ) {
     return get_user_meta( $wp_user_id, 'TradePress_follower_status', true );
 }

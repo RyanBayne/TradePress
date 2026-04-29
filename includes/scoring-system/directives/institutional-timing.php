@@ -15,6 +15,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Scoring_Directive_INSTITUTIONAL_TIMING extends TradePress_Scoring_Directive_Base {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         $this->id = 'institutional_timing';
         $this->name = 'Institutional Timing';
@@ -29,6 +34,16 @@ class TradePress_Scoring_Directive_INSTITUTIONAL_TIMING extends TradePress_Scori
         $this->api_cost = 'LOW';
     }
     
+    /**
+     * Calculate score.
+     *
+     * @param mixed $symbol_data
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function calculate_score($symbol_data, $config = array()) {
         $lookback_months = $config['lookback_months'] ?? 6;
         $period_weight = $config['period_weight'] ?? 25;
@@ -152,6 +167,16 @@ class TradePress_Scoring_Directive_INSTITUTIONAL_TIMING extends TradePress_Scori
         );
     }
     
+    /**
+     * Analyze institutional timing.
+     *
+     * @param mixed $historical_data
+     * @param mixed $lookback_months
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function analyze_institutional_timing($historical_data, $lookback_months) {
         $month_end_returns = array();
         $quarter_end_returns = array();
@@ -228,6 +253,15 @@ class TradePress_Scoring_Directive_INSTITUTIONAL_TIMING extends TradePress_Scori
         );
     }
     
+    /**
+     * Calculate flow trend.
+     *
+     * @param mixed $volume_flows
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function calculate_flow_trend($volume_flows) {
         if (empty($volume_flows) || count($volume_flows) < 10) {
             return 0;
@@ -248,6 +282,15 @@ class TradePress_Scoring_Directive_INSTITUTIONAL_TIMING extends TradePress_Scori
         return $flow_score / count($recent_flows);
     }
     
+    /**
+     * Calculate rebalancing pressure.
+     *
+     * @param mixed $historical_data
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function calculate_rebalancing_pressure($historical_data) {
         if (count($historical_data) < 60) {
             return 0;
@@ -265,6 +308,15 @@ class TradePress_Scoring_Directive_INSTITUTIONAL_TIMING extends TradePress_Scori
         return ($older_return - $recent_return) / 10; // Normalized
     }
     
+    /**
+     * Calculate current period position.
+     *
+     * @param mixed $historical_data
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function calculate_current_period_position($historical_data) {
         if (count($historical_data) < 30) {
             return 0.5;
@@ -277,6 +329,15 @@ class TradePress_Scoring_Directive_INSTITUTIONAL_TIMING extends TradePress_Scori
         return max(0, min(1, ($month_return + 10) / 20));
     }
     
+    /**
+     * Calculate period return.
+     *
+     * @param mixed $data
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function calculate_period_return($data) {
         if (count($data) < 2) {
             return 0;
@@ -292,12 +353,30 @@ class TradePress_Scoring_Directive_INSTITUTIONAL_TIMING extends TradePress_Scori
         return (($end_price - $start_price) / $start_price) * 100;
     }
     
+    /**
+     * Days to month end.
+     *
+     * @param mixed $date
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function days_to_month_end($date) {
         $month_end = clone $date;
         $month_end->modify('last day of this month');
         return $date->diff($month_end)->days;
     }
     
+    /**
+     * Days to quarter end.
+     *
+     * @param mixed $date
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function days_to_quarter_end($date) {
         $quarter = ceil($date->format('n') / 3);
         $quarter_end_month = $quarter * 3;
@@ -309,10 +388,28 @@ class TradePress_Scoring_Directive_INSTITUTIONAL_TIMING extends TradePress_Scori
         return $date->diff($quarter_end)->days;
     }
     
+    /**
+     * Get max score.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_max_score($config = array()) {
         return 100;
     }
     
+    /**
+     * Get explanation.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_explanation($config = array()) {
         $lookback_months = $config['lookback_months'] ?? 6;
         $period_weight = $config['period_weight'] ?? 25;

@@ -19,45 +19,46 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Enqueue the configure-directives CSS for consistent layout
-wp_enqueue_style('tradepress-configure-directives', TRADEPRESS_PLUGIN_URL . 'assets/css/pages/configure-directives.css', array(), TRADEPRESS_VERSION);
-
 /**
  * Get the latest record from a table
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $table_name
  */
 function tradepress_get_latest_table_record($table_name) {
     global $wpdb;
-    
+
+    $safe_table = esc_sql( $table_name );
+
     // Get the latest record (assuming most tables have an ID or timestamp column)
     $record = $wpdb->get_row(
-        $wpdb->prepare(
-            "SELECT * FROM `%s` ORDER BY id DESC LIMIT 1",
-            $table_name
-        ),
+        "SELECT * FROM `{$safe_table}` ORDER BY id DESC LIMIT 1",
         ARRAY_A
     );
-    
+
     // If no ID column, try common timestamp columns
     if (!$record) {
-        $timestamp_columns = ['created_at', 'updated_at', 'date_created', 'timestamp'];
-        foreach ($timestamp_columns as $col) {
+        $allowed_columns = array( 'created_at', 'updated_at', 'date_created', 'timestamp' );
+        foreach ($allowed_columns as $col) {
+            $safe_col = esc_sql( $col );
             $record = $wpdb->get_row(
-                $wpdb->prepare(
-                    "SELECT * FROM `%s` ORDER BY `%s` DESC LIMIT 1",
-                    $table_name,
-                    $col
-                ),
+                "SELECT * FROM `{$safe_table}` ORDER BY `{$safe_col}` DESC LIMIT 1",
                 ARRAY_A
             );
             if ($record) break;
         }
     }
-    
+
     return $record;
 }
 
 /**
  * Display record fields in a readable format
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $record
  */
 function tradepress_display_record_fields($record) {
     if (!$record) return;
@@ -83,6 +84,8 @@ function tradepress_display_record_fields($record) {
 
 /**
  * Display the Data Tables tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_data_tables_tab_content() {
     global $wpdb;
@@ -619,6 +622,11 @@ function tradepress_data_tables_tab_content() {
             performSearch();
         });
         
+        /**
+         * Perform search.
+         *
+         * @version 1.0.0
+         */
         function performSearch() {
             var searchTerm = $('#table-search-input').val();
             var url = new URL(window.location);

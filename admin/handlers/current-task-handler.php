@@ -24,6 +24,7 @@ class TradePress_Current_Task_Handler {
      * Initialize the handler
      * 
      * @return void
+      * @version 1.0.0
      */
     public static function init() {
         // Register POST handlers
@@ -37,6 +38,7 @@ class TradePress_Current_Task_Handler {
      * Handle selecting a current task
      * 
      * @return void
+      * @version 1.0.0
      */
     public static function handle_select_current_task() {
         if (!isset($_POST['task_id']) || empty($_POST['task_id'])) {
@@ -80,6 +82,7 @@ class TradePress_Current_Task_Handler {
      * Handle updating task working notes
      * 
      * @return void
+      * @version 1.0.0
      */
     public static function handle_update_working_notes() {
         if (!isset($_POST['task_id']) || empty($_POST['task_id']) || !isset($_POST['working_notes'])) {
@@ -115,6 +118,7 @@ class TradePress_Current_Task_Handler {
      * Handle updating subtasks
      * 
      * @return void
+      * @version 1.0.0
      */
     public static function handle_update_subtasks() {
         if (!isset($_POST['task_id']) || empty($_POST['task_id'])) {
@@ -155,6 +159,7 @@ class TradePress_Current_Task_Handler {
      * Handle updating task status
      * 
      * @return void
+      * @version 1.0.0
      */
     public static function handle_update_task_status() {
         if (!isset($_POST['task_id']) || empty($_POST['task_id'])) {
@@ -226,6 +231,7 @@ class TradePress_Current_Task_Handler {
      *
      * @param array $task Task data
      * @return bool Success status
+      * @version 1.0.0
      */
     private static function update_task_history($task) {
         // Simplify the task data for history
@@ -262,6 +268,7 @@ class TradePress_Current_Task_Handler {
      * @param string $type Notice type (success, error, warning, info)
      * @param string $message Notice message
      * @return void
+      * @version 1.0.0
      */
     private static function add_admin_notice($type, $message) {
         // Store the notice in a transient

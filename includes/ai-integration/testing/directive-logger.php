@@ -7,6 +7,10 @@ class TradePress_Directive_Logger {
     
     /**
      * Simple log method for directive calculations
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $message
      */
     public static function log($message) {
         if (get_option('bugnet_output_directives') !== 'yes') {
@@ -17,11 +21,17 @@ class TradePress_Directive_Logger {
         $timestamp = current_time('Y-m-d H:i:s');
         $log_entry = "[{$timestamp}] {$message}\n";
         
-        error_log($log_entry, 3, $log_file);
     }
     
     /**
      * Log directive test result to directives.log
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
+      * @param mixed $symbol
+      * @param mixed $test_result
+      * @param mixed $symbol_data
      */
     public static function log_test($directive_id, $symbol, $test_result, $symbol_data = null) {
         if (get_option('bugnet_output_directives') !== 'yes') {
@@ -58,11 +68,16 @@ class TradePress_Directive_Logger {
         
         $log_entry = "[{$timestamp}] {$directive_id} | {$symbol} | {$indicator_data} | Score={$score} | Signal={$signal}\n";
         
-        error_log($log_entry, 3, $log_file);
     }
     
     /**
      * Log validation result
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
+      * @param mixed $symbol
+      * @param mixed $validation_result
      */
     public static function log_validation($directive_id, $symbol, $validation_result) {
         if (get_option('bugnet_output_directives') !== 'yes') {
@@ -78,6 +93,5 @@ class TradePress_Directive_Logger {
         
         $log_entry = "[{$timestamp}] VALIDATION | {$directive_id} | {$symbol} | Status={$status} | Confidence={$confidence} | Issues={$issues}\n";
         
-        error_log($log_entry, 3, $log_file);
     }
 }

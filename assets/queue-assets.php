@@ -39,6 +39,7 @@ class TradePress_Asset_Queue {
      * @param array  $dependencies Raw dependency names.
      * @param string $asset_type   Component or layout dependency context.
      * @return array
+      * @version 1.0.0
      */
     private function normalize_style_dependencies($dependencies, $asset_type = 'component') {
         $normalized = array();
@@ -67,6 +68,8 @@ class TradePress_Asset_Queue {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Initialize asset manager
@@ -86,6 +89,8 @@ class TradePress_Asset_Queue {
     
     /**
      * Detect current page and tab context
+      *
+      * @version 1.0.0
      */
     private function detect_current_context() {
         $this->current_page = isset($_GET['page']) ? sanitize_text_field($_GET['page']) : '';
@@ -94,21 +99,38 @@ class TradePress_Asset_Queue {
     
     /**
      * Main asset enqueueing method
+      *
+      * @version 1.0.0
      */
     public function enqueue_assets() {
         // Always load CSS variables first on admin pages
         if (is_admin()) {
             $this->enqueue_base_variables();
         }
+
+        // Test Runner page assets.
+        if ($this->current_page === 'tradepress-tests') {
+            $this->enqueue_test_runner_assets();
+        }
         
         // UI Library specific assets
         if ($this->current_page === 'tradepress_development' && $this->current_tab === 'ui_library') {
             $this->enqueue_ui_library_assets();
         }
+
+        // Configure directives CSS — shared by the directives, data tables, and endpoints views.
+        if (
+            ( $this->current_page === 'tradepress_scoring_directives' ) ||
+            ( $this->current_page === 'tradepress_data' && in_array( $this->current_tab, array( 'tables', 'api_endpoints' ), true ) )
+        ) {
+            $this->enqueue_configure_directives_assets();
+        }
     }
     
     /**
      * Enqueue base CSS variables
+      *
+      * @version 1.0.0
      */
     private function enqueue_base_variables() {
         wp_enqueue_style(
@@ -122,11 +144,12 @@ class TradePress_Asset_Queue {
     
     /**
      * Enqueue UI Library specific assets
+      *
+      * @version 1.0.0
      */
     private function enqueue_ui_library_assets() {
         // Use the asset manager to get available assets
         if (!$this->asset_manager) {
-            error_log('TradePress: Asset manager not available');
             return;
         }
         
@@ -180,16 +203,22 @@ class TradePress_Asset_Queue {
             $asset = $page_assets['ui-library'];
             $asset_url = TRADEPRESS_PLUGIN_URL . 'assets/' . $asset['path'];
             $asset_path = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/' . $asset['path'];
+            $version = file_exists($asset_path) ? (string) filemtime($asset_path) : TRADEPRESS_VERSION;
             
             if (file_exists($asset_path)) {
-                wp_enqueue_style(
+                if (wp_style_is('tradepress-ui-library-page', 'registered')) {
+                    wp_deregister_style('tradepress-ui-library-page');
+                }
+
+                wp_register_style(
                     'tradepress-ui-library-page',
                     $asset_url,
                     array('tradepress-variables', 'tradepress-component-buttons', 'tradepress-component-forms', 'tradepress-component-modals'),
-                    TRADEPRESS_VERSION
+                    $version
                 );
+
+                wp_enqueue_style('tradepress-ui-library-page');
             } else {
-                error_log('TradePress: UI Library CSS file not found at: ' . $asset_path);
             }
         }
         
@@ -199,15 +228,22 @@ class TradePress_Asset_Queue {
             $asset = $js_assets['ui-library'];
             $asset_url = TRADEPRESS_PLUGIN_URL . 'assets/' . $asset['path'];
             $asset_path = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/' . $asset['path'];
+            $version = file_exists($asset_path) ? (string) filemtime($asset_path) : TRADEPRESS_VERSION;
             
             if (file_exists($asset_path)) {
-                wp_enqueue_script(
+                if (wp_script_is('tradepress-ui-library-js', 'registered')) {
+                    wp_deregister_script('tradepress-ui-library-js');
+                }
+
+                wp_register_script(
                     'tradepress-ui-library-js',
                     $asset_url,
                     array('jquery'),
-                    TRADEPRESS_VERSION,
+                    $version,
                     true
                 );
+
+                wp_enqueue_script('tradepress-ui-library-js');
             }
         }
         
@@ -216,21 +252,90 @@ class TradePress_Asset_Queue {
             $asset = $js_assets['ui-library-animations'];
             $asset_url = TRADEPRESS_PLUGIN_URL . 'assets/' . $asset['path'];
             $asset_path = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/' . $asset['path'];
+            $version = file_exists($asset_path) ? (string) filemtime($asset_path) : TRADEPRESS_VERSION;
             
             if (file_exists($asset_path)) {
-                wp_enqueue_script(
+                if (wp_script_is('tradepress-ui-library-animations-js', 'registered')) {
+                    wp_deregister_script('tradepress-ui-library-animations-js');
+                }
+
+                wp_register_script(
                     'tradepress-ui-library-animations-js',
                     $asset_url,
                     array('jquery'),
-                    TRADEPRESS_VERSION,
+                    $version,
                     true
                 );
+
+                wp_enqueue_script('tradepress-ui-library-animations-js');
             }
         }
         
         // Add debugging information
         if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('TradePress: UI Library assets enqueued for page: ' . $this->current_page . ' tab: ' . $this->current_tab);
+        }
+    }
+
+    /**
+     * Enqueue configure-directives page CSS.
+     *
+     * Shared by the scoring directives page and the data tables/endpoints tabs.
+     * Centralised here so view files do not need direct enqueue calls.
+     *
+     * @version 1.0.7
+     */
+    private function enqueue_configure_directives_assets() {
+        wp_enqueue_style(
+            'tradepress-configure-directives',
+            TRADEPRESS_PLUGIN_URL . 'assets/css/pages/configure-directives.css',
+            array(),
+            TRADEPRESS_VERSION
+        );
+    }
+
+    /**
+     * Enqueue TradePress Testing page assets.
+      *
+      * @version 1.0.0
+     */
+    private function enqueue_test_runner_assets() {
+        if (!$this->asset_manager) {
+            return;
+        }
+
+        $js_assets = $this->asset_manager->get_all_assets('js');
+        if (isset($js_assets['test-runner'])) {
+            $asset = $js_assets['test-runner'];
+            $asset_url = TRADEPRESS_PLUGIN_URL . 'assets/' . $asset['path'];
+            $asset_path = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/' . $asset['path'];
+            $version = file_exists($asset_path) ? (string) filemtime($asset_path) : TRADEPRESS_VERSION;
+
+            if (file_exists($asset_path)) {
+                wp_enqueue_script(
+                    'tradepress-test-runner',
+                    $asset_url,
+                    array('jquery'),
+                    $version,
+                    true
+                );
+            }
+        }
+
+        $style_assets = $this->asset_manager->get_all_assets('css');
+        if (isset($style_assets['test-runner'])) {
+            $asset = $style_assets['test-runner'];
+            $asset_url = TRADEPRESS_PLUGIN_URL . 'assets/' . $asset['path'];
+            $asset_path = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/' . $asset['path'];
+            $version = file_exists($asset_path) ? (string) filemtime($asset_path) : TRADEPRESS_VERSION;
+
+            if (file_exists($asset_path)) {
+                wp_enqueue_style(
+                    'tradepress-test-styles',
+                    $asset_url,
+                    array(),
+                    $version
+                );
+            }
         }
     }
 }
@@ -240,6 +345,13 @@ if (!class_exists('TradePress_Asset_Queue_Instance')) {
     class TradePress_Asset_Queue_Instance {
         private static $instance = null;
         
+        /**
+         * Get instance.
+         *
+         * @return mixed
+         *
+         * @version 1.0.0
+         */
         public static function get_instance() {
             if (self::$instance === null) {
                 self::$instance = new TradePress_Asset_Queue();

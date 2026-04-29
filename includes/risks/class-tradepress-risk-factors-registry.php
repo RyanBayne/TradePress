@@ -48,6 +48,7 @@ class TradePress_Risk_Factors_Registry {
      * Ensures only one instance of TradePress Risk Factors Registry is loaded or can be loaded.
      *
      * @return TradePress_Risk_Factors_Registry - Main instance.
+      * @version 1.0.0
      */
     public static function get_instance() {
         if ( is_null( self::$instance ) ) {
@@ -58,6 +59,8 @@ class TradePress_Risk_Factors_Registry {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->initialize_risk_factors();
@@ -72,6 +75,8 @@ class TradePress_Risk_Factors_Registry {
     
     /**
      * Initialize default risk factors
+      *
+      * @version 1.0.0
      */
     private function initialize_risk_factors() {
         // Get stored risk factors from database
@@ -119,6 +124,8 @@ class TradePress_Risk_Factors_Registry {
     
     /**
      * Initialize sector risk ratings
+      *
+      * @version 1.0.0
      */
     private function initialize_sector_ratings() {
         // Get stored sector ratings from database
@@ -145,6 +152,8 @@ class TradePress_Risk_Factors_Registry {
     
     /**
      * Schedule daily refresh of risk factors
+      *
+      * @version 1.0.0
      */
     public function schedule_risk_factors_refresh() {
         if (!wp_next_scheduled('tradepress_refresh_risk_factors')) {
@@ -154,6 +163,8 @@ class TradePress_Risk_Factors_Registry {
     
     /**
      * Refresh risk factors based on current market conditions
+      *
+      * @version 1.0.0
      */
     public function refresh_risk_factors() {
         // Update sector risk ratings based on recent performance
@@ -169,6 +180,8 @@ class TradePress_Risk_Factors_Registry {
     
     /**
      * Update sector risk ratings based on market conditions
+      *
+      * @version 1.0.0
      */
     private function update_sector_ratings() {
         // Implementation would analyze recent sector performance and volatility
@@ -218,6 +231,8 @@ class TradePress_Risk_Factors_Registry {
     
     /**
      * Update volatility thresholds based on recent market data
+      *
+      * @version 1.0.0
      */
     private function update_volatility_thresholds() {
         // Implementation would analyze recent market volatility
@@ -260,6 +275,7 @@ class TradePress_Risk_Factors_Registry {
      * @param string $category Risk factor category
      * @param string $factor Risk factor name
      * @return mixed Risk factor value or null if not found
+      * @version 1.0.0
      */
     public function get_risk_factor($category, $factor) {
         if (isset($this->risk_factors[$category][$factor])) {
@@ -275,6 +291,7 @@ class TradePress_Risk_Factors_Registry {
      * @param string $factor Risk factor name
      * @param mixed $value Risk factor value
      * @return void
+      * @version 1.0.0
      */
     public function set_risk_factor($category, $factor, $value) {
         if (!isset($this->risk_factors[$category])) {
@@ -291,6 +308,7 @@ class TradePress_Risk_Factors_Registry {
      * Get all risk factors
      *
      * @return array All risk factors
+      * @version 1.0.0
      */
     public function get_all_risk_factors() {
         return $this->risk_factors;
@@ -301,6 +319,7 @@ class TradePress_Risk_Factors_Registry {
      *
      * @param string $category Risk factor category
      * @return array|null Risk factors for category or null if not found
+      * @version 1.0.0
      */
     public function get_category_risk_factors($category) {
         if (isset($this->risk_factors[$category])) {
@@ -314,6 +333,7 @@ class TradePress_Risk_Factors_Registry {
      *
      * @param string $sector Sector name
      * @return float Risk rating (0-1) or 0.5 if not found
+      * @version 1.0.0
      */
     public function get_sector_risk_rating($sector) {
         if (isset($this->sector_ratings[$sector])) {
@@ -328,6 +348,7 @@ class TradePress_Risk_Factors_Registry {
      * @param string $sector Sector name
      * @param float $rating Risk rating (0-1)
      * @return void
+      * @version 1.0.0
      */
     public function set_sector_risk_rating($sector, $rating) {
         // Ensure rating is between 0 and 1
@@ -343,6 +364,7 @@ class TradePress_Risk_Factors_Registry {
      * Get all sector risk ratings
      *
      * @return array All sector risk ratings
+      * @version 1.0.0
      */
     public function get_all_sector_risk_ratings() {
         return $this->sector_ratings;

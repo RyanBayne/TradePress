@@ -38,6 +38,8 @@ class TradePress_Admin_Settings_Features {
     
     /**
      * Constructor.
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->id    = 'features';
@@ -56,6 +58,10 @@ class TradePress_Admin_Settings_Features {
 
     /**
      * Enqueue necessary styles and scripts
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $hook
      */
     public function enqueue_assets($hook) {
         // Only load on the right pages
@@ -153,6 +159,11 @@ class TradePress_Admin_Settings_Features {
                     });
                     
                     // Update stats function
+                    /**
+                     * Update stats.
+                     *
+                     * @version 1.0.0
+                     */
                     function updateStats() {
                         var totalFeatures = $(".feature-row").length;
                         var liveFeatures = $(".feature-row.live-status").length;
@@ -184,6 +195,7 @@ class TradePress_Admin_Settings_Features {
      * Get feature page structure data
      * 
      * @return array Array of pages and their features
+      * @version 1.0.0
      */
     protected function get_features_data() {
         return TradePress_Features_Data::get_features_data();
@@ -191,6 +203,8 @@ class TradePress_Admin_Settings_Features {
 
     /**
      * Output the settings
+      *
+      * @version 1.0.0
      */
     public function output() {
         $features = $this->get_features_data();
@@ -319,6 +333,8 @@ class TradePress_Admin_Settings_Features {
 
     /**
      * Save settings
+      *
+      * @version 1.0.0
      */
     public function save() {
         if (!isset($_POST['save']) || $_POST['save'] !== 'save_features') {

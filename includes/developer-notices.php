@@ -19,11 +19,11 @@ class TradePress_Developer_Notices {
      * Check if developer mode is enabled
      * 
      * @return bool True if developer mode is on
+      * @version 1.0.0
      */
     public static function is_developer_mode() {
-        $mode = get_option('tradepress_developer_mode', 'no');
-        error_log('[' . date('Y-m-d H:i:s') . '] Developer mode check: option=' . $mode . ', result=' . ($mode === 'yes' ? 'true' : 'false'), 3, TRADEPRESS_PLUGIN_DIR_PATH . 'trace.log');
-        return $mode === 'yes';
+        $is_developer_mode = function_exists( 'tradepress_is_developer_mode' ) ? tradepress_is_developer_mode() : false;
+        return $is_developer_mode;
     }
     
     /**
@@ -33,12 +33,11 @@ class TradePress_Developer_Notices {
      * @param string $endpoint Endpoint called
      * @param string $symbol Symbol requested
      * @param mixed $result API result
+      * @version 1.0.0
      */
     public static function api_call_notice($provider, $endpoint, $symbol, $result) {
-        error_log('[' . date('Y-m-d H:i:s') . '] API notice called: ' . $provider . ' -> ' . $endpoint . '(' . $symbol . ')', 3, TRADEPRESS_PLUGIN_DIR_PATH . 'trace.log');
         
         if (!self::is_developer_mode() || !is_admin()) {
-            error_log('[' . date('Y-m-d H:i:s') . '] API notice skipped: dev_mode=' . (self::is_developer_mode() ? 'true' : 'false') . ', is_admin=' . (is_admin() ? 'true' : 'false'), 3, TRADEPRESS_PLUGIN_DIR_PATH . 'trace.log');
             return;
         }
         
@@ -59,7 +58,6 @@ class TradePress_Developer_Notices {
             $rate_limit_info
         );
         
-        error_log('[' . date('Y-m-d H:i:s') . '] Adding API notice: ' . $message, 3, TRADEPRESS_PLUGIN_DIR_PATH . 'trace.log');
         add_settings_error('tradepress_directives', 'api_call_' . uniqid(), $message, 'notice-info');
     }
     
@@ -67,6 +65,7 @@ class TradePress_Developer_Notices {
      * Get Alpha Vantage rate limit information
      * 
      * @return string Rate limit info string
+      * @version 1.0.0
      */
     private static function get_alphavantage_rate_limit_info() {
         global $wpdb;
@@ -107,12 +106,11 @@ class TradePress_Developer_Notices {
      * @param string $table Table name
      * @param array $data Data involved (truncated if large)
      * @param mixed $result Operation result
+      * @version 1.0.0
      */
     public static function database_notice($operation, $table, $data = array(), $result = null) {
-        error_log('[' . date('Y-m-d H:i:s') . '] DB notice called: ' . $operation . ' on ' . $table, 3, TRADEPRESS_PLUGIN_DIR_PATH . 'trace.log');
         
         if (!self::is_developer_mode() || !is_admin()) {
-            error_log('[' . date('Y-m-d H:i:s') . '] DB notice skipped: dev_mode=' . (self::is_developer_mode() ? 'true' : 'false') . ', is_admin=' . (is_admin() ? 'true' : 'false'), 3, TRADEPRESS_PLUGIN_DIR_PATH . 'trace.log');
             return;
         }
         
@@ -127,7 +125,6 @@ class TradePress_Developer_Notices {
             $data_summary ? "({$data_summary})" : ''
         );
         
-        error_log('[' . date('Y-m-d H:i:s') . '] Adding DB notice: ' . $message, 3, TRADEPRESS_PLUGIN_DIR_PATH . 'trace.log');
         add_settings_error('tradepress_directives', 'db_op_' . uniqid(), $message, 'notice-info');
     }
     
@@ -136,6 +133,7 @@ class TradePress_Developer_Notices {
      * 
      * @param mixed $data Data to truncate
      * @return string Truncated data summary
+      * @version 1.0.0
      */
     private static function truncate_data($data) {
         if (empty($data)) {
@@ -165,6 +163,7 @@ class TradePress_Developer_Notices {
      * @param string $symbol Symbol being checked
      * @param array $validation Validation results
      * @param array $requirements Freshness requirements
+      * @version 1.0.0
      */
     public static function data_freshness_notice($directive, $symbol, $validation, $requirements) {
         if (!self::is_developer_mode() || !is_admin()) {
@@ -202,6 +201,7 @@ class TradePress_Developer_Notices {
      * @param string $symbol Symbol being checked
      * @param array $cache_result Cache check result
      * @param array $parameters Parameters used for cache key
+      * @version 1.0.0
      */
     public static function cache_check_notice($platform, $method, $symbol, $cache_result, $parameters = array()) {
         if (!self::is_developer_mode() || !is_admin()) {

@@ -48,6 +48,7 @@ class TradePress_Data_Freshness_Manager {
      * @param string $use_case Use case (cfd_trading, swing_trading, etc.)
      * @param array $required_data Types of data needed
      * @return array Validation result with fresh/stale data breakdown
+      * @version 1.0.0
      */
     public static function validate_data_freshness($symbol, $use_case, $required_data = array()) {
         $requirements = self::get_freshness_requirements($use_case);
@@ -86,6 +87,7 @@ class TradePress_Data_Freshness_Manager {
      * @param string $data_type Type of data to check
      * @param array $requirements Freshness requirements
      * @return array Status information
+      * @version 1.0.0
      */
     private static function check_data_type_freshness($symbol, $data_type, $requirements) {
         global $wpdb;
@@ -137,6 +139,7 @@ class TradePress_Data_Freshness_Manager {
      * 
      * @param string $use_case Use case identifier
      * @return array Requirements array
+      * @version 1.0.0
      */
     public static function get_freshness_requirements($use_case) {
         return isset(self::$freshness_requirements[$use_case]) 
@@ -151,6 +154,7 @@ class TradePress_Data_Freshness_Manager {
      * @param array $data_types Types of data to update
      * @param bool $force_api Force API call even if data exists
      * @return array Update results
+      * @version 1.0.0
      */
     public static function trigger_data_update($symbol, $data_types, $force_api = false) {
         // Load required classes
@@ -190,6 +194,7 @@ class TradePress_Data_Freshness_Manager {
      * 
      * @param string $symbol Symbol ticker
      * @return object Symbol object
+      * @version 1.0.0
      */
     private static function get_or_create_symbol_object($symbol) {
         $registry_key = 'symbol_' . $symbol;
@@ -220,6 +225,7 @@ class TradePress_Data_Freshness_Manager {
      * @param string $data_type Data type to update
      * @param bool $force_api Force API call
      * @return array Update result
+      * @version 1.0.0
      */
     private static function update_data_type($symbol_obj, $data_type, $force_api = false) {
         // Load required classes
@@ -264,6 +270,7 @@ class TradePress_Data_Freshness_Manager {
      * @param object $symbol_obj Symbol object
      * @param bool $force_api Force API call
      * @return array Update result
+      * @version 1.0.0
      */
     private static function update_price_data($symbol_obj, $force_api = false) {
         // Load API factory if not available
@@ -354,6 +361,7 @@ class TradePress_Data_Freshness_Manager {
      * @param string $symbol Symbol ticker
      * @param array $quote_data Quote data from API
      * @return bool Success status
+      * @version 1.0.0
      */
     private static function store_price_data($symbol, $quote_data) {
         global $wpdb;
@@ -379,6 +387,7 @@ class TradePress_Data_Freshness_Manager {
      * @param object $symbol_obj Symbol object
      * @param bool $force_api Force API call
      * @return array Update result
+      * @version 1.0.0
      */
     private static function update_volume_data($symbol_obj, $force_api = false) {
         // Volume data typically comes with price data
@@ -391,6 +400,7 @@ class TradePress_Data_Freshness_Manager {
      * @param object $symbol_obj Symbol object
      * @param bool $force_api Force API call
      * @return array Update result
+      * @version 1.0.0
      */
     private static function update_technical_indicators($symbol_obj, $force_api = false) {
         // For now, return development notice
@@ -410,6 +420,7 @@ class TradePress_Data_Freshness_Manager {
      * @param string $use_case Use case for freshness requirements
      * @param array $required_data Required data types
      * @return bool True if update needed
+      * @version 1.0.0
      */
     public static function needs_update($symbol, $use_case, $required_data = array()) {
         $validation = self::validate_data_freshness($symbol, $use_case, $required_data);
@@ -424,6 +435,7 @@ class TradePress_Data_Freshness_Manager {
      * @param array $required_data Required data types
      * @param bool $force_update Force update regardless of freshness
      * @return array Validation and update results
+      * @version 1.0.0
      */
     public static function ensure_data_freshness($symbol, $use_case, $required_data = array(), $force_update = false) {
         // Load required classes

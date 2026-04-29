@@ -96,56 +96,6 @@ defined('ABSPATH') || exit;
             </div>
         </div>
         
-        <!-- Read-Only Notes Display -->
-        <div class="component-demo">
-            <h4><?php esc_html_e('Read-Only Notes Display', 'tradepress'); ?></h4>
-            <div class="working-notes-display">
-                <h3><?php esc_html_e('Trade Analysis - AAPL', 'tradepress'); ?></h3>
-                <p><strong><?php esc_html_e('Entry Point:', 'tradepress'); ?></strong> <?php esc_html_e('$150.25 on 2023-05-15', 'tradepress'); ?></p>
-                <p><strong><?php esc_html_e('Exit Point:', 'tradepress'); ?></strong> <?php esc_html_e('$165.75 on 2023-06-02', 'tradepress'); ?></p>
-                <p><strong><?php esc_html_e('Profit/Loss:', 'tradepress'); ?></strong> <span style="color:green">+10.32%</span></p>
-                
-                <h4><?php esc_html_e('Notes', 'tradepress'); ?></h4>
-                <p><?php esc_html_e('Entered after earnings beat and breakout from consolidation pattern. Market conditions were favorable with overall bullish sentiment in tech sector.', 'tradepress'); ?></p>
-                
-                <h4><?php esc_html_e('Lessons Learned', 'tradepress'); ?></h4>
-                <ul>
-                    <li><?php esc_html_e('Could have entered earlier when first signs of accumulation appeared', 'tradepress'); ?></li>
-                    <li><?php esc_html_e('Should have taken partial profits at resistance level around $162', 'tradepress'); ?></li>
-                    <li><?php esc_html_e('Position sizing was appropriate for account size', 'tradepress'); ?></li>
-                </ul>
-                
-                <blockquote>
-                    <?php esc_html_e('Remember to always check the overall market context before entering trades in individual stocks.', 'tradepress'); ?>
-                </blockquote>
-            </div>
-        </div>
-        
-        <!-- Notes with Tags -->
-        <div class="component-demo">
-            <h4><?php esc_html_e('Notes with Tags', 'tradepress'); ?></h4>
-            <div class="working-notes-container">
-                <div class="working-notes-header">
-                    <h5 class="working-notes-title"><?php esc_html_e('Trading Journal Entry', 'tradepress'); ?></h5>
-                </div>
-                <div class="working-notes-editor">
-                    <div class="working-notes-tags">
-                        <span class="working-notes-tag-label"><?php esc_html_e('Tags:', 'tradepress'); ?></span>
-                        <div class="working-notes-tag"><?php esc_html_e('Breakout', 'tradepress'); ?> <span class="working-notes-tag-remove">×</span></div>
-                        <div class="working-notes-tag"><?php esc_html_e('Swing Trade', 'tradepress'); ?> <span class="working-notes-tag-remove">×</span></div>
-                        <div class="working-notes-tag"><?php esc_html_e('Technology', 'tradepress'); ?> <span class="working-notes-tag-remove">×</span></div>
-                        <input type="text" class="working-notes-tag-input" placeholder="<?php esc_attr_e('Add tag...', 'tradepress'); ?>" />
-                    </div>
-                    <textarea class="working-notes-textarea" placeholder="<?php esc_attr_e('Enter your journal entry...', 'tradepress'); ?>"></textarea>
-                </div>
-                <div class="working-notes-footer">
-                    <div class="working-notes-buttons">
-                        <button class="tp-button tp-button-secondary"><?php esc_html_e('Cancel', 'tradepress'); ?></button>
-                        <button class="tp-button tp-button-primary"><?php esc_html_e('Save Entry', 'tradepress'); ?></button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
     <?php

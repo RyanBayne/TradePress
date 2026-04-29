@@ -23,6 +23,8 @@ class TradePress_Admin_Automation_AJAX {
 
     /**
      * Initialize AJAX handlers
+      *
+      * @version 1.0.0
      */
     public static function init() {
         // Add AJAX actions - only for authenticated users with proper capabilities
@@ -33,6 +35,8 @@ class TradePress_Admin_Automation_AJAX {
 
     /**
      * Update ISA Reset scoring directive settings
+      *
+      * @version 1.0.0
      */
     public static function update_isa_reset_directive() {
         // Check nonce
@@ -91,6 +95,8 @@ class TradePress_Admin_Automation_AJAX {
 
     /**
      * Toggle directive active status
+      *
+      * @version 1.0.0
      */
     public static function toggle_directive_status() {
         // Check nonce

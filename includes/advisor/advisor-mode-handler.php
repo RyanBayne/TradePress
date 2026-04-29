@@ -18,6 +18,7 @@ class TradePress_Advisor_Mode_Handler {
      * Get available advisor modes
      *
      * @return array Available modes with configurations
+      * @version 1.0.0
      */
     public function get_available_modes() {
         return array(
@@ -64,6 +65,7 @@ class TradePress_Advisor_Mode_Handler {
      *
      * @param string $mode Mode identifier
      * @return bool Success status
+      * @version 1.0.0
      */
     public function set_mode( $mode ) {
         $available_modes = $this->get_available_modes();
@@ -81,6 +83,7 @@ class TradePress_Advisor_Mode_Handler {
      *
      * @param string $mode Mode identifier
      * @return array Array of step numbers for the mode
+      * @version 1.0.0
      */
     public function get_mode_steps( $mode ) {
         $available_modes = $this->get_available_modes();
@@ -97,6 +100,7 @@ class TradePress_Advisor_Mode_Handler {
      *
      * @param string $mode Mode identifier
      * @return array Mode configuration
+      * @version 1.0.0
      */
     public function get_mode_settings( $mode ) {
         $available_modes = $this->get_available_modes();
@@ -109,6 +113,7 @@ class TradePress_Advisor_Mode_Handler {
      *
      * @param string $mode Mode identifier
      * @return string Mode display name
+      * @version 1.0.0
      */
     public function get_mode_title( $mode ) {
         $settings = $this->get_mode_settings( $mode );
@@ -120,6 +125,7 @@ class TradePress_Advisor_Mode_Handler {
      *
      * @param string $mode Mode identifier
      * @return bool True if mode is available
+      * @version 1.0.0
      */
     public function is_mode_available( $mode ) {
         $available_modes = $this->get_available_modes();
@@ -132,6 +138,7 @@ class TradePress_Advisor_Mode_Handler {
      * @param string $mode Mode identifier
      * @param int    $step Step number
      * @return string Step title
+      * @version 1.0.0
      */
     public function get_step_title( $mode, $step ) {
         $step_titles = array(

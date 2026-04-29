@@ -25,6 +25,8 @@ class TradePress_Admin_Automation {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Initialize logger
@@ -51,6 +53,8 @@ class TradePress_Admin_Automation {
     
     /**
      * Add admin menu item
+      *
+      * @version 1.0.0
      */
     public function add_menu_item() {
         $automation_page = add_submenu_page(
@@ -68,6 +72,8 @@ class TradePress_Admin_Automation {
     
     /**
      * Register scripts and styles
+      *
+      * @version 1.0.0
      */
     public function register_scripts() {
         wp_register_style(
@@ -88,6 +94,8 @@ class TradePress_Admin_Automation {
     
     /**
      * Load scripts for the automation page
+      *
+      * @version 1.0.0
      */
     public function load_scripts() {
         wp_enqueue_style('tradepress-admin-automation');
@@ -114,6 +122,8 @@ class TradePress_Admin_Automation {
     
     /**
      * Render the automation admin page
+      *
+      * @version 1.0.0
      */
     public function render_automation_page() {
         include_once(TRADEPRESS_PLUGIN_DIR_PATH . 'admin/views/automation-dashboard.php');
@@ -124,6 +134,7 @@ class TradePress_Admin_Automation {
      *
      * @param array $schedules Existing cron schedules
      * @return array Modified cron schedules
+      * @version 1.0.0
      */
     public function add_cron_schedules($schedules) {
         // Add a 15-minute schedule
@@ -143,6 +154,8 @@ class TradePress_Admin_Automation {
     
     /**
      * Cron callback to run the algorithm
+      *
+      * @version 1.0.0
      */
     public function cron_run_algorithm() {
         $this->logger->info('Cron job triggered algorithm run', TradePress_Logger::CAT_ALGORITHM);
@@ -171,6 +184,7 @@ class TradePress_Admin_Automation {
      * Check if the algorithm should run based on schedule settings
      *
      * @return bool Whether the algorithm should run
+      * @version 1.0.0
      */
     private function should_run_algorithm() {
         $schedule_type = get_option('tradepress_schedule_type', 'manual');
@@ -216,6 +230,8 @@ class TradePress_Admin_Automation {
     
     /**
      * AJAX handler for refreshing diagnostic information
+      *
+      * @version 1.0.0
      */
     public function ajax_refresh_diagnostics() {
         check_ajax_referer('tradepress_diagnostics', 'security');
@@ -233,6 +249,8 @@ class TradePress_Admin_Automation {
     
     /**
      * AJAX handler for starting the algorithm
+      *
+      * @version 1.0.0
      */
     public function ajax_start_algorithm() {
         check_ajax_referer('tradepress_algorithm_control', 'security');
@@ -257,6 +275,8 @@ class TradePress_Admin_Automation {
     
     /**
      * AJAX handler for stopping the algorithm
+      *
+      * @version 1.0.0
      */
     public function ajax_stop_algorithm() {
         check_ajax_referer('tradepress_algorithm_control', 'security');
@@ -289,6 +309,8 @@ class TradePress_Admin_Automation {
     
     /**
      * AJAX handler for saving the schedule
+      *
+      * @version 1.0.0
      */
     public function ajax_save_schedule() {
         check_ajax_referer('tradepress_save_schedule', 'security');
@@ -356,6 +378,7 @@ class TradePress_Admin_Automation {
      *
      * @param string $schedule Schedule type ('hourly', 'daily', 'tradepress_market_hours', etc.)
      * @param string $time Optional time for daily schedule (format: 'HH:MM')
+      * @version 1.0.0
      */
     private function update_cron_schedule($schedule, $time = null) {
         // Clear existing schedules
@@ -383,6 +406,8 @@ class TradePress_Admin_Automation {
     
     /**
      * Clear all algorithm cron schedules
+      *
+      * @version 1.0.0
      */
     private function clear_cron_schedules() {
         $timestamp = wp_next_scheduled('tradepress_run_algorithm');
@@ -396,6 +421,8 @@ class TradePress_Admin_Automation {
      * 
      * This is a placeholder method that would actually run your algorithm
      * in a real implementation
+      *
+      * @version 1.0.0
      */
     private function run_algorithm_process() {
         // Log the start of the algorithm
@@ -429,6 +456,8 @@ class TradePress_Admin_Automation {
      * 
      * This is a placeholder method that would actually stop your algorithm
      * in a real implementation
+      *
+      * @version 1.0.0
      */
     private function stop_algorithm_process() {
         // Log the stopping of the algorithm
@@ -445,6 +474,8 @@ class TradePress_Admin_Automation {
      * Simulate algorithm activity for demonstration purposes
      * 
      * This is only used for testing and would not be part of a real implementation
+      *
+      * @version 1.0.0
      */
     private function simulate_algorithm_activity() {
         // Log some sample messages
@@ -477,6 +508,7 @@ class TradePress_Admin_Automation {
      * Get diagnostic data for the dashboard
      *
      * @return array Diagnostic data
+      * @version 1.0.0
      */
     private function get_diagnostic_data() {
         // Get log entries

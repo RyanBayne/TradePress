@@ -7,6 +7,12 @@ class TradePress_AI_Directive_Validator {
     
     /**
      * Validate directive test results with AI analysis
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
+      * @param mixed $test_result
+      * @param mixed $symbol_data
      */
     public static function validate_test_result($directive_id, $test_result, $symbol_data) {
         $validation = array(
@@ -34,6 +40,12 @@ class TradePress_AI_Directive_Validator {
     
     /**
      * Validate ADX directive results
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $validation
+      * @param mixed $test_result
+      * @param mixed $symbol_data
      */
     private static function validate_adx($validation, $test_result, $symbol_data) {
         $adx_value = $symbol_data['technical']['adx']['adx'] ?? null;
@@ -60,6 +72,10 @@ class TradePress_AI_Directive_Validator {
     
     /**
      * Get expected ranges for each directive
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
      */
     private static function get_expected_ranges($directive_id) {
         $ranges = array(
@@ -74,6 +90,12 @@ class TradePress_AI_Directive_Validator {
     
     /**
      * Extract actual values from test results
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
+      * @param mixed $test_result
+      * @param mixed $symbol_data
      */
     private static function extract_actual_values($directive_id, $test_result, $symbol_data) {
         return array(

@@ -19,6 +19,8 @@ class TradePress_API_Test_Handler {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Register the AJAX handler
@@ -30,6 +32,8 @@ class TradePress_API_Test_Handler {
     
     /**
      * Enqueue assets for API testing
+      *
+      * @version 1.0.0
      */
     public function enqueue_assets() {
         // Only load assets on relevant admin pages
@@ -43,6 +47,8 @@ class TradePress_API_Test_Handler {
     
     /**
      * Handle API endpoint test AJAX requests
+      *
+      * @version 1.0.0
      */
     public function handle_endpoint_test() {
         // Verify nonce
@@ -109,6 +115,7 @@ class TradePress_API_Test_Handler {
      * @param string $endpoint The endpoint to test
      * @param string $endpoint_key The endpoint key (if different from endpoint)
      * @return array Test result
+      * @version 1.0.0
      */
     private function perform_endpoint_test($platform, $endpoint, $endpoint_key) {
         // Default result structure
@@ -182,6 +189,7 @@ class TradePress_API_Test_Handler {
      * Get the current environment mode (Live or Demo)
      *
      * @return string Environment mode
+      * @version 1.0.0
      */
     private function get_environment_mode() {
         // Check for TRADEPRESS_DEMO_MODE constant first
@@ -207,6 +215,7 @@ class TradePress_API_Test_Handler {
      * @param WP_Error $error The error object
      * @param string $platform_id The platform ID
      * @return string The enhanced error report
+      * @version 1.0.0
      */
     private function generate_enhanced_error_report($tester, $endpoint_details, $error, $platform_id) {
         try {
@@ -232,6 +241,7 @@ class TradePress_API_Test_Handler {
      *
      * @param string $platform_id Platform identifier
      * @return string Trading mode (paper or live)
+      * @version 1.0.0
      */
     private function get_trading_mode($platform_id) {
         return get_option("TradePress_api_{$platform_id}_trading_mode", 'paper');

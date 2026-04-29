@@ -113,6 +113,11 @@ if ( $session_data && ! empty( $session_data['selected_symbols'] ) ) {
 
 
 <script>
+/**
+ * Clear advisor session.
+ *
+ * @version 1.0.0
+ */
 function clearAdvisorSession() {
     if (confirm('<?php esc_html_e( 'Are you sure you want to start over? This will clear all your progress.', 'tradepress' ); ?>')) {
         // AJAX call to clear session

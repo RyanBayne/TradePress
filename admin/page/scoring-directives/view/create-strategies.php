@@ -404,6 +404,11 @@ jQuery(document).ready(function($) {
         }
     });
     
+    /**
+     * Apply template.
+     *
+     * @version 1.0.0
+     */
     function applyTemplate(template) {
         // Update description
         $('#template-description').html(`
@@ -459,6 +464,11 @@ jQuery(document).ready(function($) {
         updateButtons();
     }
     
+    /**
+     * Clear template.
+     *
+     * @version 1.0.0
+     */
     function clearTemplate() {
         $('#template-description').hide().removeClass('template-description');
         $('.directive-item').removeClass('template-recommended template-disabled');
@@ -504,6 +514,11 @@ jQuery(document).ready(function($) {
         }
     });
     
+    /**
+     * Add directive to strategy.
+     *
+     * @version 1.0.0
+     */
     function addDirectiveToStrategy(id, name) {
         // Get template weight if available
         let weight = 20; // Default weight
@@ -522,6 +537,11 @@ jQuery(document).ready(function($) {
         updateButtons();
     }
     
+    /**
+     * Render strategy directives.
+     *
+     * @version 1.0.0
+     */
     function renderStrategyDirectives() {
         const $dropZone = $('#strategy-drop-zone');
         $dropZone.empty();
@@ -570,6 +590,11 @@ jQuery(document).ready(function($) {
         updateSummary();
     });
     
+    /**
+     * Update summary.
+     *
+     * @version 1.0.0
+     */
     function updateSummary() {
         const totalWeight = strategyDirectives.reduce((sum, d) => sum + d.weight, 0);
         $('#total-weight').text(totalWeight + '%');
@@ -583,6 +608,11 @@ jQuery(document).ready(function($) {
         else $totalWeight.addClass('weight-high');
     }
     
+    /**
+     * Update buttons.
+     *
+     * @version 1.0.0
+     */
     function updateButtons() {
         const hasDirectives = strategyDirectives.length > 0;
         const hasName = $('#strategy-name').val().trim().length > 0;

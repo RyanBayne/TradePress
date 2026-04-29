@@ -16,6 +16,8 @@ class TradePress_Sample_Strategies {
     
     /**
      * Create sample strategies
+      *
+      * @version 1.0.0
      */
     public static function create_sample_strategies() {
         require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-scoring-strategies-db.php';
@@ -38,6 +40,8 @@ class TradePress_Sample_Strategies {
     
     /**
      * Create Conservative Growth Strategy
+      *
+      * @version 1.0.0
      */
     private static function create_conservative_growth_strategy() {
         $strategy_data = array(
@@ -71,6 +75,8 @@ class TradePress_Sample_Strategies {
     
     /**
      * Create Momentum Trading Strategy
+      *
+      * @version 1.0.0
      */
     private static function create_momentum_trading_strategy() {
         $strategy_data = array(
@@ -104,6 +110,8 @@ class TradePress_Sample_Strategies {
     
     /**
      * Create Value + Technical Strategy
+      *
+      * @version 1.0.0
      */
     private static function create_value_technical_strategy() {
         $strategy_data = array(

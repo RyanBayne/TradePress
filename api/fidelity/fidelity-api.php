@@ -120,6 +120,8 @@ class TradePress_Fidelity_API {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $api_settings = get_option('tradepress_api_settings', array());
@@ -132,6 +134,7 @@ class TradePress_Fidelity_API {
      * Get platform metadata
      * 
      * @return array Platform metadata
+      * @version 1.0.0
      */
     public function get_platform_metadata() {
         return $this->platform_metadata;
@@ -142,6 +145,7 @@ class TradePress_Fidelity_API {
      * 
      * @param string $symbol Stock symbol
      * @return array|WP_Error Quote data or error
+      * @version 1.0.0
      */
     public function get_quote($symbol) {
         return $this->make_request("market/quotes/{$symbol}");
@@ -154,6 +158,7 @@ class TradePress_Fidelity_API {
      * @param string $period Time period (1d, 5d, 1mo, etc.)
      * @param string $interval Data interval (1m, 5m, 1h, 1d)
      * @return array|WP_Error Historical data or error
+      * @version 1.0.0
      */
     public function get_historical_data($symbol, $period = '1mo', $interval = '1d') {
         $params = array(
@@ -168,6 +173,7 @@ class TradePress_Fidelity_API {
      * 
      * @param string $account_id Account ID
      * @return array|WP_Error Account balance or error
+      * @version 1.0.0
      */
     public function get_account_balance($account_id = null) {
         if (!$account_id) {
@@ -185,6 +191,7 @@ class TradePress_Fidelity_API {
      * 
      * @param string $account_id Account ID
      * @return array|WP_Error Portfolio positions or error
+      * @version 1.0.0
      */
     public function get_portfolio_positions($account_id = null) {
         if (!$account_id) {
@@ -202,6 +209,7 @@ class TradePress_Fidelity_API {
      * 
      * @param string $account_id Account ID
      * @return array|WP_Error Open orders or error
+      * @version 1.0.0
      */
     public function get_open_orders($account_id = null) {
         if (!$account_id) {
@@ -219,6 +227,7 @@ class TradePress_Fidelity_API {
      * 
      * @param string $query Search query
      * @return array|WP_Error Search results or error
+      * @version 1.0.0
      */
     public function search_symbols($query) {
         return $this->make_request('market/instruments/search', 'GET', array('query' => $query));
@@ -230,6 +239,7 @@ class TradePress_Fidelity_API {
      * @param string $account_id Account ID
      * @param string $watchlist_id Watchlist ID
      * @return array|WP_Error Watchlist symbols or error
+      * @version 1.0.0
      */
     public function get_watchlist_symbols($account_id = null, $watchlist_id = null) {
         if (!$account_id) {
@@ -250,6 +260,7 @@ class TradePress_Fidelity_API {
      * Get account information
      *
      * @return array|WP_Error Account information or error
+      * @version 1.0.0
      */
     public function get_accounts() {
         return $this->make_request('accounts');
@@ -260,6 +271,7 @@ class TradePress_Fidelity_API {
      *
      * @param string $account_id Account ID
      * @return array|WP_Error Positions or error
+      * @version 1.0.0
      */
     public function get_positions($account_id = null) {
         return $this->get_portfolio_positions($account_id);
@@ -273,6 +285,7 @@ class TradePress_Fidelity_API {
      * @param float $quantity Quantity to trade
      * @param string $side Order side (BUY/SELL)
      * @return array|WP_Error Order response or error
+      * @version 1.0.0
      */
     public function place_market_order($account_id, $symbol, $quantity, $side = 'BUY') {
         $params = array(
@@ -291,6 +304,7 @@ class TradePress_Fidelity_API {
      * @param string $account_id Account ID
      * @param string $order_id Order ID to cancel
      * @return array|WP_Error Cancel response or error
+      * @version 1.0.0
      */
     public function cancel_order($account_id, $order_id) {
         return $this->make_request("accounts/{$account_id}/orders/{$order_id}", 'DELETE');
@@ -303,6 +317,7 @@ class TradePress_Fidelity_API {
      * @param string $method HTTP method
      * @param array $params Request parameters
      * @return array|WP_Error Response data or error
+      * @version 1.0.0
      */
     private function make_request($endpoint, $method = 'GET', $params = array()) {
         // Demo mode - return sample data
@@ -362,6 +377,7 @@ class TradePress_Fidelity_API {
      * 
      * @param string $endpoint API endpoint
      * @return array Sample data
+      * @version 1.0.0
      */
     private function get_demo_data($endpoint) {
         if (strpos($endpoint, 'accounts') === 0) {
@@ -410,6 +426,7 @@ class TradePress_Fidelity_API {
      * Get platform capabilities for directive support
      * 
      * @return array Platform capabilities
+      * @version 1.0.0
      */
     public function get_platform_capabilities() {
         return array(

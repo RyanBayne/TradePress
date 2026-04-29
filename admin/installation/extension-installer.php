@@ -19,6 +19,11 @@ if( !class_exists( 'TradePress_Extension_Installer' ) ) :
  */
 class TradePress_Extension_Installer {      
                    
+    /**
+     * I Ni T.
+     *
+     * @version 1.0.0
+     */
     public static function init() {       
         // Reduce this operation to administrators only...
         add_action( 'TradePress_plugin_background_installer', array( __CLASS__, 'background_installer' ), 10, 2 );

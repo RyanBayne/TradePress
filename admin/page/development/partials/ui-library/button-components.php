@@ -8,7 +8,7 @@
 
 defined('ABSPATH') || exit;
 ?>
-<div class="tradepress-ui-section">
+<div class="tradepress-ui-section tradepress-ui-section--buttons">
     <h3><?php esc_html_e('Button Components', 'tradepress'); ?></h3>
     <p><?php esc_html_e('Standard button variations for consistent UI interactions.', 'tradepress'); ?></p>
 
@@ -35,66 +35,42 @@ defined('ABSPATH') || exit;
     </div>
 
     <!-- Icon Buttons -->
-    <div class="tradepress-component-group">
+    <div class="tradepress-component-group tradepress-component-group--icon-buttons">
         <h4><?php esc_html_e('Icon Buttons', 'tradepress'); ?></h4>
         <div class="tradepress-component-showcase">
-            <button class="button button-primary">
+            <button type="button" class="button button-primary tradepress-button-icon">
                 <span class="dashicons dashicons-plus-alt"></span>
                 <?php esc_html_e('Add New', 'tradepress'); ?>
             </button>
-            <button class="button button-secondary">
+            <button type="button" class="button button-secondary tradepress-button-icon">
                 <span class="dashicons dashicons-edit"></span>
                 <?php esc_html_e('Edit', 'tradepress'); ?>
             </button>
-            <button class="button button-secondary">
+            <button type="button" class="button button-secondary tradepress-button-icon">
                 <span class="dashicons dashicons-trash"></span>
                 <?php esc_html_e('Delete', 'tradepress'); ?>
             </button>
-            <button class="button button-secondary">
+            <button type="button" class="button button-secondary tradepress-button-icon">
                 <span class="dashicons dashicons-download"></span>
                 <?php esc_html_e('Download', 'tradepress'); ?>
             </button>
         </div>
     </div>
 
-    <!-- Link Buttons -->
-    <div class="tradepress-component-group">
-        <h4><?php esc_html_e('Link Buttons', 'tradepress'); ?></h4>
-        <div class="tradepress-component-showcase">
-            <button class="button-link"><?php esc_html_e('Link Button', 'tradepress'); ?></button>
-            <button class="button-link-delete"><?php esc_html_e('Delete Link', 'tradepress'); ?></button>
-            <button class="button-link" disabled><?php esc_html_e('Disabled Link', 'tradepress'); ?></button>
-        </div>
-    </div>
-
     <!-- Button Groups -->
-    <div class="tradepress-component-group">
+    <div class="tradepress-component-group tradepress-component-group--button-groups">
         <h4><?php esc_html_e('Button Groups', 'tradepress'); ?></h4>
         <div class="tradepress-component-showcase">
-            <div class="button-group">
-                <button class="button button-secondary"><?php esc_html_e('Left', 'tradepress'); ?></button>
-                <button class="button button-secondary"><?php esc_html_e('Center', 'tradepress'); ?></button>
-                <button class="button button-secondary"><?php esc_html_e('Right', 'tradepress'); ?></button>
+            <div class="tradepress-ui-button-group" role="group" aria-label="<?php esc_attr_e('Button Group Example', 'tradepress'); ?>">
+                <button type="button" class="button button-secondary"><?php esc_html_e('Left', 'tradepress'); ?></button>
+                <button type="button" class="button button-secondary"><?php esc_html_e('Center', 'tradepress'); ?></button>
+                <button type="button" class="button button-secondary"><?php esc_html_e('Right', 'tradepress'); ?></button>
             </div>
         </div>
     </div>
 
-    <!-- API Status Buttons -->
-    <div class="tradepress-component-group">
-        <h4><?php esc_html_e('API Status Buttons', 'tradepress'); ?></h4>
-        <div class="tradepress-component-showcase">
-            <button class="button"><?php esc_html_e('Call Test', 'tradepress'); ?></button>
-            <button class="button"><?php esc_html_e('Query Test', 'tradepress'); ?></button>
-            <button class="button"><?php esc_html_e('Status Details', 'tradepress'); ?></button>
-            <button class="button"><?php esc_html_e('Switch to Paper', 'tradepress'); ?></button>
-            <button class="button"><?php esc_html_e('Switch to Live', 'tradepress'); ?></button>
-            <button class="button"><?php esc_html_e('Enable', 'tradepress'); ?></button>
-            <button class="button"><?php esc_html_e('Disable', 'tradepress'); ?></button>
-        </div>
-    </div>
-
     <!-- Status Badge Buttons -->
-    <div class="tradepress-component-group">
+    <div class="tradepress-component-group tradepress-component-group--status-badges">
         <h4><?php esc_html_e('Status Badge Buttons', 'tradepress'); ?></h4>
         <div class="tradepress-component-showcase">
             <span class="status-badge status-active"><?php esc_html_e('Operational', 'tradepress'); ?></span>

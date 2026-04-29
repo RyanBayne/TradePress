@@ -26,6 +26,8 @@ class TradePress_Shortcode_Trading212 {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Register shortcodes
@@ -41,6 +43,8 @@ class TradePress_Shortcode_Trading212 {
     
     /**
      * Enqueue shortcode scripts and styles
+      *
+      * @version 1.0.0
      */
     public function enqueue_scripts() {
         global $post;
@@ -56,6 +60,7 @@ class TradePress_Shortcode_Trading212 {
      * 
      * @param string $endpoint Endpoint identifier
      * @return array|WP_Error Response data
+      * @version 1.0.0
      */
     private function get_endpoint_data($endpoint) {
         switch ($endpoint) {
@@ -103,6 +108,7 @@ class TradePress_Shortcode_Trading212 {
      * 
      * @param array $atts Shortcode attributes
      * @return string HTML output
+      * @version 1.0.0
      */
     public function shortcode_api_status($atts) {
         $atts = shortcode_atts(array(

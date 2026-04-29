@@ -47,6 +47,7 @@ class TradePress_Step_Wizard {
      *
      * @param string $wizard_id Unique wizard identifier
      * @param array  $steps     Steps configuration
+      * @version 1.0.0
      */
     public function __construct( $wizard_id, $steps = array() ) {
         $this->wizard_id = $wizard_id;
@@ -62,6 +63,7 @@ class TradePress_Step_Wizard {
      * @param string $title       Step title
      * @param string $callback    Callback function to render step content
      * @param array  $options     Additional step options
+      * @version 1.0.0
      */
     public function add_step( $step_number, $title, $callback, $options = array() ) {
         $this->steps[ $step_number ] = array(
@@ -78,6 +80,7 @@ class TradePress_Step_Wizard {
      * Render wizard navigation
      *
      * @return string HTML output
+      * @version 1.0.0
      */
     public function render_navigation() {
         $progress_status = $this->get_progress_status();
@@ -120,6 +123,7 @@ class TradePress_Step_Wizard {
      * Render current step content
      *
      * @return string HTML output
+      * @version 1.0.0
      */
     public function render_current_step() {
         if ( ! $this->validate_step_access( $this->current_step ) ) {
@@ -148,6 +152,7 @@ class TradePress_Step_Wizard {
      *
      * @param array $data Form data
      * @return bool Success status
+      * @version 1.0.0
      */
     public function process_step( $data ) {
         $sanitized_data = $this->sanitize_step_data( $this->current_step, $data );
@@ -171,6 +176,7 @@ class TradePress_Step_Wizard {
      *
      * @param int $step Step number
      * @return bool True if user can access step
+      * @version 1.0.0
      */
     public function validate_step_access( $step ) {
         // Step 1 is always accessible
@@ -186,6 +192,7 @@ class TradePress_Step_Wizard {
      * Get progress status for all steps
      *
      * @return array Progress status array
+      * @version 1.0.0
      */
     public function get_progress_status() {
         $completed_steps = $this->session_data['completed_steps'];
@@ -219,6 +226,7 @@ class TradePress_Step_Wizard {
      *
      * @param int $step_num Step number
      * @return string Step URL
+      * @version 1.0.0
      */
     public function get_step_url( $step_num ) {
         $current_url = remove_query_arg( $this->wizard_id . '_step' );
@@ -229,6 +237,7 @@ class TradePress_Step_Wizard {
      * Clear wizard session
      *
      * @return bool Success status
+      * @version 1.0.0
      */
     public function clear_session() {
         $this->session_data = $this->get_default_session_data();
@@ -238,6 +247,8 @@ class TradePress_Step_Wizard {
 
     /**
      * Load session data
+      *
+      * @version 1.0.0
      */
     private function load_session_data() {
         $session_data = get_transient( $this->get_session_key() );
@@ -253,6 +264,7 @@ class TradePress_Step_Wizard {
      * Save session data
      *
      * @return bool Success status
+      * @version 1.0.0
      */
     private function save_session_data() {
         return set_transient( 
@@ -266,6 +278,7 @@ class TradePress_Step_Wizard {
      * Get session key
      *
      * @return string Session key
+      * @version 1.0.0
      */
     private function get_session_key() {
         return "tradepress_wizard_{$this->wizard_id}_" . get_current_user_id();
@@ -275,6 +288,7 @@ class TradePress_Step_Wizard {
      * Get default session data
      *
      * @return array Default session data
+      * @version 1.0.0
      */
     private function get_default_session_data() {
         return array(
@@ -292,6 +306,7 @@ class TradePress_Step_Wizard {
      * @param int   $step Step number
      * @param array $data Raw form data
      * @return array Sanitized data
+      * @version 1.0.0
      */
     private function sanitize_step_data( $step, $data ) {
         // Basic sanitization - can be overridden by child classes
@@ -312,6 +327,7 @@ class TradePress_Step_Wizard {
      * Get session data
      *
      * @return array Session data
+      * @version 1.0.0
      */
     public function get_session_data() {
         return $this->session_data;
@@ -322,6 +338,7 @@ class TradePress_Step_Wizard {
      *
      * @param int $step Step number
      * @return array|null Step data
+      * @version 1.0.0
      */
     public function get_step_data( $step ) {
         return isset( $this->session_data['steps'][ $step ] ) ? $this->session_data['steps'][ $step ] : null;
@@ -332,6 +349,7 @@ class TradePress_Step_Wizard {
      *
      * @param int $step Step number
      * @return bool True if step is completed
+      * @version 1.0.0
      */
     public function is_step_completed( $step ) {
         return in_array( $step, $this->session_data['completed_steps'] );

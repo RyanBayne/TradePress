@@ -57,6 +57,11 @@ function TradePress_api_version_switch() {
 
 add_action( 'admin_post_TradePress_beta_testing_switch', 'TradePress_beta_testing_switch' );
   
+/**
+ * Beta testing switch.
+ *
+ * @version 1.0.0
+ */
 function TradePress_beta_testing_switch() {
 
     // Only users with the TradePress_developer capability will be allowed to do this...
@@ -105,6 +110,11 @@ function TradePress_beta_testing_switch() {
 
 add_action( 'admin_post_tradepress_reset_setup_wizard_toolbar', 'tradepress_reset_setup_wizard_toolbar' );
 
+/**
+ * Reset setup wizard toolbar.
+ *
+ * @version 1.0.0
+ */
 function tradepress_reset_setup_wizard_toolbar() {
     if( !current_user_can( 'TradePressdevelopertoolbar' ) ) {
         wp_die( esc_html__( 'Insufficient permissions', 'tradepress' ) );
@@ -130,6 +140,11 @@ function tradepress_reset_setup_wizard_toolbar() {
 
 add_action( 'admin_post_tradepress_toggle_developer_mode_toolbar', 'tradepress_toggle_developer_mode_toolbar' );
 
+/**
+ * Toggle developer mode toolbar.
+ *
+ * @version 1.0.0
+ */
 function tradepress_toggle_developer_mode_toolbar() {
     if( !current_user_can( 'TradePressdevelopertoolbar' ) ) {
         wp_die( esc_html__( 'Insufficient permissions', 'tradepress' ) );
@@ -161,6 +176,11 @@ function tradepress_toggle_developer_mode_toolbar() {
 
 add_action( 'admin_post_tradepress_refresh_api_matrix_cache', 'tradepress_refresh_api_matrix_cache' );
 
+/**
+ * Refresh api matrix cache.
+ *
+ * @version 1.0.0
+ */
 function tradepress_refresh_api_matrix_cache() {
     if( !current_user_can( 'TradePressdevelopertoolbar' ) ) {
         wp_die( esc_html__( 'Insufficient permissions', 'tradepress' ) );

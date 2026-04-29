@@ -45,6 +45,7 @@ class TradePress_Research {
      * @since    1.0.0
      * @param    string    $plugin_name    The name of this plugin.
      * @param    string    $version        The version of this plugin.
+      * @version 1.0.0
      */
     public function __construct($plugin_name, $version) {
         $this->plugin_name = $plugin_name;
@@ -56,6 +57,7 @@ class TradePress_Research {
      * Static method to output the research area - moved from TradePress_Admin_Research_Area
      * 
      * @since    1.1.0
+      * @version 1.0.0
      */
     public static function output() {
         // Instantiate the Research class
@@ -104,6 +106,7 @@ class TradePress_Research {
      * Set up screen options - implemented from reference in the original TradePress_Admin_Research_Area class
      * 
      * @since    1.1.0
+      * @version 1.0.0
      */
     public static function setup_screen() {
         $screen = get_current_screen();
@@ -137,6 +140,7 @@ class TradePress_Research {
      * @param string $admin_title The current admin title.
      * @param string $title       The original page title.
      * @return string The modified admin title.
+      * @version 1.0.0
      */
     public static function filter_admin_title( $admin_title, $title ) {
         // This is a static method, so we need to create a new instance to access get_tabs().
@@ -160,6 +164,7 @@ class TradePress_Research {
      * Initialize hooks
      *
      * @since    1.0.0
+      * @version 1.0.0
      */
     public function init() {
         // Add screen options - try different hook names that might be used in your setup
@@ -174,6 +179,8 @@ class TradePress_Research {
     /**
      * Check the current screen and set up screen options if we're on our page
      * This is a fallback in case the direct hook methods don't work
+      *
+      * @version 1.0.0
      */
     public function check_current_screen() {
         $screen = get_current_screen();
@@ -186,6 +193,7 @@ class TradePress_Research {
      * Display the research page.
      *
      * @since    1.0.0
+      * @version 1.0.0
      */
     public function display_page() {
         // Enqueue styles and scripts if needed
@@ -201,6 +209,7 @@ class TradePress_Research {
      *
      * @since    1.0.0
      * @return   array    The array of tabs.
+      * @version 1.0.0
      */
     public function get_tabs() {
         $tabs = array(
@@ -251,6 +260,7 @@ class TradePress_Research {
      * @since 1.0.0
      * @param string $tab The current tab
      * @return void
+      * @version 1.0.0
      */
     public function load_research_tab_content($tab) {
         $tabs = $this->get_tabs();
@@ -265,6 +275,8 @@ class TradePress_Research {
     
     /**
      * Load the Overview tab content
+      *
+      * @version 1.0.0
      */
     public function load_overview_tab() {
         include TRADEPRESS_PLUGIN_DIR . 'admin/page/research/view/overview.php';
@@ -273,6 +285,8 @@ class TradePress_Research {
     
     /**
      * Load the Sector Rotation tab content
+      *
+      * @version 1.0.0
      */
     public function load_sector_rotation_tab() {
         include TRADEPRESS_PLUGIN_DIR . 'admin/page/research/view/sector-rotation.php';
@@ -281,6 +295,8 @@ class TradePress_Research {
     
     /**
      * Load the Economic Calendar tab content
+      *
+      * @version 1.0.0
      */
     public function load_economic_calendar_tab() {
         include TRADEPRESS_PLUGIN_DIR . 'admin/page/research/view/economic-calendar.php';
@@ -289,6 +305,8 @@ class TradePress_Research {
     
     /**
      * Load the Technical Indicators tab content
+      *
+      * @version 1.0.0
      */
     public function load_technical_indicators_tab() {
         include TRADEPRESS_PLUGIN_DIR . 'admin/page/research/view/technical-indicators.php';
@@ -297,6 +315,8 @@ class TradePress_Research {
     
     /**
      * Load the Market Correlations tab content
+      *
+      * @version 1.0.0
      */
     public function load_market_correlations_tab() {
         include TRADEPRESS_PLUGIN_DIR . 'admin/page/research/view/market-correlations.php';
@@ -305,6 +325,8 @@ class TradePress_Research {
 
     /**
      * Load the Earnings tab content
+      *
+      * @version 1.0.0
      */
     public function load_earnings_tab() {
         include TRADEPRESS_PLUGIN_DIR . 'admin/page/research/view/earnings.php';
@@ -313,6 +335,8 @@ class TradePress_Research {
 
     /**
      * Load the News Feed tab content
+      *
+      * @version 1.0.0
      */
     public function load_news_feed_tab() {
         include TRADEPRESS_PLUGIN_DIR . 'admin/page/research/view/news-feed.php';
@@ -372,6 +396,7 @@ class TradePress_Research {
      * Render the Price Forecast tab.
      *
      * @since    1.0.0
+      * @version 1.0.0
      */
     public function render_price_forecast_tab() {
         // First, ensure the class file is loaded
@@ -393,6 +418,7 @@ class TradePress_Research {
      *
      * @since    1.0.0
      * @return   array    Sample forecast data.
+      * @version 1.0.0
      */
     public function get_price_forecast_data() {
         // Sample data - in production this would come from actual APIs/sources
@@ -567,6 +593,7 @@ class TradePress_Research {
      *
      * @param string $symbol The symbol to generate data for
      * @return array Demo data
+      * @version 1.0.0
      */
     private function generate_symbol_forecast_demo_data($symbol) {
         // Generate random current price between $10 and $1000
@@ -628,6 +655,7 @@ class TradePress_Research {
      *
      * @param float $confidence 0-100 confidence score
      * @return string
+      * @version 1.0.0
      */
     private function get_confidence_color_style($confidence) {
         // Normalize confidence to 0-1 range
@@ -657,6 +685,7 @@ class TradePress_Research {
      * Register screen options for the Price Forecast tab
      *
      * @since    1.0.0
+      * @version 1.0.0
      */
     public function setup_price_forecast_screen_options() {
         $screen = get_current_screen();
@@ -685,6 +714,7 @@ class TradePress_Research {
      * @param    string    $option  Option name
      * @param    mixed     $value   Option value
      * @return   mixed              Filtered value
+      * @version 1.0.0
      */
     public function set_screen_option($status, $option, $value) {
         if ('tradepress_price_forecasts_per_page' === $option) {

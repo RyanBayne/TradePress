@@ -27,6 +27,7 @@ class TradePress_Volatility_Tools {
      * @param array $price_data Array of daily closing prices
      * @param int $days Number of days to calculate volatility for
      * @return float Historical volatility as a percentage
+      * @version 1.0.0
      */
     public static function calculate_historical_volatility($price_data, $days = 30) {
         // Ensure we have enough data
@@ -70,6 +71,7 @@ class TradePress_Volatility_Tools {
      * 
      * @param array $options_data Array of options data
      * @return float Implied volatility as a percentage
+      * @version 1.0.0
      */
     public static function calculate_implied_volatility($options_data) {
         // This would use the Black-Scholes model to calculate implied volatility
@@ -83,6 +85,7 @@ class TradePress_Volatility_Tools {
      * @param array $stock_returns Array of stock returns
      * @param array $market_returns Array of market returns (S&P 500)
      * @return float Beta value
+      * @version 1.0.0
      */
     public static function calculate_beta($stock_returns, $market_returns) {
         // Ensure the arrays are the same length
@@ -122,6 +125,7 @@ class TradePress_Volatility_Tools {
      * @param string $symbol Stock symbol
      * @param int $days Number of days
      * @return float Demo historical volatility
+      * @version 1.0.0
      */
     public static function calculate_demo_historical_volatility($symbol, $days = 30) {
         // Generate consistent demo data based on symbol and days
@@ -145,6 +149,7 @@ class TradePress_Volatility_Tools {
      * 
      * @param string $symbol Stock symbol
      * @return float Demo implied volatility
+      * @version 1.0.0
      */
     public static function calculate_demo_implied_volatility($symbol) {
         // Generate consistent demo data based on symbol
@@ -162,6 +167,7 @@ class TradePress_Volatility_Tools {
      * 
      * @param string $symbol Stock symbol
      * @return float Demo beta
+      * @version 1.0.0
      */
     public static function calculate_demo_beta($symbol) {
         // Generate consistent demo beta based on symbol
@@ -184,6 +190,7 @@ class TradePress_Volatility_Tools {
      * @param float $historical_volatility Historical volatility
      * @param float $implied_volatility Implied volatility
      * @return array Volatility regime data
+      * @version 1.0.0
      */
     public static function determine_volatility_regime($historical_volatility, $implied_volatility) {
         $regimes = array(
@@ -231,6 +238,7 @@ class TradePress_Volatility_Tools {
      * @param float $beta Beta value
      * @param array $volatility_regime Volatility regime data
      * @return string HTML formatted interpretation
+      * @version 1.0.0
      */
     public static function generate_volatility_interpretation($historical_volatility, $implied_volatility, $beta, $volatility_regime) {
         $output = '';
@@ -339,6 +347,7 @@ class TradePress_Volatility_Tools {
      * @param array $price_data Array of price data (each element should contain 'high', 'low', 'close' keys)
      * @param int $period Number of periods to calculate ATR for
      * @return float ATR value
+      * @version 1.0.0
      */
     public static function calculate_atr($price_data, $period = 14) {
         // Ensure we have enough data
@@ -383,6 +392,7 @@ class TradePress_Volatility_Tools {
      * @param int $period Number of periods for moving average
      * @param float $standard_deviations Number of standard deviations for bands
      * @return array Bollinger Bands data (upper, middle, lower)
+      * @version 1.0.0
      */
     public static function calculate_bollinger_bands($price_data, $period = 20, $standard_deviations = 2) {
         // Ensure we have enough data
@@ -425,6 +435,7 @@ class TradePress_Volatility_Tools {
      * @param string $symbol Stock symbol
      * @param int $period Number of periods
      * @return float Demo ATR value
+      * @version 1.0.0
      */
     public static function calculate_demo_atr($symbol, $period = 14) {
         // Generate consistent demo data based on symbol and period
@@ -453,6 +464,7 @@ class TradePress_Volatility_Tools {
      * @param float $account_size Total account size
      * @param float $risk_percentage Maximum percentage of account to risk per trade
      * @return array Position sizing recommendations
+      * @version 1.0.0
      */
     public static function calculate_position_size($historical_volatility, $account_size, $risk_percentage = 2) {
         // Maximum account risk in dollars

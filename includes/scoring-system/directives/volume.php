@@ -16,6 +16,8 @@ if (!defined('ABSPATH')) {
 class TradePress_Scoring_Directive_Volume extends TradePress_Scoring_Directive_Base {
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->id = 'volume';
@@ -40,6 +42,7 @@ class TradePress_Scoring_Directive_Volume extends TradePress_Scoring_Directive_B
      * @param array $symbol_data Symbol data
      * @param string $trading_mode Trading mode ('long', 'short', 'both')
      * @return int|array Score from 0-100 (int for single mode, array for both)
+      * @version 1.0.0
      */
     public function calculate_score($symbol_data, $trading_mode = 'long') {
         // Check data freshness before processing
@@ -131,6 +134,14 @@ class TradePress_Scoring_Directive_Volume extends TradePress_Scoring_Directive_B
     
     /**
      * Calculate single score for volume ratio
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $volume_ratio
+      * @param mixed $base_multiplier
+      * @param mixed $high_volume_bonus
+      * @param mixed $surge_bonus
+      * @param string $symbol
      */
     private function calculate_single_score($volume_ratio, $base_multiplier, $high_volume_bonus, $surge_bonus, $symbol = 'UNKNOWN') {
         // Base score from volume ratio
@@ -162,6 +173,7 @@ class TradePress_Scoring_Directive_Volume extends TradePress_Scoring_Directive_B
      *
      * @param array $config Configuration array (optional)
      * @return int Maximum score
+      * @version 1.0.0
      */
     public function get_max_score($config = []) {
         if (empty($config)) {
@@ -181,6 +193,7 @@ class TradePress_Scoring_Directive_Volume extends TradePress_Scoring_Directive_B
      *
      * @param array $config Configuration array (optional)
      * @return string Explanation of how scoring works
+      * @version 1.0.0
      */
     public function get_explanation($config = []) {
         if (empty($config)) {
@@ -207,6 +220,11 @@ class TradePress_Scoring_Directive_Volume extends TradePress_Scoring_Directive_B
     
     /**
      * Check data freshness for this directive
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
+      * @param mixed $required_data
      */
     private function check_data_freshness($symbol, $required_data) {
         if (!class_exists('TradePress_Data_Freshness_Manager')) {
@@ -229,6 +247,13 @@ class TradePress_Scoring_Directive_Volume extends TradePress_Scoring_Directive_B
         }
     }
     
+    /**
+     * Get data freshness requirements.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_data_freshness_requirements() {
         return $this->data_freshness_requirements;
     }
@@ -238,6 +263,7 @@ class TradePress_Scoring_Directive_Volume extends TradePress_Scoring_Directive_B
      * 
      * @param string $symbol Symbol ticker
      * @return array Volume data or error
+      * @version 1.0.0
      */
     public function fetch_fresh_volume_data($symbol) {
         if (!class_exists('TradePress_API_Factory')) {

@@ -19,6 +19,7 @@ class TradePress_Economic_Impact_Integration {
      *
      * @param array $symbols Selected symbols from previous steps
      * @return array Economic impact analysis data
+      * @version 1.0.0
      */
     public function get_economic_analysis( $symbols = array() ) {
         if ( empty( $symbols ) ) {
@@ -54,6 +55,7 @@ class TradePress_Economic_Impact_Integration {
      * Get current economic factors affecting markets
      *
      * @return array Economic factors data
+      * @version 1.0.0
      */
     private function get_current_economic_factors() {
         return array(
@@ -126,6 +128,7 @@ class TradePress_Economic_Impact_Integration {
      * @param array $symbols Stock symbols
      * @param array $economic_factors Economic factors data
      * @return array Symbol-specific economic analysis
+      * @version 1.0.0
      */
     private function analyze_symbol_economic_impact( $symbols, $economic_factors ) {
         $symbol_analysis = array();
@@ -152,6 +155,7 @@ class TradePress_Economic_Impact_Integration {
      *
      * @param string $symbol Stock symbol
      * @return string Sector name
+      * @version 1.0.0
      */
     private function get_symbol_sector( $symbol ) {
         $sector_mapping = array(
@@ -180,6 +184,7 @@ class TradePress_Economic_Impact_Integration {
      * @param string $sector Sector name
      * @param array $economic_factors All economic factors
      * @return array Relevant factors for the sector
+      * @version 1.0.0
      */
     private function get_relevant_factors_for_sector( $sector, $economic_factors ) {
         $relevant_factors = array();
@@ -199,6 +204,7 @@ class TradePress_Economic_Impact_Integration {
      *
      * @param array $relevant_factors Relevant economic factors
      * @return array Impact score and description
+      * @version 1.0.0
      */
     private function calculate_overall_impact( $relevant_factors ) {
         $impact_scores = array(
@@ -235,6 +241,7 @@ class TradePress_Economic_Impact_Integration {
      *
      * @param array $relevant_factors Relevant economic factors
      * @return string Risk level (low, medium, high)
+      * @version 1.0.0
      */
     private function assess_economic_risk( $relevant_factors ) {
         $high_impact_negative = 0;
@@ -262,6 +269,7 @@ class TradePress_Economic_Impact_Integration {
      * @param array $relevant_factors Relevant economic factors
      * @param string $sector Sector name
      * @return array Opportunities
+      * @version 1.0.0
      */
     private function identify_opportunities( $relevant_factors, $sector ) {
         $opportunities = array();
@@ -284,6 +292,7 @@ class TradePress_Economic_Impact_Integration {
      * @param array $relevant_factors Relevant economic factors
      * @param string $sector Sector name
      * @return array Threats
+      * @version 1.0.0
      */
     private function identify_threats( $relevant_factors, $sector ) {
         $threats = array();
@@ -307,6 +316,7 @@ class TradePress_Economic_Impact_Integration {
      * @param string $sector Sector name
      * @param array $factor Factor data
      * @return string Opportunity description
+      * @version 1.0.0
      */
     private function get_opportunity_description( $factor_key, $sector, $factor ) {
         $descriptions = array(
@@ -344,6 +354,7 @@ class TradePress_Economic_Impact_Integration {
      * @param string $sector Sector name
      * @param array $factor Data
      * @return string Threat description
+      * @version 1.0.0
      */
     private function get_threat_description( $factor_key, $sector, $factor ) {
         $descriptions = array(
@@ -373,6 +384,7 @@ class TradePress_Economic_Impact_Integration {
      *
      * @param array $economic_factors All economic factors
      * @return array Overall outlook
+      * @version 1.0.0
      */
     private function generate_overall_outlook( $economic_factors ) {
         $positive_factors = 0;
@@ -418,6 +430,7 @@ class TradePress_Economic_Impact_Integration {
      *
      * @param string $impact_level Impact level
      * @return string CSS class
+      * @version 1.0.0
      */
     public function get_impact_class( $impact_level ) {
         switch ( $impact_level ) {
@@ -435,6 +448,7 @@ class TradePress_Economic_Impact_Integration {
      *
      * @param string $trend Trend direction
      * @return string CSS class
+      * @version 1.0.0
      */
     public function get_trend_class( $trend ) {
         switch ( $trend ) {
@@ -455,6 +469,7 @@ class TradePress_Economic_Impact_Integration {
      *
      * @param string $outlook Outlook type
      * @return string CSS class
+      * @version 1.0.0
      */
     public function get_outlook_class( $outlook ) {
         switch ( $outlook ) {

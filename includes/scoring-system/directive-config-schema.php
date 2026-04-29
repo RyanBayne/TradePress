@@ -6,6 +6,15 @@
 
 class TradePress_Directive_Config_Schema {
     
+    /**
+     * Get directive fields.
+     *
+     * @param mixed $directive_id
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public static function get_directive_fields($directive_id) {
         $schemas = array(
             'rsi' => array(
@@ -98,6 +107,17 @@ class TradePress_Directive_Config_Schema {
         return $schemas[$directive_id] ?? array();
     }
     
+    /**
+     * Validate field.
+     *
+     * @param mixed $directive_id
+     * @param mixed $field_name
+     * @param mixed $value
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public static function validate_field($directive_id, $field_name, $value) {
         $fields = self::get_directive_fields($directive_id);
         if (!isset($fields[$field_name])) return $value;

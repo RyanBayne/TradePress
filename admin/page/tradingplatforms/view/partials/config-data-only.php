@@ -227,6 +227,11 @@ $data_priority = get_option('tradepress_' . $api_id . '_data_priority', 'normal'
 <script>
 jQuery(document).ready(function($) {
     // Update test connection button based on API key field
+    /**
+     * Update test button.
+     *
+     * @version 1.0.0
+     */
     function updateTestButton() {
         var apiKey = $('#<?php echo esc_js($api_key_option_name); ?>').val().trim();
         var button = $('#test-connection-<?php echo esc_js($api_id); ?>');

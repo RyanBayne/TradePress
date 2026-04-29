@@ -40,13 +40,9 @@ if ($tab_mode['mode'] === 'demo') {
     echo '</div>';
 }
 
-// Include the finder classes
-if (!class_exists('ResistanceZoneFinder')) {
-    require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/directives/resistance-zones.php';
-}
-
-if (!class_exists('SupportZoneFinder')) {
-    require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/directives/support-zones.php';
+// Include the unified support/resistance directive class.
+if ( ! class_exists( 'SupportResistanceLevels' ) ) {
+    require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/directives/support-resistance-levels.php';
 }
 
 // Process form submission if symbol is provided
@@ -62,21 +58,28 @@ if (!empty($symbol)) {
     if ($tab_mode['mode'] === 'demo') {
         $results = get_demo_level_results($symbol, $levels_type);
     } else {
-        // In live mode, use the actual finder classes
-        // Create API service instance (placeholder - would need actual implementation)
-        $api_service = new TradePress_Financial_API_Service();
-        
-        // Process based on selected level type
-        if ($levels_type === 'resistance' || $levels_type === 'both') {
-            $resistance_finder = new ResistanceZoneFinder($symbol, $api_service);
-            $resistance_results = $resistance_finder->find_resistance_zones();
-            $results['resistance'] = $resistance_results;
-        }
-        
-        if ($levels_type === 'support' || $levels_type === 'both') {
-            $support_finder = new SupportZoneFinder($symbol, $api_service);
-            $support_results = $support_finder->find_support_zones();
-            $results['support'] = $support_results;
+        // In live mode, use the unified support/resistance directive when available.
+        if ( class_exists( 'TradePress_Financial_API_Service' ) && class_exists( 'SupportResistanceLevels' ) ) {
+            $api_service  = new TradePress_Financial_API_Service();
+            $sr_analyzer  = new SupportResistanceLevels( $symbol, $api_service );
+            $zones_result = $sr_analyzer->find_support_resistance_zones();
+
+            if ( is_array( $zones_result ) ) {
+                $results['resistance'] = array(
+                    'current_price'     => isset( $zones_result['current_price'] ) ? (float) $zones_result['current_price'] : 0,
+                    'highly_overlapped' => isset( $zones_result['resistance_zones']['highly_overlapped'] ) ? $zones_result['resistance_zones']['highly_overlapped'] : array(),
+                    'well_overlapped'   => isset( $zones_result['resistance_zones']['well_overlapped'] ) ? $zones_result['resistance_zones']['well_overlapped'] : array(),
+                );
+                $results['support'] = array(
+                    'current_price'     => isset( $zones_result['current_price'] ) ? (float) $zones_result['current_price'] : 0,
+                    'highly_overlapped' => isset( $zones_result['support_zones']['highly_overlapped'] ) ? $zones_result['support_zones']['highly_overlapped'] : array(),
+                    'well_overlapped'   => isset( $zones_result['support_zones']['well_overlapped'] ) ? $zones_result['support_zones']['well_overlapped'] : array(),
+                );
+            } else {
+                $results = get_demo_level_results( $symbol, $levels_type );
+            }
+        } else {
+            $results = get_demo_level_results( $symbol, $levels_type );
         }
     }
 }
@@ -87,6 +90,7 @@ if (!empty($symbol)) {
  * @param string $symbol The symbol to analyze
  * @param string $levels_type Type of levels to return (resistance, support, or both)
  * @return array Sample results
+  * @version 1.0.0
  */
 function get_demo_level_results($symbol, $levels_type) {
     $current_price = 0;

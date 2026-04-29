@@ -19,6 +19,13 @@ function TradePress_options_array() {
     );   
 }
                                                   
+/**
+ * Options misc.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_options_misc() {
     $arr = array();
                         
@@ -54,6 +61,13 @@ function TradePress_options_misc() {
     return $arr;        
 }
 
+/**
+ * Options twitch api.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_options_twitch_api() {
     
     $arr = array();
@@ -81,6 +95,13 @@ function TradePress_options_twitch_api() {
     return $arr;
 }
 
+/**
+ * Options extension integration.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_options_extension_integration() {
     $arr = array();
     $arr[ 'TradePress_TradePress-embed-everything_settings' ] = array();
@@ -90,6 +111,13 @@ function TradePress_options_extension_integration() {
     return $arr;
 }
 
+/**
+ * Options switch.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_options_switch() {
     $arr = array();
     $arr[ 'TradePress_admin_notices' ] = array();
@@ -98,12 +126,26 @@ function TradePress_options_switch() {
     return $arr;
 }
 
+/**
+ * Options otherapi.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_options_otherapi() {
     $arr = array();
     $arr[ 'TradePress_otherapi_application_saving' ] = array();
     return $arr;  
 }
 
+/**
+ * Options bugnet.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_options_bugnet() {
     $arr = array();
     $arr[ 'bugnet_activate_events' ] = array();

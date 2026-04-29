@@ -9,6 +9,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Scoring_Directive_EMA extends TradePress_Scoring_Directive_Base {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         $this->id = 'ema';
         $this->name = 'Exponential Moving Average';
@@ -20,6 +25,16 @@ class TradePress_Scoring_Directive_EMA extends TradePress_Scoring_Directive_Base
         $this->priority = 10;
     }
     
+    /**
+     * Calculate score.
+     *
+     * @param mixed $symbol_data
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function calculate_score($symbol_data, $config = array()) {
         $trend_bonus = $config['trend_bonus'] ?? 20;
         $distance_multiplier = $config['distance_multiplier'] ?? 1.0;
@@ -97,10 +112,28 @@ class TradePress_Scoring_Directive_EMA extends TradePress_Scoring_Directive_Base
         );
     }
     
+    /**
+     * Get max score.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_max_score($config = array()) {
         return 100;
     }
     
+    /**
+     * Get explanation.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_explanation($config = array()) {
         $period = $config['period'] ?? 21;
         $trend_bonus = $config['trend_bonus'] ?? 20;
@@ -125,6 +158,7 @@ class TradePress_Scoring_Directive_EMA extends TradePress_Scoring_Directive_Base
      * @param string $symbol Symbol ticker
      * @param array $params Parameters
      * @return float EMA value or error
+      * @version 1.0.0
      */
     public function fetch_fresh_ema_data($symbol, $params = array()) {
         if (!class_exists('TradePress_API_Factory')) {

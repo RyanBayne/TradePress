@@ -23,19 +23,25 @@ class TradePress_Admin_Automation_Page {
 
     /**
      * Constructor.
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Set the active tab based on URL parameter
         if (isset($_GET['tab']) && !empty($_GET['tab'])) {
             $this->active_tab = sanitize_text_field(wp_unslash($_GET['tab']));
         }
-        
-        // Debug the active tab value
-        echo "<!-- Active Tab: " . esc_html($this->active_tab) . " -->";
+
+        $tabs = $this->get_tabs();
+        if ( ! isset( $tabs[ $this->active_tab ] ) ) {
+            $this->active_tab = ! empty( $tabs ) ? key( $tabs ) : 'data_import';
+        }
     }
 
     /**
      * Output the Automation area.
+      *
+      * @version 1.0.0
      */
     public static function output() {
         // Create an instance of the class instead of using static method
@@ -45,6 +51,8 @@ class TradePress_Admin_Automation_Page {
 
     /**
      * Render the output of the automation area.
+      *
+      * @version 1.0.0
      */
     public function render_output() {
         $tabs = $this->get_tabs();
@@ -86,25 +94,32 @@ class TradePress_Admin_Automation_Page {
      * Get tabs for the automation area.
      *
      * @return array
+      * @version 1.0.0
      */
     public function get_tabs() {
         $tabs = array(
-            'dashboard' => __( 'Dashboard', 'tradepress' ),
             'data_import' => __( 'Data Import', 'tradepress' ),
+            'cron' => __( 'CRON Jobs', 'tradepress' ),
+            'dashboard' => __( 'Dashboard', 'tradepress' ),
             'algorithm' => __( 'Algorithm', 'tradepress' ),
             'signals' => __( 'Signals', 'tradepress' ),
             'trading' => __( 'Trading', 'tradepress' ),
-            'cron' => __( 'CRON Jobs', 'tradepress' ),
             'settings' => __( 'Settings', 'tradepress' ),
         );
-        
-        return apply_filters( 'tradepress_automation_tabs', $tabs );
+
+        $tabs = apply_filters( 'tradepress_automation_tabs', $tabs );
+
+        return tradepress_filter_development_tabs(
+            $tabs,
+            array( 'dashboard', 'algorithm', 'signals', 'trading', 'settings' )
+        );
     }
 
     /**
      * Load tab content based on the active tab.
      *
      * @param string $tab Tab to load.
+      * @version 1.0.0
      */
     private function load_tab_content( $tab ) {
         switch ( $tab ) {
@@ -130,7 +145,7 @@ class TradePress_Admin_Automation_Page {
                 $this->settings_tab();
                 break;
             default:
-                $this->dashboard_tab();
+                $this->data_import_tab();
                 break;
         }
     }
@@ -481,6 +496,8 @@ class TradePress_Admin_Automation_Page {
     
     /**
      * Algorithm tab content
+      *
+      * @version 1.0.0
      */
     private function algorithm_tab() {
         // Get algorithm status
@@ -548,6 +565,8 @@ class TradePress_Admin_Automation_Page {
     
     /**
      * Signals tab content
+      *
+      * @version 1.0.0
      */
     private function signals_tab() {
         // Get signals status
@@ -615,6 +634,8 @@ class TradePress_Admin_Automation_Page {
 
     /**
      * Trading tab content
+      *
+      * @version 1.0.0
      */
     private function trading_tab() {
         // Get trading status
@@ -1095,6 +1116,8 @@ class TradePress_Admin_Automation_Page {
 
     /**
      * Settings tab content
+      *
+      * @version 1.0.0
      */
     private function settings_tab() {
         ?>
@@ -1159,6 +1182,8 @@ class TradePress_Admin_Automation_Page {
     
     /**
      * Enqueue automation scripts and styles
+      *
+      * @version 1.0.0
      */
     private function enqueue_automation_scripts() {
         // Scripts and styles are handled by assets-loader-original.php

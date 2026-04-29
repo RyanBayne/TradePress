@@ -16,6 +16,8 @@ class TradePress_Data_Decoder_Tab {
 
     /**
      * Output the Decoder tab content.
+      *
+      * @version 1.0.0
      */
     public static function output() {
         // Check for form submission results
@@ -130,6 +132,8 @@ class TradePress_Data_Decoder_Tab {
 
     /**
      * Render the Decoder tab form.
+      *
+      * @version 1.0.0
      */
     public static function render_decoder_tab() {
         ?>
@@ -168,6 +172,7 @@ class TradePress_Data_Decoder_Tab {
      * This method is hooked to 'admin_post_tradepress_decode_data_action'.
      *
      * @return void
+      * @version 1.0.0
      */
     public static function handle_decode_data_submission() {
         if (!is_user_logged_in() || !current_user_can('manage_options')) {
@@ -225,6 +230,7 @@ class TradePress_Data_Decoder_Tab {
      *
      * @param string $content The full email content to parse.
      * @return array Array of extracted company data or empty array on failure.
+      * @version 1.0.0
      */
     private static function parse_earnings_whispers_email($content) {
         $companies = [];
@@ -248,6 +254,7 @@ class TradePress_Data_Decoder_Tab {
      *
      * @param string $content The full email content.
      * @return array Array of company section strings.
+      * @version 1.0.0
      */
     private static function extract_company_sections($content) {
         $sections = [];
@@ -281,6 +288,7 @@ class TradePress_Data_Decoder_Tab {
      *
      * @param string $content Raw email content.
      * @return string Cleaned content.
+      * @version 1.0.0
      */
     private static function clean_email_content($content) {
         // Remove email headers
@@ -308,6 +316,7 @@ class TradePress_Data_Decoder_Tab {
      *
      * @param string $section The company section text.
      * @return array|false Extracted data or false on failure.
+      * @version 1.0.0
      */
     private static function parse_single_company_section($section) {
         $extracted_data = [];
@@ -327,6 +336,7 @@ class TradePress_Data_Decoder_Tab {
      *
      * @param string $section The company section text.
      * @return array Extracted data.
+      * @version 1.0.0
      */
     private static function parse_upcoming_earnings($section) {
         $extracted_data = ['report_type' => 'upcoming_earnings'];
@@ -393,6 +403,7 @@ class TradePress_Data_Decoder_Tab {
      *
      * @param string $section The company section text.
      * @return array Extracted data.
+      * @version 1.0.0
      */
     private static function parse_past_earnings_results($section) {
         $extracted_data = ['report_type' => 'past_results'];

@@ -19,6 +19,7 @@ class TradePress_Symbols {
      * @param string|int $symbol_or_id Symbol ticker or database ID
      * @param string $by_field Field to query by ('symbol', 'id', or 'post_id')
      * @return TradePress_Symbol|false Symbol object or false on failure
+      * @version 1.0.0
      */
     public static function get_symbol($symbol_or_id, $by_field = 'symbol') {
         // Check if symbol already exists in the registry
@@ -47,6 +48,7 @@ class TradePress_Symbols {
      * 
      * @param array $args Query arguments
      * @return array Array of TradePress_Symbol objects
+      * @version 1.0.0
      */
     public static function get_symbols($args = array()) {
         global $wpdb;
@@ -120,6 +122,7 @@ class TradePress_Symbols {
      * 
      * @param array $args Query arguments
      * @return int Number of symbols
+      * @version 1.0.0
      */
     public static function count_symbols($args = array()) {
         global $wpdb;
@@ -161,6 +164,8 @@ class TradePress_Symbols {
     
     /**
      * Initialize symbols from posts if they don't exist in the database
+      *
+      * @version 1.0.0
      */
     public static function initialize_from_posts() {
         $args = array(
@@ -186,6 +191,7 @@ class TradePress_Symbols {
      * Get unique sectors from the symbols table
      * 
      * @return array List of sectors
+      * @version 1.0.0
      */
     public static function get_sectors() {
         global $wpdb;
@@ -202,6 +208,7 @@ class TradePress_Symbols {
      * Get unique exchanges from the symbols table
      * 
      * @return array List of exchanges
+      * @version 1.0.0
      */
     public static function get_exchanges() {
         global $wpdb;

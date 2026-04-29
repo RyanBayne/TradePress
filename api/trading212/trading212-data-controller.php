@@ -32,6 +32,8 @@ class TradePress_Trading212_Data_Controller {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         require_once dirname(__FILE__) . '/trading212-api.php';
@@ -43,6 +45,7 @@ class TradePress_Trading212_Data_Controller {
      * 
      * @param bool $force_refresh Force refresh from API instead of cache
      * @return array|WP_Error Account information
+      * @version 1.0.0
      */
     public function get_account_info($force_refresh = false) {
         $cache_key = 'tradepress_trading212_account_info';
@@ -66,6 +69,7 @@ class TradePress_Trading212_Data_Controller {
      * 
      * @param bool $force_refresh Force refresh from API instead of cache
      * @return array|WP_Error Account cash information
+      * @version 1.0.0
      */
     public function get_account_cash($force_refresh = false) {
         $cache_key = 'tradepress_trading212_account_cash';
@@ -89,6 +93,7 @@ class TradePress_Trading212_Data_Controller {
      * 
      * @param bool $force_refresh Force refresh from API instead of cache
      * @return array|WP_Error List of instruments
+      * @version 1.0.0
      */
     public function get_instruments($force_refresh = false) {
         $cache_key = 'tradepress_trading212_instruments';
@@ -112,6 +117,7 @@ class TradePress_Trading212_Data_Controller {
      * 
      * @param bool $force_refresh Force refresh from API instead of cache
      * @return array|WP_Error List of positions
+      * @version 1.0.0
      */
     public function get_positions($force_refresh = false) {
         $cache_key = 'tradepress_trading212_positions';
@@ -135,6 +141,7 @@ class TradePress_Trading212_Data_Controller {
      * 
      * @param bool $force_refresh Force refresh from API instead of cache
      * @return array|WP_Error List of orders
+      * @version 1.0.0
      */
     public function get_orders($force_refresh = false) {
         $cache_key = 'tradepress_trading212_orders';
@@ -159,6 +166,7 @@ class TradePress_Trading212_Data_Controller {
      * @param array $params Optional parameters (startDate, endDate, limit)
      * @param bool $force_refresh Force refresh from API instead of cache
      * @return array|WP_Error Transaction history
+      * @version 1.0.0
      */
     public function get_transaction_history($params = array(), $force_refresh = false) {
         $cache_key = 'tradepress_trading212_transactions_' . md5(serialize($params));
@@ -183,6 +191,7 @@ class TradePress_Trading212_Data_Controller {
      * @param array $instrument_codes Array of instrument codes
      * @param bool $force_refresh Force refresh from API instead of cache
      * @return array|WP_Error Market quotes
+      * @version 1.0.0
      */
     public function get_market_quotes($instrument_codes = array(), $force_refresh = false) {
         $cache_key = 'tradepress_trading212_quotes_' . md5(serialize($instrument_codes));
@@ -207,6 +216,7 @@ class TradePress_Trading212_Data_Controller {
      * 
      * @param bool $force_refresh Force refresh from API instead of cache
      * @return array|WP_Error List of watchlists
+      * @version 1.0.0
      */
     public function get_watchlists($force_refresh = false) {
         $cache_key = 'tradepress_trading212_watchlists';
@@ -229,6 +239,7 @@ class TradePress_Trading212_Data_Controller {
      * Get a list of all available endpoints in the Trading212 API
      * 
      * @return array List of endpoints
+      * @version 1.0.0
      */
     public function get_available_endpoints() {
         return $this->api->get_endpoints();
@@ -239,6 +250,7 @@ class TradePress_Trading212_Data_Controller {
      * 
      * @param string $endpoint The endpoint to get demo data for
      * @return array Sample data for the endpoint
+      * @version 1.0.0
      */
     public function get_demo_data($endpoint) {
         return $this->api->get_demo_data($endpoint);
@@ -248,6 +260,7 @@ class TradePress_Trading212_Data_Controller {
      * Import instruments from Trading212 into TradePress symbols
      * 
      * @return array Results of the import operation
+      * @version 1.0.0
      */
     public function import_instruments_to_symbols() {
         $instruments = $this->get_instruments(true); // Force refresh

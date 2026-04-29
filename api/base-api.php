@@ -32,6 +32,7 @@ abstract class TradePress_Base_API extends TradePress_Financial_API_Service {
      * 
      * @param string $provider_id The API provider ID
      * @param array $args Configuration arguments
+      * @version 1.0.0
      */
     public function __construct($provider_id, $args = array()) {
         $this->provider_id = $provider_id;
@@ -63,6 +64,7 @@ abstract class TradePress_Base_API extends TradePress_Financial_API_Service {
      * Get provider ID
      * 
      * @return string Provider ID
+      * @version 1.0.0
      */
     public function get_provider_id() {
         return $this->provider_id;
@@ -72,6 +74,7 @@ abstract class TradePress_Base_API extends TradePress_Financial_API_Service {
      * Get provider configuration
      * 
      * @return array Provider configuration
+      * @version 1.0.0
      */
     public function get_provider_config() {
         return $this->provider_config;
@@ -84,6 +87,7 @@ abstract class TradePress_Base_API extends TradePress_Financial_API_Service {
      * @param array $params Request parameters
      * @param string $method HTTP method
      * @return array|WP_Error Response data or error
+      * @version 1.0.0
      */
     public function make_request($endpoint, $params = array(), $method = 'GET') {
         // Load usage tracker
@@ -189,6 +193,7 @@ abstract class TradePress_Base_API extends TradePress_Financial_API_Service {
      * 
      * @param array $required_fields Required credential fields
      * @return bool|WP_Error True if valid, WP_Error if missing
+      * @version 1.0.0
      */
     protected function validate_credentials($required_fields = array()) {
         foreach ($required_fields as $field) {
@@ -207,6 +212,7 @@ abstract class TradePress_Base_API extends TradePress_Financial_API_Service {
      * Get API call statistics for this provider
      * 
      * @return array API call statistics
+      * @version 1.0.0
      */
     public function get_api_stats() {
         return array(

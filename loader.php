@@ -65,6 +65,7 @@ final class WordPressTradePress {
      * @static
      * @see WordPressSeed()
      * @return TradePress - Main instance.
+      * @version 1.0.0
      */
     public static function instance() {
         if ( is_null( self::$_instance ) ) {
@@ -76,6 +77,7 @@ final class WordPressTradePress {
     /**
      * Cloning TradePress is forbidden.
      * @since 1.0
+      * @version 1.0.0
      */
     public function __clone() {
         _doing_it_wrong( __FUNCTION__, esc_html__( 'You\'re not allowed to do that!', 'tradepress' ), '1.0' );
@@ -84,6 +86,7 @@ final class WordPressTradePress {
     /**
      * Unserializing instances of this class is forbidden.
      * @since 1.0
+      * @version 1.0.0
      */
     public function __wakeup() {
         _doing_it_wrong( __FUNCTION__, esc_html__( 'You\'re not allowed to do that!', 'tradepress' ), '1.0' );
@@ -91,6 +94,8 @@ final class WordPressTradePress {
     
     /**
      * TradePress Constructor.
+      *
+      * @version 1.0.0
      */
     public function __construct() {      
         $this->define_hard_constants();        
@@ -392,6 +397,7 @@ final class WordPressTradePress {
      * Load plugin translations after WordPress initialization.
      *
      * @return void
+      * @version 1.0.0
      */
     public function load_textdomain() {
         load_plugin_textdomain(
@@ -403,6 +409,8 @@ final class WordPressTradePress {
     
     /**
      * Register AJAX handlers
+      *
+      * @version 1.0.0
      */
     public function register_ajax_handlers() {
         add_action('wp_ajax_tradepress_update_symbol', array($this, 'ajax_update_symbol'));
@@ -412,6 +420,8 @@ final class WordPressTradePress {
 
     /**
      * AJAX handler for updating symbols
+      *
+      * @version 1.0.0
      */
     public function ajax_update_symbol() {
         // Check nonce
@@ -456,6 +466,8 @@ final class WordPressTradePress {
     
     /**
      * AJAX handler for getting API calls
+      *
+      * @version 1.0.0
      */
     public function ajax_get_api_calls() {
         if (!wp_verify_nonce($_POST['nonce'], 'tradepress_api_calls') || !current_user_can('manage_options')) {
@@ -508,6 +520,8 @@ final class WordPressTradePress {
     
     /**
      * AJAX handler for getting directive outcome
+      *
+      * @version 1.0.0
      */
     public function ajax_get_directive_outcome() {
         if (!wp_verify_nonce($_POST['nonce'], 'tradepress_directive_outcome') || !current_user_can('manage_options')) {
@@ -561,6 +575,10 @@ final class WordPressTradePress {
     
     /**
      * Add custom cron schedules
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $schedules
      */
     public function add_cron_schedules($schedules) {
         $schedules['wp_data_import_cron_interval'] = array(
@@ -576,6 +594,11 @@ final class WordPressTradePress {
         return $schedules;
     }
     
+    /**
+     * Init third party integration.
+     *
+     * @version 1.0.0
+     */
     public function init_third_party_integration() {
         if( function_exists( 'is_plugin_active' ) && is_plugin_active( 'ultimate-member/ultimate-member.php' ) ){       
             //require_once( 'includes/integration/ultimate-member.php' ); 
@@ -584,6 +607,11 @@ final class WordPressTradePress {
         }   
     }
     
+    /**
+     * Enqueue public css.
+     *
+     * @version 1.0.0
+     */
     public function enqueue_public_css() {
         wp_register_style( 'TradePress_shortcode_styles', self::plugin_url() . '/assets/css/TradePress-shortcodes.css' );
         wp_enqueue_style( 'TradePress_shortcode_styles' );
@@ -593,6 +621,7 @@ final class WordPressTradePress {
      * Enqueue admin scripts and styles
      * 
      * @since 1.0.0
+      * @version 1.0.0
      */
     public function enqueue_admin_scripts() {
         // Common scripts for all TradePress admin pages
@@ -630,10 +659,22 @@ final class WordPressTradePress {
         }
     }
 
+    /**
+     * Views edit plugins.
+     *
+     * @param mixed $views
+     *
+     * @version 1.0.0
+     */
     public function views_edit_plugins( $views ) {       
         $screen = get_current_screen();
     }       
     
+    /**
+     * Init system.
+     *
+     * @version 1.0.0
+     */
     public function init_system() {
                    
         // Before init action...
@@ -724,6 +765,8 @@ final class WordPressTradePress {
     
     /**
      * Initialize symbols from posts
+      *
+      * @version 1.0.0
      */
     public function initialize_symbols() {
         // Only initialize if we're in the admin area and TradePress_Symbols class exists
@@ -737,6 +780,7 @@ final class WordPressTradePress {
      *
      * @param string $template Template file
      * @return string Modified template file
+      * @version 1.0.0
      */
     public function template_loader($template) {
         if (is_singular('symbols')) {
@@ -775,18 +819,33 @@ final class WordPressTradePress {
         add_action( 'shutdown', array( $this, 'print_errors' ), 1 );                    
     }
     
+    /**
+     * Output actions.
+     *
+     * @version 1.0.0
+     */
     public function output_actions() {
         if( 'yes' !== get_option( 'TradePress_display_actions') ) { return; }
                                                                        
         add_action( 'shutdown', array( $this, 'show_actions' ), 1 );                                                               
     }
     
+    /**
+     * Output filters.
+     *
+     * @version 1.0.0
+     */
     public function output_filters() {    
         if( 'yes' !== get_option( 'TradePress_display_filters') ) { return; }
                                                                        
         add_action( 'shutdown', array( $this, 'show_filters' ), 1 );                                                               
     }    
     
+    /**
+     * Show errors.
+     *
+     * @version 1.0.0
+     */
     public static function show_errors() {      
         global $wpdb;
         echo '<div id="bugnet-wperror-dump">';       
@@ -795,11 +854,21 @@ final class WordPressTradePress {
         echo '</div>';   
     }   
     
+    /**
+     * Print errors.
+     *
+     * @version 1.0.0
+     */
     public static function print_errors() {     
         global $wpdb;       
         $wpdb->print_error();        
     }    
     
+    /**
+     * Show actions.
+     *
+     * @version 1.0.0
+     */
     public function show_actions() {
         global $wp_actions;
         echo '<div id="bugnet-wpactions-dump">';
@@ -810,6 +879,11 @@ final class WordPressTradePress {
         echo '</div>';          
     }
  
+    /**
+     * Show filters.
+     *
+     * @version 1.0.0
+     */
     public function show_filters() {
         global $wp_filter;
         echo '<div id="bugnet-wpfilters-dump">';
@@ -824,6 +898,7 @@ final class WordPressTradePress {
     /**
      * Get the plugin url.   
      * @return string    
+      * @version 1.0.0
      */
     public function plugin_url() {                
         return untrailingslashit( plugins_url( '/', __FILE__ ) );
@@ -832,6 +907,7 @@ final class WordPressTradePress {
     /**
      * Get the plugin path.
      * @return string    
+      * @version 1.0.0
      */
     public function plugin_path() {              
         return untrailingslashit( plugin_dir_path( __FILE__ ) );
@@ -840,6 +916,7 @@ final class WordPressTradePress {
     /**
      * Get Ajax URL (this is the URL to WordPress core ajax file).
      * @return string   
+      * @version 1.0.0
      */     
     public function ajax_url() {                
         return admin_url( 'admin-ajax.php', 'relative' );
@@ -854,6 +931,7 @@ if( !function_exists( 'tradepress' ) ) {
      *
      * @since  1.0
      * @return TradePress     
+      * @version 1.0.0
      */
     function TradePress() {        
         return WordPressTradePress::instance();

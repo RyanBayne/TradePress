@@ -31,6 +31,8 @@ class TradePress_Admin_Focus_Page {
 
     /**
      * Constructor.
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         if ( isset( $_GET['tab'] ) && array_key_exists( sanitize_text_field( $_GET['tab'] ), $this->get_tabs() ) ) {
@@ -42,6 +44,7 @@ class TradePress_Admin_Focus_Page {
      * Get tabs for the focus area.
      *
      * @return array
+      * @version 1.0.0
      */
     public function get_tabs() {
         return array(
@@ -54,6 +57,8 @@ class TradePress_Admin_Focus_Page {
 
     /**
      * Output the focus area interface.
+      *
+      * @version 1.0.0
      */
     public function output() {
         $tabs = $this->get_tabs();
@@ -91,6 +96,8 @@ add_action( 'tradepress_focus_area_advisor_tab_content', 'tradepress_display_adv
 
 /**
  * Display Priority tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_display_priority_tab_content() {
     $view_file = TRADEPRESS_PLUGIN_DIR . 'admin/page/focus/view/priority.php';
@@ -103,6 +110,8 @@ function tradepress_display_priority_tab_content() {
 
 /**
  * Display Daily tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_display_daily_tab_content() {
     $view_file = TRADEPRESS_PLUGIN_DIR . 'admin/page/focus/view/daily.php';
@@ -115,6 +124,8 @@ function tradepress_display_daily_tab_content() {
 
 /**
  * Display Weekly tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_display_weekly_tab_content() {
     $view_file = TRADEPRESS_PLUGIN_DIR . 'admin/page/focus/view/weekly.php';
@@ -127,6 +138,8 @@ function tradepress_display_weekly_tab_content() {
 
 /**
  * Display Advisor tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_display_advisor_tab_content() {
     $view_file = TRADEPRESS_PLUGIN_DIR . 'admin/page/focus/view/advisor.php';
@@ -142,6 +155,8 @@ add_action( 'wp_ajax_tradepress_clear_advisor_session', 'tradepress_ajax_clear_a
 
 /**
  * AJAX handler to clear advisor session
+  *
+  * @version 1.0.0
  */
 function tradepress_ajax_clear_advisor_session() {
     // Load BugNet functions if not already loaded

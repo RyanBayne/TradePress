@@ -17,6 +17,7 @@ class TradePress_API_Directory {
      * Get all API providers (financial and non-financial)
      * 
      * @return array All API providers
+      * @version 1.0.0
      */
     public static function get_all_providers() {
         return array_merge(
@@ -29,6 +30,7 @@ class TradePress_API_Directory {
      * Get financial API providers
      * 
      * @return array Financial API providers
+      * @version 1.0.0
      */
     public static function get_financial_providers() {
 
@@ -441,6 +443,7 @@ class TradePress_API_Directory {
      * Get non-financial API providers (social platforms, etc.)
      * 
      * @return array Non-financial API providers
+      * @version 1.0.0
      */
     public static function get_non_financial_providers() {
         return array(
@@ -487,8 +490,18 @@ class TradePress_API_Directory {
      * 
      * @param string $provider_id The provider ID to look up
      * @return array|false Provider details or false if not found
+      * @version 1.0.0
      */
     public static function get_provider($provider_id) {
+        if ( is_array( $provider_id ) || is_object( $provider_id ) ) {
+            return false;
+        }
+
+        $provider_id = (string) $provider_id;
+        if ( '' === $provider_id ) {
+            return false;
+        }
+
         $all_providers = self::get_all_providers();
         
         return isset($all_providers[$provider_id]) ? $all_providers[$provider_id] : false;
@@ -500,6 +513,7 @@ class TradePress_API_Directory {
  *
  * @param array $providers The array of financial providers
  * @return array Modified array of providers with Yahoo Finance removed
+  * @version 1.0.0
  */
 function tradepress_remove_yahoofinance_provider($providers) {
     if (isset($providers['yahoofinance'])) {

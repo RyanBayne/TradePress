@@ -13,6 +13,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @author    Ryan Bayne
  */
 class TradePress_Post_Type_Webhooks {
+    /**
+     * I Ni T.
+     *
+     * @version 1.0.0
+     */
     public static function init() {
         
         // Register
@@ -32,6 +37,11 @@ class TradePress_Post_Type_Webhooks {
         add_action( 'update_post_webhook', array( __CLASS__, 'save_TradePress_webhooks_eventsub' ) );          
     }
  
+    /**
+     * Register taxonomies.
+     *
+     * @version 1.0.0
+     */
     public static function register_taxonomies() {
 
         /*
@@ -48,6 +58,11 @@ class TradePress_Post_Type_Webhooks {
         */
     }
     
+    /**
+     * Register post type.
+     *
+     * @version 1.0.0
+     */
     public static function register_post_type() {
         if ( ! is_blog_installed() || post_type_exists( 'webhooks' ) ) {
             return;
@@ -163,6 +178,13 @@ class TradePress_Post_Type_Webhooks {
         );        
     }
     
+    /**
+     * Get actions.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public static function get_actions() {
         return apply_filters( 'TradePress_webhooks_actions', array(
             'userupdate'     => __( 'Update WP User', 'tradepress' ),
@@ -292,6 +314,13 @@ class TradePress_Post_Type_Webhooks {
         return $post_id;
     }    
     
+    /**
+     * Save trade press webhooks eventsub.
+     *
+     * @param mixed $post_id
+     *
+     * @version 1.0.0
+     */
     public static function save_TradePress_webhooks_eventsub( $post_id ) {
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
             return;

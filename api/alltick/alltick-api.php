@@ -27,6 +27,8 @@ class TradePress_AllTick_API {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Initialize AllTick API
@@ -37,6 +39,7 @@ class TradePress_AllTick_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Stock data or error
+      * @version 1.0.0
      */
     public function get_stock_data($symbol) {
         // Implement stock data retrieval
@@ -50,6 +53,7 @@ class TradePress_AllTick_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error Historical data or error
+      * @version 1.0.0
      */
     public function get_historical_data($symbol, $from, $to) {
         // Implement historical data retrieval

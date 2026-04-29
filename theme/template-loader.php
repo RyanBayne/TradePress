@@ -24,6 +24,8 @@ class TradePress_Template_Loader {
 
     /**
      * Initialize the template loader
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->plugin_path = plugin_dir_path( dirname( __FILE__ ) );
@@ -37,6 +39,7 @@ class TradePress_Template_Loader {
      *
      * @param string $template Template file path
      * @return string
+      * @version 1.0.0
      */
     public function template_loader( $template ) {
         $post_type = get_post_type();
@@ -77,6 +80,7 @@ class TradePress_Template_Loader {
      * Check if theme has a template that should be used instead
      *
      * @return string|boolean
+      * @version 1.0.0
      */
     private function get_template_path_from_theme() {
         if ( is_singular( 'symbols' ) ) {
@@ -94,6 +98,7 @@ class TradePress_Template_Loader {
      *
      * @param string $slug Template slug
      * @param string $name Template name (optional)
+      * @version 1.0.0
      */
     public static function get_template_part( $slug, $name = '' ) {
         $plugin_path = plugin_dir_path( dirname( __FILE__ ) );

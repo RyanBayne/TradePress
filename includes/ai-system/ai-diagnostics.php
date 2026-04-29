@@ -35,6 +35,7 @@ class TradePress_AI_Diagnostics {
      * Constructor
      *
      * @param TradePress_AI_Context_Manager $context_manager Context manager instance
+      * @version 1.0.0
      */
     public function __construct($context_manager = null) {
         if ($context_manager) {
@@ -49,6 +50,7 @@ class TradePress_AI_Diagnostics {
      * Run automated diagnostics based on current context
      *
      * @return array Diagnostic results
+      * @version 1.0.0
      */
     public function run_automated_diagnostics() {
         $results = array();
@@ -93,6 +95,7 @@ class TradePress_AI_Diagnostics {
      * Check system health
      *
      * @return array Diagnostic results
+      * @version 1.0.0
      */
     private function check_system_health() {
         $results = array();
@@ -174,6 +177,7 @@ class TradePress_AI_Diagnostics {
      *
      * @param string $size_str Size string like '128M'
      * @return int Size in bytes
+      * @version 1.0.0
      */
     private function return_bytes($size_str) {
         switch (substr($size_str, -1)) {
@@ -188,6 +192,7 @@ class TradePress_AI_Diagnostics {
      * Check API health
      *
      * @return array Diagnostic results
+      * @version 1.0.0
      */
     private function check_api_health() {
         $results = array();
@@ -228,6 +233,7 @@ class TradePress_AI_Diagnostics {
      * Check trading functionality
      *
      * @return array Diagnostic results
+      * @version 1.0.0
      */
     private function check_trading_functionality() {
         // Placeholder implementation
@@ -245,6 +251,7 @@ class TradePress_AI_Diagnostics {
      * Check AI functionality
      *
      * @return array Diagnostic results
+      * @version 1.0.0
      */
     private function check_ai_functionality() {
         // Placeholder implementation
@@ -263,6 +270,7 @@ class TradePress_AI_Diagnostics {
      *
      * @param string $file_path Path to the file
      * @return array Diagnostic results
+      * @version 1.0.0
      */
     private function check_file_related_systems($file_path) {
         $results = array();
@@ -293,6 +301,7 @@ class TradePress_AI_Diagnostics {
      * Analyze error logs for patterns
      *
      * @return array Log analysis results
+      * @version 1.0.0
      */
     public function analyze_error_logs() {
         $results = array();
@@ -315,6 +324,7 @@ class TradePress_AI_Diagnostics {
      * @param string $check_type Type of check to run
      * @param array $params Parameters for the check
      * @return array Check results
+      * @version 1.0.0
      */
     public function run_specific_diagnostic($check_type, $params = array()) {
         switch ($check_type) {
@@ -339,6 +349,7 @@ class TradePress_AI_Diagnostics {
      *
      * @param string $endpoint Endpoint to check
      * @return array Check results
+      * @version 1.0.0
      */
     private function check_api_endpoint($endpoint) {
         // Placeholder implementation
@@ -352,6 +363,7 @@ class TradePress_AI_Diagnostics {
      * Check database tables
      *
      * @return array Check results
+      * @version 1.0.0
      */
     private function check_database_tables() {
         global $wpdb;
@@ -391,6 +403,7 @@ class TradePress_AI_Diagnostics {
      *
      * @param string $directory Directory to check
      * @return array Check results
+      * @version 1.0.0
      */
     private function check_file_permissions($directory) {
         // Placeholder implementation

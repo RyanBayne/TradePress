@@ -14,6 +14,16 @@ if (!defined('TRADEPRESS_PLUGIN_DIR_PATH')) {
 
 // Mock get_option function
 if (!function_exists('get_option')) {
+    /**
+     * Get option.
+     *
+     * @param mixed $option
+     * @param bool $default
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     function get_option($option, $default = false) {
         return $default;
     }
@@ -23,9 +33,24 @@ if (!function_exists('get_option')) {
 if (!class_exists('WP_Error')) {
     class WP_Error {
         private $message;
+        /**
+         *   C On St Ru Ct.
+         *
+         * @param mixed $code
+         * @param mixed $message
+         *
+         * @version 1.0.0
+         */
         public function __construct($code, $message) {
             $this->message = $message;
         }
+        /**
+         * Get error message.
+         *
+         * @return mixed
+         *
+         * @version 1.0.0
+         */
         public function get_error_message() {
             return $this->message;
         }
@@ -34,6 +59,15 @@ if (!class_exists('WP_Error')) {
 
 // Mock is_wp_error function
 if (!function_exists('is_wp_error')) {
+    /**
+     * Is wp error.
+     *
+     * @param mixed $thing
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     function is_wp_error($thing) {
         return $thing instanceof WP_Error;
     }

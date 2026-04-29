@@ -9,6 +9,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Scoring_Directive_ADX extends TradePress_Scoring_Directive_Base {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         $this->id = 'adx';
         $this->name = 'Average Directional Index';
@@ -27,6 +32,16 @@ class TradePress_Scoring_Directive_ADX extends TradePress_Scoring_Directive_Base
         );
     }
     
+    /**
+     * Calculate score.
+     *
+     * @param mixed $symbol_data
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function calculate_score($symbol_data, $config = array()) {
         $strong_trend = $config['strong_trend'] ?? 25;
         $very_strong_trend = $config['very_strong_trend'] ?? 40;
@@ -116,10 +131,28 @@ class TradePress_Scoring_Directive_ADX extends TradePress_Scoring_Directive_Base
         return $result;
     }
     
+    /**
+     * Get max score.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_max_score($config = array()) {
         return 100;
     }
     
+    /**
+     * Get explanation.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_explanation($config = array()) {
         $strong_trend = $config['strong_trend'] ?? 25;
         $very_strong_trend = $config['very_strong_trend'] ?? 40;
@@ -143,6 +176,11 @@ class TradePress_Scoring_Directive_ADX extends TradePress_Scoring_Directive_Base
     
     /**
      * Check data freshness for this directive
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
+      * @param mixed $required_data
      */
     private function check_data_freshness($symbol, $required_data) {
         if (!class_exists('TradePress_Data_Freshness_Manager')) {
@@ -165,12 +203,24 @@ class TradePress_Scoring_Directive_ADX extends TradePress_Scoring_Directive_Base
         }
     }
     
+    /**
+     * Get data freshness requirements.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_data_freshness_requirements() {
         return $this->data_freshness_requirements;
     }
     
     /**
      * Get ADX data with caching
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
+      * @param array $config
      */
     private function get_adx_data($symbol, $config = array()) {
         if (!class_exists('TradePress_Call_Register')) {
@@ -214,6 +264,11 @@ class TradePress_Scoring_Directive_ADX extends TradePress_Scoring_Directive_Base
     
     /**
      * Fetch fresh ADX data from API
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
+      * @param mixed $params
      */
     private function fetch_fresh_adx_data($symbol, $params) {
         if (!class_exists('TradePress_API_Factory')) {

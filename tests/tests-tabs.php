@@ -14,6 +14,14 @@ class TradePress_Admin_Tests_Page {
     private $plugin_name;
     private $version;
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @param string $plugin_name
+     * @param string $version
+     *
+     * @version 1.0.0
+     */
     public function __construct($plugin_name = 'tradepress', $version = '1.0.0') {
         $this->plugin_name = $plugin_name;
         $this->version = $version;
@@ -21,6 +29,8 @@ class TradePress_Admin_Tests_Page {
     
     /**
      * Main output method for the Tests page
+      *
+      * @version 1.0.0
      */
     public function output() {
         $active_tab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'phase3';
@@ -39,6 +49,10 @@ class TradePress_Admin_Tests_Page {
     
     /**
      * Render tab navigation
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $active_tab
      */
     private function render_tab_navigation($active_tab) {
         $tabs = $this->get_tabs();
@@ -56,6 +70,10 @@ class TradePress_Admin_Tests_Page {
     
     /**
      * Render tab content
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $active_tab
      */
     private function render_tab_content($active_tab) {
         echo '<div class="tab-content">';
@@ -75,6 +93,8 @@ class TradePress_Admin_Tests_Page {
     
     /**
      * Get available tabs
+      *
+      * @version 1.0.0
      */
     private function get_tabs() {
         return [
@@ -88,6 +108,8 @@ class TradePress_Admin_Tests_Page {
     
     /**
      * Render Phase 3 tab content
+      *
+      * @version 1.0.0
      */
     private function render_phase3_tab() {
         ?>
@@ -191,6 +213,11 @@ class TradePress_Admin_Tests_Page {
                 $('#test-results').html('<p><em><?php esc_html_e('Test results cleared.', 'tradepress'); ?></em></p>');
             });
             
+            /**
+             * Display test results.
+             *
+             * @version 1.0.0
+             */
             function displayTestResults(results) {
                 var html = '<h2><?php esc_html_e('Test Results', 'tradepress'); ?></h2>';
                 
@@ -253,6 +280,11 @@ class TradePress_Admin_Tests_Page {
             }
         });
         
+        /**
+         * Toggle airesults.
+         *
+         * @version 1.0.0
+         */
         function toggleAIResults() {
             var div = document.getElementById('ai-results');
             div.style.display = div.style.display === 'none' ? 'block' : 'none';

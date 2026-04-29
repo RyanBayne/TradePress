@@ -14,6 +14,8 @@ class TradePress_Admin_Development_Duplicate_Checker {
     
     /**
      * Enqueue required assets
+      *
+      * @version 1.0.0
      */
     private static function enqueue_assets() {
         wp_enqueue_style(
@@ -34,6 +36,8 @@ class TradePress_Admin_Development_Duplicate_Checker {
     
     /**
      * Output the duplicate checker view
+      *
+      * @version 1.0.0
      */
     public static function output() {
         self::enqueue_assets();
@@ -136,6 +140,10 @@ class TradePress_Admin_Development_Duplicate_Checker {
     
     /**
      * Find duplicate files by extension
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $extension
      */
     private static function find_duplicate_files($extension) {
         $files = self::get_all_files_by_extension($extension);
@@ -167,6 +175,10 @@ class TradePress_Admin_Development_Duplicate_Checker {
     
     /**
      * Get all files by extension in plugin
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $extension
      */
     private static function get_all_files_by_extension($extension) {
         $files = array();
@@ -185,6 +197,10 @@ class TradePress_Admin_Development_Duplicate_Checker {
     
     /**
      * Normalize filename for comparison
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $filename
      */
     private static function normalize_filename($filename) {
         // Remove extension

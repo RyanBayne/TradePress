@@ -23,6 +23,8 @@ if (!class_exists('TradePress_Sortable_Securities')) :
     {
         /**
          * Constructor.
+          *
+          * @version 1.0.0
          */
         public function __construct()
         {   
@@ -34,14 +36,15 @@ if (!class_exists('TradePress_Sortable_Securities')) :
          * Main output method for the shortcode.
          *
          * @return string The HTML output.
+          * @version 1.0.0
          */
         public function output()
         {
-            // Enqueue required scripts and styles
-            wp_enqueue_style('jquery-ui-style', '//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css');
-            wp_enqueue_style('tradepress-sortable-style', plugins_url('sortables-style.css', __FILE__));
-            wp_enqueue_script('jquery-ui-js', 'https://code.jquery.com/ui/1.13.2/jquery-ui.js', array('jquery'), null, true);
-            wp_enqueue_script('tradepress-sortable-script', plugins_url('ajaxloop.js', __FILE__), array('jquery', 'jquery-ui-js'), null, true);
+            // Use WordPress-bundled jQuery UI instead of external CDN for security and reliability.
+            wp_enqueue_style( 'wp-jquery-ui-dialog' );
+            wp_enqueue_style( 'tradepress-sortable-style', plugins_url( 'sortables-style.css', __FILE__ ) );
+            wp_enqueue_script( 'jquery-ui-sortable' );
+            wp_enqueue_script( 'tradepress-sortable-script', plugins_url( 'ajaxloop.js', __FILE__ ), array( 'jquery', 'jquery-ui-sortable' ), null, true );
 
             // MAJOR CHANGE: No need for wp_localize_script anymore since we're generating data client-side
 
@@ -82,6 +85,7 @@ if (!class_exists('TradePress_Sortable_Securities')) :
          * Get initial securities data.
          * 
          * @return array Array of securities with basic data
+          * @version 1.0.0
          */
         private function get_initial_securities_data()
         {

@@ -1440,6 +1440,11 @@ class TradePress_Admin_Development_Diagrams {
             };
             
             // Function to render diagram
+            /**
+             * Render diagram.
+             *
+             * @version 1.0.0
+             */
             function renderDiagram(diagramKey) {
                 const diagram = diagrams[diagramKey];
                 if (!diagram) return;
@@ -1533,6 +1538,11 @@ class TradePress_Admin_Development_Diagrams {
                 $('#ai-analysis-panel').hide();
             });
             
+            /**
+             * Display analysis results.
+             *
+             * @version 1.0.0
+             */
             function displayAnalysisResults(data) {
                 let html = '';
                 

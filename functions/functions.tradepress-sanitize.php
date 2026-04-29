@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @param mixed $taxonomy
  * @return string
+  * @version 1.0.0
  */
 function TradePress_sanitize_taxonomy_name( $taxonomy ) {
     return apply_filters( 'sanitize_taxonomy_name', urldecode( sanitize_title( urldecode( $taxonomy ) ) ), $taxonomy );
@@ -31,6 +32,7 @@ function TradePress_sanitize_taxonomy_name( $taxonomy ) {
  *
  * @param  string $value
  * @return string
+  * @version 1.0.0
  */                                              
 function TradePress_sanitize_permalink( $value ) {       
     global $wpdb;
@@ -51,6 +53,7 @@ function TradePress_sanitize_permalink( $value ) {
  *
  * @param string $var
  * @return string
+  * @version 1.0.0
  */
 function TradePress_sanitize_tooltip( $var ) { 
     // Tooltips are encoded with htmlspecialchars to prevent XSS. Should not be used in conjunction with esc_attr()    

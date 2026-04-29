@@ -22,6 +22,7 @@ class TRADEPRESS_DISCORD_Endpoints {
      * Get Discord API endpoints
      *
      * @return array Endpoints configuration
+      * @version 1.0.0
      */
     public static function get_endpoints() {
         $endpoints = array(
@@ -61,6 +62,7 @@ class TRADEPRESS_DISCORD_Endpoints {
      *
      * @param string $endpoint_id The endpoint identifier
      * @return string|array|false The endpoint URL or data, or false if not found
+      * @version 1.0.0
      */
     public static function get_endpoint($endpoint_id) {
         // Discord API endpoints map

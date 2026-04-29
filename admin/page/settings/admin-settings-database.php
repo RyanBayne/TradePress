@@ -22,6 +22,8 @@ class TradePress_Admin_Settings_Database {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // AJAX handler for manual table installation
@@ -32,6 +34,7 @@ class TradePress_Admin_Settings_Database {
      * Get all TradePress tables and their information
      * 
      * @return array Table information
+      * @version 1.0.0
      */
     public function get_table_information() {
         global $wpdb;
@@ -137,6 +140,7 @@ class TradePress_Admin_Settings_Database {
      * 
      * @param string $table Table name
      * @return bool True if table has foreign keys
+      * @version 1.0.0
      */
     private function table_has_foreign_keys( $table ) {
         global $wpdb;
@@ -158,6 +162,7 @@ class TradePress_Admin_Settings_Database {
      * 
      * @param array $tables Table information
      * @return array Grouped tables
+      * @version 1.0.0
      */
     public function group_tables_by_type( $tables ) {
         $groups = array(
@@ -230,6 +235,7 @@ class TradePress_Admin_Settings_Database {
      * 
      * @param array $tables Table information
      * @return array Missing tables
+      * @version 1.0.0
      */
     public function get_missing_tables( $tables ) {
         $missing = array();
@@ -245,6 +251,8 @@ class TradePress_Admin_Settings_Database {
     
     /**
      * AJAX handler for manual table installation
+      *
+      * @version 1.0.0
      */
     public function ajax_install_tables() {
         // Check permissions

@@ -107,6 +107,8 @@ class TradePress_TradingView_API {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $api_settings = get_option('tradepress_api_settings', array());
@@ -118,6 +120,7 @@ class TradePress_TradingView_API {
      * Get platform metadata
      * 
      * @return array Platform metadata
+      * @version 1.0.0
      */
     public function get_platform_metadata() {
         return $this->platform_metadata;
@@ -128,6 +131,7 @@ class TradePress_TradingView_API {
      * 
      * @param string $symbol Stock symbol
      * @return array|WP_Error Quote data or error
+      * @version 1.0.0
      */
     public function get_quote($symbol) {
         return $this->make_request('quotes', 'GET', array('symbols' => $symbol));
@@ -140,6 +144,7 @@ class TradePress_TradingView_API {
      * @param string $period Time period (mapped to from/to)
      * @param string $interval Data interval
      * @return array|WP_Error Historical data or error
+      * @version 1.0.0
      */
     public function get_historical_data($symbol, $period = '1mo', $interval = 'D') {
         $to = time();
@@ -168,6 +173,7 @@ class TradePress_TradingView_API {
      * Get account balance (not supported)
      * 
      * @return WP_Error Not supported error
+      * @version 1.0.0
      */
     public function get_account_balance() {
         return new WP_Error('not_supported', 'Account data not available via TradingView API');
@@ -177,6 +183,7 @@ class TradePress_TradingView_API {
      * Get portfolio positions (not supported)
      * 
      * @return WP_Error Not supported error
+      * @version 1.0.0
      */
     public function get_portfolio_positions() {
         return new WP_Error('not_supported', 'Portfolio data not available via TradingView API');
@@ -186,6 +193,7 @@ class TradePress_TradingView_API {
      * Get open orders (not supported)
      * 
      * @return WP_Error Not supported error
+      * @version 1.0.0
      */
     public function get_open_orders() {
         return new WP_Error('not_supported', 'Order data not available via TradingView API');
@@ -196,6 +204,7 @@ class TradePress_TradingView_API {
      * 
      * @param string $query Search query
      * @return array|WP_Error Search results or error
+      * @version 1.0.0
      */
     public function search_symbols($query) {
         return $this->make_request('symbols/search', 'GET', array('query' => $query));
@@ -205,6 +214,7 @@ class TradePress_TradingView_API {
      * Get watchlist symbols (not supported)
      * 
      * @return WP_Error Not supported error
+      * @version 1.0.0
      */
     public function get_watchlist_symbols() {
         return new WP_Error('not_supported', 'Watchlist data not available via TradingView API');
@@ -216,6 +226,7 @@ class TradePress_TradingView_API {
      * @param string $symbol Stock symbol
      * @param string $interval Time interval
      * @return array|WP_Error Chart data or error
+      * @version 1.0.0
      */
     public function get_chart_data($symbol, $interval = 'D') {
         return $this->get_historical_data($symbol, '1mo', $interval);
@@ -228,6 +239,7 @@ class TradePress_TradingView_API {
      * @param array $indicators List of indicators with parameters
      * @param string $resolution Chart resolution
      * @return array|WP_Error Technical indicator data or error
+      * @version 1.0.0
      */
     public function get_technical_indicators($symbol, $indicators, $resolution = 'D') {
         $to = time();
@@ -250,6 +262,7 @@ class TradePress_TradingView_API {
      * @param array $filters Screener filters
      * @param array $options Additional options
      * @return array|WP_Error Screener results or error
+      * @version 1.0.0
      */
     public function get_screener_results($filters, $options = array()) {
         $params = array(
@@ -267,6 +280,7 @@ class TradePress_TradingView_API {
      * @param string $to End date (YYYY-MM-DD)
      * @param array $options Additional options
      * @return array|WP_Error Economic events or error
+      * @version 1.0.0
      */
     public function get_economic_calendar($from, $to, $options = array()) {
         $params = array_merge(array(
@@ -284,6 +298,7 @@ class TradePress_TradingView_API {
      * @param string $to End date (YYYY-MM-DD)
      * @param array $options Additional options
      * @return array|WP_Error Earnings events or error
+      * @version 1.0.0
      */
     public function get_earnings_calendar($from, $to, $options = array()) {
         $params = array_merge(array(
@@ -300,6 +315,7 @@ class TradePress_TradingView_API {
      * @param string $symbol Symbol (optional)
      * @param array $options Additional options
      * @return array|WP_Error News articles or error
+      * @version 1.0.0
      */
     public function get_news($symbol = null, $options = array()) {
         $params = $options;
@@ -316,6 +332,7 @@ class TradePress_TradingView_API {
      * @param string $symbol Symbol (optional)
      * @param array $options Additional options
      * @return array|WP_Error Trading ideas or error
+      * @version 1.0.0
      */
     public function get_trading_ideas($symbol = null, $options = array()) {
         $params = $options;
@@ -332,6 +349,7 @@ class TradePress_TradingView_API {
      * @param string $symbol Stock symbol
      * @param array $params Optional widget parameters
      * @return string HTML for TradingView widget
+      * @version 1.0.0
      */
     public function get_chart_widget($symbol, $params = array()) {
         $defaults = array(
@@ -379,6 +397,7 @@ class TradePress_TradingView_API {
      * @param string $method HTTP method
      * @param array $params Request parameters
      * @return array|WP_Error Response data or error
+      * @version 1.0.0
      */
     private function make_request($endpoint, $method = 'GET', $params = array()) {
         // Demo mode - return sample data
@@ -438,6 +457,7 @@ class TradePress_TradingView_API {
      * 
      * @param string $endpoint API endpoint
      * @return array Sample data
+      * @version 1.0.0
      */
     private function get_demo_data($endpoint) {
         switch ($endpoint) {
@@ -500,6 +520,7 @@ class TradePress_TradingView_API {
      * Get platform capabilities for directive support
      * 
      * @return array Platform capabilities
+      * @version 1.0.0
      */
     public function get_platform_capabilities() {
         return array(

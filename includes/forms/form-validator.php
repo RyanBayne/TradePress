@@ -16,6 +16,10 @@ class TradePress_Form_Validator {
     
     /**
      * Validate form submission basics
+      *
+      * @version 1.0.0
+      *
+      * @param array $required_fields
      */
     public static function validate_form_basics($required_fields = array()) {
         $errors = array();
@@ -38,6 +42,11 @@ class TradePress_Form_Validator {
     
     /**
      * Validate nonce
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $nonce_field
+      * @param mixed $nonce_action
      */
     public static function validate_nonce($nonce_field, $nonce_action) {
         if (!isset($_POST[$nonce_field])) {
@@ -58,6 +67,10 @@ class TradePress_Form_Validator {
     
     /**
      * Validate user permissions
+      *
+      * @version 1.0.0
+      *
+      * @param string $capability
      */
     public static function validate_permissions($capability = 'manage_options') {
         if (!current_user_can($capability)) {
@@ -70,6 +83,11 @@ class TradePress_Form_Validator {
     
     /**
      * Log form submission for debugging
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $form_name
+      * @param array $additional_data
      */
     public static function log_form_submission($form_name, $additional_data = array()) {
         $log_data = array(
@@ -85,6 +103,11 @@ class TradePress_Form_Validator {
     
     /**
      * Sanitize API settings
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $api_id
+      * @param mixed $post_data
      */
     public static function sanitize_api_settings($api_id, $post_data) {
         $sanitized = array();

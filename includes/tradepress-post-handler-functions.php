@@ -21,6 +21,7 @@ if (!defined('ABSPATH')) {
  * @param callable $callback The function to call to handle the action
  * @param string $capability Optional. The capability required to perform the action
  * @return bool Whether the handler was registered
+  * @version 1.0.0
  */
 function tradepress_register_post_handler($action, $callback, $capability = '') {
     return TradePress_POST_Handler::register_handler($action, $callback, $capability);
@@ -33,6 +34,7 @@ function tradepress_register_post_handler($action, $callback, $capability = '') 
  * @param bool $referer Whether to include the referer field
  * @param bool $echo Whether to echo the field
  * @return string The nonce field HTML
+  * @version 1.0.0
  */
 function tradepress_nonce_field($action, $referer = true, $echo = true) {
     return TradePress_POST_Handler::nonce_field($action, $referer, $echo);
@@ -47,6 +49,7 @@ function tradepress_nonce_field($action, $referer = true, $echo = true) {
  * @param string $message Success message
  * @param string $redirect_url URL to redirect to
  * @return array Response array for POST handler
+  * @version 1.0.0
  */
 function tradepress_post_success($message, $redirect_url = '') {
     $response = array(
@@ -67,6 +70,7 @@ function tradepress_post_success($message, $redirect_url = '') {
  * @param string $message Error message
  * @param string $redirect_url URL to redirect to
  * @return array Response array for POST handler
+  * @version 1.0.0
  */
 function tradepress_post_error($message, $redirect_url = '') {
     $response = array(
@@ -85,6 +89,7 @@ function tradepress_post_error($message, $redirect_url = '') {
  * Get POST handling result data if available
  * 
  * @return array|null Result data or null if none available
+  * @version 1.0.0
  */
 function tradepress_get_post_result() {
     if (isset($_GET['tradepress_result'])) {

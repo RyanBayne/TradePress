@@ -29,9 +29,13 @@ class TradePress_Features_Data {
      * Get all features data
      *
      * @return array All feature data organized by category
+      * @version 1.0.0
      */
     public static function get_features_data() {
-        // Get all development data from feature loader
+        // Get all development data from feature loader when available.
+        if ( ! function_exists( 'tradepress_get_all_development_data' ) ) {
+            return array();
+        }
         $development_data = tradepress_get_all_development_data();
         
         // Transform into UI-compatible format

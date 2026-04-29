@@ -27,6 +27,7 @@ class TradePress_WeBull_Endpoints {
      * Based on WeBull API behavior and community knowledge
      * 
      * @return array API restrictions information
+      * @version 1.0.0
      */
     public static function get_api_restrictions() {
         return array(
@@ -67,6 +68,7 @@ class TradePress_WeBull_Endpoints {
      * Get all available endpoints
      *
      * @return array Array of available endpoints with their configurations
+      * @version 1.0.0
      */
     public static function get_endpoints() {
         return array(

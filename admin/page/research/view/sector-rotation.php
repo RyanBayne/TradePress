@@ -18,6 +18,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Display the Sector Rotation tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_sector_rotation_tab_content() {
     // Get timeframe from URL parameter, default to 1 month
@@ -235,6 +237,7 @@ function tradepress_sector_rotation_tab_content() {
  *
  * @param string $timeframe The timeframe to get data for (1w, 1m, 3m, 6m, 1y, ytd)
  * @return array An array of sector data
+  * @version 1.0.0
  */
 function tradepress_get_demo_sector_data($timeframe) {
     // In a real implementation, this would fetch data from an API or database
@@ -409,6 +412,7 @@ function tradepress_get_demo_sector_data($timeframe) {
  * Get the market cycle rotation phases
  *
  * @return array The rotation phases information
+  * @version 1.0.0
  */
 function tradepress_get_rotation_phases() {
     return array(
@@ -439,6 +443,7 @@ function tradepress_get_rotation_phases() {
  * Get the current rotation phase
  *
  * @return array The current market rotation phase
+  * @version 1.0.0
  */
 function tradepress_get_current_rotation_phase() {
     // In a real implementation, this would analyze economic indicators and market data
@@ -461,6 +466,7 @@ function tradepress_get_current_rotation_phase() {
  * Get the top performing industries
  *
  * @return array The top performing industries
+  * @version 1.0.0
  */
 function tradepress_get_demo_top_industries() {
     return array(
@@ -506,6 +512,7 @@ function tradepress_get_demo_top_industries() {
  * Get the worst performing industries
  *
  * @return array The worst performing industries
+  * @version 1.0.0
  */
 function tradepress_get_demo_bottom_industries() {
     return array(
@@ -552,6 +559,7 @@ function tradepress_get_demo_bottom_industries() {
  *
  * @param string $timeframe The timeframe code
  * @return string The timeframe label
+  * @version 1.0.0
  */
 function tradepress_get_timeframe_label($timeframe) {
     $labels = array(

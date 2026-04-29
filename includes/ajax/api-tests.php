@@ -4,6 +4,7 @@
  * 
  * @since 1.0.1
  * @return void
+  * @version 1.0.0
  */
 function tradepress_ajax_test_alpaca_endpoint() {
     // Security check

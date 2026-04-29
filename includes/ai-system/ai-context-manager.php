@@ -47,6 +47,8 @@ class TradePress_AI_Context_Manager {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->load_context();
@@ -54,6 +56,8 @@ class TradePress_AI_Context_Manager {
     
     /**
      * Load context from storage
+      *
+      * @version 1.0.0
      */
     private function load_context() {
         // Load from user meta or transient
@@ -74,6 +78,8 @@ class TradePress_AI_Context_Manager {
     
     /**
      * Save context to storage
+      *
+      * @version 1.0.0
      */
     private function save_context() {
         $user_id = get_current_user_id();
@@ -83,6 +89,8 @@ class TradePress_AI_Context_Manager {
     
     /**
      * Initialize default context
+      *
+      * @version 1.0.0
      */
     private function initialize_default_context() {
         $this->context = array(
@@ -99,6 +107,7 @@ class TradePress_AI_Context_Manager {
      * Update current file context
      *
      * @param string $file_path Path to the current file
+      * @version 1.0.0
      */
     public function update_current_file($file_path) {
         // Save previous context to history
@@ -132,6 +141,7 @@ class TradePress_AI_Context_Manager {
      * @param string $activity_type Type of activity (e.g., 'edit', 'view', 'debug')
      * @param string $description Description of the activity
      * @param array $metadata Additional metadata about the activity
+      * @version 1.0.0
      */
     public function add_activity($activity_type, $description, $metadata = array()) {
         $activity = array(
@@ -155,6 +165,7 @@ class TradePress_AI_Context_Manager {
      * Update active development areas based on activity
      *
      * @param array $activity Activity data
+      * @version 1.0.0
      */
     private function update_active_development_areas($activity) {
         // Extract development area from activity
@@ -193,6 +204,7 @@ class TradePress_AI_Context_Manager {
      * Detect which feature a file belongs to
      *
      * @param string $file_path Path to the file
+      * @version 1.0.0
      */
     private function detect_feature_from_file($file_path) {
         // This would be implemented by analyzing the file path and contents
@@ -214,6 +226,7 @@ class TradePress_AI_Context_Manager {
      * Add current context to history
      *
      * @param array $context Context to add to history
+      * @version 1.0.0
      */
     private function add_to_context_history($context) {
         // Only save if we have a meaningful context
@@ -237,6 +250,7 @@ class TradePress_AI_Context_Manager {
      * Get current context
      *
      * @return array Current context data
+      * @version 1.0.0
      */
     public function get_context() {
         return $this->context;
@@ -246,6 +260,7 @@ class TradePress_AI_Context_Manager {
      * Get context history
      *
      * @return array Context history
+      * @version 1.0.0
      */
     public function get_context_history() {
         return $this->context_history;
@@ -253,6 +268,8 @@ class TradePress_AI_Context_Manager {
     
     /**
      * Clear context and history
+      *
+      * @version 1.0.0
      */
     public function clear_context() {
         $this->initialize_default_context();
@@ -264,6 +281,7 @@ class TradePress_AI_Context_Manager {
      * Determine relevant suggestions based on current context
      *
      * @return array Array of suggestion types that are relevant
+      * @version 1.0.0
      */
     public function get_relevant_suggestion_types() {
         $relevant_types = array();
@@ -322,6 +340,7 @@ class TradePress_AI_Context_Manager {
      * Get the most active development area
      *
      * @return string|null The most active area or null if none
+      * @version 1.0.0
      */
     public function get_most_active_area() {
         $areas = $this->context['active_development_areas'];

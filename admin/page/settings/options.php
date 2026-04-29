@@ -221,6 +221,7 @@ trait TradePress_OptionsTrait {
     * @param mixed $name
     * @param mixed $group
     * @return mixed
+     * @version 1.0.0
     */
     public static function is_valid( $name, $group = null ) {      
         if ( is_array( $name ) ) {
@@ -294,6 +295,7 @@ trait TradePress_OptionsTrait {
     * @param mixed $group
     * @param mixed $name
     * @param mixed $value
+     * @version 1.0.0
     */                               
     private function update_grouped_option( $group, $name, $value ) {
         $options = get_option( self::$grouped_options[ $group ] );
@@ -316,6 +318,7 @@ trait TradePress_OptionsTrait {
      * @todo Check original functions use of do('pre_update_jetpack_option_
      * which requires add_action that calls the delete method in this class.
      * Why delete every option prior to update?
+      * @version 1.0.0
      */
     public function update_option( $name, $value, $autoload = null ) {    
         if ( self::is_valid( $name, 'non_compact' ) ) {
@@ -345,6 +348,7 @@ trait TradePress_OptionsTrait {
      * jetpack_$name as appropriate.
      *
      * @param array $array array( option name => option value, ... )
+      * @version 1.0.0
      */
     public function update_options( $array ) {
         $names = array_keys( $array );
@@ -364,6 +368,7 @@ trait TradePress_OptionsTrait {
      * Updates TradePress_options and/or deletes TradePress_$name as appropriate.
      *
      * @param string|array $names
+      * @version 1.0.0
      */
     public function delete_option( $names ) {       
         $result = true;
@@ -397,6 +402,7 @@ trait TradePress_OptionsTrait {
     * @param string $group non_compact, private, compact 
     * @param mixed $name
     * @param mixed $default
+     * @version 1.0.0
     */
     private static function get_grouped_option( $group, $name, $default = null ) {
         $options = get_option( self::$grouped_options[ $group ] );
@@ -414,6 +420,7 @@ trait TradePress_OptionsTrait {
     * 
     * @param mixed $group
     * @param mixed $names
+     * @version 1.0.0
     */
     private function delete_grouped_option( $group, $names ) {         
         $options = get_option( self::$grouped_options[ $group ], array() );

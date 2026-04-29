@@ -28,6 +28,8 @@ class TradePress_Advisor_Session {
 
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->user_id = get_current_user_id();
@@ -38,6 +40,7 @@ class TradePress_Advisor_Session {
      *
      * @param string $mode The advisor mode (invest, day_trade, etc.)
      * @return bool Success status
+      * @version 1.0.0
      */
     public function start_session( $mode ) {
         $session_data = array(
@@ -60,6 +63,7 @@ class TradePress_Advisor_Session {
      * Get current session data
      *
      * @return array|false Session data or false if no session
+      * @version 1.0.0
      */
     public function get_session_data() {
         return get_transient( "tradepress_advisor_session_{$this->user_id}" );
@@ -71,6 +75,7 @@ class TradePress_Advisor_Session {
      * @param int   $step Step number
      * @param array $data Step data
      * @return bool Success status
+      * @version 1.0.0
      */
     public function update_step_data( $step, $data ) {
         // Save step-specific data
@@ -111,6 +116,7 @@ class TradePress_Advisor_Session {
      *
      * @param int $step Step number
      * @return array|false Step data or false if not found
+      * @version 1.0.0
      */
     public function get_step_data( $step ) {
         return get_transient( "tradepress_advisor_step_{$this->user_id}_{$step}" );
@@ -120,6 +126,7 @@ class TradePress_Advisor_Session {
      * Clear advisor session
      *
      * @return bool Success status
+      * @version 1.0.0
      */
     public function clear_session() {
         $session_data = $this->get_session_data();
@@ -141,6 +148,7 @@ class TradePress_Advisor_Session {
      * Get selected symbols from all steps
      *
      * @return array Array of selected symbols
+      * @version 1.0.0
      */
     public function get_selected_symbols() {
         $session_data = $this->get_session_data();
@@ -151,6 +159,7 @@ class TradePress_Advisor_Session {
      * Check if session exists
      *
      * @return bool True if session exists
+      * @version 1.0.0
      */
     public function has_session() {
         return $this->get_session_data() !== false;
@@ -160,6 +169,7 @@ class TradePress_Advisor_Session {
      * Get session mode
      *
      * @return string|false Session mode or false if no session
+      * @version 1.0.0
      */
     public function get_mode() {
         $session_data = $this->get_session_data();
@@ -171,6 +181,7 @@ class TradePress_Advisor_Session {
      *
      * @param int $step Step number
      * @return bool True if step is completed
+      * @version 1.0.0
      */
     public function is_step_completed( $step ) {
         $session_data = $this->get_session_data();
@@ -182,6 +193,7 @@ class TradePress_Advisor_Session {
      *
      * @param string $mode Advisor mode
      * @return bool Success status
+      * @version 1.0.0
      */
     public function set_mode( $mode ) {
         $session_data = $this->get_session_data();
@@ -202,6 +214,7 @@ class TradePress_Advisor_Session {
      *
      * @param int $step Step number
      * @return bool Success status
+      * @version 1.0.0
      */
     public function mark_step_completed( $step ) {
         $session_data = $this->get_session_data();
@@ -225,6 +238,7 @@ class TradePress_Advisor_Session {
      *
      * @param int $step Step number
      * @return bool Success status
+      * @version 1.0.0
      */
     public function set_current_step( $step ) {
         $session_data = $this->get_session_data();
@@ -245,6 +259,7 @@ class TradePress_Advisor_Session {
      *
      * @param array $symbols Array of symbols
      * @return bool Success status
+      * @version 1.0.0
      */
     public function set_selected_symbols( $symbols ) {
         $session_data = $this->get_session_data();
@@ -265,6 +280,7 @@ class TradePress_Advisor_Session {
      *
      * @param array $settings Technical settings array
      * @return bool Success status
+      * @version 1.0.0
      */
     public function set_technical_settings( $settings ) {
         $session_data = $this->get_session_data();
@@ -284,6 +300,7 @@ class TradePress_Advisor_Session {
      * Get technical analysis settings
      *
      * @return array|false Technical settings or false if not set
+      * @version 1.0.0
      */
     public function get_technical_settings() {
         $session_data = $this->get_session_data();

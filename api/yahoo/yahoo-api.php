@@ -88,6 +88,8 @@ class TradePress_Yahoo_API {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Yahoo Finance doesn't require API key for basic endpoints
@@ -97,6 +99,7 @@ class TradePress_Yahoo_API {
      * Get platform metadata
      *
      * @return array Platform metadata
+      * @version 1.0.0
      */
     public function get_platform_meta() {
         return $this->platform_meta;
@@ -106,6 +109,7 @@ class TradePress_Yahoo_API {
      * Get platform capabilities
      *
      * @return array Platform capabilities
+      * @version 1.0.0
      */
     public function get_capabilities() {
         return $this->platform_meta['capabilities'];
@@ -116,6 +120,7 @@ class TradePress_Yahoo_API {
      *
      * @param string $data_type Data type to check
      * @return bool True if supported
+      * @version 1.0.0
      */
     public function supports_data_type($data_type) {
         return isset($this->platform_meta['data_types'][$data_type]);
@@ -126,6 +131,7 @@ class TradePress_Yahoo_API {
      *
      * @param string $data_type Data type
      * @return string|false Endpoint name or false
+      * @version 1.0.0
      */
     public function get_data_type_endpoint($data_type) {
         return $this->supports_data_type($data_type) ? $this->platform_meta['data_types'][$data_type] : false;
@@ -138,6 +144,7 @@ class TradePress_Yahoo_API {
      * @param string $interval Time interval (1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo)
      * @param string $range Time range (1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max)
      * @return array|WP_Error Quote data or error
+      * @version 1.0.0
      */
     public function get_quote($symbol, $interval = '1d', $range = '1d') {
         return $this->make_request('quote', array(
@@ -153,6 +160,7 @@ class TradePress_Yahoo_API {
      *
      * @param array $symbols Array of stock symbols
      * @return array|WP_Error Quotes data or error
+      * @version 1.0.0
      */
     public function get_quotes($symbols) {
         $symbols_string = is_array($symbols) ? implode(',', $symbols) : $symbols;
@@ -167,6 +175,7 @@ class TradePress_Yahoo_API {
      * @param int $period2 End timestamp
      * @param string $interval Time interval
      * @return array|WP_Error Historical data or error
+      * @version 1.0.0
      */
     public function get_bars($symbol, $period1 = null, $period2 = null, $interval = '1d') {
         $params = array('symbol' => $symbol, 'interval' => $interval);
@@ -183,6 +192,7 @@ class TradePress_Yahoo_API {
      * @param string $interval Intraday interval (1m, 2m, 5m, 15m, 30m, 60m, 90m)
      * @param string $range Time range (1d, 5d)
      * @return array|WP_Error Intraday data or error
+      * @version 1.0.0
      */
     public function get_intraday($symbol, $interval = '5m', $range = '1d') {
         return $this->get_quote($symbol, $interval, $range);
@@ -195,6 +205,7 @@ class TradePress_Yahoo_API {
      * @param int $quotes_count Number of quote results
      * @param int $news_count Number of news results
      * @return array|WP_Error Search results or error
+      * @version 1.0.0
      */
     public function search($query, $quotes_count = 10, $news_count = 5) {
         return $this->make_request('search', array(
@@ -210,6 +221,7 @@ class TradePress_Yahoo_API {
      * @param string $symbol Stock symbol
      * @param int $date Expiration date timestamp (optional)
      * @return array|WP_Error Options data or error
+      * @version 1.0.0
      */
     public function get_options($symbol, $date = null) {
         $params = array('symbol' => $symbol);
@@ -224,6 +236,7 @@ class TradePress_Yahoo_API {
      * @param string $symbol Stock symbol
      * @param array $modules Modules to fetch (defaultKeyStatistics, financialData, summaryProfile, etc.)
      * @return array|WP_Error Fundamental data or error
+      * @version 1.0.0
      */
     public function get_fundamentals($symbol, $modules = array()) {
         $default_modules = array(
@@ -251,6 +264,7 @@ class TradePress_Yahoo_API {
      * @param string $symbol Stock symbol
      * @param int $count Number of news items
      * @return array|WP_Error News data or error
+      * @version 1.0.0
      */
     public function get_news($symbol, $count = 10) {
         return $this->make_request('news', array(
@@ -265,6 +279,7 @@ class TradePress_Yahoo_API {
      *
      * @param string $region Region code (US, GB, etc.)
      * @return array|WP_Error Market summary or error
+      * @version 1.0.0
      */
     public function get_market_summary($region = 'US') {
         return $this->make_request('market_summary', array('region' => $region));
@@ -275,6 +290,7 @@ class TradePress_Yahoo_API {
      *
      * @param string $region Region code (US, GB, etc.)
      * @return array|WP_Error Trending data or error
+      * @version 1.0.0
      */
     public function get_trending($region = 'US') {
         return $this->make_request('trending', array('region' => $region));
@@ -286,6 +302,7 @@ class TradePress_Yahoo_API {
      * @param array $screener_ids Screener IDs
      * @param int $count Number of results
      * @return array|WP_Error Screener results or error
+      * @version 1.0.0
      */
     public function get_screener($screener_ids = array(), $count = 25) {
         $default_screeners = array('most_actives', 'day_gainers', 'day_losers');
@@ -303,6 +320,7 @@ class TradePress_Yahoo_API {
      * @param array $symbols Array of symbols
      * @param string $range Time range\n     * @param string $interval Time interval
      * @return array|WP_Error Spark data or error
+      * @version 1.0.0
      */
     public function get_spark($symbols, $range = '1d', $interval = '5m') {
         $symbols_string = is_array($symbols) ? implode(',', $symbols) : $symbols;
@@ -319,6 +337,7 @@ class TradePress_Yahoo_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Recommendations or error
+      * @version 1.0.0
      */
     public function get_recommendations($symbol) {
         return $this->make_request('recommendations', array('symbol' => $symbol));
@@ -329,6 +348,7 @@ class TradePress_Yahoo_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Insights or error
+      * @version 1.0.0
      */
     public function get_insights($symbol) {
         return $this->make_request('insights', array('symbol' => $symbol));
@@ -340,6 +360,7 @@ class TradePress_Yahoo_API {
      * @param string $endpoint Endpoint name
      * @param array $params Request parameters
      * @return array|WP_Error Response data or error
+      * @version 1.0.0
      */
     private function make_request($endpoint, $params = array()) {
         if (!class_exists('TradePress_Yahoo_Endpoints')) {

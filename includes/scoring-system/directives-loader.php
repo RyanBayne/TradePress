@@ -22,9 +22,13 @@ if ( file_exists( $directives_register_file ) ) {
 } else {
     // Fallback or error logging if the definitions file is missing.
     if ( defined('WP_DEBUG') && WP_DEBUG ) {
-        error_log('TradePress Error: directives-register.php not found.');
     }
     if ( ! function_exists('tradepress_get_all_system_directives') ) {
+        /**
+         * Get all system directives.
+         *
+         * @version 1.0.0
+         */
         function tradepress_get_all_system_directives() { return array(); }
     }
 }
@@ -35,6 +39,7 @@ if ( file_exists( $directives_register_file ) ) {
  * (Originally tradepress_get_scoring_directives from tradepress-scoring-directives.php)
  *
  * @return array The scoring directives.
+  * @version 1.0.0
  */
 function tradepress_get_configured_scoring_directives() {
     return apply_filters('tradepress_configured_scoring_directives', 
@@ -48,6 +53,7 @@ function tradepress_get_configured_scoring_directives() {
  *
  * @param array $directives The directives to save.
  * @return bool True if successful, false otherwise.
+  * @version 1.0.0
  */
 function tradepress_save_scoring_directives_config($directives) {
     $sanitized = array();
@@ -115,6 +121,7 @@ function tradepress_save_scoring_directives_config($directives) {
  *
  * @param string $id The directive ID.
  * @return array|null The directive or null if not found.
+  * @version 1.0.0
  */
 function tradepress_get_configured_directive_by_id($id) {
     $directives = tradepress_get_configured_scoring_directives();
@@ -126,6 +133,7 @@ function tradepress_get_configured_directive_by_id($id) {
  *
  * @param string $id The directive ID.
  * @return array|null The system directive definition or null if not found.
+  * @version 1.0.0
  */
 function tradepress_get_system_directive_by_id($id) {
     $system_directives = tradepress_get_all_system_directives();
@@ -137,6 +145,7 @@ function tradepress_get_system_directive_by_id($id) {
  * This is the primary function for retrieving directives for use in the plugin.
  *
  * @return array Merged directives.
+  * @version 1.0.0
  */
 function tradepress_get_all_directives() {
     $system_directives = tradepress_get_all_system_directives();
@@ -180,6 +189,7 @@ function tradepress_get_all_directives() {
  *
  * @param string $id The directive ID.
  * @return array|null The merged directive or null if not found.
+  * @version 1.0.0
  */
 function tradepress_get_directive_by_id($id) {
     $all_directives = tradepress_get_all_directives();
@@ -191,6 +201,7 @@ function tradepress_get_directive_by_id($id) {
  * (Originally tradepress_get_missing_technical_indicators from tradepress-scoring-directives.php)
  *
  * @return array New technical indicators to be added.
+  * @version 1.0.0
  */
 function tradepress_get_missing_configured_technical_indicators() {
     $all_system_directives = tradepress_get_all_system_directives();
@@ -212,6 +223,7 @@ function tradepress_get_missing_configured_technical_indicators() {
  * @param string $id The directive ID.
  * @param array $directive_defaults Default settings for the directive.
  * @return bool True if saved/updated, false otherwise.
+  * @version 1.0.0
  */
 function tradepress_ensure_directive_in_options($id, $directive_defaults) {
     $directives = tradepress_get_configured_scoring_directives();
@@ -230,6 +242,7 @@ function tradepress_ensure_directive_in_options($id, $directive_defaults) {
  * @param int $score The current score.
  * @param array $symbol_data Data for the symbol being scored.
  * @return int The final score.
+  * @version 1.0.0
  */
 function tradepress_apply_score_directives_to_symbol($score, $symbol_data) {
     $total_weight = 0;
@@ -263,6 +276,7 @@ function tradepress_apply_score_directives_to_symbol($score, $symbol_data) {
  * (Originally get_directive_settings from TradePress_Scoring_Directives_Registry)
  *
  * @return array
+  * @version 1.0.0
  */
 function tradepress_get_simplified_directive_settings() {
     $settings = array();

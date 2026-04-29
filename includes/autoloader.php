@@ -44,6 +44,7 @@ class TradePress_Autoloader {
      *
      * @param  string $class
      * @return string
+      * @version 1.0.0
      */
     private function get_file_name_from_class( $class ) {
         return 'class.' . str_replace( '_', '-', $class ) . '.php';
@@ -54,6 +55,7 @@ class TradePress_Autoloader {
      *
      * @param  string $path
      * @return bool successful or not
+      * @version 1.0.0
      */
     private function load_file( $path ) {
         if ( $path && is_readable( $path ) ) {
@@ -61,7 +63,6 @@ class TradePress_Autoloader {
                 include_once( $path );
                 return true;
             } catch ( Exception $e ) {
-                error_log( 'TradePress Autoloader: Failed to load file ' . $path . ': ' . $e->getMessage() );
                 return false;
             }
         }
@@ -72,6 +73,7 @@ class TradePress_Autoloader {
      * Auto-load TradePress classes on demand to reduce memory consumption.
      *
      * @param string $class
+      * @version 1.0.0
      */
     public function autoload( $class ) {
         $class = strtolower( $class );

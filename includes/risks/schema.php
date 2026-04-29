@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Create risk management database tables
  *
  * @return void
+  * @version 1.0.0
  */
 function tradepress_create_risk_management_tables() {
     global $wpdb;
@@ -49,6 +50,7 @@ function tradepress_create_risk_management_tables() {
  * Check if risk management tables exist
  *
  * @return bool True if tables exist
+  * @version 1.0.0
  */
 function tradepress_risk_management_tables_exist() {
     global $wpdb;

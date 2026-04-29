@@ -8,7 +8,7 @@
 
 defined('ABSPATH') || exit;
 ?>
-<div class="tradepress-ui-section">
+<div class="tradepress-ui-section tradepress-ui-section--filters-search">
     <h3><?php esc_html_e('Filters & Search', 'tradepress'); ?></h3>
     <p><?php esc_html_e('Search inputs, filter controls, and data refinement components for enhanced user experience.', 'tradepress'); ?></p>
 
@@ -127,105 +127,107 @@ defined('ABSPATH') || exit;
         </div>
     </div>
 
-    <!-- Advanced Filter Panels -->
-    <div class="tradepress-component-group">
-        <h4><?php esc_html_e('Advanced Filter Panels', 'tradepress'); ?></h4>
-        <div class="tradepress-component-showcase">
-            <div class="filter-panel-demo">
-                <div class="filter-panel">
-                    <div class="filter-panel-header">
-                        <h5><?php esc_html_e('Advanced Filters', 'tradepress'); ?></h5>
-                        <button type="button" class="filter-panel-toggle">
-                            <span class="dashicons dashicons-arrow-down-alt2"></span>
-                        </button>
-                    </div>
-                    <div class="filter-panel-content">
-                        <div class="filter-row">
-                            <div class="filter-column">
-                                <label class="filter-field-label"><?php esc_html_e('Price Range', 'tradepress'); ?></label>
-                                <div class="filter-range">
-                                    <input type="number" class="filter-input" placeholder="<?php esc_attr_e('Min', 'tradepress'); ?>" min="0">
-                                    <span class="filter-range-separator">—</span>
-                                    <input type="number" class="filter-input" placeholder="<?php esc_attr_e('Max', 'tradepress'); ?>" min="0">
-                                </div>
-                            </div>
-                            <div class="filter-column">
-                                <label class="filter-field-label"><?php esc_html_e('Market Cap', 'tradepress'); ?></label>
-                                <select class="filter-select">
-                                    <option value=""><?php esc_html_e('Any Size', 'tradepress'); ?></option>
-                                    <option value="mega"><?php esc_html_e('Mega Cap (>$300B)', 'tradepress'); ?></option>
-                                    <option value="large"><?php esc_html_e('Large Cap ($10B-$300B)', 'tradepress'); ?></option>
-                                    <option value="mid"><?php esc_html_e('Mid Cap ($2B-$10B)', 'tradepress'); ?></option>
-                                    <option value="small"><?php esc_html_e('Small Cap (<$2B)', 'tradepress'); ?></option>
-                                </select>
-                            </div>
+    <div class="tradepress-filters-two-column">
+        <!-- Advanced Filter Panels -->
+        <div class="tradepress-component-group">
+            <h4><?php esc_html_e('Advanced Filter Panels', 'tradepress'); ?></h4>
+            <div class="tradepress-component-showcase">
+                <div class="filter-panel-demo">
+                    <div class="filter-panel">
+                        <div class="filter-panel-header">
+                            <h5><?php esc_html_e('Advanced Filters', 'tradepress'); ?></h5>
+                            <button type="button" class="filter-panel-toggle">
+                                <span class="dashicons dashicons-arrow-down-alt2"></span>
+                            </button>
                         </div>
-                        <div class="filter-row">
-                            <div class="filter-column">
-                                <label class="filter-field-label"><?php esc_html_e('Volume', 'tradepress'); ?></label>
-                                <input type="range" class="filter-slider" min="0" max="100" value="50">
-                                <div class="filter-slider-labels">
-                                    <span><?php esc_html_e('Low', 'tradepress'); ?></span>
-                                    <span><?php esc_html_e('High', 'tradepress'); ?></span>
+                        <div class="filter-panel-content">
+                            <div class="filter-row">
+                                <div class="filter-column">
+                                    <label class="filter-field-label"><?php esc_html_e('Price Range', 'tradepress'); ?></label>
+                                    <div class="filter-range">
+                                        <input type="number" class="filter-input" placeholder="<?php esc_attr_e('Min', 'tradepress'); ?>" min="0">
+                                        <span class="filter-range-separator">—</span>
+                                        <input type="number" class="filter-input" placeholder="<?php esc_attr_e('Max', 'tradepress'); ?>" min="0">
+                                    </div>
+                                </div>
+                                <div class="filter-column">
+                                    <label class="filter-field-label"><?php esc_html_e('Market Cap', 'tradepress'); ?></label>
+                                    <select class="filter-select">
+                                        <option value=""><?php esc_html_e('Any Size', 'tradepress'); ?></option>
+                                        <option value="mega"><?php esc_html_e('Mega Cap (>$300B)', 'tradepress'); ?></option>
+                                        <option value="large"><?php esc_html_e('Large Cap ($10B-$300B)', 'tradepress'); ?></option>
+                                        <option value="mid"><?php esc_html_e('Mid Cap ($2B-$10B)', 'tradepress'); ?></option>
+                                        <option value="small"><?php esc_html_e('Small Cap (<$2B)', 'tradepress'); ?></option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="filter-column">
-                                <label class="filter-field-label"><?php esc_html_e('Volatility', 'tradepress'); ?></label>
-                                <input type="range" class="filter-slider" min="0" max="100" value="30">
-                                <div class="filter-slider-labels">
-                                    <span><?php esc_html_e('Stable', 'tradepress'); ?></span>
-                                    <span><?php esc_html_e('Volatile', 'tradepress'); ?></span>
+                            <div class="filter-row">
+                                <div class="filter-column">
+                                    <label class="filter-field-label"><?php esc_html_e('Volume', 'tradepress'); ?></label>
+                                    <input type="range" class="filter-slider" min="0" max="100" value="50">
+                                    <div class="filter-slider-labels">
+                                        <span><?php esc_html_e('Low', 'tradepress'); ?></span>
+                                        <span><?php esc_html_e('High', 'tradepress'); ?></span>
+                                    </div>
+                                </div>
+                                <div class="filter-column">
+                                    <label class="filter-field-label"><?php esc_html_e('Volatility', 'tradepress'); ?></label>
+                                    <input type="range" class="filter-slider" min="0" max="100" value="30">
+                                    <div class="filter-slider-labels">
+                                        <span><?php esc_html_e('Stable', 'tradepress'); ?></span>
+                                        <span><?php esc_html_e('Volatile', 'tradepress'); ?></span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="filter-actions">
-                            <button type="button" class="tp-button tp-button-secondary"><?php esc_html_e('Reset', 'tradepress'); ?></button>
-                            <button type="button" class="tp-button tp-button-primary"><?php esc_html_e('Apply Filters', 'tradepress'); ?></button>
+                            <div class="filter-actions">
+                                <button type="button" class="tp-button tp-button-secondary"><?php esc_html_e('Reset', 'tradepress'); ?></button>
+                                <button type="button" class="tp-button tp-button-primary"><?php esc_html_e('Apply Filters', 'tradepress'); ?></button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Tag-based Filtering -->
-    <div class="tradepress-component-group">
-        <h4><?php esc_html_e('Tag-based Filtering', 'tradepress'); ?></h4>
-        <div class="tradepress-component-showcase">
-            <div class="tag-filter-demo">
-                <div class="tag-filter-container">
-                    <div class="tag-filter-input-wrapper">
-                        <input type="text" class="tag-filter-input" placeholder="<?php esc_attr_e('Add tags to filter...', 'tradepress'); ?>">
-                        <button type="button" class="tag-add-button">
-                            <span class="dashicons dashicons-plus-alt"></span>
-                        </button>
-                    </div>
-                    <div class="active-tags">
-                        <span class="filter-tag">
-                            Technology
-                            <button type="button" class="tag-remove">
-                                <span class="dashicons dashicons-no-alt"></span>
+        <!-- Tag-based Filtering -->
+        <div class="tradepress-component-group">
+            <h4><?php esc_html_e('Tag-based Filtering', 'tradepress'); ?></h4>
+            <div class="tradepress-component-showcase">
+                <div class="tag-filter-demo">
+                    <div class="tag-filter-container">
+                        <div class="tag-filter-input-wrapper">
+                            <input type="text" class="tag-filter-input" placeholder="<?php esc_attr_e('Add tags to filter...', 'tradepress'); ?>">
+                            <button type="button" class="tag-add-button">
+                                <span class="dashicons dashicons-plus-alt"></span>
                             </button>
-                        </span>
-                        <span class="filter-tag">
-                            High Volume
-                            <button type="button" class="tag-remove">
-                                <span class="dashicons dashicons-no-alt"></span>
-                            </button>
-                        </span>
-                        <span class="filter-tag">
-                            Earnings This Week
-                            <button type="button" class="tag-remove">
-                                <span class="dashicons dashicons-no-alt"></span>
-                            </button>
-                        </span>
-                    </div>
-                    <div class="suggested-tags">
-                        <label class="tag-suggestions-label"><?php esc_html_e('Suggested:', 'tradepress'); ?></label>
-                        <button type="button" class="tag-suggestion">Finance</button>
-                        <button type="button" class="tag-suggestion">Large Cap</button>
-                        <button type="button" class="tag-suggestion">Dividend</button>
-                        <button type="button" class="tag-suggestion">S&P 500</button>
+                        </div>
+                        <div class="active-tags">
+                            <span class="filter-tag">
+                                Technology
+                                <button type="button" class="tag-remove">
+                                    <span class="dashicons dashicons-no-alt"></span>
+                                </button>
+                            </span>
+                            <span class="filter-tag">
+                                High Volume
+                                <button type="button" class="tag-remove">
+                                    <span class="dashicons dashicons-no-alt"></span>
+                                </button>
+                            </span>
+                            <span class="filter-tag">
+                                Earnings This Week
+                                <button type="button" class="tag-remove">
+                                    <span class="dashicons dashicons-no-alt"></span>
+                                </button>
+                            </span>
+                        </div>
+                        <div class="suggested-tags">
+                            <label class="tag-suggestions-label"><?php esc_html_e('Suggested:', 'tradepress'); ?></label>
+                            <button type="button" class="tag-suggestion">Finance</button>
+                            <button type="button" class="tag-suggestion">Large Cap</button>
+                            <button type="button" class="tag-suggestion">Dividend</button>
+                            <button type="button" class="tag-suggestion">S&P 500</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -270,44 +272,6 @@ defined('ABSPATH') || exit;
                     <button type="button" class="date-preset-button active" data-preset="month"><?php esc_html_e('This Month', 'tradepress'); ?></button>
                     <button type="button" class="date-preset-button" data-preset="quarter"><?php esc_html_e('This Quarter', 'tradepress'); ?></button>
                     <button type="button" class="date-preset-button" data-preset="year"><?php esc_html_e('This Year', 'tradepress'); ?></button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sorting Controls -->
-    <div class="tradepress-component-group">
-        <h4><?php esc_html_e('Sorting Controls', 'tradepress'); ?></h4>
-        <div class="tradepress-component-showcase">
-            <!-- Sort Dropdown -->
-            <div class="sort-demo">
-                <label class="sort-label"><?php esc_html_e('Sort by', 'tradepress'); ?></label>
-                <select class="sort-select">
-                    <option value="name_asc"><?php esc_html_e('Name (A-Z)', 'tradepress'); ?></option>
-                    <option value="name_desc"><?php esc_html_e('Name (Z-A)', 'tradepress'); ?></option>
-                    <option value="price_asc"><?php esc_html_e('Price (Low to High)', 'tradepress'); ?></option>
-                    <option value="price_desc" selected><?php esc_html_e('Price (High to Low)', 'tradepress'); ?></option>
-                    <option value="volume_desc"><?php esc_html_e('Volume (High to Low)', 'tradepress'); ?></option>
-                    <option value="change_desc"><?php esc_html_e('Change % (High to Low)', 'tradepress'); ?></option>
-                </select>
-            </div>
-
-            <!-- Sort Button Group -->
-            <div class="sort-demo">
-                <label class="sort-label"><?php esc_html_e('Quick Sort', 'tradepress'); ?></label>
-                <div class="sort-button-group">
-                    <button type="button" class="sort-button active" data-sort="score" data-direction="desc">
-                        <?php esc_html_e('Score', 'tradepress'); ?>
-                        <span class="sort-direction dashicons dashicons-arrow-down-alt"></span>
-                    </button>
-                    <button type="button" class="sort-button" data-sort="price" data-direction="asc">
-                        <?php esc_html_e('Price', 'tradepress'); ?>
-                        <span class="sort-direction dashicons dashicons-arrow-up-alt"></span>
-                    </button>
-                    <button type="button" class="sort-button" data-sort="volume" data-direction="desc">
-                        <?php esc_html_e('Volume', 'tradepress'); ?>
-                        <span class="sort-direction dashicons dashicons-arrow-down-alt"></span>
-                    </button>
                 </div>
             </div>
         </div>
@@ -375,6 +339,11 @@ defined('ABSPATH') || exit;
                 $(this).fadeOut();
             });
             
+            /**
+             * Add filter tag.
+             *
+             * @version 1.0.0
+             */
             function addFilterTag(text, container) {
                 var tagHtml = '<span class=\"filter-tag\">' + text + '<button type=\"button\" class=\"tag-remove\"><span class=\"dashicons dashicons-no-alt\"></span></button></span>';
                 container.find('.active-tags').append(tagHtml);
@@ -434,6 +403,13 @@ defined('ABSPATH') || exit;
                 }
             });
             
+            /**
+             * Format date.
+             *
+             * @return mixed
+             *
+             * @version 1.0.0
+             */
             function formatDate(date) {
                 var year = date.getFullYear();
                 var month = ('0' + (date.getMonth() + 1)).slice(-2);

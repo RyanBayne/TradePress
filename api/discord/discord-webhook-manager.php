@@ -54,6 +54,7 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
      * Constructor
      *
      * @param string $token Optional bot token for connection manager
+      * @version 1.0.0
      */
     public function __construct($token = '') {
         $this->connection = new TRADEPRESS_DISCORD_Connection_Manager($token);
@@ -64,6 +65,8 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
     
     /**
      * Load webhooks from WordPress options
+      *
+      * @version 1.0.0
      */
     public function load_webhooks_from_options() {
         $this->webhooks = array(
@@ -80,6 +83,7 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
      * @param string $type Webhook type (alerts, market, signals, system)
      * @param string $url Webhook URL
      * @return bool Success status
+      * @version 1.0.0
      */
     public function set_webhook($type, $url) {
         if (empty($url) || !filter_var($url, FILTER_VALIDATE_URL)) {
@@ -97,6 +101,7 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
      *
      * @param string $type Webhook type
      * @return string Webhook URL or empty string if not found
+      * @version 1.0.0
      */
     public function get_webhook($type) {
         return isset($this->webhooks[$type]) ? $this->webhooks[$type] : '';
@@ -107,6 +112,7 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
      *
      * @param string $webhook_url Webhook URL to test
      * @return bool|WP_Error Success status or error
+      * @version 1.0.0
      */
     public function test_webhook($webhook_url) {
         if (empty($webhook_url)) {
@@ -140,6 +146,7 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
      * @param array $fields Optional fields for embed
      * @param int $color Optional embed color
      * @return bool|WP_Error Success status or error
+      * @version 1.0.0
      */
     public function send_notification($type, $title, $message, $fields = array(), $color = null) {
         $webhook_url = $this->get_webhook($type);
@@ -182,6 +189,7 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
      * @param float $previous_price Previous price
      * @param string $alert_type Type of alert (target_reached, sudden_move, etc.)
      * @return bool|WP_Error Success status or error
+      * @version 1.0.0
      */
     public function send_price_alert($symbol, $price, $previous_price, $alert_type = 'target_reached') {
         // Calculate change percentage
@@ -324,6 +332,7 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
      * @param string $message Update message
      * @param array $indices Market indices data
      * @return bool|WP_Error Success status or error
+      * @version 1.0.0
      */
     public function send_market_update($title, $message, $indices = array()) {
         // Create fields for market indices
@@ -357,6 +366,7 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
      * @param float $previous_score Previous score
      * @param array $metrics Score breakdown metrics
      * @return bool|WP_Error Success status or error
+      * @version 1.0.0
      */
     public function send_score_alert($symbol, $score, $previous_score, $metrics = array()) {
         // Determine color based on score
@@ -428,6 +438,7 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
      * @param string $level Notification level (info, warning, error)
      * @param array $details Additional details
      * @return bool|WP_Error Success status or error
+      * @version 1.0.0
      */
     public function send_system_notification($title, $message, $level = 'info', $details = array()) {
         // Determine color based on notification level
@@ -476,6 +487,7 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
      * @param string $webhook_url The webhook URL
      * @param array $payload The message payload
      * @return bool|WP_Error Success status or error
+      * @version 1.0.0
      */
     private function send_webhook_message($webhook_url, $payload) {
         if (empty($webhook_url)) {
@@ -532,6 +544,7 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
      * @param string $channel_id Channel ID
      * @param string $name Webhook name
      * @return array|WP_Error Webhook data or error
+      * @version 1.0.0
      */
     public function create_webhook($channel_id, $name) {
         if (empty($this->connection)) {
@@ -581,6 +594,7 @@ class TRADEPRESS_DISCORD_Webhook_Manager {
      *
      * @param string $channel_id Channel ID
      * @return array|WP_Error Webhooks data or error
+      * @version 1.0.0
      */
     public function get_channel_webhooks($channel_id) {
         if (empty($this->connection)) {

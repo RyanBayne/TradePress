@@ -15,6 +15,11 @@ if( !class_exists( 'TradePress_Admin_Deactivate' ) ) :
  */
 class TradePress_Admin_Deactivate {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         // Include the settings class with corrected path
         $form_fields_path = TRADEPRESS_PLUGIN_DIR_PATH . 'includes/admin/form-fields.php';

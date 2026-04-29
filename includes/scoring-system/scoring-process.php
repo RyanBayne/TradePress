@@ -15,6 +15,10 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Process queue item - handles all task types including WordPress posts
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $item
      */
     protected function task($item) {
         if (!isset($item['action'])) {
@@ -37,6 +41,10 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Calculate scores for symbols using database data
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $item
      */
     private function calculate_symbol_scores($item) {
         $retry_count = isset($item['retry_count']) ? $item['retry_count'] : 0;
@@ -151,6 +159,10 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Generate trading signals based on scores
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $item
      */
     private function generate_trading_signals($item) {
         try {
@@ -179,13 +191,16 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
             return false; // Task completed
             
         } catch (Exception $e) {
-            error_log('TradePress Signal Generation Error: ' . $e->getMessage());
             return $item;
         }
     }
     
     /**
      * Update symbol rankings based on scores
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $item
      */
     private function update_symbol_rankings($item) {
         try {
@@ -212,13 +227,16 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
             return false; // Task completed
             
         } catch (Exception $e) {
-            error_log('TradePress Ranking Update Error: ' . $e->getMessage());
             return $item;
         }
     }
     
     /**
      * Get symbol data from database (not API)
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol_code
      */
     private function get_symbol_data_from_db($symbol_code) {
         // Get price data from options (populated by data import process)
@@ -245,6 +263,11 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Store calculated score in database
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol_code
+      * @param mixed $score
      */
     private function store_symbol_score($symbol_code, $score) {
         update_option("tradepress_symbol_score_{$symbol_code}", array(
@@ -256,6 +279,8 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Get active symbols for processing
+      *
+      * @version 1.0.0
      */
     private function get_active_symbols() {
         $symbols = get_posts(array(
@@ -278,6 +303,10 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Get top scored symbols
+      *
+      * @version 1.0.0
+      *
+      * @param int $limit
      */
     private function get_top_scored_symbols($limit = 10) {
         // Implementation would query stored scores
@@ -286,6 +315,10 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Evaluate trading signal for symbol
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol_data
      */
     private function evaluate_trading_signal($symbol_data) {
         // Implementation would evaluate signal based on score and other factors
@@ -294,6 +327,10 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Store trading signal
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $signal
      */
     private function store_trading_signal($signal) {
         // Implementation would store signal in database
@@ -301,6 +338,8 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Get symbols with scores
+      *
+      * @version 1.0.0
      */
     private function get_symbols_with_scores() {
         // Implementation would query all symbols with scores
@@ -309,6 +348,11 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Update symbol ranking
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol_code
+      * @param mixed $ranking
      */
     private function update_symbol_ranking($symbol_code, $ranking) {
         update_option("tradepress_symbol_ranking_{$symbol_code}", $ranking);
@@ -320,18 +364,30 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Log process activity using TradePress Logger
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $level
+      * @param mixed $message
+      * @param array $context
      */
     private function log_process_activity($level, $message, $context = array()) {
         if (class_exists('TradePress_Logger')) {
             $logger = new TradePress_Logger();
             $logger->log($level, $message, TradePress_Logger::CAT_ALGORITHM, $context);
         } else {
-            error_log("TradePress Scoring [{$level}]: {$message}");
         }
     }
     
     /**
      * Handle retry logic with exponential backoff
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $item
+      * @param mixed $retry_count
+      * @param mixed $max_retries
+      * @param mixed $error_type
      */
     private function handle_retry($item, $retry_count, $max_retries, $error_type) {
         if ($retry_count >= $max_retries) {
@@ -364,6 +420,11 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Set error state for UI display
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $error_type
+      * @param mixed $error_data
      */
     private function set_error_state($error_type, $error_data) {
         $error_states = get_option('tradepress_scoring_process_error_state', array());
@@ -376,6 +437,10 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Check if symbol data is stale
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol_data
      */
     private function is_data_stale($symbol_data) {
         if (!isset($symbol_data['timestamp'])) {
@@ -388,6 +453,8 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Get process health status
+      *
+      * @version 1.0.0
      */
     public function get_health_status() {
         $error_states = get_option('tradepress_scoring_process_error_state', array());
@@ -406,6 +473,11 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Calculate health score (0-100)
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $error_states
+      * @param mixed $last_run
      */
     private function calculate_health_score($error_states, $last_run) {
         $score = 100;
@@ -447,6 +519,10 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Process WordPress symbol posts with scoring
+      *
+      * @version 1.0.0
+      *
+      * @param array $symbols
      */
     public function process_symbol_posts($symbols = array()) {
         // If no symbols provided, get all published symbols
@@ -478,6 +554,10 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Process individual symbol post
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $item
      */
     private function process_symbol_post($item) {
         $symbol_id = $item['symbol_id'];
@@ -526,6 +606,10 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Start process with WordPress posts
+      *
+      * @version 1.0.0
+      *
+      * @param array $symbols
      */
     public function start_wordpress_process($symbols = array()) {
         $this->log_process_activity('info', 'Starting WordPress symbol post processing', array(
@@ -540,6 +624,8 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Handle completion with WordPress integration
+      *
+      * @version 1.0.0
      */
     public function handle_wordpress_completion() {
         // Notify admin if enabled
@@ -557,6 +643,8 @@ class TradePress_Scoring_Process extends TradePress_Background_Processing {
     
     /**
      * Complete processing
+      *
+      * @version 1.0.0
      */
     protected function complete() {
         parent::complete();

@@ -21,6 +21,8 @@ class TradePress_Earnings_Calendar {
     
     /**
      * Create the earnings calendar database table if it doesn't exist
+      *
+      * @version 1.0.0
      */
     public static function create_table() {
         global $wpdb;
@@ -55,6 +57,7 @@ class TradePress_Earnings_Calendar {
      * @param int $days Number of days to look ahead
      * @param bool $force_refresh Whether to force data refresh from API
      * @return array Earnings data
+      * @version 1.0.0
      */
     public static function get_upcoming_earnings($days = 30, $force_refresh = false) {
         global $wpdb;
@@ -94,6 +97,7 @@ class TradePress_Earnings_Calendar {
      * Refresh earnings data from API
      * 
      * @return bool Success or failure
+      * @version 1.0.0
      */
     public static function refresh_earnings_data() {
         // Use API adapter directly
@@ -162,6 +166,7 @@ class TradePress_Earnings_Calendar {
      * 
      * @param string $response CSV response from Alpha Vantage
      * @return array Parsed earnings data
+      * @version 1.0.0
      */
     private static function parse_alphavantage_earnings($response) {
         if (empty($response) || !is_string($response)) {
@@ -203,6 +208,7 @@ class TradePress_Earnings_Calendar {
      * @param array $earnings_data Earnings data to save
      * @param string $data_source Source of the data (API name)
      * @return bool Success or failure
+      * @version 1.0.0
      */
     private static function save_earnings_data($earnings_data, $data_source) {
         global $wpdb;
@@ -251,6 +257,7 @@ class TradePress_Earnings_Calendar {
      * Get the last update time for earnings data
      * 
      * @return int|bool Timestamp of last update or false if never updated
+      * @version 1.0.0
      */
     public static function get_last_update_time() {
         return get_option('tradepress_earnings_calendar_last_update', false);
@@ -260,6 +267,7 @@ class TradePress_Earnings_Calendar {
      * Get the name of the data source used for the earnings data
      * 
      * @return string Data source name
+      * @version 1.0.0
      */
     public static function get_data_source_name() {
         global $wpdb;
@@ -279,6 +287,7 @@ class TradePress_Earnings_Calendar {
      * 
      * @param string $provider Provider name
      * @return string|bool API key or false if not found
+      * @version 1.0.0
      */
     private static function get_api_key($provider) {
         $api_settings = get_option('tradepress_api_settings', array());

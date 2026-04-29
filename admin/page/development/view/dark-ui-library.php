@@ -17,6 +17,8 @@ class TradePress_Admin_Development_Dark_UI_Library {
     
     /**
      * Output the Dark UI Library view
+      *
+      * @version 1.0.0
      */
     public static function output() {
         // Include form handlers
@@ -62,6 +64,8 @@ class TradePress_Admin_Development_Dark_UI_Library {
 
     /**
      * Output CSS Class Checker for debugging
+      *
+      * @version 1.0.0
      */
     private static function output_css_class_checker() {
         echo '<div class="wrap" style="margin-top: 20px; padding: 20px; background: #f1f1f1; border: 1px solid #ccc;">';
@@ -149,6 +153,11 @@ class TradePress_Admin_Development_Dark_UI_Library {
 
     /**
      * Get all files with specific extension from directory
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $dir
+      * @param mixed $extension
      */
     private static function get_all_files($dir, $extension) {
         $files = array();
@@ -173,6 +182,10 @@ class TradePress_Admin_Development_Dark_UI_Library {
 
     /**
      * Extract CSS class names from CSS files
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $path
      */
     private static function get_css_classes($path) {
         $css_files = self::get_all_files($path, 'css');
@@ -192,6 +205,10 @@ class TradePress_Admin_Development_Dark_UI_Library {
 
     /**
      * Extract HTML class names from PHP files
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $path
      */
     private static function get_html_classes($path) {
         $php_files = self::get_all_files($path, 'php');
@@ -220,6 +237,8 @@ class TradePress_Admin_Development_Dark_UI_Library {
 
     /**
      * Display development plan for dark theme implementation
+      *
+      * @version 1.0.0
      */
     private static function display_development_plan() {
         ?>
@@ -294,6 +313,8 @@ class TradePress_Admin_Development_Dark_UI_Library {
     
     /**
      * Verify required assets are loaded
+      *
+      * @version 1.0.0
      */
     private static function verify_required_assets() {
         $required_styles = array(
@@ -312,7 +333,6 @@ class TradePress_Admin_Development_Dark_UI_Library {
         }
         
         if (!empty($missing_assets) && defined('WP_DEBUG') && WP_DEBUG) {
-            error_log("TradePress UI Library: Missing required assets - " . implode(', ', $missing_assets));
         }
     }
 }

@@ -27,6 +27,7 @@ class TradePress_Alpaca_Endpoints {
      * Based on Alpaca API documentation
      * 
      * @return array API restrictions information
+      * @version 1.0.0
      */
     public static function get_api_restrictions() {
         return array(
@@ -155,6 +156,7 @@ class TradePress_Alpaca_Endpoints {
      * Get all available endpoints
      *
      * @return array Array of available endpoints with their configurations
+      * @version 1.0.0
      */
     public static function get_endpoints() {
         return array(
@@ -750,6 +752,7 @@ class TradePress_Alpaca_Endpoints {
      *
      * @param string $endpoint_name Name of the endpoint
      * @return array|false Endpoint configuration or false if not found
+      * @version 1.0.0
      */
     public static function get_endpoint($endpoint_name) {
         $endpoints = self::get_endpoints();
@@ -764,6 +767,7 @@ class TradePress_Alpaca_Endpoints {
      * @param string $base_url_override Optional base URL override
      * @param bool $use_paper Whether to use paper trading URL
      * @return string Full URL
+      * @version 1.0.0
      */
     public static function get_endpoint_url($endpoint_name, $params = array(), $base_url_override = '', $use_paper = true) {
         $endpoint = self::get_endpoint($endpoint_name);
@@ -830,6 +834,7 @@ class TradePress_Alpaca_Endpoints {
      *
      * @param bool $force_real_data Whether to force using real API data
      * @return array Array of endpoints with real data
+      * @version 1.0.0
      */
     public static function get_real_endpoints() {
         // Start with the standard endpoints structure

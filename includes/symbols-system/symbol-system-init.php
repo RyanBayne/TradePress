@@ -15,6 +15,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Symbol_System_Init {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         add_action('init', array($this, 'init_symbol_system'));
         add_action('wp_ajax_tradepress_update_symbols_manual', array($this, 'manual_symbol_update'));
@@ -23,6 +28,8 @@ class TradePress_Symbol_System_Init {
     
     /**
      * Initialize symbol system
+      *
+      * @version 1.0.0
      */
     public function init_symbol_system() {
         // Load required classes
@@ -38,6 +45,8 @@ class TradePress_Symbol_System_Init {
     
     /**
      * Manual symbol update via AJAX
+      *
+      * @version 1.0.0
      */
     public function manual_symbol_update() {
         check_ajax_referer('tradepress_admin', 'nonce');
@@ -71,6 +80,8 @@ class TradePress_Symbol_System_Init {
     
     /**
      * Test symbol fetch via AJAX
+      *
+      * @version 1.0.0
      */
     public function test_symbol_fetch() {
         check_ajax_referer('tradepress_admin', 'nonce');

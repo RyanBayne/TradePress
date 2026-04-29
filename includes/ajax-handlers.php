@@ -14,6 +14,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Register AJAX handlers
+  *
+  * @version 1.0.0
  */
 function tradepress_register_ajax_handlers() {
     add_action('wp_ajax_update_trading_mode', 'tradepress_ajax_update_trading_mode');
@@ -35,6 +37,8 @@ add_action('wp_ajax_tradepress_get_discord_status', 'tradepress_ajax_get_discord
 
 /**
  * AJAX handler for updating trading mode toggle
+  *
+  * @version 1.0.0
  */
 function tradepress_ajax_update_trading_mode() {
     // Verify nonce
@@ -68,6 +72,8 @@ function tradepress_ajax_update_trading_mode() {
 
 /**
  * AJAX handler for updating API operational status toggle
+  *
+  * @version 1.0.0
  */
 function tradepress_ajax_update_api_operational_status() {
     // Verify nonce
@@ -101,6 +107,8 @@ function tradepress_ajax_update_api_operational_status() {
 
 /**
  * AJAX handler for testing API credentials
+  *
+  * @version 1.0.0
  */
 function tradepress_ajax_test_api_credentials() {
     // Verify nonce
@@ -179,6 +187,7 @@ function tradepress_ajax_test_api_credentials() {
  * @param string $api_id The API identifier
  * @param string $mode The mode (paper or real)
  * @return array Result of the test with success status and message
+  * @version 1.0.0
  */
 function tradepress_test_api_connection($api_id, $mode = 'paper') {
     // Get the credentials based on mode
@@ -292,6 +301,8 @@ function tradepress_test_api_connection($api_id, $mode = 'paper') {
 
 /**
  * Handle AJAX request to test Alpaca API endpoints
+  *
+  * @version 1.0.0
  */
 function tradepress_test_alpaca_endpoint() {
     // Check nonce for security
@@ -380,6 +391,8 @@ add_action('wp_ajax_tradepress_test_alpaca_endpoint', 'tradepress_test_alpaca_en
 
 /**
  * Ajax handler for saving Discord settings
+  *
+  * @version 1.0.0
  */
 function tradepress_ajax_save_discord_settings() {
     // Verify nonce
@@ -411,6 +424,8 @@ add_action('wp_ajax_tradepress_save_discord_settings', 'tradepress_ajax_save_dis
 
 /**
  * Ajax handler for testing Discord connection
+  *
+  * @version 1.0.0
  */
 function tradepress_ajax_test_discord_connection() {
     // Verify nonce
@@ -448,6 +463,8 @@ add_action('wp_ajax_tradepress_test_discord_connection', 'tradepress_ajax_test_d
 
 /**
  * Ajax handler for saving Discord webhooks
+  *
+  * @version 1.0.0
  */
 function tradepress_ajax_save_discord_webhooks() {
     // Verify nonce
@@ -476,6 +493,8 @@ function tradepress_ajax_save_discord_webhooks() {
 
 /**
  * Ajax handler for testing Discord webhooks
+  *
+  * @version 1.0.0
  */
 function tradepress_ajax_test_discord_webhooks() {
     // Verify nonce
@@ -529,6 +548,11 @@ function tradepress_ajax_test_discord_webhooks() {
 
 /**
  * Helper function to test a Discord webhook
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $webhook_url
+  * @param string $message
  */
 function test_discord_webhook($webhook_url, $message = 'Test Message') {
     $timestamp = date('c');
@@ -589,6 +613,8 @@ function test_discord_webhook($webhook_url, $message = 'Test Message') {
 
 /**
  * Ajax handler for getting Discord connection status
+  *
+  * @version 1.0.0
  */
 function tradepress_ajax_get_discord_status() {
     // Verify nonce
@@ -619,6 +645,16 @@ function tradepress_ajax_get_discord_status() {
 }
 
 // Legacy API connection test function
+/**
+ * Legacy test api connection.
+ *
+ * @param mixed $api_id
+ * @param string $mode
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function tradepress_legacy_test_api_connection($api_id, $mode = 'paper') {
     set_transient('tradepress_latest_api_call_' . $api_id, array(), 24 * HOUR_IN_SECONDS);
     return array(
@@ -629,6 +665,8 @@ function tradepress_legacy_test_api_connection($api_id, $mode = 'paper') {
 
 /**
  * Render GitHub Markdown via AJAX
+  *
+  * @version 1.0.0
  */
 function tradepress_render_github_markdown_ajax() {
     // Check nonce
@@ -923,6 +961,8 @@ add_action('wp_ajax_tradepress_get_api_call_details', 'tradepress_ajax_get_api_c
 
 /**
  * AJAX handler for AI diagram analysis
+  *
+  * @version 1.0.0
  */
 function tradepress_ajax_ai_diagram_analysis() {
     // Include the AI analysis handler

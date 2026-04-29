@@ -9,6 +9,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Registers the shortcode for the symbol view.
+  *
+  * @version 1.0.0
  */
 function tradepress_register_symbol_view_shortcode() {
     add_shortcode('tradepress_symbol_view', 'tradepress_symbol_view_shortcode_handler');
@@ -19,6 +21,7 @@ add_action('init', 'tradepress_register_symbol_view_shortcode');
  * The handler function for the [tradepress_symbol_view] shortcode.
  *
  * @return string The HTML content for the symbol view.
+  * @version 1.0.0
  */
 function tradepress_symbol_view_shortcode_handler() {
     ob_start();

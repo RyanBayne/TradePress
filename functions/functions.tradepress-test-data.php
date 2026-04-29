@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Check if global demo mode is enabled
  * 
  * @return bool True if in demo mode, false otherwise
+  * @version 1.0.0
  */
 function is_demo_mode() {
     // Check for TRADEPRESS_DEMO_MODE constant first
@@ -37,6 +38,7 @@ function is_demo_mode() {
  *
  * @param string $symbol The stock symbol
  * @return array Price data
+  * @version 1.0.0
  */
 function tradepress_generate_test_price_data($symbol) {
     // Generate random price between 10 and 500
@@ -64,6 +66,7 @@ function tradepress_generate_test_price_data($symbol) {
  *
  * @param string $symbol The stock symbol
  * @return array Technical indicators
+  * @version 1.0.0
  */
 function tradepress_generate_test_technical_data($symbol) {
     return array(
@@ -91,6 +94,7 @@ function tradepress_generate_test_technical_data($symbol) {
  *
  * @param string $symbol The stock symbol
  * @return array Complete symbol data
+  * @version 1.0.0
  */
 function tradepress_generate_complete_test_data($symbol) {
     return array(
@@ -104,6 +108,7 @@ function tradepress_generate_complete_test_data($symbol) {
  *
  * @param string $symbol The stock symbol
  * @return array Financial ratios
+  * @version 1.0.0
  */
 function tradepress_generate_financial_ratios($symbol) {
     // Get company details if available
@@ -191,6 +196,7 @@ function tradepress_generate_financial_ratios($symbol) {
  *
  * @param string $symbol The stock symbol
  * @return array Earnings history
+  * @version 1.0.0
  */
 function tradepress_generate_earnings_history($symbol) {
     $quarters = array();
@@ -252,6 +258,7 @@ function tradepress_generate_earnings_history($symbol) {
  *
  * @param string $symbol Stock symbol
  * @return array Stock data
+  * @version 1.0.0
  */
 function tradepress_generate_test_stock_data( $symbol = 'AAPL' ) {
     // Base prices for common test symbols
@@ -310,6 +317,7 @@ function tradepress_generate_test_stock_data( $symbol = 'AAPL' ) {
  * @param string $symbol Stock symbol
  * @param string $period Chart period (1d, 5d, 1m, 6m, 1y, 5y)
  * @return array Chart data
+  * @version 1.0.0
  */
 function tradepress_generate_test_chart_data( $symbol = 'AAPL', $period = '1m' ) {
     // Base price from test data
@@ -410,6 +418,7 @@ function tradepress_generate_test_chart_data( $symbol = 'AAPL', $period = '1m' )
  *
  * @param string $symbol Stock symbol
  * @return array Technical indicators data
+  * @version 1.0.0
  */
 function tradepress_generate_test_technical_indicators( $symbol = 'AAPL' ) {
     // Get stock data for base values
@@ -504,6 +513,7 @@ function tradepress_generate_test_technical_indicators( $symbol = 'AAPL' ) {
  *
  * @param string $symbol Stock symbol
  * @return array Company information
+  * @version 1.0.0
  */
 function tradepress_generate_test_company_info( $symbol = 'AAPL' ) {
     // Company data for common test symbols
@@ -581,6 +591,7 @@ function tradepress_generate_test_company_info( $symbol = 'AAPL' ) {
  *
  * @param int $count Number of symbols to return
  * @return array Recent symbols data
+  * @version 1.0.0
  */
 function tradepress_get_test_recent_symbols_data( $count = 5 ) {
     $symbols = array('AAPL', 'MSFT', 'NVDA', 'TSLA', 'GOOG', 'AMZN', 'META', 'NFLX');
@@ -613,6 +624,7 @@ function tradepress_get_test_recent_symbols_data( $count = 5 ) {
  * Get test market movers data
  *
  * @return array Market movers data
+  * @version 1.0.0
  */
 function tradepress_get_test_market_movers() {
     $gainers = array();
@@ -675,6 +687,7 @@ function tradepress_get_test_market_movers() {
  *
  * @param int $count Number of trades to return
  * @return array Recent trades data
+  * @version 1.0.0
  */
 function tradepress_get_test_recent_trades( $count = 5 ) {
     $symbols = array('AAPL', 'MSFT', 'NVDA', 'TSLA', 'GOOG', 'AMZN', 'META', 'NFLX');
@@ -712,6 +725,7 @@ function tradepress_get_test_recent_trades( $count = 5 ) {
  *
  * @param int $count Number of watchlist items
  * @return array Watchlist data
+  * @version 1.0.0
  */
 function tradepress_get_test_watchlist( $count = 5 ) {
     $symbols = array('AAPL', 'MSFT', 'NVDA', 'TSLA', 'GOOG', 'AMZN', 'META', 'NFLX');

@@ -19,6 +19,7 @@ class TradePress_Technical_Indicators {
      * @param array $prices Array of closing prices
      * @param int $period The period to calculate RSI (default: 14)
      * @return float|null The RSI value or null if not enough data
+      * @version 1.0.0
      */
     public function calculate_rsi($prices, $period = 14) {
         if (count($prices) < $period + 1) {
@@ -60,6 +61,7 @@ class TradePress_Technical_Indicators {
      * @param int $slow_period Slow EMA period (default: 26)
      * @param int $signal_period Signal period (default: 9)
      * @return array|null The MACD values or null if not enough data
+      * @version 1.0.0
      */
     public function calculate_macd($prices, $fast_period = 12, $slow_period = 26, $signal_period = 9) {
         if (count($prices) < $slow_period + $signal_period) {
@@ -99,6 +101,7 @@ class TradePress_Technical_Indicators {
      * @param int $period The period to calculate EMA
      * @param int $offset Optional offset from the end of the array
      * @return float|null The EMA value or null if not enough data
+      * @version 1.0.0
      */
     public function calculate_ema($prices, $period, $offset = 0) {
         $prices = array_slice($prices, 0, count($prices) - $offset);
@@ -128,6 +131,7 @@ class TradePress_Technical_Indicators {
      * @param int $period Period for SMA calculation (default: 20)
      * @param float $standard_deviations Number of standard deviations (default: 2)
      * @return array|null The Bollinger Bands values or null if not enough data
+      * @version 1.0.0
      */
     public function calculate_bollinger_bands($prices, $period = 20, $standard_deviations = 2) {
         if (count($prices) < $period) {
@@ -166,6 +170,7 @@ class TradePress_Technical_Indicators {
      * @param int $d_period %D period (default: 3)
      * @param int $slowing Slowing period (default: 3)
      * @return array|null The Stochastic Oscillator values or null if not enough data
+      * @version 1.0.0
      */
     public function calculate_stochastic($high, $low, $close, $k_period = 14, $d_period = 3, $slowing = 3) {
         if (count($high) < $k_period || count($low) < $k_period || count($close) < $k_period) {
@@ -224,6 +229,7 @@ class TradePress_Technical_Indicators {
      * @param array $close Array of closing prices
      * @param int $period Period for ADX calculation (default: 14)
      * @return array|null The ADX values or null if not enough data
+      * @version 1.0.0
      */
     public function calculate_adx($high, $low, $close, $period = 14) {
         if (count($high) < $period * 2 || count($low) < $period * 2 || count($close) < $period * 2) {
@@ -284,6 +290,7 @@ class TradePress_Technical_Indicators {
      * @param array $values Array of values
      * @param int $period Period for smoothing
      * @return float The smoothed average
+      * @version 1.0.0
      */
     private function calculate_smoothed_average($values, $period) {
         if (count($values) < $period) {
@@ -306,6 +313,7 @@ class TradePress_Technical_Indicators {
      * @param array $close Array of closing prices
      * @param array $volume Array of volume data
      * @return float|null The OBV value or null if not enough data
+      * @version 1.0.0
      */
     public function calculate_obv($close, $volume) {
         if (count($close) < 2 || count($volume) < 2) {
@@ -335,6 +343,7 @@ class TradePress_Technical_Indicators {
      * @param array $volume Array of volume data
      * @param int $period Period for MFI calculation (default: 14)
      * @return float|null The MFI value or null if not enough data
+      * @version 1.0.0
      */
     public function calculate_mfi($high, $low, $close, $volume, $period = 14) {
         if (count($high) < $period + 1 || count($low) < $period + 1 || 
@@ -391,6 +400,7 @@ class TradePress_Technical_Indicators {
      * @param int $period Period for CCI calculation (default: 20)
      * @param float $constant CCI constant (default: 0.015)
      * @return float|null The CCI value or null if not enough data
+      * @version 1.0.0
      */
     public function calculate_cci($high, $low, $close, $period = 20, $constant = 0.015) {
         if (count($high) < $period || count($low) < $period || count($close) < $period) {
@@ -430,6 +440,7 @@ class TradePress_Technical_Indicators {
      * @param array $volume Array of volume data
      * @param string $session_start Timestamp for session start (optional)
      * @return float|null The VWAP value or null if not enough data
+      * @version 1.0.0
      */
     public function calculate_vwap($high, $low, $close, $volume, $session_start = null) {
         if (count($high) < 1 || count($low) < 1 || count($close) < 1 || count($volume) < 1) {
@@ -469,6 +480,7 @@ class TradePress_Technical_Indicators {
      * @param int $slow_period Slow MA period
      * @param string $ma_type Type of moving average ('sma' or 'ema')
      * @return array|null The crossover signals or null if not enough data
+      * @version 1.0.0
      */
     public function calculate_ma_crossover($prices, $fast_period = 50, $slow_period = 200, $ma_type = 'ema') {
         // Placeholder implementation - returns basic data structure

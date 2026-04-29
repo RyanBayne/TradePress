@@ -21,6 +21,8 @@ class TradePress_Settings_Education extends TradePress_Settings_Page {
 
     /**
      * Constructor.
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->id    = 'education';
@@ -37,6 +39,7 @@ class TradePress_Settings_Education extends TradePress_Settings_Page {
      * Get sections.
      *
      * @return array
+      * @version 1.0.0
      */
     public function get_sections() {
         return array(
@@ -48,6 +51,9 @@ class TradePress_Settings_Education extends TradePress_Settings_Page {
      * Get settings array.
      *
      * @return array
+      * @version 1.0.0
+      *
+      * @param string $current_section
      */
     public function get_settings( $current_section = 'default' ) {
         $settings = array();
@@ -81,6 +87,8 @@ class TradePress_Settings_Education extends TradePress_Settings_Page {
 
     /**
      * Output the settings.
+      *
+      * @version 1.0.0
      */
     public function output() {
         global $current_section;
@@ -95,6 +103,10 @@ class TradePress_Settings_Education extends TradePress_Settings_Page {
     
     /**
      * Output reset pointers button.
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $value
      */
     public function output_reset_button( $value ) {
         ?>
@@ -119,6 +131,8 @@ class TradePress_Settings_Education extends TradePress_Settings_Page {
 
     /**
      * Save settings.
+      *
+      * @version 1.0.0
      */
     public function save() {
         global $current_section;
@@ -135,6 +149,8 @@ class TradePress_Settings_Education extends TradePress_Settings_Page {
 
     /**
      * Handle toolbar actions
+      *
+      * @version 1.0.0
      */
     public function handle_toolbar_actions() {
         if ( isset( $_GET['action'] ) && $_GET['action'] === 'tradepress_reset_pointers' ) {
@@ -163,6 +179,8 @@ class TradePress_Settings_Education extends TradePress_Settings_Page {
 
     /**
      * Reset all WordPress pointers for all users.
+      *
+      * @version 1.0.0
      */
     private function reset_all_pointers() {
         global $wpdb;

@@ -23,6 +23,7 @@ if (!defined('ABSPATH')) {
  * 
  * @param string $repo_owner GitHub repository owner
  * @param string $repo_name GitHub repository name
+  * @version 1.0.0
  */
 function TRADEPRESS_GITHUB_all_issues_content($repo_owner, $repo_name) {
     // Get GitHub API settings
@@ -302,6 +303,7 @@ function TRADEPRESS_GITHUB_all_issues_content($repo_owner, $repo_name) {
  * 
  * @param string $hex_color Hex color code
  * @return string Black or white hex color
+  * @version 1.0.0
  */
 function TRADEPRESS_GITHUB_get_contrasting_color($hex_color) {
     // Convert hex to RGB

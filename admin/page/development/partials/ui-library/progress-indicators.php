@@ -123,34 +123,6 @@ defined('ABSPATH') || exit;
             </div>
         </div>
         
-        <!-- Infinite Scroll Loader - Using WordPress spinner -->
-        <div class="component-demo">
-            <h4><?php esc_html_e('Content Loading States', 'tradepress'); ?></h4>
-            
-            <div class="infinite-scroll-container">
-                <div class="infinite-scroll-items">
-                    <div class="infinite-scroll-item">
-                        <h5><?php esc_html_e('Item 1', 'tradepress'); ?></h5>
-                        <p><?php esc_html_e('Example content for the first item in the infinite scroll list.', 'tradepress'); ?></p>
-                    </div>
-                    <div class="infinite-scroll-item">
-                        <h5><?php esc_html_e('Item 2', 'tradepress'); ?></h5>
-                        <p><?php esc_html_e('Example content for the second item in the infinite scroll list.', 'tradepress'); ?></p>
-                    </div>
-                    <div class="infinite-scroll-item">
-                        <h5><?php esc_html_e('Item 3', 'tradepress'); ?></h5>
-                        <p><?php esc_html_e('Example content for the third item in the infinite scroll list.', 'tradepress'); ?></p>
-                    </div>
-                </div>
-                <div class="infinite-scroll-loader" style="display: none;">
-                    <span class="spinner is-active"></span>
-                    <p><?php esc_html_e('Loading more items...', 'tradepress'); ?></p>
-                </div>
-                <button class="tp-button tp-button-secondary infinite-scroll-button">
-                    <?php esc_html_e('Load More', 'tradepress'); ?>
-                </button>
-            </div>
-        </div>
     </div>
 
     <?php
@@ -158,6 +130,11 @@ defined('ABSPATH') || exit;
     $progress_script = "
         jQuery(document).ready(function($) {
             // Simulate progress animation for media-progress-bar
+            /**
+             * Animate progress.
+             *
+             * @version 1.0.0
+             */
             function animateProgress() {
                 $('.media-progress-bar div').each(function() {
                     var targetWidth = $(this).css('width');

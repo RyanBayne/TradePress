@@ -1,7 +1,9 @@
 <?php
 /**
  * TradePress - Original Assets Loader (this is slowly being phased out for a system that is maintained within the assets directory)
- *
+ * 
+ * NOW USE wp-content\plugins\tradepress\assets\manage-assets.php
+ * 
  * Load admin only js, css, images and fonts. 
  *
  * @author   Ryan Bayne
@@ -27,6 +29,7 @@ class TradePress_Admin_Assets {
      *
      * @param array $dependencies Raw dependency names from asset registry.
      * @return array
+      * @version 1.0.0
      */
     private function normalize_component_style_dependencies( $dependencies ) {
         $normalized = array();
@@ -55,6 +58,9 @@ class TradePress_Admin_Assets {
      */
     public function admin_styles() {
         global $wp_scripts, $tradepress_assets;
+
+        $test_runner_css_path = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/css/test-runner.css';
+        $test_runner_css_ver  = file_exists( $test_runner_css_path ) ? (string) filemtime( $test_runner_css_path ) : TRADEPRESS_VERSION;
         
         // Screen ID Must be set for later arguments
         $screen         = get_current_screen();
@@ -65,7 +71,7 @@ class TradePress_Admin_Assets {
         // Register admin styles with consolidated file structure
         wp_register_style( 'jquery-ui-style', '//code.jquery.com/ui/' . $jquery_version . '/themes/smoothness/jquery-ui.min.css', array(), $jquery_version );
         wp_register_style( 'tradepress-setup', TRADEPRESS_PLUGIN_URL . 'assets/css/pages/setup.css', array('dashicons'), TRADEPRESS_VERSION );
-        wp_register_style( 'tradepress-test-runner', TRADEPRESS_PLUGIN_URL . 'assets/css/test-runner.css', array(), TRADEPRESS_VERSION );
+        wp_register_style( 'tradepress-test-styles', TRADEPRESS_PLUGIN_URL . 'assets/css/test-runner.css', array(), $test_runner_css_ver );
         
         // Register dashboard widgets CSS
         wp_register_style(
@@ -78,6 +84,10 @@ class TradePress_Admin_Assets {
         // Enqueue dashboard widgets CSS on dashboard
         if ($screen_id === 'dashboard') {
             wp_enqueue_style('tradepress-dashboard-widgets');
+        }
+
+        if ( isset( $_GET['page'] ) && $_GET['page'] === 'tradepress-tests' ) {
+            wp_enqueue_style( 'tradepress-test-styles' );
         }
         
         // Register data page styles
@@ -148,8 +158,7 @@ class TradePress_Admin_Assets {
         wp_register_style( 'tradepress-mode-indicators', TRADEPRESS_PLUGIN_URL . 'assets/css/components/mode-indicators.css', array(), TRADEPRESS_VERSION );
         
         // Enqueue mode indicators CSS when developer mode is active
-        $developer_mode = get_option('tradepress_developer_mode', false);
-        if ($developer_mode === true || $developer_mode === 1 || $developer_mode === '1' || $developer_mode === 'yes') {
+        if ( tradepress_is_developer_mode() ) {
             wp_enqueue_style( 'tradepress-mode-indicators' );
         }
         
@@ -401,11 +410,6 @@ class TradePress_Admin_Assets {
         // Setup wizard styles
         if ( isset( $_GET['page'] ) && $_GET['page'] === 'tradepress-setup' ) {
             wp_enqueue_style( 'tradepress-setup' );
-        }
-        
-        // Test runner page
-        if ( isset( $_GET['page'] ) && $_GET['page'] === 'tradepress-tests' ) {
-            wp_enqueue_style( 'tradepress-test-runner' );
         }
         
         // API tabs and settings pages - Updated to include Trading Platforms page
@@ -814,55 +818,26 @@ class TradePress_Admin_Assets {
             }
             
             // Add debugging to check if styles are being loaded
-            error_log('TradePress: Loading development page styles');
             
             if ( isset($_GET['tab']) && $_GET['tab'] === 'current_task' ) {
-                error_log('TradePress: Current task tab detected - styles should be loaded');
             }
         }
         
-        // Register data page styles
-        wp_register_style(
-            'tradepress-data-page',
-            TRADEPRESS_PLUGIN_URL . 'assets/css/pages/data.css',
-            array(),
-            TRADEPRESS_VERSION
-        );
-        
-        // Register data elements styles
         wp_register_style(
             'tradepress-data-elements',
             TRADEPRESS_PLUGIN_URL . 'assets/css/pages/data-elements.css',
             array(),
             TRADEPRESS_VERSION
         );
-        
-        // Data page - Enqueue when on data page
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_data') {
-            wp_enqueue_style('tradepress-data-page');
-            
-            // Data Elements tab styles
-            if (isset($_GET['tab']) && $_GET['tab'] === 'data-elements') {
-                wp_enqueue_style('tradepress-data-elements');
-            }
-        }
-        
-        // Scoring directives logs page
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' &&
-            isset($_GET['tab']) && $_GET['tab'] === 'logs') {
-            wp_enqueue_style('tradepress-scoring-directives-logs');
-        }
-        
-        // Directives status page
+
         wp_register_style(
             'tradepress-directives-status',
             TRADEPRESS_PLUGIN_URL . 'assets/css/pages/directives-status.css',
             array(),
             TRADEPRESS_VERSION
         );
-        
-        if (isset($_GET['page']) && $_GET['page'] === 'tradepress_scoring_directives' &&
-            isset($_GET['tab']) && $_GET['tab'] === 'directives_status') {
+
+        if ( isset($_GET['tab']) && $_GET['tab'] === 'directives_status' ) {
             wp_enqueue_style('tradepress-directives-status');
         }
         
@@ -971,11 +946,21 @@ class TradePress_Admin_Assets {
         
         // Watchlists page - enqueue appropriate styles based on tab
         if (isset($_GET['page']) && $_GET['page'] === 'tradepress_watchlists') {
-            if (!isset($_GET['tab']) || $_GET['tab'] === 'active_symbols') {
+            $watchlists_tab = isset($_GET['tab']) ? sanitize_key(wp_unslash($_GET['tab'])) : 'active-symbols';
+
+            if ($watchlists_tab === 'active_symbols') {
+                $watchlists_tab = 'active-symbols';
+            } elseif ($watchlists_tab === 'create_watchlist') {
+                $watchlists_tab = 'create-watchlist';
+            } elseif ($watchlists_tab === 'user_watchlists') {
+                $watchlists_tab = 'user-watchlists';
+            }
+
+            if ($watchlists_tab === 'active-symbols') {
                 wp_enqueue_style('tradepress-watchlists-active-symbols');
-            } else if (isset($_GET['tab']) && $_GET['tab'] === 'create_watchlist') {
+            } else if ($watchlists_tab === 'create-watchlist') {
                 wp_enqueue_style('tradepress-watchlists-create-watchlist');
-            } else if (isset($_GET['tab']) && $_GET['tab'] === 'user_watchlists') {
+            } else if ($watchlists_tab === 'user-watchlists') {
                 wp_enqueue_style('tradepress-watchlists-user-watchlists');
             }
         }
@@ -1106,6 +1091,8 @@ class TradePress_Admin_Assets {
         $action    = isset($_GET['action']) ? sanitize_text_field( wp_unslash($_GET['action']) ) : '';
         $page      = isset($_GET['page']) ? sanitize_text_field( wp_unslash($_GET['page']) ) : '';
         $tab       = isset($_GET['tab']) ? sanitize_text_field( wp_unslash($_GET['tab']) ) : '';
+        $test_runner_js_path = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/js/test-runner.js';
+        $test_runner_js_ver  = file_exists( $test_runner_js_path ) ? (string) filemtime( $test_runner_js_path ) : TRADEPRESS_VERSION;
 
         // Register and enqueue jQuery UI core and accordion
         wp_enqueue_script('jquery-ui-core');
@@ -1125,7 +1112,7 @@ class TradePress_Admin_Assets {
             'tradepress-test-runner',
             TRADEPRESS_PLUGIN_URL . 'assets/js/test-runner.js',
             array('jquery'),
-            TRADEPRESS_VERSION,
+            $test_runner_js_ver,
             true
         );
         
@@ -1137,29 +1124,6 @@ class TradePress_Admin_Assets {
         // Test runner page script
         if (isset($_GET['page']) && $_GET['page'] === 'tradepress-tests') {
             wp_enqueue_script('tradepress-test-runner');
-            wp_localize_script('tradepress-test-runner', 'tradePressTests', array(
-                'ajax_url' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('tradepress_tests'),
-                'i18n' => array(
-                    'running' => __('Running...', 'tradepress'),
-                    'run' => __('Run', 'tradepress'),
-                    'runPhase3' => __('Run Phase 3 Tests', 'tradepress'),
-                    'error' => __('Error occurred during test execution', 'tradepress'),
-                    'ajaxError' => __('AJAX request failed', 'tradepress'),
-                    'resultsCleared' => __('Test results cleared.', 'tradepress'),
-                    'testResults' => __('Test Results', 'tradepress'),
-                    'overallStatus' => __('Overall Status', 'tradepress'),
-                    'executionTime' => __('Execution Time', 'tradepress'),
-                    'requirementsSatisfied' => __('Requirements Satisfied', 'tradepress'),
-                    'individualResults' => __('Individual Test Results', 'tradepress'),
-                    'requirement' => __('Requirement', 'tradepress'),
-                    'performanceSummary' => __('Performance Summary', 'tradepress'),
-                    'apiCallsSaved' => __('API Calls Saved', 'tradepress'),
-                    'cacheHitRate' => __('Cache Hit Rate', 'tradepress'),
-                    'memoryUsage' => __('Memory Usage', 'tradepress'),
-                    'recommendations' => __('Recommendations', 'tradepress')
-                )
-            ));
         }
 
         // Specific styles and scripts for the SEES Demo tab
@@ -1846,6 +1810,8 @@ class TradePress_Admin_Assets {
      * Enqueue scripts and styles for specific admin pages.
      * 
      * @version 1.0
+      *
+      * @param mixed $hook_suffix
      */
     public function admin_scripts_styles( $hook_suffix ) {
         $screen = get_current_screen();

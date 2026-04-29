@@ -17,6 +17,8 @@ class TradePress_Admin_Development_Layouts {
     
     /**
      * Output the layouts view
+      *
+      * @version 1.0.0
      */
     public static function output() {
         ?>

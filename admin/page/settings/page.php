@@ -44,6 +44,8 @@ abstract class TradePress_Settings_Page {
 
     /**
      * Constructor.
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         add_filter( 'TradePress_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
@@ -59,6 +61,7 @@ abstract class TradePress_Settings_Page {
      *
      * @param array $pages Settings pages.
      * @return array
+      * @version 1.0.0
      */
     public function add_settings_page( $pages ) {
         $pages[ $this->id ] = $this->label;
@@ -70,6 +73,7 @@ abstract class TradePress_Settings_Page {
      * Get settings array.
      *
      * @return array
+      * @version 1.0.0
      */
     public function get_settings() {
         return apply_filters( 'TradePress_get_settings_' . $this->id, array() );
@@ -77,6 +81,8 @@ abstract class TradePress_Settings_Page {
 
     /**
      * Output the settings.
+      *
+      * @version 1.0.0
      */
     public function output() {
         $settings = $this->get_settings();
@@ -86,6 +92,8 @@ abstract class TradePress_Settings_Page {
     
     /**
      * Output sections for this tab.
+      *
+      * @version 1.0.0
      */
     public function output_sections() {
         global $current_section;
@@ -112,6 +120,7 @@ abstract class TradePress_Settings_Page {
      * Get sections for this tab.
      *
      * @return array
+      * @version 1.0.0
      */
     public function get_sections() {
         return apply_filters( 'TradePress_get_sections_' . $this->id, array() );
@@ -119,6 +128,8 @@ abstract class TradePress_Settings_Page {
 
     /**
      * Save settings.
+      *
+      * @version 1.0.0
      */
     public function save() {
         $settings = $this->get_settings();

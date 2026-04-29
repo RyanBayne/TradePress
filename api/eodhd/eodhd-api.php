@@ -96,6 +96,7 @@ class TradePress_EODHD_API {
      * Constructor
      *
      * @param string $api_token API token
+      * @version 1.0.0
      */
     public function __construct($api_token = '') {
         $this->api_token = $api_token;
@@ -105,6 +106,7 @@ class TradePress_EODHD_API {
      * Get platform metadata
      *
      * @return array Platform metadata
+      * @version 1.0.0
      */
     public function get_platform_meta() {
         return $this->platform_meta;
@@ -114,6 +116,7 @@ class TradePress_EODHD_API {
      * Get platform capabilities
      *
      * @return array Platform capabilities
+      * @version 1.0.0
      */
     public function get_capabilities() {
         return $this->platform_meta['capabilities'];
@@ -124,6 +127,7 @@ class TradePress_EODHD_API {
      *
      * @param string $data_type Data type to check
      * @return bool True if supported
+      * @version 1.0.0
      */
     public function supports_data_type($data_type) {
         return isset($this->platform_meta['data_types'][$data_type]);
@@ -134,6 +138,7 @@ class TradePress_EODHD_API {
      *
      * @param string $data_type Data type
      * @return string|false Endpoint name or false
+      * @version 1.0.0
      */
     public function get_data_type_endpoint($data_type) {
         if (!$this->supports_data_type($data_type)) {
@@ -171,6 +176,7 @@ class TradePress_EODHD_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Quote data or error
+      * @version 1.0.0
      */
     public function get_quote($symbol) {
         return $this->make_request('real_time', array('symbol' => $symbol));
@@ -184,6 +190,7 @@ class TradePress_EODHD_API {
      * @param string $to End date (YYYY-MM-DD)
      * @param string $period Period (d, w, m)
      * @return array|WP_Error Historical data or error
+      * @version 1.0.0
      */
     public function get_bars($symbol, $from = '', $to = '', $period = 'd') {
         $params = array('symbol' => $symbol, 'period' => $period);
@@ -202,6 +209,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error Technical data or error
+      * @version 1.0.0
      */
     public function get_technical_indicator($symbol, $function, $period = 14, $from = '', $to = '') {
         $params = array(
@@ -223,6 +231,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error RSI data or error
+      * @version 1.0.0
      */
     public function get_rsi($symbol, $period = 14, $from = '', $to = '') {
         return $this->get_technical_indicator($symbol, 'rsi', $period, $from, $to);
@@ -235,6 +244,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error MACD data or error
+      * @version 1.0.0
      */
     public function get_macd($symbol, $from = '', $to = '') {
         return $this->get_technical_indicator($symbol, 'macd', 12, $from, $to);
@@ -248,6 +258,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error SMA data or error
+      * @version 1.0.0
      */
     public function get_sma($symbol, $period = 20, $from = '', $to = '') {
         return $this->get_technical_indicator($symbol, 'sma', $period, $from, $to);
@@ -261,6 +272,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error EMA data or error
+      * @version 1.0.0
      */
     public function get_ema($symbol, $period = 20, $from = '', $to = '') {
         return $this->get_technical_indicator($symbol, 'ema', $period, $from, $to);
@@ -274,6 +286,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error CCI data or error
+      * @version 1.0.0
      */
     public function get_cci($symbol, $period = 20, $from = '', $to = '') {
         return $this->get_technical_indicator($symbol, 'cci', $period, $from, $to);
@@ -287,6 +300,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error ADX data or error
+      * @version 1.0.0
      */
     public function get_adx($symbol, $period = 14, $from = '', $to = '') {
         return $this->get_technical_indicator($symbol, 'dmi', $period, $from, $to);
@@ -300,6 +314,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error Bollinger Bands data or error
+      * @version 1.0.0
      */
     public function get_bollinger_bands($symbol, $period = 20, $from = '', $to = '') {
         return $this->get_technical_indicator($symbol, 'bbands', $period, $from, $to);
@@ -313,6 +328,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error Stochastic data or error
+      * @version 1.0.0
      */
     public function get_stochastic($symbol, $period = 14, $from = '', $to = '') {
         return $this->get_technical_indicator($symbol, 'stochastic', $period, $from, $to);
@@ -326,6 +342,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error MFI data or error
+      * @version 1.0.0
      */
     public function get_mfi($symbol, $period = 14, $from = '', $to = '') {
         return $this->get_technical_indicator($symbol, 'mfi', $period, $from, $to);
@@ -338,6 +355,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error OBV data or error
+      * @version 1.0.0
      */
     public function get_obv($symbol, $from = '', $to = '') {
         return $this->get_technical_indicator($symbol, 'obv', 1, $from, $to);
@@ -349,6 +367,7 @@ class TradePress_EODHD_API {
      * @param string $symbol Stock symbol
      * @param string $filter Optional filter
      * @return array|WP_Error Fundamental data or error
+      * @version 1.0.0
      */
     public function get_fundamentals($symbol, $filter = '') {
         $params = array('symbol' => $symbol);
@@ -365,6 +384,7 @@ class TradePress_EODHD_API {
      * @param string $to End date
      * @param int $limit Limit results
      * @return array|WP_Error News data or error
+      * @version 1.0.0
      */
     public function get_news($symbol = '', $from = '', $to = '', $limit = 50) {
         $params = array('limit' => $limit);
@@ -382,6 +402,7 @@ class TradePress_EODHD_API {
      * @param string $to End date
      * @param string $symbols Optional symbols filter
      * @return array|WP_Error Earnings data or error
+      * @version 1.0.0
      */
     public function get_earnings($from = '', $to = '', $symbols = '') {
         $params = array('type' => 'earnings');
@@ -399,6 +420,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error Dividends data or error
+      * @version 1.0.0
      */
     public function get_dividends($symbol, $from = '', $to = '') {
         $params = array('symbol' => $symbol);
@@ -415,6 +437,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error Splits data or error
+      * @version 1.0.0
      */
     public function get_splits($symbol, $from = '', $to = '') {
         $params = array('symbol' => $symbol);
@@ -431,6 +454,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error Options data or error
+      * @version 1.0.0
      */
     public function get_options($symbol, $from = '', $to = '') {
         $params = array('symbol' => $symbol);
@@ -447,6 +471,7 @@ class TradePress_EODHD_API {
      * @param array $filters Additional filters
      * @param int $limit Result limit
      * @return array|WP_Error Screener data or error
+      * @version 1.0.0
      */
     public function get_screener($signals = '', $filters = array(), $limit = 50) {
         $params = array('limit' => $limit);
@@ -464,6 +489,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error Intraday data or error
+      * @version 1.0.0
      */
     public function get_intraday($symbol, $interval = '5m', $from = '', $to = '') {
         $params = array('symbol' => $symbol, 'interval' => $interval);
@@ -480,6 +506,7 @@ class TradePress_EODHD_API {
      * @param string $date Specific date
      * @param string $symbols Optional symbols filter
      * @return array|WP_Error Bulk data or error
+      * @version 1.0.0
      */
     public function get_bulk_data($exchange = 'US', $date = '', $symbols = '') {
         $params = array('exchange' => $exchange);
@@ -493,6 +520,7 @@ class TradePress_EODHD_API {
      * Get exchange list
      *
      * @return array|WP_Error Exchange data or error
+      * @version 1.0.0
      */
     public function get_exchanges() {
         return $this->make_request('exchanges', array());
@@ -503,6 +531,7 @@ class TradePress_EODHD_API {
      *
      * @param string $exchange Exchange code
      * @return array|WP_Error Symbols data or error
+      * @version 1.0.0
      */
     public function get_exchange_symbols($exchange = 'US') {
         return $this->make_request('exchange_symbols', array('exchange' => $exchange));
@@ -515,6 +544,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date for holidays
      * @param string $to End date for holidays
      * @return array|WP_Error Exchange details or error
+      * @version 1.0.0
      */
     public function get_exchange_details($exchange = 'US', $from = '', $to = '') {
         $params = array('exchange' => $exchange);
@@ -530,6 +560,7 @@ class TradePress_EODHD_API {
      * @param string $endpoint Endpoint name
      * @param array $params Request parameters
      * @return array|WP_Error Response data or error
+      * @version 1.0.0
      */
     private function make_request($endpoint, $params = array()) {
         if (!class_exists('TradePress_EODHD_Endpoints')) {
@@ -573,6 +604,7 @@ class TradePress_EODHD_API {
      * @param string $from Start date (YYYY-MM-DD)
      * @param string $to End date (YYYY-MM-DD)
      * @return array|WP_Error Historical data or error
+      * @version 1.0.0
      */
     public function get_historical_data($symbol, $from, $to) {
         return $this->get_bars($symbol, $from, $to);
@@ -583,6 +615,7 @@ class TradePress_EODHD_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Fundamental data or error
+      * @version 1.0.0
      */
     public function get_fundamental_data($symbol) {
         return $this->get_fundamentals($symbol);

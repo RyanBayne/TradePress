@@ -14,6 +14,8 @@
 * @link https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 * 
 * @version 1.0.95
+ *
+ * @param mixed $status
 */
 function TradePress_helix_httpstatus_groups( $status = null ) {
     $group_meanings = array(
@@ -49,6 +51,9 @@ function TradePress_helix_httpstatus_groups( $status = null ) {
 * @link https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 * 
 * @version 2.2
+ *
+ * @param mixed $requested_status
+ * @param string $requested_meaning
 */
 function TradePress_helix_httpstatuses( $requested_status = null, $requested_meaning = 'short' ) {
     $httpstatus = array();

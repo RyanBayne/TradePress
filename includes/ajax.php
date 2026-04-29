@@ -15,6 +15,8 @@ class TradePress_AJAX {
 
     /**
      * Hook in ajax handlers.
+      *
+      * @version 1.0.0
      */
     public static function init() {
         add_action( 'init', array( __CLASS__, 'define_ajax' ), 0 );
@@ -26,6 +28,7 @@ class TradePress_AJAX {
      * Get TradePress Ajax Endpoint.
      * @param  string $request Optional
      * @return string
+      * @version 1.0.0
      */
     public static function get_endpoint( $request = '' ) {
         return esc_url_raw( apply_filters( 'TradePress_ajax_get_endpoint', add_query_arg( 'TradePress-ajax', $request, remove_query_arg( array( 'remove_item', 'add-to-cart', 'added-to-cart' ) ) ), $request ) );
@@ -33,6 +36,8 @@ class TradePress_AJAX {
 
     /**
      * Set TradePress AJAX constant and headers.
+      *
+      * @version 1.0.0
      */
     public static function define_ajax() {
         if ( ! empty( $_GET['TradePress-ajax'] ) ) {
@@ -49,6 +54,8 @@ class TradePress_AJAX {
 
     /**
      * Send headers for TradePress Ajax Requests
+      *
+      * @version 1.0.0
      */
     private static function TradePress_ajax_headers() {
         send_origin_headers();
@@ -61,6 +68,8 @@ class TradePress_AJAX {
 
     /**
      * Check for TradePress Ajax request and fire action.
+      *
+      * @version 1.0.0
      */
     public static function do_TradePress_ajax() {
         global $wp_query;
@@ -78,6 +87,8 @@ class TradePress_AJAX {
 
     /**
      * Hook in methods - uses WordPress ajax handlers (admin-ajax).
+      *
+      * @version 1.0.0
      */
     public static function add_ajax_events() {
         // TradePress_EVENT => nopriv
@@ -111,6 +122,7 @@ class TradePress_AJAX {
      *
      * @param string $api_id The API identifier.
      * @return array|false The API call data or false if none found.
+      * @version 1.0.0
      */
     public static function get_latest_api_call($api_id) {
         // For security, only allow access to this data when in testing mode
@@ -138,6 +150,7 @@ class TradePress_AJAX {
      *
      * @param string $api_id The API identifier.
      * @return array Sample API call data.
+      * @version 1.0.0
      */
     private static function generate_sample_api_call($api_id) {
         // Create different sample data based on the API
@@ -239,6 +252,8 @@ class TradePress_AJAX {
     
     /**
      * Ajax handler to refresh the API debug info panel.
+      *
+      * @version 1.0.0
      */
     public static function ajax_refresh_debug_info() {
         // Verify nonce
@@ -315,6 +330,8 @@ class TradePress_AJAX {
     
     /**
      * Ajax handler for manual data element import
+      *
+      * @version 1.0.0
      */
     public static function ajax_manual_import() {
         // Verify nonce
@@ -371,6 +388,8 @@ class TradePress_AJAX {
     
     /**
      * Ajax handler for refreshing data status
+      *
+      * @version 1.0.0
      */
     public static function ajax_refresh_data_status() {
         // Verify nonce
@@ -400,6 +419,8 @@ class TradePress_AJAX {
     
     /**
      * Ajax handler for running all imports
+      *
+      * @version 1.0.0
      */
     public static function ajax_run_all_imports() {
         // Verify nonce

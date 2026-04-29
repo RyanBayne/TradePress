@@ -21,6 +21,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 if( !class_exists( 'TradePress_Admin_Toolbar_Developers' ) ) :
 
 class TradePress_Admin_Toolbar_Developers {
+    /**
+     *   C On St Ru Ct.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         // This is a precaution as the same check is done when including the file.
         if( !current_user_can( 'TradePressdevelopertoolbar' ) ) {
@@ -44,6 +51,11 @@ class TradePress_Admin_Toolbar_Developers {
         self::second_level_backup_tools();
     }
 
+    /**
+     * Parent level.
+     *
+     * @version 1.0.0
+     */
     private static function parent_level() {
         global $wp_admin_bar;   
         
@@ -281,6 +293,8 @@ class TradePress_Admin_Toolbar_Developers {
 
     /**
      * Handle backup plugin with version increment
+      *
+      * @version 1.0.0
      */
     public static function handle_backup_plugin_increment_version() {
         // Start logging immediately
@@ -432,6 +446,11 @@ class TradePress_Admin_Toolbar_Developers {
     
     /**
      * Recursively copy directory with enhanced error logging
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $src
+      * @param mixed $dst
      */
     private static function copy_directory($src, $dst) {
         tradepress_trace_log('TradePress Backup Copy: ' . $src . ' -> ' . $dst);
@@ -481,6 +500,10 @@ class TradePress_Admin_Toolbar_Developers {
     
     /**
      * Test directory creation with various methods
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $path
      */
     private static function test_directory_creation($path) {
         tradepress_trace_log('TradePress Backup Test: Testing directory creation for: ' . $path);
@@ -508,6 +531,10 @@ class TradePress_Admin_Toolbar_Developers {
     
     /**
      * Check directory permissions and log detailed information
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $path
      */
     private static function check_directory_permissions($path) {
         $info = array();
@@ -533,6 +560,10 @@ class TradePress_Admin_Toolbar_Developers {
     
     /**
      * Update version numbers in plugin files
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $new_version
      */
     private static function update_version_in_files($new_version) {
         // Update tradepress.php

@@ -15,6 +15,16 @@ if (!defined('ABSPATH')) {
 }
 
 return array(
+    // Page-level CSS files.
+    'pages' => array(
+        'test-runner' => array(
+            'path' => 'css/test-runner.css',
+            'purpose' => 'Testing page styles for run output and status badges',
+            'pages' => array('tradepress-tests'),
+            'dependencies' => array()
+        )
+    ),
+
     // CSS Files - Components
     'components' => array(
         'accordion' => array(

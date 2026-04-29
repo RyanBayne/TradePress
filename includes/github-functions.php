@@ -12,6 +12,7 @@ if (!defined('ABSPATH')) {
  *
  * @param string|DateTime $github_time The timestamp from GitHub API
  * @return string Formatted "time ago" string
+  * @version 1.0.0
  */
 function TRADEPRESS_GITHUB_time_ago($github_time) {
     // Handle both DateTime objects and string timestamps

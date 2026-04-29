@@ -12,6 +12,10 @@ class TradePress_Directive_Data_Requirements {
     
     /**
      * Get data requirements for a specific directive
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
      */
     public static function get_directive_requirements($directive_id) {
         // Load API capability matrix
@@ -57,6 +61,10 @@ class TradePress_Directive_Data_Requirements {
     
     /**
      * Format freshness seconds into human readable format
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $seconds
      */
     private static function format_freshness($seconds) {
         if ($seconds < 60) {
@@ -70,6 +78,11 @@ class TradePress_Directive_Data_Requirements {
     
     /**
      * Render data requirements container for directive page
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
+      * @param mixed $directive_name
      */
     public static function render_requirements_container($directive_id, $directive_name) {
         $requirements = self::get_directive_requirements($directive_id);
@@ -151,6 +164,10 @@ class TradePress_Directive_Data_Requirements {
     
     /**
      * Get update frequency description for data type
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $data_type
      */
     private static function get_update_frequency($data_type) {
         $frequencies = array(
@@ -173,6 +190,10 @@ class TradePress_Directive_Data_Requirements {
     
     /**
      * Get cost level for data type
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $data_type
      */
     private static function get_cost_level($data_type) {
         $costs = array(
@@ -195,6 +216,10 @@ class TradePress_Directive_Data_Requirements {
     
     /**
      * Get cache strategy for directive
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
      */
     private static function get_cache_strategy($directive_id) {
         $strategies = array(

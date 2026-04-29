@@ -101,6 +101,8 @@ class TRADEPRESS_DISCORD_API {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Initialize the CURL object
@@ -116,6 +118,8 @@ class TRADEPRESS_DISCORD_API {
     
     /**
      * Load Discord API credentials from WordPress options
+      *
+      * @version 1.0.0
      */
     private function load_credentials() {
         // Try to get bot token from the standard option key
@@ -136,15 +140,12 @@ class TRADEPRESS_DISCORD_API {
         
         // Log token status (not the actual token) for troubleshooting
         if (empty($this->bot_token)) {
-            error_log('TradePress Discord API: Bot token is empty or not found');
         } else {
             $token_length = strlen($this->bot_token);
-            error_log("TradePress Discord API: Bot token found with length: {$token_length}");
             
             // Check if token follows Discord's format (typically starts with N or M)
             $is_valid_format = preg_match('/^[NM][a-zA-Z0-9_-]{23,}\.[\w-]{6}\.[\w-]{27}$/', $this->bot_token);
             if (!$is_valid_format) {
-                error_log('TradePress Discord API: Bot token may not be in the correct format');
             }
         }
         
@@ -166,6 +167,7 @@ class TRADEPRESS_DISCORD_API {
      * Validate bot token with a simple API call
      *
      * @return bool|string True if valid, error message if invalid
+      * @version 1.0.0
      */
     public function validate_bot_token() {
         if (empty($this->bot_token)) {
@@ -184,24 +186,20 @@ class TRADEPRESS_DISCORD_API {
         );
         
         if (is_wp_error($response)) {
-            error_log('TradePress Discord API: Token validation failed - ' . $response->get_error_message());
             return $response->get_error_message();
         }
         
         $http_code = wp_remote_retrieve_response_code($response);
         if ($http_code !== 200) {
             $body = wp_remote_retrieve_body($response);
-            error_log("TradePress Discord API: Token validation failed - HTTP {$http_code} - Response: {$body}");
             return "Discord API returned error code: {$http_code}";
         }
         
         $body = json_decode(wp_remote_retrieve_body($response));
         if (!isset($body->id)) {
-            error_log('TradePress Discord API: Token validation failed - Invalid response format');
             return 'Invalid response from Discord API';
         }
         
-        error_log('TradePress Discord API: Token validation successful - Bot ID: ' . $body->id);
         return true;
     }
     
@@ -213,6 +211,7 @@ class TRADEPRESS_DISCORD_API {
      * @param string $auth_type Type of authorization (bot, bearer, etc.)
      * @param bool $ssl_verify Whether to verify SSL certificates
      * @return mixed Response data or WP_Error
+      * @version 1.0.0
      */
     public function request($endpoint_key, $params = array(), $auth_type = 'bot', $ssl_verify = true) {
         // Load credentials if not already loaded
@@ -295,7 +294,6 @@ class TRADEPRESS_DISCORD_API {
         if (is_wp_error($this->curl_object->curl_reply)) {
             $error = $this->curl_object->curl_reply->get_error_message();
             $this->log_debug('Request error: ' . $error);
-            error_log('TradePress Discord API: Request error - ' . $error);
             return $this->curl_object->curl_reply;
         }
         
@@ -306,12 +304,10 @@ class TRADEPRESS_DISCORD_API {
         $this->log_debug('Response body: ' . $body);
         
         if ($http_code !== 200) {
-            error_log("TradePress Discord API: HTTP {$http_code} - Response: {$body}");
             
             // Special handling for 401 Unauthorized
             if ($http_code === 401) {
                 $this->log_debug('Authentication failed (401 Unauthorized)');
-                error_log('TradePress Discord API: Authentication failed (401 Unauthorized) - Check your bot token');
                 return new WP_Error('auth_failed', 'Invalid bot token. Authentication failed (401 Unauthorized).');
             }
             
@@ -334,11 +330,11 @@ class TRADEPRESS_DISCORD_API {
      * Log debug message
      *
      * @param string $message Debug message
+      * @version 1.0.0
      */
     private function log_debug($message) {
         if ($this->debug_mode) {
             $this->debug_log[] = '[' . date('Y-m-d H:i:s') . '] ' . $message;
-            error_log('TradePress Discord API Debug: ' . $message);
         }
     }
     
@@ -346,6 +342,7 @@ class TRADEPRESS_DISCORD_API {
      * Get debug log
      *
      * @return array Debug log
+      * @version 1.0.0
      */
     public function get_debug_log() {
         return $this->debug_log;
@@ -355,6 +352,7 @@ class TRADEPRESS_DISCORD_API {
      * Enable or disable debug mode
      *
      * @param bool $enable Whether to enable debug mode
+      * @version 1.0.0
      */
     public function set_debug_mode($enable = true) {
         $this->debug_mode = $enable;
@@ -365,6 +363,7 @@ class TRADEPRESS_DISCORD_API {
      * 
      * @param string $endpoint_key Endpoint key to validate
      * @return bool True if endpoint exists
+      * @version 1.0.0
      */
     public function validate_endpoint($endpoint_key) {
         $endpoints = new TRADEPRESS_DISCORD_Endpoints();
@@ -376,6 +375,7 @@ class TRADEPRESS_DISCORD_API {
      * Get a list of all available endpoints
      * 
      * @return array List of endpoint keys and descriptions
+      * @version 1.0.0
      */
     public function get_available_endpoints() {
         $endpoints = new TRADEPRESS_DISCORD_Endpoints();
@@ -394,6 +394,7 @@ class TRADEPRESS_DISCORD_API {
      *
      * @param string $code Authorization code from OAuth flow
      * @return bool Whether the token was successfully obtained
+      * @version 1.0.0
      */
     public function get_access_token($code) {
         if (empty($code) || empty($this->client_id) || empty($this->client_secret) || empty($this->redirect_uri)) {
@@ -445,6 +446,7 @@ class TRADEPRESS_DISCORD_API {
      * Refresh an expired access token
      *
      * @return bool Whether the token was successfully refreshed
+      * @version 1.0.0
      */
     public function refresh_access_token() {
         if (empty($this->refresh_token) || empty($this->client_id) || empty($this->client_secret)) {
@@ -495,6 +497,7 @@ class TRADEPRESS_DISCORD_API {
      * Get information about the current user (OAuth2)
      *
      * @return object|false User information or false on failure
+      * @version 1.0.0
      */
     public function get_current_user() {
         return $this->request('OAUTH2_CURRENT_USER', array(), 'oauth2', true);
@@ -507,6 +510,7 @@ class TRADEPRESS_DISCORD_API {
      * @param string $content Message content
      * @param array $embeds Embedded content (optional)
      * @return object|false API response or false on failure
+      * @version 1.0.0
      */
     public function send_message($channel_id, $content, $embeds = array()) {
         $params = array(
@@ -531,6 +535,7 @@ class TRADEPRESS_DISCORD_API {
      * @param array $embed Embed data
      * @param string $content Message content (optional)
      * @return object|false API response or false on failure
+      * @version 1.0.0
      */
     public function send_embed($channel_id, $embed, $content = '') {
         $params = array(
@@ -555,6 +560,7 @@ class TRADEPRESS_DISCORD_API {
      * @param string $name Webhook name
      * @param string $avatar Avatar URL (optional)
      * @return object|false Webhook object or false on failure
+      * @version 1.0.0
      */
     public function create_webhook($channel_id, $name, $avatar = '') {
         $params = array(
@@ -582,6 +588,7 @@ class TRADEPRESS_DISCORD_API {
      * @param string $username Override username (optional)
      * @param string $avatar_url Override avatar URL (optional)
      * @return object|false Response object or false on failure
+      * @version 1.0.0
      */
     public function execute_webhook($webhook_id, $webhook_token, $content, $embeds = array(), $username = '', $avatar_url = '') {
         $params = array(
@@ -617,6 +624,7 @@ class TRADEPRESS_DISCORD_API {
      * @param string $alert_type Type of alert: 'up', 'down', 'target'
      * @param float $target_price Target price (optional, for target alerts)
      * @return array Embed array for Discord API
+      * @version 1.0.0
      */
     public function create_stock_alert_embed($symbol, $price, $previous_price, $alert_type = 'up', $target_price = 0) {
         // Calculate change percentage
@@ -701,6 +709,7 @@ class TRADEPRESS_DISCORD_API {
      * @param string $alert_type Type of alert: 'up', 'down', 'target'
      * @param float $target_price Target price (optional, for target alerts)
      * @return object|false API response or false on failure
+      * @version 1.0.0
      */
     public function send_stock_alert($channel_id, $symbol, $price, $previous_price, $alert_type = 'up', $target_price = 0) {
         // Generate embed for stock alert
@@ -732,6 +741,7 @@ class TRADEPRESS_DISCORD_API {
      *
      * @param array $scopes Array of OAuth scopes to request
      * @return string Authorization URL
+      * @version 1.0.0
      */
     public function get_oauth_url($scopes = array('identify', 'guilds')) {
         if (empty($this->client_id) || empty($this->redirect_uri)) {
@@ -756,6 +766,7 @@ class TRADEPRESS_DISCORD_API {
      * Run diagnostic tests on the Discord API configuration
      * 
      * @return array Array of test results
+      * @version 1.0.0
      */
     public function run_diagnostics() {
         $results = array(
@@ -820,6 +831,7 @@ class TRADEPRESS_DISCORD_API {
      * 
      * @param string $token Discord bot token to test
      * @return array Test results
+      * @version 1.0.0
      */
     public function test_bot_token($token) {
         // Store original token
@@ -883,6 +895,7 @@ class TRADEPRESS_DISCORD_API {
      * @param string $endpoint_key API endpoint key
      * @param array $params Request parameters
      * @return string|WP_Error Endpoint URL or error
+      * @version 1.0.0
      */
     private function get_endpoint_url($endpoint_key, $params = array()) {
         $endpoints = new TRADEPRESS_DISCORD_Endpoints();
@@ -907,6 +920,7 @@ class TRADEPRESS_DISCORD_API {
      *
      * @param string $endpoint_key API endpoint key
      * @return string Request method (GET, POST, etc.)
+      * @version 1.0.0
      */
     private function get_endpoint_method($endpoint_key) {
         $endpoints = new TRADEPRESS_DISCORD_Endpoints();
@@ -924,6 +938,7 @@ class TRADEPRESS_DISCORD_API {
      *
      * @param mixed $response API response
      * @return mixed Parsed response data or WP_Error
+      * @version 1.0.0
      */
     private function parse_response($response) {
         if (is_wp_error($response)) {
@@ -944,6 +959,7 @@ class TRADEPRESS_DISCORD_API {
      * Get the bot token for diagnostic purposes
      * 
      * @return string The bot token
+      * @version 1.0.0
      */
     public function get_bot_token() {
         return $this->bot_token;

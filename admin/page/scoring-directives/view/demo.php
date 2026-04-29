@@ -74,10 +74,20 @@ if (!defined('ABSPATH')) {
 </div>
 
 <script>
+/**
+ * Test demo directive.
+ *
+ * @version 1.0.0
+ */
 function testDemoDirective() {
     alert('<?php esc_js(__('Demo directive test initiated. Check the logs tab for results.', 'tradepress')); ?>');
 }
 
+/**
+ * Reset demo data.
+ *
+ * @version 1.0.0
+ */
 function resetDemoData() {
     if (confirm('<?php esc_js(__('Are you sure you want to reset all demo data?', 'tradepress')); ?>')) {
         alert('<?php esc_js(__('Demo data has been reset.', 'tradepress')); ?>');

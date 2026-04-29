@@ -19,6 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
   
 /**
  * @deprecated example only
+  *
+  * @version 1.0.0
  */
 function TradePress_function_called() {
     _deprecated_function( 'TradePress_function_called', '2.1', 'TradePress_replacement_function' );

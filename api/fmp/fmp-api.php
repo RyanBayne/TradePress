@@ -111,6 +111,7 @@ class TradePress_FMP_API {
      * Constructor
      *
      * @param string $api_key API key
+      * @version 1.0.0
      */
     public function __construct($api_key = '') {
         $this->api_key = $api_key ?: get_option('tradepress_fmp_api_key', '');
@@ -120,6 +121,7 @@ class TradePress_FMP_API {
      * Get platform metadata
      *
      * @return array Platform metadata
+      * @version 1.0.0
      */
     public function get_platform_meta() {
         return $this->platform_meta;
@@ -129,6 +131,7 @@ class TradePress_FMP_API {
      * Get platform capabilities
      *
      * @return array Platform capabilities
+      * @version 1.0.0
      */
     public function get_capabilities() {
         return $this->platform_meta['capabilities'];
@@ -139,6 +142,7 @@ class TradePress_FMP_API {
      *
      * @param string $data_type Data type to check
      * @return bool True if supported
+      * @version 1.0.0
      */
     public function supports_data_type($data_type) {
         return isset($this->platform_meta['data_types'][$data_type]);
@@ -149,6 +153,7 @@ class TradePress_FMP_API {
      *
      * @param string $data_type Data type
      * @return string|false Endpoint name or false
+      * @version 1.0.0
      */
     public function get_data_type_endpoint($data_type) {
         return $this->supports_data_type($data_type) ? $this->platform_meta['data_types'][$data_type] : false;
@@ -159,6 +164,7 @@ class TradePress_FMP_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Quote data or error
+      * @version 1.0.0
      */
     public function get_quote($symbol) {
         return $this->make_request('quote', array('symbol' => $symbol));
@@ -171,6 +177,7 @@ class TradePress_FMP_API {
      * @param string $from Start date (YYYY-MM-DD)
      * @param string $to End date (YYYY-MM-DD)
      * @return array|WP_Error Historical data or error
+      * @version 1.0.0
      */
     public function get_bars($symbol, $from = '', $to = '') {
         $params = array('symbol' => $symbol);
@@ -188,6 +195,7 @@ class TradePress_FMP_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error Intraday data or error
+      * @version 1.0.0
      */
     public function get_intraday($symbol, $interval = '1min', $from = '', $to = '') {
         $params = array('interval' => $interval, 'symbol' => $symbol);
@@ -202,6 +210,7 @@ class TradePress_FMP_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Company profile or error
+      * @version 1.0.0
      */
     public function get_company_profile($symbol) {
         return $this->make_request('company_profile', array('symbol' => $symbol));
@@ -212,6 +221,7 @@ class TradePress_FMP_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Company outlook or error
+      * @version 1.0.0
      */
     public function get_company_outlook($symbol) {
         return $this->make_request('company_outlook', array('symbol' => $symbol));
@@ -224,6 +234,7 @@ class TradePress_FMP_API {
      * @param string $period Period (annual, quarter)
      * @param int $limit Limit results
      * @return array|WP_Error Income statement or error
+      * @version 1.0.0
      */
     public function get_income_statement($symbol, $period = 'annual', $limit = 20) {
         return $this->make_request('income_statement', array('symbol' => $symbol, 'period' => $period, 'limit' => $limit));
@@ -236,6 +247,7 @@ class TradePress_FMP_API {
      * @param string $period Period (annual, quarter)
      * @param int $limit Limit results
      * @return array|WP_Error Balance sheet or error
+      * @version 1.0.0
      */
     public function get_balance_sheet($symbol, $period = 'annual', $limit = 20) {
         return $this->make_request('balance_sheet', array('symbol' => $symbol, 'period' => $period, 'limit' => $limit));
@@ -248,6 +260,7 @@ class TradePress_FMP_API {
      * @param string $period Period (annual, quarter)
      * @param int $limit Limit results
      * @return array|WP_Error Cash flow statement or error
+      * @version 1.0.0
      */
     public function get_cash_flow($symbol, $period = 'annual', $limit = 20) {
         return $this->make_request('cash_flow', array('symbol' => $symbol, 'period' => $period, 'limit' => $limit));
@@ -260,6 +273,7 @@ class TradePress_FMP_API {
      * @param string $period Period (annual, quarter)
      * @param int $limit Limit results
      * @return array|WP_Error Key metrics or error
+      * @version 1.0.0
      */
     public function get_key_metrics($symbol, $period = 'annual', $limit = 20) {
         return $this->make_request('key_metrics', array('symbol' => $symbol, 'period' => $period, 'limit' => $limit));
@@ -272,6 +286,7 @@ class TradePress_FMP_API {
      * @param string $period Period (annual, quarter)
      * @param int $limit Limit results
      * @return array|WP_Error Financial ratios or error
+      * @version 1.0.0
      */
     public function get_financial_ratios($symbol, $period = 'annual', $limit = 20) {
         return $this->make_request('financial_ratios', array('symbol' => $symbol, 'period' => $period, 'limit' => $limit));
@@ -287,6 +302,7 @@ class TradePress_FMP_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error Technical indicators or error
+      * @version 1.0.0
      */
     public function get_technical_indicators($symbol, $interval = 'daily', $type = 'sma', $period = 20, $from = '', $to = '') {
         $params = array('interval' => $interval, 'symbol' => $symbol, 'type' => $type, 'period' => $period);
@@ -302,6 +318,7 @@ class TradePress_FMP_API {
      * @param string $symbol Stock symbol
      * @param int $limit Limit results
      * @return array|WP_Error News data or error
+      * @version 1.0.0
      */
     public function get_news($symbol, $limit = 50) {
         return $this->make_request('company_news', array('tickers' => $symbol, 'limit' => $limit));
@@ -312,6 +329,7 @@ class TradePress_FMP_API {
      *
      * @param int $limit Limit results
      * @return array|WP_Error Market news or error
+      * @version 1.0.0
      */
     public function get_market_news($limit = 50) {
         return $this->make_request('market_news', array('limit' => $limit));
@@ -324,6 +342,7 @@ class TradePress_FMP_API {
      * @param string $period Period (annual, quarter)
      * @param int $limit Limit results
      * @return array|WP_Error Analyst estimates or error
+      * @version 1.0.0
      */
     public function get_analyst_estimates($symbol, $period = 'annual', $limit = 30) {
         return $this->make_request('analyst_estimates', array('symbol' => $symbol, 'period' => $period, 'limit' => $limit));
@@ -334,6 +353,7 @@ class TradePress_FMP_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Price targets or error
+      * @version 1.0.0
      */
     public function get_price_targets($symbol) {
         return $this->make_request('price_target', array('symbol' => $symbol));
@@ -345,6 +365,7 @@ class TradePress_FMP_API {
      * @param string $from Start date
      * @param string $to End date
      * @return array|WP_Error Earnings calendar or error
+      * @version 1.0.0
      */
     public function get_earnings_calendar($from = '', $to = '') {
         $params = array();
@@ -359,6 +380,7 @@ class TradePress_FMP_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Dividends data or error
+      * @version 1.0.0
      */
     public function get_dividends($symbol) {
         return $this->make_request('historical_dividends', array('symbol' => $symbol));
@@ -369,6 +391,7 @@ class TradePress_FMP_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Stock splits or error
+      * @version 1.0.0
      */
     public function get_splits($symbol) {
         return $this->make_request('stock_splits', array('symbol' => $symbol));
@@ -379,6 +402,7 @@ class TradePress_FMP_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Institutional holders or error
+      * @version 1.0.0
      */
     public function get_institutional_holders($symbol) {
         return $this->make_request('institutional_holders', array('symbol' => $symbol));
@@ -389,6 +413,7 @@ class TradePress_FMP_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Insider trading or error
+      * @version 1.0.0
      */
     public function get_insider_trading($symbol) {
         return $this->make_request('insider_trading', array('symbol' => $symbol));
@@ -399,6 +424,7 @@ class TradePress_FMP_API {
      *
      * @param string $symbol ETF symbol
      * @return array|WP_Error ETF holdings or error
+      * @version 1.0.0
      */
     public function get_etf_holdings($symbol) {
         return $this->make_request('etf_holdings', array('symbol' => $symbol));
@@ -409,6 +435,7 @@ class TradePress_FMP_API {
      *
      * @param array $criteria Screening criteria
      * @return array|WP_Error Screening results or error
+      * @version 1.0.0
      */
     public function screen_stocks($criteria = array()) {
         return $this->make_request('stock_screener', $criteria);
@@ -420,6 +447,7 @@ class TradePress_FMP_API {
      * @param string $endpoint Endpoint name
      * @param array $params Request parameters
      * @return array|WP_Error Response data or error
+      * @version 1.0.0
      */
     private function make_request($endpoint, $params = array()) {
         if (!class_exists('TradePress_FMP_Endpoints')) {
@@ -469,6 +497,7 @@ class TradePress_FMP_API {
      * @param string $symbol Stock symbol
      * @param string $statement Statement type
      * @return array|WP_Error Financial statements or error
+      * @version 1.0.0
      */
     public function get_financial_statements($symbol, $statement = 'income-statement') {
         switch ($statement) {

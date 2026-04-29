@@ -17,6 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Register Widgets.
+  *
+  * @version 1.0.0
  */
 function TradePress_register_widgets() {
     //register_widget( 'TradePress_Widget_Example' );

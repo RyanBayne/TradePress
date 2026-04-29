@@ -30,7 +30,6 @@ if (class_exists('TradePress_Scoring_Directives_Registry')) {
         }
     } catch (Exception $e) {
         // Log error
-        error_log('Error loading scoring directives: ' . $e->getMessage());
     }
 }
 

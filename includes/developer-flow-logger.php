@@ -14,6 +14,11 @@ class TradePress_Developer_Flow_Logger {
     
     /**
      * Start a new flow context
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $context
+      * @param string $description
      */
     public static function start_flow($context, $description = '') {
         if (get_option('tradepress_developer_mode') !== 'yes') {
@@ -31,6 +36,13 @@ class TradePress_Developer_Flow_Logger {
     
     /**
      * Log a decision point
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $decision
+      * @param mixed $result
+      * @param string $reason
+      * @param array $data
      */
     public static function log_decision($decision, $result, $reason = '', $data = array()) {
         if (get_option('tradepress_developer_mode') !== 'yes') {
@@ -46,6 +58,12 @@ class TradePress_Developer_Flow_Logger {
     
     /**
      * Log an action
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $action
+      * @param string $details
+      * @param array $data
      */
     public static function log_action($action, $details = '', $data = array()) {
         if (get_option('tradepress_developer_mode') !== 'yes') {
@@ -59,6 +77,13 @@ class TradePress_Developer_Flow_Logger {
     
     /**
      * Log a cache operation
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $operation
+      * @param mixed $key
+      * @param mixed $result
+      * @param array $data
      */
     public static function log_cache($operation, $key, $result, $data = array()) {
         if (get_option('tradepress_developer_mode') !== 'yes') {
@@ -74,6 +99,13 @@ class TradePress_Developer_Flow_Logger {
     
     /**
      * Log API operation
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $provider
+      * @param mixed $endpoint
+      * @param mixed $result
+      * @param array $data
      */
     public static function log_api($provider, $endpoint, $result, $data = array()) {
         if (get_option('tradepress_developer_mode') !== 'yes') {
@@ -89,6 +121,11 @@ class TradePress_Developer_Flow_Logger {
     
     /**
      * End flow and display results
+      *
+      * @version 1.0.0
+      *
+      * @param string $final_result
+      * @param mixed $error
      */
     public static function end_flow($final_result = '', $error = null) {
         if (get_option('tradepress_developer_mode') !== 'yes') {
@@ -106,6 +143,12 @@ class TradePress_Developer_Flow_Logger {
     
     /**
      * Log individual step
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $type
+      * @param mixed $message
+      * @param array $data
      */
     private static function log_step($type, $message, $data = array()) {
         self::$flow_steps[] = array(
@@ -119,6 +162,8 @@ class TradePress_Developer_Flow_Logger {
     
     /**
      * Display comprehensive flow breakdown
+      *
+      * @version 1.0.0
      */
     private static function display_flow_breakdown() {
         if (empty(self::$flow_steps)) {

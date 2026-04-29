@@ -29,6 +29,8 @@ class TradePress_ListTable_Endpoints extends WP_List_Table {
     
     /**
      * Constructor.
+      *
+      * @version 1.0.0
      */
     public function __construct() {
 
@@ -79,6 +81,8 @@ class TradePress_ListTable_Endpoints extends WP_List_Table {
     
     /**
      * No items found text.
+      *
+      * @version 1.0.0
      */
     public function no_items() {
         esc_html_e( 'No endpoints found.', 'tradepress' );
@@ -88,6 +92,7 @@ class TradePress_ListTable_Endpoints extends WP_List_Table {
      * Don't need this.
      *
      * @param string $position
+      * @version 1.0.0
      */
     public function display_tablenav( $position ) {
         if ( $position != 'top' ) {
@@ -97,6 +102,8 @@ class TradePress_ListTable_Endpoints extends WP_List_Table {
 
     /**
      * Output the report.
+      *
+      * @version 1.0.0
      */
     public function output_result() {
         $this->prepare_items();
@@ -167,6 +174,8 @@ class TradePress_ListTable_Endpoints extends WP_List_Table {
 
     /**
      * Prepare customer list items.
+      *
+      * @version 1.0.0
      */
     public function prepare_items() {
 

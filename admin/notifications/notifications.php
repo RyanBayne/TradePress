@@ -24,6 +24,8 @@ class TradePress_Notifications {
 
     /**
      * Initialize the notifications system
+      *
+      * @version 1.0.0
      */
     public static function init() {
         // Register default notification types
@@ -49,6 +51,7 @@ class TradePress_Notifications {
      * @param string $type Unique notification type identifier
      * @param string $label Human-readable label for this notification type
      * @return bool Success
+      * @version 1.0.0
      */
     public static function register_notification_type( $type, $label ) {
         if ( ! isset( self::$notification_types[$type] ) ) {
@@ -64,6 +67,7 @@ class TradePress_Notifications {
      * Get all registered notification types
      *
      * @return array Notification types
+      * @version 1.0.0
      */
     public static function get_notification_types() {
         return self::$notification_types;
@@ -76,6 +80,7 @@ class TradePress_Notifications {
      * @param string $message Notification message
      * @param array $args Optional arguments
      * @return int|bool Notification ID or false on failure
+      * @version 1.0.0
      */
     public static function create_notification( $type, $message, $args = array() ) {
         // Validate notification type
@@ -114,6 +119,7 @@ class TradePress_Notifications {
      * @param string $message Notification message
      * @param array $args Notification arguments
      * @return int|bool Notification ID or false on failure
+      * @version 1.0.0
      */
     private static function store_notification( $type, $message, $args ) {
         global $wpdb;
@@ -153,6 +159,7 @@ class TradePress_Notifications {
      * @param string $message Notification message
      * @param array $args Notification arguments
      * @return bool Success
+      * @version 1.0.0
      */
     private static function send_email_notification( $notification_id, $type, $message, $args ) {
         $user_id = $args['user_id'];
@@ -192,6 +199,8 @@ class TradePress_Notifications {
 
     /**
      * Process pending notifications
+      *
+      * @version 1.0.0
      */
     public static function process_pending_notifications() {
         global $wpdb;
@@ -211,6 +220,7 @@ class TradePress_Notifications {
      * @param int $user_id User ID (0 for system notifications)
      * @param array $args Query arguments
      * @return array Notifications
+      * @version 1.0.0
      */
     public static function get_notifications( $user_id = 0, $args = array() ) {
         global $wpdb;
@@ -266,6 +276,7 @@ class TradePress_Notifications {
      * @param int $notification_id Notification ID
      * @param int $user_id User ID making the change
      * @return bool Success
+      * @version 1.0.0
      */
     public static function mark_as_read( $notification_id, $user_id = 0 ) {
         global $wpdb;
@@ -292,6 +303,8 @@ class TradePress_Notifications {
 
     /**
      * Create the notification tables if they don't exist
+      *
+      * @version 1.0.0
      */
     public static function maybe_create_tables() {
         global $wpdb;

@@ -37,6 +37,7 @@ abstract class TradePress_API_Adapter {
      * Constructor
      * 
      * @param TradePress_Financial_API_Service $service The API service
+      * @version 1.0.0
      */
     public function __construct($service) {
         $this->service = $service;
@@ -47,6 +48,7 @@ abstract class TradePress_API_Adapter {
      * 
      * @param string $symbol The ticker symbol
      * @return array|WP_Error Normalized quote data or error
+      * @version 1.0.0
      */
     public function get_quote($symbol) {
         // This method should be implemented by child classes
@@ -60,6 +62,7 @@ abstract class TradePress_API_Adapter {
      * @param string $interval Time interval (e.g. 'daily', '1min')
      * @param int $limit Number of data points to return
      * @return array|WP_Error Normalized historical data or error
+      * @version 1.0.0
      */
     public function get_historical_data($symbol, $interval = 'daily', $limit = 100) {
         // This method should be implemented by child classes
@@ -71,6 +74,7 @@ abstract class TradePress_API_Adapter {
      * 
      * @param string $symbol The ticker symbol
      * @return array|WP_Error Normalized company data or error
+      * @version 1.0.0
      */
     public function get_company_profile($symbol) {
         // This method should be implemented by child classes
@@ -84,6 +88,7 @@ abstract class TradePress_API_Adapter {
      * @param string $report_type Type of report (income, balance, cash)
      * @param string $period Period (annual, quarterly)
      * @return array|WP_Error Normalized financial data or error
+      * @version 1.0.0
      */
     public function get_financial_statements($symbol, $report_type = 'income', $period = 'annual') {
         // This method should be implemented by child classes
@@ -95,6 +100,7 @@ abstract class TradePress_API_Adapter {
      * 
      * @param string $query Search query
      * @return array|WP_Error Normalized search results or error
+      * @version 1.0.0
      */
     public function search_symbols($query) {
         // This method should be implemented by child classes
@@ -107,6 +113,7 @@ abstract class TradePress_API_Adapter {
      * @param string $symbol Optional symbol to filter by
      * @param int $limit Number of news items to return
      * @return array|WP_Error Normalized news data or error
+      * @version 1.0.0
      */
     public function get_news($symbol = '', $limit = 10) {
         // This method should be implemented by child classes
@@ -120,6 +127,7 @@ abstract class TradePress_API_Adapter {
      * @param string $to End date in YYYY-MM-DD format
      * @param string $symbol Optional symbol to filter by
      * @return array|WP_Error Normalized earnings data or error
+      * @version 1.0.0
      */
     public function get_earnings_calendar($from = '', $to = '', $symbol = '') {
         // This method should be implemented by child classes
@@ -131,6 +139,7 @@ abstract class TradePress_API_Adapter {
      * 
      * @param array $data Raw quote data
      * @return array Normalized quote data
+      * @version 1.0.0
      */
     protected function normalize_quote_data($data) {
         // Default normalized structure
@@ -160,6 +169,7 @@ abstract class TradePress_API_Adapter {
      * 
      * @param array $data Raw historical price data
      * @return array Normalized historical data
+      * @version 1.0.0
      */
     protected function normalize_historical_data($data) {
         $normalized = array();
@@ -173,6 +183,7 @@ abstract class TradePress_API_Adapter {
      * 
      * @param array $data Raw company profile data
      * @return array Normalized company profile
+      * @version 1.0.0
      */
     protected function normalize_company_data($data) {
         // Default normalized structure
@@ -203,6 +214,7 @@ abstract class TradePress_API_Adapter {
      * @param array $data Raw financial statement data
      * @param string $report_type Type of report
      * @return array Normalized financial data
+      * @version 1.0.0
      */
     protected function normalize_financial_data($data, $report_type) {
         $normalized = array();
@@ -216,6 +228,7 @@ abstract class TradePress_API_Adapter {
      * 
      * @param array $data Raw news data
      * @return array Normalized news data
+      * @version 1.0.0
      */
     protected function normalize_news_data($data) {
         $normalized = array();
@@ -229,6 +242,7 @@ abstract class TradePress_API_Adapter {
      * 
      * @param array $data Raw earnings data
      * @return array Normalized earnings data
+      * @version 1.0.0
      */
     protected function normalize_earnings_data($data) {
         $normalized = array();
@@ -241,6 +255,7 @@ abstract class TradePress_API_Adapter {
      * Get the API service instance
      * 
      * @return TradePress_Financial_API_Service The API service
+      * @version 1.0.0
      */
     public function get_service() {
         return $this->service;

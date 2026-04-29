@@ -18,6 +18,8 @@ class TradePress_Dashboard_Widgets {
 
     /**
      * Initialize dashboard widgets
+      *
+      * @version 1.0.0
      */
     public static function init() {
         // Add dashboard widgets
@@ -35,6 +37,8 @@ class TradePress_Dashboard_Widgets {
 
     /**
      * Register dashboard widgets
+      *
+      * @version 1.0.0
      */
     public static function register_dashboard_widgets() {
         // Check user capabilities
@@ -75,6 +79,7 @@ class TradePress_Dashboard_Widgets {
      * Enqueue dashboard widget scripts and styles
      *
      * @param string $hook Current admin page
+      * @version 1.0.0
      */
     public static function enqueue_scripts( $hook ) {
         if ( 'index.php' !== $hook ) {
@@ -114,6 +119,8 @@ class TradePress_Dashboard_Widgets {
 
     /**
      * Display callback for the recent symbols widget
+      *
+      * @version 1.0.0
      */
     public static function recent_symbols_widget_callback() {
         // Ensure the recent symbols class is loaded
@@ -168,6 +175,8 @@ class TradePress_Dashboard_Widgets {
 
     /**
      * AJAX handler for refreshing recent symbols widget
+      *
+      * @version 1.0.0
      */
     public static function ajax_refresh_recent_symbols_widget() {
         check_ajax_referer( 'tradepress-dashboard-widgets', 'nonce' );
@@ -188,6 +197,8 @@ class TradePress_Dashboard_Widgets {
 
     /**
      * Market overview widget content
+      *
+      * @version 1.0.0
      */
     public static function market_overview_widget() {
         // Get top market movers
@@ -288,6 +299,8 @@ class TradePress_Dashboard_Widgets {
 
     /**
      * Recent trades widget content
+      *
+      * @version 1.0.0
      */
     public static function recent_trades_widget() {
         // Get recent trades
@@ -346,6 +359,8 @@ class TradePress_Dashboard_Widgets {
 
     /**
      * Watchlist widget content
+      *
+      * @version 1.0.0
      */
     public static function watchlist_widget() {
         // Get watchlist items
@@ -407,6 +422,8 @@ class TradePress_Dashboard_Widgets {
 
     /**
      * AJAX handler for refreshing market widget
+      *
+      * @version 1.0.0
      */
     public static function ajax_refresh_market_widget() {
         check_ajax_referer( 'tradepress-dashboard-widgets', 'nonce' );
@@ -427,6 +444,8 @@ class TradePress_Dashboard_Widgets {
 
     /**
      * AJAX handler for refreshing trades widget
+      *
+      * @version 1.0.0
      */
     public static function ajax_refresh_trades_widget() {
         check_ajax_referer( 'tradepress-dashboard-widgets', 'nonce' );
@@ -447,6 +466,8 @@ class TradePress_Dashboard_Widgets {
 
     /**
      * AJAX handler for refreshing watchlist widget
+      *
+      * @version 1.0.0
      */
     public static function ajax_refresh_watchlist_widget() {
         check_ajax_referer( 'tradepress-dashboard-widgets', 'nonce' );
@@ -470,6 +491,7 @@ class TradePress_Dashboard_Widgets {
      * In a real implementation, this would fetch from actual API
      *
      * @return array Market movers data
+      * @version 1.0.0
      */
     private static function get_market_movers() {
         // Sample data - in production this would come from actual API
@@ -550,6 +572,7 @@ class TradePress_Dashboard_Widgets {
      * In a real implementation, this would fetch from actual database
      *
      * @return array Recent trades data
+      * @version 1.0.0
      */
     private static function get_recent_trades() {
         // Sample data - in production this would come from database
@@ -592,6 +615,7 @@ class TradePress_Dashboard_Widgets {
      * In a real implementation, this would fetch from user metadata
      *
      * @return array Watchlist data
+      * @version 1.0.0
      */
     private static function get_watchlist() {
         // Sample data - in production this would come from user metadata

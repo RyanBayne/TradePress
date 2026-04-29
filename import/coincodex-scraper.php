@@ -27,6 +27,7 @@ class TradePress_CoinCodex_Scraper extends TradePress_Prediction_Scraper {
      * 
      * @param string $symbol Symbol to fetch predictions for
      * @return array|WP_Error Predictions or error
+      * @version 1.0.0
      */
     public function fetch_predictions($symbol) {
         if (!$this->is_scraping_allowed()) {
@@ -73,6 +74,7 @@ class TradePress_CoinCodex_Scraper extends TradePress_Prediction_Scraper {
      * 
      * @param string $symbol Symbol being processed
      * @return array Extracted predictions
+      * @version 1.0.0
      */
     protected function parse_predictions($symbol) {
         $predictions = [];

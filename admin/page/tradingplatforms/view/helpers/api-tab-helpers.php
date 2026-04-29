@@ -14,6 +14,7 @@ if (!defined('ABSPATH')) {
  *
  * @param string $status Status value (active, inactive, operational, etc.)
  * @return string CSS class name for the status color
+  * @version 1.0.0
  */
 function get_status_color($status) {
     switch ($status) {
@@ -39,6 +40,7 @@ function get_status_color($status) {
  *
  * @param mixed $json The data to format as JSON
  * @return string Formatted JSON string with escaped quotes
+  * @version 1.0.0
  */
 function format_json_for_display($json) {
     if (empty($json)) {
@@ -56,6 +58,7 @@ function format_json_for_display($json) {
  *
  * @param string $api_id The API identifier (e.g., 'alpaca', 'alphavantage')
  * @return array Status array with 'status' and 'message' keys
+  * @version 1.0.0
  */
 function get_real_api_local_status($api_id) {
     // Check if API is enabled

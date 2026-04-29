@@ -29,7 +29,6 @@ class TradePress_Admin_Help {
         }
         
         // Debug: Log current screen ID
-        error_log('Help tab screen ID: ' . $screen->id);
         
         // Check if this is a TradePress admin page
         if ( strpos( $screen->id, 'tradepress' ) === false ) {
@@ -52,9 +51,6 @@ class TradePress_Admin_Help {
                 '<p><a href="https://github.com/ryanbayne/TradePress" target="_blank">' . __( 'GitHub', 'tradepress' ) . '</a></p>' .
                 '<p><a href="https://TradePress.wordpress.com" target="_blank">' . __( 'Blog', 'tradepress' ) . '</a></p>'.
                 '<p><a href="https://discord.gg/ScrhXPE" target="_blank">' . __( 'Discord', 'tradepress' ) . '</a></p>' .
-                '<p><a href="https://twitch.tv/lolindark1" target="_blank">' . __( 'My Twitch', 'tradepress' ) . '</a></p>' . 
-                '<p><a href="https://dev.twitch.tv/dashboard/apps" target="_blank">' . __( 'Twitch Dev Apps', 'tradepress' ) . '</a></p>' . 
-                '<p><a href="https://dev.twitch.tv/docs/api/reference/" target="_blank">' . __( 'Twitch Dev Docs', 'tradepress' ) . '</a></p>' .            
                 '<p><a href="https://www.patreon.com/TradePress" target="_blank">' . __( 'Patron Pledges', 'tradepress' ) . '</a></p>'
             )
         );
@@ -163,12 +159,14 @@ class TradePress_Admin_Help {
             'callback'  => array( $this, 'faq' ),
         ) );     
                     
-        $screen->add_help_tab( array(
-            'id'        => 'TradePress_app_status_tab',
-            'title'     => __( 'Twitch App Status', 'tradepress' ),
-            'content'   => '',
-            'callback'  => array( $this, 'app_status' ),
-        ) );
+        if ( function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views() ) {
+            $screen->add_help_tab( array(
+                'id'        => 'TradePress_app_status_tab',
+                'title'     => __( 'Legacy App Status', 'tradepress' ),
+                'content'   => '',
+                'callback'  => array( $this, 'app_status' ),
+            ) );
+        }
                 
         $screen->add_help_tab( array(
             'id'        => 'TradePress_testing_tab',
@@ -191,8 +189,8 @@ class TradePress_Admin_Help {
                 'title'     => __( 'Developer Mode', 'tradepress' ),
                 'content'   => '<h2>' . __( 'Developer Mode Active', 'tradepress' ) . '</h2>' .
                               '<p>' . __( 'Developer mode is currently enabled. This provides additional debugging information and developer tools.', 'tradepress' ) . '</p>' .
-                              '<p><strong>' . __( 'Current Page:', 'tradepress' ) . '</strong> ' . $screen->id . '</p>' .
-                              '<p><strong>' . __( 'Page Parameters:', 'tradepress' ) . '</strong> ' . http_build_query($_GET) . '</p>',
+                              '<p><strong>' . __( 'Current Page:', 'tradepress' ) . '</strong> ' . esc_html( $screen->id ) . '</p>' .
+                              '<p><strong>' . __( 'Page Parameters:', 'tradepress' ) . '</strong> ' . esc_html( http_build_query( wp_unslash( $_GET ) ) ) . '</p>',
             ) );
         }
         
@@ -252,6 +250,11 @@ class TradePress_Admin_Help {
             jQuery( document).ready( function( $ ) {
                 var selectedQuestion = '';
 
+                /**
+                 * Select question.
+                 *
+                 * @version 1.0.0
+                 */
                 function selectQuestion() {
                     var q = $( '#' + $(this).val() );
                     if ( selectedQuestion.length ) {
@@ -456,6 +459,7 @@ class TradePress_Admin_Help {
      * Get contextual feedback form based on current page/tab
      * 
      * @return string HTML form
+      * @version 1.0.0
      */
     private static function get_contextual_feedback_form() {
         require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/feedback/class-feature-feedback-system.php';
@@ -495,6 +499,7 @@ class TradePress_Admin_Help {
      * @return void
      * 
      * @todo The help tab is currently not showing, there are plans to fix this and improve the Help tab for all views
+      * @version 1.0.0
      */
     public function add_social_platforms_help_tabs($screen) {
         // Remove existing help tabs to prevent duplicates

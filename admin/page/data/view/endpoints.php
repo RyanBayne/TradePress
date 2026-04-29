@@ -25,6 +25,8 @@ class TradePress_DebugView_Endpoints extends TradePress_ListTable_Endpoints {
     
     /**
      * No items found text.
+      *
+      * @version 1.0.0
      */
     public function no_items() {
         esc_html_e( 'No endpoints found.', 'tradepress' );
@@ -44,6 +46,7 @@ class TradePress_DebugView_Endpoints extends TradePress_ListTable_Endpoints {
      *
      * @param int $current_page
      * @param int $per_page
+      * @version 1.0.0
      */
     public function get_items( $current_page, $per_page ) {
         global $wpdb;
@@ -56,6 +59,10 @@ class TradePress_DebugView_Endpoints extends TradePress_ListTable_Endpoints {
     
     /**
     * Adds a column of checkboxes for use with bulk actions.
+     *
+     * @version 1.0.0
+     *
+     * @param mixed $item
     */
     public function column_cb( $item ) {
         return sprintf(
@@ -65,6 +72,8 @@ class TradePress_DebugView_Endpoints extends TradePress_ListTable_Endpoints {
     
     /**
     * Add options to the bulk actions menu.
+     *
+     * @version 1.0.0
     */
     public function get_bulk_actions() {
         $actions = array(
@@ -83,6 +92,8 @@ class TradePress_DebugView_Endpoints extends TradePress_ListTable_Endpoints {
     * Here is the question and answer.
     * 
     * @link http://wordpress.stackexchange.com/questions/76374/wp-list-tables-bulk-actions 
+     *
+     * @version 1.0.0
     */
     public function process_bulk_actions() {
                 

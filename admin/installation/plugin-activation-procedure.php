@@ -92,6 +92,11 @@ function TradePress_register_tables() {
     $wpdb->tradepress_logs = "{$wpdb->prefix}tradepress_logs";
 }
 
+/**
+ * Installation prepare.
+ *
+ * @version 1.0.0
+ */
 function TradePress_installation_prepare() {
     include_once( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/notices/admin-notices.php' );
     
@@ -109,6 +114,11 @@ function TradePress_installation_prepare() {
     }                                  
 }
 
+/**
+ * Installation roles and capabilities.
+ *
+ * @version 1.0.0
+ */
 function TradePress_installation_roles_and_capabilities() {
    require_once( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/admin-roles.php' );
    $roles_obj = new TradePress_Roles_Capabilities_Installation();
@@ -206,6 +216,10 @@ function TradePress_update_package_version() {
         
 /**
  * Update DB version to current.
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $version
  */
 function TradePress_update_db_version( $version = null ) {
     update_option( 'TradePress_db_version', is_null( $version ) ? TRADEPRESS_VERSION : $version );

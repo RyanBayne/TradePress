@@ -41,6 +41,8 @@ class TradePress_Settings_TradingAPI extends TradePress_Settings_Page {
     
     /**
      * Load API data from the API Directory
+      *
+      * @version 1.0.0
      */
     private function load_api_data() {
         // Check if TradePress_API_Directory class exists and include if needed
@@ -59,6 +61,7 @@ class TradePress_Settings_TradingAPI extends TradePress_Settings_Page {
      * Get API display names from the directory
      * 
      * @return array API display names
+      * @version 1.0.0
      */
     public function get_api_display_names() {
         if (!class_exists('TradePress_API_Directory')) {
@@ -99,6 +102,8 @@ class TradePress_Settings_TradingAPI extends TradePress_Settings_Page {
     
     /**
     * Output the settings.
+     *
+     * @version 1.0.0
     */
     public function output() {
         global $current_section;
@@ -148,6 +153,10 @@ class TradePress_Settings_TradingAPI extends TradePress_Settings_Page {
     * Carrying out post application update procedures. 
     * 
     * @version 1.0
+     *
+     * @param mixed $service
+     * @param mixed $key_real
+     * @param mixed $key_paper
     */
     public function application_being_updated( $service, $key_real, $key_paper ) {     
  
@@ -190,6 +199,8 @@ class TradePress_Settings_TradingAPI extends TradePress_Settings_Page {
      * @return array
      * 
      * @version 2.0
+      *
+      * @param string $current_section
      */
     public function get_settings( $current_section = '' ) {
         $settings = array();
@@ -246,6 +257,16 @@ class TradePress_Settings_TradingAPI extends TradePress_Settings_Page {
         return apply_filters( 'TradePress_get_settings_' . $this->id, $settings, $current_section );
     }
 
+    /**
+     * Application inputs.
+     *
+     * @param mixed $title
+     * @param mixed $service
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function application_inputs( $title, $service ) {
         $service = strtolower( $service );
         $fields = array(
@@ -332,6 +353,7 @@ class TradePress_Settings_TradingAPI extends TradePress_Settings_Page {
      * Get trading API options.
      *
      * @return array
+      * @version 1.0.0
      */
     public function get_trading_api_options() {
         if (!class_exists('TradePress_API_Directory')) {

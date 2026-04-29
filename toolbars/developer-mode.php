@@ -16,6 +16,11 @@ class TradePress_Developer_Mode {
 
 	const OPTION_NAME = 'tradepress_developer_mode';
 
+	/**
+	 *   C On St Ru Ct.
+	 *
+	 * @version 1.0.0
+	 */
 	public function __construct() {
 		add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_toggle' ), 999 );
 		add_action( 'wp_ajax_tradepress_toggle_developer_mode', array( $this, 'handle_toggle_ajax' ) );
@@ -29,6 +34,7 @@ class TradePress_Developer_Mode {
 	 * Checks if developer mode is currently enabled for the current user.
 	 *
 	 * @return bool True if enabled, false otherwise.
+	  * @version 1.0.0
 	 */
 	public function is_enabled() {
 		return (bool) get_option( self::OPTION_NAME, false );
@@ -38,6 +44,7 @@ class TradePress_Developer_Mode {
 	 * Adds a toggle button to the admin bar.
 	 *
 	 * @param WP_Admin_Bar $wp_admin_bar WP_Admin_Bar instance.
+	  * @version 1.0.0
 	 */
 	public function add_admin_bar_toggle( $wp_admin_bar ) {
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -104,6 +111,8 @@ class TradePress_Developer_Mode {
 
 	/**
 	 * Handles AJAX request to toggle developer mode.
+	  *
+	  * @version 1.0.0
 	 */
 	public function handle_toggle_ajax() {
 		check_ajax_referer( 'tradepress_developer_mode_nonce', 'nonce' );
@@ -120,6 +129,8 @@ class TradePress_Developer_Mode {
 
 	/**
 	 * Displays developer information in the admin footer.
+	  *
+	  * @version 1.0.0
 	 */
 	public function display_developer_info_footer() {
 		$screen = get_current_screen();

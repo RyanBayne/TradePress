@@ -9,6 +9,8 @@ class TradePress_Setup_Wizard {
     
     /**
      * Enqueue scripts and styles for the setup wizard
+      *
+      * @version 1.0.0
      */
     public function enqueue_scripts() {
         // Updated path to the admin setup CSS

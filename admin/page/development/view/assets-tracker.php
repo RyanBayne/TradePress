@@ -26,6 +26,8 @@ class TradePress_Admin_Development_Assets {
 
     /**
      * Output the Assets view
+      *
+      * @version 1.0.0
      */
     public static function output() {
         self::enqueue_assets();
@@ -203,6 +205,8 @@ class TradePress_Admin_Development_Assets {
 
     /**
      * Enqueue required assets
+      *
+      * @version 1.0.0
      */
     private static function enqueue_assets() {
         wp_enqueue_style(
@@ -225,6 +229,7 @@ class TradePress_Admin_Development_Assets {
      * Get or initialize asset manager
      *
      * @return TradePress_Asset_Manager|false Asset manager instance or false on failure
+      * @version 1.0.0
      */
     private static function get_asset_manager() {
         global $tradepress_assets;
@@ -236,7 +241,6 @@ class TradePress_Admin_Development_Assets {
         $manage_assets_path = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/manage-assets.php';
 
         if (!file_exists($manage_assets_path)) {
-            error_log('TradePress: manage-assets.php not found at: ' . $manage_assets_path);
             return false;
         }
 
@@ -256,6 +260,11 @@ class TradePress_Admin_Development_Assets {
 
     /**
      * Render asset table
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $assets
+      * @param mixed $type
      */
     private static function render_asset_table($assets, $type) {
         if (empty($assets) || !is_array($assets)) {
@@ -357,6 +366,11 @@ class TradePress_Admin_Development_Assets {
 
     /**
      * Render summary
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $css_assets
+      * @param mixed $js_assets
      */
     private static function render_summary($css_assets, $js_assets) {
         $css_stats = self::get_asset_stats($css_assets);
@@ -403,6 +417,11 @@ class TradePress_Admin_Development_Assets {
 
     /**
      * Check asset status
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $asset
+      * @param mixed $type
      */
     private static function check_asset_status($asset, $type) {
         if (!is_array($asset) || empty($asset['path'])) {
@@ -432,6 +451,10 @@ class TradePress_Admin_Development_Assets {
 
     /**
      * Get asset statistics
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $assets
      */
     private static function get_asset_stats($assets) {
         $total = 0;
@@ -464,6 +487,8 @@ class TradePress_Admin_Development_Assets {
 
     /**
      * Render PHP Files tab
+      *
+      * @version 1.0.0
      */
     private static function render_php_files() {
         $php_files = self::scan_php_files();
@@ -499,6 +524,8 @@ class TradePress_Admin_Development_Assets {
     
     /**
      * Render PHP Classes tab
+      *
+      * @version 1.0.0
      */
     private static function render_php_classes() {
         $classes = self::scan_all_classes();
@@ -534,6 +561,8 @@ class TradePress_Admin_Development_Assets {
     
     /**
      * Render Systems tab
+      *
+      * @version 1.0.0
      */
     private static function render_systems() {
         $systems = self::get_plugin_systems();
@@ -579,6 +608,8 @@ class TradePress_Admin_Development_Assets {
     
     /**
      * Scan PHP files in plugin
+      *
+      * @version 1.0.0
      */
     private static function scan_php_files() {
         $files = [];
@@ -606,6 +637,8 @@ class TradePress_Admin_Development_Assets {
     
     /**
      * Scan all classes in plugin
+      *
+      * @version 1.0.0
      */
     private static function scan_all_classes() {
         $classes = [];
@@ -644,6 +677,8 @@ class TradePress_Admin_Development_Assets {
     
     /**
      * Get plugin systems array
+      *
+      * @version 1.0.0
      */
     private static function get_plugin_systems() {
         return [
@@ -673,6 +708,10 @@ class TradePress_Admin_Development_Assets {
     
     /**
      * Helper methods for file analysis
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $path
      */
     private static function determine_file_type($path) {
         if (strpos($path, 'admin') !== false) return 'Admin';
@@ -681,6 +720,15 @@ class TradePress_Admin_Development_Assets {
         return 'Other';
     }
     
+    /**
+     * Extract file description.
+     *
+     * @param mixed $content
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private static function extract_file_description($content) {
         if (preg_match('/\*\s*(.+?)\s*\*\//s', $content, $matches)) {
             $lines = explode('\n', $matches[1]);
@@ -694,16 +742,44 @@ class TradePress_Admin_Development_Assets {
         return 'No description available';
     }
     
+    /**
+     * Extract classes.
+     *
+     * @param mixed $content
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private static function extract_classes($content) {
         preg_match_all('/class\s+([A-Za-z_][A-Za-z0-9_]*)/', $content, $matches);
         return $matches[1] ?? [];
     }
     
+    /**
+     * Extract functions.
+     *
+     * @param mixed $content
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private static function extract_functions($content) {
         preg_match_all('/function\s+([A-Za-z_][A-Za-z0-9_]*)/', $content, $matches);
         return $matches[1] ?? [];
     }
     
+    /**
+     * Extract class description.
+     *
+     * @param mixed $content
+     * @param mixed $class_name
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private static function extract_class_description($content, $class_name) {
         // Look for docblock before class declaration
         $pattern = '/\/\*\*([^*]|\*(?!\/))*\*\/\s*(?:abstract\s+|final\s+)?class\s+' . preg_quote($class_name) . '/s';
@@ -717,6 +793,16 @@ class TradePress_Admin_Development_Assets {
         return 'No description available';
     }
     
+    /**
+     * Count class methods.
+     *
+     * @param mixed $content
+     * @param mixed $class_name
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private static function count_class_methods($content, $class_name) {
         // Find class content between class declaration and next class or end of file
         $pattern = '/class\s+' . preg_quote($class_name) . '\s*[^{]*\{(.*?)(?=class\s+|$)/s';
@@ -728,6 +814,15 @@ class TradePress_Admin_Development_Assets {
         return 0;
     }
     
+    /**
+     * Determine class type.
+     *
+     * @param mixed $path
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private static function determine_class_type($path) {
         if (strpos($path, 'admin') !== false) return 'Admin';
         if (strpos($path, 'includes') !== false) return 'Core';
@@ -738,6 +833,11 @@ class TradePress_Admin_Development_Assets {
     
     /**
      * Check overall system status
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $css_assets
+      * @param mixed $js_assets
      */
     private static function check_overall_status($css_assets, $js_assets) {
         $css_stats = self::get_asset_stats($css_assets);

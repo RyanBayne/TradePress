@@ -18,6 +18,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Render the API Comparisons tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_trading_platforms_comparisons_tab() {
     // Check if demo mode is active

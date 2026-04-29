@@ -23,12 +23,19 @@ class TradePress_Admin_Dashboard {
     
     public $dashboard_directory = null; 
 
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         $this->dashboard_directory = TRADEPRESS_PLUGIN_DIR_PATH . 'admin/dashboard/';
     }
     
     /**
      * Init entire range of dashboard widgets.
+      *
+      * @version 1.0.0
      */
     public function init() {           
         add_action( 'wp_dashboard_setup', array( $this, 'load_dashboard_widgets' ) );

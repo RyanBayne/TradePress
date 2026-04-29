@@ -148,6 +148,8 @@ class TradePress_Trading212_API {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $api_settings = get_option('tradepress_api_settings', array());
@@ -160,6 +162,7 @@ class TradePress_Trading212_API {
      * Get platform metadata
      * 
      * @return array Platform metadata
+      * @version 1.0.0
      */
     public function get_platform_metadata() {
         return $this->platform_metadata;
@@ -169,6 +172,7 @@ class TradePress_Trading212_API {
      * Get all available endpoints
      * 
      * @return array List of endpoints
+      * @version 1.0.0
      */
     public function get_endpoints() {
         return $this->endpoints;
@@ -179,6 +183,7 @@ class TradePress_Trading212_API {
      * 
      * @param string $symbol Stock symbol
      * @return array|WP_Error Quote data or error
+      * @version 1.0.0
      */
     public function get_quote($symbol) {
         return $this->get_market_quotes(array($symbol));
@@ -191,6 +196,7 @@ class TradePress_Trading212_API {
      * @param string $period Time period (1D, 1W, 1M)
      * @param int $limit Number of data points
      * @return array|WP_Error Historical data or error
+      * @version 1.0.0
      */
     public function get_historical_data($symbol, $period = '1D', $limit = 100) {
         return $this->get_chart_data($symbol, $period, $limit);
@@ -200,6 +206,7 @@ class TradePress_Trading212_API {
      * Get account balance
      * 
      * @return array|WP_Error Account balance or error
+      * @version 1.0.0
      */
     public function get_account_balance() {
         return $this->get_account_cash();
@@ -209,6 +216,7 @@ class TradePress_Trading212_API {
      * Get portfolio positions
      * 
      * @return array|WP_Error Portfolio positions or error
+      * @version 1.0.0
      */
     public function get_portfolio_positions() {
         return $this->get_positions();
@@ -218,6 +226,7 @@ class TradePress_Trading212_API {
      * Get open orders
      * 
      * @return array|WP_Error Open orders or error
+      * @version 1.0.0
      */
     public function get_open_orders() {
         return $this->get_orders();
@@ -228,6 +237,7 @@ class TradePress_Trading212_API {
      * 
      * @param string $query Search query
      * @return array|WP_Error Search results or error
+      * @version 1.0.0
      */
     public function search_symbols($query) {
         return $this->search_instruments($query);
@@ -238,6 +248,7 @@ class TradePress_Trading212_API {
      * 
      * @param string $watchlist_id Watchlist ID
      * @return array|WP_Error Watchlist symbols or error
+      * @version 1.0.0
      */
     public function get_watchlist_symbols($watchlist_id = null) {
         if ($watchlist_id) {
@@ -251,6 +262,7 @@ class TradePress_Trading212_API {
      * 
      * @param string $environment Environment to use (demo or live)
      * @return bool Success status
+      * @version 1.0.0
      */
     public function set_environment($environment) {
         if (!in_array($environment, array('demo', 'live'))) {
@@ -270,6 +282,7 @@ class TradePress_Trading212_API {
      * Get current environment
      * 
      * @return string Current environment (demo or live)
+      * @version 1.0.0
      */
     public function get_environment() {
         return $this->environment;
@@ -279,6 +292,7 @@ class TradePress_Trading212_API {
      * Get portfolio data (NEW Trading212 API endpoint)
      * 
      * @return array|WP_Error Portfolio data or error
+      * @version 1.0.0
      */
     public function get_equity_portfolio() {
         return $this->make_request('equity/portfolio');
@@ -288,6 +302,7 @@ class TradePress_Trading212_API {
      * Get account information (NEW Trading212 API endpoint)
      * 
      * @return array|WP_Error Account information or error
+      * @version 1.0.0
      */
     public function get_equity_account_info() {
         return $this->make_request('equity/account/info');
@@ -297,6 +312,7 @@ class TradePress_Trading212_API {
      * Get account cash/balance
      * 
      * @return array|WP_Error Account cash information or error
+      * @version 1.0.0
      */
     public function get_account_cash() {
         return $this->make_request('account/cash');
@@ -306,6 +322,7 @@ class TradePress_Trading212_API {
      * Get all available instruments
      * 
      * @return array|WP_Error List of instruments or error
+      * @version 1.0.0
      */
     public function get_instruments() {
         return $this->make_request('equity/instruments');
@@ -316,6 +333,7 @@ class TradePress_Trading212_API {
      * 
      * @param string $instrument_code The instrument code
      * @return array|WP_Error Instrument details or error
+      * @version 1.0.0
      */
     public function get_instrument_details($instrument_code) {
         $endpoint = str_replace('{instrument_code}', $instrument_code, 'equity/instruments/{instrument_code}');
@@ -326,6 +344,7 @@ class TradePress_Trading212_API {
      * Get all open positions
      * 
      * @return array|WP_Error List of positions or error
+      * @version 1.0.0
      */
     public function get_positions() {
         return $this->make_request('equity/positions');
@@ -335,6 +354,7 @@ class TradePress_Trading212_API {
      * Get all orders
      * 
      * @return array|WP_Error List of orders or error
+      * @version 1.0.0
      */
     public function get_orders() {
         return $this->make_request('equity/orders');
@@ -345,6 +365,7 @@ class TradePress_Trading212_API {
      * 
      * @param array $params Optional parameters (startDate, endDate, limit)
      * @return array|WP_Error Transaction history or error
+      * @version 1.0.0
      */
     public function get_transaction_history($params = array()) {
         return $this->make_request('equity/history/transactions', 'GET', $params);
@@ -355,6 +376,7 @@ class TradePress_Trading212_API {
      * 
      * @param array $instrument_codes Array of instrument codes
      * @return array|WP_Error Market quotes or error
+      * @version 1.0.0
      */
     public function get_market_quotes($instrument_codes = array()) {
         if (empty($instrument_codes)) {
@@ -370,6 +392,7 @@ class TradePress_Trading212_API {
      * 
      * @since 1.0.0
      * @return array|WP_Error List of watchlists or error
+      * @version 1.0.0
      */
     public function get_watchlists() {
         // Fix: Use the correct request method with proper error handling
@@ -387,6 +410,7 @@ class TradePress_Trading212_API {
      * @param string $method HTTP method
      * @param array $params Request parameters
      * @return array|WP_Error Response data or error
+      * @version 1.0.0
      */
     private function make_request($endpoint, $method = 'GET', $params = array()) {
         // Demo mode - return sample data
@@ -458,6 +482,7 @@ class TradePress_Trading212_API {
      * @since 1.0.0
      * @param string $watchlist_id ID of the watchlist
      * @return array|WP_Error Watchlist tickers or error
+      * @version 1.0.0
      */
     public function get_watchlist_tickers($watchlist_id) {
         // Fix: Use the correct request method with proper error handling
@@ -477,6 +502,7 @@ class TradePress_Trading212_API {
      * @param int $size Number of candles to return
      * @param bool $include_fake Whether to include fake candles
      * @return array|WP_Error Charting data or error
+      * @version 1.0.0
      */
     public function get_chart_data($ticker, $period = '1D', $size = 100, $include_fake = false) {
         $payload = [
@@ -504,6 +530,7 @@ class TradePress_Trading212_API {
      * @since 1.0.0
      * @param array $tickers Array of ticker data with period and size
      * @return array|WP_Error Charting data or error
+      * @version 1.0.0
      */
     public function get_batch_chart_data($tickers) {
         $candles = [];
@@ -534,6 +561,7 @@ class TradePress_Trading212_API {
      * @param string $type Instrument type (EQUITY, CFD-pro, CFD-retail)
      * @param string $version Version parameter (appears to be a timestamp or hash)
      * @return array|WP_Error Instruments data or error
+      * @version 1.0.0
      */
     public function get_instruments_by_type($type = 'EQUITY', $version = '-1830575850') {
         // Fix: Use the correct request method with proper error handling
@@ -551,6 +579,7 @@ class TradePress_Trading212_API {
      * @param string $type Instrument type (EQUITY, CFD)
      * @param string $version Version parameter (appears to be a timestamp or hash)
      * @return array|WP_Error Instrument folders data or error
+      * @version 1.0.0
      */
     public function get_instrument_folders($type = 'EQUITY', $version = '-1830575850') {
         // Fix: Use the correct request method with proper error handling
@@ -567,6 +596,7 @@ class TradePress_Trading212_API {
      * @since 1.0.0
      * @param string $ticker Company ticker
      * @return array|WP_Error Company fundamentals or error
+      * @version 1.0.0
      */
     public function get_company_fundamentals($ticker) {
         // Fix: Use the correct request method with proper error handling and URL encoding
@@ -583,6 +613,7 @@ class TradePress_Trading212_API {
      * @since 1.0.0
      * @param string $ticker Company ticker
      * @return array|WP_Error Company financial ratios or error
+      * @version 1.0.0
      */
     public function get_company_ratios($ticker) {
         // Fix: Use the correct request method with proper error handling and URL encoding
@@ -600,6 +631,7 @@ class TradePress_Trading212_API {
      * @param string $ticker Company ticker
      * @param string $statement Statement type (income, balance, cash)
      * @return array|WP_Error Company financial statement or error
+      * @version 1.0.0
      */
     public function get_company_financial($ticker, $statement = 'income') {
         // Fix: Use the correct request method with proper error handling and URL encoding
@@ -616,6 +648,7 @@ class TradePress_Trading212_API {
      * @since 1.0.0
      * @param string $query Search query
      * @return array|WP_Error Search results or error
+      * @version 1.0.0
      */
     public function search_instruments($query) {
         // Fix: Use the correct request method with proper error handling and URL encoding
@@ -632,6 +665,7 @@ class TradePress_Trading212_API {
      * @since 1.0.0
      * @param string $ticker Instrument ticker
      * @return array|WP_Error Additional instrument info or error
+      * @version 1.0.0
      */
     public function get_instrument_additional_info($ticker) {
         // Fix: Use the correct request method with proper error handling and URL encoding
@@ -649,6 +683,7 @@ class TradePress_Trading212_API {
      * @param array $tickers Array of ticker symbols
      * @param bool $use_ask_prices Whether to use ask prices instead of bid
      * @return array|WP_Error Price deviation data or error
+      * @version 1.0.0
      */
     public function get_price_deviations($tickers, $use_ask_prices = false) {
         $deviations = [];
@@ -674,6 +709,7 @@ class TradePress_Trading212_API {
      * 
      * @since 1.0.0
      * @return array|WP_Error Portfolio summary or error
+      * @version 1.0.0
      */
     public function get_portfolio() {
         $response = $this->make_request('v2/portfolio');
@@ -688,6 +724,7 @@ class TradePress_Trading212_API {
      * 
      * @since 1.0.0
      * @return array|WP_Error Detailed portfolio information or error
+      * @version 1.0.0
      */
     public function get_portfolio_info() {
         $response = $this->make_request('v2/portfolio/info');
@@ -703,6 +740,7 @@ class TradePress_Trading212_API {
      * @since 1.0.0
      * @param string $token The Trading212 session token
      * @return bool Whether the token was saved successfully
+      * @version 1.0.0
      */
     public function save_session_token($token) {
         // Optionally validate token format before saving
@@ -719,6 +757,7 @@ class TradePress_Trading212_API {
      * 
      * @since 1.0.0
      * @return string The stored token or empty string
+      * @version 1.0.0
      */
     public function get_session_token() {
         return get_option('tradepress_trading212_session', '');
@@ -729,6 +768,7 @@ class TradePress_Trading212_API {
      * 
      * @param string $endpoint API endpoint
      * @return array Sample data
+      * @version 1.0.0
      */
     public function get_demo_data($endpoint) {
         $demo_data = array();
@@ -1084,6 +1124,7 @@ class TradePress_Trading212_API {
      * @param float $quantity Quantity to trade
      * @param string $side Order side (buy/sell)
      * @return array|WP_Error Order response or error
+      * @version 1.0.0
      */
     public function place_market_order($symbol, $quantity, $side = 'buy') {
         $params = array(
@@ -1102,6 +1143,7 @@ class TradePress_Trading212_API {
      * @param string $side Order side (buy/sell)
      * @param string $time_validity Order validity (DAY/GOOD_TILL_CANCEL)
      * @return array|WP_Error Order response or error
+      * @version 1.0.0
      */
     public function place_limit_order($symbol, $quantity, $price, $side = 'buy', $time_validity = 'DAY') {
         $params = array(
@@ -1118,6 +1160,7 @@ class TradePress_Trading212_API {
      * 
      * @param string $order_id Order ID to cancel
      * @return array|WP_Error Cancel response or error
+      * @version 1.0.0
      */
     public function cancel_order($order_id) {
         return $this->make_request("equity/orders/{$order_id}", 'DELETE');
@@ -1128,6 +1171,7 @@ class TradePress_Trading212_API {
      * 
      * @param string $url Request URL
      * @param array $args Request arguments
+      * @version 1.0.0
      */
     private function log_request($url, $args) {
         // Sanitize URL to remove sensitive information
@@ -1163,6 +1207,7 @@ class TradePress_Trading212_API {
      * 
      * @param int $code Response code
      * @param string $body Response body
+      * @version 1.0.0
      */
     private function log_response($code, $body) {
         $log_data = array(
@@ -1188,6 +1233,7 @@ class TradePress_Trading212_API {
      * Get platform capabilities for directive support
      * 
      * @return array Platform capabilities
+      * @version 1.0.0
      */
     public function get_platform_capabilities() {
         return array(

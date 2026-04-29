@@ -20,6 +20,8 @@ class TradePress_Settings_BugNet extends TradePress_Settings_Page {
 
     /**
      * Output sections for this tab.
+      *
+      * @version 1.0.0
      */
     public function output_sections() {
         global $current_section;
@@ -43,6 +45,8 @@ class TradePress_Settings_BugNet extends TradePress_Settings_Page {
 
     /**
      * Constructor.
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         global $current_section;
@@ -71,6 +75,7 @@ class TradePress_Settings_BugNet extends TradePress_Settings_Page {
      * Get sections.
      *
      * @return array
+      * @version 1.0.0
      */
     public function get_sections() {
         $sections = array(
@@ -97,6 +102,8 @@ class TradePress_Settings_BugNet extends TradePress_Settings_Page {
 
     /**
      * Output the settings.
+      *
+      * @version 1.0.0
      */
     public function output() {
         global $current_section;
@@ -129,18 +136,18 @@ class TradePress_Settings_BugNet extends TradePress_Settings_Page {
 
     /**
      * Save settings...
+      *
+      * @version 1.0.0
      */
     public function save() {
         global $current_section;
         
         // Log clear logs request
         if ( isset( $_GET['action'] ) && $_GET['action'] === 'clear_logs' ) {
-            error_log( '[' . current_time( 'Y-m-d H:i:s' ) . '] TradePress BugNet: Clear logs request received' . "\n", 3, WP_CONTENT_DIR . '/users.log' );
         }
         
         // Handle clear logs action
         if ( isset( $_GET['action'] ) && $_GET['action'] === 'clear_logs' && wp_verify_nonce( $_GET['nonce'], 'tradepress_clear_logs' ) ) {
-            error_log( '[' . current_time( 'Y-m-d H:i:s' ) . '] TradePress BugNet: Nonce verified, clearing selected logs' . "\n", 3, WP_CONTENT_DIR . '/users.log' );
             $this->clear_selected_logs();
             wp_safe_redirect( admin_url( 'admin.php?page=TradePress&tab=bugnet&cleared=1' ) );
             exit;
@@ -171,6 +178,8 @@ class TradePress_Settings_BugNet extends TradePress_Settings_Page {
     
     /**
      * Create log files for enabled outputs
+      *
+      * @version 1.0.0
      */
     private function create_log_files() {
         $log_dir = WP_CONTENT_DIR;
@@ -220,6 +229,10 @@ class TradePress_Settings_BugNet extends TradePress_Settings_Page {
 
     /**
      * Output log viewer
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $log_type
      */
     private function output_log_viewer( $log_type ) {
         $log_files = array(
@@ -267,6 +280,8 @@ class TradePress_Settings_BugNet extends TradePress_Settings_Page {
     
     /**
      * Clear selected log files
+      *
+      * @version 1.0.0
      */
     private function clear_selected_logs() {
         $log_mapping = array(
@@ -302,6 +317,8 @@ class TradePress_Settings_BugNet extends TradePress_Settings_Page {
     
     /**
      * Output custom bugnet selection field
+      *
+      * @version 1.0.0
      */
     public function output_bugnet_selection() {
         $outputs = array(
@@ -426,6 +443,9 @@ class TradePress_Settings_BugNet extends TradePress_Settings_Page {
      * Get settings array.
      *
      * @return array
+      * @version 1.0.0
+      *
+      * @param string $current_section
      */
     public function get_settings( $current_section = 'settings' ) {
         $settings = array();

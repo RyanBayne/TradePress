@@ -7,6 +7,13 @@ class TradePress_Test_Logger {
     
     /**
      * Log directive test for AI analysis
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
+      * @param mixed $symbol
+      * @param mixed $test_result
+      * @param mixed $symbol_data
      */
     public static function log_directive_test($directive_id, $symbol, $test_result, $symbol_data) {
         global $wpdb;
@@ -31,6 +38,11 @@ class TradePress_Test_Logger {
     
     /**
      * Get recent test logs for AI analysis
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
+      * @param int $limit
      */
     public static function get_recent_tests($directive_id = null, $limit = 10) {
         global $wpdb;
@@ -46,6 +58,11 @@ class TradePress_Test_Logger {
     
     /**
      * Extract key indicator data for logging
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
+      * @param mixed $symbol_data
      */
     private static function extract_indicator_data($directive_id, $symbol_data) {
         switch ($directive_id) {

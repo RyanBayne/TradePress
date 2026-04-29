@@ -14,6 +14,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Time_Based_Support_Directive extends TradePress_Base_Directive {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         parent::__construct();
         $this->directive_id = 'time_based_support';
@@ -23,6 +28,11 @@ class TradePress_Time_Based_Support_Directive extends TradePress_Base_Directive 
     
     /**
      * Calculate time-based support score
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
+      * @param array $data
      */
     public function calculate_score($symbol, $data = array()) {
         $score = 0;
@@ -69,6 +79,11 @@ class TradePress_Time_Based_Support_Directive extends TradePress_Base_Directive 
     
     /**
      * Analyze VWAP levels and time-based support
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $vwap_data
+      * @param mixed $current_data
      */
     private function analyze_vwap_levels($vwap_data, $current_data) {
         // Simplified analysis - would need real VWAP data structure
@@ -82,6 +97,10 @@ class TradePress_Time_Based_Support_Directive extends TradePress_Base_Directive 
     
     /**
      * Get VWAP data (placeholder - requires Finnhub or Alpaca)
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
      */
     private function get_vwap_data($symbol) {
         // This would require Finnhub VWAP or Alpaca real-time bars
@@ -91,6 +110,8 @@ class TradePress_Time_Based_Support_Directive extends TradePress_Base_Directive 
     
     /**
      * Get required API endpoints
+      *
+      * @version 1.0.0
      */
     public function get_api_requirements() {
         return array(

@@ -24,6 +24,8 @@ class TradePress_Admin_SocialPlatforms_Tabs {
 
     /**
      * Hook into WordPress to register the help tabs
+      *
+      * @version 1.0.0
      */
     public static function init() {
         // Add action to hook into the appropriate screen load
@@ -32,6 +34,8 @@ class TradePress_Admin_SocialPlatforms_Tabs {
 
     /**
      * Output the Social Platform tabs page
+      *
+      * @version 1.0.0
      */
     public static function output() {
 
@@ -46,6 +50,8 @@ class TradePress_Admin_SocialPlatforms_Tabs {
      * Add help tabs to the screen
      * 
      * @todo The help tab is currently not showing, there are plans to fix this and improve the Help tab for all views
+      *
+      * @version 1.0.0
      */
     public static function add_help_tabs() {
         // Get the current screen
@@ -189,6 +195,8 @@ class TradePress_Admin_SocialPlatforms_Tabs {
 
     /**
      * Display tabs interface - Fixed implementation
+      *
+      * @version 1.0.0
      */
     private static function tabs_interface() {
         // Get current tab
@@ -242,6 +250,7 @@ class TradePress_Admin_SocialPlatforms_Tabs {
      * Get available tabs
      * 
      * @return array Array of tab data
+      * @version 1.0.0
      */
     public static function get_tabs() {
         $tabs = array(
@@ -312,6 +321,8 @@ class TradePress_Admin_SocialPlatforms_Tabs {
 
     /**
      * Discord tab content
+      *
+      * @version 1.0.0
      */
     public static function discord_tab() {
         // Initially, this will redirect to the Discord tab in Trading Platforms
@@ -330,6 +341,8 @@ class TradePress_Admin_SocialPlatforms_Tabs {
     
     /**
      * Twitter tab content
+      *
+      * @version 1.0.0
      */
     public static function twitter_tab() {
         if (file_exists(dirname(__FILE__) . '/view/twitter.php')) {
@@ -341,6 +354,8 @@ class TradePress_Admin_SocialPlatforms_Tabs {
     
     /**
      * StockTwits tab content
+      *
+      * @version 1.0.0
      */
     public static function stocktwits_tab() {
         if (file_exists(dirname(__FILE__) . '/view/stocktwits.php')) {
@@ -352,6 +367,8 @@ class TradePress_Admin_SocialPlatforms_Tabs {
 
     /**
      * Stock VIP tab content for displaying Discord stock alerts
+      *
+      * @version 1.0.0
      */
     public static function stock_vip_tab() {
         // Include necessary scripts and styles for the Stock VIP tab
@@ -383,6 +400,8 @@ class TradePress_Admin_SocialPlatforms_Tabs {
 
     /**
      * Settings tab content 
+      *
+      * @version 1.0.0
      */
     public static function settings_tab() {
         // Process form submission for Social Platform switches
@@ -466,6 +485,8 @@ class TradePress_Admin_SocialPlatforms_Tabs {
 
     /**
      * Display notice when settings are updated
+      *
+      * @version 1.0.0
      */
     public static function settings_updated_notice() {
         echo '<div class="notice notice-success is-dismissible"><p>' . 
@@ -475,6 +496,8 @@ class TradePress_Admin_SocialPlatforms_Tabs {
 
     /**
      * Platform Switches tab content
+      *
+      * @version 1.0.0
      */
     public static function platform_switches_tab() {
         // Process form submission for platform switches

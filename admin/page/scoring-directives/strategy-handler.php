@@ -16,6 +16,8 @@ class TradePress_Strategy_Handler {
     
     /**
      * Initialize hooks
+      *
+      * @version 1.0.0
      */
     public static function init() {
         add_action('wp_ajax_tradepress_create_strategy', array(__CLASS__, 'ajax_create_strategy'));
@@ -28,6 +30,8 @@ class TradePress_Strategy_Handler {
     
     /**
      * Create new strategy
+      *
+      * @version 1.0.0
      */
     public static function ajax_create_strategy() {
         check_ajax_referer('tradepress_strategy_nonce', 'nonce');
@@ -101,6 +105,8 @@ class TradePress_Strategy_Handler {
     
     /**
      * Test strategy with symbol
+      *
+      * @version 1.0.0
      */
     public static function ajax_test_strategy() {
         check_ajax_referer('tradepress_strategy_nonce', 'nonce');
@@ -160,6 +166,8 @@ class TradePress_Strategy_Handler {
     
     /**
      * Get strategies list
+      *
+      * @version 1.0.0
      */
     public static function ajax_get_strategies() {
         check_ajax_referer('tradepress_strategy_nonce', 'nonce');
@@ -189,6 +197,8 @@ class TradePress_Strategy_Handler {
     
     /**
      * Delete strategy
+      *
+      * @version 1.0.0
      */
     public static function ajax_delete_strategy() {
         check_ajax_referer('tradepress_strategy_nonce', 'nonce');
@@ -216,6 +226,8 @@ class TradePress_Strategy_Handler {
     
     /**
      * Duplicate strategy
+      *
+      * @version 1.0.0
      */
     public static function ajax_duplicate_strategy() {
         check_ajax_referer('tradepress_strategy_nonce', 'nonce');
@@ -272,6 +284,13 @@ class TradePress_Strategy_Handler {
     
     /**
      * Calculate strategy score for symbol
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $strategy
+      * @param mixed $directives
+      * @param mixed $symbol
+      * @param mixed $trading_mode
      */
     private static function calculate_strategy_score($strategy, $directives, $symbol, $trading_mode) {
         $start_time = microtime(true);

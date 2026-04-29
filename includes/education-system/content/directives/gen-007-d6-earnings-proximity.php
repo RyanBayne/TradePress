@@ -24,7 +24,7 @@ return [
             'data' => 'Earnings reports provide a detailed look at a company\'s performance and, more importantly, its outlook for the future. A surprise in revenue, earnings per share (EPS), or future guidance can cause the stock price to move dramatically (5-20% or more) in a matter of minutes as the market reprices the stock based on the new information.'
         ],
         [
-            'type's' => 'header',
+            'types' => 'header',
             'data' => 'The Danger of Gambling'
         ],
         [

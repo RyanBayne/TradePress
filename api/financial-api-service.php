@@ -75,6 +75,7 @@ abstract class TradePress_Financial_API_Service {
      * Constructor
      * 
      * @param array $args Configuration arguments
+      * @version 1.0.0
      */
     public function __construct($args = array()) {
         // Process arguments and set properties
@@ -88,6 +89,7 @@ abstract class TradePress_Financial_API_Service {
      * Process constructor arguments
      * 
      * @param array $args Configuration arguments
+      * @version 1.0.0
      */
     protected function process_args($args) {
         // Set timeout if provided
@@ -118,6 +120,8 @@ abstract class TradePress_Financial_API_Service {
     /**
      * Initialize the service
      * Child classes should override this if needed
+      *
+      * @version 1.0.0
      */
     protected function init() {
         // Child classes can override this for additional initialization
@@ -130,6 +134,7 @@ abstract class TradePress_Financial_API_Service {
      * @param array $params Request parameters
      * @param string $method Request method (GET, POST, PUT, DELETE)
      * @return array|WP_Error Response data or error
+      * @version 1.0.0
      */
     public function make_request($endpoint, $params = array(), $method = 'GET') {
         // Build the request URL
@@ -149,6 +154,7 @@ abstract class TradePress_Financial_API_Service {
      * @param array $params Request parameters
      * @param string $method Request method
      * @return string Complete URL
+      * @version 1.0.0
      */
     protected function build_request_url($endpoint, $params = array(), $method = 'GET') {
         $url = trailingslashit($this->base_url) . $endpoint;
@@ -167,6 +173,7 @@ abstract class TradePress_Financial_API_Service {
      * @param array $params Request parameters
      * @param string $method Request method
      * @return array Request arguments
+      * @version 1.0.0
      */
     protected function prepare_request_args($params = array(), $method = 'GET') {
         $args = array(
@@ -193,6 +200,7 @@ abstract class TradePress_Financial_API_Service {
      * Child classes should override this as needed
      * 
      * @return array Headers
+      * @version 1.0.0
      */
     protected function get_request_headers() {
         $headers = array(
@@ -213,6 +221,7 @@ abstract class TradePress_Financial_API_Service {
      * Child classes must implement this based on their API requirements
      * 
      * @return string Authentication header value
+      * @version 1.0.0
      */
     protected function get_auth_header() {
         // Default implementation - child classes should override
@@ -229,6 +238,7 @@ abstract class TradePress_Financial_API_Service {
      * @param string $url The request URL
      * @param array $args Request arguments
      * @return array|WP_Error Response data or error
+      * @version 1.0.0
      */
     protected function execute_request($url, $args) {
         // Log the request if debugging is enabled
@@ -294,6 +304,7 @@ abstract class TradePress_Financial_API_Service {
      * Child classes should override this for API-specific rate limit handling
      * 
      * @param array $response The API response
+      * @version 1.0.0
      */
     protected function update_rate_limits($response) {
         // Default implementation - child classes should override
@@ -318,6 +329,7 @@ abstract class TradePress_Financial_API_Service {
      * 
      * @param string $url The request URL
      * @param array $args Request arguments
+      * @version 1.0.0
      */
     protected function log_request($url, $args) {
         if (defined('TRADEPRESS_API_DEBUG') && TRADEPRESS_API_DEBUG) {
@@ -328,7 +340,6 @@ abstract class TradePress_Financial_API_Service {
             }
             
             // Log the request
-            error_log(sprintf('TradePress API Request: %s, Args: %s', $url, wp_json_encode($log_args)));
         }
     }
     
@@ -336,6 +347,7 @@ abstract class TradePress_Financial_API_Service {
      * Get the last error
      * 
      * @return WP_Error|null Last error or null if no error
+      * @version 1.0.0
      */
     public function get_last_error() {
         return $this->last_error;
@@ -345,6 +357,7 @@ abstract class TradePress_Financial_API_Service {
      * Get the last response
      * 
      * @return array|WP_Error Last response or error
+      * @version 1.0.0
      */
     public function get_last_response() {
         return $this->last_response;
@@ -354,6 +367,7 @@ abstract class TradePress_Financial_API_Service {
      * Get the current rate limit status
      * 
      * @return array Rate limit information
+      * @version 1.0.0
      */
     public function get_rate_limits() {
         return $this->rate_limits;
@@ -363,6 +377,7 @@ abstract class TradePress_Financial_API_Service {
      * Check if we've exceeded the rate limit
      * 
      * @return bool True if rate limited, false otherwise
+      * @version 1.0.0
      */
     public function is_rate_limited() {
         if (isset($this->rate_limits['remaining']) && $this->rate_limits['remaining'] <= 0) {

@@ -15,6 +15,11 @@ require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/scoring-direc
 
 class TradePress_Scoring_Directive_RSI extends TradePress_Scoring_Directive_Base {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         $this->id = 'rsi';
         $this->name = 'Relative Strength Index';
@@ -33,6 +38,16 @@ class TradePress_Scoring_Directive_RSI extends TradePress_Scoring_Directive_Base
         );
     }
     
+    /**
+     * Calculate score.
+     *
+     * @param mixed $symbol_data
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function calculate_score($symbol_data, $config = array()) {
         $period = $config['period'] ?? 14;
         $oversold = $config['oversold'] ?? 30;
@@ -124,11 +139,29 @@ class TradePress_Scoring_Directive_RSI extends TradePress_Scoring_Directive_Base
         return $final_score;
     }
     
+    /**
+     * Get max score.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_max_score($config = array()) {
         $extreme_bonus = $config['extreme_bonus'] ?? 25;
         return round(50 + 30 + $extreme_bonus, 1); // Max for extreme oversold
     }
     
+    /**
+     * Get explanation.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_explanation($config = array()) {
         $period = $config['period'] ?? 14;
         $oversold = $config['oversold'] ?? 30;
@@ -161,6 +194,11 @@ class TradePress_Scoring_Directive_RSI extends TradePress_Scoring_Directive_Base
     
     /**
      * Check data freshness for this directive
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
+      * @param mixed $required_data
      */
     private function check_data_freshness($symbol, $required_data) {
         if (!class_exists('TradePress_Data_Freshness_Manager')) {
@@ -183,12 +221,24 @@ class TradePress_Scoring_Directive_RSI extends TradePress_Scoring_Directive_Base
         }
     }
     
+    /**
+     * Get data freshness requirements.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_data_freshness_requirements() {
         return $this->data_freshness_requirements;
     }
     
     /**
      * Get RSI data with caching
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
+      * @param array $config
      */
     private function get_rsi_data($symbol, $config = array()) {
         TradePress_Developer_Flow_Logger::log_action('CACHE_CHECK_START', 'Checking for cached RSI data');
@@ -243,6 +293,11 @@ class TradePress_Scoring_Directive_RSI extends TradePress_Scoring_Directive_Base
     
     /**
      * Fetch fresh RSI data from API
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
+      * @param mixed $params
      */
     public function fetch_fresh_rsi_data($symbol, $params) {
         TradePress_Developer_Flow_Logger::log_action('API_FACTORY_START', 'Creating API instance');

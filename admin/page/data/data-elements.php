@@ -27,6 +27,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Render the Data Elements tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_data_elements_tab() {
     // Get data elements configuration
@@ -108,6 +110,8 @@ function tradepress_data_elements_tab() {
 /**
  * Get data elements configuration
  * This will be expanded as we identify all required data elements
+  *
+  * @version 1.0.0
  */
 function tradepress_get_data_elements_config() {
     return array(
@@ -257,6 +261,10 @@ function tradepress_get_data_elements_config() {
 
 /**
  * Get last import time for a data element
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $element_id
  */
 function tradepress_get_last_import_time($element_id) {
     $last_import = get_option("tradepress_last_import_{$element_id}", false);
@@ -268,6 +276,10 @@ function tradepress_get_last_import_time($element_id) {
 
 /**
  * Get status indicator for a data element
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $element_id
  */
 function tradepress_get_data_element_status($element_id) {
     $last_import = get_option("tradepress_last_import_{$element_id}", false);
@@ -298,6 +310,10 @@ function tradepress_get_data_element_status($element_id) {
 /**
  * Get readiness indicator for a data element
  * Determines if all required components are configured and functional
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $element_id
  */
 function tradepress_get_data_element_readiness($element_id) {
     $config = tradepress_get_data_elements_config();
@@ -359,6 +375,10 @@ function tradepress_get_data_element_readiness($element_id) {
 
 /**
  * Convert frequency string to seconds
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $frequency
  */
 function tradepress_frequency_to_seconds($frequency) {
     $frequency = strtolower($frequency);

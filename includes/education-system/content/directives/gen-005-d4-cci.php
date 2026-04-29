@@ -43,7 +43,7 @@ return [
             ]
         ],
         [
-            'type's' => 'subheader',
+            'types' => 'subheader',
             'data' => 'Guidance'
         ],
         [

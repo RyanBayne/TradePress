@@ -24,7 +24,7 @@ return [
             'data' => 'This strategy is the systematic application of "buying the dip" in an uptrend or "selling the rip (rally)" in a downtrend. We are not trying to predict a reversal, but rather waiting for a brief pause or pullback in a strong trend to get on board.'
         ],
         [
-            'type's' => 'header',
+            'types' => 'header',
             'data' => 'The Anatomy of a Continuation Setup'
         ],
         [

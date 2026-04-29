@@ -98,6 +98,7 @@ class TradePress_Intrinio_API {
      * Constructor
      *
      * @param string $api_key API key
+      * @version 1.0.0
      */
     public function __construct($api_key = '') {
         $this->api_key = $api_key ?: get_option('tradepress_intrinio_api_key', '');
@@ -107,6 +108,7 @@ class TradePress_Intrinio_API {
      * Get platform metadata
      *
      * @return array Platform metadata
+      * @version 1.0.0
      */
     public function get_platform_meta() {
         return $this->platform_meta;
@@ -116,6 +118,7 @@ class TradePress_Intrinio_API {
      * Get platform capabilities
      *
      * @return array Platform capabilities
+      * @version 1.0.0
      */
     public function get_capabilities() {
         return $this->platform_meta['capabilities'];
@@ -126,6 +129,7 @@ class TradePress_Intrinio_API {
      *
      * @param string $data_type Data type to check
      * @return bool True if supported
+      * @version 1.0.0
      */
     public function supports_data_type($data_type) {
         return isset($this->platform_meta['data_types'][$data_type]);
@@ -136,6 +140,7 @@ class TradePress_Intrinio_API {
      *
      * @param string $data_type Data type
      * @return string|false Endpoint name or false
+      * @version 1.0.0
      */
     public function get_data_type_endpoint($data_type) {
         return $this->supports_data_type($data_type) ? $this->platform_meta['data_types'][$data_type] : false;
@@ -146,6 +151,7 @@ class TradePress_Intrinio_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Quote data or error
+      * @version 1.0.0
      */
     public function get_quote($symbol) {
         return $this->make_request('REALTIME_PRICE', array('identifier' => $symbol));
@@ -159,6 +165,7 @@ class TradePress_Intrinio_API {
      * @param string $end_date End date (YYYY-MM-DD)
      * @param string $frequency Frequency (daily, weekly, monthly)
      * @return array|WP_Error Historical data or error
+      * @version 1.0.0
      */
     public function get_bars($symbol, $start_date = '', $end_date = '', $frequency = 'daily') {
         $params = array('identifier' => $symbol, 'frequency' => $frequency);
@@ -176,6 +183,7 @@ class TradePress_Intrinio_API {
      * @param string $end_date End date
      * @param string $interval Interval (1min, 5min, etc.)
      * @return array|WP_Error Intraday data or error
+      * @version 1.0.0
      */
     public function get_intraday($symbol, $start_date = '', $end_date = '', $interval = '1min') {
         $params = array('identifier' => $symbol, 'interval' => $interval);
@@ -193,6 +201,7 @@ class TradePress_Intrinio_API {
      * @param int $fiscal_year Fiscal year
      * @param string $fiscal_period Fiscal period (FY, Q1, Q2, Q3, Q4)
      * @return array|WP_Error Fundamentals data or error
+      * @version 1.0.0
      */
     public function get_fundamentals($symbol, $statement = '', $fiscal_year = null, $fiscal_period = '') {
         $params = array('identifier' => $symbol);
@@ -208,6 +217,7 @@ class TradePress_Intrinio_API {
      *
      * @param string $fundamental_id Fundamental ID
      * @return array|WP_Error Financial data or error
+      * @version 1.0.0
      */
     public function get_financials($fundamental_id) {
         return $this->make_request('FINANCIALS', array('fundamental_id' => $fundamental_id));
@@ -218,6 +228,7 @@ class TradePress_Intrinio_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Company data or error
+      * @version 1.0.0
      */
     public function get_company_details($symbol) {
         return $this->make_request('COMPANY_DETAILS', array('identifier' => $symbol));
@@ -229,6 +240,7 @@ class TradePress_Intrinio_API {
      * @param string $symbol Stock symbol
      * @param int $page_size Page size
      * @return array|WP_Error News data or error
+      * @version 1.0.0
      */
     public function get_news($symbol, $page_size = 100) {
         return $this->make_request('COMPANY_NEWS', array('identifier' => $symbol, 'page_size' => $page_size));
@@ -243,6 +255,7 @@ class TradePress_Intrinio_API {
      * @param string $start_date Start date
      * @param string $end_date End date
      * @return array|WP_Error RSI data or error
+      * @version 1.0.0
      */
     public function get_rsi($symbol, $period = 14, $price_key = 'close', $start_date = '', $end_date = '') {
         $params = array('identifier' => $symbol, 'period' => $period, 'price_key' => $price_key);
@@ -261,6 +274,7 @@ class TradePress_Intrinio_API {
      * @param string $start_date Start date
      * @param string $end_date End date
      * @return array|WP_Error SMA data or error
+      * @version 1.0.0
      */
     public function get_sma($symbol, $period = 20, $price_key = 'close', $start_date = '', $end_date = '') {
         $params = array('identifier' => $symbol, 'period' => $period, 'price_key' => $price_key);
@@ -280,6 +294,7 @@ class TradePress_Intrinio_API {
      * @param string $start_date Start date
      * @param string $end_date End date
      * @return array|WP_Error Bollinger Bands data or error
+      * @version 1.0.0
      */
     public function get_bollinger_bands($symbol, $period = 20, $standard_deviations = 2.0, $price_key = 'close', $start_date = '', $end_date = '') {
         $params = array('identifier' => $symbol, 'period' => $period, 'standard_deviations' => $standard_deviations, 'price_key' => $price_key);
@@ -297,6 +312,7 @@ class TradePress_Intrinio_API {
      * @param string $end_date End date
      * @param string $frequency Frequency
      * @return array|WP_Error Beta data or error
+      * @version 1.0.0
      */
     public function get_beta($symbol, $start_date = '', $end_date = '', $frequency = 'daily') {
         $params = array('identifier' => $symbol, 'frequency' => $frequency);
@@ -313,6 +329,7 @@ class TradePress_Intrinio_API {
      * @param string $after After date
      * @param string $before Before date
      * @return array|WP_Error Options expirations or error
+      * @version 1.0.0
      */
     public function get_options_expirations($symbol, $after = '', $before = '') {
         $params = array('underlying' => $symbol);
@@ -330,6 +347,7 @@ class TradePress_Intrinio_API {
      * @param float $strike Strike price
      * @param string $type Option type (call, put)
      * @return array|WP_Error Options chain or error
+      * @version 1.0.0
      */
     public function get_options_chain($symbol, $expiration, $strike = null, $type = '') {
         $params = array('underlying' => $symbol, 'expiration' => $expiration);
@@ -346,6 +364,7 @@ class TradePress_Intrinio_API {
      * @param string $start_date Start date
      * @param string $end_date End date
      * @return array|WP_Error Option prices or error
+      * @version 1.0.0
      */
     public function get_option_prices($option_id, $start_date = '', $end_date = '') {
         $params = array('identifier' => $option_id);
@@ -361,6 +380,7 @@ class TradePress_Intrinio_API {
      * @param string $symbol ETF symbol
      * @param string $holder_date Holdings date
      * @return array|WP_Error ETF holdings or error
+      * @version 1.0.0
      */
     public function get_etf_holdings($symbol, $holder_date = '') {
         $params = array('identifier' => $symbol);
@@ -376,6 +396,7 @@ class TradePress_Intrinio_API {
      * @param string $start_date Start date
      * @param string $end_date End date
      * @return array|WP_Error Analyst ratings or error
+      * @version 1.0.0
      */
     public function get_analyst_ratings($symbol, $start_date = '', $end_date = '') {
         $params = array('identifier' => $symbol);
@@ -391,6 +412,7 @@ class TradePress_Intrinio_API {
      * @param string $symbol Stock symbol
      * @param string $date Date
      * @return array|WP_Error Institutional ownership or error
+      * @version 1.0.0
      */
     public function get_institutional_ownership($symbol, $date = '') {
         $params = array('identifier' => $symbol);
@@ -404,6 +426,7 @@ class TradePress_Intrinio_API {
      *
      * @param array $filters Search filters
      * @return array|WP_Error Securities search results or error
+      * @version 1.0.0
      */
     public function search_securities($filters = array()) {
         return $this->make_request('SECURITIES_SEARCH', $filters);
@@ -414,6 +437,7 @@ class TradePress_Intrinio_API {
      *
      * @param array $filters Exchange filters
      * @return array|WP_Error Exchanges data or error
+      * @version 1.0.0
      */
     public function get_exchanges($filters = array()) {
         return $this->make_request('EXCHANGES', $filters);
@@ -425,6 +449,7 @@ class TradePress_Intrinio_API {
      * @param string $endpoint Endpoint name
      * @param array $params Request parameters
      * @return array|WP_Error Response data or error
+      * @version 1.0.0
      */
     private function make_request($endpoint, $params = array()) {
         if (!class_exists('TradePress_Intrinio_Endpoints')) {
@@ -469,6 +494,7 @@ class TradePress_Intrinio_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Company data or error
+      * @version 1.0.0
      */
     public function get_company_data($symbol) {
         return $this->get_company_details($symbol);
@@ -481,6 +507,7 @@ class TradePress_Intrinio_API {
      * @param string $start_date Start date (YYYY-MM-DD)
      * @param string $end_date End date (YYYY-MM-DD)
      * @return array|WP_Error Security prices or error
+      * @version 1.0.0
      */
     public function get_security_prices($symbol, $start_date, $end_date) {
         return $this->get_bars($symbol, $start_date, $end_date);

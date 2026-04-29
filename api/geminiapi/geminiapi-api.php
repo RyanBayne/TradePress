@@ -39,6 +39,8 @@ class TradePress_GeminiAPI_API {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Initialize Gemini API
@@ -52,6 +54,7 @@ class TradePress_GeminiAPI_API {
      *
      * @param string $symbol Trading pair (e.g., btcusd)
      * @return array|WP_Error Ticker information or error
+      * @version 1.0.0
      */
     public function get_ticker($symbol) {
         // Implement ticker retrieval
@@ -62,6 +65,7 @@ class TradePress_GeminiAPI_API {
      * Get account balances
      *
      * @return array|WP_Error Account balances or error
+      * @version 1.0.0
      */
     public function get_balances() {
         // Implement balances retrieval
@@ -73,6 +77,7 @@ class TradePress_GeminiAPI_API {
      *
      * @param array $order_data Order parameters
      * @return array|WP_Error Order result or error
+      * @version 1.0.0
      */
     public function place_order($order_data) {
         // Implement order placement

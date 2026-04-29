@@ -14,6 +14,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Intraday_U_Pattern_Directive extends TradePress_Base_Directive {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         parent::__construct();
         $this->directive_id = 'intraday_u_pattern';
@@ -23,6 +28,11 @@ class TradePress_Intraday_U_Pattern_Directive extends TradePress_Base_Directive 
     
     /**
      * Calculate intraday U-pattern score
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
+      * @param array $data
      */
     public function calculate_score($symbol, $data = array()) {
         $score = 0;
@@ -69,6 +79,10 @@ class TradePress_Intraday_U_Pattern_Directive extends TradePress_Base_Directive 
     
     /**
      * Analyze U-pattern in intraday data
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $intraday_data
      */
     private function analyze_u_pattern($intraday_data) {
         // Simplified analysis - would need real intraday data structure
@@ -82,6 +96,10 @@ class TradePress_Intraday_U_Pattern_Directive extends TradePress_Base_Directive 
     
     /**
      * Get intraday data (placeholder - requires Finnhub or Alpaca)
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
      */
     private function get_intraday_data($symbol) {
         // This would require Finnhub or Alpaca intraday endpoints
@@ -91,6 +109,8 @@ class TradePress_Intraday_U_Pattern_Directive extends TradePress_Base_Directive 
     
     /**
      * Get required API endpoints
+      *
+      * @version 1.0.0
      */
     public function get_api_requirements() {
         return array(

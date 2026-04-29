@@ -16,6 +16,10 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Get strategy by ID
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $strategy_id
      */
     public static function get_strategy($strategy_id) {
         global $wpdb;
@@ -26,6 +30,10 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Get all strategies with optional filters
+      *
+      * @version 1.0.0
+      *
+      * @param array $args
      */
     public static function get_strategies($args = array()) {
         global $wpdb;
@@ -82,6 +90,10 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Create new strategy
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $data
      */
     public static function create_strategy($data) {
         global $wpdb;
@@ -114,6 +126,11 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Update strategy
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $strategy_id
+      * @param mixed $data
      */
     public static function update_strategy($strategy_id, $data) {
         global $wpdb;
@@ -140,6 +157,10 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Delete strategy
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $strategy_id
      */
     public static function delete_strategy($strategy_id) {
         global $wpdb;
@@ -162,6 +183,11 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Add directive to strategy
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $strategy_id
+      * @param mixed $directive_data
      */
     public static function add_strategy_directive($strategy_id, $directive_data) {
         global $wpdb;
@@ -181,6 +207,10 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Get strategy directives
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $strategy_id
      */
     public static function get_strategy_directives($strategy_id) {
         global $wpdb;
@@ -195,6 +225,11 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Update directive weight
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $strategy_directive_id
+      * @param mixed $weight
      */
     public static function update_directive_weight($strategy_directive_id, $weight) {
         global $wpdb;
@@ -212,6 +247,10 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Remove directive from strategy
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $strategy_directive_id
      */
     public static function remove_strategy_directive($strategy_directive_id) {
         global $wpdb;
@@ -230,6 +269,13 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Save directive configuration override
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $strategy_directive_id
+      * @param mixed $config_key
+      * @param mixed $config_value
+      * @param string $config_type
      */
     public static function save_directive_config($strategy_directive_id, $config_key, $config_value, $config_type = 'string') {
         global $wpdb;
@@ -262,6 +308,10 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Get directive configurations for strategy
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $strategy_directive_id
      */
     public static function get_directive_configs($strategy_directive_id) {
         global $wpdb;
@@ -284,6 +334,10 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Save strategy test result
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $test_data
      */
     public static function save_test_result($test_data) {
         global $wpdb;
@@ -305,6 +359,11 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Get strategy test results
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $strategy_id
+      * @param int $limit
      */
     public static function get_test_results($strategy_id, $limit = 10) {
         global $wpdb;
@@ -320,6 +379,12 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Create strategy version record
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $strategy_id
+      * @param mixed $strategy_data
+      * @param string $change_type
      */
     private static function create_strategy_version($strategy_id, $strategy_data, $change_type = 'updated') {
         global $wpdb;
@@ -342,6 +407,8 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Get strategy categories
+      *
+      * @version 1.0.0
      */
     public static function get_categories() {
         global $wpdb;
@@ -355,6 +422,10 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Update strategy performance metrics
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $strategy_id
      */
     public static function update_performance_metrics($strategy_id) {
         global $wpdb;
@@ -392,6 +463,8 @@ class TradePress_Scoring_Strategies_DB {
     
     /**
      * Get strategy statistics
+      *
+      * @version 1.0.0
      */
     public static function get_strategy_stats() {
         global $wpdb;

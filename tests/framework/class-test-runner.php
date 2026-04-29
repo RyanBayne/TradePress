@@ -25,6 +25,10 @@ class TradePress_Test_Runner {
     
     /**
      * Run a specific test
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $test_id
      */
     public function run_test($test_id) {
         global $wpdb;
@@ -63,6 +67,10 @@ class TradePress_Test_Runner {
     
     /**
      * Run multiple tests
+      *
+      * @version 1.0.0
+      *
+      * @param array $args
      */
     public function run_tests($args = []) {
         $tests = TradePress_Test_Registry::get_tests($args);
@@ -77,6 +85,10 @@ class TradePress_Test_Runner {
     
     /**
      * Start a new test run
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $test_id
      */
     private function start_test_run($test_id) {
         global $wpdb;
@@ -103,6 +115,10 @@ class TradePress_Test_Runner {
     
     /**
      * Run a file-based test
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $test
      */
     private function run_file_based_test($test) {
         // Load test file if not already loaded
@@ -143,6 +159,10 @@ class TradePress_Test_Runner {
     
     /**
      * Run a UI-based test
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $test
      */
     private function run_ui_based_test($test) {
         // Decode test data and expected result
@@ -168,6 +188,10 @@ class TradePress_Test_Runner {
     
     /**
      * Execute UI test steps
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $steps
      */
     private function execute_ui_steps($steps) {
         // This will be expanded with Selenium/headless browser integration
@@ -176,6 +200,11 @@ class TradePress_Test_Runner {
     
     /**
      * Compare test results
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $actual
+      * @param mixed $expected
      */
     private function compare_results($actual, $expected) {
         if (is_array($actual) && is_array($expected)) {
@@ -186,6 +215,11 @@ class TradePress_Test_Runner {
     
     /**
      * Deep compare arrays
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $actual
+      * @param mixed $expected
      */
     private function compare_arrays($actual, $expected) {
         if (count($actual) !== count($expected)) {
@@ -211,6 +245,10 @@ class TradePress_Test_Runner {
     
     /**
      * Record test results
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $result
      */
     private function record_test_results($result) {
         global $wpdb;
@@ -236,6 +274,10 @@ class TradePress_Test_Runner {
     
     /**
      * Record a test error
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $error_message
      */
     private function record_test_error($error_message) {
         global $wpdb;

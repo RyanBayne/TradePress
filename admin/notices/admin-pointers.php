@@ -23,6 +23,8 @@ class TradePress_Admin_Pointers {
 
     /**
      * Constructor.
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         add_action( 'admin_enqueue_scripts', array( $this, 'setup_pointers_for_screen' ) );
@@ -30,6 +32,8 @@ class TradePress_Admin_Pointers {
 
     /**
      * Setup pointers for screen.
+      *
+      * @version 1.0.0
      */
     public function setup_pointers_for_screen() {    
         if ( ! $screen = get_current_screen() ) {
@@ -56,6 +60,13 @@ class TradePress_Admin_Pointers {
 
     /**
      * Create left positioned header pointer - reusable method
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $target
+      * @param mixed $title
+      * @param mixed $content
+      * @param bool $enable_focus
      */
     public function create_left_header_pointer($target, $title, $content, $enable_focus = false) {
         return array(
@@ -75,6 +86,8 @@ class TradePress_Admin_Pointers {
 
     /**
      * Directive configuration pointer.
+      *
+      * @version 1.0.0
      */
     public function directive_configuration_pointer() {
         if ( ! current_user_can( 'manage_options' ) ) {
@@ -103,6 +116,8 @@ class TradePress_Admin_Pointers {
 
     /**
      * Automation API selection pointer.
+      *
+      * @version 1.0.0
      */
     public function automation_api_selection_pointer() {
         // Disable automatic pointer - using manual test button instead
@@ -111,6 +126,8 @@ class TradePress_Admin_Pointers {
 
     /**
      * Automatic pointer for the Pointers testing page
+      *
+      * @version 1.0.0
      */
     public function pointers_page_automatic_pointer() {
         // Check if pointer has been dismissed
@@ -143,6 +160,8 @@ class TradePress_Admin_Pointers {
 
     /**
      * Pointers example with proper dismissal tracking.
+      *
+      * @version 1.0.0
      */
     public function create_tables_tutorial() {
         if ( ! isset( $_GET['TradePresstutorial'] ) || ! current_user_can( 'manage_options' ) ) {
@@ -192,6 +211,7 @@ class TradePress_Admin_Pointers {
     /**
      * Enqueue pointers and add script to page.
      * @param array $pointers
+      * @version 1.0.0
      */
     public function enqueue_pointers( $pointers ) {
         if ( empty( $pointers['pointers'] ) ) {
@@ -205,6 +225,13 @@ class TradePress_Admin_Pointers {
 
                 setTimeout( init_TradePress_pointers, 800 );
 
+                /**
+                 * Init trade press pointers.
+                 *
+                 * @return mixed
+                 *
+                 * @version 1.0.0
+                 */
                 function init_TradePress_pointers() {
                     jQuery.each( TradePress_pointers.pointers, function( i ) {
                         show_TradePress_pointer(i);
@@ -212,6 +239,11 @@ class TradePress_Admin_Pointers {
                     });
                 }
 
+                /**
+                 * Show trade press pointer.
+                 *
+                 * @version 1.0.0
+                 */
                 function show_TradePress_pointer( id ) {
                     var pointer = TradePress_pointers.pointers[ id ];
                     if ( !pointer ) return;

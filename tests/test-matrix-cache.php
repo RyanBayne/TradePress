@@ -8,8 +8,31 @@ require_once '../../../wp-config.php';
 
 // Mock WordPress functions if needed
 if (!function_exists('get_transient')) {
+    /**
+     * Get transient.
+     *
+     * @param mixed $key
+     *
+     * @version 1.0.0
+     */
     function get_transient($key) { return false; }
+    /**
+     * Set transient.
+     *
+     * @param mixed $key
+     * @param mixed $value
+     * @param mixed $expiry
+     *
+     * @version 1.0.0
+     */
     function set_transient($key, $value, $expiry) { return true; }
+    /**
+     * Delete transient.
+     *
+     * @param mixed $key
+     *
+     * @version 1.0.0
+     */
     function delete_transient($key) { return true; }
 }
 

@@ -18,6 +18,11 @@ class TradePress_Wordpressorgapi {
 
     /**
     * Query plugin data on WordPress.org
+     *
+     * @version 1.0.0
+     *
+     * @param string $url
+     * @param array $args
     */
     public function query_plugins( $url = 'http://api.wordpress.org/plugins/info/1.0/', $args = array() ) {
         return wp_remote_post(
@@ -33,6 +38,11 @@ class TradePress_Wordpressorgapi {
 
     /**
     * Query plugin data on WordPress.org. 
+     *
+     * @version 1.0.0
+     *
+     * @param string $url
+     * @param array $args
     */
     public function query_themes( $url = 'http://api.wordpress.org/plugins/info/1.0/', $args = array()) {
         return wp_remote_post(

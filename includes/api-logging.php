@@ -38,6 +38,7 @@ class TradePress_API_Logging {
      * Check if the logging system is ready and enabled
      *
      * @return bool Whether logging is ready and enabled
+      * @version 1.0.0
      */
     public static function ready() {
         // Check if logging is enabled in settings
@@ -62,6 +63,7 @@ class TradePress_API_Logging {
      *
      * @param int   $entry_id   Call entry ID from log_call()
      * @param array $curl_reply The response from a WP_Http request.
+      * @version 1.0.0
      */
     public static function breakdown($entry_id, $curl_reply) {
         if ( ! self::ready() || ! $entry_id || ! is_array($curl_reply) ) {
@@ -103,6 +105,7 @@ class TradePress_API_Logging {
      * @param string $outcome       Outcome of the call (if known)
      * @param int    $life          TTL for the log entry in seconds
      * @return int                  The call entry ID
+      * @version 1.0.0
      */
     public static function log_call($service, $function, $type = 'GET', $status = 'pending', $file = '', $line = '', $description = '', $outcome = '', $life = 86400) {
         global $wpdb;
@@ -149,7 +152,6 @@ class TradePress_API_Logging {
         }
         
         // If DB insertion failed, log to error log
-        error_log('TradePress API Logging: Failed to log call to ' . $service);
         return 0;
     }
     
@@ -164,6 +166,7 @@ class TradePress_API_Logging {
      * @param string $endpoint    Full endpoint URL or path
      * @param array  $parameters  Parameters used in the API call
      * @return int|bool           The endpoint entry ID or false on failure
+      * @version 1.0.0
      */
     public static function track_endpoint($entry_id, $service, $endpoint, $parameters = array()) {
         global $wpdb;
@@ -229,6 +232,7 @@ class TradePress_API_Logging {
      * @param string $file       File where error occurred
      * @param int    $line       Line where error occurred
      * @return int|bool          The error entry ID or false on failure
+      * @version 1.0.0
      */
     public static function log_error($entry_id, $code, $error, $function = '', $file = '', $line = 0) {
         global $wpdb;
@@ -280,6 +284,7 @@ class TradePress_API_Logging {
      * @param mixed  $meta_value Metadata value
      * @param string $expiry     Optional expiration datetime
      * @return int|bool          The meta entry ID or false on failure
+      * @version 1.0.0
      */
     public static function add_meta($entry_id, $meta_key, $meta_value, $expiry = null) {
         global $wpdb;
@@ -307,6 +312,7 @@ class TradePress_API_Logging {
      * @param string $outcome   Outcome of the call
      * @param string $status    New status for the call
      * @return bool             Success status
+      * @version 1.0.0
      */
     public static function update_call_outcome($entry_id, $outcome, $status = 'complete') {
         global $wpdb;
@@ -345,6 +351,7 @@ class TradePress_API_Logging {
      *     @type string $order         Sort order (ASC or DESC, default: DESC)
      * }
      * @return array Array of API call logs
+      * @version 1.0.0
      */
     public static function get_api_calls($args = array()) {
         global $wpdb;
@@ -434,6 +441,7 @@ class TradePress_API_Logging {
      *     @type string $date_to       End date (format: Y-m-d)
      * }
      * @return int Number of API calls matching the criteria
+      * @version 1.0.0
      */
     public static function get_api_call_count($args = array()) {
         global $wpdb;
@@ -499,6 +507,7 @@ class TradePress_API_Logging {
      * @param string $date_from Start date (format: Y-m-d)
      * @param string $date_to End date (format: Y-m-d)
      * @return array Array of service statistics
+      * @version 1.0.0
      */
     public static function get_service_stats($date_from = '', $date_to = '') {
         global $wpdb;

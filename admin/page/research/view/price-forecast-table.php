@@ -26,6 +26,8 @@ class TradePress_Price_Forecast_Table extends WP_List_Table {
 
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         parent::__construct( array(
@@ -39,6 +41,7 @@ class TradePress_Price_Forecast_Table extends WP_List_Table {
      * Get column information
      *
      * @return array Columns
+      * @version 1.0.0
      */
     public function get_columns() {
         $columns = array(
@@ -60,6 +63,7 @@ class TradePress_Price_Forecast_Table extends WP_List_Table {
      * Define which columns are sortable
      *
      * @return array Sortable columns
+      * @version 1.0.0
      */
     public function get_sortable_columns() {
         $sortable_columns = array(
@@ -77,6 +81,7 @@ class TradePress_Price_Forecast_Table extends WP_List_Table {
      * Get default sort column
      *
      * @return string Default sort column
+      * @version 1.0.0
      */
     protected function get_default_primary_column_name() {
         return 'symbol';
@@ -84,6 +89,8 @@ class TradePress_Price_Forecast_Table extends WP_List_Table {
 
     /**
      * Prepare items for table
+      *
+      * @version 1.0.0
      */
     public function prepare_items() {
         // Get the user's screen option for items per page
@@ -129,6 +136,7 @@ class TradePress_Price_Forecast_Table extends WP_List_Table {
      * @param array  $item        Item being displayed
      * @param string $column_name Column being displayed
      * @return string Column content
+      * @version 1.0.0
      */
     public function column_default( $item, $column_name ) {
         switch ( $column_name ) {
@@ -160,6 +168,7 @@ class TradePress_Price_Forecast_Table extends WP_List_Table {
      *
      * @param array $item Item being displayed
      * @return string Column content
+      * @version 1.0.0
      */
     public function column_symbol( $item ) {
         $symbol = $item['symbol'];
@@ -192,6 +201,7 @@ class TradePress_Price_Forecast_Table extends WP_List_Table {
      *
      * @param float $confidence 0-100 confidence score
      * @return string CSS style
+      * @version 1.0.0
      */
     private function get_confidence_color_style( $confidence ) {
         // Normalize confidence to 0-1 range
@@ -224,6 +234,7 @@ class TradePress_Price_Forecast_Table extends WP_List_Table {
      * @param string $orderby Order by column
      * @param string $order   Order direction
      * @return array Forecast data
+      * @version 1.0.0
      */
     private function get_forecast_data( $search = '', $orderby = 'symbol', $order = 'asc' ) {
         // In a real implementation, you would fetch this data from your database
@@ -329,6 +340,8 @@ class TradePress_Price_Forecast_Table extends WP_List_Table {
     
     /**
      * Message to be displayed when there are no items
+      *
+      * @version 1.0.0
      */
     public function no_items() {
         esc_html_e( 'No price forecasts found.', 'tradepress' );

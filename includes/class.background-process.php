@@ -65,6 +65,8 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
 
         /**
          * Initiate new background process
+          *
+          * @version 1.0.0
          */
         public function __construct() {
             parent::__construct();
@@ -81,6 +83,7 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          *
          * @access public
          * @return void
+          * @version 1.0.0
          */
         public function dispatch() {
             // Schedule the cron healthcheck.
@@ -96,6 +99,7 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          * @param mixed $data Data.
          *
          * @return $this
+          * @version 1.0.0
          */
         public function push_to_queue( $data ) {
             $this->data[] = $data;
@@ -106,6 +110,7 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          * Save queue
          *
          * @return $this
+          * @version 1.0.0
          */
         public function save() {
             $key = $this->generate_key();
@@ -124,6 +129,7 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          * @param array  $data Data.
          *
          * @return $this
+          * @version 1.0.0
          */
         public function update( $key, $data ) {
             if ( ! empty( $data ) ) {
@@ -139,6 +145,7 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          * @param string $key Key.
          *
          * @return $this
+          * @version 1.0.0
          */
         public function delete( $key ) {
             delete_site_option( $key );
@@ -155,6 +162,7 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          * @param int $length Length.
          *
          * @return string
+          * @version 1.0.0
          */
         protected function generate_key( $length = 64 ) {
             $unique  = md5( microtime() . rand() );
@@ -168,6 +176,8 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          *
          * Checks whether data exists within the queue and that
          * the process is not already running.
+          *
+          * @version 1.0.0
          */
         public function maybe_handle() {
             // Don't lock up other requests while processing
@@ -224,6 +234,8 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          *
          * Check whether the current process is already running
          * in a background process.
+          *
+          * @version 1.0.0
          */
         protected function is_process_running() {
             if ( get_site_transient( $this->identifier . '_process_lock' ) ) {
@@ -240,6 +252,8 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          * Lock the process so that multiple instances can't run simultaneously.
          * Override if applicable, but the duration should be greater than that
          * defined in the time_exceeded() method.
+          *
+          * @version 1.0.0
          */
         protected function lock_process() {
             $this->start_time = time(); // Set start time of current process.
@@ -256,6 +270,7 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          * Get optimal lock duration based on processing time
          *
          * @return int
+          * @version 1.0.0
          */
         protected function get_optimal_lock_duration() {
             // Base lock duration on time limit + buffer
@@ -271,6 +286,7 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          * Unlock the process so that other instances can spawn.
          *
          * @return $this
+          * @version 1.0.0
          */
         protected function unlock_process() {
             delete_site_transient( $this->identifier . '_process_lock' );
@@ -322,6 +338,8 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          *
          * Pass each queue item to the task handler, while remaining
          * within server memory and time limit constraints.
+          *
+          * @version 1.0.0
          */
         protected function handle() {
             $this->lock_process();
@@ -369,6 +387,7 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          * of the maximum WordPress memory.
          *
          * @return bool
+          * @version 1.0.0
          */
         protected function memory_exceeded() {
             $memory_limit   = $this->get_memory_limit() * 0.9; // 90% of max memory
@@ -386,6 +405,7 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          * Get memory limit
          *
          * @return int
+          * @version 1.0.0
          */
         protected function get_memory_limit() {
             if ( function_exists( 'ini_get' ) ) {
@@ -410,6 +430,7 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          * A timeout limit of 30s is common on shared hosting.
          *
          * @return bool
+          * @version 1.0.0
          */
         protected function time_exceeded() {
             // Dynamic time limit based on server capabilities
@@ -428,6 +449,7 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          * Get optimal time limit based on server configuration
          *
          * @return int
+          * @version 1.0.0
          */
         protected function get_optimal_time_limit() {
             // Get PHP max execution time
@@ -450,6 +472,8 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          *
          * Override if applicable, but ensure that the below actions are
          * performed, or, call parent::complete().
+          *
+          * @version 1.0.0
          */
         protected function complete() {
             // Unschedule the cron healthcheck.
@@ -462,6 +486,7 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          * @access public
          * @param mixed $schedules Schedules.
          * @return mixed
+          * @version 1.0.0
          */
         public function schedule_cron_healthcheck( $schedules ) {
             // Dynamic interval based on queue activity
@@ -486,6 +511,7 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          * Get optimal cron interval based on system load and queue activity
          *
          * @return int
+          * @version 1.0.0
          */
         protected function get_optimal_cron_interval() {
             // Check if queue has items
@@ -505,6 +531,8 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          *
          * Restart the background process if not already running
          * and data exists in the queue.
+          *
+          * @version 1.0.0
          */
         public function handle_cron_healthcheck() {
             if ( $this->is_process_running() ) {
@@ -525,6 +553,8 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
 
         /**
          * Schedule event
+          *
+          * @version 1.0.0
          */
         protected function schedule_event() {
             if ( ! wp_next_scheduled( $this->cron_hook_identifier ) ) {
@@ -534,6 +564,8 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
 
         /**
          * Clear scheduled event
+          *
+          * @version 1.0.0
          */
         protected function clear_scheduled_event() {
             $timestamp = wp_next_scheduled( $this->cron_hook_identifier );
@@ -548,6 +580,8 @@ if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
          *
          * Stop processing queue items, clear cronjob and delete batch.
          *
+          *
+          * @version 1.0.0
          */
         public function cancel_process() {
             if ( ! $this->is_queue_empty() ) {

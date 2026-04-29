@@ -115,6 +115,7 @@ class TradePress_Alpaca_WebSocket {
      * @param string $stream_type The type of stream to connect to (stocks, crypto, options, account)
      * @param string $trading_mode Trading mode (live or paper)
      * @param string $subscription_plan API subscription plan (basic or unlimited)
+      * @version 1.0.0
      */
     public function __construct($stream_type = 'stocks', $trading_mode = 'paper', $subscription_plan = 'basic') {
         $this->stream_type = $stream_type;
@@ -143,6 +144,8 @@ class TradePress_Alpaca_WebSocket {
     
     /**
      * Load authentication details based on trading mode
+      *
+      * @version 1.0.0
      */
     private function load_auth_details() {
         $api_id = 'alpaca';
@@ -173,6 +176,7 @@ class TradePress_Alpaca_WebSocket {
      * Connect to WebSocket stream
      * 
      * @return boolean True if connection successful, false otherwise
+      * @version 1.0.0
      */
     public function connect() {
         if ($this->is_connected) {
@@ -226,6 +230,7 @@ class TradePress_Alpaca_WebSocket {
      * Get WebSocket URL based on stream type and subscription plan
      * 
      * @return string WebSocket URL
+      * @version 1.0.0
      */
     private function get_websocket_url() {
         if ($this->stream_type === 'account') {
@@ -248,6 +253,7 @@ class TradePress_Alpaca_WebSocket {
      * Authenticate with the WebSocket server
      * 
      * @return boolean True if authentication successful, false otherwise
+      * @version 1.0.0
      */
     private function authenticate() {
         if (!$this->is_connected) {
@@ -290,6 +296,7 @@ class TradePress_Alpaca_WebSocket {
      * @param array  $symbols Array of stock symbols to subscribe to
      * @param array  $channels Data channels to subscribe to (trades, quotes, bars)
      * @return boolean True if subscription successful, false otherwise
+      * @version 1.0.0
      */
     public function subscribe($symbols, $channels = array('trades', 'quotes', 'bars')) {
         if (!$this->is_connected) {
@@ -344,6 +351,7 @@ class TradePress_Alpaca_WebSocket {
      * @param array  $symbols Array of stock symbols to unsubscribe from
      * @param array  $channels Data channels to unsubscribe from (trades, quotes, bars)
      * @return boolean True if unsubscription successful, false otherwise
+      * @version 1.0.0
      */
     public function unsubscribe($symbols, $channels = array('trades', 'quotes', 'bars')) {
         if (!$this->is_connected) {
@@ -394,6 +402,7 @@ class TradePress_Alpaca_WebSocket {
      * Disconnect from WebSocket server
      * 
      * @return boolean True if disconnection successful, false otherwise
+      * @version 1.0.0
      */
     public function disconnect() {
         if (!$this->is_connected) {
@@ -418,6 +427,7 @@ class TradePress_Alpaca_WebSocket {
      * 
      * @param string   $type     The type of data (trades, quotes, bars, etc.)
      * @param callable $callback The callback function
+      * @version 1.0.0
      */
     public function add_callback($type, $callback) {
         if (isset($this->callbacks[$type]) && is_callable($callback)) {
@@ -432,6 +442,7 @@ class TradePress_Alpaca_WebSocket {
      * 
      * @param string $type The type of data (trades, quotes, bars, etc.)
      * @param array  $data The data to pass to the callbacks
+      * @version 1.0.0
      */
     private function trigger_callbacks($type, $data) {
         if (isset($this->callbacks[$type])) {
@@ -445,6 +456,7 @@ class TradePress_Alpaca_WebSocket {
      * Add error to error log
      * 
      * @param string $message Error message
+      * @version 1.0.0
      */
     private function add_error($message) {
         $this->error_log[] = array(
@@ -457,7 +469,6 @@ class TradePress_Alpaca_WebSocket {
         
         // Log error if logging is enabled
         if (get_option('TradePress_switch_alpaca_api_logs', 'no') === 'yes') {
-            error_log('[TradePress_Alpaca_WebSocket] ' . $message);
         }
     }
     
@@ -465,6 +476,7 @@ class TradePress_Alpaca_WebSocket {
      * Get error log
      * 
      * @return array Error log
+      * @version 1.0.0
      */
     public function get_error_log() {
         return $this->error_log;
@@ -474,6 +486,7 @@ class TradePress_Alpaca_WebSocket {
      * Check if connected to WebSocket server
      * 
      * @return boolean True if connected, false otherwise
+      * @version 1.0.0
      */
     public function is_connected() {
         return $this->is_connected;
@@ -483,6 +496,7 @@ class TradePress_Alpaca_WebSocket {
      * Get subscribed symbols
      * 
      * @return array Subscribed symbols
+      * @version 1.0.0
      */
     public function get_subscribed_symbols() {
         return $this->subscribed_symbols;
@@ -492,6 +506,7 @@ class TradePress_Alpaca_WebSocket {
      * Get active subscriptions
      * 
      * @return array Active subscriptions
+      * @version 1.0.0
      */
     public function get_subscriptions() {
         return $this->subscriptions;
@@ -501,6 +516,7 @@ class TradePress_Alpaca_WebSocket {
      * Get stream type
      * 
      * @return string Stream type
+      * @version 1.0.0
      */
     public function get_stream_type() {
         return $this->stream_type;
@@ -510,6 +526,7 @@ class TradePress_Alpaca_WebSocket {
      * Get trading mode
      * 
      * @return string Trading mode
+      * @version 1.0.0
      */
     public function get_trading_mode() {
         return $this->trading_mode;
@@ -522,6 +539,7 @@ class TradePress_Alpaca_WebSocket {
      * In a real implementation, this would be handled by the WebSocket client's message callback.
      * 
      * @param string $message The raw message from the WebSocket server
+      * @version 1.0.0
      */
     public function process_message($message) {
         $data = json_decode($message, true);

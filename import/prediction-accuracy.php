@@ -21,6 +21,7 @@ class TradePress_Prediction_Accuracy {
      * @param float $predicted_price The predicted price
      * @param float $actual_price The actual price
      * @return float Accuracy percentage
+      * @version 1.0.0
      */
     public function calculate_single_accuracy($predicted_price, $actual_price) {
         if ($actual_price == 0) {
@@ -44,6 +45,7 @@ class TradePress_Prediction_Accuracy {
      * @param float $predicted_high High end of prediction range
      * @param float $actual_price The actual price
      * @return float Accuracy percentage
+      * @version 1.0.0
      */
     public function calculate_range_accuracy($predicted_low, $predicted_high, $actual_price) {
         // Implementation for range-based predictions
@@ -56,6 +58,7 @@ class TradePress_Prediction_Accuracy {
      * @param string|null $symbol Optional symbol to limit analysis
      * @param string $time_horizon Time horizon to analyze
      * @return array Performance metrics
+      * @version 1.0.0
      */
     public function calculate_source_performance($source_id, $symbol = null, $time_horizon = 'all') {
         // Implementation to calculate overall source performance
@@ -68,6 +71,7 @@ class TradePress_Prediction_Accuracy {
      * @param string|null $symbol Optional symbol to limit comparison
      * @param string $time_horizon Time horizon to analyze
      * @return array Comparative performance data
+      * @version 1.0.0
      */
     public function compare_sources($source_ids, $symbol = null, $time_horizon = 'all') {
         // Implementation to compare sources

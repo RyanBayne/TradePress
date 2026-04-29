@@ -17,6 +17,8 @@ class TradePress_Admin_Development_Snippets {
 
     /**
      * Output the snippets view
+      *
+      * @version 1.0.0
      */
     public static function output() {
         ?>
@@ -135,6 +137,11 @@ $tradepress_assets->enqueue_for_page('automation', [
                     <div class="snippet-item">
                         <h5><?php esc_html_e('Creating AJAX Handler', 'tradepress'); ?></h5>
                         <pre><code class="language-php">// In controller class
+/**
+ * Ajax custom action.
+ *
+ * @version 1.0.0
+ */
 public function ajax_custom_action() {
     check_ajax_referer('tradepress_nonce', 'nonce');
     

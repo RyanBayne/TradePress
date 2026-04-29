@@ -15,6 +15,8 @@ class TradePress_API_Capability_Matrix {
     
     /**
      * Get capability matrix (from cache or build fresh)
+      *
+      * @version 1.0.0
      */
     public static function get_matrix() {
         $cached = get_transient(self::$cache_key);
@@ -28,6 +30,8 @@ class TradePress_API_Capability_Matrix {
     
     /**
      * Build capability matrix by scanning API classes
+      *
+      * @version 1.0.0
      */
     public static function build_matrix() {
         $matrix = array(
@@ -65,6 +69,10 @@ class TradePress_API_Capability_Matrix {
     
     /**
      * Scan API platforms directory
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $api_dir
      */
     private static function scan_api_platforms($api_dir) {
         $platforms = array();
@@ -108,6 +116,8 @@ class TradePress_API_Capability_Matrix {
     
     /**
      * Get freshness requirements from directive classes
+      *
+      * @version 1.0.0
      */
     private static function get_directive_freshness_requirements() {
         // Load directives register if not loaded
@@ -138,6 +148,10 @@ class TradePress_API_Capability_Matrix {
     
     /**
      * Map directive ID to data type requirement
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
      */
     private static function map_directive_to_data_type($directive_id) {
         $mapping = array(
@@ -190,6 +204,10 @@ class TradePress_API_Capability_Matrix {
     
     /**
      * Get platforms that support specific data type
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $data_type
      */
     public static function get_platforms_for_data_type($data_type) {
         $matrix = self::get_matrix();
@@ -198,6 +216,10 @@ class TradePress_API_Capability_Matrix {
     
     /**
      * Get capabilities for specific platform
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $platform_id
      */
     public static function get_platform_capabilities($platform_id) {
         $matrix = self::get_matrix();
@@ -206,6 +228,11 @@ class TradePress_API_Capability_Matrix {
     
     /**
      * Check if platform supports data type
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $platform_id
+      * @param mixed $data_type
      */
     public static function platform_supports($platform_id, $data_type) {
         $capabilities = self::get_platform_capabilities($platform_id);
@@ -214,6 +241,10 @@ class TradePress_API_Capability_Matrix {
     
     /**
      * Get freshness requirement for data type
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $data_type
      */
     public static function get_freshness_requirement($data_type) {
         $matrix = self::get_matrix();
@@ -222,6 +253,8 @@ class TradePress_API_Capability_Matrix {
     
     /**
      * Manually refresh cache
+      *
+      * @version 1.0.0
      */
     public static function refresh_cache() {
         delete_transient(self::$cache_key);
@@ -230,6 +263,8 @@ class TradePress_API_Capability_Matrix {
     
     /**
      * Get cache status
+      *
+      * @version 1.0.0
      */
     public static function get_cache_status() {
         $matrix = self::get_matrix();

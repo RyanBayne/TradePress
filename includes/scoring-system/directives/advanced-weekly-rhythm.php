@@ -14,6 +14,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Advanced_Weekly_Rhythm_Directive extends TradePress_Base_Directive {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         parent::__construct();
         $this->directive_id = 'advanced_weekly_rhythm';
@@ -23,6 +28,11 @@ class TradePress_Advanced_Weekly_Rhythm_Directive extends TradePress_Base_Direct
     
     /**
      * Calculate composite score from all weekly rhythm directives
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
+      * @param array $data
      */
     public function calculate_score($symbol, $data = array()) {
         $total_score = 0;
@@ -119,6 +129,8 @@ class TradePress_Advanced_Weekly_Rhythm_Directive extends TradePress_Base_Direct
     
     /**
      * Get required API endpoints from all component directives
+      *
+      * @version 1.0.0
      */
     public function get_api_requirements() {
         return array(

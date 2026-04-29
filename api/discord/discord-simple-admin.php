@@ -42,6 +42,8 @@ class TRADEPRESS_DISCORD_Simple_Admin {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Initialize the troubleshooter
@@ -59,6 +61,8 @@ class TRADEPRESS_DISCORD_Simple_Admin {
     
     /**
      * Add admin menu item
+      *
+      * @version 1.0.0
      */
     public function add_admin_menu() {
         add_submenu_page(
@@ -76,6 +80,7 @@ class TRADEPRESS_DISCORD_Simple_Admin {
      *
      * @param string $message Notice message
      * @param string $type Notice type (success, error, warning, info)
+      * @version 1.0.0
      */
     public function add_notice($message, $type = 'info') {
         $this->admin_notices[] = array(
@@ -86,6 +91,8 @@ class TRADEPRESS_DISCORD_Simple_Admin {
     
     /**
      * Display admin notices
+      *
+      * @version 1.0.0
      */
     public function display_admin_notices() {
         // Only show notices on our page
@@ -105,6 +112,8 @@ class TRADEPRESS_DISCORD_Simple_Admin {
     
     /**
      * Handle form submissions
+      *
+      * @version 1.0.0
      */
     public function handle_form_submissions() {
         // Only process on our admin page
@@ -249,6 +258,8 @@ class TRADEPRESS_DISCORD_Simple_Admin {
     
     /**
      * Render the admin page
+      *
+      * @version 1.0.0
      */
     public function render_admin_page() {
         // Get current settings

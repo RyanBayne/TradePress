@@ -21,6 +21,8 @@ class TradePress_Admin_Analysis_Tabs {
 
     /**
      * Output the Analysis tabs interface
+      *
+      * @version 1.0.0
      */
     public static function output() {
         require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/functions/function.tradepress-features-helpers.php';
@@ -86,6 +88,7 @@ class TradePress_Admin_Analysis_Tabs {
      * Get tabs for the Analysis page
      *
      * @return array
+      * @version 1.0.0
      */
     public static function get_tabs() {
         $tabs = array(
@@ -100,6 +103,8 @@ class TradePress_Admin_Analysis_Tabs {
     
     /**
      * Recent Symbols tab content
+      *
+      * @version 1.0.0
      */
     public static function recent_symbols_tab() {
         include_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/analysis/view/recent-symbols.php';
@@ -107,6 +112,8 @@ class TradePress_Admin_Analysis_Tabs {
     
     /**
      * Support & Resistance tab content
+      *
+      * @version 1.0.0
      */
     public static function support_resistance_tab() {
         include_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/analysis/view/support-resistance.php';
@@ -114,6 +121,8 @@ class TradePress_Admin_Analysis_Tabs {
 
     /**
      * Volatility Analysis tab content
+      *
+      * @version 1.0.0
      */
     public static function volatility_analysis_tab() {
         include_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/analysis/view/volatility-analysis.php';

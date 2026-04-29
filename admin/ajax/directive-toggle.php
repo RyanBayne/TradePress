@@ -12,6 +12,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Handle directive enable/disable AJAX request
+  *
+  * @version 1.0.0
  */
 function tradepress_ajax_toggle_directive() {
     // Verify nonce

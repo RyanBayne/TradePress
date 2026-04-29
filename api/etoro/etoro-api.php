@@ -108,6 +108,8 @@ class TradePress_Etoro_API {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $api_settings = get_option('tradepress_api_settings', array());
@@ -119,6 +121,7 @@ class TradePress_Etoro_API {
      * Get platform metadata
      * 
      * @return array Platform metadata
+      * @version 1.0.0
      */
     public function get_platform_metadata() {
         return $this->platform_metadata;
@@ -129,6 +132,7 @@ class TradePress_Etoro_API {
      * 
      * @param string $symbol Stock symbol or instrument ID
      * @return array|WP_Error Quote data or error
+      * @version 1.0.0
      */
     public function get_quote($symbol) {
         // Search for instrument first to get ID
@@ -148,6 +152,7 @@ class TradePress_Etoro_API {
      * @param string $period Time period (not supported by eToro API)
      * @param string $interval Data interval (not supported by eToro API)
      * @return array|WP_Error Historical data or error
+      * @version 1.0.0
      */
     public function get_historical_data($symbol, $period = '1mo', $interval = '1d') {
         // eToro API doesn't provide historical data endpoints
@@ -158,6 +163,7 @@ class TradePress_Etoro_API {
      * Get account balance
      * 
      * @return array|WP_Error Account balance or error
+      * @version 1.0.0
      */
     public function get_account_balance() {
         return $this->make_request('user/accounts');
@@ -167,6 +173,7 @@ class TradePress_Etoro_API {
      * Get portfolio positions
      * 
      * @return array|WP_Error Portfolio positions or error
+      * @version 1.0.0
      */
     public function get_portfolio_positions() {
         return $this->make_request('positions');
@@ -176,6 +183,7 @@ class TradePress_Etoro_API {
      * Get open orders (positions in eToro)
      * 
      * @return array|WP_Error Open positions or error
+      * @version 1.0.0
      */
     public function get_open_orders() {
         return $this->get_portfolio_positions();
@@ -186,6 +194,7 @@ class TradePress_Etoro_API {
      * 
      * @param string $query Search query
      * @return array|WP_Error Search results or error
+      * @version 1.0.0
      */
     public function search_symbols($query) {
         return $this->make_request('market/search', 'GET', array('query' => $query));
@@ -195,6 +204,7 @@ class TradePress_Etoro_API {
      * Get watchlist symbols
      * 
      * @return array|WP_Error Watchlist symbols or error
+      * @version 1.0.0
      */
     public function get_watchlist_symbols() {
         return $this->make_request('watchlist');
@@ -204,6 +214,7 @@ class TradePress_Etoro_API {
      * Get account information
      *
      * @return array|WP_Error Account information or error
+      * @version 1.0.0
      */
     public function get_accounts() {
         return $this->make_request('user/accounts');
@@ -213,6 +224,7 @@ class TradePress_Etoro_API {
      * Get positions
      *
      * @return array|WP_Error Positions or error
+      * @version 1.0.0
      */
     public function get_positions() {
         return $this->make_request('positions');
@@ -227,6 +239,7 @@ class TradePress_Etoro_API {
      * @param float $leverage Leverage multiplier
      * @param array $options Additional options (stop loss, take profit)
      * @return array|WP_Error Position response or error
+      * @version 1.0.0
      */
     public function open_position($symbol, $amount, $type = 'BUY', $leverage = 1, $options = array()) {
         $params = array(
@@ -252,6 +265,7 @@ class TradePress_Etoro_API {
      * 
      * @param string $position_id Position ID to close
      * @return array|WP_Error Close response or error
+      * @version 1.0.0
      */
     public function close_position($position_id) {
         return $this->make_request('positions/close', 'DELETE', array('id' => $position_id));
@@ -262,6 +276,7 @@ class TradePress_Etoro_API {
      * 
      * @param string $symbol Symbol to add
      * @return array|WP_Error Add response or error
+      * @version 1.0.0
      */
     public function add_to_watchlist($symbol) {
         return $this->make_request('watchlist/byName', 'PUT', array('param' => $symbol));
@@ -272,6 +287,7 @@ class TradePress_Etoro_API {
      * 
      * @param string $instrument_id Instrument ID to remove
      * @return array|WP_Error Remove response or error
+      * @version 1.0.0
      */
     public function remove_from_watchlist($instrument_id) {
         return $this->make_request("watchlist/{$instrument_id}", 'DELETE');
@@ -281,6 +297,7 @@ class TradePress_Etoro_API {
      * Get portfolio overview
      * 
      * @return array|WP_Error Portfolio data or error
+      * @version 1.0.0
      */
     public function get_portfolio() {
         return $this->make_request('portfolio');
@@ -293,6 +310,7 @@ class TradePress_Etoro_API {
      * @param string $method HTTP method
      * @param array $params Request parameters
      * @return array|WP_Error Response data or error
+      * @version 1.0.0
      */
     private function make_request($endpoint, $method = 'GET', $params = array()) {
         // Demo mode - return sample data
@@ -352,6 +370,7 @@ class TradePress_Etoro_API {
      * 
      * @param string $endpoint API endpoint
      * @return array Sample data
+      * @version 1.0.0
      */
     private function get_demo_data($endpoint) {
         if (strpos($endpoint, 'user/accounts') !== false) {
@@ -460,6 +479,7 @@ class TradePress_Etoro_API {
      * Get platform capabilities for directive support
      * 
      * @return array Platform capabilities
+      * @version 1.0.0
      */
     public function get_platform_capabilities() {
         return array(

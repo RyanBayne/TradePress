@@ -45,6 +45,7 @@ class TradePress_Position_Risk_Calculator {
      * Constructor
      *
      * @param array $position Position data
+      * @version 1.0.0
      */
     public function __construct($position) {
         $this->position = $position;
@@ -56,6 +57,7 @@ class TradePress_Position_Risk_Calculator {
      * Calculate comprehensive risk metrics for a position
      *
      * @return array Risk metrics
+      * @version 1.0.0
      */
     public function calculate_position_risk() {
         // Base metrics
@@ -111,6 +113,7 @@ class TradePress_Position_Risk_Calculator {
      * Calculate position size as percentage of portfolio
      *
      * @return float Position percentage (0-1)
+      * @version 1.0.0
      */
     private function calculate_portfolio_percentage() {
         $portfolio_value = $this->get_portfolio_value();
@@ -130,6 +133,7 @@ class TradePress_Position_Risk_Calculator {
      * Get total portfolio value
      *
      * @return float Portfolio value
+      * @version 1.0.0
      */
     private function get_portfolio_value() {
         global $wpdb;
@@ -147,6 +151,7 @@ class TradePress_Position_Risk_Calculator {
      * Calculate unrealized P&L percentage
      *
      * @return float Unrealized P&L percentage (-1 to 1)
+      * @version 1.0.0
      */
     private function calculate_unrealized_loss_percentage() {
         $entry_price = floatval($this->position['entry_price']);
@@ -169,6 +174,7 @@ class TradePress_Position_Risk_Calculator {
      * Calculate time factor based on how long position has been held
      *
      * @return float Time factor (0-1)
+      * @version 1.0.0
      */
     private function calculate_time_factor() {
         $open_time = strtotime($this->position['open_time']);
@@ -184,6 +190,7 @@ class TradePress_Position_Risk_Calculator {
      * Get correlation between position and market (SPY)
      *
      * @return float Correlation factor (0-1)
+      * @version 1.0.0
      */
     private function get_correlation_to_market() {
         $symbol = $this->position['symbol'];
@@ -211,6 +218,7 @@ class TradePress_Position_Risk_Calculator {
      * @param array $data1 First data series
      * @param array $data2 Second data series
      * @return float Correlation coefficient (-1 to 1)
+      * @version 1.0.0
      */
     private function calculate_correlation($data1, $data2) {
         // Extract price changes
@@ -260,6 +268,7 @@ class TradePress_Position_Risk_Calculator {
      * Get volatility of the position's symbol
      *
      * @return float Volatility factor (0-1)
+      * @version 1.0.0
      */
     private function get_symbol_volatility() {
         $symbol = $this->position['symbol'];
@@ -291,6 +300,7 @@ class TradePress_Position_Risk_Calculator {
      * @param string $symbol Stock symbol
      * @param int $period Period for ATR calculation
      * @return float ATR value
+      * @version 1.0.0
      */
     private function calculate_atr($symbol, $period) {
         $data = $this->market_data->get_market_data($symbol, $period + 1);
@@ -323,6 +333,7 @@ class TradePress_Position_Risk_Calculator {
      * Get risk factor for stock's sector
      *
      * @return float Sector risk factor (0-1)
+      * @version 1.0.0
      */
     private function get_sector_risk() {
         $sector = isset($this->position['sector']) ? $this->position['sector'] : '';
@@ -348,6 +359,7 @@ class TradePress_Position_Risk_Calculator {
      *
      * @param string $symbol Stock symbol
      * @return string Sector name
+      * @version 1.0.0
      */
     private function get_symbol_sector($symbol) {
         // Implementation depends on your data source
@@ -359,6 +371,7 @@ class TradePress_Position_Risk_Calculator {
      * Get risk ratings for different sectors
      *
      * @return array Sector risk ratings
+      * @version 1.0.0
      */
     private function get_sector_risk_ratings() {
         // These ratings should be updated regularly based on market conditions
@@ -381,6 +394,7 @@ class TradePress_Position_Risk_Calculator {
      * Get risk factor based on proximity to earnings announcement
      *
      * @return float Earnings proximity factor (0-1)
+      * @version 1.0.0
      */
     private function get_earnings_proximity_factor() {
         $symbol = $this->position['symbol'];
@@ -420,6 +434,7 @@ class TradePress_Position_Risk_Calculator {
      *
      * @param string $symbol Stock symbol
      * @return string|null Earnings date or null if not found
+      * @version 1.0.0
      */
     private function get_next_earnings_date($symbol) {
         // Implementation depends on your data source
@@ -431,6 +446,7 @@ class TradePress_Position_Risk_Calculator {
      * Get count of technical warning signals
      *
      * @return float Technical warning count (0-1)
+      * @version 1.0.0
      */
     private function get_technical_warning_count() {
         $symbol = $this->position['symbol'];
@@ -461,6 +477,7 @@ class TradePress_Position_Risk_Calculator {
      *
      * @param string $symbol Stock symbol
      * @return bool True if warning signal active
+      * @version 1.0.0
      */
     private function check_moving_average_crossover($symbol) {
         // Implementation depends on your technical analysis library
@@ -473,6 +490,7 @@ class TradePress_Position_Risk_Calculator {
      *
      * @param string $symbol Stock symbol
      * @return bool True if warning signal active
+      * @version 1.0.0
      */
     private function check_rsi_extreme($symbol) {
         // Implementation depends on your technical analysis library
@@ -485,6 +503,7 @@ class TradePress_Position_Risk_Calculator {
      *
      * @param string $symbol Stock symbol
      * @return bool True if warning signal active
+      * @version 1.0.0
      */
     private function check_volume_spike($symbol) {
         // Implementation depends on your technical analysis library
@@ -497,6 +516,7 @@ class TradePress_Position_Risk_Calculator {
      *
      * @param string $symbol Stock symbol
      * @return bool True if warning signal active
+      * @version 1.0.0
      */
     private function check_macd_signal($symbol) {
         // Implementation depends on your technical analysis library
@@ -509,6 +529,7 @@ class TradePress_Position_Risk_Calculator {
      *
      * @param string $symbol Stock symbol
      * @return bool True if warning signal active
+      * @version 1.0.0
      */
     private function check_price_channel_breach($symbol) {
         // Implementation depends on your technical analysis library
@@ -521,6 +542,7 @@ class TradePress_Position_Risk_Calculator {
      *
      * @param float $risk_score Risk score (0-100)
      * @return string Risk level description
+      * @version 1.0.0
      */
     private function determine_risk_level($risk_score) {
         if ($risk_score >= 75) {

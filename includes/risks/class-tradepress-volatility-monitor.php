@@ -37,6 +37,8 @@ class TradePress_Volatility_Monitor {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->logger = TradePress_Logger::get_instance();
@@ -47,6 +49,7 @@ class TradePress_Volatility_Monitor {
      * Get current market volatility level
      *
      * @return string 'low', 'medium', or 'high'
+      * @version 1.0.0
      */
     public function get_market_volatility_level() {
         // Cache result to avoid repeated API calls
@@ -78,6 +81,7 @@ class TradePress_Volatility_Monitor {
      * Get numerical volatility value (0-1 scale)
      *
      * @return float Volatility value from 0 (low) to 1 (high)
+      * @version 1.0.0
      */
     public function get_market_volatility_value() {
         // Combine multiple volatility indicators
@@ -100,6 +104,7 @@ class TradePress_Volatility_Monitor {
      * Get VIX-based volatility factor
      *
      * @return float Normalized VIX factor (0-1)
+      * @version 1.0.0
      */
     private function get_vix_factor() {
         // Get VIX data from market data provider
@@ -129,6 +134,7 @@ class TradePress_Volatility_Monitor {
      * Get index movement factor based on major indices
      *
      * @return float Normalized index movement factor (0-1)
+      * @version 1.0.0
      */
     private function get_index_movement_factor() {
         // Use major indices (S&P 500, NASDAQ, Russell 2000)
@@ -168,6 +174,7 @@ class TradePress_Volatility_Monitor {
      * Get average ATR factor for major stocks/ETFs
      *
      * @return float Normalized ATR factor (0-1)
+      * @version 1.0.0
      */
     private function get_average_atr_factor() {
         // Use representative ETFs
@@ -210,6 +217,7 @@ class TradePress_Volatility_Monitor {
      * @param string $symbol Stock/ETF symbol
      * @param int $period Period for ATR calculation
      * @return float ATR value or 0 if insufficient data
+      * @version 1.0.0
      */
     private function calculate_atr($symbol, $period) {
         $data = $this->market_data->get_market_data($symbol, $period + 1);
@@ -242,6 +250,7 @@ class TradePress_Volatility_Monitor {
      * Detect unusual market conditions
      *
      * @return float Factor indicating unusual conditions (0-1)
+      * @version 1.0.0
      */
     private function detect_unusual_market_conditions() {
         $unusual_factor = 0;
@@ -273,6 +282,7 @@ class TradePress_Volatility_Monitor {
      * Detect unusual volatility
      *
      * @return bool True if unusual volatility detected
+      * @version 1.0.0
      */
     private function detect_unusual_volatility() {
         // Get VIX data
@@ -301,6 +311,7 @@ class TradePress_Volatility_Monitor {
      * Detect correlation breakdown between major indices
      *
      * @return bool True if correlation breakdown detected
+      * @version 1.0.0
      */
     private function detect_correlation_breakdown() {
         // Get major indices data
@@ -340,6 +351,7 @@ class TradePress_Volatility_Monitor {
      * Detect liquidity crisis
      *
      * @return bool True if liquidity crisis detected
+      * @version 1.0.0
      */
     private function detect_liquidity_crisis() {
         // Check bid-ask spreads on major ETFs
@@ -385,6 +397,7 @@ class TradePress_Volatility_Monitor {
      *
      * @param string $symbol Stock/ETF symbol
      * @return float Current spread value
+      * @version 1.0.0
      */
     private function get_current_spread($symbol) {
         // Implementation depends on your market data provider
@@ -398,6 +411,7 @@ class TradePress_Volatility_Monitor {
      * @param string $symbol Stock/ETF symbol
      * @param int $days Number of days for average
      * @return float Average spread value
+      * @version 1.0.0
      */
     private function get_average_spread($symbol, $days) {
         // Implementation depends on your market data provider
@@ -410,6 +424,7 @@ class TradePress_Volatility_Monitor {
      *
      * @param string $symbol Stock/ETF symbol
      * @return int Current volume
+      * @version 1.0.0
      */
     private function get_current_volume($symbol) {
         $data = $this->market_data->get_market_data($symbol, 1);
@@ -427,6 +442,7 @@ class TradePress_Volatility_Monitor {
      * @param string $symbol Stock/ETF symbol
      * @param int $days Number of days for average
      * @return int Average volume
+      * @version 1.0.0
      */
     private function get_average_volume($symbol, $days) {
         $data = $this->market_data->get_market_data($symbol, $days);
@@ -447,6 +463,7 @@ class TradePress_Volatility_Monitor {
      * Detect black swan event
      *
      * @return bool True if black swan event detected
+      * @version 1.0.0
      */
     private function detect_black_swan_event() {
         // Check for extreme market moves

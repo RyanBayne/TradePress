@@ -10,6 +10,11 @@ if (!defined('ABSPATH')) {
 // Register AJAX handlers
 add_action('wp_ajax_tradepress_get_api_calls', 'tradepress_handle_get_api_calls');
 
+/**
+ * Handle get api calls.
+ *
+ * @version 1.0.0
+ */
 function tradepress_handle_get_api_calls() {
     if (!wp_verify_nonce(wp_unslash($_POST['nonce']), 'tradepress_api_calls') || !current_user_can('manage_options')) {
 

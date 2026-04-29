@@ -9,6 +9,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Scoring_Directive_BOLLINGER_BANDS extends TradePress_Scoring_Directive_Base {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         $this->id = 'bollinger_bands';
         $this->name = 'Bollinger Bands';
@@ -20,6 +25,16 @@ class TradePress_Scoring_Directive_BOLLINGER_BANDS extends TradePress_Scoring_Di
         $this->priority = 15;
     }
     
+    /**
+     * Calculate score.
+     *
+     * @param mixed $symbol_data
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function calculate_score($symbol_data, $config = array()) {
         $period = $config['period'] ?? 20;
         $std_dev = $config['std_dev'] ?? 2.0;
@@ -90,10 +105,28 @@ class TradePress_Scoring_Directive_BOLLINGER_BANDS extends TradePress_Scoring_Di
         );
     }
     
+    /**
+     * Get max score.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_max_score($config = array()) {
         return 100;
     }
     
+    /**
+     * Get explanation.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_explanation($config = array()) {
         $period = $config['period'] ?? 20;
         $std_dev = $config['std_dev'] ?? 2.0;
@@ -117,6 +150,7 @@ class TradePress_Scoring_Directive_BOLLINGER_BANDS extends TradePress_Scoring_Di
      * @param string $symbol Symbol ticker
      * @param array $params Parameters
      * @return array Bollinger Bands data or error
+      * @version 1.0.0
      */
     public function fetch_fresh_bollinger_data($symbol, $params = array()) {
         if (!class_exists('TradePress_API_Factory')) {

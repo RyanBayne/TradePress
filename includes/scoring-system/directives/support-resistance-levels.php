@@ -28,6 +28,15 @@ class SupportResistanceLevels extends TradePress_Scoring_Directive_Base {
     private $current_price;
     private $all_levels = [];
 
+    /**
+     *   C On St Ru Ct.
+     *
+     * @param string $symbol
+     * @param TradePress_Financial_API_Service $api_service
+     * @param array $config
+     *
+     * @version 1.0.0
+     */
     public function __construct(string $symbol, TradePress_Financial_API_Service $api_service, array $config = []) {
         $this->id = 'support_resistance_levels';
         $this->name = 'Support & Resistance Levels';
@@ -42,6 +51,13 @@ class SupportResistanceLevels extends TradePress_Scoring_Directive_Base {
         $this->load_config($config);
     }
 
+    /**
+     * Load config.
+     *
+     * @param array $config
+     *
+     * @version 1.0.0
+     */
     private function load_config(array $config = []) {
         $defaults = [
             'data_period' => '1y',
@@ -57,6 +73,13 @@ class SupportResistanceLevels extends TradePress_Scoring_Directive_Base {
         $this->config = array_merge($defaults, $config);
     }
 
+    /**
+     *  F Et Ch D At A.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function _fetch_data(): bool {
         try {
             $this->historical_data = $this->api_service->get_historical_data(
@@ -84,6 +107,11 @@ class SupportResistanceLevels extends TradePress_Scoring_Directive_Base {
         }
     }
 
+    /**
+     *  C Al Cu La Te A Ll L Ev El S.
+     *
+     * @version 1.0.0
+     */
     private function _calculate_all_levels() {
         $this->all_levels = [
             'swing_highs' => $this->_find_swing_highs(),
@@ -97,36 +125,85 @@ class SupportResistanceLevels extends TradePress_Scoring_Directive_Base {
         $this->all_levels = array_filter($this->all_levels);
     }
 
+    /**
+     *  F In D S Wi Ng H Ig Hs.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function _find_swing_highs(): array {
         // Placeholder - implement swing high detection
         return [];
     }
 
+    /**
+     *  F In D S Wi Ng L Ow S.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function _find_swing_lows(): array {
         // Placeholder - implement swing low detection
         return [];
     }
 
+    /**
+     *  C Al Cu La Te M Ov In G A Ve Ra Ge S.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function _calculate_moving_averages(): array {
         // Placeholder - calculate MA levels above and below current price
         return [];
     }
 
+    /**
+     *  C Al Cu La Te F Ib On Ac Ci L Ev El S.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function _calculate_fibonacci_levels(): array {
         // Placeholder - calculate both retracements and extensions
         return [];
     }
 
+    /**
+     *  C Al Cu La Te P Iv Ot P Oi Nt S.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function _calculate_pivot_points(): array {
         // Placeholder - calculate R1/R2/R3 and S1/S2/S3
         return [];
     }
 
+    /**
+     *  F In D P Sy Ch Ol Og Ic Al L Ev El S.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function _find_psychological_levels(): array {
         // Placeholder - find round numbers above and below current price
         return [];
     }
 
+    /**
+     *  A Na Ly Ze Z On Es.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function _analyze_zones(): array {
         $resistance_levels = [];
         $support_levels = [];
@@ -149,6 +226,16 @@ class SupportResistanceLevels extends TradePress_Scoring_Directive_Base {
         ];
     }
 
+    /**
+     *  G Ro Up L Ev El S.
+     *
+     * @param array $levels
+     * @param string $type
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function _group_levels(array $levels, string $type): array {
         if (empty($levels)) {
             return ['highly_overlapped' => [], 'well_overlapped' => []];
@@ -218,6 +305,13 @@ class SupportResistanceLevels extends TradePress_Scoring_Directive_Base {
         ];
     }
 
+    /**
+     * Find support resistance zones.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function find_support_resistance_zones(): ?array {
         if (!$this->_fetch_data()) {
             return null;
@@ -235,6 +329,16 @@ class SupportResistanceLevels extends TradePress_Scoring_Directive_Base {
         ];
     }
 
+    /**
+     * Calculate score.
+     *
+     * @param mixed $symbol_data
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function calculate_score($symbol_data, $config = []) {
         $score = 50; // Neutral base
 
@@ -307,6 +411,17 @@ class SupportResistanceLevels extends TradePress_Scoring_Directive_Base {
         return max(0, min(100, $score));
     }
 
+    /**
+     *  F In D N Ea Re St Z On E.
+     *
+     * @param mixed $zones
+     * @param mixed $current_price
+     * @param mixed $type
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function _find_nearest_zone($zones, $current_price, $type) {
         if (empty($zones)) {
             return null;
@@ -328,10 +443,28 @@ class SupportResistanceLevels extends TradePress_Scoring_Directive_Base {
         return $nearest;
     }
 
+    /**
+     * Get max score.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_max_score($config = []) {
         return 100;
     }
 
+    /**
+     * Get explanation.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_explanation($config = []) {
         return "Analyzes support and resistance levels using 6 technical methods. Higher scores for stocks near strong support and far from resistance. Confluence of multiple methods increases level significance.";
     }

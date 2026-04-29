@@ -115,6 +115,7 @@ class TradePress_Tradier_API {
      * @param string $access_token Access token
      * @param string $account_id Account ID
      * @param bool $use_sandbox Use sandbox environment
+      * @version 1.0.0
      */
     public function __construct($access_token = '', $account_id = '', $use_sandbox = false) {
         $this->access_token = $access_token ?: get_option('tradepress_tradier_access_token', '');
@@ -130,6 +131,7 @@ class TradePress_Tradier_API {
      * Get platform metadata
      *
      * @return array Platform metadata
+      * @version 1.0.0
      */
     public function get_platform_meta() {
         return $this->platform_meta;
@@ -139,6 +141,7 @@ class TradePress_Tradier_API {
      * Get platform capabilities
      *
      * @return array Platform capabilities
+      * @version 1.0.0
      */
     public function get_capabilities() {
         return $this->platform_meta['capabilities'];
@@ -149,6 +152,7 @@ class TradePress_Tradier_API {
      *
      * @param string $data_type Data type to check
      * @return bool True if supported
+      * @version 1.0.0
      */
     public function supports_data_type($data_type) {
         return isset($this->platform_meta['data_types'][$data_type]);
@@ -159,6 +163,7 @@ class TradePress_Tradier_API {
      *
      * @param string $data_type Data type
      * @return string|false Endpoint name or false
+      * @version 1.0.0
      */
     public function get_data_type_endpoint($data_type) {
         return $this->supports_data_type($data_type) ? $this->platform_meta['data_types'][$data_type] : false;
@@ -170,6 +175,7 @@ class TradePress_Tradier_API {
      * @param array|string $symbols Stock symbols
      * @param bool $greeks Include Greeks for options
      * @return array|WP_Error Quote data or error
+      * @version 1.0.0
      */
     public function get_quote($symbols, $greeks = false) {
         $symbols_string = is_array($symbols) ? implode(',', $symbols) : $symbols;
@@ -184,6 +190,7 @@ class TradePress_Tradier_API {
      * @param string $start Start date
      * @param string $end End date
      * @return array|WP_Error Historical data or error
+      * @version 1.0.0
      */
     public function get_bars($symbol, $interval = 'daily', $start = '', $end = '') {
         $params = array('symbol' => $symbol, 'interval' => $interval);
@@ -202,6 +209,7 @@ class TradePress_Tradier_API {
      * @param string $end End time
      * @param string $session_filter Session filter
      * @return array|WP_Error Intraday data or error
+      * @version 1.0.0
      */
     public function get_intraday($symbol, $interval = '5min', $start = '', $end = '', $session_filter = 'all') {
         $params = array('symbol' => $symbol, 'interval' => $interval, 'session_filter' => $session_filter);
@@ -217,6 +225,7 @@ class TradePress_Tradier_API {
      * @param array|string $symbols Option symbols
      * @param bool $greeks Include Greeks
      * @return array|WP_Error Option quotes or error
+      * @version 1.0.0
      */
     public function get_option_quotes($symbols, $greeks = true) {
         $symbols_string = is_array($symbols) ? implode(',', $symbols) : $symbols;
@@ -230,6 +239,7 @@ class TradePress_Tradier_API {
      * @param string $expiration Expiration date
      * @param bool $greeks Include Greeks
      * @return array|WP_Error Option chains or error
+      * @version 1.0.0
      */
     public function get_option_chains($symbol, $expiration, $greeks = true) {
         return $this->make_request('option_chains', array(
@@ -246,6 +256,7 @@ class TradePress_Tradier_API {
      * @param bool $include_all_roots Include all roots
      * @param bool $strikes Include strikes
      * @return array|WP_Error Option expirations or error
+      * @version 1.0.0
      */
     public function get_option_expirations($symbol, $include_all_roots = false, $strikes = false) {
         return $this->make_request('option_expirations', array(
@@ -261,6 +272,7 @@ class TradePress_Tradier_API {
      * @param string $symbol Underlying symbol
      * @param string $expiration Expiration date
      * @return array|WP_Error Option strikes or error
+      * @version 1.0.0
      */
     public function get_option_strikes($symbol, $expiration) {
         return $this->make_request('option_strikes', array(
@@ -275,6 +287,7 @@ class TradePress_Tradier_API {
      * @param string $query Search query
      * @param bool $indexes Include indexes
      * @return array|WP_Error Search results or error
+      * @version 1.0.0
      */
     public function search($query, $indexes = false) {
         return $this->make_request('search', array('q' => $query, 'indexes' => $indexes));
@@ -287,6 +300,7 @@ class TradePress_Tradier_API {
      * @param string $exchanges Specific exchanges
      * @param string $types Security types
      * @return array|WP_Error Lookup results or error
+      * @version 1.0.0
      */
     public function lookup($query, $exchanges = '', $types = '') {
         $params = array('q' => $query);
@@ -300,6 +314,7 @@ class TradePress_Tradier_API {
      * Get market clock
      *
      * @return array|WP_Error Market clock or error
+      * @version 1.0.0
      */
     public function get_market_clock() {
         return $this->make_request('clock');
@@ -311,6 +326,7 @@ class TradePress_Tradier_API {
      * @param int $month Month
      * @param int $year Year
      * @return array|WP_Error Market calendar or error
+      * @version 1.0.0
      */
     public function get_market_calendar($month = null, $year = null) {
         $params = array();
@@ -324,6 +340,7 @@ class TradePress_Tradier_API {
      * Get user profile
      *
      * @return array|WP_Error User profile or error
+      * @version 1.0.0
      */
     public function get_user_profile() {
         return $this->make_request('user_profile');
@@ -334,6 +351,7 @@ class TradePress_Tradier_API {
      *
      * @param string $account_id Account ID
      * @return array|WP_Error Account balances or error
+      * @version 1.0.0
      */
     public function get_account($account_id = '') {
         $account_id = $account_id ?: $this->account_id;
@@ -345,6 +363,7 @@ class TradePress_Tradier_API {
      *
      * @param string $account_id Account ID
      * @return array|WP_Error Positions or error
+      * @version 1.0.0
      */
     public function get_positions($account_id = '') {
         $account_id = $account_id ?: $this->account_id;
@@ -357,6 +376,7 @@ class TradePress_Tradier_API {
      * @param string $account_id Account ID
      * @param bool $include_inactive Include inactive orders
      * @return array|WP_Error Orders or error
+      * @version 1.0.0
      */
     public function get_orders($account_id = '', $include_inactive = false) {
         $account_id = $account_id ?: $this->account_id;
@@ -372,6 +392,7 @@ class TradePress_Tradier_API {
      * @param int $order_id Order ID
      * @param string $account_id Account ID
      * @return array|WP_Error Order or error
+      * @version 1.0.0
      */
     public function get_order($order_id, $account_id = '') {
         $account_id = $account_id ?: $this->account_id;
@@ -387,6 +408,7 @@ class TradePress_Tradier_API {
      * @param array $order_data Order data
      * @param string $account_id Account ID
      * @return array|WP_Error Order result or error
+      * @version 1.0.0
      */
     public function place_order($order_data, $account_id = '') {
         $account_id = $account_id ?: $this->account_id;
@@ -401,6 +423,7 @@ class TradePress_Tradier_API {
      * @param array $order_data Option order data
      * @param string $account_id Account ID
      * @return array|WP_Error Order result or error
+      * @version 1.0.0
      */
     public function place_option_order($order_data, $account_id = '') {
         $account_id = $account_id ?: $this->account_id;
@@ -416,6 +439,7 @@ class TradePress_Tradier_API {
      * @param int $order_id Order ID
      * @param string $account_id Account ID
      * @return array|WP_Error Cancel result or error
+      * @version 1.0.0
      */
     public function cancel_order($order_id, $account_id = '') {
         $account_id = $account_id ?: $this->account_id;
@@ -429,6 +453,7 @@ class TradePress_Tradier_API {
      * Get watchlists
      *
      * @return array|WP_Error Watchlists or error
+      * @version 1.0.0
      */
     public function get_watchlists() {
         return $this->make_request('watchlists');
@@ -439,6 +464,7 @@ class TradePress_Tradier_API {
      *
      * @param string $watchlist_id Watchlist ID
      * @return array|WP_Error Watchlist or error
+      * @version 1.0.0
      */
     public function get_watchlist($watchlist_id) {
         return $this->make_request('watchlist', array('watchlist_id' => $watchlist_id));
@@ -450,6 +476,7 @@ class TradePress_Tradier_API {
      * @param string $name Watchlist name
      * @param string $symbols Initial symbols
      * @return array|WP_Error Watchlist or error
+      * @version 1.0.0
      */
     public function create_watchlist($name, $symbols = '') {
         $params = array('name' => $name);
@@ -465,6 +492,7 @@ class TradePress_Tradier_API {
      * @param array $params Request parameters
      * @param string $method HTTP method
      * @return array|WP_Error Response data or error
+      * @version 1.0.0
      */
     private function make_request($endpoint, $params = array(), $method = 'GET') {
         if (!class_exists('TradePress_Tradier_Endpoints')) {

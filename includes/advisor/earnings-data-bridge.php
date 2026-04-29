@@ -24,6 +24,7 @@ class TradePress_Advisor_Earnings_Bridge {
      *
      * @param bool $force_refresh Force API refresh
      * @return array Earnings data or empty array
+      * @version 1.0.0
      */
     public static function get_earnings_opportunities( $force_refresh = false ) {
         // Load the earnings calendar model
@@ -63,6 +64,7 @@ class TradePress_Advisor_Earnings_Bridge {
      * Check if earnings data needs refresh
      *
      * @return bool True if refresh needed
+      * @version 1.0.0
      */
     public static function needs_data_refresh() {
         $last_update = TradePress_Earnings_Calendar::get_last_update_time();
@@ -79,6 +81,7 @@ class TradePress_Advisor_Earnings_Bridge {
      * Get data freshness info
      *
      * @return array Data age and source info
+      * @version 1.0.0
      */
     public static function get_data_info() {
         $last_update = TradePress_Earnings_Calendar::get_last_update_time();
@@ -117,6 +120,7 @@ class TradePress_Advisor_Earnings_Bridge {
      *
      * @param array $earnings_data Raw earnings data from database
      * @return array Formatted data
+      * @version 1.0.0
      */
     private static function format_for_advisor( $earnings_data ) {
         $formatted = array();
@@ -147,6 +151,7 @@ class TradePress_Advisor_Earnings_Bridge {
      *
      * @param string $report_time Raw report time from API
      * @return string Formatted time
+      * @version 1.0.0
      */
     private static function format_report_time( $report_time ) {
         switch ( strtoupper( $report_time ) ) {
@@ -165,6 +170,7 @@ class TradePress_Advisor_Earnings_Bridge {
      * Force refresh earnings data
      *
      * @return bool Success status
+      * @version 1.0.0
      */
     public static function force_refresh() {
         require_once TRADEPRESS_PLUGIN_DIR . 'includes/models/earnings-calendar.php';

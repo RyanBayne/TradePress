@@ -18,6 +18,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Display the Economic Calendar tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_economic_calendar_tab_content() {
     // Get date range parameters with defaults
@@ -522,6 +524,7 @@ function tradepress_economic_calendar_tab_content() {
  * Get a list of supported economic regions
  *
  * @return array Associative array of region codes and names
+  * @version 1.0.0
  */
 function tradepress_get_economic_regions() {
     return array(
@@ -542,6 +545,7 @@ function tradepress_get_economic_regions() {
  * @param string $importance Importance filter (all, high, medium, low)
  * @param array $regions Array of region codes to include
  * @return array Array of economic events
+  * @version 1.0.0
  */
 function tradepress_get_demo_economic_events($start_date, $end_date, $importance, $regions) {
     // Convert dates to timestamps for comparison
@@ -769,6 +773,7 @@ function tradepress_get_demo_economic_events($start_date, $end_date, $importance
  *
  * @param array $events Array of economic events
  * @return array Array of today's events
+  * @version 1.0.0
  */
 function tradepress_get_todays_economic_events($events) {
     $today = date('Y-m-d');
@@ -792,6 +797,7 @@ function tradepress_get_todays_economic_events($events) {
  * Helper function for current timestamp
  * 
  * @return int Current timestamp
+  * @version 1.0.0
  */
 function current_timestamp() {
     return current_time('timestamp');
@@ -802,6 +808,7 @@ function current_timestamp() {
  * 
  * @param array $events Array of economic events to export
  * @return string HTML for the export button
+  * @version 1.0.0
  */
 function tradepress_get_calendar_export_button($events) {
     // Only show export button if we have events

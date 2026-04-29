@@ -15,6 +15,17 @@ require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-tradepr
 
 class TradePress_News_Sentiment_Positive_Directive extends TradePress_Scoring_Directive_Base {
     
+    /**
+     * Calculate score.
+     *
+     * @param mixed $symbol
+     * @param string $trading_mode
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function calculate_score($symbol, $trading_mode = 'long', $config = array()) {
         $sentiment_threshold = $config['sentiment_threshold'] ?? 0.6;
         $lookback_days = $config['lookback_days'] ?? 7;
@@ -52,6 +63,15 @@ class TradePress_News_Sentiment_Positive_Directive extends TradePress_Scoring_Di
         return round($base_score, 1);
     }
     
+    /**
+     * Get max score.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_max_score($config = array()) {
         $strong_sentiment_bonus = $config['strong_sentiment_bonus'] ?? 25;
         $volume_multiplier = $config['volume_multiplier'] ?? 1.5;
@@ -59,6 +79,15 @@ class TradePress_News_Sentiment_Positive_Directive extends TradePress_Scoring_Di
         return round((100 + $strong_sentiment_bonus) * $volume_multiplier, 1);
     }
     
+    /**
+     * Get explanation.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_explanation($config = array()) {
         $sentiment_threshold = $config['sentiment_threshold'] ?? 0.6;
         $lookback_days = $config['lookback_days'] ?? 7;
@@ -84,6 +113,16 @@ class TradePress_News_Sentiment_Positive_Directive extends TradePress_Scoring_Di
                "Max Score: " . $this->get_max_score($config) . " points";
     }
     
+    /**
+     * Get news sentiment.
+     *
+     * @param mixed $symbol
+     * @param mixed $lookback_days
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function get_news_sentiment($symbol, $lookback_days) {
         // Placeholder implementation - would integrate with news sentiment API
         // For now, return mock data for testing

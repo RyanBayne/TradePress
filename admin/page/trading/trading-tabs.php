@@ -52,6 +52,8 @@ class TradePress_Admin_Trading_Page {
 
     /**
      * Constructor.
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         if ( isset( $_GET['tab'] ) && array_key_exists( sanitize_text_field( $_GET['tab'] ), $this->get_tabs() ) ) {
@@ -67,24 +69,40 @@ class TradePress_Admin_Trading_Page {
      * Get tabs for the trading area.
      *
      * @return array
+      * @version 1.0.0
      */
     public function get_tabs() {
         $tabs = array(
+            'trading-strategies' => __( 'Trading Strategies', 'tradepress' ),
+            'calculators'       => __( 'Calculators', 'tradepress' ),
             'portfolio'         => __( 'Portfolio', 'tradepress' ),
             'trade-history'     => __( 'Trade History', 'tradepress' ),
             'manual-trade'      => __( 'Manual Trading', 'tradepress' ),
-            'trading-strategies' => __( 'Trading Strategies', 'tradepress' ),
             'sees-demo'         => __( 'SEES Demo', 'tradepress' ),
             'sees-ready'        => __( 'SEES Ready', 'tradepress' ),
             'sees-pro'          => __( 'SEES Pro', 'tradepress' ),
-            'calculators'       => __( 'Calculators', 'tradepress' ),
         );
-        
-        return apply_filters( 'tradepress_trading_area_tabs', $tabs );
+
+        $tabs = apply_filters( 'tradepress_trading_area_tabs', $tabs );
+
+        return tradepress_filter_development_tabs(
+            $tabs,
+            array(
+                'trading-strategies',
+                'portfolio',
+                'trade-history',
+                'manual-trade',
+                'sees-demo',
+                'sees-ready',
+                'sees-pro',
+            )
+        );
     }
 
     /**
      * Output the trading area interface.
+      *
+      * @version 1.0.0
      */
     public function output() {
         $tabs = $this->get_tabs();
@@ -139,12 +157,19 @@ add_action( 'wp_ajax_tradepress_fetch_sees_demo_data', 'tradepress_ajax_fetch_se
 if ( ! function_exists( 'tradepress_ajax_fetch_sees_demo_data' ) ) {
     /**
      * AJAX handler to fetch SEES demo data.
+      *
+      * @version 1.0.0
      */
     function tradepress_ajax_fetch_sees_demo_data() {
         check_ajax_referer( 'tradepress_fetch_sees_demo_data_nonce', '_ajax_nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) { // Or a more specific capability
             wp_send_json_error( __( 'You do not have permission to access this data.', 'tradepress' ), 403 );
+            return;
+        }
+
+        if ( function_exists( 'tradepress_can_access_development_views' ) && ! tradepress_can_access_development_views() ) {
+            wp_send_json_error( __( 'SEES demo data is available only when Developer Mode is enabled.', 'tradepress' ), 403 );
             return;
         }
 
@@ -222,6 +247,11 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_demo_data' ) ) {
 }
 
 // Placeholder functions for existing tabs (if not already defined elsewhere)
+/**
+ * Display portfolio tab content.
+ *
+ * @version 1.0.0
+ */
 function tradepress_display_portfolio_tab_content() {
     $view_file = TRADEPRESS_PLUGIN_DIR . 'admin/page/trading/view/portfolio.php';
     if ( file_exists( $view_file ) ) {
@@ -231,17 +261,32 @@ function tradepress_display_portfolio_tab_content() {
     }
 }
 
+/**
+ * Display trade history tab content.
+ *
+ * @version 1.0.0
+ */
 function tradepress_display_trade_history_tab_content() {
     // Example: include 'views/trade-history.php';
     echo '<p>' . esc_html__( 'Trade History tab content to be added.', 'tradepress' ) . '</p>';
 }
 
+/**
+ * Display manual trade tab content.
+ *
+ * @version 1.0.0
+ */
 function tradepress_display_manual_trade_tab_content() {
     // Example: include 'views/manual-trade.php';
     echo '<p>' . esc_html__( 'Manual Trading tab content to be added.', 'tradepress' ) . '</p>';
 }
 
 // Functions to display content for the new SEES tabs
+/**
+ * Display sees demo tab content.
+ *
+ * @version 1.0.0
+ */
 function tradepress_display_sees_demo_tab_content() {
     $view_file = TRADEPRESS_PLUGIN_DIR . 'admin/page/trading/view/sees-demo.php';
     if ( file_exists( $view_file ) ) {
@@ -251,6 +296,11 @@ function tradepress_display_sees_demo_tab_content() {
     }
 }
 
+/**
+ * Display sees ready tab content.
+ *
+ * @version 1.0.0
+ */
 function tradepress_display_sees_ready_tab_content() {
     $view_file = TRADEPRESS_PLUGIN_DIR . 'admin/page/trading/view/sees-ready.php';
     if ( file_exists( $view_file ) ) {
@@ -260,6 +310,11 @@ function tradepress_display_sees_ready_tab_content() {
     }
 }
 
+/**
+ * Display sees pro tab content.
+ *
+ * @version 1.0.0
+ */
 function tradepress_display_sees_pro_tab_content() {
     $view_file = TRADEPRESS_PLUGIN_DIR . 'admin/page/trading/view/sees-pro.php';
     if ( file_exists( $view_file ) ) {
@@ -271,6 +326,11 @@ function tradepress_display_sees_pro_tab_content() {
 
 
 // Calculators tab content
+/**
+ * Display calculators tab content.
+ *
+ * @version 1.0.0
+ */
 function tradepress_display_calculators_tab_content() {
     $view_file = TRADEPRESS_PLUGIN_DIR . 'admin/page/trading/view/calculators.php';
     if ( file_exists( $view_file ) ) {
@@ -284,6 +344,8 @@ function tradepress_display_calculators_tab_content() {
  * Trading Strategies tab content with sub-tabs
  * 
  * Displays the interface for creating and managing trading strategies with sub-navigation.
+  *
+  * @version 1.0.0
  */
 function tradepress_display_trading_strategies_tab_content() {
     // Get current sub-tab
@@ -338,6 +400,8 @@ function tradepress_display_trading_strategies_tab_content() {
 
 /**
  * Display built-in trading strategies
+  *
+  * @version 1.0.0
  */
 function tradepress_display_builtin_strategies() {
     $strategies = array(

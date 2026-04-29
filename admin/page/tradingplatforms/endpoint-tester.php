@@ -19,6 +19,8 @@ if (!defined('ABSPATH')) {
 class TradePress_Endpoint_Tester {
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         add_action('wp_ajax_tradepress_test_endpoint', array($this, 'ajax_test_endpoint'));
@@ -27,7 +29,6 @@ class TradePress_Endpoint_Tester {
         if (isset($_POST['tradepress_test_endpoint'])) {
             // Log to debug.log for debugging purposes
             if (function_exists('error_log')) {
-                error_log('Standard POST submission for endpoint test received: ' . print_r($_POST, true));
             }
             
             // Check for valid nonce - important fix: look for any field that starts with "tradepress_test_endpoint_nonce_"
@@ -46,13 +47,14 @@ class TradePress_Endpoint_Tester {
             
             // Log if no valid nonce was found
             if (!$nonce_found && function_exists('error_log')) {
-                error_log('No valid nonce found for endpoint test');
             }
         }
     }
     
     /**
      * AJAX handler for testing endpoints
+      *
+      * @version 1.0.0
      */
     public function ajax_test_endpoint() {
         // Verify nonce
@@ -95,6 +97,8 @@ class TradePress_Endpoint_Tester {
     
     /**
      * Process a test request directly (non-Ajax)
+      *
+      * @version 1.0.0
      */
     private function process_test_request() {
         // Get parameters from POST data
@@ -105,8 +109,6 @@ class TradePress_Endpoint_Tester {
         if (empty($endpoint_id) || empty($platform_id)) {
             // Log the error for debugging
             if (function_exists('error_log')) {
-                error_log('Missing required parameters for endpoint test: ' . 
-                          'endpoint=' . $endpoint_id . ', platform=' . $platform_id);
             }
             return;
         }
@@ -178,7 +180,6 @@ class TradePress_Endpoint_Tester {
         
         // Log successful test for debugging
         if (function_exists('error_log')) {
-            error_log('Endpoint test processed and stored in transient: ' . $transient_key);
         }
     }
     
@@ -188,6 +189,7 @@ class TradePress_Endpoint_Tester {
      * @param string $endpoint_id The endpoint ID
      * @param string $platform_id The platform ID
      * @return array|false Endpoint details or false if not found
+      * @version 1.0.0
      */
     private function get_endpoint_details($endpoint_id, $platform_id) {
         // For now, return a simple placeholder. In a full implementation,
@@ -228,6 +230,7 @@ class TradePress_Endpoint_Tester {
      * @param array $endpoint Endpoint details
      * @param string $platform_id The platform ID
      * @return array|WP_Error Test result or error
+      * @version 1.0.0
      */
     public function test_endpoint($endpoint, $platform_id) {
         // Get provider details to determine API type
@@ -310,6 +313,7 @@ class TradePress_Endpoint_Tester {
      * @param string $platform_id The platform ID
      * @param string $api_type The API type (trading or data_only)
      * @return array Configuration status
+      * @version 1.0.0
      */
     private function verify_api_configuration($platform_id, $api_type) {
         $result = array(
@@ -397,6 +401,7 @@ class TradePress_Endpoint_Tester {
      * @param string $platform_id The platform ID
      * @param string $api_type The API type (trading or data_only)
      * @return array API credentials
+      * @version 1.0.0
      */
     private function get_api_credentials($platform_id, $api_type) {
         $credentials = array(
@@ -465,6 +470,7 @@ class TradePress_Endpoint_Tester {
      * 
      * @param string $platform_id The platform ID
      * @return array Platform information
+      * @version 1.0.0
      */
     private function get_platform_info($platform_id) {
         // Default platform info
@@ -509,6 +515,7 @@ class TradePress_Endpoint_Tester {
      * @param array $endpoint The endpoint details
      * @param array $credentials API credentials
      * @return array|WP_Error API response or error
+      * @version 1.0.0
      */
     private function make_api_request($platform_id, $endpoint, $credentials) {
         // This is a simplified implementation for demonstration
@@ -570,6 +577,7 @@ class TradePress_Endpoint_Tester {
      * @param array $endpoint The endpoint details
      * @param array $credentials API credentials
      * @return string The API URL
+      * @version 1.0.0
      */
     private function build_api_url($platform_id, $endpoint, $credentials) {
         // Base URLs for different platforms
@@ -604,6 +612,7 @@ class TradePress_Endpoint_Tester {
      * @param string $platform_id The platform ID
      * @param array $credentials API credentials
      * @return array Request headers
+      * @version 1.0.0
      */
     private function get_request_headers($platform_id, $credentials) {
         $headers = array();
@@ -631,6 +640,7 @@ class TradePress_Endpoint_Tester {
      * 
      * @param array $endpoint Endpoint details
      * @return array Mock response
+      * @version 1.0.0
      */
     private function generate_mock_response($endpoint) {
         // Generate a mock response based on the endpoint
@@ -690,6 +700,7 @@ class TradePress_Endpoint_Tester {
      * @param WP_Error $error The error
      * @param string $platform_id The platform ID
      * @return string Formatted error report
+      * @version 1.0.0
      */
     private function generate_error_report($endpoint, $error, $platform_id) {
         // Format platform display name
@@ -831,6 +842,7 @@ class TradePress_Endpoint_Tester {
      * Get a simplified stack trace focused on plugin files
      * 
      * @return string Formatted stack trace
+      * @version 1.0.0
      */
     private function get_simplified_stack_trace() {
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -860,6 +872,7 @@ class TradePress_Endpoint_Tester {
      * @param array $endpoint The endpoint details
      * @param string $platform_id The platform ID
      * @return string Formatted request parameters
+      * @version 1.0.0
      */
     private function get_api_request_params($endpoint, $platform_id) {
         $params = array();

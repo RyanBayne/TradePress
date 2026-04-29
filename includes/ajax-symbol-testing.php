@@ -31,6 +31,11 @@ if (!defined('ABSPATH')) {
 
 // Test symbol fetch AJAX handler
 add_action('wp_ajax_tradepress_test_symbol_fetch', 'tradepress_test_symbol_fetch_handler');
+/**
+ * Test symbol fetch handler.
+ *
+ * @version 1.0.0
+ */
 function tradepress_test_symbol_fetch_handler() {
     check_ajax_referer('tradepress_admin', 'nonce');
     
@@ -90,6 +95,11 @@ function tradepress_test_symbol_fetch_handler() {
 
 // Manual symbol update AJAX handler
 add_action('wp_ajax_tradepress_update_symbols_manual', 'tradepress_update_symbols_manual_handler');
+/**
+ * Update symbols manual handler.
+ *
+ * @version 1.0.0
+ */
 function tradepress_update_symbols_manual_handler() {
     check_ajax_referer('tradepress_admin', 'nonce');
     
@@ -157,6 +167,11 @@ function tradepress_update_symbols_manual_handler() {
 
 // Batch import test AJAX handler
 add_action('wp_ajax_tradepress_test_batch_import', 'tradepress_test_batch_import_handler');
+/**
+ * Test batch import handler.
+ *
+ * @version 1.0.0
+ */
 function tradepress_test_batch_import_handler() {
     check_ajax_referer('tradepress_admin', 'nonce');
     
@@ -236,6 +251,11 @@ function tradepress_test_batch_import_handler() {
 
 // API connection test AJAX handler
 add_action('wp_ajax_tradepress_test_api_connection', 'tradepress_test_api_connection_handler');
+/**
+ * Test api connection handler.
+ *
+ * @version 1.0.0
+ */
 function tradepress_test_api_connection_handler() {
     check_ajax_referer('tradepress_admin', 'nonce');
     
@@ -278,6 +298,11 @@ function tradepress_test_api_connection_handler() {
 
 // Database status check AJAX handler
 add_action('wp_ajax_tradepress_check_database_status', 'tradepress_check_database_status_handler');
+/**
+ * Check database status handler.
+ *
+ * @version 1.0.0
+ */
 function tradepress_check_database_status_handler() {
     check_ajax_referer('tradepress_admin', 'nonce');
     

@@ -49,6 +49,7 @@ class TRADEPRESS_DISCORD_Connection_Manager {
      * Constructor
      *
      * @param string $token Bot token
+      * @version 1.0.0
      */
     public function __construct($token = '') {
         $this->token = $token;
@@ -69,6 +70,7 @@ class TRADEPRESS_DISCORD_Connection_Manager {
      *
      * @param array $settings Settings to update
      * @return self For method chaining
+      * @version 1.0.0
      */
     public function set_settings($settings) {
         if (is_array($settings)) {
@@ -83,6 +85,7 @@ class TRADEPRESS_DISCORD_Connection_Manager {
      *
      * @param string $token Bot token
      * @return self For method chaining
+      * @version 1.0.0
      */
     public function set_token($token) {
         $this->token = $token;
@@ -93,6 +96,7 @@ class TRADEPRESS_DISCORD_Connection_Manager {
      * Test the connection to Discord API
      *
      * @return bool Whether the connection test was successful
+      * @version 1.0.0
      */
     public function test_connection() {
         // Try standard connection first
@@ -121,6 +125,7 @@ class TRADEPRESS_DISCORD_Connection_Manager {
      * Validate the bot token
      *
      * @return bool Whether the token is valid
+      * @version 1.0.0
      */
     public function validate_token() {
         if (empty($this->token)) {
@@ -141,6 +146,7 @@ class TRADEPRESS_DISCORD_Connection_Manager {
      * Get request headers for Discord API
      *
      * @return array Headers
+      * @version 1.0.0
      */
     public function get_headers() {
         $headers = array(
@@ -161,6 +167,7 @@ class TRADEPRESS_DISCORD_Connection_Manager {
      * @param string $method HTTP method (GET, POST, PUT, DELETE)
      * @param array $data Request data (for POST, PUT)
      * @return array|WP_Error Response or error
+      * @version 1.0.0
      */
     public function request($endpoint, $method = 'GET', $data = array()) {
         $url = 'https://discord.com/api/v10/' . ltrim($endpoint, '/');
@@ -208,6 +215,7 @@ class TRADEPRESS_DISCORD_Connection_Manager {
      * Get the troubleshooter instance
      *
      * @return TRADEPRESS_DISCORD_Troubleshooter Troubleshooter instance
+      * @version 1.0.0
      */
     public function get_troubleshooter() {
         return $this->troubleshooter;
@@ -217,6 +225,7 @@ class TRADEPRESS_DISCORD_Connection_Manager {
      * Get diagnostics report
      *
      * @return array Diagnostics report
+      * @version 1.0.0
      */
     public function get_diagnostics() {
         $report = array(

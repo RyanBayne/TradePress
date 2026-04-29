@@ -27,6 +27,29 @@ if (!defined('TRADEPRESS_PLUGIN_BASENAME')) { define('TRADEPRESS_PLUGIN_BASENAME
 if (!defined('TRADEPRESS_MAINFILE')) { define('TRADEPRESS_MAINFILE', __FILE__ ); }
 if (!defined('TRADEPRESS_TESTING')) { define('TRADEPRESS_TESTING', getenv('TRADEPRESS_TESTING') === 'true'); }
 
+/**
+ * Normalize common admin request vars that sometimes arrive as arrays.
+ *
+ * Prevents downstream WordPress core warnings when scalar values are expected
+ * (for example, edit.php expects post_type as a string).
+  *
+  * @version 1.0.0
+ */
+function tradepress_normalize_admin_request_vars() {
+    if ( ! is_admin() ) {
+        return;
+    }
+
+    if ( isset( $_REQUEST['post_type'] ) && is_array( $_REQUEST['post_type'] ) ) {
+        $first = reset( $_REQUEST['post_type'] );
+        $first = is_scalar( $first ) ? sanitize_key( (string) $first ) : 'post';
+
+        $_REQUEST['post_type'] = $first;
+        $_GET['post_type']     = $first;
+    }
+}
+add_action( 'admin_init', 'tradepress_normalize_admin_request_vars', 0 );
+
 if ( ! class_exists( 'WordPressTradePress' ) ) :
 
     // Create a request key for tracing/debugging...
@@ -81,7 +104,6 @@ if ( ! class_exists( 'WordPressTradePress' ) ) :
         // Load feature help loader
         require_once( TRADEPRESS_PLUGIN_DIR_PATH . 'includes/feature-help-loader.php' );
     } catch ( Exception $e ) {
-        error_log( 'TradePress: Critical error loading plugin files - ' . $e->getMessage() );
         if ( is_admin() ) {
             add_action( 'admin_notices', function() use ( $e ) {
                 echo '<div class="notice notice-error"><p><strong>TradePress Error:</strong> Failed to load plugin files - ' . esc_html( $e->getMessage() ) . '</p></div>';
@@ -94,7 +116,6 @@ if ( ! class_exists( 'WordPressTradePress' ) ) :
     try {
         require_once( plugin_basename( 'admin/installation/plugin-activation-procedure.php' ) );
     } catch ( Exception $e ) {
-        error_log( 'TradePress: Failed to load activation procedure - ' . $e->getMessage() );
     }
     register_activation_hook( __FILE__, 'TradePress_activation_installation' );
     register_deactivation_hook( __FILE__, array( 'TradePress_Admin_Deactivate', 'deactivate' ) );    

@@ -64,6 +64,8 @@ if ( ! class_exists( 'TradePress_Async_Request' ) ) {
 
         /**
          * Initiate new async request
+          *
+          * @version 1.0.0
          */
         public function __construct() {
             $this->identifier = $this->prefix . '_' . $this->action;
@@ -78,6 +80,7 @@ if ( ! class_exists( 'TradePress_Async_Request' ) ) {
          * @param array $data Data.
          *
          * @return $this
+          * @version 1.0.0
          */
         public function data( $data ) {
             $this->data = $data;
@@ -88,6 +91,7 @@ if ( ! class_exists( 'TradePress_Async_Request' ) ) {
          * Dispatch the async request...
          *
          * @return array|WP_Error
+          * @version 1.0.0
          */
         public function dispatch() {
             $url  = add_query_arg( $this->get_query_args(), $this->get_query_url() );
@@ -100,6 +104,7 @@ if ( ! class_exists( 'TradePress_Async_Request' ) ) {
          * Get query args...
          *
          * @return array
+          * @version 1.0.0
          */
         protected function get_query_args() {
             if ( property_exists( $this, 'query_args' ) ) {
@@ -116,6 +121,7 @@ if ( ! class_exists( 'TradePress_Async_Request' ) ) {
          * Get query URL...
          *
          * @return string
+          * @version 1.0.0
          */
         protected function get_query_url() {
             if ( property_exists( $this, 'query_url' ) ) {
@@ -129,6 +135,7 @@ if ( ! class_exists( 'TradePress_Async_Request' ) ) {
          * Get post args
          *
          * @return array
+          * @version 1.0.0
          */
         protected function get_post_args() {
             if ( property_exists( $this, 'post_args' ) ) {
@@ -148,6 +155,8 @@ if ( ! class_exists( 'TradePress_Async_Request' ) ) {
          * Maybe handle
          *
          * Check for correct nonce and pass to handler.
+          *
+          * @version 1.0.0
          */
         public function maybe_handle() {
             // Don't lock up other requests while processing

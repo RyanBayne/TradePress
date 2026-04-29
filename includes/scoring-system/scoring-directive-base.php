@@ -77,6 +77,7 @@ abstract class TradePress_Scoring_Directive_Base {
     /**
      * Get the directive's ID
      * @return string
+      * @version 1.0.0
      */
     public function get_id() {
         return $this->id;
@@ -85,6 +86,7 @@ abstract class TradePress_Scoring_Directive_Base {
     /**
      * Get the directive's name
      * @return string
+      * @version 1.0.0
      */
     public function get_name() {
         return $this->name;
@@ -93,6 +95,7 @@ abstract class TradePress_Scoring_Directive_Base {
     /**
      * Get the directive's description
      * @return string
+      * @version 1.0.0
      */
     public function get_description() {
         return $this->description;
@@ -101,6 +104,7 @@ abstract class TradePress_Scoring_Directive_Base {
     /**
      * Get the directive's weight
      * @return int
+      * @version 1.0.0
      */
     public function get_weight() {
         // Get weight from option if available, otherwise use default
@@ -114,6 +118,7 @@ abstract class TradePress_Scoring_Directive_Base {
     /**
      * Get the directive's active status
      * @return bool
+      * @version 1.0.0
      */
     public function is_active() {
         // Get active status from option if available, otherwise use default
@@ -127,6 +132,7 @@ abstract class TradePress_Scoring_Directive_Base {
     /**
      * Get the directive's bullish values description
      * @return string
+      * @version 1.0.0
      */
     public function get_bullish_values() {
         // Get bullish values from option if available, otherwise use default
@@ -140,6 +146,7 @@ abstract class TradePress_Scoring_Directive_Base {
     /**
      * Get the directive's bearish values description
      * @return string
+      * @version 1.0.0
      */
     public function get_bearish_values() {
         // Get bearish values from option if available, otherwise use default
@@ -153,6 +160,7 @@ abstract class TradePress_Scoring_Directive_Base {
     /**
      * Get the directive's display priority
      * @return int
+      * @version 1.0.0
      */
     public function get_priority() {
         return $this->priority;
@@ -161,6 +169,7 @@ abstract class TradePress_Scoring_Directive_Base {
     /**
      * Get the directive's settings as an array
      * @return array
+      * @version 1.0.0
      */
     public function get_settings() {
         return array(
@@ -189,6 +198,7 @@ abstract class TradePress_Scoring_Directive_Base {
      * 
      * @param array $symbol_data Input data
      * @param array $result Calculation result
+      * @version 1.0.0
      */
     protected function log_calculation($symbol_data, $result) {
         if (get_option('bugnet_output_directives') === 'yes') {

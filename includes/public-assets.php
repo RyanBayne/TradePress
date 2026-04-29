@@ -24,6 +24,8 @@ class TradePress_Public_Assets {
 
     /**
      * Hook in methods.
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         add_action( 'wp_enqueue_scripts', array( $this, 'public_styles' ) );
@@ -32,6 +34,8 @@ class TradePress_Public_Assets {
 
     /**
      * Enqueue styles for the public side.
+      *
+      * @version 1.0.0
      */
     public function public_styles() {
         // Enqueue symbol template styles
@@ -47,6 +51,8 @@ class TradePress_Public_Assets {
 
     /**
      * Enqueue scripts for the public side.
+      *
+      * @version 1.0.0
      */
     public function public_scripts() {
         // Example for future public scripts

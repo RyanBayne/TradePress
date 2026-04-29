@@ -22,6 +22,8 @@ class TradePress_WeBull_AJAX {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Register AJAX actions
@@ -31,6 +33,8 @@ class TradePress_WeBull_AJAX {
     
     /**
      * Generate a new WeBull device ID
+      *
+      * @version 1.0.0
      */
     public function generate_device_id() {
         // Check nonce
@@ -64,6 +68,8 @@ class TradePress_WeBull_AJAX {
     
     /**
      * Authenticate with WeBull
+      *
+      * @version 1.0.0
      */
     public function authenticate() {
         // Check nonce

@@ -23,6 +23,8 @@ class TradePress_Admin_Symbols_Page {
 
     /**
      * Constructor - Initialize hooks for menu page and assets
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // The menu page is already added by TradePress_Admin_Menus, so we don't need to add it again
@@ -31,6 +33,10 @@ class TradePress_Admin_Symbols_Page {
 
     /**
      * Enqueue styles and scripts for Symbols page
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $hook
      */
     public function enqueue_assets($hook) {
         // Check if we're on the Symbols page
@@ -60,6 +66,8 @@ class TradePress_Admin_Symbols_Page {
 
     /**
      * Output the symbols page interface
+      *
+      * @version 1.0.0
      */
     public static function output() {
         // Get the available tabs
@@ -113,6 +121,7 @@ class TradePress_Admin_Symbols_Page {
      * Get available tabs
      * 
      * @return array Array of tab data
+      * @version 1.0.0
      */
     public static function get_tabs() {
         $tabs = array(
@@ -274,6 +283,8 @@ class TradePress_Admin_Symbols_Page {
 
     /**
      * AllTick tab content
+      *
+      * @version 1.0.0
      */
     public static function alltick_tab() {
         // Check for specific AllTick actions
@@ -335,6 +346,8 @@ class TradePress_Admin_Symbols_Page {
 
     /**
      * Alpaca tab content
+      *
+      * @version 1.0.0
      */
     public static function alpaca_tab() {
         include( dirname( __FILE__ ) . '/view/view.alpaca.php' );
@@ -342,6 +355,8 @@ class TradePress_Admin_Symbols_Page {
     
     /**
      * IEX Cloud tab content
+      *
+      * @version 1.0.0
      */
     public static function iexcloud_tab() {
         include( dirname( __FILE__ ) . '/view/view.iexcloud.php' );
@@ -349,6 +364,8 @@ class TradePress_Admin_Symbols_Page {
     
     /**
      * Polygon tab content
+      *
+      * @version 1.0.0
      */
     public static function polygon_tab() {
         include( dirname( __FILE__ ) . '/view/view.polygon.php' );
@@ -356,6 +373,8 @@ class TradePress_Admin_Symbols_Page {
     
     /**
      * Tradier tab content
+      *
+      * @version 1.0.0
      */
     public static function tradier_tab() {
         include( dirname( __FILE__ ) . '/view/view.tradier.php' );
@@ -363,6 +382,8 @@ class TradePress_Admin_Symbols_Page {
     
     /**
      * Finnhub tab content
+      *
+      * @version 1.0.0
      */
     public static function finnhub_tab() {
         include( dirname( __FILE__ ) . '/view/view.finnhub.php' );
@@ -370,6 +391,8 @@ class TradePress_Admin_Symbols_Page {
     
     /**
      * Twitter tab content
+      *
+      * @version 1.0.0
      */
     public static function twitter_tab() {
         include( dirname( __FILE__ ) . '/view/view.twitter.php' );
@@ -377,6 +400,8 @@ class TradePress_Admin_Symbols_Page {
     
     /**
      * StockTwits tab content
+      *
+      * @version 1.0.0
      */
     public static function stocktwits_tab() {
         include( dirname( __FILE__ ) . '/view/view.stocktwits.php' );
@@ -384,6 +409,8 @@ class TradePress_Admin_Symbols_Page {
     
     /**
      * Twelve Data tab content
+      *
+      * @version 1.0.0
      */
     public static function twelvedata_tab() {
         include( dirname( __FILE__ ) . '/view/view.twelvedata.php' );
@@ -391,6 +418,8 @@ class TradePress_Admin_Symbols_Page {
 
     /**
      * Interactive Brokers tab content
+      *
+      * @version 1.0.0
      */
     public static function ibkr_tab() {
         include( dirname( __FILE__ ) . '/view/view.ibkr.php' );
@@ -398,6 +427,8 @@ class TradePress_Admin_Symbols_Page {
     
     /**
      * TradingView tab content
+      *
+      * @version 1.0.0
      */
     public static function tradingview_tab() {
         include( dirname( __FILE__ ) . '/view/view.tradingview.php' );
@@ -405,6 +436,8 @@ class TradePress_Admin_Symbols_Page {
     
     /**
      * Marketstack tab content
+      *
+      * @version 1.0.0
      */
     public static function marketstack_tab() {
         include( dirname( __FILE__ ) . '/view/view.marketstack.php' );
@@ -412,6 +445,8 @@ class TradePress_Admin_Symbols_Page {
     
     /**
      * EOD Historical Data tab content
+      *
+      * @version 1.0.0
      */
     public static function eodhistoricaldata_tab() {
         include( dirname( __FILE__ ) . '/view/view.eodhistoricaldata.php' );
@@ -419,6 +454,8 @@ class TradePress_Admin_Symbols_Page {
 
     /**
      * Yahoo Finance tab content
+      *
+      * @version 1.0.0
      */
     public static function yahoofinance_tab() {
         include( dirname( __FILE__ ) . '/view/view.yahoofinance.php' );
@@ -426,6 +463,8 @@ class TradePress_Admin_Symbols_Page {
     
     /**
      * Tiingo tab content
+      *
+      * @version 1.0.0
      */
     public static function tiingo_tab() {
         include( dirname( __FILE__ ) . '/view/view.tiingo.php' );
@@ -433,6 +472,8 @@ class TradePress_Admin_Symbols_Page {
     
     /**
      * Alpha Vantage tab content
+      *
+      * @version 1.0.0
      */
     public static function alphavantage_tab() {
         include( dirname( __FILE__ ) . '/view/view.alphavantage.php' );
@@ -440,6 +481,8 @@ class TradePress_Admin_Symbols_Page {
     
     /**
      * Quandl tab content
+      *
+      * @version 1.0.0
      */
     public static function quandl_tab() {
         include( dirname( __FILE__ ) . '/view/view.quandl.php' );
@@ -447,6 +490,8 @@ class TradePress_Admin_Symbols_Page {
     
     /**
      * FRED tab content
+      *
+      * @version 1.0.0
      */
     public static function fred_tab() {
         include( dirname( __FILE__ ) . '/view/view.fred.php' );
@@ -454,6 +499,8 @@ class TradePress_Admin_Symbols_Page {
 
     /**
      * Gemini tab content
+      *
+      * @version 1.0.0
      */
     public static function gemini_tab() {
         include( dirname( __FILE__ ) . '/view/view.gemini.php' );
@@ -461,6 +508,8 @@ class TradePress_Admin_Symbols_Page {
 
     /**
      * WeBull tab content
+      *
+      * @version 1.0.0
      */
     public static function webull_tab() {
         include( dirname( __FILE__ ) . '/view/view.webull.php' );
@@ -468,6 +517,8 @@ class TradePress_Admin_Symbols_Page {
 
     /**
      * Trading212 tab content
+      *
+      * @version 1.0.0
      */
     public static function trading212_tab() {
         include( dirname( __FILE__ ) . '/view/view.trading212.php' );
@@ -475,6 +526,8 @@ class TradePress_Admin_Symbols_Page {
 
     /**
      * Comparisons tab content
+      *
+      * @version 1.0.0
      */
     public static function comparisons_tab() {
         require_once TRADEPRESS_PLUGIN_DIR . 'admin/page/tradingplatforms/comparisons.php';
@@ -485,6 +538,8 @@ class TradePress_Admin_Symbols_Page {
 
     /**
      * Overview tab content
+      *
+      * @version 1.0.0
      */
     public static function overview_tab() {
         include( dirname( __FILE__ ) . '/view/view.overview.php' );
@@ -492,6 +547,8 @@ class TradePress_Admin_Symbols_Page {
 
     /**
      * Settings tab content 
+      *
+      * @version 1.0.0
      */
     public static function settings_tab() {
         // Process form submission for API switches
@@ -580,6 +637,8 @@ class TradePress_Admin_Symbols_Page {
 
     /**
      * Display notice when settings are updated
+      *
+      * @version 1.0.0
      */
     public static function settings_updated_notice() {
         echo '<div class="notice notice-success is-dismissible"><p>' . 
@@ -589,6 +648,8 @@ class TradePress_Admin_Symbols_Page {
 
     /**
      * API Switches tab content
+      *
+      * @version 1.0.0
      */
     public static function api_switches_tab() {
         // Process form submission for API switches

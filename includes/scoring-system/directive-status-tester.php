@@ -18,6 +18,8 @@ class TradePress_Directive_Status_Tester {
     
     /**
      * Test all directives and return status summary
+      *
+      * @version 1.0.0
      */
     public static function test_all_directives() {
         $directives = tradepress_get_all_system_directives();
@@ -32,6 +34,11 @@ class TradePress_Directive_Status_Tester {
     
     /**
      * Test individual directive status
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $id
+      * @param mixed $directive
      */
     private static function test_directive_status($id, $directive) {
         $result = array(
@@ -106,6 +113,8 @@ class TradePress_Directive_Status_Tester {
     
     /**
      * Get dummy symbol data for testing
+      *
+      * @version 1.0.0
      */
     private static function get_dummy_symbol_data() {
         return array(
@@ -134,6 +143,10 @@ class TradePress_Directive_Status_Tester {
     
     /**
      * Determine recommended status based on test results
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $result
      */
     private static function determine_status($result) {
         $tests = $result['tests'];
@@ -153,6 +166,11 @@ class TradePress_Directive_Status_Tester {
     
     /**
      * Update directive status in the registration file
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
+      * @param mixed $new_status
      */
     public static function update_directive_status($directive_id, $new_status) {
         // This would update the directives-register.php file
@@ -162,6 +180,10 @@ class TradePress_Directive_Status_Tester {
     
     /**
      * Generate status report
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $results
      */
     public static function generate_status_report($results) {
         $report = array(

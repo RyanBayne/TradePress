@@ -14,6 +14,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Midweek_Momentum_Directive extends TradePress_Base_Directive {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         parent::__construct();
         $this->directive_id = 'midweek_momentum';
@@ -23,6 +28,11 @@ class TradePress_Midweek_Momentum_Directive extends TradePress_Base_Directive {
     
     /**
      * Calculate midweek momentum score
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
+      * @param array $data
      */
     public function calculate_score($symbol, $data = array()) {
         $score = 0;
@@ -72,6 +82,10 @@ class TradePress_Midweek_Momentum_Directive extends TradePress_Base_Directive {
     
     /**
      * Analyze midweek (Tue-Thu) patterns vs other days
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $daily_data
      */
     private function analyze_midweek_patterns($daily_data) {
         $midweek_volume = array();
@@ -107,6 +121,11 @@ class TradePress_Midweek_Momentum_Directive extends TradePress_Base_Directive {
     
     /**
      * Get daily data for analysis
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
+      * @param int $days
      */
     private function get_daily_data($symbol, $days = 28) {
         // Use Alpha Vantage daily time series
@@ -122,6 +141,8 @@ class TradePress_Midweek_Momentum_Directive extends TradePress_Base_Directive {
     
     /**
      * Get required API endpoints
+      *
+      * @version 1.0.0
      */
     public function get_api_requirements() {
         return array(

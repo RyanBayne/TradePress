@@ -26,6 +26,7 @@ class TradePress_Form_Fields {
      *
      * @param mixed $option_name
      * @return string
+      * @version 1.0.0
      */
     public static function get_option( $option_name, $default = '' ) {
         // Array value
@@ -352,8 +353,8 @@ class TradePress_Form_Fields {
                     }
                     ?>  
                     
-                    <?php if( $value['type'] == 'scopecheckbox' ) { echo wp_kses_post( TradePress_scopecheckbox_required_icon( $value['scope'] ) ); // Icon HTML from helper function } ?>
-                    <?php if( $value['type'] == 'scopecheckboxpublic' ) { echo wp_kses_post( TradePress_scopecheckboxpublic_required_icon( $value['scope'] ) ); // Icon HTML from helper function } ?>
+                    <?php if( $value['type'] == 'scopecheckbox' ) { echo wp_kses_post( TradePress_scopecheckbox_required_icon( $value['scope'] ) ); } // Icon HTML from helper function ?>
+                    <?php if( $value['type'] == 'scopecheckboxpublic' ) { echo wp_kses_post( TradePress_scopecheckboxpublic_required_icon( $value['scope'] ) ); } // Icon HTML from helper function ?>
                     
                         <label for="<?php echo esc_attr( $value['id'] ); ?>">
                             <input
@@ -442,6 +443,7 @@ class TradePress_Form_Fields {
      *
      * @param array $options Options array to output
      * @return bool
+      * @version 1.0.0
      */
     public static function save_fields( $options ) {
         

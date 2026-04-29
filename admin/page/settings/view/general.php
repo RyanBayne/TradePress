@@ -37,6 +37,8 @@ class TradePress_Settings_General extends TradePress_Settings_Page {
 
     /**
     * Register favorite tabs settings
+     *
+     * @version 1.0.0
     */
     public function register_favorite_tabs_setting() {
         register_setting(
@@ -51,6 +53,8 @@ class TradePress_Settings_General extends TradePress_Settings_Page {
  
     /**
     * Process favorite tabs form submission
+     *
+     * @version 1.0.0
     */
     public function process_favorite_tabs_form() {
         // Only process on the settings page with fave tabs section
@@ -117,6 +121,8 @@ class TradePress_Settings_General extends TradePress_Settings_Page {
     
     /**
     * Output the settings.
+     *
+     * @version 1.0.0
     */
     public function output() {
         global $current_section;
@@ -181,6 +187,8 @@ class TradePress_Settings_General extends TradePress_Settings_Page {
      * @return array
      * 
      * @version 1.0.7
+      *
+      * @param string $current_section
      */
     public function get_settings( $current_section = 'default' ) {
         $settings = array(); 
@@ -494,6 +502,7 @@ class TradePress_Settings_General extends TradePress_Settings_Page {
      * Get all available tabs in the system
      * 
      * @return array All available tabs with their information
+      * @version 1.0.0
      */
     private function get_all_tabs() {
         // This is a comprehensive mapping of tab IDs to their information
@@ -609,6 +618,10 @@ class TradePress_Settings_General extends TradePress_Settings_Page {
 
     /**
      * Custom renderer for section_start field type
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $value
      */
     public function output_section_start($value) {
         ?>
@@ -627,6 +640,10 @@ class TradePress_Settings_General extends TradePress_Settings_Page {
     
     /**
      * Custom renderer for section_end field type
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $value
      */
     public function output_section_end($value) {
         // No visible output needed
@@ -637,6 +654,7 @@ class TradePress_Settings_General extends TradePress_Settings_Page {
      * Output the page and tab visibility controls
      *
      * @param array $field Field data
+      * @version 1.0.0
      */
     public function output_page_tab_controls($field) {
         // Include the features data class if not already included
@@ -710,6 +728,8 @@ class TradePress_Settings_General extends TradePress_Settings_Page {
 
     /**
      * Output the Favorite Tabs section
+      *
+      * @version 1.0.0
      */
     private function output_favorite_tabs_section() {
         // Get current favorite tabs

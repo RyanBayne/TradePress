@@ -101,6 +101,7 @@ class TradePress_MarketStack_API {
      *
      * @param string $access_key API access key
      * @param bool $use_https Whether to use HTTPS (paid plans only)
+      * @version 1.0.0
      */
     public function __construct($access_key = '', $use_https = false) {
         $this->access_key = $access_key ?: get_option('tradepress_marketstack_access_key', '');
@@ -115,6 +116,7 @@ class TradePress_MarketStack_API {
      * Get platform metadata
      *
      * @return array Platform metadata
+      * @version 1.0.0
      */
     public function get_platform_meta() {
         return $this->platform_meta;
@@ -124,6 +126,7 @@ class TradePress_MarketStack_API {
      * Get platform capabilities
      *
      * @return array Platform capabilities
+      * @version 1.0.0
      */
     public function get_capabilities() {
         return $this->platform_meta['capabilities'];
@@ -134,6 +137,7 @@ class TradePress_MarketStack_API {
      *
      * @param string $data_type Data type to check
      * @return bool True if supported
+      * @version 1.0.0
      */
     public function supports_data_type($data_type) {
         return isset($this->platform_meta['data_types'][$data_type]);
@@ -144,6 +148,7 @@ class TradePress_MarketStack_API {
      *
      * @param string $data_type Data type
      * @return string|false Endpoint name or false
+      * @version 1.0.0
      */
     public function get_data_type_endpoint($data_type) {
         return $this->supports_data_type($data_type) ? $this->platform_meta['data_types'][$data_type] : false;
@@ -154,6 +159,7 @@ class TradePress_MarketStack_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Quote data or error
+      * @version 1.0.0
      */
     public function get_quote($symbol) {
         return $this->make_request('EOD_LATEST', array('symbols' => $symbol));
@@ -167,6 +173,7 @@ class TradePress_MarketStack_API {
      * @param string $date_to End date (YYYY-MM-DD)
      * @param int $limit Result limit
      * @return array|WP_Error Historical data or error
+      * @version 1.0.0
      */
     public function get_bars($symbol, $date_from = '', $date_to = '', $limit = 100) {
         $params = array('symbols' => $symbol, 'limit' => $limit);
@@ -185,6 +192,7 @@ class TradePress_MarketStack_API {
      * @param string $date_to End date
      * @param int $limit Result limit
      * @return array|WP_Error Intraday data or error
+      * @version 1.0.0
      */
     public function get_intraday($symbol, $interval = '1min', $date_from = '', $date_to = '', $limit = 100) {
         $params = array('symbols' => $symbol, 'interval' => $interval, 'limit' => $limit);
@@ -200,6 +208,7 @@ class TradePress_MarketStack_API {
      * @param string $symbol Stock symbol
      * @param string $interval Time interval
      * @return array|WP_Error Latest intraday data or error
+      * @version 1.0.0
      */
     public function get_intraday_latest($symbol, $interval = '1min') {
         return $this->make_request('INTRADAY_LATEST', array('symbols' => $symbol, 'interval' => $interval));
@@ -212,6 +221,7 @@ class TradePress_MarketStack_API {
      * @param string $exchange Optional exchange filter
      * @param string $search Optional search term
      * @return array|WP_Error Ticker data or error
+      * @version 1.0.0
      */
     public function get_tickers($symbol = '', $exchange = '', $search = '') {
         $params = array();
@@ -230,6 +240,7 @@ class TradePress_MarketStack_API {
      * @param string $date_to End date
      * @param int $limit Result limit
      * @return array|WP_Error Ticker EOD data or error
+      * @version 1.0.0
      */
     public function get_ticker_eod($symbol, $date_from = '', $date_to = '', $limit = 100) {
         $params = array('symbol' => $symbol, 'limit' => $limit);
@@ -248,6 +259,7 @@ class TradePress_MarketStack_API {
      * @param string $date_to End date
      * @param int $limit Result limit
      * @return array|WP_Error Ticker intraday data or error
+      * @version 1.0.0
      */
     public function get_ticker_intraday($symbol, $interval = '1min', $date_from = '', $date_to = '', $limit = 100) {
         $params = array('symbol' => $symbol, 'interval' => $interval, 'limit' => $limit);
@@ -265,6 +277,7 @@ class TradePress_MarketStack_API {
      * @param string $date_to End date
      * @param int $limit Result limit
      * @return array|WP_Error Dividends data or error
+      * @version 1.0.0
      */
     public function get_dividends($symbol = '', $date_from = '', $date_to = '', $limit = 100) {
         $params = array('limit' => $limit);
@@ -283,6 +296,7 @@ class TradePress_MarketStack_API {
      * @param string $date_to End date
      * @param int $limit Result limit
      * @return array|WP_Error Splits data or error
+      * @version 1.0.0
      */
     public function get_splits($symbol = '', $date_from = '', $date_to = '', $limit = 100) {
         $params = array('limit' => $limit);
@@ -299,6 +313,7 @@ class TradePress_MarketStack_API {
      * @param int $limit Result limit
      * @param int $offset Result offset
      * @return array|WP_Error Exchanges data or error
+      * @version 1.0.0
      */
     public function get_exchanges($limit = 100, $offset = 0) {
         return $this->make_request('EXCHANGES', array('limit' => $limit, 'offset' => $offset));
@@ -310,6 +325,7 @@ class TradePress_MarketStack_API {
      * @param int $limit Result limit
      * @param int $offset Result offset
      * @return array|WP_Error Currencies data or error
+      * @version 1.0.0
      */
     public function get_currencies($limit = 100, $offset = 0) {
         return $this->make_request('CURRENCIES', array('limit' => $limit, 'offset' => $offset));
@@ -321,6 +337,7 @@ class TradePress_MarketStack_API {
      * @param int $limit Result limit
      * @param int $offset Result offset
      * @return array|WP_Error Timezones data or error
+      * @version 1.0.0
      */
     public function get_timezones($limit = 100, $offset = 0) {
         return $this->make_request('TIMEZONES', array('limit' => $limit, 'offset' => $offset));
@@ -332,6 +349,7 @@ class TradePress_MarketStack_API {
      * @param string $endpoint Endpoint name
      * @param array $params Request parameters
      * @return array|WP_Error Response data or error
+      * @version 1.0.0
      */
     private function make_request($endpoint, $params = array()) {
         if (!class_exists('TradePress_MarketStack_Endpoints')) {
@@ -381,6 +399,7 @@ class TradePress_MarketStack_API {
      * @param string $symbol Stock symbol
      * @param array $params Optional parameters
      * @return array|WP_Error EOD data or error
+      * @version 1.0.0
      */
     public function get_eod_data($symbol, $params = array()) {
         return $this->get_bars($symbol, $params['date_from'] ?? '', $params['date_to'] ?? '', $params['limit'] ?? 100);
@@ -392,6 +411,7 @@ class TradePress_MarketStack_API {
      * @param string $symbol Stock symbol
      * @param array $params Optional parameters
      * @return array|WP_Error Intraday data or error
+      * @version 1.0.0
      */
     public function get_intraday_data($symbol, $params = array()) {
         return $this->get_intraday($symbol, $params['interval'] ?? '1min', $params['date_from'] ?? '', $params['date_to'] ?? '', $params['limit'] ?? 100);

@@ -42,6 +42,8 @@ class TradePress_Manage_Sources {
 
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         global $wpdb;
@@ -50,6 +52,8 @@ class TradePress_Manage_Sources {
 
     /**
      * Initialize the class
+      *
+      * @version 1.0.0
      */
     public function init() {
         add_action('wp_ajax_tradepress_save_source', array($this, 'ajax_save_source'));
@@ -61,6 +65,8 @@ class TradePress_Manage_Sources {
 
     /**
      * Create the sources table if it doesn't exist
+      *
+      * @version 1.0.0
      */
     public function create_table() {
         global $wpdb;
@@ -86,6 +92,8 @@ class TradePress_Manage_Sources {
 
     /**
      * Render the manage sources tab content
+      *
+      * @version 1.0.0
      */
     public function render() {
         // Ensure table exists
@@ -106,6 +114,8 @@ class TradePress_Manage_Sources {
 
     /**
      * Render the sources list specifically for the tab
+      *
+      * @version 1.0.0
      */
     public function render_sources_list() {
         global $wpdb;
@@ -205,6 +215,7 @@ class TradePress_Manage_Sources {
      * Render the source form
      *
      * @param int $source_id Optional source ID for editing
+      * @version 1.0.0
      */
     public function render_source_form($source_id = 0) {
         global $wpdb;
@@ -534,6 +545,7 @@ class TradePress_Manage_Sources {
      *
      * @param string $type Source type
      * @return string Label for the source type
+      * @version 1.0.0
      */
     private function get_source_type_label($type) {
         $types = array(
@@ -556,6 +568,7 @@ class TradePress_Manage_Sources {
      * 
      * @param int $source_id Source ID
      * @return array Statistics about usage
+      * @version 1.0.0
      */
     private function get_source_usage_stats($source_id) {
         // In a real implementation, we would query the database for this information
@@ -569,6 +582,8 @@ class TradePress_Manage_Sources {
 
     /**
      * Ajax handler for saving a source
+      *
+      * @version 1.0.0
      */
     public function ajax_save_source() {
         // Check nonce
@@ -648,6 +663,8 @@ class TradePress_Manage_Sources {
 
     /**
      * Ajax handler for deleting a source
+      *
+      * @version 1.0.0
      */
     public function ajax_delete_source() {
         // Check nonce
@@ -684,6 +701,8 @@ class TradePress_Manage_Sources {
 
     /**
      * Ajax handler for toggling source status
+      *
+      * @version 1.0.0
      */
     public function ajax_toggle_source_status() {
         // Check nonce
@@ -727,6 +746,8 @@ class TradePress_Manage_Sources {
     
     /**
      * Ajax handler for archiving a source
+      *
+      * @version 1.0.0
      */
     public function ajax_archive_source() {
         // Check nonce
@@ -762,6 +783,8 @@ class TradePress_Manage_Sources {
 
     /**
      * Ajax handler for testing a source
+      *
+      * @version 1.0.0
      */
     public function ajax_test_source() {
         // Check nonce
@@ -810,6 +833,7 @@ class TradePress_Manage_Sources {
      * @param string $source_url Source URL/location
      * @param array $settings Source settings
      * @return array Sample data and notes
+      * @version 1.0.0
      */
     public function test_source_connection($source_type, $source_url, $settings) {
         $result = array(
@@ -851,6 +875,7 @@ class TradePress_Manage_Sources {
      * @param string $url Website URL
      * @param array $settings Website settings
      * @return array Sample data and notes
+      * @version 1.0.0
      */
     private function test_website_source($url, $settings) {
         $selector = isset($settings['selector']) ? $settings['selector'] : '';
@@ -913,6 +938,7 @@ class TradePress_Manage_Sources {
      * @param string $url RSS feed URL
      * @param array $settings RSS settings
      * @return array Sample data and notes
+      * @version 1.0.0
      */
     private function test_rss_source($url, $settings) {
         $item_limit = isset($settings['item_limit']) ? intval($settings['item_limit']) : 10;
@@ -962,6 +988,7 @@ class TradePress_Manage_Sources {
      * @param string $url API endpoint URL
      * @param array $settings API settings
      * @return array Sample data and notes
+      * @version 1.0.0
      */
     private function test_api_source($url, $settings) {
         $auth_type = isset($settings['auth_type']) ? $settings['auth_type'] : 'none';
@@ -1059,6 +1086,7 @@ class TradePress_Manage_Sources {
      * @param string $url Custom source URL/identifier
      * @param array $settings Custom source settings
      * @return array Sample data and notes
+      * @version 1.0.0
      */
     private function test_custom_source($url, $settings) {
         // For custom sources, we'll return a sample of what might be expected

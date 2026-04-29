@@ -163,6 +163,15 @@ if (isset($_POST['tradepress_' . $api_id . '_demo_mode_nonce']) && wp_verify_non
 
 // Helper function to get real local status data
 if (!function_exists('tradepress_get_real_local_status')) {
+    /**
+     * Get real local status.
+     *
+     * @param mixed $api_id
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     function tradepress_get_real_local_status($api_id) {
         // This function should be implemented to check the local connection status with the API
         // For now, we'll implement a basic version that checks if API keys are configured
@@ -211,6 +220,15 @@ if (!function_exists('tradepress_get_real_local_status')) {
 
 // Helper function to get real service status data
 if (!function_exists('tradepress_get_real_service_status')) {
+    /**
+     * Get real service status.
+     *
+     * @param mixed $api_id
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     function tradepress_get_real_service_status($api_id) {
         // This function should check the API service status
         // For a real implementation, you would make a call to the API's status endpoint
@@ -247,6 +265,15 @@ if (!function_exists('tradepress_get_real_service_status')) {
 
 // Helper function to get real rate limit data
 if (!function_exists('tradepress_get_real_rate_limits')) {
+    /**
+     * Get real rate limits.
+     *
+     * @param mixed $api_id
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     function tradepress_get_real_rate_limits($api_id) {
         // This function should retrieve real rate limit data from the API
         // For now, we'll return data based on the specific API ID or random values for testing

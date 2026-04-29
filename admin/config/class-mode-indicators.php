@@ -19,6 +19,8 @@ class TradePress_Mode_Indicators {
 
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         add_action('admin_head', array($this, 'add_mode_indicators'));
@@ -28,6 +30,8 @@ class TradePress_Mode_Indicators {
 
     /**
      * Add mode indicators to admin pages
+      *
+      * @version 1.0.0
      */
     public function add_mode_indicators() {
         if (!$this->is_developer_mode()) {
@@ -64,6 +68,8 @@ class TradePress_Mode_Indicators {
 
     /**
      * Check if developer mode is active
+      *
+      * @version 1.0.0
      */
     private function is_developer_mode() {
         $developer_mode = get_option('tradepress_developer_mode', false);
@@ -72,6 +78,8 @@ class TradePress_Mode_Indicators {
 
     /**
      * Check if demo mode is active
+      *
+      * @version 1.0.0
      */
     private function is_demo_mode() {
         $demo_mode = get_option('tradepress_demo_mode', 'yes');
@@ -80,6 +88,8 @@ class TradePress_Mode_Indicators {
 
     /**
      * Check if current page is a TradePress plugin page
+      *
+      * @version 1.0.0
      */
     private function is_tradepress_page() {
         // Use TradePress screen IDs function if available
@@ -102,6 +112,8 @@ class TradePress_Mode_Indicators {
 
     /**
      * Add JavaScript for demo mode toggle
+      *
+      * @version 1.0.0
      */
     public function add_demo_toggle_script() {
         if (!$this->is_developer_mode()) {
@@ -154,6 +166,8 @@ class TradePress_Mode_Indicators {
 
     /**
      * Enqueue mode indicator styles
+      *
+      * @version 1.0.0
      */
     public function enqueue_mode_indicator_styles() {
         if (!$this->is_tradepress_page()) {

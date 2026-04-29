@@ -16,6 +16,8 @@ class TradePress_Class_Scanner {
     
     /**
      * Get all plugin classes
+      *
+      * @version 1.0.0
      */
     public static function get_plugin_classes() {
         $classes = array();
@@ -34,6 +36,10 @@ class TradePress_Class_Scanner {
     
     /**
      * Get all PHP files recursively
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $dir
      */
     private static function get_php_files($dir) {
         $files = array();
@@ -52,6 +58,10 @@ class TradePress_Class_Scanner {
     
     /**
      * Extract classes from a PHP file
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $file
      */
     private static function extract_classes_from_file($file) {
         $classes = array();
@@ -85,6 +95,11 @@ class TradePress_Class_Scanner {
     
     /**
      * Get class methods using reflection
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $class_name
+      * @param mixed $file
      */
     private static function get_class_methods($class_name, $file) {
         $methods = array();
@@ -120,6 +135,10 @@ class TradePress_Class_Scanner {
     
     /**
      * Get method parameters
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $method
      */
     private static function get_method_parameters($method) {
         $parameters = array();
@@ -137,6 +156,11 @@ class TradePress_Class_Scanner {
     
     /**
      * Extract class description from docblock
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $content
+      * @param mixed $class_name
      */
     private static function get_class_description($content, $class_name) {
         // Look for docblock before class declaration

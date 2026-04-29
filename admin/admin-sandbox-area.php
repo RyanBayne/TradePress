@@ -18,6 +18,7 @@ class TradePress_Admin_Sandbox_Page {
      * @param mixed $response The API response or error message
      * @param string $platform The API platform (e.g., 'Alpha Vantage', 'Alpaca', etc.)
      * @return string Formatted error report
+      * @version 1.0.0
      */
     private function generate_api_error_report($endpoint, $response, $platform = 'Alpha Vantage') {
         $report = "### API Test Error Report ###\n";
@@ -65,6 +66,8 @@ class TradePress_Admin_Sandbox_Page {
 
     /**
      * Process API test request
+      *
+      * @version 1.0.0
      */
     public function test_api_endpoint() {
         // Security check
@@ -103,6 +106,7 @@ class TradePress_Admin_Sandbox_Page {
      * @param string $endpoint The API endpoint to test
      * @param string $platform The API platform to use
      * @return mixed API response or WP_Error
+      * @version 1.0.0
      */
     private function make_test_api_call($endpoint, $platform) {
         // Here we would implement the actual API call based on platform
@@ -125,6 +129,7 @@ class TradePress_Admin_Sandbox_Page {
      * 
      * @param string $endpoint The API endpoint to test
      * @return mixed Simulated response or WP_Error
+      * @version 1.0.0
      */
     private function make_alpha_vantage_call($endpoint) {
         // Simulate a successful response
@@ -136,6 +141,7 @@ class TradePress_Admin_Sandbox_Page {
      * 
      * @param string $endpoint The API endpoint to test
      * @return mixed Simulated response or WP_Error
+      * @version 1.0.0
      */
     private function make_alpaca_call($endpoint) {
         // Simulate an error response

@@ -16,6 +16,7 @@ if (!defined('ABSPATH')) {
  *
  * @param string $status Status value (active, inactive, operational, etc.)
  * @return string CSS class name for the status color
+  * @version 1.0.0
  */
 function get_status_color($status) {
     switch ($status) {
@@ -38,6 +39,7 @@ function get_status_color($status) {
  *
  * @param mixed $json The data to format as JSON
  * @return string Formatted JSON string with escaped quotes
+  * @version 1.0.0
  */
 function format_json_for_display($json) {
     if (empty($json)) {

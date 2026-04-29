@@ -16,23 +16,28 @@ function TradePress_webhooks_eventsub_listener() {
     $data = file_get_contents( 'php://input' );
     $events = json_decode( $data, true );
     
-    /*
-    $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
-
-    $headers = getallheaders();
-    var_dump($headers['Content-Name']);
-
-    public function webhook(Request $request) {
-    $json = file_get_contents('php://input');
-    Storage::disk('local')->put('file.txt', $json);
-    Storage::disk('local')->put('request.txt', Request::header('x-wc-webhook-source'));
-    */
+    // Dead code from earlier development — Stripe/Laravel webhook stub, never implemented.
+    // $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+    // $headers = getallheaders();
+    // var_dump($headers['Content-Name']);
+    // public function webhook(Request $request) {
+    //     $json = file_get_contents('php://input');
+    //     Storage::disk('local')->put('file.txt', $json);
+    //     Storage::disk('local')->put('request.txt', Request::header('x-wc-webhook-source'));
+    // }
 
     foreach ( $events as $event ) {
         TradePress_webhooks_eventsub_store_event($event);
     }
 }
 
+/**
+ * Store a webhook event for later processing.
+ *
+ * @param mixed $event
+ *
+ * @version 1.0.0
+ */
 function TradePress_webhooks_eventsub_store_event( $event ) {
     //$caching = new TradePress_Webhooks_Caching( file_location, file_name, 'txt' );
  
@@ -44,10 +49,22 @@ function TradePress_webhooks_eventsub_store_event( $event ) {
     # TradePress_webhooks_eventsub_queue_event(); 
 }
 
+/**
+ * Queue a webhook event for background processing.
+ *
+ * @version 1.0.0
+ */
 function TradePress_webhooks_eventsub_queue_event() {
      # use aysnc-request.php and background-process.php to fully process notification 
 }
 
+/**
+ * Check whether the webhooks system is ready for use.
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_webhooks_ready() {
     global $wpdb;
     if( !isset( $wpdb->webhooksmeta ) || !TradePress_db_does_table_exist( $wpdb->prefix . 'webhooksmeta' ) ) {
@@ -102,6 +119,7 @@ function TradePress_create_table_webhooks_meta() {
  * @param mixed  $meta_value Metadata value.
  * @param bool   $unique     Optional, default is false. Whether the same key should not be added.
  * @return int|false Meta ID on success, false on failure.
+  * @version 1.0.0
  */
 function add_webhook_meta($webhook_id, $meta_key, $meta_value, $unique = false) {
     return add_metadata( 'webhook', $webhook_id, $meta_key, $meta_value, $unique );
@@ -114,6 +132,7 @@ function add_webhook_meta($webhook_id, $meta_key, $meta_value, $unique = false) 
  * @param string $meta_key   Metadata name.
  * @param mixed  $meta_value Optional. Metadata value.
  * @return bool True on success, false on failure.
+  * @version 1.0.0
  */
 function delete_webhook_meta($webhook_id, $meta_key, $meta_value = '') {
     return delete_metadata( 'webhook', $webhook_id, $meta_key, $meta_value );
@@ -126,6 +145,7 @@ function delete_webhook_meta($webhook_id, $meta_key, $meta_value = '') {
  * @param string $key     Optional. The meta key to retrieve. By default, returns data for all keys.
  * @param bool   $single  Whether to return a single value.
  * @return mixed Will be an array if $single is false. Will be value of meta data field if $single is true.
+  * @version 1.0.0
  */
 function get_webhook_meta($webhook_id, $key = '', $single = false) {
     return get_metadata( 'webhook', $webhook_id, $key, $single );
@@ -139,6 +159,7 @@ function get_webhook_meta($webhook_id, $key = '', $single = false) {
  * @param mixed  $meta_value Metadata value.
  * @param mixed  $prev_value Optional. Previous value to check before removing.
  * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
+  * @version 1.0.0
  */
 function update_webhook_meta($webhook_id, $meta_key, $meta_value, $prev_value = '') {
     return update_metadata( 'webhook', $webhook_id, $meta_key, $meta_value, $prev_value );

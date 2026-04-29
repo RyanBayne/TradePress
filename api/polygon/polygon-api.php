@@ -27,6 +27,8 @@ class TradePress_Polygon_API {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Initialize Polygon API
@@ -37,6 +39,7 @@ class TradePress_Polygon_API {
      *
      * @param string $symbol Stock symbol
      * @return array|WP_Error Stock data or error
+      * @version 1.0.0
      */
     public function get_stock_data($symbol) {
         // Implement stock data retrieval
@@ -47,6 +50,7 @@ class TradePress_Polygon_API {
      * Get market news
      *
      * @return array|WP_Error Market news or error
+      * @version 1.0.0
      */
     public function get_market_news() {
         // Implement market news retrieval

@@ -15,6 +15,16 @@ require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-tradepr
 
 class TradePress_Scoring_Directive_OBV extends TradePress_Scoring_Directive_Base {
     
+    /**
+     * Calculate score.
+     *
+     * @param mixed $symbol_data
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function calculate_score($symbol_data, $config = array()) {
         $trend_bonus = $config['trend_bonus'] ?? 20;
         $divergence_penalty = $config['divergence_penalty'] ?? 15;
@@ -53,11 +63,29 @@ class TradePress_Scoring_Directive_OBV extends TradePress_Scoring_Directive_Base
         return max(0, round($base_score, 1));
     }
     
+    /**
+     * Get max score.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_max_score($config = array()) {
         $trend_bonus = $config['trend_bonus'] ?? 20;
         return round((50 + $trend_bonus) * 1.2, 1); // Max with volume boost
     }
     
+    /**
+     * Get explanation.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_explanation($config = array()) {
         $trend_bonus = $config['trend_bonus'] ?? 20;
         $divergence_penalty = $config['divergence_penalty'] ?? 15;
@@ -81,6 +109,15 @@ class TradePress_Scoring_Directive_OBV extends TradePress_Scoring_Directive_Base
                "Max Score: " . $this->get_max_score($config) . " points";
     }
     
+    /**
+     * Calculate obv trend.
+     *
+     * @param mixed $obv_data
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function calculate_obv_trend($obv_data) {
         // Simplified trend calculation - would use historical OBV values in real implementation
         if (is_array($obv_data) && isset($obv_data['trend'])) {
@@ -95,6 +132,15 @@ class TradePress_Scoring_Directive_OBV extends TradePress_Scoring_Directive_Base
         return 'neutral';
     }
     
+    /**
+     * Calculate price trend.
+     *
+     * @param mixed $current_price
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function calculate_price_trend($current_price) {
         // Simplified price trend - would use historical prices in real implementation
         // For now, assume bullish trend for prices > $100, bearish < $50

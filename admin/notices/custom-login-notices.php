@@ -15,6 +15,11 @@ if( !class_exists( 'TradePress_Custom_Login_Messages') ) :
 class TradePress_Custom_Login_Messages {
     public $TradePress_login_messages = array();    
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         add_filter( 'login_message', array( $this, 'build_messages'), 5 );        
     }
@@ -41,6 +46,8 @@ class TradePress_Custom_Login_Messages {
     * above login form.
     * 
     * @version 1.1
+     *
+     * @param mixed $message
     */
     public function build_messages( $message ) {
        

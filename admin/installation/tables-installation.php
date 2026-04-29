@@ -10,6 +10,7 @@ class TradePress_Install_Tables {
      * Get all tables with descriptions
      * 
      * @return array Table names with descriptions
+      * @version 1.0.0
      */
     public function get_tables_with_descriptions() {
         return array(
@@ -85,11 +86,17 @@ class TradePress_Install_Tables {
      * Get table names only
      * 
      * @return array Table names
+      * @version 1.0.0
      */
     public function get_tables() {
         return array_keys($this->get_tables_with_descriptions());
     }
         
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         if ( ! defined( 'TradePress_TABLES_INSTALLING' ) ) {
             define( 'TradePress_TABLES_INSTALLING', true );
@@ -101,6 +108,7 @@ class TradePress_Install_Tables {
      * Main method to create all database tables
      * 
      * @return bool True on successful installation
+      * @version 1.0.0
      */
     public function create_tables() {
         global $wpdb;
@@ -142,17 +150,25 @@ class TradePress_Install_Tables {
      * Legacy method for compatibility - maps to create_tables()
      * 
      * @return bool True on successful installation
+      * @version 1.0.0
      */
     public function install() {
         return $this->create_tables();
     }
     
+    /**
+     * Update.
+     *
+     * @version 1.0.0
+     */
     public function update() {
         $this->create_tables();
     }
     
     /**
      * Log the table installation
+      *
+      * @version 1.0.0
      */
     private function log_table_installation() {
         update_option('tradepress_db_version', TRADEPRESS_VERSION);
@@ -170,15 +186,19 @@ class TradePress_Install_Tables {
     public function primary_tables() {
         global $wpdb, $charset_collate;
         
-        // Create activity table - Direct SQL approach
-        $table_name = $wpdb->prefix . "tradepress_calls";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        
+        // dbDelta() is the correct WordPress method for CREATE TABLE statements.
+        // It safely creates or updates tables without risk of SQL injection.
+        
+        $table_name = $wpdb->prefix . 'tradepress_calls';
+        $sql = "CREATE TABLE $table_name (
             entryid bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             callid bigint(20) unsigned DEFAULT '0',
             service varchar(50) NOT NULL,
             type varchar(50) NOT NULL,
             status varchar(50) NOT NULL,
-            file varchar(500), 
+            file varchar(500),
             `function` varchar(125) NOT NULL,
             line bigint(20),
             wpuserid bigint(20) unsigned DEFAULT '0',
@@ -188,11 +208,10 @@ class TradePress_Install_Tables {
             life bigint(20) NOT NULL DEFAULT '86400',
             PRIMARY KEY (entryid)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Create errors table
-        $table_name = $wpdb->prefix . "tradepress_errors";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_errors';
+        $sql = "CREATE TABLE $table_name (
             errorid bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             entryid bigint(20) unsigned,
             code varchar(50),
@@ -203,46 +222,50 @@ class TradePress_Install_Tables {
             timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (errorid)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Create endpoints table
-        $table_name = $wpdb->prefix . "tradepress_endpoints";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_endpoints';
+        $sql = "CREATE TABLE $table_name (
             endpointid bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             entryid bigint(20) unsigned,
             service varchar(50) NOT NULL,
             endpoint varchar(500) NOT NULL,
-            parameters longtext NOT NULL, 
+            parameters longtext NOT NULL,
             firstuse timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
             lastuse timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             counter bigint(20) NOT NULL DEFAULT '1',
             PRIMARY KEY (endpointid)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Create meta table
-        $table_name = $wpdb->prefix . "tradepress_meta";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_meta';
+        $sql = "CREATE TABLE $table_name (
             metaid bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             entryid bigint(20) unsigned,
             metakey varchar(50) NOT NULL,
             metavalue longtext NOT NULL,
-            timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, 
+            timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             expiry DATETIME,
             PRIMARY KEY (metaid)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
     }
     
     /**
      * Create symbol-related tables
+     *
+     * @version 1.0.7
      */
     public function create_symbol_tables() {
         global $wpdb, $charset_collate;
         
-        // Primary symbols table
-        $table_name = $wpdb->prefix . "tradepress_symbols";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        
+        // dbDelta() handles CREATE TABLE safely — no SQL injection risk with table names
+        // from $wpdb->prefix which is a trusted internal value.
+        
+        $table_name = $wpdb->prefix . 'tradepress_symbols';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             symbol varchar(20) NOT NULL,
             name varchar(255) NOT NULL,
@@ -275,11 +298,10 @@ class TradePress_Install_Tables {
             KEY active (active),
             KEY post_id (post_id)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Support and resistance levels (multiple per symbol)
-        $table_name = $wpdb->prefix . "tradepress_price_levels";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_price_levels';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             symbol_id bigint(20) unsigned NOT NULL,
             level_type varchar(20) NOT NULL,
@@ -295,11 +317,10 @@ class TradePress_Install_Tables {
             KEY level_type (level_type),
             KEY timeframe (timeframe)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Historical price data
-        $table_name = $wpdb->prefix . "tradepress_price_history";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_price_history';
+        $sql = "CREATE TABLE $table_name (
             id mediumint(9) NOT NULL AUTO_INCREMENT,
             symbol varchar(10) NOT NULL,
             date date NOT NULL,
@@ -313,11 +334,10 @@ class TradePress_Install_Tables {
             KEY symbol (symbol),
             KEY date (date)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Price data table for API imports (OHLCV data)
-        $table_name = $wpdb->prefix . "tradepress_price_data";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_price_data';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             symbol varchar(20) NOT NULL,
             date date NOT NULL,
@@ -336,18 +356,21 @@ class TradePress_Install_Tables {
             KEY date (date),
             KEY source (source)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
     }
     
     /**
      * Create essential meta tables for trading data
+     *
+     * @version 1.0.7
      */
     public function create_meta_tables() {
         global $wpdb, $charset_collate;
         
-        // Symbol metadata table
-        $table_name = $wpdb->prefix . "tradepress_symbol_meta";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        
+        $table_name = $wpdb->prefix . 'tradepress_symbol_meta';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             symbol_id bigint(20) NOT NULL,
             meta_key varchar(255) NOT NULL,
@@ -359,11 +382,10 @@ class TradePress_Install_Tables {
             KEY meta_key (meta_key),
             KEY source (source)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // API calls tracking table
-        $table_name = $wpdb->prefix . "tradepress_api_calls";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_api_calls';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             provider varchar(50) NOT NULL,
             endpoint varchar(255) NOT NULL,
@@ -377,11 +399,10 @@ class TradePress_Install_Tables {
             KEY call_time (call_time),
             KEY endpoint (endpoint)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Data sources configuration table
-        $table_name = $wpdb->prefix . "tradepress_data_sources_meta";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_data_sources_meta';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             source_name varchar(100) NOT NULL,
             source_type enum('api','file','manual') DEFAULT 'api',
@@ -394,11 +415,10 @@ class TradePress_Install_Tables {
             KEY config_key (config_key),
             KEY is_active (is_active)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Cache metadata table
-        $table_name = $wpdb->prefix . "tradepress_cache_meta";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_cache_meta';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             cache_key varchar(255) NOT NULL,
             cache_group varchar(100) NOT NULL,
@@ -414,11 +434,10 @@ class TradePress_Install_Tables {
             KEY expires_at (expires_at),
             KEY symbol_id (symbol_id)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // CRON job metadata table
-        $table_name = $wpdb->prefix . "tradepress_cron_meta";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_cron_meta';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             job_name varchar(100) NOT NULL,
             job_status enum('active','paused','error','completed') DEFAULT 'active',
@@ -435,18 +454,21 @@ class TradePress_Install_Tables {
             KEY job_status (job_status),
             KEY next_run (next_run)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
     }
     
     /**
      * Create scoring-related tables to track scoring history and analysis
+     *
+     * @version 1.0.7
      */
     public function create_scoring_tables() {
         global $wpdb, $charset_collate;
         
-        // Table for storing symbol scores
-        $table_name = $wpdb->prefix . "tradepress_symbol_scores";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        
+        $table_name = $wpdb->prefix . 'tradepress_symbol_scores';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             symbol_id bigint(20) unsigned NOT NULL,
             symbol varchar(20) NOT NULL,
@@ -461,11 +483,10 @@ class TradePress_Install_Tables {
             KEY score (score),
             KEY created_at (created_at)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Table for storing detailed directive scores
-        $table_name = $wpdb->prefix . "tradepress_directive_scores";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_directive_scores';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             score_id bigint(20) unsigned NOT NULL,
             directive_id varchar(100) NOT NULL,
@@ -479,11 +500,10 @@ class TradePress_Install_Tables {
             KEY score_id (score_id),
             KEY directive_id (directive_id)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Table for storing strategy definitions
-        $table_name = $wpdb->prefix . "tradepress_strategies";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_strategies';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             strategy_name varchar(255) NOT NULL,
             description text DEFAULT NULL,
@@ -500,11 +520,10 @@ class TradePress_Install_Tables {
             KEY is_active (is_active),
             KEY time_horizon (time_horizon)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Table for associating symbols with specific strategies
-        $table_name = $wpdb->prefix . "tradepress_strategy_symbols";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_strategy_symbols';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             strategy_id bigint(20) unsigned NOT NULL,
             symbol_id bigint(20) unsigned NOT NULL,
@@ -520,11 +539,10 @@ class TradePress_Install_Tables {
             KEY is_approved (is_approved),
             KEY priority (priority)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Table for score analysis and comparison
-        $table_name = $wpdb->prefix . "tradepress_score_analysis";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_score_analysis';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             symbol_id bigint(20) unsigned NOT NULL,
             strategy_id bigint(20) unsigned NOT NULL,
@@ -545,18 +563,21 @@ class TradePress_Install_Tables {
             KEY strategy_id (strategy_id),
             KEY analysis_date (analysis_date)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
     }
     
     /**
      * Create trading bot related tables
+     *
+     * @version 1.0.7
      */
     public function create_bot_tables() {
         global $wpdb, $charset_collate;
         
-        // Table for storing trades
-        $table_name = $wpdb->prefix . "tradepress_trades";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        
+        $table_name = $wpdb->prefix . 'tradepress_trades';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             symbol_id bigint(20) unsigned NOT NULL,
             symbol varchar(20) NOT NULL,
@@ -575,11 +596,10 @@ class TradePress_Install_Tables {
             KEY status (status),
             KEY datetime (datetime)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Table for storing algorithm runs
-        $table_name = $wpdb->prefix . "tradepress_algorithm_runs";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_algorithm_runs';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             start_time datetime NOT NULL,
             end_time datetime DEFAULT NULL,
@@ -595,17 +615,21 @@ class TradePress_Install_Tables {
             KEY status (status),
             KEY run_type (run_type)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
     }
     
     /**
      * Create logs table
+     *
+     * @version 1.0.7
      */
     public function create_logs_table() {
         global $wpdb, $charset_collate;
         
-        $table_name = $wpdb->prefix . "tradepress_logs";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        
+        $table_name = $wpdb->prefix . 'tradepress_logs';
+        $sql = "CREATE TABLE $table_name (
             id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             timestamp DATETIME NOT NULL,
             level VARCHAR(20) NOT NULL,
@@ -617,18 +641,21 @@ class TradePress_Install_Tables {
             KEY category (category),
             KEY timestamp (timestamp)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
     }
     
     /**
      * Create the prediction tracking tables
+     *
+     * @version 1.0.7
      */
     public function create_prediction_tables() {
         global $wpdb, $charset_collate;
-
-        // Prediction Sources Table
-        $table_name = $wpdb->prefix . "tradepress_prediction_sources";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        
+        $table_name = $wpdb->prefix . 'tradepress_prediction_sources';
+        $sql = "CREATE TABLE $table_name (
             source_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
             source_name varchar(255) NOT NULL,
             source_url varchar(2048) DEFAULT NULL,
@@ -643,11 +670,10 @@ class TradePress_Install_Tables {
             KEY source_type (source_type),
             KEY active (active)
         ) $charset_collate;";
-        $wpdb->query($sql);
-
-        // Price Predictions Table
-        $table_name = $wpdb->prefix . "tradepress_price_predictions";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        dbDelta( $sql );
+        
+        $table_name = $wpdb->prefix . 'tradepress_price_predictions';
+        $sql = "CREATE TABLE $table_name (
             prediction_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
             source_id bigint(20) UNSIGNED NOT NULL,
             symbol varchar(20) NOT NULL,
@@ -668,11 +694,10 @@ class TradePress_Install_Tables {
             KEY prediction_date (prediction_date),
             KEY target_date (target_date)
         ) $charset_collate;";
-        $wpdb->query($sql);
-
-        // Source Performance Table
-        $table_name = $wpdb->prefix . "tradepress_source_performance";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        dbDelta( $sql );
+        
+        $table_name = $wpdb->prefix . 'tradepress_source_performance';
+        $sql = "CREATE TABLE $table_name (
             performance_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
             source_id bigint(20) UNSIGNED NOT NULL,
             symbol varchar(20) DEFAULT NULL,
@@ -685,32 +710,35 @@ class TradePress_Install_Tables {
             PRIMARY KEY (performance_id),
             UNIQUE KEY source_symbol_horizon (source_id, symbol, time_horizon)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
     }
     
     /**
      * Create social media alerts and signals tables
+     *
+     * @version 1.0.7
      */
     public function create_social_alerts_tables() {
         global $wpdb, $charset_collate;
-
-        // Main social alerts table
-        $table_name = $wpdb->prefix . "tradepress_social_alerts";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        
+        $table_name = $wpdb->prefix . 'tradepress_social_alerts';
+        $sql = "CREATE TABLE $table_name (
             alert_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-            platform varchar(50) NOT NULL COMMENT 'Platform like Discord, X.com, etc',
-            source varchar(100) NOT NULL COMMENT 'Specific source like Stock VIP',
-            author varchar(255) DEFAULT NULL COMMENT 'Author of the message/post',
-            message_date datetime DEFAULT NULL COMMENT 'When the message was originally posted',
-            raw_message longtext NOT NULL COMMENT 'Original unprocessed message',
-            processed_status varchar(20) DEFAULT 'new' COMMENT 'Status: new, processed, failed',
-            symbols text DEFAULT NULL COMMENT 'Identified stock symbols',
-            detected_action varchar(50) DEFAULT NULL COMMENT 'Buy, sell, etc',
-            price_target decimal(20,8) DEFAULT NULL COMMENT 'Target price if specified',
-            stop_loss decimal(20,8) DEFAULT NULL COMMENT 'Stop loss if specified',
-            sentiment varchar(20) DEFAULT NULL COMMENT 'Positive, negative, neutral',
-            confidence_score decimal(5,2) DEFAULT NULL COMMENT 'Confidence in signal 0-100',
-            processing_notes longtext DEFAULT NULL COMMENT 'Notes from processing',
+            platform varchar(50) NOT NULL,
+            source varchar(100) NOT NULL,
+            author varchar(255) DEFAULT NULL,
+            message_date datetime DEFAULT NULL,
+            raw_message longtext NOT NULL,
+            processed_status varchar(20) DEFAULT 'new',
+            symbols text DEFAULT NULL,
+            detected_action varchar(50) DEFAULT NULL,
+            price_target decimal(20,8) DEFAULT NULL,
+            stop_loss decimal(20,8) DEFAULT NULL,
+            sentiment varchar(20) DEFAULT NULL,
+            confidence_score decimal(5,2) DEFAULT NULL,
+            processing_notes longtext DEFAULT NULL,
             created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
             updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (alert_id),
@@ -720,11 +748,10 @@ class TradePress_Install_Tables {
             KEY message_date (message_date),
             KEY created_at (created_at)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Trade Alerts: Alert to score/trade correlation table
-        $table_name = $wpdb->prefix . "tradepress_alert_outcomes";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_alert_outcomes';
+        $sql = "CREATE TABLE $table_name (
             outcome_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             alert_id bigint(20) unsigned NOT NULL,
             symbol varchar(20) NOT NULL,
@@ -734,9 +761,9 @@ class TradePress_Install_Tables {
             exit_date datetime DEFAULT NULL,
             profit_loss decimal(20,8) DEFAULT NULL,
             profit_loss_percent decimal(10,4) DEFAULT NULL,
-            outcome_status varchar(20) DEFAULT 'pending' COMMENT 'pending, successful, failed',
-            trade_executed tinyint(1) NOT NULL DEFAULT 0 COMMENT 'Whether a trade was executed',
-            trade_id bigint(20) unsigned DEFAULT NULL COMMENT 'Reference to trade if executed',
+            outcome_status varchar(20) DEFAULT 'pending',
+            trade_executed tinyint(1) NOT NULL DEFAULT 0,
+            trade_id bigint(20) unsigned DEFAULT NULL,
             notes text DEFAULT NULL,
             created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
             updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -747,11 +774,10 @@ class TradePress_Install_Tables {
             KEY trade_executed (trade_executed),
             KEY trade_id (trade_id)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Source reliability metrics table
-        $table_name = $wpdb->prefix . "tradepress_alert_source_metrics";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_alert_source_metrics';
+        $sql = "CREATE TABLE $table_name (
             metric_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             platform varchar(50) NOT NULL,
             source varchar(100) NOT NULL,
@@ -769,18 +795,24 @@ class TradePress_Install_Tables {
             KEY success_rate (success_rate),
             KEY last_alert_date (last_alert_date)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
     }
     
     /**
      * Create research tables for storing reports from various sources
+     *
+     * @version 1.0.7
      */
     public function create_research_tables() {
         global $wpdb, $charset_collate;
         
-        // Research sources table
-        $table_name = $wpdb->prefix . "tradepress_research_sources";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        
+        // dbDelta() handles the description column automatically since it's in the schema.
+        // The previous ALTER TABLE approach was redundant and used $wpdb->prepare() incorrectly
+        // for DDL (table names cannot be parameterised in SQL).
+        $table_name = $wpdb->prefix . 'tradepress_research_sources';
+        $sql = "CREATE TABLE $table_name (
             source_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             name varchar(255) NOT NULL,
             type varchar(50) NOT NULL,
@@ -796,22 +828,10 @@ class TradePress_Install_Tables {
             KEY type (type),
             KEY status (status)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Check if description column exists, add it if it doesn't
-        $check_column = $wpdb->get_results($wpdb->prepare(
-            "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = 'description'",
-            DB_NAME,
-            $table_name
-        ));
-        
-        if(empty($check_column)) {
-            $wpdb->query($wpdb->prepare("ALTER TABLE %s ADD COLUMN description text AFTER created", $table_name));
-        }
-        
-        // Research data table
-        $table_name = $wpdb->prefix . "tradepress_research";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_research';
+        $sql = "CREATE TABLE $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             source_id bigint(20) unsigned NOT NULL,
             symbol varchar(20) DEFAULT NULL,
@@ -837,11 +857,13 @@ class TradePress_Install_Tables {
             KEY verified (verified),
             KEY processed (processed)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
     }
     
     /**
      * Insert pre-installation data for research sources
+      *
+      * @version 1.0.0
      */
     public function insert_research_sources_data() {
         global $wpdb;
@@ -916,6 +938,8 @@ class TradePress_Install_Tables {
     
     /**
      * Create enhanced scoring strategies tables
+      *
+      * @version 1.0.0
      */
     public function create_enhanced_scoring_strategies_tables() {
         // Load and execute the enhanced scoring strategies schema
@@ -925,6 +949,8 @@ class TradePress_Install_Tables {
     
     /**
      * Insert default scoring strategies data
+      *
+      * @version 1.0.0
      */
     public function insert_scoring_strategies_data() {
         // Load and execute default data insertion
@@ -934,6 +960,8 @@ class TradePress_Install_Tables {
     
     /**
      * Insert sample strategies
+      *
+      * @version 1.0.0
      */
     public function insert_sample_strategies() {
         // Load and execute sample strategies creation
@@ -943,13 +971,16 @@ class TradePress_Install_Tables {
 
     /**
      * Create testing system tables
+     *
+     * @version 1.0.7
      */
     public function create_testing_tables() {
         global $wpdb, $charset_collate;
         
-        // Main tests table
-        $table_name = $wpdb->prefix . "tradepress_tests";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        
+        $table_name = $wpdb->prefix . 'tradepress_tests';
+        $sql = "CREATE TABLE $table_name (
             test_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             title varchar(255) NOT NULL,
             description text,
@@ -979,11 +1010,10 @@ class TradePress_Install_Tables {
             KEY created_by (created_by),
             KEY last_run (last_run)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Test runs table
-        $table_name = $wpdb->prefix . "tradepress_test_runs";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_test_runs';
+        $sql = "CREATE TABLE $table_name (
             run_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             test_id bigint(20) unsigned NOT NULL,
             run_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -1003,11 +1033,10 @@ class TradePress_Install_Tables {
             KEY run_date (run_date),
             KEY run_by (run_by)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
         
-        // Test faults table
-        $table_name = $wpdb->prefix . "tradepress_test_faults";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name = $wpdb->prefix . 'tradepress_test_faults';
+        $sql = "CREATE TABLE $table_name (
             fault_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             test_id bigint(20) unsigned NOT NULL,
             run_id bigint(20) unsigned DEFAULT NULL,
@@ -1034,11 +1063,13 @@ class TradePress_Install_Tables {
             KEY assigned_to (assigned_to),
             KEY created_by (created_by)
         ) $charset_collate;";
-        $wpdb->query($sql);
+        dbDelta( $sql );
     }
     
     /**
      * Create e-learning system tables
+      *
+      * @version 1.0.0
      */
     public function create_elearning_tables() {
         global $wpdb, $charset_collate;

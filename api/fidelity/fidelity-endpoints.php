@@ -24,6 +24,7 @@ class TradePress_Fidelity_Endpoints {
      * Get all available endpoints
      *
      * @return array Array of available endpoints with their configurations
+      * @version 1.0.0
      */
     public static function get_endpoints() {
         return array(
@@ -1206,6 +1207,7 @@ class TradePress_Fidelity_Endpoints {
      *
      * @param string $endpoint_name The name of the endpoint
      * @return array|false Endpoint configuration or false if not found
+      * @version 1.0.0
      */
     public static function get_endpoint($endpoint_name) {
         $endpoints = self::get_endpoints();
@@ -1219,6 +1221,7 @@ class TradePress_Fidelity_Endpoints {
      * @param array $params Parameters to include in the URL
      * @param string $base_url Base API URL
      * @return string Complete endpoint URL
+      * @version 1.0.0
      */
     public static function get_endpoint_url($endpoint_name, $params = array(), $base_url = '') {
         $endpoint = self::get_endpoint($endpoint_name);

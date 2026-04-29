@@ -15,6 +15,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Portfolio_Performance_Directive extends TradePress_Base_Directive {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         parent::__construct();
         $this->directive_id = 'portfolio_performance';
@@ -24,6 +29,11 @@ class TradePress_Portfolio_Performance_Directive extends TradePress_Base_Directi
     
     /**
      * Calculate portfolio performance score
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
+      * @param array $data
      */
     public function calculate_score($symbol, $data = array()) {
         // Get portfolio history from Alpaca
@@ -80,6 +90,8 @@ class TradePress_Portfolio_Performance_Directive extends TradePress_Base_Directi
     
     /**
      * Get portfolio history from Alpaca
+      *
+      * @version 1.0.0
      */
     private function get_portfolio_history() {
         // Use Alpaca API to get portfolio history
@@ -95,6 +107,10 @@ class TradePress_Portfolio_Performance_Directive extends TradePress_Base_Directi
     
     /**
      * Calculate portfolio momentum over last 5 days
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $portfolio_data
      */
     private function calculate_portfolio_momentum($portfolio_data) {
         if (!isset($portfolio_data['equity']) || count($portfolio_data['equity']) < 2) {
@@ -112,6 +128,10 @@ class TradePress_Portfolio_Performance_Directive extends TradePress_Base_Directi
     
     /**
      * Check if symbol is in user's watchlists
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
      */
     private function is_in_watchlist($symbol) {
         $alpaca_api = new TradePress_Alpaca_API();
@@ -134,6 +154,8 @@ class TradePress_Portfolio_Performance_Directive extends TradePress_Base_Directi
     
     /**
      * Calculate portfolio diversification (simplified)
+      *
+      * @version 1.0.0
      */
     private function get_portfolio_diversification() {
         // Simplified: return 0.5 as placeholder
@@ -143,6 +165,8 @@ class TradePress_Portfolio_Performance_Directive extends TradePress_Base_Directi
     
     /**
      * Get required API endpoints
+      *
+      * @version 1.0.0
      */
     public function get_api_requirements() {
         return array(

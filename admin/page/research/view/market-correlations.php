@@ -18,6 +18,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Display the Market Correlations tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_market_correlations_tab_content() {
     // Get parameters from URL with defaults
@@ -329,6 +331,7 @@ function tradepress_market_correlations_tab_content() {
  * @param array $compare_symbols Array of symbols to compare against the base
  * @param string $timeframe Timeframe for correlation calculation
  * @return array Correlation data for display
+  * @version 1.0.0
  */
 function tradepress_generate_demo_correlations($base_symbol, $compare_symbols, $timeframe) {
     $correlation_data = array();
@@ -416,6 +419,7 @@ function tradepress_generate_demo_correlations($base_symbol, $compare_symbols, $
  *
  * @param string $timeframe The timeframe code
  * @return string The timeframe label
+  * @version 1.0.0
  */
 function tradepress_get_timeframe_label($timeframe) {
     $labels = array(

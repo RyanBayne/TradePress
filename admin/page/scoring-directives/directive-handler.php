@@ -6,19 +6,26 @@ class TradePress_Directive_Handler {
     
 
     
+    /**
+     * Save configuration.
+     *
+     * @param mixed $directive_id
+     * @param mixed $data
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public static function save_configuration($directive_id, $data) {
         // Load freshness manager if not already loaded
         if (!class_exists('TradePress_Data_Freshness_Manager')) {
             require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/data-freshness-manager.php';
         }
-        error_log('Handler: Starting save for ' . $directive_id);
         
         if (!wp_verify_nonce($_POST['save_nonce'], 'tradepress_save_directive') || !current_user_can('manage_options')) {
-            error_log('Handler: Security check failed');
             return array('success' => false, 'message' => 'Security check failed.');
         }
         
-        error_log('Handler: Security check passed');
         
         // Get current values for comparison
         $option_key = 'tradepress_directive_' . $directive_id;
@@ -42,6 +49,16 @@ class TradePress_Directive_Handler {
         );
     }
     
+    /**
+     * Validate data.
+     *
+     * @param mixed $directive_id
+     * @param mixed $data
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public static function validate_data($directive_id, $data) {
         // Load schema
         if (!class_exists('TradePress_Directive_Config_Schema')) {
@@ -60,6 +77,17 @@ class TradePress_Directive_Handler {
         return $validated;
     }
     
+    /**
+     * Track changes.
+     *
+     * @param mixed $directive_id
+     * @param mixed $old_data
+     * @param mixed $new_data
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public static function track_changes($directive_id, $old_data, $new_data) {
         $changes = array();
         $field_names = self::get_field_names($directive_id);
@@ -75,6 +103,16 @@ class TradePress_Directive_Handler {
         return $changes;
     }
     
+    /**
+     * Generate warnings.
+     *
+     * @param mixed $directive_id
+     * @param mixed $data
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public static function generate_warnings($directive_id, $data) {
         $warnings = array();
         
@@ -117,6 +155,15 @@ class TradePress_Directive_Handler {
         return $warnings;
     }
     
+    /**
+     * Get field names.
+     *
+     * @param mixed $directive_id
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public static function get_field_names($directive_id) {
         $names = array(
             'weight' => 'Weight',
@@ -136,11 +183,34 @@ class TradePress_Directive_Handler {
         return $names;
     }
     
+    /**
+     * Validate range.
+     *
+     * @param mixed $value
+     * @param mixed $min
+     * @param mixed $max
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public static function validate_range($value, $min, $max) {
         $value = intval($value);
         return max($min, min($max, $value));
     }
     
+    /**
+     * Test directive.
+     *
+     * @param mixed $directive_id
+     * @param mixed $symbol
+     * @param string $trading_mode
+     * @param string $directive_code
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public static function test_directive($directive_id, $symbol = null, $trading_mode = 'long', $directive_code = '') {
         // Get symbol from settings if not provided
         if ($symbol === null) {
@@ -840,6 +910,14 @@ class TradePress_Directive_Handler {
     
     /**
      * Store API call serial number for directive
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
+      * @param mixed $serial
+      * @param mixed $platform
+      * @param mixed $method
+      * @param mixed $parameters
      */
     private static function store_api_serial($directive_id, $serial, $platform, $method, $parameters) {
         $config = get_option('tradepress_directive_' . $directive_id, array());
@@ -865,6 +943,13 @@ class TradePress_Directive_Handler {
     
     /**
      * Create enhanced directive test notice
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
+      * @param mixed $test_data
+      * @param mixed $trading_mode
+      * @param mixed $directive_code
      */
     public static function create_directive_test_notice($directive_id, $test_data, $trading_mode, $directive_code = null) {
         $symbol = $test_data['symbol'] ?? 'UNKNOWN';
@@ -947,6 +1032,10 @@ class TradePress_Directive_Handler {
     
     /**
      * Get company name for symbol
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
      */
     private static function get_company_name($symbol) {
         global $wpdb;
@@ -962,6 +1051,12 @@ class TradePress_Directive_Handler {
     
     /**
      * Get previous test score for comparison
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
+      * @param mixed $symbol
+      * @param mixed $trading_mode
      */
     private static function get_previous_score($directive_id, $symbol, $trading_mode) {
         $scores = get_option('tradepress_test_scores_' . $directive_id, array());
@@ -972,6 +1067,13 @@ class TradePress_Directive_Handler {
     
     /**
      * Store test score for future comparisons
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
+      * @param mixed $symbol
+      * @param mixed $trading_mode
+      * @param mixed $score
      */
     private static function store_test_score($directive_id, $symbol, $trading_mode, $score) {
         $scores = get_option('tradepress_test_scores_' . $directive_id, array());
@@ -989,6 +1091,10 @@ class TradePress_Directive_Handler {
     
     /**
      * Get directive code for display
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $directive_id
      */
     private static function get_directive_code($directive_id) {
         $codes = array(

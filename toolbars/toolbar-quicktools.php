@@ -28,6 +28,8 @@ class TradePress_Admin_Toolbar_QuickTools {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Load favorite tabs directly from database to avoid caching issues
@@ -45,6 +47,8 @@ class TradePress_Admin_Toolbar_QuickTools {
 
     /**
      * Debug favorite tabs data
+      *
+      * @version 1.0.0
      */
     public function debug_favorite_tabs() {
         // Hide in production - only for troubleshooting
@@ -69,6 +73,8 @@ class TradePress_Admin_Toolbar_QuickTools {
     
     /**
      * Load favorite tabs from options
+      *
+      * @version 1.0.0
      */
     private function load_favorite_tabs() {
         // Bypass potential transient/cache issues by loading directly
@@ -93,6 +99,8 @@ class TradePress_Admin_Toolbar_QuickTools {
     
     /**
      * Initialize the toolbar
+      *
+      * @version 1.0.0
      */
     private function init() {
         global $wp_admin_bar;
@@ -112,6 +120,8 @@ class TradePress_Admin_Toolbar_QuickTools {
     
     /**
      * Add parent menu to toolbar
+      *
+      * @version 1.0.0
      */
     private function add_parent_menu() {
         global $wp_admin_bar;
@@ -127,6 +137,8 @@ class TradePress_Admin_Toolbar_QuickTools {
     
     /**
      * Add favorite tabs to submenu
+      *
+      * @version 1.0.0
      */
     private function add_favorite_tabs_menu() {
         global $wp_admin_bar;
@@ -193,6 +205,8 @@ class TradePress_Admin_Toolbar_QuickTools {
     
     /**
      * Add quick tools to submenu
+      *
+      * @version 1.0.0
      */
     private function add_quick_tools_menu() {
         global $wp_admin_bar;
@@ -259,6 +273,8 @@ class TradePress_Admin_Toolbar_QuickTools {
     
     /**
      * Add development notice to toolbar if in demo mode
+      *
+      * @version 1.0.0
      */
     private function add_development_notice() {
         global $wp_admin_bar;
@@ -287,6 +303,7 @@ class TradePress_Admin_Toolbar_QuickTools {
      * Get all available tabs in the system
      * 
      * @return array All available tabs with their information
+      * @version 1.0.0
      */
     private function get_all_tabs() {
         // This is a comprehensive mapping of tab IDs to their information

@@ -16,6 +16,8 @@ class TradePress_Queue_Schema {
     
     /**
      * Create queue tables
+      *
+      * @version 1.0.0
      */
     public static function create_tables() {
         global $wpdb;
@@ -53,6 +55,8 @@ class TradePress_Queue_Schema {
     
     /**
      * Check if tables exist and create if needed
+      *
+      * @version 1.0.0
      */
     public static function maybe_create_tables() {
         $db_version = get_option('tradepress_queue_db_version', '0');
@@ -64,6 +68,14 @@ class TradePress_Queue_Schema {
     
     /**
      * Add item to queue
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $queue_name
+      * @param mixed $item_type
+      * @param mixed $item_data
+      * @param int $priority
+      * @param mixed $scheduled_at
      */
     public static function add_item($queue_name, $item_type, $item_data, $priority = 10, $scheduled_at = null) {
         global $wpdb;
@@ -92,6 +104,10 @@ class TradePress_Queue_Schema {
     
     /**
      * Get next item from queue
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $queue_name
      */
     public static function get_next_item($queue_name) {
         global $wpdb;

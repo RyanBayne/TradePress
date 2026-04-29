@@ -49,6 +49,7 @@ class TradePress_Alpaca_Direct {
      * @param string $key API key ID
      * @param string $secret API secret key
      * @param string $mode Trading mode ('paper' or 'live')
+      * @version 1.0.0
      */
     public function __construct($key = '', $secret = '', $mode = 'paper') {
         $this->key = $key;
@@ -60,6 +61,7 @@ class TradePress_Alpaca_Direct {
      * Get the base URL for API requests
      *
      * @return string API base URL
+      * @version 1.0.0
      */
     private function get_base_url() {
         if ($this->mode === 'paper') {
@@ -76,6 +78,7 @@ class TradePress_Alpaca_Direct {
      * @param array $query_params Query parameters
      * @param string $version API version
      * @return string Complete URL
+      * @version 1.0.0
      */
     private function build_url($path, $query_params = [], $version = 'v2') {
         $path = trim($path, '/');
@@ -115,6 +118,7 @@ class TradePress_Alpaca_Direct {
      * @param array|null $body Request body data
      * @param string $version API version
      * @return array Response data or error information
+      * @version 1.0.0
      */
     public function request($path, $params = [], $method = 'GET', $body = null, $version = 'v2') {
         // Build the URL
@@ -152,10 +156,7 @@ class TradePress_Alpaca_Direct {
         }
         
         // Log the request (debugging only)
-        error_log('[TradePress_Alpaca_Direct] Making ' . $method . ' request to ' . $url);
-        error_log('[TradePress_Alpaca_Direct] Headers: ' . json_encode($headers));
         if ($body !== null) {
-            error_log('[TradePress_Alpaca_Direct] Body: ' . json_encode($body));
         }
         
         // Execute the request
@@ -167,7 +168,6 @@ class TradePress_Alpaca_Direct {
             $error = curl_error($ch);
             curl_close($ch);
             
-            error_log('[TradePress_Alpaca_Direct] cURL Error: ' . $error);
             
             return [
                 'success' => false,
@@ -180,8 +180,6 @@ class TradePress_Alpaca_Direct {
         curl_close($ch);
         
         // Log the response (debugging only)
-        error_log('[TradePress_Alpaca_Direct] Status Code: ' . $status_code);
-        error_log('[TradePress_Alpaca_Direct] Response: ' . $response);
         
         // Parse the response
         $parsed_response = json_decode($response, true);
@@ -219,6 +217,7 @@ class TradePress_Alpaca_Direct {
      * Test the API connection
      *
      * @return array Connection test results
+      * @version 1.0.0
      */
     public function test_connection() {
         return $this->request('account');
@@ -228,6 +227,7 @@ class TradePress_Alpaca_Direct {
      * Get account information
      *
      * @return array Account information
+      * @version 1.0.0
      */
     public function get_account() {
         return $this->request('account');
@@ -237,6 +237,7 @@ class TradePress_Alpaca_Direct {
      * Get all watchlists
      *
      * @return array Watchlists data
+      * @version 1.0.0
      */
     public function get_watchlists() {
         return $this->request('watchlists');
@@ -247,6 +248,7 @@ class TradePress_Alpaca_Direct {
      *
      * @param string $watchlist_id Watchlist ID
      * @return array Watchlist data
+      * @version 1.0.0
      */
     public function get_watchlist($watchlist_id) {
         return $this->request('watchlists/' . $watchlist_id);
@@ -258,6 +260,7 @@ class TradePress_Alpaca_Direct {
      * @param string $name Watchlist name
      * @param array $symbols Array of symbols to add to the watchlist
      * @return array New watchlist data
+      * @version 1.0.0
      */
     public function create_watchlist($name, $symbols = []) {
         $body = [

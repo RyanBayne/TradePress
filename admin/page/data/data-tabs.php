@@ -18,6 +18,9 @@ if ( ! class_exists( 'TradePress_Admin_Data_Tabs' ) ) :
 
 /**
  * TradePress_Admin_Data_Tabs Class.
+ *
+ * UI status and release direction for all tabs in this page:
+ * @see G:\My Drive\Project Management\Live\TradePress-Documentation\roadmap\admin-ui-status-index.md#data-tabs
  */
 class TradePress_Admin_Data_Tabs {
 
@@ -30,6 +33,8 @@ class TradePress_Admin_Data_Tabs {
 
     /**
      * Constructor.
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         if ( isset( $_GET['tab'] ) ) {
@@ -43,28 +48,39 @@ class TradePress_Admin_Data_Tabs {
      * Get tabs for the data area.
      *
      * @return array
+      * @version 1.0.0
      */
     public function get_tabs() {
+        $is_dev_mode = tradepress_is_developer_mode();
+        
+        // Always-visible tabs
         $tabs = array(
-            'sources'     => __( 'Sources', 'tradepress' ),
-            'data-elements' => __( 'Data Elements', 'tradepress' ),
-            'import'      => __( 'Manual Import', 'tradepress' ),
-            'decoder'     => __( 'Decoder', 'tradepress' ),
-            'api-keys'    => __( 'API Keys', 'tradepress' ),
-            'tables'      => __( 'Tables', 'tradepress' ),
-            'api-activity' => __( 'API Activity', 'tradepress' ),
-            'api-endpoints' => __( 'API Endpoints', 'tradepress' ),
-            'api-errors'  => __( 'API Errors', 'tradepress' ),
+            'sources'          => __( 'Sources', 'tradepress' ),
+            'data-elements'    => __( 'Data Elements', 'tradepress' ),
+            'import'           => __( 'Manual Import', 'tradepress' ),
+            'decoder'          => __( 'Decoder', 'tradepress' ),
+            'tables'           => __( 'Tables', 'tradepress' ),
+            'api-activity'     => __( 'API Activity', 'tradepress' ),
+            'api-endpoints'    => __( 'API Endpoints', 'tradepress' ),
             'transient-caches' => __( 'Transient Caches', 'tradepress' ),
-            'sources_list' => __( 'Sources List', 'tradepress' ),
-            'create_source' => __( 'Create Source', 'tradepress' )
+            'create_source'    => __( 'Create Source', 'tradepress' ),
         );
+
+        // Developer-only tabs — gated for review/removal before a full release.
+        // See: roadmap/admin-ui-status-index.md#data-tabs
+        if ( $is_dev_mode ) {
+            $tabs['api-keys']    = __( 'API Keys', 'tradepress' );    // Planned Remove
+            $tabs['sources_list'] = __( 'Sources List', 'tradepress' ); // Planned Remove
+            $tabs['api-errors']  = __( 'API Errors', 'tradepress' );   // Dev diagnostic
+        }
         
         return apply_filters( 'tradepress_data_tabs', $tabs );
     }
 
     /**
      * Output the data area.
+      *
+      * @version 1.0.0
      */
     public static function output() {
         // Create an instance of the class
@@ -107,6 +123,7 @@ class TradePress_Admin_Data_Tabs {
      * Load tab content based on the active tab.
      *
      * @param string $tab Tab to load.
+      * @version 1.0.0
      */
     private function load_tab_content( $tab ) {
         switch ( $tab ) {
@@ -154,6 +171,8 @@ class TradePress_Admin_Data_Tabs {
 
     /**
      * Sources tab content
+      *
+      * @version 1.0.0
      */
     public function sources_tab() {
         $sources_view = dirname(__FILE__) . '/view/manage-sources.php';
@@ -174,6 +193,8 @@ class TradePress_Admin_Data_Tabs {
 
     /**
      * Import tab content
+      *
+      * @version 1.0.0
      */
     public function import_tab() {
         $import_view = dirname(__FILE__) . '/view/import.php';
@@ -190,6 +211,8 @@ class TradePress_Admin_Data_Tabs {
 
     /**
      * Decoder tab content
+      *
+      * @version 1.0.0
      */
     public function decoder_tab() {
         $decoder_view = dirname(__FILE__) . '/view/decoder.php';
@@ -209,6 +232,8 @@ class TradePress_Admin_Data_Tabs {
 
     /**
      * Data Elements tab content
+      *
+      * @version 1.0.0
      */
     public function data_elements_tab() {
         $data_elements_view = dirname(__FILE__) . '/data-elements.php';
@@ -226,6 +251,8 @@ class TradePress_Admin_Data_Tabs {
 
     /**
      * API Keys tab content
+      *
+      * @version 1.0.0
      */
     public function api_keys_tab() {
         $api_keys_view = dirname(__FILE__) . '/view/api-keys.php';
@@ -249,6 +276,8 @@ add_action('tradepress_data_decoder_tab', 'tradepress_display_decoder_tab_conten
 
 /**
  * Wrapper function to load the tables tab content without redeclaring the main function
+  *
+  * @version 1.0.0
  */
 function tradepress_display_tables_tab_content() {
     // Include the tables-tab.php file if it exists
@@ -261,6 +290,11 @@ function tradepress_display_tables_tab_content() {
             // Call the function if it exists and hasn't been called yet
             if (function_exists('tradepress_data_tables_tab_content') && !function_exists('tradepress_display_tables_tab_content_called')) {
                 // Define a flag function to prevent recursion
+                /**
+                 * Display tables tab content called.
+                 *
+                 * @version 1.0.0
+                 */
                 function tradepress_display_tables_tab_content_called() {}
                 
                 // Call the actual function
@@ -278,6 +312,8 @@ function tradepress_display_tables_tab_content() {
 
 /**
  * Wrapper function to load the API Activity tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_display_api_activity_tab_content() {
     try {
@@ -290,6 +326,8 @@ function tradepress_display_api_activity_tab_content() {
 
 /**
  * Wrapper function to load the API Endpoints tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_display_api_endpoints_tab_content() {
     try {
@@ -302,11 +340,19 @@ function tradepress_display_api_endpoints_tab_content() {
 
 /**
  * Wrapper function to load the API Errors tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_display_api_errors_tab_content() {
     try {
-        // Include the API Errors tab file
-        include_once(TRADEPRESS_PLUGIN_DIR . 'admin/page/data/view/api-errors.php');
+        // Include the API Errors tab file when present.
+        $api_errors_view = TRADEPRESS_PLUGIN_DIR . 'admin/page/data/view/api-errors.php';
+        if ( file_exists( $api_errors_view ) ) {
+            include_once $api_errors_view;
+            return;
+        }
+
+        echo '<div class="notice notice-warning"><p>' . esc_html__( 'API errors view is not available yet.', 'tradepress' ) . '</p></div>';
     } catch ( Exception $e ) {
         echo '<div class="notice notice-error"><p>' . esc_html__('Error loading API errors view: ', 'tradepress') . esc_html($e->getMessage()) . '</p></div>';
     }
@@ -314,6 +360,8 @@ function tradepress_display_api_errors_tab_content() {
 
 /**
  * Wrapper function to load the Transient Caches tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_display_transient_caches_tab_content() {
     try {
@@ -326,6 +374,8 @@ function tradepress_display_transient_caches_tab_content() {
 
 /**
  * Wrapper function to load the sources_list tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_display_sources_list_tab_content() {
     try {
@@ -343,6 +393,8 @@ function tradepress_display_sources_list_tab_content() {
 
 /**
  * Wrapper function to load the create_source tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_display_create_source_tab_content() {
     try {
@@ -363,6 +415,8 @@ function tradepress_display_create_source_tab_content() {
 
 /**
  * Output the Decoder tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_display_decoder_tab_content() {
     try {
@@ -384,6 +438,8 @@ function tradepress_display_decoder_tab_content() {
 
 /**
  * Initialize the TradePress Admin Data Tabs
+  *
+  * @version 1.0.0
  */
 function tradepress_init_admin_data_tabs() {
     // Add the tabs

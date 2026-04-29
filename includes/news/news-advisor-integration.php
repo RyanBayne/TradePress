@@ -19,6 +19,7 @@ class TradePress_News_Advisor_Integration {
      *
      * @param array $symbols Selected symbols from Step 2
      * @return array News analysis data
+      * @version 1.0.0
      */
     public function get_news_analysis( $symbols = array() ) {
         if ( empty( $symbols ) ) {
@@ -53,6 +54,7 @@ class TradePress_News_Advisor_Integration {
      *
      * @param array $symbols Stock symbols
      * @return array News items
+      * @version 1.0.0
      */
     private function get_symbol_news( $symbols ) {
         // For now, use demo data similar to the research news feed
@@ -72,6 +74,7 @@ class TradePress_News_Advisor_Integration {
      *
      * @param string $symbol Stock symbol
      * @return array News items
+      * @version 1.0.0
      */
     private function get_demo_news_for_symbol( $symbol ) {
         $demo_news = array(
@@ -152,6 +155,7 @@ class TradePress_News_Advisor_Integration {
      * @param array $news_data News data by symbol
      * @param array $symbols Selected symbols
      * @return array Analysis results
+      * @version 1.0.0
      */
     private function analyze_news_impact( $news_data, $symbols ) {
         $analysis = array();
@@ -225,6 +229,7 @@ class TradePress_News_Advisor_Integration {
      * @param float $impact Average impact score
      * @param array $risk_factors Risk factors identified
      * @return string Recommendation (bullish, bearish, neutral, caution)
+      * @version 1.0.0
      */
     private function generate_recommendation( $sentiment, $impact, $risk_factors ) {
         // High positive sentiment with high impact
@@ -260,6 +265,7 @@ class TradePress_News_Advisor_Integration {
      *
      * @param array $excluded_symbols Symbols to exclude (already selected)
      * @return array Additional opportunities
+      * @version 1.0.0
      */
     public function get_additional_opportunities( $excluded_symbols = array() ) {
         if ( function_exists( 'tradepress_trace_log' ) ) {
@@ -312,6 +318,7 @@ class TradePress_News_Advisor_Integration {
      *
      * @param float $sentiment Sentiment score
      * @return string CSS class
+      * @version 1.0.0
      */
     public function get_sentiment_class( $sentiment ) {
         if ( $sentiment >= 0.4 ) {
@@ -332,6 +339,7 @@ class TradePress_News_Advisor_Integration {
      *
      * @param string $recommendation Recommendation type
      * @return string CSS class
+      * @version 1.0.0
      */
     public function get_recommendation_class( $recommendation ) {
         switch ( $recommendation ) {

@@ -19,6 +19,8 @@ class TradePress_Settings_Database extends TradePress_Settings_Page {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->id    = 'database';
@@ -33,6 +35,7 @@ class TradePress_Settings_Database extends TradePress_Settings_Page {
      * Get settings array
      *
      * @return array
+      * @version 1.0.0
      */
     public function get_settings() {
         $settings = array(
@@ -54,6 +57,8 @@ class TradePress_Settings_Database extends TradePress_Settings_Page {
     
     /**
      * Output the settings
+      *
+      * @version 1.0.0
      */
     public function output() {
         parent::output();
@@ -152,6 +157,7 @@ class TradePress_Settings_Database extends TradePress_Settings_Page {
      * Get table information using centralized table definitions
      * 
      * @return array Table information
+      * @version 1.0.0
      */
     private function get_table_information() {
         global $wpdb;

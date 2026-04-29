@@ -104,6 +104,11 @@ class TradePress_Roles_Capabilities_Installation {
         return $array;
     }
 
+    /**
+     * Add roles and capabilities.
+     *
+     * @version 1.0.0
+     */
     public function add_roles_and_capabilities() {
         $full_array = $this->fullarray();
                            
@@ -123,6 +128,11 @@ class TradePress_Roles_Capabilities_Installation {
         }
     }
     
+    /**
+     * Remove roles and capabilities.
+     *
+     * @version 1.0.0
+     */
     public function remove_roles_and_capabilities() { 
         $full_array = $this->fullarray();
         

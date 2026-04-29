@@ -24,10 +24,27 @@ class TradePress_Object_Registry {
 
     static $storage = array();
 
+    /**
+     * A Dd.
+     *
+     * @param mixed $id
+     * @param mixed $class
+     *
+     * @version 1.0.0
+     */
     static function add( $id, $class ) {
         self::$storage[ $id ] = $class;
     }
 
+    /**
+     * G Et.
+     *
+     * @param mixed $id
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     static function get( $id ) {
         return array_key_exists( $id, self::$storage ) ? self::$storage[$id] : NULL;    
     }
@@ -50,6 +67,7 @@ class TradePress_Object_Registry {
     * Update a value already in the registry using add_action and this function...
     * 
     * @param mixed $args
+     * @version 1.0.0
     */
     static function update_var_action( $args ) {
         self::update_var( $args['id'], $args['var'], $args['new'] );    

@@ -29,6 +29,7 @@ if (!defined('ABSPATH')) {
  *     @type string $target Link target (default: '_self')
  *     @type string $page Target page ('analysis', 'data', 'chart', etc.) (default: 'analysis')
  * @return string Text with symbols converted to links
+  * @version 1.0.0
  */
 function tradepress_parse_symbol_links($text, $options = array()) {
     // Default options
@@ -78,6 +79,7 @@ function tradepress_parse_symbol_links($text, $options = array()) {
  * @param string $symbol Stock symbol
  * @param string $page Page type ('analysis', 'data', 'chart', etc.)
  * @return string URL for the symbol page
+  * @version 1.0.0
  */
 function tradepress_get_symbol_url($symbol, $page = 'analysis') {
     return esc_url(
@@ -97,6 +99,7 @@ function tradepress_get_symbol_url($symbol, $page = 'analysis') {
  * @param string $symbol Stock symbol
  * @param array $options Optional. Link generation options
  * @return string HTML link element
+  * @version 1.0.0
  */
 function tradepress_get_symbol_link($symbol, $options = array()) {
     $defaults = array(
@@ -128,6 +131,7 @@ function tradepress_get_symbol_link($symbol, $options = array()) {
  * @param string $symbol Symbol to validate
  * @param array $options Validation options
  * @return bool True if valid, false otherwise
+  * @version 1.0.0
  */
 function tradepress_is_valid_symbol($symbol, $options = array()) {
     $defaults = array(
@@ -163,6 +167,7 @@ function tradepress_is_valid_symbol($symbol, $options = array()) {
  * @param string $symbol Symbol possibly with exchange
  * @param array $options Display options
  * @return string Formatted symbol
+  * @version 1.0.0
  */
 function tradepress_parse_symbol_with_exchange($symbol, $options = array()) {
     $defaults = array(
@@ -205,6 +210,7 @@ function tradepress_parse_symbol_with_exchange($symbol, $options = array()) {
  * @param string $type Symbol type (stock, crypto, forex, index)
  * @param array $options Formatting options
  * @return string Formatted symbol
+  * @version 1.0.0
  */
 function tradepress_format_symbol($symbol, $type = 'stock', $options = array()) {
     $defaults = array(
@@ -239,6 +245,7 @@ function tradepress_format_symbol($symbol, $type = 'stock', $options = array()) 
  * @param string $symbol Stock symbol
  * @param array $options Display options
  * @return string HTML for enhanced symbol link
+  * @version 1.0.0
  */
 function tradepress_get_enhanced_symbol_link($symbol, $options = array()) {
     $defaults = array(
@@ -288,6 +295,7 @@ function tradepress_get_enhanced_symbol_link($symbol, $options = array()) {
  * @param array $symbols Array of related symbols
  * @param array $options Display options
  * @return string HTML for symbol group
+  * @version 1.0.0
  */
 function tradepress_parse_symbol_group($symbols, $options = array()) {
     $defaults = array(
@@ -334,6 +342,7 @@ function tradepress_parse_symbol_group($symbols, $options = array()) {
  * @param string $text Text to parse for symbol context
  * @param array $options Parsing options
  * @return array Parsed context data
+  * @version 1.0.0
  */
 function tradepress_parse_symbol_context($text, $options = array()) {
     $defaults = array(
@@ -394,6 +403,7 @@ function tradepress_parse_symbol_context($text, $options = array()) {
  * @param string $search Search term
  * @param array $options Search options
  * @return array Matching symbols
+  * @version 1.0.0
  */
 function tradepress_find_symbol($search, $options = array()) {
     $defaults = array(
@@ -419,6 +429,7 @@ function tradepress_find_symbol($search, $options = array()) {
  * @param string $symbol Stock symbol
  * @param array $actions Custom actions
  * @return string Modified symbol link HTML
+  * @version 1.0.0
  */
 function tradepress_add_symbol_actions($symbol, $actions = array()) {
     $default_actions = array(

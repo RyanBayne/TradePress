@@ -16,6 +16,8 @@ if (!defined('ABSPATH')) {
 class TradePress_Scoring_Directive_Price_Action extends TradePress_Scoring_Directive_Base {
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->id = 'price_action';

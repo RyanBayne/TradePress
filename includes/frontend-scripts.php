@@ -41,6 +41,8 @@ class TradePress_Frontend_Scripts {
 
     /**
      * Hook in methods.
+      *
+      * @version 1.0.0
      */
     public static function init() {           ;
         add_action( 'wp_enqueue_scripts', array( __CLASS__, 'load_scripts' ) );
@@ -52,6 +54,7 @@ class TradePress_Frontend_Scripts {
      * Get styles for the frontend.
      * @access private
      * @return array
+      * @version 1.0.0
      */
     public static function get_styles() {                
         return apply_filters( 'TradePress_enqueue_styles', array(
@@ -74,6 +77,7 @@ class TradePress_Frontend_Scripts {
      * @param  string[] $deps
      * @param  string   $version
      * @param  string   $media
+      * @version 1.0.0
      */
     private static function register_style( $handle, $path, $deps = array(), $version = TRADEPRESS_VERSION, $media = 'all' ) {
         self::$styles[] = $handle;
@@ -90,6 +94,7 @@ class TradePress_Frontend_Scripts {
      * @param  string[] $deps
      * @param  string   $version
      * @param  string   $media
+      * @version 1.0.0
      */
     private static function enqueue_style( $handle, $path = '', $deps = array(), $version = TRADEPRESS_VERSION, $media = 'all' ) {
         if ( ! in_array( $handle, self::$styles ) && $path ) {
@@ -108,6 +113,7 @@ class TradePress_Frontend_Scripts {
      * @param  string[] $deps
      * @param  string   $version
      * @param  boolean  $in_footer
+      * @version 1.0.0
      */
     private static function register_script( $handle, $path, $deps = array( 'jquery' ), $version = TRADEPRESS_VERSION, $in_footer = true ) {
         self::$scripts[] = $handle;
@@ -124,6 +130,7 @@ class TradePress_Frontend_Scripts {
      * @param  string[] $deps
      * @param  string   $version
      * @param  boolean  $in_footer
+      * @version 1.0.0
      */
     private static function enqueue_script( $handle, $path = '', $deps = array( 'jquery' ), $version = TRADEPRESS_VERSION, $in_footer = true ) {
         if ( ! in_array( $handle, self::$scripts ) && $path ) {
@@ -134,6 +141,8 @@ class TradePress_Frontend_Scripts {
 
     /**
      * Register/queue frontend scripts.
+      *
+      * @version 1.0.0
      */
     public static function load_scripts() {
         global $post;
@@ -152,6 +161,7 @@ class TradePress_Frontend_Scripts {
      * @access private
      * @since  2.3.0 this needs less wp_script_is() calls due to https://core.trac.wordpress.org/ticket/28404 being added in WP 4.0.
      * @param  string $handle
+      * @version 1.0.0
      */
     private static function localize_script( $handle ) {
         if ( ! in_array( $handle, self::$wp_localize_scripts ) && wp_script_is( $handle ) && ( $data = self::get_script_data( $handle ) ) ) {
@@ -166,6 +176,7 @@ class TradePress_Frontend_Scripts {
      * @access private
      * @param  string $handle
      * @return array|bool
+      * @version 1.0.0
      */
     private static function get_script_data( $handle ) {
         global $wp;
@@ -175,6 +186,8 @@ class TradePress_Frontend_Scripts {
 
     /**
      * Localize scripts only when enqueued.
+      *
+      * @version 1.0.0
      */
     public static function localize_printed_scripts() {
         foreach ( self::$scripts as $handle ) {

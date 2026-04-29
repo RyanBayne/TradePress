@@ -420,9 +420,9 @@
 
 .component-demo {
     padding: var(--tradepress-spacing-lg);
-    background: var(--tradepress-color-gray-50);
+    background: var(--tradepress-color-white);
     border-radius: var(--tradepress-border-radius);
-    border-left: 4px solid var(--tradepress-color-info);
+    border: 1px solid var(--tradepress-color-gray-200);
     margin-bottom: var(--tradepress-spacing-lg);
 }
 
@@ -820,8 +820,25 @@
 }
 
 /* Color Palette Styles */
+.tradepress-color-palette-layout {
+    display: grid;
+    gap: var(--tradepress-spacing-xl);
+}
+
+.tradepress-color-palette-top {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--tradepress-spacing-lg);
+    align-items: start;
+}
+
 .tradepress-color-group {
     margin-bottom: var(--tradepress-spacing-2xl);
+}
+
+.tradepress-color-palette-top .tradepress-color-group,
+.tradepress-color-group--neutral {
+    margin-bottom: 0;
 }
 
 .tradepress-color-group h4 {
@@ -901,6 +918,12 @@
     margin: 0 0 var(--tradepress-spacing-md) 0;
     color: var(--tradepress-color-gray-900);
     font-size: var(--tradepress-font-size-md);
+}
+
+@media (max-width: 960px) {
+    .tradepress-color-palette-top {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Button Components */
@@ -1068,6 +1091,22 @@
     color: var(--tradepress-color-gray-700);
 }
 
+.tradepress-form-options-layout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--tradepress-spacing-lg);
+}
+
+.tradepress-form-options-column {
+    margin-bottom: 0;
+}
+
+@media (max-width: 960px) {
+    .tradepress-form-options-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Search Input */
 .tradepress-search-wrapper {
     position: relative;
@@ -1168,6 +1207,388 @@
     border-bottom: 1px solid var(--tradepress-color-gray-300);
 }
 
+/* Button Components Panel */
+.tradepress-ui-section--buttons .tradepress-component-showcase {
+    align-items: center;
+}
+
+.tradepress-ui-section--buttons .tradepress-button-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tradepress-spacing-xs);
+}
+
+.tradepress-ui-section--buttons .tradepress-button-icon .dashicons {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    line-height: 1;
+    margin: 0;
+}
+
+.tradepress-ui-section--buttons .tradepress-component-group--link-buttons .tradepress-component-showcase {
+    gap: var(--tradepress-spacing-lg);
+}
+
+.tradepress-ui-section--buttons .tradepress-component-group--link-buttons .button-link,
+.tradepress-ui-section--buttons .tradepress-component-group--link-buttons .button-link-delete {
+    display: inline-flex !important;
+    align-items: center;
+    min-height: 24px;
+    font-size: var(--tradepress-font-size-sm);
+    line-height: 1.3;
+}
+
+.tradepress-ui-section--buttons .tradepress-component-group--link-buttons .button-link:disabled,
+.tradepress-ui-section--buttons .tradepress-component-group--link-buttons .button-link-delete:disabled {
+    color: var(--tradepress-color-gray-500) !important;
+    opacity: 0.7;
+    cursor: not-allowed !important;
+}
+
+.tradepress-ui-section--buttons .tradepress-component-group--button-groups .tradepress-component-showcase {
+    padding: 0;
+    background: transparent;
+}
+
+.tradepress-ui-section--buttons .tradepress-ui-button-group {
+    display: inline-flex;
+    align-items: stretch;
+}
+
+.tradepress-ui-section--buttons .tradepress-ui-button-group .button {
+    margin: 0;
+    border-radius: 0;
+}
+
+.tradepress-ui-section--buttons .tradepress-ui-button-group .button + .button {
+    margin-left: -1px;
+}
+
+.tradepress-ui-section--buttons .tradepress-ui-button-group .button:first-child {
+    border-top-left-radius: var(--tradepress-border-radius);
+    border-bottom-left-radius: var(--tradepress-border-radius);
+}
+
+.tradepress-ui-section--buttons .tradepress-ui-button-group .button:last-child {
+    border-top-right-radius: var(--tradepress-border-radius);
+    border-bottom-right-radius: var(--tradepress-border-radius);
+}
+
+.tradepress-ui-section--buttons .tradepress-component-group--status-badges .tradepress-component-showcase {
+    gap: var(--tradepress-spacing-sm);
+}
+
+.tradepress-ui-section--buttons .status-badge,
+.tradepress-ui-section--buttons .type-badge,
+.tradepress-ui-section--buttons .mode-badge,
+.tradepress-ui-section--buttons .rate-limit-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 10px;
+    border: 1px solid transparent;
+    border-radius: var(--tradepress-border-radius);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    text-transform: none;
+}
+
+.tradepress-ui-section--buttons .status-badge.status-active {
+    background: #edf7ee;
+    border-color: #b7dfc0;
+    color: #1e6f3e;
+}
+
+.tradepress-ui-section--buttons .status-badge.status-inactive {
+    background: #f8f0f0;
+    border-color: #e8c4c6;
+    color: #8b3a3f;
+}
+
+.tradepress-ui-section--buttons .type-badge.type-data {
+    background: #eef4fc;
+    border-color: #c3d7f1;
+    color: #1d4f86;
+}
+
+.tradepress-ui-section--buttons .type-badge.type-trading {
+    background: #fbf4e9;
+    border-color: #e9d9b8;
+    color: #7f5b1f;
+}
+
+.tradepress-ui-section--buttons .mode-badge.mode-live {
+    background: #f7efef;
+    border-color: #e5c8cb;
+    color: #8a4247;
+}
+
+.tradepress-ui-section--buttons .mode-badge.mode-paper {
+    background: #edf7f9;
+    border-color: #bfdde3;
+    color: #1e6674;
+}
+
+.tradepress-ui-section--buttons .rate-limit-badge.rate-normal {
+    background: #eef8ee;
+    border-color: #bcdfbe;
+    color: #256a3b;
+}
+
+/* Filters & Search Panel */
+.tradepress-ui-section--filters-search .tradepress-component-showcase {
+    display: grid;
+    gap: var(--tradepress-spacing-sm);
+}
+
+.tradepress-ui-section--filters-search .tradepress-component-group {
+    margin-bottom: var(--tradepress-spacing-md);
+}
+
+.tradepress-ui-section--filters-search .tradepress-filters-two-column {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+    gap: var(--tradepress-spacing-md);
+    align-items: start;
+}
+
+.tradepress-ui-section--filters-search .tradepress-filters-two-column .tradepress-component-group {
+    margin-bottom: 0;
+}
+
+.tradepress-ui-section--filters-search .tradepress-filters-two-column .filter-panel-demo {
+    padding: 10px 12px;
+}
+
+.tradepress-ui-section--filters-search .tradepress-filters-two-column .filter-panel-demo .filter-input,
+.tradepress-ui-section--filters-search .tradepress-filters-two-column .filter-panel-demo .filter-select {
+    min-height: 34px;
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+.tradepress-ui-section--filters-search .tradepress-filters-two-column .filter-panel-demo .filter-actions .tp-button {
+    min-height: 32px;
+    padding: 0 10px;
+    font-size: 12px;
+}
+
+.tradepress-ui-section--filters-search .search-demo,
+.tradepress-ui-section--filters-search .filter-demo,
+.tradepress-ui-section--filters-search .date-filter-demo,
+.tradepress-ui-section--filters-search .sort-demo,
+.tradepress-ui-section--filters-search .filter-panel-demo,
+.tradepress-ui-section--filters-search .tag-filter-demo {
+    padding: 8px 10px;
+    background: var(--tradepress-color-gray-50);
+    border: 1px solid var(--tradepress-color-gray-200);
+    border-radius: var(--tradepress-border-radius);
+}
+
+.tradepress-ui-section--filters-search .search-label,
+.tradepress-ui-section--filters-search .filter-label,
+.tradepress-ui-section--filters-search .sort-label,
+.tradepress-ui-section--filters-search .tag-suggestions-label,
+.tradepress-ui-section--filters-search .filter-field-label {
+    display: block;
+    margin: 0 0 4px 0;
+    font-size: var(--tradepress-font-size-sm);
+    font-weight: var(--tradepress-font-weight-medium);
+    color: var(--tradepress-color-gray-700);
+}
+
+.tradepress-ui-section--filters-search .search-wrapper,
+.tradepress-ui-section--filters-search .date-input-wrapper,
+.tradepress-ui-section--filters-search .tag-filter-input-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+}
+
+.tradepress-ui-section--filters-search .search-input,
+.tradepress-ui-section--filters-search .filter-input,
+.tradepress-ui-section--filters-search .filter-select,
+.tradepress-ui-section--filters-search .date-input,
+.tradepress-ui-section--filters-search .tag-filter-input,
+.tradepress-ui-section--filters-search .sort-select {
+    width: 100%;
+    min-height: 32px;
+    padding: 5px 9px;
+    border: 1px solid var(--tradepress-color-gray-300);
+    border-radius: var(--tradepress-border-radius);
+    background: var(--tradepress-color-white);
+    box-sizing: border-box;
+}
+
+.tradepress-ui-section--filters-search .search-input {
+    padding-right: 66px;
+}
+
+.tradepress-ui-section--filters-search .search-icon,
+.tradepress-ui-section--filters-search .date-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--tradepress-color-gray-500);
+    pointer-events: none;
+}
+
+.tradepress-ui-section--filters-search .search-clear,
+.tradepress-ui-section--filters-search .search-advanced-toggle,
+.tradepress-ui-section--filters-search .tag-add-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--tradepress-color-gray-600);
+    cursor: pointer;
+}
+
+.tradepress-ui-section--filters-search .search-clear {
+    right: 8px;
+}
+
+.tradepress-ui-section--filters-search .search-advanced-toggle {
+    right: 32px;
+}
+
+.tradepress-ui-section--filters-search .tag-add-button {
+    right: 6px;
+}
+
+.tradepress-ui-section--filters-search .search-advanced-panel {
+    margin-top: 6px;
+    padding: 8px;
+    border: 1px solid var(--tradepress-color-gray-300);
+    border-radius: var(--tradepress-border-radius);
+    background: var(--tradepress-color-white);
+}
+
+.tradepress-ui-section--filters-search .advanced-filter-row,
+.tradepress-ui-section--filters-search .filter-row,
+.tradepress-ui-section--filters-search .date-range-wrapper,
+.tradepress-ui-section--filters-search .filter-range {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    align-items: center;
+}
+
+.tradepress-ui-section--filters-search .filter-column {
+    display: grid;
+    gap: 5px;
+}
+
+.tradepress-ui-section--filters-search .filter-range-separator,
+.tradepress-ui-section--filters-search .date-range-separator {
+    text-align: center;
+    color: var(--tradepress-color-gray-500);
+    font-size: var(--tradepress-font-size-sm);
+}
+
+.tradepress-ui-section--filters-search .filter-button-group,
+.tradepress-ui-section--filters-search .date-preset-buttons,
+.tradepress-ui-section--filters-search .sort-button-group,
+.tradepress-ui-section--filters-search .active-tags,
+.tradepress-ui-section--filters-search .suggested-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tradepress-ui-section--filters-search .filter-button,
+.tradepress-ui-section--filters-search .date-preset-button,
+.tradepress-ui-section--filters-search .sort-button,
+.tradepress-ui-section--filters-search .tag-suggestion,
+.tradepress-ui-section--filters-search .filter-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    min-height: 28px;
+    padding: 0 8px;
+    border: 1px solid var(--tradepress-color-gray-300);
+    border-radius: var(--tradepress-border-radius);
+    background: var(--tradepress-color-white);
+    color: var(--tradepress-color-gray-700);
+    font-size: 11px;
+}
+
+.tradepress-ui-section--filters-search .filter-button.active,
+.tradepress-ui-section--filters-search .date-preset-button.active,
+.tradepress-ui-section--filters-search .sort-button.active {
+    border-color: #bfd5ec;
+    background: #eef5fc;
+    color: #1d4f86;
+}
+
+.tradepress-ui-section--filters-search .filter-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: #e8edf3;
+    color: #44546b;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.tradepress-ui-section--filters-search .filter-actions {
+    margin-top: 6px;
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+}
+
+.tradepress-ui-section--filters-search .tag-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+@media (max-width: 960px) {
+    .tradepress-ui-section--filters-search .tradepress-filters-two-column {
+        grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    }
+
+    .tradepress-ui-section--filters-search .tradepress-filters-two-column {
+        gap: var(--tradepress-spacing-sm);
+    }
+
+    .tradepress-ui-section--filters-search .advanced-filter-row,
+    .tradepress-ui-section--filters-search .filter-row,
+    .tradepress-ui-section--filters-search .date-range-wrapper,
+    .tradepress-ui-section--filters-search .filter-range {
+        grid-template-columns: 1fr;
+    }
+
+    .tradepress-ui-section--filters-search .filter-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 700px) {
+    .tradepress-ui-section--filters-search .tradepress-filters-two-column {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Demo Form */
 .tradepress-demo-form {
     background: var(--tradepress-color-gray-50);
@@ -1182,6 +1603,413 @@
     border-top: 1px solid var(--tradepress-color-gray-300);
     display: flex;
     gap: var(--tradepress-spacing-md);
+}
+
+/* Notice Components Panel */
+.tradepress-ui-section--notices .tradepress-notice-lab {
+    background:
+        radial-gradient(circle at 12% 8%, rgba(34, 113, 177, 0.08) 0, rgba(34, 113, 177, 0) 42%),
+        radial-gradient(circle at 88% 12%, rgba(22, 163, 74, 0.07) 0, rgba(22, 163, 74, 0) 38%),
+        #f7f9fc;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-lab-intro {
+    margin: 0 0 var(--tradepress-spacing-lg) 0;
+    font-size: var(--tradepress-font-size-sm);
+    color: #44546b;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--tradepress-spacing-md);
+}
+
+.tradepress-ui-section--notices .notice-demo-group {
+    margin: 0;
+    padding: var(--tradepress-spacing-md);
+    background: #ffffff;
+    border: 1px solid #d7dee7;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(23, 42, 66, 0.06);
+}
+
+.tradepress-ui-section--notices .tradepress-notice-panel-header {
+    margin: 0 0 var(--tradepress-spacing-sm) 0;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-panel-header h4,
+.tradepress-ui-section--notices .notice-demo-group h4,
+.tradepress-ui-section--notices .notice-demo-group h5 {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 15px;
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: #12243d;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-panel-header p {
+    margin: 6px 0 0;
+    color: #5e6d80;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.tradepress-ui-section--notices .notice {
+    margin: 0 0 var(--tradepress-spacing-sm);
+}
+
+.tradepress-ui-section--notices .notice:last-child {
+    margin-bottom: 0;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-panel--guidelines {
+    grid-column: 1 / -1;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-compact .TradePress_status_box_container {
+    margin: 0;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-compact .welcome-panel,
+.tradepress-ui-section--notices .tradepress-notice-compact .welcome-panel-content {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-compact .welcome-panel::before,
+.tradepress-ui-section--notices .tradepress-notice-compact .welcome-panel-content::before,
+.tradepress-ui-section--notices .tradepress-notice-compact hr {
+    display: none !important;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-compact h3 {
+    margin: 0 0 6px;
+    padding: 0 !important;
+    border: 0 !important;
+    font-size: 14px;
+    line-height: 1.3;
+    color: #14335a;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-compact .about-description {
+    margin: 0 0 8px;
+    font-size: 12px;
+    color: #596a7d;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-compact p {
+    margin: 0 0 6px;
+    font-size: 12px;
+    color: #2b3f58;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-compact p:last-child {
+    margin-bottom: 0;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-compact .welcome-panel-content > p:last-child {
+    display: none;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-compact progress {
+    width: 180px;
+    height: 8px;
+    margin: 0 6px;
+    vertical-align: middle;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-guidelines-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 8px;
+}
+
+.tradepress-ui-section--notices .tradepress-notice-guidelines-list li {
+    padding: 8px 10px;
+    background: #f4f7fb;
+    border: 1px solid #d9e2ec;
+    border-radius: 6px;
+    color: #31445d;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.tradepress-ui-section--notices .tradepress-mode-stack {
+    display: grid;
+    gap: 10px;
+}
+
+.tradepress-ui-section--notices .tradepress-mode-signal {
+    display: grid;
+    grid-template-columns: 16px 1fr auto;
+    gap: 10px;
+    align-items: start;
+    padding: 10px 12px;
+    border: 1px solid #d5dbe4;
+    border-radius: 6px;
+    background: #fbfcfd;
+}
+
+.tradepress-ui-section--notices .tradepress-mode-signal .dashicons {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    line-height: 1;
+    margin-top: 2px;
+}
+
+.tradepress-ui-section--notices .tradepress-mode-signal-copy h5 {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.3;
+    color: #13273f;
+}
+
+.tradepress-ui-section--notices .tradepress-mode-signal-copy p {
+    margin: 3px 0 0;
+    font-size: 12px;
+    color: #4f6076;
+    line-height: 1.4;
+}
+
+.tradepress-ui-section--notices .tradepress-mode-signal-pill {
+    align-self: start;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+}
+
+.tradepress-ui-section--notices .tradepress-mode-signal.is-demo {
+    border-color: #d8c7a1;
+    background: #fff9ef;
+}
+
+.tradepress-ui-section--notices .tradepress-mode-signal.is-demo .dashicons,
+.tradepress-ui-section--notices .tradepress-mode-signal.is-demo .tradepress-mode-signal-pill {
+    color: #7d5a1e;
+}
+
+.tradepress-ui-section--notices .tradepress-mode-signal.is-demo .tradepress-mode-signal-pill {
+    border-color: #e3cfab;
+    background: #fdf2dd;
+}
+
+.tradepress-ui-section--notices .tradepress-mode-signal.is-live {
+    border-color: #b9d6be;
+    background: #f1f8f2;
+}
+
+.tradepress-ui-section--notices .tradepress-mode-signal.is-live .dashicons,
+.tradepress-ui-section--notices .tradepress-mode-signal.is-live .tradepress-mode-signal-pill {
+    color: #1f6c37;
+}
+
+.tradepress-ui-section--notices .tradepress-mode-signal.is-live .tradepress-mode-signal-pill {
+    border-color: #b9d8bf;
+    background: #e9f5eb;
+}
+
+.tradepress-ui-section--notices .tradepress-mode-signal.is-active {
+    box-shadow: inset 3px 0 0 currentColor;
+}
+
+.tradepress-ui-section--notices .tradepress-top-notice-note {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #4f6076;
+}
+
+.tradepress-ui-section--notices .tradepress-top-notice-types {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tradepress-ui-section--notices .tradepress-top-notice-type {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 8px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.tradepress-ui-section--notices .tradepress-top-notice-type--success {
+    background: #ecf7ed;
+    border-color: #c8e4cc;
+    color: #1e6f3e;
+}
+
+.tradepress-ui-section--notices .tradepress-top-notice-type--info {
+    background: #f7fcfe;
+    border-color: #b8d8e5;
+    color: #0b5f84;
+}
+
+.tradepress-ui-section--notices .tradepress-top-notice-type--warning {
+    background: #fff8e5;
+    border-color: #ecdca6;
+    color: #7f5b1f;
+}
+
+.tradepress-ui-section--notices .tradepress-top-notice-type--error {
+    background: #fbeaea;
+    border-color: #e8c4c4;
+    color: #7a2525;
+}
+
+.tradepress-ui-section--notices .tradepress-system-notice {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 10px;
+    align-items: start;
+    padding: 10px 12px;
+    border: 1px solid #c8e4cc;
+    border-left: 4px solid #46b450;
+    border-radius: 4px;
+    background: #ecf7ed;
+}
+
+.tradepress-ui-section--notices .tradepress-system-notice .dashicons {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    line-height: 1;
+    color: #1e6f3e;
+    margin-top: 1px;
+}
+
+.tradepress-ui-section--notices .tradepress-system-notice-copy h5 {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.3;
+    color: #1a5e35;
+}
+
+.tradepress-ui-section--notices .tradepress-system-notice-copy p {
+    margin: 3px 0 0;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #2f4a3a;
+}
+
+.tradepress-ui-section--notices .tradepress-inline-alert {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 10px;
+    align-items: start;
+    margin: 0 0 8px;
+    padding: 9px 11px;
+    border: 1px solid #d2dbe6;
+    border-left-width: 4px;
+    border-radius: 4px;
+    background: #f7fcfe;
+}
+
+.tradepress-ui-section--notices .tradepress-inline-alert:last-child {
+    margin-bottom: 0;
+}
+
+.tradepress-ui-section--notices .tradepress-inline-alert .dashicons {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    line-height: 1;
+    margin-top: 1px;
+}
+
+.tradepress-ui-section--notices .tradepress-inline-alert p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.tradepress-ui-section--notices .tradepress-inline-alert--info {
+    border-color: #b8d8e5;
+    border-left-color: #00a0d2;
+    background: #f7fcfe;
+    color: #0b5f84;
+}
+
+.tradepress-ui-section--notices .tradepress-inline-alert--info .dashicons {
+    color: #0b5f84;
+}
+
+.tradepress-ui-section--notices .tradepress-inline-alert--warning {
+    border-color: #ecdca6;
+    border-left-color: #ffb900;
+    background: #fff8e5;
+    color: #7f5b1f;
+}
+
+.tradepress-ui-section--notices .tradepress-inline-alert--warning .dashicons {
+    color: #8d631d;
+}
+
+.tradepress-ui-section--notices .status-message {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 8px;
+    padding: 8px 10px;
+    border: 1px solid #d7dee7;
+    border-left-width: 4px;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 1.35;
+    background: #f7fcfe;
+    color: #0b5f84;
+}
+
+.tradepress-ui-section--notices .status-message:last-child {
+    margin-bottom: 0;
+}
+
+.tradepress-ui-section--notices .status-message.connecting,
+.tradepress-ui-section--notices .status-message.info {
+    background: #f7fcfe;
+    border-color: #b8d8e5;
+    border-left-color: #00a0d2;
+    color: #0b5f84;
+}
+
+.tradepress-ui-section--notices .status-message.success {
+    background: #ecf7ed;
+    border-color: #c8e4cc;
+    border-left-color: #46b450;
+    color: #1e6f3e;
+}
+
+.tradepress-ui-section--notices .status-message.warning {
+    background: #fff8e5;
+    border-color: #ecdca6;
+    border-left-color: #ffb900;
+    color: #7f5b1f;
+}
+
+.tradepress-ui-section--notices .status-message.error {
+    background: #fbeaea;
+    border-color: #e8c4c4;
+    border-left-color: #dc3232;
+    color: #7a2525;
 }
 
 /* Notice Demo Sections */
@@ -1401,6 +2229,20 @@
 
 /* Responsive adjustments for UI Library */
 @media (max-width: 782px) {
+    .tradepress-ui-section--notices .tradepress-notice-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tradepress-ui-section--notices .tradepress-notice-panel--guidelines {
+        grid-column: auto;
+    }
+
+    .tradepress-ui-section--notices .tradepress-notice-compact progress {
+        width: 100%;
+        margin: 4px 0;
+        display: block;
+    }
+
     .notice-demo-group h4 {
         font-size: 16px;
     }
@@ -1422,4 +2264,436 @@
     .process-status-examples {
         grid-template-columns: 1fr;
     }
+}
+
+/* ============================================================
+   Missing class definitions — semantic / layout hooks
+   ============================================================ */
+
+/* Color Palette — top-row group modifiers (layout same as base) */
+.tradepress-color-group--primary,
+.tradepress-color-group--status {
+    flex: 1;
+}
+
+/* Button Components — icon buttons group modifier */
+.tradepress-component-group--icon-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Notice Components — panel container base */
+.tradepress-ui-section--notices .tradepress-notice-panel {
+    margin-bottom: 0;
+}
+
+/* Notice Components — modes panel (demo/live mode signals layout) */
+.tradepress-ui-section--notices .tradepress-notice-panel--modes {
+    display: block;
+}
+
+/* Notice Components — success variant of system notice (inherits base green styling) */
+.tradepress-ui-section--notices .tradepress-system-notice--success {
+    border-color: #c8e4cc;
+    border-left-color: #46b450;
+    background: #ecf7ed;
+}
+
+/* Pagination Controls — scoped section class */
+.tradepress-ui-section--pagination-controls {
+    display: block;
+}
+
+/* WordPress admin table helper compatibility for local class checker */
+.tradepress-ui-library .fixed {
+    table-layout: fixed;
+}
+
+.tradepress-ui-library .striped > tbody > :nth-child(odd) {
+    background: #f6f7f7;
+}
+
+/* Tooltips — top position is default, no override needed */
+.tradepress-ui-section--tooltips .tp-tooltip-pos-top::after {
+    bottom: calc(100% + 8px);
+    top: auto;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.tradepress-ui-section--tooltips .tp-tooltip-pos-top::before {
+    bottom: calc(100% + 4px);
+    top: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    border-top-color: #1d2327;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+}
+
+/* Pointers — demo container and trigger classes (inline styles handle visual) */
+.tradepress-ui-section--pointers .test-pointer-container {
+    position: relative;
+}
+
+.tradepress-ui-section--pointers .test-pointer-trigger {
+    cursor: pointer;
+}
+
+.tradepress-ui-section--pointers .pointer-test-box {
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.tradepress-ui-section--pointers .test-position-pointer {
+    display: inline-block;
+}
+
+/* ============================================================
+   Accordion Components — tp-accordion
+   ============================================================ */
+.tp-accordion-container {
+    margin: 0;
+}
+
+.tp-accordion-item {
+    margin-bottom: 8px;
+    border: 1px solid var(--tradepress-color-gray-300, #ddd);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.tp-accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: var(--tradepress-color-gray-50, #f8f9fa);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    user-select: none;
+}
+
+.tp-accordion-header:hover {
+    background: var(--tradepress-color-gray-100, #e9ecef);
+}
+
+.tp-accordion-title {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--tradepress-color-text, #23282d);
+    border: none;
+    padding: 0;
+}
+
+.tp-accordion-icon {
+    font-size: 16px;
+    color: var(--tradepress-color-wp-blue, #2271b1);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.tp-accordion-icon.tp-accordion-icon-rotated {
+    transform: rotate(180deg);
+}
+
+.tp-accordion-content {
+    display: none;
+    padding: 14px;
+    background: var(--tradepress-color-white, #fff);
+}
+
+.tp-accordion-content table {
+    margin: 0;
+}
+
+/* ============================================================
+   Tooltips Section — CSS-only + Popovers
+   ============================================================ */
+
+/* Base trigger */
+.tradepress-ui-section--tooltips .tp-tooltip-trigger,
+.tradepress-ui-section--tooltips .tp-tooltip-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: help;
+}
+
+/* Tooltip bubble via ::after */
+.tradepress-ui-section--tooltips .tp-tooltip-trigger::after,
+.tradepress-ui-section--tooltips .tp-tooltip-icon::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1d2327;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 1.4;
+    white-space: normal;
+    width: max-content;
+    max-width: 220px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 9999;
+    text-decoration: none;
+}
+
+/* Arrow */
+.tradepress-ui-section--tooltips .tp-tooltip-trigger::before,
+.tradepress-ui-section--tooltips .tp-tooltip-icon::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: #1d2327;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 9999;
+}
+
+.tradepress-ui-section--tooltips .tp-tooltip-trigger:hover::after,
+.tradepress-ui-section--tooltips .tp-tooltip-trigger:hover::before,
+.tradepress-ui-section--tooltips .tp-tooltip-icon:hover::after,
+.tradepress-ui-section--tooltips .tp-tooltip-icon:hover::before {
+    opacity: 1;
+}
+
+/* Color variants */
+.tradepress-ui-section--tooltips .tp-tooltip-success { color: var(--tradepress-color-success, #00a32a); }
+.tradepress-ui-section--tooltips .tp-tooltip-warning { color: var(--tradepress-color-warning, #dba617); }
+.tradepress-ui-section--tooltips .tp-tooltip-error   { color: var(--tradepress-color-error, #d63638); }
+
+.tradepress-ui-section--tooltips .tp-tooltip-success::after { background: #1a6b2d; }
+.tradepress-ui-section--tooltips .tp-tooltip-success::before { border-top-color: #1a6b2d; }
+.tradepress-ui-section--tooltips .tp-tooltip-warning::after { background: #7a5200; }
+.tradepress-ui-section--tooltips .tp-tooltip-warning::before { border-top-color: #7a5200; }
+.tradepress-ui-section--tooltips .tp-tooltip-error::after   { background: #8b1d1e; }
+.tradepress-ui-section--tooltips .tp-tooltip-error::before  { border-top-color: #8b1d1e; }
+
+/* Basic tooltip row */
+.tradepress-ui-section--tooltips .tp-tooltip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 32px 16px 12px;
+}
+
+/* Icon tooltip in table */
+.tradepress-ui-section--tooltips .tp-tooltip-icon {
+    margin-left: 4px;
+    color: var(--tradepress-color-gray-500, #646970);
+    cursor: help;
+    vertical-align: middle;
+}
+
+.tradepress-ui-section--tooltips .tp-tooltip-icon .dashicons {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    line-height: 1;
+}
+
+/* Positioning variants */
+/* Right */
+.tradepress-ui-section--tooltips .tp-tooltip-pos-right::after {
+    bottom: auto;
+    top: 50%;
+    left: calc(100% + 8px);
+    transform: translateY(-50%);
+}
+.tradepress-ui-section--tooltips .tp-tooltip-pos-right::before {
+    bottom: auto;
+    top: 50%;
+    left: calc(100% + 4px);
+    transform: translateY(-50%);
+    border-top-color: transparent;
+    border-right-color: #1d2327;
+}
+
+/* Bottom */
+.tradepress-ui-section--tooltips .tp-tooltip-pos-bottom::after {
+    bottom: auto;
+    top: calc(100% + 8px);
+}
+.tradepress-ui-section--tooltips .tp-tooltip-pos-bottom::before {
+    bottom: auto;
+    top: calc(100% + 4px);
+    border-top-color: transparent;
+    border-bottom-color: #1d2327;
+}
+
+/* Left */
+.tradepress-ui-section--tooltips .tp-tooltip-pos-left::after {
+    bottom: auto;
+    top: 50%;
+    left: auto;
+    right: calc(100% + 8px);
+    transform: translateY(-50%);
+}
+.tradepress-ui-section--tooltips .tp-tooltip-pos-left::before {
+    bottom: auto;
+    top: 50%;
+    left: auto;
+    right: calc(100% + 4px);
+    transform: translateY(-50%);
+    border-top-color: transparent;
+    border-left-color: #1d2327;
+}
+
+/* Positioning demo grid */
+.tradepress-ui-section--tooltips .tp-tooltip-position-grid {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    justify-content: start;
+    gap: 16px;
+    padding: 40px 24px;
+}
+
+.tradepress-ui-section--tooltips .tp-tooltip-position-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tradepress-ui-section--tooltips .tp-tooltip-position-cell .button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 80px;
+    justify-content: center;
+}
+
+/* Popover list */
+.tradepress-ui-section--tooltips .tp-popover-list {
+    border: 1px solid var(--tradepress-color-gray-200, #ddd);
+    border-radius: 4px;
+    overflow: visible;
+}
+
+.tradepress-ui-section--tooltips .tp-popover-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--tradepress-color-gray-200, #ddd);
+}
+
+.tradepress-ui-section--tooltips .tp-popover-row:last-child {
+    border-bottom: none;
+}
+
+.tradepress-ui-section--tooltips .tp-popover-row-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tradepress-ui-section--tooltips .tp-popover-price {
+    font-size: 13px;
+}
+.tradepress-ui-section--tooltips .tp-popover-price.positive { color: var(--tradepress-color-success, #00a32a); }
+.tradepress-ui-section--tooltips .tp-popover-price.negative { color: var(--tradepress-color-error, #d63638); }
+
+.tradepress-ui-section--tooltips .tp-popover-change {
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+.tradepress-ui-section--tooltips .tp-popover-trigger .dashicons {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    line-height: 1;
+}
+
+/* Popover card */
+.tradepress-ui-section--tooltips .tp-popover-card {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 4px);
+    z-index: 1000;
+    min-width: 240px;
+    background: #fff;
+    border: 1px solid var(--tradepress-color-gray-300, #ccc);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    padding: 0;
+    overflow: hidden;
+}
+
+.tradepress-ui-section--tooltips .tp-popover-card.is-open {
+    display: block;
+}
+
+.tradepress-ui-section--tooltips .tp-popover-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: var(--tradepress-color-gray-50, #f8f9fa);
+    border-bottom: 1px solid var(--tradepress-color-gray-200, #ddd);
+    font-size: 13px;
+}
+
+.tradepress-ui-section--tooltips .tp-popover-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--tradepress-color-gray-500, #666);
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    font-size: 18px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+.tradepress-ui-section--tooltips .tp-popover-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.tradepress-ui-section--tooltips .tp-popover-table th,
+.tradepress-ui-section--tooltips .tp-popover-table td {
+    padding: 5px 12px;
+    font-size: 12px;
+    border-bottom: 1px solid var(--tradepress-color-gray-100, #f0f0f0);
+}
+
+.tradepress-ui-section--tooltips .tp-popover-table th {
+    color: var(--tradepress-color-gray-600, #666);
+    font-weight: 400;
+    width: 50%;
+}
+
+.tradepress-ui-section--tooltips .tp-popover-table td {
+    font-weight: 600;
+    color: var(--tradepress-color-gray-900, #1d2327);
+}
+
+.tradepress-ui-section--tooltips .tp-popover-footer {
+    margin: 0;
+    padding: 6px 12px;
+    font-size: 11px;
+    color: var(--tradepress-color-gray-500, #888);
+    background: var(--tradepress-color-gray-50, #f8f9fa);
+    border-top: 1px solid var(--tradepress-color-gray-200, #ddd);
 }

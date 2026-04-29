@@ -114,7 +114,6 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
         
         // Enhanced logging for both test types
         $test_type = $is_query_test ? 'Query Test' : 'Call Test';
-        error_log("[" . date('Y-m-d H:i:s') . "] {$test_type} initiated for {$api_id} API, symbol: {$default_symbol}\n", 3, ABSPATH . 'calls.log');
         
         // Check for cached data if this is a Query Test
         if ($is_query_test) {
@@ -132,7 +131,6 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
             
             foreach ($cache_patterns as $cache_key) {
                 $cached_data = get_transient($cache_key);
-                error_log("[" . date('Y-m-d H:i:s') . "] Checking cache key: {$cache_key} - " . ($cached_data !== false ? 'FOUND' : 'NOT FOUND') . "\n", 3, ABSPATH . 'calls.log');
                 
                 if ($cached_data !== false) {
                     $cache_found = true;
@@ -143,7 +141,6 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
             }
             
             if ($cache_found) {
-                error_log("[" . date('Y-m-d H:i:s') . "] Query Test SUCCESS - Cache hit for {$default_symbol}, key: {$cache_key_used}\n", 3, ABSPATH . 'calls.log');
                 
                 $notice_content = "<div class='tradepress-test-results'>";
                 $notice_content .= "<div class='test-section background-activity'>";
@@ -167,7 +164,6 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                 add_settings_error('tradepress_api_management', 'query_test_cached', $notice_content, 'updated');
                 return;
             } else {
-                error_log("[" . date('Y-m-d H:i:s') . "] Query Test - No cache found for {$default_symbol}, proceeding with API call\n", 3, ABSPATH . 'calls.log');
             }
         }
         
@@ -227,7 +223,6 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                     if ($developer_mode) {
                         $log_msg .= ", URL: {$url}, Headers: " . json_encode($headers);
                     }
-                    error_log($log_msg . "\n", 3, WP_CONTENT_DIR . '/alpaca.log');
                 }
                 
                 $ch = curl_init();
@@ -249,7 +244,6 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                 
                 // Log summary to calls.log
                 $status = ($curl_errno === 0 && $http_code === 200) ? 'SUCCESS' : 'FAILED';
-                error_log("[" . date('Y-m-d H:i:s') . "] Alpaca: {$default_symbol}/{$endpoint} - {$status}\n", 3, ABSPATH . 'calls.log');
                 
                 // Log details to alpaca.log if enabled
                 if (get_option('bugnet_output_alpaca', 'no') === 'yes') {
@@ -263,7 +257,6 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                     } elseif ($response && $http_code !== 200) {
                         $log_msg .= ", Response: " . $response;
                     }
-                    error_log($log_msg . "\n", 3, WP_CONTENT_DIR . '/alpaca.log');
                 }
                 
                 if ($curl_errno !== 0) {
@@ -277,7 +270,6 @@ if (isset($_POST['action']) && ($_POST['action'] === 'test_api' || $_POST['actio
                     // Store in cache for future Query Tests (15 minutes)
                     $cache_key = 'tradepress_' . $api_id . '_' . $default_symbol . '_bars';
                     set_transient($cache_key, $data, 15 * MINUTE_IN_SECONDS);
-                    error_log("[" . date('Y-m-d H:i:s') . "] Cached data stored: {$cache_key} (expires in 15 minutes)\n", 3, ABSPATH . 'calls.log');
                     
                     $response_data = [
                         'symbol' => $default_symbol,
@@ -1157,6 +1149,11 @@ jQuery(document).ready(function($) {
         performSearch();
     });
     
+    /**
+     * Perform search.
+     *
+     * @version 1.0.0
+     */
     function performSearch() {
         var searchTerm = $('#api-search-input').val();
         var url = new URL(window.location);

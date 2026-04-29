@@ -17,6 +17,8 @@ class TradePress_Admin_Development_jQuery_UI {
     
     /**
      * Output the jQuery UI demos
+      *
+      * @version 1.0.0
      */
     public static function output() {
         self::enqueue_assets();
@@ -188,6 +190,8 @@ class TradePress_Admin_Development_jQuery_UI {
     
     /**
      * Enqueue required assets
+      *
+      * @version 1.0.0
      */
     private static function enqueue_assets() {
         // Enqueue WordPress bundled jQuery UI components

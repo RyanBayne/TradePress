@@ -20,6 +20,7 @@ if (!defined('ABSPATH')) {
  * @param string $decimal_separator Decimal separator
  * @param string $thousands_separator Thousands separator
  * @return string Formatted number
+  * @version 1.0.0
  */
 function tradepress_number_format($number, $decimals = 0, $decimal_separator = '.', $thousands_separator = ',') {
     // Handle null, empty strings, or other non-numeric values
@@ -38,6 +39,7 @@ function tradepress_number_format($number, $decimals = 0, $decimal_separator = '
  * @param mixed $price The price to format
  * @param string $currency_symbol Currency symbol
  * @return string Formatted price or empty string if input is invalid
+  * @version 1.0.0
  */
 function tradepress_price_format($price, $currency_symbol = '$') {
     if ($price === null || $price === '') {
@@ -58,6 +60,7 @@ function tradepress_price_format($price, $currency_symbol = '$') {
  * @param mixed $value The value to format as percentage
  * @param int $decimals Number of decimal points
  * @return string Formatted percentage or empty string if input is invalid
+  * @version 1.0.0
  */
 function tradepress_percentage_format($value, $decimals = 2) {
     if ($value === null || $value === '') {
@@ -121,6 +124,7 @@ function TradePress_string_half( string $string, $ret = null ) {
  *
  * @param string $postcode
  * @return string Sanitized postcode.
+  * @version 1.0.0
  */
 function TradePress_normalize_postcode( string $postcode ) {          
     return preg_replace( '/[\s\-]/', '', trim( strtoupper( $postcode ) ) );
@@ -131,6 +135,7 @@ function TradePress_normalize_postcode( string $postcode ) {
  *
  * @param mixed $tel
  * @return string
+  * @version 1.0.0
  */
 function TradePress_format_phone_number( $tel ) {            
     return str_replace( '.', '-', $tel );
@@ -142,6 +147,7 @@ function TradePress_format_phone_number( $tel ) {
  *
  * @param string $string
  * @return string
+  * @version 1.0.0
  */
 function TradePress_strtolower( string $string ) {                    
     return function_exists( 'mb_strtolower' ) ? mb_strtolower( $string ) : strtolower( $string );
@@ -154,6 +160,7 @@ function TradePress_strtolower( string $string ) {
  * @param integer $chars
  * @param string $suffix
  * @return string
+  * @version 1.0.0
  */
 function TradePress_trim_string( $string, $chars = 200, $suffix = '...' ) {      
     if ( strlen( $string ) > $chars ) {
@@ -172,6 +179,7 @@ function TradePress_trim_string( $string, $chars = 200, $suffix = '...' ) {
  * Non-scalar values are ignored.
  * @param string|array $var
  * @return string|array
+  * @version 1.0.0
  */
 function TradePress_clean( $var ) {
     if ( is_array( $var ) ) {

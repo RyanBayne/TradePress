@@ -22,6 +22,8 @@ class TradePress_Install {
 
     /**
      * Hook in tabs.
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         register_activation_hook(__FILE__, array($this, 'install'));
@@ -34,6 +36,8 @@ class TradePress_Install {
      * Check TradePress version and run the updater if required.
      *
      * This check is done on all requests and runs if the versions do not match.
+      *
+      * @version 1.0.0
      */
     public function check_version() {
         if (get_option('tradepress_version') !== TRADEPRESS_VERSION) {
@@ -44,6 +48,8 @@ class TradePress_Install {
 
     /**
      * Install TradePress
+      *
+      * @version 1.0.0
      */
     public function install() {
         // Check if we are not already running this routine
@@ -75,6 +81,8 @@ class TradePress_Install {
     
     /**
      * Create symbol posts for all tracked symbols
+      *
+      * @version 1.0.0
      */
     private function create_symbol_posts() {
         // Log the start of symbol creation
@@ -232,6 +240,8 @@ class TradePress_Install {
 
     /**
      * Create options
+      *
+      * @version 1.0.0
      */
     private function create_options() {
         // Add options here
@@ -278,6 +288,8 @@ class TradePress_Install {
     
     /**
      * Create user roles
+      *
+      * @version 1.0.0
      */
     private function create_roles() {
         // Add TradePress Admin role
@@ -326,6 +338,8 @@ class TradePress_Install {
     
     /**
      * Setup plugin environment
+      *
+      * @version 1.0.0
      */
     private function setup_environment() {
         // Register post types
@@ -337,6 +351,8 @@ class TradePress_Install {
     
     /**
      * Register core post types
+      *
+      * @version 1.0.0
      */
     private function register_post_types() {
         if (!is_blog_installed()) {
@@ -382,6 +398,8 @@ class TradePress_Install {
     
     /**
      * Register taxonomies
+      *
+      * @version 1.0.0
      */
     private function register_taxonomies() {
         if (!is_blog_installed()) {
@@ -439,6 +457,8 @@ class TradePress_Install {
     
     /**
      * Create scheduled events (cron jobs)
+      *
+      * @version 1.0.0
      */
     private function create_cron_jobs() {
         // Schedule daily algorithm run
@@ -454,6 +474,15 @@ class TradePress_Install {
 }
 
 // Add a debug link to the plugin's action links
+/**
+ * Add db debug action link.
+ *
+ * @param mixed $links
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function tradepress_add_db_debug_action_link($links) {
     $debug_link = '<a href="' . admin_url('tools.php?page=tradepress-db-diagnosis') . '">DB Diagnosis</a>';
     array_unshift($links, $debug_link);

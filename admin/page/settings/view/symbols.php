@@ -20,6 +20,8 @@ class TradePress_Settings_Symbols extends TradePress_Settings_Page {
 
     /**
      * Constructor.
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->id    = 'symbols';
@@ -34,6 +36,7 @@ class TradePress_Settings_Symbols extends TradePress_Settings_Page {
      * Get sections.
      *
      * @return array
+      * @version 1.0.0
      */
     public function get_sections() {
         $sections = array(
@@ -45,6 +48,8 @@ class TradePress_Settings_Symbols extends TradePress_Settings_Page {
 
     /**
      * Output the settings.
+      *
+      * @version 1.0.0
      */
     public function output() {
         global $current_section;
@@ -55,6 +60,8 @@ class TradePress_Settings_Symbols extends TradePress_Settings_Page {
 
     /**
      * Save settings.
+      *
+      * @version 1.0.0
      */
     public function save() {
         global $current_section;
@@ -67,6 +74,9 @@ class TradePress_Settings_Symbols extends TradePress_Settings_Page {
      * Get settings array.
      *
      * @return array
+      * @version 1.0.0
+      *
+      * @param string $current_section
      */
     public function get_settings( $current_section = '' ) {
         $settings = array();

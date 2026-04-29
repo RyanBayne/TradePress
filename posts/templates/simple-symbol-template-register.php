@@ -11,6 +11,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Registers the symbol template in WordPress
+  *
+  * @version 1.0.0
  */
 function tradepress_register_symbol_template() {
     // Define the template path
@@ -43,6 +45,8 @@ add_action('init', 'tradepress_register_symbol_template', 20);
 
 /**
  * Display admin notice if template file is missing
+  *
+  * @version 1.0.0
  */
 function tradepress_template_missing_notice() {
     echo '<div class="error notice"><p>';
@@ -56,6 +60,10 @@ function tradepress_template_missing_notice() {
 
 /**
  * Adds the template to the templates list
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $templates
  */
 function tradepress_add_symbol_template($templates) {
     $templates['symbol-template.php'] = 'TradePress Symbol Template';
@@ -64,6 +72,13 @@ function tradepress_add_symbol_template($templates) {
 
 /**
  * This is the critical filter for WordPress 4.7+ to show templates in dropdown
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $post_templates
+  * @param mixed $wp_theme
+  * @param mixed $post
+  * @param mixed $post_type
  */
 function tradepress_add_template_to_dropdown($post_templates, $wp_theme, $post, $post_type) {
     // Add template for symbols and pages
@@ -75,6 +90,10 @@ function tradepress_add_template_to_dropdown($post_templates, $wp_theme, $post, 
 
 /**
  * Use our template when a symbol post is viewed
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $template
  */
 function tradepress_use_symbol_template($template) {
     global $post;
@@ -98,6 +117,8 @@ function tradepress_use_symbol_template($template) {
 
 /**
  * Enqueue CSS styles for the symbol template
+  *
+  * @version 1.0.0
  */
 function tradepress_enqueue_symbol_styles() {
     // Only load the CSS when viewing a symbol post or page with the symbol template
@@ -139,6 +160,8 @@ function tradepress_enqueue_symbol_styles() {
 
 /**
  * Make sure the symbols post type supports templates
+  *
+  * @version 1.0.0
  */
 function tradepress_add_template_support_to_symbols() {
     add_post_type_support('symbols', 'page-attributes');
@@ -148,6 +171,8 @@ add_action('init', 'tradepress_add_template_support_to_symbols', 11);
 
 /**
  * Register a sidebar for the symbol template
+  *
+  * @version 1.0.0
  */
 function tradepress_register_symbol_sidebar() {
     register_sidebar(array(

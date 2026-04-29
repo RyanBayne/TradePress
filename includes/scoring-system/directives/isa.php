@@ -9,6 +9,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Scoring_Directive_ISA extends TradePress_Scoring_Directive_Base {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         $this->id = 'isa_reset';
         $this->name = 'ISA Reset Period';
@@ -20,6 +25,16 @@ class TradePress_Scoring_Directive_ISA extends TradePress_Scoring_Directive_Base
         $this->priority = 20;
     }
     
+    /**
+     * Calculate score.
+     *
+     * @param mixed $symbol_data
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function calculate_score($symbol_data, $config = array()) {
         $days_before = $config['days_before'] ?? 3;
         $days_after = $config['days_after'] ?? 3;
@@ -39,10 +54,28 @@ class TradePress_Scoring_Directive_ISA extends TradePress_Scoring_Directive_Base
         return array('score' => 0, 'in_period' => false, 'days_to_reset' => $days_diff);
     }
     
+    /**
+     * Get max score.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_max_score($config = array()) {
         return $config['score_impact'] ?? 10;
     }
     
+    /**
+     * Get explanation.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_explanation($config = array()) {
         $days_before = $config['days_before'] ?? 3;
         $days_after = $config['days_after'] ?? 3;

@@ -31,6 +31,8 @@ class TradePress_Admin_Scoring_Directives_Page {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->current_tab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'overview';
@@ -39,6 +41,8 @@ class TradePress_Admin_Scoring_Directives_Page {
     
     /**
      * Setup available tabs
+      *
+      * @version 1.0.0
      */
     private function setup_tabs() {
         $this->tabs = array(
@@ -86,7 +90,7 @@ class TradePress_Admin_Scoring_Directives_Page {
         );
         
         // Add conditional tabs
-        if (get_option('tradepress_developer_mode', false)) {
+        if ( tradepress_is_developer_mode() ) {
             $this->tabs['developer'] = array(
                 'title' => __('Developer Mode', 'tradepress'),
                 'description' => __('Developer tools and debugging features', 'tradepress'),
@@ -105,6 +109,8 @@ class TradePress_Admin_Scoring_Directives_Page {
     
     /**
      * Output the page
+      *
+      * @version 1.0.0
      */
     public function output() {
         ?>
@@ -128,6 +134,8 @@ class TradePress_Admin_Scoring_Directives_Page {
     
     /**
      * Render demo notice
+      *
+      * @version 1.0.0
      */
     private function render_demo_notice() {
         if (function_exists('is_demo_mode') && is_demo_mode()) {
@@ -145,6 +153,8 @@ class TradePress_Admin_Scoring_Directives_Page {
     
     /**
      * Render tab navigation
+      *
+      * @version 1.0.0
      */
     private function render_tab_navigation() {
         ?>
@@ -161,6 +171,8 @@ class TradePress_Admin_Scoring_Directives_Page {
     
     /**
      * Render current tab content
+      *
+      * @version 1.0.0
      */
     private function render_current_tab() {
         if (!isset($this->tabs[$this->current_tab])) {
@@ -178,6 +190,8 @@ class TradePress_Admin_Scoring_Directives_Page {
     
     /**
      * Render tab not found message
+      *
+      * @version 1.0.0
      */
     private function render_tab_not_found() {
         ?>
@@ -192,6 +206,10 @@ class TradePress_Admin_Scoring_Directives_Page {
     
     /**
      * Get tab URL
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $tab_key
      */
     private function get_tab_url($tab_key) {
         return admin_url('admin.php?page=tradepress_scoring_directives&tab=' . $tab_key);

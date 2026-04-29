@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * (Originally from class-tradepress-scoring-directives.php)
  * 
  * @return array All system directives.
+  * @version 1.0.0
  */
 function tradepress_get_all_system_directives() {
     return array(

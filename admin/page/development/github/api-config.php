@@ -20,6 +20,7 @@ if (!defined('ABSPATH')) {
  * 
  * @param string $repo_owner GitHub repository owner
  * @param string $repo_name GitHub repository name
+  * @version 1.0.0
  */
 function TRADEPRESS_GITHUB_api_config_content($repo_owner, $repo_name) {
     // Process form submission
@@ -260,6 +261,7 @@ function TRADEPRESS_GITHUB_api_config_content($repo_owner, $repo_name) {
  * Test GitHub API connection
  * 
  * @return bool|WP_Error True on success, WP_Error on failure
+  * @version 1.0.0
  */
 function tradepress_test_github_connection() {
     $github_token = get_option('TRADEPRESS_GITHUB_token', '');
@@ -312,6 +314,7 @@ function tradepress_test_github_connection() {
  * Get GitHub API rate limits
  * 
  * @return array|WP_Error Rate limit data or WP_Error on failure
+  * @version 1.0.0
  */
 function tradepress_get_github_rate_limits() {
     $github_token = get_option('TRADEPRESS_GITHUB_token', '');

@@ -5,6 +5,7 @@
  * 
  * @param int $endpoint_id The ID of the endpoint
  * @return object|null The endpoint data or null if not found
+  * @version 1.0.0
  */
 function TradePress_db_get_endpoint( $endpoint_id ) {
     global $wpdb;
@@ -16,6 +17,7 @@ function TradePress_db_get_endpoint( $endpoint_id ) {
  * 
  * @param string $endpoint_name The name of the endpoint
  * @return object|null The endpoint data or null if not found
+  * @version 1.0.0
  */
 function TradePress_db_get_endpoint_by_name( $endpoint_name ) {
     global $wpdb;
@@ -36,6 +38,7 @@ function TradePress_db_get_endpoint_by_name( $endpoint_name ) {
  * 
  * @param array $endpoint_data Array of endpoint data
  * @return int The ID of the inserted endpoint
+  * @version 1.0.0
  */
 function TradePress_db_store_endpoint( $endpoint_data ) {
     global $wpdb;
@@ -55,6 +58,7 @@ function TradePress_db_store_endpoint( $endpoint_data ) {
  * @param int $endpoint_id The ID of the endpoint to update
  * @param array $endpoint_data Array of endpoint data to update
  * @return int|false The number of rows updated, or false on error
+  * @version 1.0.0
  */
 function TradePress_db_update_endpoint( $endpoint_id, $endpoint_data ) {
     global $wpdb;
@@ -67,6 +71,7 @@ function TradePress_db_update_endpoint( $endpoint_id, $endpoint_data ) {
  * 
  * @param int|string $endpoint_identifier The ID or name of the endpoint
  * @return int|false The number of rows updated, or false on error
+  * @version 1.0.0
  */
 function TradePress_db_increment_endpoint_counter( $endpoint_identifier ) {
     global $wpdb;
@@ -88,6 +93,7 @@ function TradePress_db_increment_endpoint_counter( $endpoint_identifier ) {
  * 
  * @param int|string $endpoint_identifier The ID or name of the endpoint
  * @return int The usage count or 0 if endpoint not found
+  * @version 1.0.0
  */
 function TradePress_db_get_endpoint_counter( $endpoint_identifier ) {
     global $wpdb;
@@ -109,6 +115,7 @@ function TradePress_db_get_endpoint_counter( $endpoint_identifier ) {
  * 
  * @param int|string $endpoint_identifier The ID or name of the endpoint
  * @return int|false The number of rows updated, or false on error
+  * @version 1.0.0
  */
 function TradePress_db_reset_endpoint_counter( $endpoint_identifier ) {
     global $wpdb;
@@ -128,6 +135,7 @@ function TradePress_db_reset_endpoint_counter( $endpoint_identifier ) {
  * Reset all endpoint counters to zero
  * 
  * @return int|false The number of rows updated, or false on error
+  * @version 1.0.0
  */
 function TradePress_db_reset_all_endpoint_counters() {
     global $wpdb;
@@ -141,6 +149,7 @@ function TradePress_db_reset_all_endpoint_counters() {
  * @param string $orderby Column to order by (default: primary key)
  * @param string $sort Sort direction (ASC or DESC)
  * @return array Array of endpoint objects
+  * @version 1.0.0
  */
 function TradePress_db_get_all_endpoints( $orderby = '', $sort = 'ASC' ) {
     global $wpdb;

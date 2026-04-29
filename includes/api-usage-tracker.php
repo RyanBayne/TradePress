@@ -11,6 +11,12 @@ class TradePress_API_Usage_Tracker {
     
     /**
      * Track API call usage
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $provider_id
+      * @param mixed $endpoint
+      * @param bool $success
      */
     public static function track_call($provider_id, $endpoint, $success = true) {
         $today = date('Y-m-d');
@@ -44,6 +50,11 @@ class TradePress_API_Usage_Tracker {
     
     /**
      * Mark API as rate limited
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $provider_id
+      * @param mixed $reset_time
      */
     public static function mark_rate_limited($provider_id, $reset_time = null) {
         $today = date('Y-m-d');
@@ -72,6 +83,10 @@ class TradePress_API_Usage_Tracker {
     
     /**
      * Check if API is likely rate limited with cooling period
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $provider_id
      */
     public static function is_likely_rate_limited($provider_id) {
         $today = date('Y-m-d');
@@ -108,6 +123,10 @@ class TradePress_API_Usage_Tracker {
     
     /**
      * Get best available API for data type with dynamic priority
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $data_type
      */
     public static function get_best_api_for_data($data_type) {
         $base_priority = array(
@@ -175,6 +194,10 @@ class TradePress_API_Usage_Tracker {
     
     /**
      * Get cooling period for rate limited API
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $provider_id
      */
     private static function get_cooling_period($provider_id) {
         $cooling_periods = array(
@@ -188,6 +211,11 @@ class TradePress_API_Usage_Tracker {
     
     /**
      * Get usage statistics
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $provider_id
+      * @param int $days
      */
     public static function get_usage_stats($provider_id, $days = 7) {
         $stats = array();

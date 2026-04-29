@@ -18,11 +18,13 @@ if (!defined('ABSPATH')) {
 
 // Make sure we have the calculator class loaded
 if (!class_exists('TradePress_Volatility_Tools')) {
-    require_once TRADEPRESS_PLUGIN_DIR . 'includes/volatility-tools.php';
+    require_once TRADEPRESS_PLUGIN_DIR . 'includes/scoring-system/directives/volatility-tools.php';
 }
 
 /**
  * Display the Volatility Calculator tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_volatility_analysis_tab_content() {
     // Check if demo mode is active
@@ -359,6 +361,7 @@ function tradepress_volatility_analysis_tab_content() {
  * 
  * @param float $volatility Volatility percentage
  * @return string CSS class name
+  * @version 1.0.0
  */
 function tradepress_volatility_class($volatility) {
     if ($volatility < 10) {
@@ -379,6 +382,7 @@ function tradepress_volatility_class($volatility) {
  * 
  * @param float $beta Beta value
  * @return string CSS class name
+  * @version 1.0.0
  */
 function tradepress_beta_class($beta) {
     if ($beta < 0.5) {
@@ -401,6 +405,7 @@ function tradepress_beta_class($beta) {
  * @param float $implied_volatility Implied volatility percentage
  * @param float $beta Beta value
  * @return array Trading opportunity information
+  * @version 1.0.0
  */
 function tradepress_determine_trading_opportunity($historical_volatility, $implied_volatility, $beta) {
     // Default values

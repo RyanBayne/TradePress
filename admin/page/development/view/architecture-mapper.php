@@ -19,6 +19,7 @@ class TradePress_Architecture_Mapper {
      * Get the complete architecture map
      * 
      * @return array Architecture tree structure
+      * @version 1.0.0
      */
     public static function get_architecture_map() {
         return array(
@@ -554,6 +555,7 @@ class TradePress_Architecture_Mapper {
      * Render the architecture tree as HTML
      * 
      * @return string HTML tree structure
+      * @version 1.0.0
      */
     public static function render_tree() {
         $map = self::get_architecture_map();
@@ -569,6 +571,7 @@ class TradePress_Architecture_Mapper {
      * @param array $nodes Tree nodes
      * @param int $level Nesting level
      * @return string HTML for nodes
+      * @version 1.0.0
      */
     private static function render_tree_node($nodes, $level = 0) {
         $html = '';
@@ -742,6 +745,7 @@ class TradePress_Architecture_Mapper {
      * 
      * @param string $type Node type
      * @return string Icon HTML
+      * @version 1.0.0
      */
     private static function get_type_icon($type) {
         $icons = array(
@@ -765,6 +769,7 @@ class TradePress_Architecture_Mapper {
      * Get CSS styles for the tree
      * 
      * @return string CSS styles
+      * @version 1.0.0
      */
     public static function get_tree_styles() {
         return "
@@ -945,6 +950,7 @@ class TradePress_Architecture_Mapper {
      * Get JavaScript for tree interaction
      * 
      * @return string JavaScript code
+      * @version 1.0.0
      */
     public static function get_tree_scripts() {
         return "

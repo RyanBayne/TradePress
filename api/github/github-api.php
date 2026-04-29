@@ -51,6 +51,8 @@ class TRADEPRESS_GITHUB_API {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         $this->api_token = get_option('TRADEPRESS_GITHUB_token', '');
@@ -60,6 +62,7 @@ class TRADEPRESS_GITHUB_API {
      * Get API token
      *
      * @return string API token
+      * @version 1.0.0
      */
     public function get_token() {
         return $this->api_token;
@@ -70,6 +73,7 @@ class TRADEPRESS_GITHUB_API {
      *
      * @param string $token API token
      * @return void
+      * @version 1.0.0
      */
     public function set_token($token) {
         $this->api_token = sanitize_text_field($token);
@@ -80,6 +84,7 @@ class TRADEPRESS_GITHUB_API {
      * Check if API token is set
      *
      * @return bool True if token is set, false otherwise
+      * @version 1.0.0
      */
     public function has_token() {
         return !empty($this->api_token);
@@ -89,6 +94,7 @@ class TRADEPRESS_GITHUB_API {
      * Get request headers
      *
      * @return array Request headers
+      * @version 1.0.0
      */
     private function get_headers() {
         return array(
@@ -105,6 +111,7 @@ class TRADEPRESS_GITHUB_API {
      * @param string $method Request method (GET, POST, PATCH, etc.)
      * @param array $body Request body
      * @return object|WP_Error Response object or WP_Error on failure
+      * @version 1.0.0
      */
     private function request($endpoint, $method = 'GET', $body = null) {
         if (!$this->has_token()) {
@@ -157,6 +164,7 @@ class TRADEPRESS_GITHUB_API {
      * @param array $params Additional query parameters
      * @param bool $force_refresh Force cache refresh
      * @return array|WP_Error Array of issues or WP_Error on failure
+      * @version 1.0.0
      */
     public function get_issues($owner, $repo, $params = array(), $force_refresh = false) {
         // Check if we're in demo mode
@@ -200,6 +208,7 @@ class TRADEPRESS_GITHUB_API {
      * @param int $issue_number Issue number
      * @param bool $force_refresh Force cache refresh
      * @return object|WP_Error Issue object or WP_Error on failure
+      * @version 1.0.0
      */
     public function get_issue($owner, $repo, $issue_number, $force_refresh = false) {
         // Check if we're in demo mode
@@ -236,6 +245,7 @@ class TRADEPRESS_GITHUB_API {
      * @param string $repo Repository name
      * @param bool $force_refresh Force cache refresh
      * @return array|WP_Error Array of labels or WP_Error on failure
+      * @version 1.0.0
      */
     public function get_labels($owner, $repo, $force_refresh = false) {
         // Check if we're in demo mode
@@ -272,6 +282,7 @@ class TRADEPRESS_GITHUB_API {
      * @param string $repo Repository name
      * @param bool $force_refresh Force cache refresh
      * @return array|WP_Error Array of collaborators or WP_Error on failure
+      * @version 1.0.0
      */
     public function get_collaborators($owner, $repo, $force_refresh = false) {
         // Check if we're in demo mode
@@ -309,6 +320,7 @@ class TRADEPRESS_GITHUB_API {
      * @param string $state Milestone state (open, closed, all)
      * @param bool $force_refresh Force cache refresh
      * @return array|WP_Error Array of milestones or WP_Error on failure
+      * @version 1.0.0
      */
     public function get_milestones($owner, $repo, $state = 'open', $force_refresh = false) {
         // Check if we're in demo mode
@@ -345,6 +357,7 @@ class TRADEPRESS_GITHUB_API {
      * @param string $repo Repository name
      * @param array $data Issue data (title, body, labels, etc.)
      * @return object|WP_Error Created issue object or WP_Error on failure
+      * @version 1.0.0
      */
     public function create_issue($owner, $repo, $data) {
         // Check if we're in demo mode
@@ -363,6 +376,7 @@ class TRADEPRESS_GITHUB_API {
      * @param string $repo Repository name
      * @param array $data Issue data
      * @return object Demo issue object
+      * @version 1.0.0
      */
     private function get_demo_created_issue($owner, $repo, $data) {
         // Create a fake response with the provided data
@@ -396,6 +410,7 @@ class TRADEPRESS_GITHUB_API {
      * @param string $owner Repository owner
      * @param string $repo Repository name
      * @return void
+      * @version 1.0.0
      */
     public function schedule_data_refresh($owner, $repo) {
         if (!wp_next_scheduled('TRADEPRESS_GITHUB_data_refresh', array($owner, $repo))) {
@@ -409,6 +424,7 @@ class TRADEPRESS_GITHUB_API {
      * @param string $owner Repository owner
      * @param string $repo Repository name
      * @return array Refresh status
+      * @version 1.0.0
      */
     public function refresh_all_data($owner, $repo) {
         $status = array(
@@ -444,6 +460,7 @@ class TRADEPRESS_GITHUB_API {
      * Clear all GitHub cache
      *
      * @return int Number of cache items cleared
+      * @version 1.0.0
      */
     public function clear_all_cache() {
         global $wpdb;
@@ -472,6 +489,7 @@ class TRADEPRESS_GITHUB_API {
      * Get cache expiration time in seconds
      *
      * @return int Cache expiration time
+      * @version 1.0.0
      */
     public function get_cache_expiration() {
         return $this->cache_expiration;
@@ -482,6 +500,7 @@ class TRADEPRESS_GITHUB_API {
      *
      * @param int $seconds Expiration time in seconds
      * @return void
+      * @version 1.0.0
      */
     public function set_cache_expiration($seconds) {
         $this->cache_expiration = max(60, absint($seconds));
@@ -495,6 +514,7 @@ class TRADEPRESS_GITHUB_API {
      * @param string $repo Repository name
      * @param array $params Additional parameters for the key
      * @return string Cache key
+      * @version 1.0.0
      */
     private function get_cache_key($type, $owner, $repo, $params = array()) {
         $key = $this->cache_prefix . $type . '_' . $owner . '_' . $repo;
@@ -510,6 +530,7 @@ class TRADEPRESS_GITHUB_API {
      * Get last refresh time
      *
      * @return int|false Timestamp of last refresh or false if never refreshed
+      * @version 1.0.0
      */
     public function get_last_refresh_time() {
         return get_option('TRADEPRESS_GITHUB_last_refresh', false);
@@ -520,6 +541,7 @@ class TRADEPRESS_GITHUB_API {
      *
      * @param int $threshold Threshold in seconds (default: 1 hour)
      * @return bool True if cache is stale, false otherwise
+      * @version 1.0.0
      */
     public function is_cache_stale($threshold = 3600) {
         $last_refresh = $this->get_last_refresh_time();
@@ -536,6 +558,7 @@ class TRADEPRESS_GITHUB_API {
      * @param string $owner Repository owner
      * @param string $repo Repository name
      * @return array Array of demo labels
+      * @version 1.0.0
      */
     private function get_demo_labels($owner, $repo) {
         return array(
@@ -565,6 +588,7 @@ class TRADEPRESS_GITHUB_API {
  * Get a GitHub API instance
  *
  * @return TRADEPRESS_GITHUB_API GitHub API instance
+  * @version 1.0.0
  */
 function TRADEPRESS_GITHUB_api() {
     static $api = null;
@@ -580,6 +604,7 @@ function TRADEPRESS_GITHUB_api() {
  * Initialize GitHub caching system
  * 
  * @return void
+  * @version 1.0.0
  */
 function tradepress_init_github_cache() {
     // Register the background refresh event
@@ -602,6 +627,7 @@ add_action('init', 'tradepress_init_github_cache');
  * @param string $owner Repository owner
  * @param string $repo Repository name
  * @return void
+  * @version 1.0.0
  */
 function tradepress_refresh_github_data($owner, $repo) {
     $api = TRADEPRESS_GITHUB_api();
@@ -615,6 +641,7 @@ function tradepress_refresh_github_data($owner, $repo) {
  * @param string $owner GitHub repository owner
  * @param string $repo GitHub repository name
  * @return array|WP_Error Array of issue objects or WP_Error on failure
+  * @version 1.0.0
  */
 function tradepress_get_github_issues($owner, $repo) {
     return TRADEPRESS_GITHUB_api()->get_issues($owner, $repo);
@@ -628,6 +655,7 @@ function tradepress_get_github_issues($owner, $repo) {
  * @param string $repo GitHub repository name
  * @param int $issue_number Issue number
  * @return object|WP_Error Issue object or WP_Error on failure
+  * @version 1.0.0
  */
 function tradepress_get_github_issue($owner, $repo, $issue_number) {
     return TRADEPRESS_GITHUB_api()->get_issue($owner, $repo, $issue_number);
@@ -642,6 +670,7 @@ function tradepress_get_github_issue($owner, $repo, $issue_number) {
  * @param int $issue_number Issue number
  * @param string $state New state ('open' or 'closed')
  * @return object|WP_Error Updated issue object or WP_Error on failure
+  * @version 1.0.0
  */
 function tradepress_update_github_issue_state($owner, $repo, $issue_number, $state) {
     return TRADEPRESS_GITHUB_api()->update_issue_state($owner, $repo, $issue_number, $state);
@@ -655,6 +684,7 @@ function tradepress_update_github_issue_state($owner, $repo, $issue_number, $sta
  * @param string $repo GitHub repository name
  * @param array $data Issue data (title, body, etc.)
  * @return object|WP_Error Created issue object or WP_Error on failure
+  * @version 1.0.0
  */
 function tradepress_create_github_issue($owner, $repo, $data) {
     return TRADEPRESS_GITHUB_api()->create_issue($owner, $repo, $data);
@@ -666,6 +696,7 @@ function tradepress_create_github_issue($owner, $repo, $data) {
  * @since 1.0.0
  * @param array $task Task data with title, description, subtasks, etc.
  * @return array|WP_Error GitHub issue data or WP_Error on failure
+  * @version 1.0.0
  */
 function tradepress_create_github_issue_from_task($task) {
     // Get repository settings
@@ -751,6 +782,7 @@ function tradepress_create_github_issue_from_task($task) {
  * @param string $github_token GitHub API token (for backward compatibility)
  * @param bool $force_refresh Force cache refresh
  * @return array|WP_Error Array of labels or WP_Error on failure
+  * @version 1.0.0
  */
 function tradepress_get_github_labels($owner, $repo, $github_token = '', $force_refresh = false) {
     return TRADEPRESS_GITHUB_api()->get_labels($owner, $repo, $force_refresh);
@@ -765,6 +797,7 @@ function tradepress_get_github_labels($owner, $repo, $github_token = '', $force_
  * @param string $github_token GitHub API token (for backward compatibility)
  * @param bool $force_refresh Force cache refresh
  * @return array|WP_Error Array of collaborators or WP_Error on failure
+  * @version 1.0.0
  */
 function tradepress_get_github_collaborators($owner, $repo, $github_token = '', $force_refresh = false) {
     return TRADEPRESS_GITHUB_api()->get_collaborators($owner, $repo, $force_refresh);
@@ -780,6 +813,7 @@ function tradepress_get_github_collaborators($owner, $repo, $github_token = '', 
  * @param string $state Milestone state (open, closed, all)
  * @param bool $force_refresh Force cache refresh
  * @return array|WP_Error Array of milestones or WP_Error on failure
+  * @version 1.0.0
  */
 function tradepress_get_github_milestones($owner, $repo, $github_token = '', $state = 'open', $force_refresh = false) {
     return TRADEPRESS_GITHUB_api()->get_milestones($owner, $repo, $state, $force_refresh);
@@ -795,6 +829,7 @@ function tradepress_get_github_milestones($owner, $repo, $github_token = '', $st
  * @param array $params Additional query parameters
  * @param bool $force_refresh Force cache refresh
  * @return array|WP_Error Array with issues, pagination data, and total count or WP_Error on failure
+  * @version 1.0.0
  */
 function tradepress_get_github_repository_issues($owner, $repo, $github_token = '', $params = array(), $force_refresh = false) {
     // Default parameters

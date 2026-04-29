@@ -23,6 +23,7 @@ class TradePress_API_Demo_Data {
      *
      * @param string $api_id The API identifier
      * @return array Status data
+      * @version 1.0.0
      */
     public static function get_status_data($api_id) {
         // Local status is randomly active (90% chance) or inactive
@@ -67,6 +68,7 @@ class TradePress_API_Demo_Data {
      *
      * @param string $api_id The API identifier
      * @return array Rate limit data
+      * @version 1.0.0
      */
     public static function get_rate_limits($api_id) {
         // Different APIs have different rate limit structures
@@ -102,6 +104,7 @@ class TradePress_API_Demo_Data {
      * @param string $symbol The symbol to get data for
      * @param string $data_type The type of data to return
      * @return array Demo data
+      * @version 1.0.0
      */
     public static function get_explorer_data($api_id, $symbol, $data_type) {
         $response = array(
@@ -146,6 +149,10 @@ class TradePress_API_Demo_Data {
     
     /**
      * Generate quote data
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
      */
     private static function generate_quote_data($symbol) {
         $base_price = rand(10, 1000);
@@ -165,6 +172,10 @@ class TradePress_API_Demo_Data {
     
     /**
      * Generate historical data
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
      */
     private static function generate_historical_data($symbol) {
         $data = array();
@@ -205,6 +216,10 @@ class TradePress_API_Demo_Data {
     
     /**
      * Generate company data
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $symbol
      */
     private static function generate_company_data($symbol) {
         $symbol_parts = explode('.', $symbol);
@@ -236,6 +251,8 @@ class TradePress_API_Demo_Data {
     
     /**
      * Generate account data (for broker APIs)
+      *
+      * @version 1.0.0
      */
     private static function generate_account_data() {
         return array(
@@ -254,6 +271,10 @@ class TradePress_API_Demo_Data {
     
     /**
      * Generate positions data (for broker APIs)
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $requested_symbol
      */
     private static function generate_positions_data($requested_symbol = null) {
         $symbols = array('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'FB');
@@ -304,6 +325,8 @@ class TradePress_API_Demo_Data {
     
     /**
      * Generate orders data (for broker APIs)
+      *
+      * @version 1.0.0
      */
     private static function generate_orders_data() {
         $symbols = array('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'FB');

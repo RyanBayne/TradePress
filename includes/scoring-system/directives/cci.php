@@ -9,6 +9,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Scoring_Directive_CCI extends TradePress_Scoring_Directive_Base {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         $this->id = 'cci';
         $this->name = 'Commodity Channel Index';
@@ -27,6 +32,16 @@ class TradePress_Scoring_Directive_CCI extends TradePress_Scoring_Directive_Base
         );
     }
     
+    /**
+     * Calculate score.
+     *
+     * @param mixed $symbol_data
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function calculate_score($symbol_data, $config = array()) {
         $oversold = $config['oversold'] ?? -100;
         $overbought = $config['overbought'] ?? 100;
@@ -102,10 +117,28 @@ class TradePress_Scoring_Directive_CCI extends TradePress_Scoring_Directive_Base
         return $result;
     }
     
+    /**
+     * Get max score.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_max_score($config = array()) {
         return 100;
     }
     
+    /**
+     * Get explanation.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_explanation($config = array()) {
         $oversold = $config['oversold'] ?? -100;
         $overbought = $config['overbought'] ?? 100;
@@ -132,6 +165,7 @@ class TradePress_Scoring_Directive_CCI extends TradePress_Scoring_Directive_Base
      * 
      * @param string $symbol Symbol ticker
      * @param array $required_data Required data types
+      * @version 1.0.0
      */
     private function check_data_freshness($symbol, $required_data) {
         if (!class_exists('TradePress_Data_Freshness_Manager')) {
@@ -159,6 +193,7 @@ class TradePress_Scoring_Directive_CCI extends TradePress_Scoring_Directive_Base
      * Get data freshness requirements for this directive
      * 
      * @return array Freshness requirements in seconds
+      * @version 1.0.0
      */
     public function get_data_freshness_requirements() {
         return $this->data_freshness_requirements;
@@ -170,14 +205,10 @@ class TradePress_Scoring_Directive_CCI extends TradePress_Scoring_Directive_Base
      * @param string $symbol Symbol ticker
      * @param array $config Configuration
      * @return mixed CCI data or error
+      * @version 1.0.0
      */
     private function get_cci_data($symbol, $config = array()) {
         // Log entry to debug
-        error_log(sprintf(
-            "[%s] DEBUG: get_cci_data called with symbol=%s",
-            date('Y-m-d H:i:s'),
-            $symbol
-        ) . "\n", 3, TRADEPRESS_PLUGIN_DIR_PATH . 'directives.log');
         
         if (!class_exists('TradePress_Technical_Indicator_Cache')) {
             require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/technical-indicator-cache.php';
@@ -214,15 +245,10 @@ class TradePress_Scoring_Directive_CCI extends TradePress_Scoring_Directive_Base
      * @param string $symbol Symbol ticker
      * @param array $params Parameters
      * @return mixed CCI data or error
+      * @version 1.0.0
      */
     public function fetch_fresh_cci_data($symbol, $params) {
         // Log API call attempt
-        error_log(sprintf(
-            "[%s] DEBUG: fetch_fresh_cci_data called with symbol=%s, params=%s",
-            date('Y-m-d H:i:s'),
-            $symbol,
-            json_encode($params)
-        ) . "\n", 3, TRADEPRESS_PLUGIN_DIR_PATH . 'directives.log');
         
         if (!class_exists('TradePress_API_Factory')) {
             require_once TRADEPRESS_PLUGIN_DIR_PATH . 'api/api-factory.php';
@@ -231,11 +257,6 @@ class TradePress_Scoring_Directive_CCI extends TradePress_Scoring_Directive_Base
         $api = TradePress_API_Factory::create_from_settings('alphavantage', 'paper', 'technical_indicators');
         
         if (is_wp_error($api)) {
-            error_log(sprintf(
-                "[%s] ERROR: API Factory failed: %s",
-                date('Y-m-d H:i:s'),
-                $api->get_error_message()
-            ) . "\n", 3, TRADEPRESS_PLUGIN_DIR_PATH . 'directives.log');
             return $api;
         }
         
@@ -247,11 +268,6 @@ class TradePress_Scoring_Directive_CCI extends TradePress_Scoring_Directive_Base
         ));
         
         // Log API response
-        error_log(sprintf(
-            "[%s] DEBUG: CCI API Response: %s",
-            date('Y-m-d H:i:s'),
-            is_wp_error($cci_response) ? $cci_response->get_error_message() : json_encode(array_keys($cci_response))
-        ) . "\n", 3, TRADEPRESS_PLUGIN_DIR_PATH . 'directives.log');
         
         if (is_wp_error($cci_response)) {
             return $cci_response;
@@ -261,11 +277,6 @@ class TradePress_Scoring_Directive_CCI extends TradePress_Scoring_Directive_Base
         $technical_analysis = $cci_response['Technical Analysis: CCI'] ?? array();
         
         if (empty($technical_analysis)) {
-            error_log(sprintf(
-                "[%s] ERROR: No Technical Analysis CCI data in response. Keys: %s",
-                date('Y-m-d H:i:s'),
-                json_encode(array_keys($cci_response))
-            ) . "\n", 3, TRADEPRESS_PLUGIN_DIR_PATH . 'directives.log');
             return new WP_Error('no_cci_data', 'No CCI data in API response');
         }
         
@@ -273,12 +284,6 @@ class TradePress_Scoring_Directive_CCI extends TradePress_Scoring_Directive_Base
         $latest_date = array_key_first($technical_analysis);
         $latest_cci = $technical_analysis[$latest_date]['CCI'] ?? null;
         
-        error_log(sprintf(
-            "[%s] DEBUG: CCI extracted - Date: %s, Value: %s",
-            date('Y-m-d H:i:s'),
-            $latest_date,
-            $latest_cci
-        ) . "\n", 3, TRADEPRESS_PLUGIN_DIR_PATH . 'directives.log');
         
         $cci_value = $latest_cci ? (float) $latest_cci : null;
         

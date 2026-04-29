@@ -327,6 +327,11 @@ defined('ABSPATH') || exit;
     $status_script = "
         jQuery(document).ready(function($) {
             // Simulate real-time updates for connection status
+            /**
+             * Update connection status.
+             *
+             * @version 1.0.0
+             */
             function updateConnectionStatus() {
                 $('.connection-status-dot').each(function() {
                     var dot = $(this);
@@ -357,6 +362,11 @@ defined('ABSPATH') || exit;
             }
             
             // Simulate performance value changes
+            /**
+             * Update performance values.
+             *
+             * @version 1.0.0
+             */
             function updatePerformanceValues() {
                 $('.performance-value').each(function() {
                     var element = $(this);
@@ -386,6 +396,11 @@ defined('ABSPATH') || exit;
             }
             
             // Simulate data freshness updates
+            /**
+             * Update data freshness.
+             *
+             * @version 1.0.0
+             */
             function updateDataFreshness() {
                 $('.data-freshness-timestamp').each(function() {
                     var element = $(this);

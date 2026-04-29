@@ -30,6 +30,8 @@ class TradePress_Background_Updater extends TradePress_Background_Processing {
      * Dispatch updater.
      *
      * Updater will still run via cron job if this fails for any reason.
+      *
+      * @version 1.0.0
      */
     public function dispatch() {
         $dispatched = parent::dispatch();
@@ -43,30 +45,30 @@ class TradePress_Background_Updater extends TradePress_Background_Processing {
      *
      * Restart the background process if not already running
      * and data exists in the queue.
+      *
+      * @version 1.0.0
      */
     public function handle_cron_healthcheck() {
         // Log healthcheck for monitoring
-        error_log('TradePress Background Updater: Healthcheck running');
         
         if ( $this->is_process_running() ) {
             // Background process already running.
-            error_log('TradePress Background Updater: Process already running, skipping');
             return;
         }
 
         if ( $this->is_queue_empty() ) {
             // No data to process.
-            error_log('TradePress Background Updater: Queue empty, clearing scheduled event');
             $this->clear_scheduled_event();
             return;
         }
 
-        error_log('TradePress Background Updater: Starting background process');
         $this->handle();
     }
 
     /**
      * Schedule fallback event.
+      *
+      * @version 1.0.0
      */
     protected function schedule_event() {
         if ( ! wp_next_scheduled( $this->cron_hook_identifier ) ) {
@@ -80,6 +82,7 @@ class TradePress_Background_Updater extends TradePress_Background_Processing {
      * Get optimal schedule delay for updater
      *
      * @return int
+      * @version 1.0.0
      */
     protected function get_optimal_schedule_delay() {
         // Check if this is during peak hours (9 AM - 5 PM)
@@ -98,6 +101,7 @@ class TradePress_Background_Updater extends TradePress_Background_Processing {
     /**
      * Is the updater running?
      * @return boolean
+      * @version 1.0.0
      */
     public function is_updating() {
         return false === $this->is_queue_empty();
@@ -113,6 +117,7 @@ class TradePress_Background_Updater extends TradePress_Background_Processing {
      *
      * @param string $callback Update callback function
      * @return mixed
+      * @version 1.0.0
      */
     protected function task( $callback ) {
         if ( ! defined( 'TradePress_UPDATING' ) ) {
@@ -138,6 +143,8 @@ class TradePress_Background_Updater extends TradePress_Background_Processing {
      *
      * Override if applicable, but ensure that the below actions are
      * performed, or, call parent::complete().
+      *
+      * @version 1.0.0
      */
     protected function complete() {          
         //$logger->add( 'TradePress_db_updates', 'Data update complete' );

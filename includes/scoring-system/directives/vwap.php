@@ -9,6 +9,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Scoring_Directive_VWAP extends TradePress_Scoring_Directive_Base {
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         $this->id = 'vwap';
         $this->name = 'Volume Weighted Average Price';
@@ -20,6 +25,16 @@ class TradePress_Scoring_Directive_VWAP extends TradePress_Scoring_Directive_Bas
         $this->priority = 20;
     }
     
+    /**
+     * Calculate score.
+     *
+     * @param mixed $symbol_data
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function calculate_score($symbol_data, $config = array()) {
         $base_multiplier = $config['base_multiplier'] ?? 1.0;
         $distance_bonus = $config['distance_bonus'] ?? 15;
@@ -60,12 +75,30 @@ class TradePress_Scoring_Directive_VWAP extends TradePress_Scoring_Directive_Bas
         );
     }
     
+    /**
+     * Get max score.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_max_score($config = array()) {
         $base_multiplier = $config['base_multiplier'] ?? 1.0;
         $distance_bonus = $config['distance_bonus'] ?? 15;
         return (10 * $base_multiplier) + $distance_bonus;
     }
     
+    /**
+     * Get explanation.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_explanation($config = array()) {
         $multiplier = $config['base_multiplier'] ?? 1.0;
         $bonus = $config['distance_bonus'] ?? 15;

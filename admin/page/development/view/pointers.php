@@ -12,6 +12,11 @@ if (!defined('ABSPATH')) {
 
 class TradePress_Admin_Development_Pointers {
     
+    /**
+     * Output.
+     *
+     * @version 1.0.0
+     */
     public static function output() {
         wp_enqueue_style('wp-pointer');
         wp_enqueue_script('wp-pointer');
@@ -117,6 +122,11 @@ class TradePress_Admin_Development_Pointers {
             });
             
             // Log function
+            /**
+             * L Og.
+             *
+             * @version 1.0.0
+             */
             function log(message) {
                 let timestamp = new Date().toLocaleTimeString();
                 logContent.append('[' + timestamp + '] ' + message + '\n');
@@ -129,6 +139,11 @@ class TradePress_Admin_Development_Pointers {
             });
             
             // Enhanced pointer function with focus feature
+            /**
+             * Show enhanced pointer.
+             *
+             * @version 1.0.0
+             */
             function showEnhancedPointer(target, title, content, options = {}) {
                 let enableFocus = $('#enable-focus').is(':checked');
                 let $target = $(target);
@@ -222,6 +237,8 @@ class TradePress_Admin_Development_Pointers {
     
     /**
      * Output pointers table.
+      *
+      * @version 1.0.0
      */
     public static function output_pointers_table() {
         // Load pointer registry

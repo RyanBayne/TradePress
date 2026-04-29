@@ -16,6 +16,8 @@ class TradePress_Form_Handler {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         add_action('admin_init', array($this, 'handle_form_submissions'));
@@ -24,6 +26,8 @@ class TradePress_Form_Handler {
     
     /**
      * Handle form submissions via admin_init hook
+      *
+      * @version 1.0.0
      */
     public function handle_form_submissions() {
         if (empty($_POST['tradepress_form_action'])) {
@@ -46,6 +50,8 @@ class TradePress_Form_Handler {
     
     /**
      * Register admin-post handlers for backward compatibility
+      *
+      * @version 1.0.0
      */
     private function register_admin_post_handlers() {
         // Alpha Vantage settings
@@ -60,6 +66,8 @@ class TradePress_Form_Handler {
     
     /**
      * Handle API settings save
+      *
+      * @version 1.0.0
      */
     public function handle_api_settings_save() {
         tradepress_trace_log('API settings save handler called');
@@ -115,6 +123,10 @@ class TradePress_Form_Handler {
     
     /**
      * Save API settings for specific API
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $api_id
      */
     private function save_api_settings($api_id) {
         tradepress_trace_log('Saving settings for API: ' . $api_id);
@@ -200,6 +212,8 @@ class TradePress_Form_Handler {
     
     /**
      * Handle Alpha Vantage settings (admin-post compatibility)
+      *
+      * @version 1.0.0
      */
     public function handle_alphavantage_settings() {
         tradepress_trace_log('Alpha Vantage admin-post handler called');
@@ -209,6 +223,8 @@ class TradePress_Form_Handler {
     
     /**
      * Handle Alpaca settings (admin-post compatibility)
+      *
+      * @version 1.0.0
      */
     public function handle_alpaca_settings() {
         tradepress_trace_log('Alpaca admin-post handler called');
@@ -218,6 +234,8 @@ class TradePress_Form_Handler {
     
     /**
      * Handle generic API settings (admin-post compatibility)
+      *
+      * @version 1.0.0
      */
     public function handle_generic_api_settings() {
         tradepress_trace_log('Generic API admin-post handler called');

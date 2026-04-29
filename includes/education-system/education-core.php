@@ -33,6 +33,7 @@ class TradePress_Education_Core {
      * Get the singleton instance
      *
      * @return TradePress_Education_Core
+      * @version 1.0.0
      */
     public static function get_instance() {
         if (is_null(self::$instance)) {
@@ -43,6 +44,8 @@ class TradePress_Education_Core {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     private function __construct() {
         $this->init_hooks();
@@ -50,6 +53,8 @@ class TradePress_Education_Core {
     
     /**
      * Initialize hooks
+      *
+      * @version 1.0.0
      */
     private function init_hooks() {
         // Initialize custom post types and taxonomies
@@ -61,6 +66,8 @@ class TradePress_Education_Core {
     
     /**
      * Register post types and taxonomies
+      *
+      * @version 1.0.0
      */
     public function register_post_types_taxonomies() {
         // This will be implemented to register lesson CPT and module taxonomy
@@ -68,6 +75,8 @@ class TradePress_Education_Core {
     
     /**
      * Add admin menu pages
+      *
+      * @version 1.0.0
      */
     public function add_admin_menu() {
         // This will be implemented to add the Trading Academy menu

@@ -12,64 +12,67 @@ defined('ABSPATH') || exit;
     <h3><?php esc_html_e('Color Palette', 'tradepress'); ?></h3>
     <p><?php esc_html_e('The TradePress color system uses CSS custom properties for consistent theming.', 'tradepress'); ?></p>
 
-    <!-- Primary Colors -->
-    <div class="tradepress-color-group">
-        <h4><?php esc_html_e('Primary Colors', 'tradepress'); ?></h4>
-        <div class="tradepress-color-grid">
-            <div class="tradepress-color-item" onclick="TradePressUILibrary.showColorInfo(this, 'Primary', '#2271b1', '--tradepress-color-primary')">
-                <div class="tradepress-color-swatch tradepress-color-primary"></div>
-                <div class="tradepress-color-info">
-                    <span class="tradepress-color-name">Primary</span>
-                    <span class="tradepress-color-value">#2271b1</span>
+    <div class="tradepress-color-palette-layout">
+        <div class="tradepress-color-palette-top">
+            <!-- Primary Colors -->
+            <div class="tradepress-color-group tradepress-color-group--primary">
+                <h4><?php esc_html_e('Primary Colors', 'tradepress'); ?></h4>
+                <div class="tradepress-color-grid">
+                    <div class="tradepress-color-item" onclick="TradePressUILibrary.showColorInfo(this, 'Primary', '#2271b1', '--tradepress-color-primary')">
+                        <div class="tradepress-color-swatch tradepress-color-primary"></div>
+                        <div class="tradepress-color-info">
+                            <span class="tradepress-color-name">Primary</span>
+                            <span class="tradepress-color-value">#2271b1</span>
+                        </div>
+                    </div>
+                    <div class="tradepress-color-item" onclick="TradePressUILibrary.showColorInfo(this, 'Primary Dark', '#135e96', '--tradepress-color-primary-dark')">
+                        <div class="tradepress-color-swatch tradepress-color-primary-dark"></div>
+                        <div class="tradepress-color-info">
+                            <span class="tradepress-color-name">Primary Dark</span>
+                            <span class="tradepress-color-value">#135e96</span>
+                        </div>
+                    </div>
+                    <div class="tradepress-color-item" onclick="TradePressUILibrary.showColorInfo(this, 'Primary Light', '#72aee6', '--tradepress-color-primary-light')">
+                        <div class="tradepress-color-swatch tradepress-color-primary-light"></div>
+                        <div class="tradepress-color-info">
+                            <span class="tradepress-color-name">Primary Light</span>
+                            <span class="tradepress-color-value">#72aee6</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="tradepress-color-item" onclick="TradePressUILibrary.showColorInfo(this, 'Primary Dark', '#135e96', '--tradepress-color-primary-dark')">
-                <div class="tradepress-color-swatch tradepress-color-primary-dark"></div>
-                <div class="tradepress-color-info">
-                    <span class="tradepress-color-name">Primary Dark</span>
-                    <span class="tradepress-color-value">#135e96</span>
-                </div>
-            </div>
-            <div class="tradepress-color-item" onclick="TradePressUILibrary.showColorInfo(this, 'Primary Light', '#72aee6', '--tradepress-color-primary-light')">
-                <div class="tradepress-color-swatch tradepress-color-primary-light"></div>
-                <div class="tradepress-color-info">
-                    <span class="tradepress-color-name">Primary Light</span>
-                    <span class="tradepress-color-value">#72aee6</span>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Status Colors -->
-    <div class="tradepress-color-group">
-        <h4><?php esc_html_e('Status Colors', 'tradepress'); ?></h4>
-        <div class="tradepress-color-grid">
-            <div class="tradepress-color-item" onclick="TradePressUILibrary.showColorInfo(this, 'Success', '#00a32a', '--tradepress-color-success')">
-                <div class="tradepress-color-swatch tradepress-color-success"></div>
-                <div class="tradepress-color-info">
-                    <span class="tradepress-color-name">Success</span>
-                    <span class="tradepress-color-value">#00a32a</span>
-                </div>
-            </div>
-            <div class="tradepress-color-item" onclick="TradePressUILibrary.showColorInfo(this, 'Warning', '#dba617', '--tradepress-color-warning')">
-                <div class="tradepress-color-swatch tradepress-color-warning"></div>
-                <div class="tradepress-color-info">
-                    <span class="tradepress-color-name">Warning</span>
-                    <span class="tradepress-color-value">#dba617</span>
-                </div>
-            </div>
-            <div class="tradepress-color-item" onclick="TradePressUILibrary.showColorInfo(this, 'Error', '#d63638', '--tradepress-color-error')">
-                <div class="tradepress-color-swatch tradepress-color-error"></div>
-                <div class="tradepress-color-info">
-                    <span class="tradepress-color-name">Error</span>
-                    <span class="tradepress-color-value">#d63638</span>
+            <!-- Status Colors -->
+            <div class="tradepress-color-group tradepress-color-group--status">
+                <h4><?php esc_html_e('Status Colors', 'tradepress'); ?></h4>
+                <div class="tradepress-color-grid">
+                    <div class="tradepress-color-item" onclick="TradePressUILibrary.showColorInfo(this, 'Success', '#00a32a', '--tradepress-color-success')">
+                        <div class="tradepress-color-swatch tradepress-color-success"></div>
+                        <div class="tradepress-color-info">
+                            <span class="tradepress-color-name">Success</span>
+                            <span class="tradepress-color-value">#00a32a</span>
+                        </div>
+                    </div>
+                    <div class="tradepress-color-item" onclick="TradePressUILibrary.showColorInfo(this, 'Warning', '#dba617', '--tradepress-color-warning')">
+                        <div class="tradepress-color-swatch tradepress-color-warning"></div>
+                        <div class="tradepress-color-info">
+                            <span class="tradepress-color-name">Warning</span>
+                            <span class="tradepress-color-value">#dba617</span>
+                        </div>
+                    </div>
+                    <div class="tradepress-color-item" onclick="TradePressUILibrary.showColorInfo(this, 'Error', '#d63638', '--tradepress-color-error')">
+                        <div class="tradepress-color-swatch tradepress-color-error"></div>
+                        <div class="tradepress-color-info">
+                            <span class="tradepress-color-name">Error</span>
+                            <span class="tradepress-color-value">#d63638</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- Neutral Colors -->
-    <div class="tradepress-color-group">
+    <div class="tradepress-color-group tradepress-color-group--neutral">
         <h4><?php esc_html_e('Neutral Colors', 'tradepress'); ?></h4>
         <div class="tradepress-color-grid">
             <div class="tradepress-color-item" onclick="TradePressUILibrary.showColorInfo(this, 'White', '#ffffff', '--tradepress-color-white')">
@@ -115,6 +118,7 @@ defined('ABSPATH') || exit;
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Color Information Display -->

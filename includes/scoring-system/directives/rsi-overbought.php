@@ -15,6 +15,16 @@ require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/scoring-direc
 
 class TradePress_Scoring_Directive_RSI_OVERBOUGHT extends TradePress_Scoring_Directive_Base {
     
+    /**
+     * Calculate score.
+     *
+     * @param mixed $symbol_data
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function calculate_score($symbol_data, $config = array()) {
         $period = $config['period'] ?? 14;
         $overbought_threshold = $config['overbought_threshold'] ?? 70;
@@ -46,11 +56,29 @@ class TradePress_Scoring_Directive_RSI_OVERBOUGHT extends TradePress_Scoring_Dir
         return round($base_score, 1);
     }
     
+    /**
+     * Get max score.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_max_score($config = array()) {
         $extreme_overbought_bonus = $config['extreme_overbought_bonus'] ?? 20;
         return round(50 + 30 + $extreme_overbought_bonus, 1);
     }
     
+    /**
+     * Get explanation.
+     *
+     * @param array $config
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_explanation($config = array()) {
         $period = $config['period'] ?? 14;
         $overbought_threshold = $config['overbought_threshold'] ?? 70;

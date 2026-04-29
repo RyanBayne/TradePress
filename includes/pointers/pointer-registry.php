@@ -18,6 +18,7 @@ class TradePress_Pointer_Registry {
      * Get all registered pointers
      *
      * @return array Array of pointer configurations
+      * @version 1.0.0
      */
     public static function get_all_pointers() {
         return array(
@@ -68,6 +69,7 @@ class TradePress_Pointer_Registry {
      * @param string $page Page slug
      * @param string $tab Tab slug (optional)
      * @return array Filtered array of pointers
+      * @version 1.0.0
      */
     public static function get_pointers_for_page($page, $tab = '') {
         $all_pointers = self::get_all_pointers();
@@ -94,6 +96,7 @@ class TradePress_Pointer_Registry {
      *
      * @param string $pointer_id Pointer ID
      * @return bool True if dismissed, false if not
+      * @version 1.0.0
      */
     public static function is_pointer_dismissed($pointer_id) {
         $dismissed_pointers = explode(',', (string) get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
@@ -104,6 +107,7 @@ class TradePress_Pointer_Registry {
      * Get all pointers with their status for current user
      *
      * @return array Array of pointers with status
+      * @version 1.0.0
      */
     public static function get_all_pointers_with_status() {
         $pointers = self::get_all_pointers();

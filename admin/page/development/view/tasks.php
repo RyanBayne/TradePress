@@ -24,6 +24,8 @@ class TradePress_Admin_Development_Tasks {
     
     /**
      * Output the tasks view
+      *
+      * @version 1.0.0
      */
     public static function output() {
         // Ensure dashicons are available
@@ -260,6 +262,8 @@ class TradePress_Admin_Development_Tasks {
     
     /**
      * Enqueue required assets for the tasks tab
+      *
+      * @version 1.0.0
      */
     private static function enqueue_assets() {
         wp_enqueue_style(
@@ -308,7 +312,7 @@ class TradePress_Admin_Development_Tasks {
                 'ajaxurl' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce('tradepress_tasks_nonce'),
                 'current_task_url' => admin_url('admin.php?page=tradepress_development&tab=current_task'),
-                'repo_owner' => get_option('TRADEPRESS_GITHUB_repo_owner', 'your-github-username'),
+                'repo_owner' => get_option('TRADEPRESS_GITHUB_repo_owner', 'RyanBayne'),
                 'repo_name' => get_option('TRADEPRESS_GITHUB_repo_name', 'tradepress')
             )
         );
@@ -319,6 +323,7 @@ class TradePress_Admin_Development_Tasks {
     /**
      * Get GitHub cache status
      * @return array Cache status information
+      * @version 1.0.0
      */
     private static function get_github_cache_status() {
         $api = TRADEPRESS_GITHUB_api();
@@ -332,6 +337,7 @@ class TradePress_Admin_Development_Tasks {
     /**
      * Parse and retrieve tasks from the technical documentation
      * @return array Array of tasks from technical documentation
+      * @version 1.0.0
      */
     public static function get_technical_doc_tasks() {
         $doc_path = TRADEPRESS_PLUGIN_DIR . 'documentation/DEVELOPMENT-TECHNICAL.md';
@@ -424,6 +430,7 @@ class TradePress_Admin_Development_Tasks {
     /**
      * Get GitHub issues formatted as tasks
      * @return array Array of tasks from GitHub issues
+      * @version 1.0.0
      */
     public static function get_github_tasks() {
         // Retrieve GitHub issues from the helper function used in GitHub tab
@@ -435,12 +442,11 @@ class TradePress_Admin_Development_Tasks {
         
         // If no repository is configured, use default values for testing
         if (empty($repo_owner) || empty($repo_name)) {
-            $repo_owner = 'your-github-username';
+            $repo_owner = 'RyanBayne';
             $repo_name = 'TradePress';
         }
         
         // Log the repository details we're using
-        error_log("Fetching GitHub issues for {$repo_owner}/{$repo_name}");
         
         $issues = array();
         
@@ -451,7 +457,6 @@ class TradePress_Admin_Development_Tasks {
         
         // Check if we got a valid response or WP_Error
         if (is_wp_error($issues)) {
-            error_log('GitHub API Error: ' . $issues->get_error_message());
             // For testing - provide sample issues if API call fails
             $issues = self::get_sample_github_issues();
         } elseif (empty($issues)) {
@@ -518,6 +523,7 @@ class TradePress_Admin_Development_Tasks {
     /**
      * Get feature definitions formatted as tasks
      * @return array Array of tasks from feature definitions
+      * @version 1.0.0
      */
     public static function get_feature_tasks() {
         // Check if the function exists
@@ -541,6 +547,7 @@ class TradePress_Admin_Development_Tasks {
      * Get sample GitHub issues for testing
      * 
      * @return array Array of sample issues
+      * @version 1.0.0
      */
     private static function get_sample_github_issues() {
         // Create some sample issues for testing purposes
@@ -610,6 +617,7 @@ class TradePress_Admin_Development_Tasks {
      * @param string $title Task title
      * @param int $phase Phase number
      * @return int Priority (1=highest, 3=lowest)
+      * @version 1.0.0
      */
     public static function determine_priority($title, $phase) {
         // This is a simple heuristic and could be improved
@@ -627,6 +635,8 @@ class TradePress_Admin_Development_Tasks {
 
 /**
  * Ajax handler for creating GitHub issues
+  *
+  * @version 1.0.0
  */
 function tradepress_ajax_create_github_issue() {
     // Check nonce
@@ -675,19 +685,16 @@ function tradepress_ajax_create_github_issue() {
         $github_api = new TRADEPRESS_GITHUB_API();
         
         // Debug logging
-        error_log('Creating GitHub issue for task: ' . $title);
         
         $result = $github_api->create_issue($repo_owner, $repo_name, $issue_data);
         
         if (is_wp_error($result)) {
-            error_log('Error creating GitHub issue: ' . $result->get_error_message());
             wp_send_json_error(array('message' => $result->get_error_message()));
             return;
         }
         
         wp_send_json_success($result);
     } catch (Exception $e) {
-        error_log('Exception creating GitHub issue: ' . $e->getMessage());
         wp_send_json_error(array('message' => $e->getMessage()));
     }
 }

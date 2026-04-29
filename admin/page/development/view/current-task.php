@@ -26,6 +26,8 @@ class TradePress_Admin_Development_Current_Task {
     
     /**
      * Output the current task view
+      *
+      * @version 1.0.0
      */
     public static function output() {
         // Ensure dashicons are available
@@ -290,6 +292,7 @@ class TradePress_Admin_Development_Current_Task {
      *
      * @param string $text Text to format
      * @return string Formatted HTML
+      * @version 1.0.0
      */
     private static function format_markdown($text) {
         if (empty($text)) {
@@ -309,6 +312,7 @@ class TradePress_Admin_Development_Current_Task {
      * Get the currently selected task
      *
      * @return array|null Current task data or null if none selected
+      * @version 1.0.0
      */
     private static function get_current_task() {
         $current_task = get_option('tradepress_current_task', null);
@@ -344,6 +348,7 @@ class TradePress_Admin_Development_Current_Task {
      *
      * @param string $task_id Task ID to search for
      * @return array GitHub issues related to this task
+      * @version 1.0.0
      */
     private static function get_github_issues_by_task_id($task_id) {
         $issues = array();
@@ -383,6 +388,7 @@ class TradePress_Admin_Development_Current_Task {
      *
      * @param int $limit Number of tasks to retrieve
      * @return array Recent tasks
+      * @version 1.0.0
      */
     private static function get_task_history($limit = 5) {
         $history = get_option('tradepress_task_history', array());
@@ -395,6 +401,7 @@ class TradePress_Admin_Development_Current_Task {
      * Get all available tasks
      * 
      * @return array All tasks
+      * @version 1.0.0
      */
     public static function get_all_tasks() {
         // Use the same function as the Tasks tab
@@ -415,6 +422,7 @@ class TradePress_Admin_Development_Current_Task {
      * Get a demo task to display when no task is selected
      * 
      * @return array Demo task data
+      * @version 1.0.0
      */
     private static function get_demo_task() {
         return array(
@@ -448,6 +456,8 @@ class TradePress_Admin_Development_Current_Task {
      * Process form submissions
      * 
      * @see TradePress_Current_Task_Handler For the actual form processing
+      *
+      * @version 1.0.0
      */
     private static function process_forms() {
         // In the updated architecture, form processing is handled by TradePress_Current_Task_Handler
@@ -461,6 +471,7 @@ class TradePress_Admin_Development_Current_Task {
      *
      * @param array $task Task data
      * @return bool Success status
+      * @version 1.0.0
      */
     private static function update_task_history($task) {
         // Simplify the task data for history
@@ -497,6 +508,7 @@ class TradePress_Admin_Development_Current_Task {
      * @param string $task_id Task ID
      * @param array $subtask_complete Array of completed subtask indexes
      * @return bool Success status
+      * @version 1.0.0
      */
     private static function update_subtasks($task_id, $subtask_complete) {
         // Get current task
@@ -525,6 +537,7 @@ class TradePress_Admin_Development_Current_Task {
      * @param string $task_id Task ID
      * @param string $status New status (pending, in-progress, completed)
      * @return bool Success status 
+      * @version 1.0.0
      */
     private static function update_task_status($task_id, $status) {
         // Get current task
@@ -548,6 +561,7 @@ class TradePress_Admin_Development_Current_Task {
      * @param string $task_id Task ID
      * @param string $notes Working notes
      * @return bool Success status 
+      * @version 1.0.0
      */
     private static function update_working_notes($task_id, $notes) {
         // Get current task
@@ -569,6 +583,7 @@ class TradePress_Admin_Development_Current_Task {
      * Get technical doc tasks (using same method from Tasks tab)
      * 
      * @return array Array of tasks from technical documentation
+      * @version 1.0.0
      */
     private static function get_technical_doc_tasks() {
         // Reuse the method from the Tasks tab
@@ -582,6 +597,7 @@ class TradePress_Admin_Development_Current_Task {
      * Get GitHub issues formatted as tasks (using same method from Tasks tab)
      * 
      * @return array Array of tasks from GitHub issues
+      * @version 1.0.0
      */
     private static function get_github_tasks() {
         // Reuse the method from the Tasks tab
@@ -595,6 +611,7 @@ class TradePress_Admin_Development_Current_Task {
      * Get feature definitions formatted as tasks (using same method from Tasks tab)
      * 
      * @return array Array of tasks from feature definitions
+      * @version 1.0.0
      */
     private static function get_feature_tasks() {
         // Use the function from feature-loader.php

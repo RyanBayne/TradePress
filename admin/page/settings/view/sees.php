@@ -36,6 +36,8 @@ class TradePress_Settings_SEES extends TradePress_Settings_Page {
     * @return array
     * 
     * @version 1.0
+     *
+     * @param string $current_section
     */
     public function get_settings( $current_section = 'default' ) {
         $settings = array(); 
@@ -98,6 +100,8 @@ class TradePress_Settings_SEES extends TradePress_Settings_Page {
 
     /**
     * Output the settings.
+     *
+     * @version 1.0.0
     */
     public function output() {
         global $current_section;
@@ -107,6 +111,8 @@ class TradePress_Settings_SEES extends TradePress_Settings_Page {
        
     /**
      * Save settings method
+      *
+      * @version 1.0.0
      */
     public function save() {      
         global $current_section;

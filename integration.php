@@ -51,7 +51,6 @@ function TradePress_plugin_row_meta( $links, $file ) {
             'discord' => '<a href="' . esc_url( apply_filters( 'TradePress_support_url', 'https://discord.gg/ScrhXPE' ) ) . '" title="' . esc_attr( __( 'Visit Discord for support', 'tradepress' ) ) . '">' . __( 'Discord', 'tradepress' ) . '</a>',
             'github'  => '<a href="' . esc_url( apply_filters( 'TRADEPRESS_GITHUB_url', 'https://github.com/RyanBayne/TradePress/issues' ) ) . '" title="' . esc_attr( __( 'Visit Project GitHub', 'tradepress' ) ) . '">' . __( 'GitHub', 'tradepress' ) . '</a>',
             'donate'  => '<a href="' . esc_url( apply_filters( 'TRADEPRESS_DONATE_url', TRADEPRESS_DONATE ) ) . '" title="' . esc_attr( __( 'Donate to Project', 'tradepress' ) ) . '">' . __( 'Donate', 'tradepress' ) . '</a>',
-            'twitch'  => '<a href="https://twitch.tv/lolindark1" title="' . esc_attr( __( 'Donate to Project', 'tradepress' ) ) . '">' . __( 'Twitch', 'tradepress' ) . '</a>',
             'blog'    => '<a href="http://TradePress.wordpress.com" title="' . esc_attr( __( 'Get project updates from the blog.', 'tradepress' ) ) . '">' . __( 'Blog', 'tradepress' ) . '</a>',
         );
 
@@ -67,6 +66,7 @@ function TradePress_plugin_row_meta( $links, $file ) {
 * 
 * @param mixed $code
 * @param mixed $description
+ * @version 1.0.0
 */
 function TradePress_bugnet_add_trace_steps( $code, $description ) {
     if( 'yes' !== get_option( 'bugnet_activate_tracing' ) ) { return; }

@@ -256,6 +256,10 @@ foreach ($symbols as $symbol) {
 
 /**
  * Generate portfolio-focused advice for a symbol
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $symbol
  */
 function getPortfolioAdvice($symbol) {
     $advice = array(
@@ -290,6 +294,10 @@ function getPortfolioAdvice($symbol) {
 
 /**
  * Generate day trading advice for a symbol
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $symbol
  */
 function getDayTradingAdvice($symbol) {
     $advice = array(
@@ -332,6 +340,10 @@ function getDayTradingAdvice($symbol) {
 
 /**
  * Generate intraday trading advice for a symbol
+  *
+  * @version 1.0.0
+  *
+  * @param mixed $symbol
  */
 function getIntradayAdvice($symbol) {
     $advice = array(

@@ -27,6 +27,8 @@ class TRADEPRESS_GITHUB_Endpoints {
     
     /**
      * Register endpoints
+      *
+      * @version 1.0.0
      */
     public function register_routes() {
         register_rest_route(
@@ -64,6 +66,7 @@ class TRADEPRESS_GITHUB_Endpoints {
      * Check if current user has admin permissions
      *
      * @return bool
+      * @version 1.0.0
      */
     public function check_admin_permission() {
         return current_user_can('manage_options');
@@ -74,6 +77,7 @@ class TRADEPRESS_GITHUB_Endpoints {
      *
      * @param WP_REST_Request $request The request object
      * @return WP_REST_Response|WP_Error Response or error
+      * @version 1.0.0
      */
     public function refresh_github_data($request) {
         // Include GitHub helper functions
@@ -125,6 +129,7 @@ class TRADEPRESS_GITHUB_Endpoints {
      *
      * @param WP_REST_Request $request The request object
      * @return WP_REST_Response|WP_Error Response or error
+      * @version 1.0.0
      */
     public function clear_github_cache($request) {
         // Include GitHub helper functions
@@ -148,6 +153,7 @@ class TRADEPRESS_GITHUB_Endpoints {
      *
      * @param WP_REST_Request $request The request object
      * @return WP_REST_Response|WP_Error Response or error
+      * @version 1.0.0
      */
     public function get_cache_status($request) {
         // Include GitHub helper functions

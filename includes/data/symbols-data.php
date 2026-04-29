@@ -16,6 +16,7 @@ if (!defined('ABSPATH')) {
  * Get test stock symbols organized by priority and category
  *
  * @return array Array of test stock symbols organized by category
+  * @version 1.0.0
  */
 function tradepress_get_test_stock_symbols() {
     return array(
@@ -57,6 +58,7 @@ function tradepress_get_test_stock_symbols() {
  * Get all symbols as a flat array (for backward compatibility)
  *
  * @return array Array of all test stock symbols
+  * @version 1.0.0
  */
 function tradepress_get_all_test_symbols() {
     $symbols = tradepress_get_test_stock_symbols();
@@ -80,6 +82,7 @@ function tradepress_get_all_test_symbols() {
  *
  * @param string $category Category name
  * @return array Array of symbols in the specified category
+  * @version 1.0.0
  */
 function tradepress_get_symbols_by_category($category) {
     $symbols = tradepress_get_test_stock_symbols();
@@ -98,6 +101,7 @@ function tradepress_get_symbols_by_category($category) {
  * Get highest priority symbols (Previously Trading Stocks)
  *
  * @return array Array of highest priority symbols
+  * @version 1.0.0
  */
 function tradepress_get_priority_symbols() {
     $symbols = tradepress_get_test_stock_symbols();
@@ -108,6 +112,7 @@ function tradepress_get_priority_symbols() {
  * Get strategy symbols (for built-in strategies)
  *
  * @return array Array of symbols for built-in strategies
+  * @version 1.0.0
  */
 function tradepress_get_strategy_symbols() {
     $symbols = tradepress_get_test_stock_symbols();
@@ -118,6 +123,7 @@ function tradepress_get_strategy_symbols() {
  * Get meme stock symbols (for social media monitoring)
  *
  * @return array Array of meme stock symbols
+  * @version 1.0.0
  */
 function tradepress_get_meme_symbols() {
     $symbols = tradepress_get_test_stock_symbols();
@@ -128,6 +134,7 @@ function tradepress_get_meme_symbols() {
  * Get global markets symbols (CFD instruments)
  *
  * @return array Array of global markets symbols with CFD indicators
+  * @version 1.0.0
  */
 function tradepress_get_global_markets() {
     $symbols = tradepress_get_test_stock_symbols();
@@ -139,6 +146,7 @@ function tradepress_get_global_markets() {
  *
  * @param string $symbol Symbol to check
  * @return bool True if CFD only, false otherwise
+  * @version 1.0.0
  */
 function tradepress_is_cfd_symbol($symbol) {
     $global_markets = tradepress_get_global_markets();
@@ -149,6 +157,7 @@ function tradepress_is_cfd_symbol($symbol) {
  * Get a list of test foreign exchange currency pairs
  *
  * @return array Array of forex pairs
+  * @version 1.0.0
  */
 function tradepress_get_test_forex_pairs() {
     return array(
@@ -161,6 +170,7 @@ function tradepress_get_test_forex_pairs() {
  * Get detailed information about test stock companies
  *
  * @return array Array of company details indexed by symbol
+  * @version 1.0.0
  */
 function tradepress_get_test_company_details() {
     return array(

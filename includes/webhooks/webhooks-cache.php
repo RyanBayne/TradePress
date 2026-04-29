@@ -47,19 +47,23 @@ class TradePress_Webhooks_Caching {
      *
      * @param string $location 
      * @param string $name Unique ID for the cache
+      * @version 1.0.0
      */
     public function __construct( $location, $name, $extension = 'txt' )
     {
-        $this->location = $location;
-        $this->filename = $name;
-        $this->extension = $extension;
-        $this->name = "$this->location/$this->filename.$this->extension";
+        $this->location  = untrailingslashit( $location );
+        $this->filename  = sanitize_file_name( $name );
+        $this->extension = sanitize_key( $extension );
+        $this->name      = $this->location . '/' . $this->filename . '.' . $this->extension;
     }
 
     /**
      * Save data to a file...
      *
      * @return bool
+      * @version 1.0.0
+      *
+      * @param mixed $data
      */
     public function save( $data )
     {
@@ -71,7 +75,7 @@ class TradePress_Webhooks_Caching {
             }
 
             $data = serialize($data);
-            return (bool) file_put_contents($this->name, $data);
+            return (bool) file_put_contents($this->name, $data, LOCK_EX);
         }
         return false;
     }
@@ -80,12 +84,19 @@ class TradePress_Webhooks_Caching {
      * Retrieve the data saved to the cache file...
      *
      * @return array Data or boolean !file_exists() || !is_readable()
+      * @version 1.0.0
      */
     public function load()
     {
         if (file_exists($this->name) && is_readable($this->name))
         {
-            return unserialize(file_get_contents($this->name));
+            $contents = file_get_contents($this->name);
+
+            if ( false === $contents ) {
+                return false;
+            }
+
+            return unserialize( $contents, array( 'allowed_classes' => false ) );
         }
         return false;
     }
@@ -94,6 +105,7 @@ class TradePress_Webhooks_Caching {
      * Retrieve the last modified time for a file...
      *
      * @return int Timestamp
+      * @version 1.0.0
      */
     public function mtime()
     {
@@ -104,6 +116,7 @@ class TradePress_Webhooks_Caching {
      * Set the last modified time to the current time...
      *                                              
      * @return bool
+      * @version 1.0.0
      */
     public function touch()
     {
@@ -114,6 +127,7 @@ class TradePress_Webhooks_Caching {
      * Remove the cache...
      *
      * @return bool
+      * @version 1.0.0
      */
     public function unlink()
     {

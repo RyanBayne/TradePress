@@ -45,6 +45,7 @@ class TradePress_Earnings_Whisper_Scorer {
      *
      * @param array $company_data Parsed company data from earnings whisper
      * @return array Score breakdown and total
+      * @version 1.0.0
      */
     public function score_company($company_data) {
         $score_breakdown = [];
@@ -60,6 +61,10 @@ class TradePress_Earnings_Whisper_Scorer {
     
     /**
      * Score upcoming earnings announcements
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $data
      */
     private function score_upcoming_earnings($data) {
         $scores = [];
@@ -146,6 +151,10 @@ class TradePress_Earnings_Whisper_Scorer {
     
     /**
      * Score past earnings results
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $data
      */
     private function score_past_results($data) {
         $scores = [];
@@ -194,6 +203,11 @@ class TradePress_Earnings_Whisper_Scorer {
     
     /**
      * Calculate score based on whisper vs consensus difference
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $whisper
+      * @param mixed $consensus
      */
     private function calculate_whisper_vs_consensus_score($whisper, $consensus) {
         // Extract numeric values
@@ -217,6 +231,10 @@ class TradePress_Earnings_Whisper_Scorer {
     
     /**
      * Calculate sentiment score from expecting beat percentage
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $beat_percentage
      */
     private function calculate_sentiment_score($beat_percentage) {
         $percentage = floatval(str_replace('%', '', $beat_percentage));
@@ -231,6 +249,10 @@ class TradePress_Earnings_Whisper_Scorer {
     
     /**
      * Calculate revision trend score
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $revision_text
      */
     private function calculate_revision_score($revision_text) {
         $revision_lower = strtolower($revision_text);
@@ -246,6 +268,11 @@ class TradePress_Earnings_Whisper_Scorer {
     
     /**
      * Calculate options activity score
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $activity_type
+      * @param mixed $activity_details
      */
     private function calculate_options_activity_score($activity_type, $activity_details) {
         $activity_lower = strtolower($activity_type);
@@ -265,6 +292,10 @@ class TradePress_Earnings_Whisper_Scorer {
     
     /**
      * Calculate momentum score from stock performance text
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $performance_text
      */
     private function calculate_momentum_score($performance_text) {
         $performance_lower = strtolower($performance_text);
@@ -280,6 +311,10 @@ class TradePress_Earnings_Whisper_Scorer {
     
     /**
      * Additional helper methods for scoring components
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $short_change
      */
     private function calculate_short_interest_score($short_change) {
         $change_lower = strtolower($short_change);
@@ -293,6 +328,16 @@ class TradePress_Earnings_Whisper_Scorer {
         return 50; // Neutral
     }
     
+    /**
+     * Calculate guidance score.
+     *
+     * @param mixed $guidance
+     * @param mixed $consensus
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function calculate_guidance_score($guidance, $consensus) {
         // Compare company guidance to consensus
         $guidance_val = $this->extract_numeric_value($guidance);
@@ -307,6 +352,15 @@ class TradePress_Earnings_Whisper_Scorer {
         return 50; // Guidance matches consensus
     }
     
+    /**
+     * Calculate beat miss score.
+     *
+     * @param mixed $beat_miss_pct
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function calculate_beat_miss_score($beat_miss_pct) {
         $percentage = floatval(str_replace('%', '', $beat_miss_pct));
         
@@ -317,6 +371,15 @@ class TradePress_Earnings_Whisper_Scorer {
         return 20;                               // Large miss
     }
     
+    /**
+     * Calculate revenue growth score.
+     *
+     * @param mixed $growth_text
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function calculate_revenue_growth_score($growth_text) {
         // Extract percentage from growth text
         preg_match('/(\d+\.?\d*)%/', $growth_text, $matches);
@@ -341,6 +404,16 @@ class TradePress_Earnings_Whisper_Scorer {
         return 50; // Neutral if can't parse
     }
     
+    /**
+     * Calculate forward guidance score.
+     *
+     * @param mixed $eps_guidance
+     * @param mixed $revenue_guidance
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     private function calculate_forward_guidance_score($eps_guidance, $revenue_guidance) {
         // This would need more sophisticated logic based on guidance quality
         // For now, return moderate score if guidance is provided
@@ -352,6 +425,10 @@ class TradePress_Earnings_Whisper_Scorer {
     
     /**
      * Extract numeric value from text (e.g., "$2.50 per share" -> 2.50)
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $text
      */
     private function extract_numeric_value($text) {
         // Remove currency symbols and extract number
@@ -361,6 +438,10 @@ class TradePress_Earnings_Whisper_Scorer {
     
     /**
      * Calculate confidence level based on available data points
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $scores
      */
     private function calculate_confidence_level($scores) {
         $total_components = count($this->weights);
@@ -376,6 +457,11 @@ class TradePress_Earnings_Whisper_Scorer {
     
     /**
      * Generate trading recommendation based on score
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $score
+      * @param mixed $scores
      */
     private function generate_recommendation($score, $scores) {
         if ($score >= 75) {
@@ -393,6 +479,11 @@ class TradePress_Earnings_Whisper_Scorer {
     
     /**
      * Identify specific risk factors
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $data
+      * @param mixed $scores
      */
     private function identify_risk_factors($data, $scores) {
         $risks = [];
@@ -417,6 +508,10 @@ class TradePress_Earnings_Whisper_Scorer {
     
     /**
      * Batch score multiple companies and rank them
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $companies_data
      */
     public function score_and_rank_companies($companies_data) {
         $scored_companies = [];

@@ -69,6 +69,14 @@ class TradePress_Finnhub_API extends TradePress_Base_API {
         )
     );
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @param string $provider_id
+     * @param array $args
+     *
+     * @version 1.0.0
+     */
     public function __construct($provider_id = 'finnhub', $args = array()) {
         if (isset($args['api_key'])) {
             $this->api_key = $args['api_key'];
@@ -83,6 +91,7 @@ class TradePress_Finnhub_API extends TradePress_Base_API {
      * Get platform metadata
      *
      * @return array Platform metadata
+      * @version 1.0.0
      */
     public function get_platform_meta() {
         return $this->platform_meta;
@@ -92,6 +101,7 @@ class TradePress_Finnhub_API extends TradePress_Base_API {
      * Get platform capabilities
      *
      * @return array Platform capabilities
+      * @version 1.0.0
      */
     public function get_capabilities() {
         return $this->platform_meta['capabilities'];
@@ -102,6 +112,7 @@ class TradePress_Finnhub_API extends TradePress_Base_API {
      *
      * @param string $data_type Data type to check
      * @return bool True if supported
+      * @version 1.0.0
      */
     public function supports_data_type($data_type) {
         return isset($this->platform_meta['data_types'][$data_type]);
@@ -112,11 +123,19 @@ class TradePress_Finnhub_API extends TradePress_Base_API {
      *
      * @param string $data_type Data type
      * @return string|false Endpoint name or false
+      * @version 1.0.0
      */
     public function get_data_type_endpoint($data_type) {
         return $this->supports_data_type($data_type) ? $this->platform_meta['data_types'][$data_type] : false;
     }
     
+    /**
+     * Test connection.
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function test_connection() {
         if (empty($this->api_key)) {
             return new WP_Error('missing_api_key', __('API key is not configured', 'tradepress'));
@@ -135,6 +154,16 @@ class TradePress_Finnhub_API extends TradePress_Base_API {
         return true;
     }
     
+    /**
+     * Make request.
+     *
+     * @param mixed $endpoint
+     * @param array $params
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function make_request($endpoint, $params = array(), $method = 'GET') {
         if (empty($this->api_key)) {
             return new WP_Error('missing_api_key', __('API key is not configured', 'tradepress'));
@@ -267,6 +296,15 @@ class TradePress_Finnhub_API extends TradePress_Base_API {
         return $data;
     }
     
+    /**
+     * Get quote.
+     *
+     * @param mixed $symbol
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_quote($symbol) {
         $response = $this->make_request('quote', ['symbol' => $symbol]);
         
@@ -287,6 +325,19 @@ class TradePress_Finnhub_API extends TradePress_Base_API {
         );
     }
     
+    /**
+     * Get candles.
+     *
+     * @param mixed $symbol
+     * @param string $resolution
+     * @param mixed $from
+     * @param mixed $to
+     * @param int $count
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_candles($symbol, $resolution = 'D', $from = null, $to = null, $count = 200) {
         if (!$from) {
             $from = strtotime('-' . $count . ' days');
@@ -329,6 +380,20 @@ class TradePress_Finnhub_API extends TradePress_Base_API {
         return $candles;
     }
     
+    /**
+     * Get technical indicator.
+     *
+     * @param mixed $symbol
+     * @param mixed $indicator
+     * @param string $resolution
+     * @param int $timeperiod
+     * @param mixed $from
+     * @param mixed $to
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_technical_indicator($symbol, $indicator, $resolution = 'D', $timeperiod = 14, $from = null, $to = null) {
         if (!$from) {
             $from = strtotime('-200 days');
@@ -349,14 +414,52 @@ class TradePress_Finnhub_API extends TradePress_Base_API {
         return $this->make_request('indicator', $params);
     }
     
+    /**
+     * Get moving average.
+     *
+     * @param mixed $symbol
+     * @param int $period
+     * @param string $resolution
+     * @param mixed $from
+     * @param mixed $to
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_moving_average($symbol, $period = 20, $resolution = 'D', $from = null, $to = null) {
         return $this->get_technical_indicator($symbol, 'sma', $resolution, $period, $from, $to);
     }
     
+    /**
+     * Get rsi.
+     *
+     * @param mixed $symbol
+     * @param int $period
+     * @param string $resolution
+     * @param mixed $from
+     * @param mixed $to
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_rsi($symbol, $period = 14, $resolution = 'D', $from = null, $to = null) {
         return $this->get_technical_indicator($symbol, 'rsi', $resolution, $period, $from, $to);
     }
     
+    /**
+     * Get macd.
+     *
+     * @param mixed $symbol
+     * @param string $resolution
+     * @param mixed $from
+     * @param mixed $to
+     *
+     * @return mixed
+     *
+     * @version 1.0.0
+     */
     public function get_macd($symbol, $resolution = 'D', $from = null, $to = null) {
         return $this->get_technical_indicator($symbol, 'macd', $resolution, 12, $from, $to);
     }

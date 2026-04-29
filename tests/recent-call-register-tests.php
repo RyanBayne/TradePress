@@ -15,6 +15,11 @@ class TradePress_Recent_Call_Register_Tests {
     private $call_register;
     private $test_results = [];
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         // Use the actual class name from query-register.php
         $this->call_register = new TradePress_Call_Register();
@@ -22,6 +27,8 @@ class TradePress_Recent_Call_Register_Tests {
     
     /**
      * Run all Phase 3 tests and return structured results
+      *
+      * @version 1.0.0
      */
     public function run_phase3_tests() {
         $this->test_results = [
@@ -54,6 +61,8 @@ class TradePress_Recent_Call_Register_Tests {
     /**
      * Test 1: Platform-Aware Caching
      * Requirement: Different platforms must have separate cache entries
+      *
+      * @version 1.0.0
      */
     private function test_platform_aware_caching() {
         $test_start = microtime(true);
@@ -106,6 +115,8 @@ class TradePress_Recent_Call_Register_Tests {
     /**
      * Test 2: API Call Deduplication
      * Requirement: Multiple identical calls within 2-hour window use cache
+      *
+      * @version 1.0.0
      */
     private function test_api_call_deduplication() {
         $test_start = microtime(true);
@@ -179,6 +190,8 @@ class TradePress_Recent_Call_Register_Tests {
     /**
      * Test 3: Cross-Feature Integration
      * Requirement: Features can benefit from other features' API calls
+      *
+      * @version 1.0.0
      */
     private function test_cross_feature_integration() {
         $test_start = microtime(true);
@@ -246,6 +259,8 @@ class TradePress_Recent_Call_Register_Tests {
     /**
      * Test 4: Transient Rotation
      * Requirement: Hourly transient rotation for automatic cleanup
+      *
+      * @version 1.0.0
      */
     private function test_transient_rotation() {
         $test_start = microtime(true);
@@ -298,6 +313,8 @@ class TradePress_Recent_Call_Register_Tests {
     /**
      * Test 5: Performance Metrics
      * Requirement: System performance within acceptable limits
+      *
+      * @version 1.0.0
      */
     private function test_performance_metrics() {
         $test_start = microtime(true);
@@ -362,6 +379,8 @@ class TradePress_Recent_Call_Register_Tests {
     
     /**
      * Calculate overall test suite status and generate recommendations
+      *
+      * @version 1.0.0
      */
     private function calculate_overall_status() {
         $passed = 0;
@@ -439,6 +458,8 @@ class TradePress_Recent_Call_Register_Tests {
     
     /**
      * Get results in AI-readable JSON format
+      *
+      * @version 1.0.0
      */
     public function get_ai_readable_results() {
         return json_encode($this->test_results, JSON_PRETTY_PRINT);
@@ -446,6 +467,8 @@ class TradePress_Recent_Call_Register_Tests {
     
     /**
      * Get human-readable test report
+      *
+      * @version 1.0.0
      */
     public function get_human_readable_report() {
         $report = "=== Recent Call Register Phase 3 Test Results ===\n\n";

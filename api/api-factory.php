@@ -21,6 +21,7 @@ class TradePress_API_Factory {
      * @param string $provider_id API provider ID
      * @param array $args Configuration arguments
      * @return TradePress_Base_API|WP_Error API instance or error
+      * @version 1.0.0
      */
     public static function create($provider_id, $args = array()) {
         // Get provider configuration
@@ -86,6 +87,7 @@ class TradePress_API_Factory {
      * @param string $mode Trading mode (paper/live) for trading APIs
      * @param string $data_type Optional data type for intelligent fallback
      * @return TradePress_Base_API|WP_Error API instance or error
+      * @version 1.0.0
      */
     public static function create_from_settings($provider_id = null, $mode = 'paper', $data_type = null) {
         // Load usage tracker
@@ -154,6 +156,7 @@ class TradePress_API_Factory {
      * 
      * @param string $type Optional. Filter by API type (trading, data_only, messaging)
      * @return array Array of provider configurations
+      * @version 1.0.0
      */
     public static function get_available_providers($type = '') {
         $providers = TradePress_API_Directory::get_all_providers();
@@ -171,6 +174,7 @@ class TradePress_API_Factory {
      * Test all configured APIs
      * 
      * @return array Test results for each API
+      * @version 1.0.0
      */
     public static function test_all_apis() {
         $results = array();

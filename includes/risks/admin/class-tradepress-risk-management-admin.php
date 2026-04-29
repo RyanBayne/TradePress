@@ -14,6 +14,11 @@ class TradePress_Risk_Management_Admin {
 
     /**
      * Constructor
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $risk_registry
+      * @param mixed $risk_monitor
      */
     public function __construct($risk_registry, $risk_monitor) {
         $this->risk_registry = $risk_registry;
@@ -27,6 +32,8 @@ class TradePress_Risk_Management_Admin {
 
     /**
      * AJAX handler for saving risk factors
+      *
+      * @version 1.0.0
      */
     public function ajax_save_risk_factors() {
         // Check nonce
@@ -142,6 +149,8 @@ class TradePress_Risk_Management_Admin {
     
     /**
      * AJAX handler for getting risk report data
+      *
+      * @version 1.0.0
      */
     public function ajax_get_risk_report() {
         // Check nonce
@@ -180,6 +189,7 @@ class TradePress_Risk_Management_Admin {
      *
      * @param string $time_period Time period for report
      * @return array Volatility history data
+      * @version 1.0.0
      */
     private function get_volatility_history($time_period) {
         global $wpdb;
@@ -237,6 +247,7 @@ class TradePress_Risk_Management_Admin {
      *
      * @param string $time_period Time period for report
      * @return array Action summary data
+      * @version 1.0.0
      */
     private function get_risk_action_summary($time_period) {
         global $wpdb;
@@ -291,6 +302,8 @@ class TradePress_Risk_Management_Admin {
     
     /**
      * AJAX handler for getting position risk details
+      *
+      * @version 1.0.0
      */
     public function ajax_get_position_risk() {
         // Check nonce

@@ -18,6 +18,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Render the trading platforms settings tab content
+  *
+  * @version 1.0.0
  */
 function tradepress_trading_platforms_settings_tab() {
     // Check if demo mode is active

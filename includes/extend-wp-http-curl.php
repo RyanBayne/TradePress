@@ -40,10 +40,26 @@ class TradePress_Extend_WP_Http_Curl extends WP_Http_Curl {
     */
     public $troubleshoot = false; 
     
+    /**
+     *   C On St Ru Ct.
+     *
+     * @version 1.0.0
+     */
     public function __construct() {
         $this->call_id = TradePress_get_new_call_id();            
     }   
 
+    /**
+     * Start new request.
+     *
+     * @param mixed $client_id
+     * @param mixed $client_secret
+     * @param mixed $client_token
+     * @param mixed $type
+     * @param mixed $endpoint
+     *
+     * @version 1.0.0
+     */
     public function start_new_request( $client_id, $client_secret, $client_token, $type, $endpoint ) {
         $this->curl_version = curl_version();
         $this->current_user = get_current_user_id();        
@@ -68,10 +84,24 @@ class TradePress_Extend_WP_Http_Curl extends WP_Http_Curl {
         }
     }
     
+    /**
+     * Option headers additional.
+     *
+     * @param array $additional_headers_array
+     *
+     * @version 1.0.0
+     */
     public function option_headers_additional( $additional_headers_array = array() ){
         $this->call_array['headers'] = array_merge( $this->call_array['headers'], $additional_headers_array );
     }
         
+    /**
+     * Option body additional.
+     *
+     * @param array $additional_body_parameters
+     *
+     * @version 1.0.0
+     */
     public function option_body_additional( $additional_body_parameters = array() ) {
         $this->call_array['body'] = array_merge( $this->call_array['body'], $additional_body_parameters );        
     }

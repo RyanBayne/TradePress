@@ -19,6 +19,7 @@ if (!defined('ABSPATH')) {
  * 
  * @param string $repo_owner GitHub repository owner
  * @param string $repo_name GitHub repository name
+  * @version 1.0.0
  */
 function TRADEPRESS_GITHUB_next_issue_content($repo_owner, $repo_name) {
     // Get GitHub API settings - follow the same pattern as all-issues.php
@@ -257,6 +258,7 @@ function TRADEPRESS_GITHUB_next_issue_content($repo_owner, $repo_name) {
  * @param object $issue The issue object
  * @param string $label_name The label name to check for
  * @return bool Whether the issue has the label
+  * @version 1.0.0
  */
 function has_github_label($issue, $label_name) {
     if (empty($issue->labels)) {

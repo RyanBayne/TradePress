@@ -11,6 +11,17 @@
 defined( 'ABSPATH' ) || die( 'No direct script access allowed!' );
 defined( 'TRADEPRESS_MAINFILE') || die( 'TradePress must be active to access this script!' );
 
+/**
+ * Db selectrow.
+ *
+ * @param mixed $tablename
+ * @param mixed $condition
+ * @param string $select
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_db_selectrow( $tablename, $condition, $select = '*' ){
     global $wpdb;
     if(empty( $condition) ){
@@ -19,6 +30,20 @@ function TradePress_db_selectrow( $tablename, $condition, $select = '*' ){
     return $wpdb->get_row( "SELECT $select FROM $tablename WHERE $condition", OBJECT );
 }
 
+/**
+ * Db selectorderby.
+ *
+ * @param mixed $tablename
+ * @param mixed $condition
+ * @param mixed $orderby
+ * @param string $select
+ * @param string $limit
+ * @param string $object
+ *
+ * @return mixed
+ *
+ * @version 1.0.0
+ */
 function TradePress_db_selectorderby( $tablename, $condition = null, $orderby = null, $select = '*', $limit = '', $object = 'OBJECT' ){
     global $wpdb;
     $condition = empty ( $condition)? '' : 'WHERE ' . $condition;
@@ -94,6 +119,10 @@ function TradePress_db_insert( $tablename, $fields ){
 * 
 * @author Ryan R. Bayne
 * @version 1.5
+ *
+ * @param mixed $tablename
+ * @param mixed $condition
+ * @param mixed $fields
 */
 function TradePress_db_update( $tablename, $condition, $fields ){
     global $wpdb;
@@ -113,6 +142,9 @@ function TradePress_db_update( $tablename, $condition, $fields ){
 * 
 * @author Ryan R. Bayne
 * @version 1.1
+ *
+ * @param mixed $tablename
+ * @param mixed $condition
 */
 function TradePress_db_delete( $tablename, $condition ){
     global $wpdb;
@@ -124,6 +156,9 @@ function TradePress_db_delete( $tablename, $condition ){
 * 
 * @author Ryan R. Bayne
 * @version 1.1
+ *
+ * @param mixed $tablename
+ * @param string $where
 */
 function TradePress_db_count_rows( $tablename, $where = '' ){
     global $wpdb;      
@@ -135,6 +170,10 @@ function TradePress_db_count_rows( $tablename, $where = '' ){
 * 
 * @author Ryan R. Bayne
 * @version 1.2
+ *
+ * @param mixed $column
+ * @param mixed $tablename
+ * @param mixed $conditions
 */
 function TradePress_db_get_value( $column, $tablename, $conditions ){
     global $wpdb;
@@ -231,6 +270,9 @@ function TradePress_db_metakeys_distinct() {
 * @version 1.1
 *  
 * @return 0 on fail or no records or the number of records in table
+ *
+ * @param mixed $table_name
+ * @param string $where
 */
 function TradePress_db_countrecords( $table_name, $where = '' ){
     global $wpdb;
@@ -254,6 +296,8 @@ function TradePress_db_countrecords( $table_name, $where = '' ){
 * 
 * @author Ryan R. Bayne
 * @version 1.1 
+ *
+ * @param mixed $prependvalue
 */
 function TradePress_db_options_beginning_with( $prependvalue){    
     global $wpdb;
@@ -277,6 +321,8 @@ function TradePress_db_options_beginning_with( $prependvalue){
 * 
 * @author Ryan R. Bayne
 * @version 1.1
+ *
+ * @param mixed $id
 */
 function TradePress_db_post_exist_byid( $id){
     global $wpdb;
@@ -407,6 +453,9 @@ function TradePress_db_update_meta_key( $old_key = NULL, $new_key = NULL ){
 * @version 1.0.1
 * 
 * @returns array of distinct values or 0 if no records or false if none 
+ *
+ * @param mixed $table_name
+ * @param mixed $column_name
 */
 function TradePress_dba_column_distinctvalues( $table_name, $column_name){
     global $wpdb;
@@ -426,6 +475,9 @@ function TradePress_dba_column_distinctvalues( $table_name, $column_name){
 * 
 * @author Ryan R. Bayne
 * @version 1.1
+ *
+ * @param mixed $table_name
+ * @param mixed $column
 */
 function TradePress_db_get_duplicate_keys( $table_name, $column ) {
      $rows_with_duplicates = array();
@@ -457,6 +509,7 @@ function TradePress_db_get_duplicate_keys( $table_name, $column ) {
 * @param mixed $post_type
 * @param mixed $post_status
 * @param mixed $output
+ * @version 1.0.0
 */
 function TradePress_db_query_posts_by_comments( $comment_count_low = 0, $comment_count_high = 9999, $post_type = 'post', $post_status = 'publish', $output = 'OBJECT' ){
     global $wpdb;
@@ -552,6 +605,9 @@ function TradePress_db_query_multipletables( $tables_array = array(), $idcolumn 
 * 
 * @author Ryan R. Bayne
 * @version 1.1
+ *
+ * @param mixed $column
+ * @param mixed $tablename
 */
 function TradePress_db_max_value( $column, $tablename ) {
     global $wpdb;        
@@ -565,6 +621,7 @@ function TradePress_db_max_value( $column, $tablename ) {
 * 
 * @param mixed $project_id
 * @param mixed $source_id
+ * @version 1.0.0
 */
 function TradePress_db_get_source( $source_id ){
     global $wpdb;
@@ -576,6 +633,7 @@ function TradePress_db_get_source( $source_id ){
  * 
  * @param string $table_name Table name
  * @return int Row count
+  * @version 1.0.0
  */
 function tradepress_get_table_row_count($table_name) {
     global $wpdb;
@@ -592,6 +650,7 @@ function tradepress_get_table_row_count($table_name) {
  * 
  * @param string $table_name Table name
  * @return string Formatted size
+  * @version 1.0.0
  */
 function tradepress_get_table_size($table_name) {
     global $wpdb;
@@ -623,6 +682,7 @@ function tradepress_get_table_size($table_name) {
  * 
  * @param int $bytes Bytes to format
  * @return string Formatted size
+  * @version 1.0.0
  */
 function tradepress_format_bytes($bytes) {
     if ($bytes < 1024) {
@@ -641,6 +701,7 @@ function tradepress_format_bytes($bytes) {
  * 
  * @param string $table_name Table name
  * @return string Last updated timestamp
+  * @version 1.0.0
  */
 function tradepress_get_table_last_updated($table_name) {
     global $wpdb;
@@ -678,6 +739,7 @@ function tradepress_get_table_last_updated($table_name) {
  * 
  * @param string $table_name Table name
  * @return string Table status
+  * @version 1.0.0
  */
 function tradepress_get_table_status($table_name) {
     global $wpdb;
@@ -728,6 +790,7 @@ function tradepress_get_table_status($table_name) {
  * 
  * @param string $table_name Table name
  * @return string Table description
+  * @version 1.0.0
  */
 function tradepress_get_table_description($table_name) {
     // Map of table names to descriptions - this could be moved to a separate function or file
@@ -773,6 +836,7 @@ function tradepress_get_table_description($table_name) {
  * 
  * @param string $table_name Table name
  * @return array Process information
+  * @version 1.0.0
  */
 function tradepress_get_table_processes($table_name) {
     // Table process mapping is not implemented yet

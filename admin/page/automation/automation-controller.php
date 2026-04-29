@@ -18,6 +18,8 @@ if (!defined('ABSPATH')) {
 class TradePress_Admin_Automation_Controller {
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Register AJAX handlers
@@ -51,6 +53,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * AJAX handler for toggling algorithm state
+      *
+      * @version 1.0.0
      */
     public function ajax_toggle_algorithm() {
         // Verify nonce and permissions
@@ -89,6 +93,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * AJAX handler for getting algorithm metrics
+      *
+      * @version 1.0.0
      */
     public function ajax_get_algorithm_metrics() {
         // Verify nonce and permissions
@@ -108,6 +114,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * AJAX handler for toggling individual components
+      *
+      * @version 1.0.0
      */
     public function ajax_toggle_component() {
         // Verify nonce and permissions
@@ -198,6 +206,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * AJAX handler for toggling all automation components
+      *
+      * @version 1.0.0
      */
     public function ajax_toggle_all_automation() {
         // Verify nonce and permissions
@@ -274,6 +284,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * AJAX handler for getting dashboard metrics
+      *
+      * @version 1.0.0
      */
     public function ajax_get_dashboard_metrics() {
         // Verify nonce and permissions
@@ -444,6 +456,7 @@ class TradePress_Admin_Automation_Controller {
      * Start the algorithm
      *
      * @return bool Success status
+      * @version 1.0.0
      */
     private function start_algorithm() {
         // Don't start if already running
@@ -478,6 +491,7 @@ class TradePress_Admin_Automation_Controller {
      * Stop the algorithm
      *
      * @return bool Success status
+      * @version 1.0.0
      */
     private function stop_algorithm() {
         // Don't stop if not running
@@ -498,6 +512,7 @@ class TradePress_Admin_Automation_Controller {
      * Start the signals processor
      *
      * @return bool Success status
+      * @version 1.0.0
      */
     private function start_signals() {
         // Don't start if already running
@@ -526,6 +541,7 @@ class TradePress_Admin_Automation_Controller {
      * Stop the signals processor
      *
      * @return bool Success status
+      * @version 1.0.0
      */
     private function stop_signals() {
         // Don't stop if not running
@@ -546,6 +562,7 @@ class TradePress_Admin_Automation_Controller {
      * Start the trading bot
      *
      * @return bool Success status
+      * @version 1.0.0
      */
     private function start_trading() {
         // Don't start if already running
@@ -574,6 +591,7 @@ class TradePress_Admin_Automation_Controller {
      * Stop the trading bot
      *
      * @return bool Success status
+      * @version 1.0.0
      */
     private function stop_trading() {
         // Don't stop if not running
@@ -592,6 +610,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * Process one iteration of the algorithm
+      *
+      * @version 1.0.0
      */
     public function process_algorithm_iteration() {
         // Check if algorithm should still be running
@@ -632,6 +652,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * Process one iteration of the signals processor
+      *
+      * @version 1.0.0
      */
     public function process_signals_iteration() {
         // Check if signals should still be running
@@ -658,6 +680,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * Process one iteration of the trading bot
+      *
+      * @version 1.0.0
      */
     public function process_trading_iteration() {
         // Check if trading should still be running
@@ -688,6 +712,7 @@ class TradePress_Admin_Automation_Controller {
      * Check if the algorithm is running
      *
      * @return bool
+      * @version 1.0.0
      */
     public static function is_algorithm_running() {
         return (bool) get_option('tradepress_algorithm_running', false);
@@ -697,6 +722,7 @@ class TradePress_Admin_Automation_Controller {
      * Check if the signals processor is running
      *
      * @return bool
+      * @version 1.0.0
      */
     public static function is_signals_running() {
         return (bool) get_option('tradepress_signals_running', false);
@@ -706,6 +732,7 @@ class TradePress_Admin_Automation_Controller {
      * Check if the trading bot is running
      *
      * @return bool
+      * @version 1.0.0
      */
     public static function is_trading_running() {
         return (bool) get_option('tradepress_trading_running', false);
@@ -715,6 +742,7 @@ class TradePress_Admin_Automation_Controller {
      * Get the algorithm runtime
      *
      * @return string Runtime in HH:MM:SS format
+      * @version 1.0.0
      */
     public static function get_algorithm_runtime() {
         if (!self::is_algorithm_running()) {
@@ -738,6 +766,7 @@ class TradePress_Admin_Automation_Controller {
      * Get the signals runtime
      *
      * @return string Runtime in HH:MM:SS format
+      * @version 1.0.0
      */
     public static function get_signals_runtime() {
         if (!self::is_signals_running()) {
@@ -761,6 +790,7 @@ class TradePress_Admin_Automation_Controller {
      * Get the trading bot runtime
      *
      * @return string Runtime in HH:MM:SS format
+      * @version 1.0.0
      */
     public static function get_trading_runtime() {
         if (!self::is_trading_running()) {
@@ -786,6 +816,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * Get data import process health status
+      *
+      * @version 1.0.0
      */
     private function get_data_import_health() {
         if (class_exists('TradePress_Data_Import_Process')) {
@@ -809,6 +841,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * Get scoring process health status
+      *
+      * @version 1.0.0
      */
     private function get_scoring_health() {
         if (class_exists('TradePress_Scoring_Process')) {
@@ -832,6 +866,11 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * Calculate basic health score for fallback
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $error_states
+      * @param mixed $last_run
      */
     private function calculate_basic_health_score($error_states, $last_run) {
         $score = 100;
@@ -858,6 +897,11 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * Calculate overall system health
+      *
+      * @version 1.0.0
+      *
+      * @param mixed $data_import_health
+      * @param mixed $scoring_health
      */
     private function calculate_overall_health($data_import_health, $scoring_health) {
         $data_score = isset($data_import_health['health_score']) ? $data_import_health['health_score'] : 0;
@@ -885,6 +929,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * AJAX handler for getting system health status
+      *
+      * @version 1.0.0
      */
     public function ajax_get_system_health() {
         check_ajax_referer('tradepress_automation_nonce', 'nonce');
@@ -907,6 +953,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * AJAX handler for starting data import
+      *
+      * @version 1.0.0
      */
     public function ajax_start_data_import() {
         check_ajax_referer('tradepress_automation_nonce', 'nonce');
@@ -953,6 +1001,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * AJAX handler for stopping data import
+      *
+      * @version 1.0.0
      */
     public function ajax_stop_data_import() {
         check_ajax_referer('tradepress_automation_nonce', 'nonce');
@@ -976,6 +1026,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * AJAX handler for getting data import status
+      *
+      * @version 1.0.0
      */
     public function ajax_get_data_import_status() {
         check_ajax_referer('tradepress_automation_nonce', 'nonce');
@@ -1015,6 +1067,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * AJAX handler for starting scoring process
+      *
+      * @version 1.0.0
      */
     public function ajax_start_scoring_process() {
         check_ajax_referer('tradepress_automation_nonce', 'nonce');
@@ -1061,6 +1115,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * AJAX handler for stopping scoring process
+      *
+      * @version 1.0.0
      */
     public function ajax_stop_scoring_process() {
         check_ajax_referer('tradepress_automation_nonce', 'nonce');
@@ -1084,6 +1140,8 @@ class TradePress_Admin_Automation_Controller {
     
     /**
      * AJAX handler for getting scoring process status
+      *
+      * @version 1.0.0
      */
     public function ajax_get_scoring_process_status() {
         check_ajax_referer('tradepress_automation_nonce', 'nonce');

@@ -43,6 +43,8 @@ class TradePress_WeBull_Admin {
     
     /**
      * Constructor
+      *
+      * @version 1.0.0
      */
     public function __construct() {
         // Add settings tab
@@ -60,6 +62,7 @@ class TradePress_WeBull_Admin {
      *
      * @param array $tabs Existing tabs
      * @return array Modified tabs
+      * @version 1.0.0
      */
     public function add_settings_tab($tabs) {
         $tabs['webull'] = array(
@@ -71,6 +74,8 @@ class TradePress_WeBull_Admin {
     
     /**
      * Register WeBull API settings
+      *
+      * @version 1.0.0
      */
     public function register_settings() {
         // Register the settings section
@@ -172,6 +177,8 @@ class TradePress_WeBull_Admin {
     
     /**
      * Settings section description
+      *
+      * @version 1.0.0
      */
     public function section_description() {
         echo '<p>' . esc_html__('Configure your WeBull API settings to integrate with TradePress. You\'ll need your WeBull account credentials to get started.', 'tradepress') . '</p>';
@@ -180,6 +187,8 @@ class TradePress_WeBull_Admin {
     
     /**
      * Enable field HTML
+      *
+      * @version 1.0.0
      */
     public function enabled_field() {
         $enabled = get_option('tradepress_webull_enabled', 'no');
@@ -194,6 +203,8 @@ class TradePress_WeBull_Admin {
     
     /**
      * Sandbox mode field HTML
+      *
+      * @version 1.0.0
      */
     public function sandbox_mode_field() {
         $sandbox = get_option('tradepress_webull_sandbox_mode', 'yes');
@@ -208,6 +219,8 @@ class TradePress_WeBull_Admin {
     
     /**
      * Email field HTML
+      *
+      * @version 1.0.0
      */
     public function email_field() {
         $email = get_option('tradepress_webull_email', '');
@@ -219,6 +232,8 @@ class TradePress_WeBull_Admin {
     
     /**
      * Password field HTML
+      *
+      * @version 1.0.0
      */
     public function password_field() {
         $password = get_option('tradepress_webull_password', '');
@@ -242,6 +257,8 @@ class TradePress_WeBull_Admin {
     
     /**
      * Device ID field HTML
+      *
+      * @version 1.0.0
      */
     public function device_id_field() {
         $device_id = get_option('tradepress_webull_device_id', '');
@@ -275,6 +292,8 @@ class TradePress_WeBull_Admin {
     
     /**
      * Access Token field HTML
+      *
+      * @version 1.0.0
      */
     public function access_token_field() {
         $token = get_option('tradepress_webull_access_token', '');
@@ -287,6 +306,8 @@ class TradePress_WeBull_Admin {
     
     /**
      * Refresh Token field HTML
+      *
+      * @version 1.0.0
      */
     public function refresh_token_field() {
         $token = get_option('tradepress_webull_refresh_token', '');
@@ -299,6 +320,8 @@ class TradePress_WeBull_Admin {
     
     /**
      * Trade Token field HTML
+      *
+      * @version 1.0.0
      */
     public function trade_token_field() {
         $token = get_option('tradepress_webull_trade_token', '');
@@ -310,6 +333,8 @@ class TradePress_WeBull_Admin {
     
     /**
      * Cache Duration field HTML
+      *
+      * @version 1.0.0
      */
     public function cache_duration_field() {
         $duration = get_option('tradepress_webull_cache_duration', 300);
@@ -321,6 +346,8 @@ class TradePress_WeBull_Admin {
     
     /**
      * Settings page content
+      *
+      * @version 1.0.0
      */
     public function settings_content() {
         ?>
@@ -386,6 +413,11 @@ class TradePress_WeBull_Admin {
                         $('#tradepress_webull_email').on('change', checkLoginButtonState);
                         $('#tradepress_webull_device_id').on('change', checkLoginButtonState);
                         
+                        /**
+                         * Check login button state.
+                         *
+                         * @version 1.0.0
+                         */
                         function checkLoginButtonState() {
                             var email = $('#tradepress_webull_email').val();
                             var deviceId = $('#tradepress_webull_device_id').val();
@@ -405,6 +437,7 @@ class TradePress_WeBull_Admin {
      *
      * @param string $input Password input
      * @return string Sanitized password
+      * @version 1.0.0
      */
     public function sanitize_password($input) {
         if (empty($input) || $input === '••••••••••••••••') {

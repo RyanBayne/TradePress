@@ -21,6 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 * @uses get_loaded_extensions()
 * @param string $giving_extension (name of the extension)
 * @return boolean 
+ * @version 1.0.0
 */
 function TradePress_is_extensionloaded( $giving_extension ){      
     $loaded_extensions = get_loaded_extensions();
@@ -40,6 +41,7 @@ function TradePress_is_extensionloaded( $giving_extension ){
 * @uses dirname()
 * @return true if valid false if not a valid url
 * @param string $url
+ * @version 1.0.0
 */
 function TradePress_is_url( $url ){            
     if (!preg_match( "/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $url ) ){
@@ -56,6 +58,8 @@ function TradePress_is_url( $url ){
 * @returns boolean
 * 
 * @version 2.0
+ *
+ * @param mixed $val
 */
 function TradePress_is_decimalnumber( $val ){       
     return is_numeric( $val ) && floor( $val ) != $val;    
@@ -64,6 +68,9 @@ function TradePress_is_decimalnumber( $val ){
 /**
 * Checks if url has an image extension, does not validate that resource exists
 * @returns boolean
+ * @version 1.0.0
+ *
+ * @param mixed $img_url
 */
 function TradePress_is_image_url( $img_url ){       
     $img_formats = array( "png", "jpg", "jpeg", "gif", "tiff", "bmp"); 
