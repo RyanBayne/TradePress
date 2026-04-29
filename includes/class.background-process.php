@@ -1,611 +1,619 @@
 <?php
 /**
  * WP Background Process based on A5hleyRich' work.
- * 
+ *
  * @author Ryan Bayne (Implementation)
  * @author A5hleyRich (Original)
  *
  * @package WP-Background-Processing
- * 
+ *
  * @link https://github.com/A5hleyRich/wp-background-processing/
  */
- 
+
 // Prohibit direct script loading
 defined( 'ABSPATH' ) || die( 'Direct script access is not allowed!' );
 
 if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
-                                                         
-    /**
-     * Abstract WP_Background_Process class.
-     *
-     * @abstract
-     * @extends WP_Async_Request
-     * 
-     * @author A5hleyRich
-     * 
-     * @link https://github.com/A5hleyRich/wp-background-processing/blob/master/classes/wp-background-process.php
-     */
-    abstract class TradePress_Background_Processing extends TradePress_Async_Request {
 
-        /**
-         * Action
-         *
-         * (default value: 'background_process')
-         *
-         * @var string
-         * @access protected
-         */
-        protected $action = 'background_process';
+	/**
+	 * Abstract WP_Background_Process class.
+	 *
+	 * @abstract
+	 * @extends WP_Async_Request
+	 *
+	 * @author A5hleyRich
+	 *
+	 * @link https://github.com/A5hleyRich/wp-background-processing/blob/master/classes/wp-background-process.php
+	 */
+	abstract class TradePress_Background_Processing extends TradePress_Async_Request {
 
-        /**
-         * Start time of current process.
-         *
-         * (default value: 0)
-         *
-         * @var int
-         * @access protected
-         */
-        protected $start_time = 0;
+		/**
+		 * Action
+		 *
+		 * (default value: 'background_process')
+		 *
+		 * @var string
+		 * @access protected
+		 */
+		protected $action = 'background_process';
 
-        /**
-         * Cron_hook_identifier
-         *
-         * @var mixed
-         * @access protected
-         */
-        protected $cron_hook_identifier;
+		/**
+		 * Start time of current process.
+		 *
+		 * (default value: 0)
+		 *
+		 * @var int
+		 * @access protected
+		 */
+		protected $start_time = 0;
 
-        /**
-         * Cron_interval_identifier
-         *
-         * @var mixed
-         * @access protected
-         */
-        protected $cron_interval_identifier;
+		/**
+		 * Cron_hook_identifier
+		 *
+		 * @var mixed
+		 * @access protected
+		 */
+		protected $cron_hook_identifier;
 
-        /**
-         * Initiate new background process
-          *
-          * @version 1.0.0
-         */
-        public function __construct() {
-            parent::__construct();
+		/**
+		 * Cron_interval_identifier
+		 *
+		 * @var mixed
+		 * @access protected
+		 */
+		protected $cron_interval_identifier;
 
-            $this->cron_hook_identifier     = $this->identifier . '_cron';
-            $this->cron_interval_identifier = $this->identifier . '_cron_interval';
+		/**
+		 * Initiate new background process
+		 *
+		 * @version 1.0.0
+		 */
+		public function __construct() {
+			parent::__construct();
 
-            add_action( $this->cron_hook_identifier, array( $this, 'handle_cron_healthcheck' ) );
-            add_filter( 'cron_schedules', array( $this, 'schedule_cron_healthcheck' ) );
-        }
-                               
-        /**
-         * Dispatch by performing a HTTP POST...
-         *
-         * @access public
-         * @return void
-          * @version 1.0.0
-         */
-        public function dispatch() {
-            // Schedule the cron healthcheck.
-            $this->schedule_event();
+			$this->cron_hook_identifier     = $this->identifier . '_cron';
+			$this->cron_interval_identifier = $this->identifier . '_cron_interval';
 
-            // Perform remote post
-            return parent::dispatch();
-        }
+			add_action( $this->cron_hook_identifier, array( $this, 'handle_cron_healthcheck' ) );
+			add_filter( 'cron_schedules', array( $this, 'schedule_cron_healthcheck' ) );
+		}
 
-        /**
-         * Push to queue
-         *
-         * @param mixed $data Data.
-         *
-         * @return $this
-          * @version 1.0.0
-         */
-        public function push_to_queue( $data ) {
-            $this->data[] = $data;
-            return $this;
-        }
-                                   
-        /**
-         * Save queue
-         *
-         * @return $this
-          * @version 1.0.0
-         */
-        public function save() {
-            $key = $this->generate_key();
+		/**
+		 * Dispatch by performing a HTTP POST...
+		 *
+		 * @access public
+		 * @return void
+		 * @version 1.0.0
+		 */
+		public function dispatch() {
+			// Schedule the cron healthcheck.
+			$this->schedule_event();
 
-            if ( ! empty( $this->data ) ) {
-                update_site_option( $key, $this->data );
-            }
+			// Perform remote post
+			return parent::dispatch();
+		}
 
-            return $this;
-        }
+		/**
+		 * Push to queue
+		 *
+		 * @param mixed $data Data.
+		 *
+		 * @return $this
+		 * @version 1.0.0
+		 */
+		public function push_to_queue( $data ) {
+			$this->data[] = $data;
+			return $this;
+		}
 
-        /**
-         * Update queue
-         *
-         * @param string $key Key.
-         * @param array  $data Data.
-         *
-         * @return $this
-          * @version 1.0.0
-         */
-        public function update( $key, $data ) {
-            if ( ! empty( $data ) ) {
-                update_site_option( $key, $data );
-            }
+		/**
+		 * Save queue
+		 *
+		 * @return $this
+		 * @version 1.0.0
+		 */
+		public function save() {
+			$key = $this->generate_key();
 
-            return $this;
-        }
+			if ( ! empty( $this->data ) ) {
+				update_site_option( $key, $this->data );
+			}
 
-        /**
-         * Delete queue
-         *
-         * @param string $key Key.
-         *
-         * @return $this
-          * @version 1.0.0
-         */
-        public function delete( $key ) {
-            delete_site_option( $key );
+			return $this;
+		}
 
-            return $this;
-        }
-                                       
-        /**
-         * Generate key
-         *
-         * Generates a unique key based on microtime. Queue items are
-         * given a unique key so that they can be merged upon save.
-         *
-         * @param int $length Length.
-         *
-         * @return string
-          * @version 1.0.0
-         */
-        protected function generate_key( $length = 64 ) {
-            $unique  = md5( microtime() . rand() );
-            $prepend = $this->identifier . '_batch_';
+		/**
+		 * Update queue
+		 *
+		 * @param string $key Key.
+		 * @param array  $data Data.
+		 *
+		 * @return $this
+		 * @version 1.0.0
+		 */
+		public function update( $key, $data ) {
+			if ( ! empty( $data ) ) {
+				update_site_option( $key, $data );
+			}
 
-            return substr( $prepend . $unique, 0, $length );
-        }
+			return $this;
+		}
 
-        /**
-         * Maybe process queue
-         *
-         * Checks whether data exists within the queue and that
-         * the process is not already running.
-          *
-          * @version 1.0.0
-         */
-        public function maybe_handle() {
-            // Don't lock up other requests while processing
-            session_write_close();
+		/**
+		 * Delete queue
+		 *
+		 * @param string $key Key.
+		 *
+		 * @return $this
+		 * @version 1.0.0
+		 */
+		public function delete( $key ) {
+			delete_site_option( $key );
 
-            if ( $this->is_process_running() ) {
-                // Background process already running.
-                wp_die( 'WordPress died at Line ' . __LINE__ . ' - ' . __FILE__ );
-            }
+			return $this;
+		}
 
-            if ( $this->is_queue_empty() ) {
-                // No data to process.
-                wp_die( 'WordPress died at Line ' . __LINE__ . ' - ' . __FILE__ );
-            }
+		/**
+		 * Generate key
+		 *
+		 * Generates a unique key based on microtime. Queue items are
+		 * given a unique key so that they can be merged upon save.
+		 *
+		 * @param int $length Length.
+		 *
+		 * @return string
+		 * @version 1.0.0
+		 */
+		protected function generate_key( $length = 64 ) {
+			$unique  = md5( microtime() . rand() );
+			$prepend = $this->identifier . '_batch_';
 
-            check_ajax_referer( $this->identifier, 'nonce' );
+			return substr( $prepend . $unique, 0, $length );
+		}
 
-            $this->handle();
+		/**
+		 * Maybe process queue
+		 *
+		 * Checks whether data exists within the queue and that
+		 * the process is not already running.
+		 *
+		 * @version 1.0.0
+		 */
+		public function maybe_handle() {
+			// Don't lock up other requests while processing
+			session_write_close();
 
-            wp_die( 'WordPress died at Line ' . __LINE__ . ' - ' . __FILE__ );
-        }
-                                           
-        /**
-         * Is queue empty...
-         *
-         * @return bool
-         * 
-         * @version 1.0
-         */
-        protected function is_queue_empty() {
-            global $wpdb;
+			if ( $this->is_process_running() ) {
+				// Background process already running.
+				wp_die( 'WordPress died at Line ' . __LINE__ . ' - ' . __FILE__ );
+			}
 
-            $table  = $wpdb->options;
-            $column = 'option_name';
+			if ( $this->is_queue_empty() ) {
+				// No data to process.
+				wp_die( 'WordPress died at Line ' . __LINE__ . ' - ' . __FILE__ );
+			}
 
-            if ( is_multisite() ) {
-                $table  = $wpdb->sitemeta;
-                $column = 'meta_key';
-            }
+			check_ajax_referer( $this->identifier, 'nonce' );
 
-            $key = $this->identifier . '_batch_%';
+			$this->handle();
 
-            $count = $wpdb->get_var( $wpdb->prepare( "
+			wp_die( 'WordPress died at Line ' . __LINE__ . ' - ' . __FILE__ );
+		}
+
+		/**
+		 * Is queue empty...
+		 *
+		 * @return bool
+		 *
+		 * @version 1.0
+		 */
+		protected function is_queue_empty() {
+			global $wpdb;
+
+			$table  = $wpdb->options;
+			$column = 'option_name';
+
+			if ( is_multisite() ) {
+				$table  = $wpdb->sitemeta;
+				$column = 'meta_key';
+			}
+
+			$key = $this->identifier . '_batch_%';
+
+			$count = $wpdb->get_var(
+				$wpdb->prepare(
+					"
             SELECT COUNT(*)
             FROM {$table}
             WHERE {$column} LIKE %s
-        ", $key ) );
+        ",
+					$key
+				)
+			);
 
-            return ( $count > 0 ) ? false : true;
-        }
+			return ( $count > 0 ) ? false : true;
+		}
 
-        /**
-         * Is process running
-         *
-         * Check whether the current process is already running
-         * in a background process.
-          *
-          * @version 1.0.0
-         */
-        protected function is_process_running() {
-            if ( get_site_transient( $this->identifier . '_process_lock' ) ) {
-                // Process already running.
-                return true;
-            }
+		/**
+		 * Is process running
+		 *
+		 * Check whether the current process is already running
+		 * in a background process.
+		 *
+		 * @version 1.0.0
+		 */
+		protected function is_process_running() {
+			if ( get_site_transient( $this->identifier . '_process_lock' ) ) {
+				// Process already running.
+				return true;
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        /**
-         * Lock process
-         *
-         * Lock the process so that multiple instances can't run simultaneously.
-         * Override if applicable, but the duration should be greater than that
-         * defined in the time_exceeded() method.
-          *
-          * @version 1.0.0
-         */
-        protected function lock_process() {
-            $this->start_time = time(); // Set start time of current process.
+		/**
+		 * Lock process
+		 *
+		 * Lock the process so that multiple instances can't run simultaneously.
+		 * Override if applicable, but the duration should be greater than that
+		 * defined in the time_exceeded() method.
+		 *
+		 * @version 1.0.0
+		 */
+		protected function lock_process() {
+			$this->start_time = time(); // Set start time of current process.
 
-            // Dynamic lock duration based on expected processing time
-            $default_lock = $this->get_optimal_lock_duration();
-            $lock_duration = ( property_exists( $this, 'queue_lock_time' ) ) ? $this->queue_lock_time : $default_lock;
-            $lock_duration = apply_filters( $this->identifier . '_queue_lock_time', $lock_duration );
+			// Dynamic lock duration based on expected processing time
+			$default_lock  = $this->get_optimal_lock_duration();
+			$lock_duration = ( property_exists( $this, 'queue_lock_time' ) ) ? $this->queue_lock_time : $default_lock;
+			$lock_duration = apply_filters( $this->identifier . '_queue_lock_time', $lock_duration );
 
-            set_site_transient( $this->identifier . '_process_lock', microtime(), $lock_duration );
-        }
-        
-        /**
-         * Get optimal lock duration based on processing time
-         *
-         * @return int
-          * @version 1.0.0
-         */
-        protected function get_optimal_lock_duration() {
-            // Base lock duration on time limit + buffer
-            $time_limit = $this->get_optimal_time_limit();
-            
-            // Lock should be longer than processing time + 50% buffer
-            return $time_limit + ($time_limit * 0.5);
-        }
+			set_site_transient( $this->identifier . '_process_lock', microtime(), $lock_duration );
+		}
 
-        /**
-         * Unlock process
-         *
-         * Unlock the process so that other instances can spawn.
-         *
-         * @return $this
-          * @version 1.0.0
-         */
-        protected function unlock_process() {
-            delete_site_transient( $this->identifier . '_process_lock' );
+		/**
+		 * Get optimal lock duration based on processing time
+		 *
+		 * @return int
+		 * @version 1.0.0
+		 */
+		protected function get_optimal_lock_duration() {
+			// Base lock duration on time limit + buffer
+			$time_limit = $this->get_optimal_time_limit();
 
-            return $this;
-        }
-                                               
-        /**
-         * Get batch
-         *
-         * @return stdClass Return the first batch from the queue
-         * 
-         * @version 1.0
-         */
-        protected function get_batch() {
-            global $wpdb;
+			// Lock should be longer than processing time + 50% buffer
+			return $time_limit + ( $time_limit * 0.5 );
+		}
 
-            $table        = $wpdb->options;
-            $column       = 'option_name';
-            $key_column   = 'option_id';
-            $value_column = 'option_value';
+		/**
+		 * Unlock process
+		 *
+		 * Unlock the process so that other instances can spawn.
+		 *
+		 * @return $this
+		 * @version 1.0.0
+		 */
+		protected function unlock_process() {
+			delete_site_transient( $this->identifier . '_process_lock' );
 
-            if ( is_multisite() ) {
-                $table        = $wpdb->sitemeta;
-                $column       = 'meta_key';
-                $key_column   = 'meta_id';
-                $value_column = 'meta_value';
-            }
+			return $this;
+		}
 
-            $key = $this->identifier . '_batch_%';
+		/**
+		 * Get batch
+		 *
+		 * @return stdClass Return the first batch from the queue
+		 *
+		 * @version 1.0
+		 */
+		protected function get_batch() {
+			global $wpdb;
 
-            $query = $wpdb->get_row( $wpdb->prepare( "
+			$table        = $wpdb->options;
+			$column       = 'option_name';
+			$key_column   = 'option_id';
+			$value_column = 'option_value';
+
+			if ( is_multisite() ) {
+				$table        = $wpdb->sitemeta;
+				$column       = 'meta_key';
+				$key_column   = 'meta_id';
+				$value_column = 'meta_value';
+			}
+
+			$key = $this->identifier . '_batch_%';
+
+			$query = $wpdb->get_row(
+				$wpdb->prepare(
+					"
             SELECT *
             FROM {$table}
             WHERE {$column} LIKE %s
             ORDER BY {$key_column} ASC
             LIMIT 1
-            ", $key ) );
+            ",
+					$key
+				)
+			);
 
-            $batch       = new stdClass();
-            $batch->key  = $query->$column;
-            $batch->data = maybe_unserialize( $query->$value_column );
+			$batch       = new stdClass();
+			$batch->key  = $query->$column;
+			$batch->data = maybe_unserialize( $query->$value_column );
 
-            return $batch;
-        }
+			return $batch;
+		}
 
-        /**
-         * Handle
-         *
-         * Pass each queue item to the task handler, while remaining
-         * within server memory and time limit constraints.
-          *
-          * @version 1.0.0
-         */
-        protected function handle() {
-            $this->lock_process();
+		/**
+		 * Handle
+		 *
+		 * Pass each queue item to the task handler, while remaining
+		 * within server memory and time limit constraints.
+		 *
+		 * @version 1.0.0
+		 */
+		protected function handle() {
+			$this->lock_process();
 
-            do {
-                $batch = $this->get_batch();
+			do {
+				$batch = $this->get_batch();
 
-                foreach ( $batch->data as $key => $value ) {
-                    $task = $this->task( $value );
+				foreach ( $batch->data as $key => $value ) {
+					$task = $this->task( $value );
 
-                    if ( false !== $task ) {
-                        $batch->data[ $key ] = $task;
-                    } else {
-                        unset( $batch->data[ $key ] );
-                    }
+					if ( false !== $task ) {
+						$batch->data[ $key ] = $task;
+					} else {
+						unset( $batch->data[ $key ] );
+					}
 
-                    if ( $this->time_exceeded() || $this->memory_exceeded() ) {
-                        // Batch limits reached.
-                        break;
-                    }
-                }
+					if ( $this->time_exceeded() || $this->memory_exceeded() ) {
+						// Batch limits reached.
+						break;
+					}
+				}
 
-                // Update or delete current batch.
-                if ( ! empty( $batch->data ) ) {
-                    $this->update( $batch->key, $batch->data );
-                } else {
-                    $this->delete( $batch->key );
-                }
-            } while ( ! $this->time_exceeded() && ! $this->memory_exceeded() && ! $this->is_queue_empty() );
+				// Update or delete current batch.
+				if ( ! empty( $batch->data ) ) {
+					$this->update( $batch->key, $batch->data );
+				} else {
+					$this->delete( $batch->key );
+				}
+			} while ( ! $this->time_exceeded() && ! $this->memory_exceeded() && ! $this->is_queue_empty() );
 
-            $this->unlock_process();
+			$this->unlock_process();
 
-            // Start next batch or complete process.
-            if ( ! $this->is_queue_empty() ) {
-                $this->dispatch();
-            } else {
-                $this->complete();
-            }
-        }
-                                                   
-        /**
-         * Memory exceeded
-         *
-         * Ensures the batch process never exceeds 90%
-         * of the maximum WordPress memory.
-         *
-         * @return bool
-          * @version 1.0.0
-         */
-        protected function memory_exceeded() {
-            $memory_limit   = $this->get_memory_limit() * 0.9; // 90% of max memory
-            $current_memory = memory_get_usage( true );
-            $return         = false;
+			// Start next batch or complete process.
+			if ( ! $this->is_queue_empty() ) {
+				$this->dispatch();
+			} else {
+				$this->complete();
+			}
+		}
 
-            if ( $current_memory >= $memory_limit ) {
-                $return = true;
-            }
+		/**
+		 * Memory exceeded
+		 *
+		 * Ensures the batch process never exceeds 90%
+		 * of the maximum WordPress memory.
+		 *
+		 * @return bool
+		 * @version 1.0.0
+		 */
+		protected function memory_exceeded() {
+			$memory_limit   = $this->get_memory_limit() * 0.9; // 90% of max memory
+			$current_memory = memory_get_usage( true );
+			$return         = false;
 
-            return apply_filters( $this->identifier . '_memory_exceeded', $return );
-        }
+			if ( $current_memory >= $memory_limit ) {
+				$return = true;
+			}
 
-        /**
-         * Get memory limit
-         *
-         * @return int
-          * @version 1.0.0
-         */
-        protected function get_memory_limit() {
-            if ( function_exists( 'ini_get' ) ) {
-                $memory_limit = ini_get( 'memory_limit' );
-            } else {
-                // Sensible default.
-                $memory_limit = '128M';
-            }
+			return apply_filters( $this->identifier . '_memory_exceeded', $return );
+		}
 
-            if ( ! $memory_limit || -1 === $memory_limit ) {
-                // Unlimited, set to 32GB.
-                $memory_limit = '32000M';
-            }
+		/**
+		 * Get memory limit
+		 *
+		 * @return int
+		 * @version 1.0.0
+		 */
+		protected function get_memory_limit() {
+			if ( function_exists( 'ini_get' ) ) {
+				$memory_limit = ini_get( 'memory_limit' );
+			} else {
+				// Sensible default.
+				$memory_limit = '128M';
+			}
 
-            return intval( $memory_limit ) * 1024 * 1024;
-        }
+			if ( ! $memory_limit || -1 === $memory_limit ) {
+				// Unlimited, set to 32GB.
+				$memory_limit = '32000M';
+			}
 
-        /**
-         * Time exceeded.
-         *
-         * Ensures the batch never exceeds a sensible time limit.
-         * A timeout limit of 30s is common on shared hosting.
-         *
-         * @return bool
-          * @version 1.0.0
-         */
-        protected function time_exceeded() {
-            // Dynamic time limit based on server capabilities
-            $default_limit = $this->get_optimal_time_limit();
-            $finish = $this->start_time + apply_filters( $this->identifier . '_default_time_limit', $default_limit );
-            $return = false;
+			return intval( $memory_limit ) * 1024 * 1024;
+		}
 
-            if ( time() >= $finish ) {
-                $return = true;
-            }
+		/**
+		 * Time exceeded.
+		 *
+		 * Ensures the batch never exceeds a sensible time limit.
+		 * A timeout limit of 30s is common on shared hosting.
+		 *
+		 * @return bool
+		 * @version 1.0.0
+		 */
+		protected function time_exceeded() {
+			// Dynamic time limit based on server capabilities
+			$default_limit = $this->get_optimal_time_limit();
+			$finish        = $this->start_time + apply_filters( $this->identifier . '_default_time_limit', $default_limit );
+			$return        = false;
 
-            return apply_filters( $this->identifier . '_time_exceeded', $return );
-        }
-        
-        /**
-         * Get optimal time limit based on server configuration
-         *
-         * @return int
-          * @version 1.0.0
-         */
-        protected function get_optimal_time_limit() {
-            // Get PHP max execution time
-            $max_execution_time = ini_get('max_execution_time');
-            
-            // If unlimited (0) or very high, use sensible default
-            if ($max_execution_time == 0 || $max_execution_time > 300) {
-                $max_execution_time = 30; // 30 seconds for shared hosting
-            }
-            
-            // Use 70% of max execution time to leave buffer
-            $optimal_time = floor($max_execution_time * 0.7);
-            
-            // Minimum 10 seconds, maximum 60 seconds
-            return max(10, min(60, $optimal_time));
-        }
+			if ( time() >= $finish ) {
+				$return = true;
+			}
 
-        /**
-         * Complete.
-         *
-         * Override if applicable, but ensure that the below actions are
-         * performed, or, call parent::complete().
-          *
-          * @version 1.0.0
-         */
-        protected function complete() {
-            // Unschedule the cron healthcheck.
-            $this->clear_scheduled_event();
-        }
-                                                       
-        /**
-         * Schedule cron healthcheck
-         *
-         * @access public
-         * @param mixed $schedules Schedules.
-         * @return mixed
-          * @version 1.0.0
-         */
-        public function schedule_cron_healthcheck( $schedules ) {
-            // Dynamic interval based on queue activity
-            $default_interval = $this->get_optimal_cron_interval();
-            $interval = apply_filters( $this->identifier . '_cron_interval', $default_interval );
+			return apply_filters( $this->identifier . '_time_exceeded', $return );
+		}
 
-            if ( property_exists( $this, 'cron_interval' ) ) {
-                $interval = apply_filters( $this->identifier . '_cron_interval', $this->cron_interval_identifier );
-            }
+		/**
+		 * Get optimal time limit based on server configuration
+		 *
+		 * @return int
+		 * @version 1.0.0
+		 */
+		protected function get_optimal_time_limit() {
+			// Get PHP max execution time
+			$max_execution_time = ini_get( 'max_execution_time' );
 
-            // Dynamic cron schedule
-            $schedules[ $this->identifier . '_cron_interval' ] = array(
-                'interval' => MINUTE_IN_SECONDS * $interval,
-                /* translators: %d: number */
-                'display'  => sprintf( __( 'Every %d Minutes', 'tradepress' ), $interval ),
-            );
+			// If unlimited (0) or very high, use sensible default
+			if ( $max_execution_time == 0 || $max_execution_time > 300 ) {
+				$max_execution_time = 30; // 30 seconds for shared hosting
+			}
 
-            return $schedules;
-        }
-        
-        /**
-         * Get optimal cron interval based on system load and queue activity
-         *
-         * @return int
-          * @version 1.0.0
-         */
-        protected function get_optimal_cron_interval() {
-            // Check if queue has items
-            $has_queue_items = !$this->is_queue_empty();
-            
-            // More frequent checks when queue is active
-            if ($has_queue_items) {
-                return 2; // Every 2 minutes when active
-            }
-            
-            // Less frequent when idle
-            return 10; // Every 10 minutes when idle
-        }
+			// Use 70% of max execution time to leave buffer
+			$optimal_time = floor( $max_execution_time * 0.7 );
 
-        /**
-         * Handle cron healthcheck
-         *
-         * Restart the background process if not already running
-         * and data exists in the queue.
-          *
-          * @version 1.0.0
-         */
-        public function handle_cron_healthcheck() {
-            if ( $this->is_process_running() ) {
-                // Background process already running.
-                exit;
-            }
+			// Minimum 10 seconds, maximum 60 seconds
+			return max( 10, min( 60, $optimal_time ) );
+		}
 
-            if ( $this->is_queue_empty() ) {
-                // No data to process.
-                $this->clear_scheduled_event();
-                exit;
-            }
+		/**
+		 * Complete.
+		 *
+		 * Override if applicable, but ensure that the below actions are
+		 * performed, or, call parent::complete().
+		 *
+		 * @version 1.0.0
+		 */
+		protected function complete() {
+			// Unschedule the cron healthcheck.
+			$this->clear_scheduled_event();
+		}
 
-            $this->handle();
+		/**
+		 * Schedule cron healthcheck
+		 *
+		 * @access public
+		 * @param mixed $schedules Schedules.
+		 * @return mixed
+		 * @version 1.0.0
+		 */
+		public function schedule_cron_healthcheck( $schedules ) {
+			// Dynamic interval based on queue activity
+			$default_interval = $this->get_optimal_cron_interval();
+			$interval         = apply_filters( $this->identifier . '_cron_interval', $default_interval );
 
-            exit;
-        }
+			if ( property_exists( $this, 'cron_interval' ) ) {
+				$interval = apply_filters( $this->identifier . '_cron_interval', $this->cron_interval_identifier );
+			}
 
-        /**
-         * Schedule event
-          *
-          * @version 1.0.0
-         */
-        protected function schedule_event() {
-            if ( ! wp_next_scheduled( $this->cron_hook_identifier ) ) {
-                wp_schedule_event( time(), $this->cron_interval_identifier, $this->cron_hook_identifier );
-            }
-        }
+			// Dynamic cron schedule
+			$schedules[ $this->identifier . '_cron_interval' ] = array(
+				'interval' => MINUTE_IN_SECONDS * $interval,
+				/* translators: %d: number */
+				'display'  => sprintf( __( 'Every %d Minutes', 'tradepress' ), $interval ),
+			);
 
-        /**
-         * Clear scheduled event
-          *
-          * @version 1.0.0
-         */
-        protected function clear_scheduled_event() {
-            $timestamp = wp_next_scheduled( $this->cron_hook_identifier );
+			return $schedules;
+		}
 
-            if ( $timestamp ) {
-                wp_unschedule_event( $timestamp, $this->cron_hook_identifier );
-            }
-        }
+		/**
+		 * Get optimal cron interval based on system load and queue activity
+		 *
+		 * @return int
+		 * @version 1.0.0
+		 */
+		protected function get_optimal_cron_interval() {
+			// Check if queue has items
+			$has_queue_items = ! $this->is_queue_empty();
 
-        /**
-         * Cancel Process
-         *
-         * Stop processing queue items, clear cronjob and delete batch.
-         *
-          *
-          * @version 1.0.0
-         */
-        public function cancel_process() {
-            if ( ! $this->is_queue_empty() ) {
-                $batch = $this->get_batch();
+			// More frequent checks when queue is active
+			if ( $has_queue_items ) {
+				return 2; // Every 2 minutes when active
+			}
 
-                $this->delete( $batch->key );
+			// Less frequent when idle
+			return 10; // Every 10 minutes when idle
+		}
 
-                wp_clear_scheduled_hook( $this->cron_hook_identifier );
-            }
+		/**
+		 * Handle cron healthcheck
+		 *
+		 * Restart the background process if not already running
+		 * and data exists in the queue.
+		 *
+		 * @version 1.0.0
+		 */
+		public function handle_cron_healthcheck() {
+			if ( $this->is_process_running() ) {
+				// Background process already running.
+				exit;
+			}
 
-        }
-                                                           
-        /**
-         * Task
-         *
-         * Override this method to perform any actions required on each
-         * queue item. Return the modified item for further processing
-         * in the next pass through. Or, return false to remove the
-         * item from the queue.
-         *
-         * @param mixed $item Queue item to iterate over.
-         *
-         * @return mixed
-         */
-        abstract protected function task( $item );
-    }
+			if ( $this->is_queue_empty() ) {
+				// No data to process.
+				$this->clear_scheduled_event();
+				exit;
+			}
+
+			$this->handle();
+
+			exit;
+		}
+
+		/**
+		 * Schedule event
+		 *
+		 * @version 1.0.0
+		 */
+		protected function schedule_event() {
+			if ( ! wp_next_scheduled( $this->cron_hook_identifier ) ) {
+				wp_schedule_event( time(), $this->cron_interval_identifier, $this->cron_hook_identifier );
+			}
+		}
+
+		/**
+		 * Clear scheduled event
+		 *
+		 * @version 1.0.0
+		 */
+		protected function clear_scheduled_event() {
+			$timestamp = wp_next_scheduled( $this->cron_hook_identifier );
+
+			if ( $timestamp ) {
+				wp_unschedule_event( $timestamp, $this->cron_hook_identifier );
+			}
+		}
+
+		/**
+		 * Cancel Process
+		 *
+		 * Stop processing queue items, clear cronjob and delete batch.
+		 *
+		 * @version 1.0.0
+		 */
+		public function cancel_process() {
+			if ( ! $this->is_queue_empty() ) {
+				$batch = $this->get_batch();
+
+				$this->delete( $batch->key );
+
+				wp_clear_scheduled_hook( $this->cron_hook_identifier );
+			}
+		}
+
+		/**
+		 * Task
+		 *
+		 * Override this method to perform any actions required on each
+		 * queue item. Return the modified item for further processing
+		 * in the next pass through. Or, return false to remove the
+		 * item from the queue.
+		 *
+		 * @param mixed $item Queue item to iterate over.
+		 *
+		 * @return mixed
+		 */
+		abstract protected function task( $item );
+	}
 }

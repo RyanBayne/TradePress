@@ -1,14 +1,14 @@
 <?php
 /**
  * Social Platform Tab Helper Functions
- * 
+ *
  * Common helper functions used across social platform tab templates
  *
  * @created April 22, 2025
  */
 
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
@@ -16,22 +16,22 @@ if (!defined('ABSPATH')) {
  *
  * @param string $status Status value (active, inactive, operational, etc.)
  * @return string CSS class name for the status color
-  * @version 1.0.0
+ * @version 1.0.0
  */
-function get_status_color($status) {
-    switch ($status) {
-        case 'active':
-        case 'operational':
-            return 'status-green';
-        case 'disruption':
-        case 'maintenance':
-            return 'status-orange';
-        case 'inactive':
-        case 'outage':
-            return 'status-red';
-        default:
-            return 'status-grey';
-    }
+function get_status_color( $status ) {
+	switch ( $status ) {
+		case 'active':
+		case 'operational':
+			return 'status-green';
+		case 'disruption':
+		case 'maintenance':
+			return 'status-orange';
+		case 'inactive':
+		case 'outage':
+			return 'status-red';
+		default:
+			return 'status-grey';
+	}
 }
 
 /**
@@ -39,15 +39,15 @@ function get_status_color($status) {
  *
  * @param mixed $json The data to format as JSON
  * @return string Formatted JSON string with escaped quotes
-  * @version 1.0.0
+ * @version 1.0.0
  */
-function format_json_for_display($json) {
-    if (empty($json)) {
-        return '';
-    }
-    
-    $formatted = json_encode($json, JSON_PRETTY_PRINT);
-    $formatted = str_replace('"', '\"', $formatted); // Escape quotes for JS
-    
-    return $formatted;
+function format_json_for_display( $json ) {
+	if ( empty( $json ) ) {
+		return '';
+	}
+
+	$formatted = json_encode( $json, JSON_PRETTY_PRINT );
+	$formatted = str_replace( '"', '\"', $formatted ); // Escape quotes for JS
+
+	return $formatted;
 }

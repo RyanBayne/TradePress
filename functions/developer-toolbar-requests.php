@@ -7,15 +7,15 @@
  * @package  TradePress/Core
  * @since    1.0.0
  */
- 
-if ( ! defined( 'ABSPATH' ) ) {    
-    exit;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 add_action( 'admin_post_TradePress_api_version_switch', 'TradePress_api_version_switch' );
 
 /**
- * Controls the ability to switch between versions of the Twitch API 
+ * Controls the ability to switch between versions of the Twitch API
  * Was introduced when preparing for Helix release
  *
  * @return void
@@ -23,40 +23,39 @@ add_action( 'admin_post_TradePress_api_version_switch', 'TradePress_api_version_
  */
 function TradePress_api_version_switch() {
 
-    // Only users with the TradePress_developer capability will be allowed to do this...
-    if( !current_user_can( 'TradePressdevelopertoolbar' ) ) 
-    {      
-        TradePress_Admin_Notices::add_wordpress_notice(
-            'devtoolbar_twitchapiswitch_notice',
-            'warning',
-            false,
-            __( 'No Permission', 'tradepress' ),
-            __( 'You do not have the TradePress Developer capability for this action. That permission must be added to your WordPress account first.', 'tradepress' ) 
-        );
+	// Only users with the TradePress_developer capability will be allowed to do this...
+	if ( ! current_user_can( 'TradePressdevelopertoolbar' ) ) {
+		TradePress_Admin_Notices::add_wordpress_notice(
+			'devtoolbar_twitchapiswitch_notice',
+			'warning',
+			false,
+			__( 'No Permission', 'tradepress' ),
+			__( 'You do not have the TradePress Developer capability for this action. That permission must be added to your WordPress account first.', 'tradepress' )
+		);
 
-        wp_safe_redirect( wp_get_referer() );
-        exit;                      
-    }
+		wp_safe_redirect( wp_get_referer() );
+		exit;
+	}
 
-    update_option( 'TradePress_apiversion', 6 );
-    $version = 6;
-    $name = 'Helix';        
+	update_option( 'TradePress_apiversion', 6 );
+	$version = 6;
+	$name    = 'Helix';
 
-    TradePress_Admin_Notices::add_wordpress_notice(
-        'devtoolbar_twitchapiswitch_notice',
-        'success',
-        false,
-        __( 'Twitch API Version Changed', 'tradepress' ),
-        /* translators: %d: API version number, %s: version description */
-        sprintf( __( 'You changed the Twitch API version to %1$d (%2$s)', 'tradepress' ), $version, $name ) 
-    );
-        
-    wp_safe_redirect( wp_get_referer() );
-    exit;    
+	TradePress_Admin_Notices::add_wordpress_notice(
+		'devtoolbar_twitchapiswitch_notice',
+		'success',
+		false,
+		__( 'Twitch API Version Changed', 'tradepress' ),
+		/* translators: %d: API version number, %s: version description */
+		sprintf( __( 'You changed the Twitch API version to %1$d (%2$s)', 'tradepress' ), $version, $name )
+	);
+
+	wp_safe_redirect( wp_get_referer() );
+	exit;
 }
 
 add_action( 'admin_post_TradePress_beta_testing_switch', 'TradePress_beta_testing_switch' );
-  
+
 /**
  * Beta testing switch.
  *
@@ -64,48 +63,44 @@ add_action( 'admin_post_TradePress_beta_testing_switch', 'TradePress_beta_testin
  */
 function TradePress_beta_testing_switch() {
 
-    // Only users with the TradePress_developer capability will be allowed to do this...
-    if( !current_user_can( 'TradePressdevelopertoolbar' ) ) 
-    {      
-        TradePress_Admin_Notices::add_wordpress_notice(
-            'devtoolbar_beta_testing_nopermission_notice',
-            'warning',
-            false,
-            __( 'Request Rejected', 'tradepress' ),
-            __( 'You do not have the wp-capability (TradePress Developer) for this action.', 'tradepress' ) 
-        );
+	// Only users with the TradePress_developer capability will be allowed to do this...
+	if ( ! current_user_can( 'TradePressdevelopertoolbar' ) ) {
+		TradePress_Admin_Notices::add_wordpress_notice(
+			'devtoolbar_beta_testing_nopermission_notice',
+			'warning',
+			false,
+			__( 'Request Rejected', 'tradepress' ),
+			__( 'You do not have the wp-capability (TradePress Developer) for this action.', 'tradepress' )
+		);
 
-        wp_safe_redirect( wp_get_referer() );
-        exit;                      
-    }
-    
-    $beta_testing_switch = get_option( 'TradePress_beta_testing' );
-    
-    if( $beta_testing_switch )
-    {
-        update_option( 'TradePress_beta_testing', 0 );    
-        TradePress_Admin_Notices::add_wordpress_notice(
-            'devtoolbar_beta_testing_disabled_notice',
-            'success',
-            false,
-            __( 'TradePress Beta Testing Disabled', 'tradepress' ),
-            __( 'Beta testing has been turned off. Some features might be hidden and others may operate differently.', 'tradepress' ) 
-        );        
-    }
-    else
-    {
-        update_option( 'TradePress_beta_testing', 1 );
-        TradePress_Admin_Notices::add_wordpress_notice(
-            'devtoolbar_beta_testing_activated_notice',
-            'success',
-            false,
-            __( 'TradePress Beta Testing Enabled', 'tradepress' ),
-            __( 'You activated beta testing for TradePress. Please disable if you have not checked this versions risk-level and you are on a live site.', 'tradepress' ) 
-        ); 
-    }
-        
-    wp_safe_redirect( wp_get_referer() );
-    exit;    
+		wp_safe_redirect( wp_get_referer() );
+		exit;
+	}
+
+	$beta_testing_switch = get_option( 'TradePress_beta_testing' );
+
+	if ( $beta_testing_switch ) {
+		update_option( 'TradePress_beta_testing', 0 );
+		TradePress_Admin_Notices::add_wordpress_notice(
+			'devtoolbar_beta_testing_disabled_notice',
+			'success',
+			false,
+			__( 'TradePress Beta Testing Disabled', 'tradepress' ),
+			__( 'Beta testing has been turned off. Some features might be hidden and others may operate differently.', 'tradepress' )
+		);
+	} else {
+		update_option( 'TradePress_beta_testing', 1 );
+		TradePress_Admin_Notices::add_wordpress_notice(
+			'devtoolbar_beta_testing_activated_notice',
+			'success',
+			false,
+			__( 'TradePress Beta Testing Enabled', 'tradepress' ),
+			__( 'You activated beta testing for TradePress. Please disable if you have not checked this versions risk-level and you are on a live site.', 'tradepress' )
+		);
+	}
+
+	wp_safe_redirect( wp_get_referer() );
+	exit;
 }
 
 add_action( 'admin_post_tradepress_reset_setup_wizard_toolbar', 'tradepress_reset_setup_wizard_toolbar' );
@@ -116,27 +111,27 @@ add_action( 'admin_post_tradepress_reset_setup_wizard_toolbar', 'tradepress_rese
  * @version 1.0.0
  */
 function tradepress_reset_setup_wizard_toolbar() {
-    if( !current_user_can( 'TradePressdevelopertoolbar' ) ) {
-        wp_die( esc_html__( 'Insufficient permissions', 'tradepress' ) );
-    }
+	if ( ! current_user_can( 'TradePressdevelopertoolbar' ) ) {
+		wp_die( esc_html__( 'Insufficient permissions', 'tradepress' ) );
+	}
 
-    $nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
-    if ( empty( $nonce ) || !wp_verify_nonce( $nonce, 'tradepress_reset_setup_wizard_nonce' ) ) {
-        wp_die( esc_html__( 'Security check failed', 'tradepress' ) );
-    }
-    
-    delete_option( 'tradepress_setup_complete' );
-    
-    TradePress_Admin_Notices::add_wordpress_notice(
-        'devtoolbar_reset_setup_wizard_notice',
-        'success',
-        false,
-        __( 'Setup Wizard Reset', 'tradepress' ),
-        __( 'Setup wizard has been reset. You can now access it from the TradePress menu.', 'tradepress' )
-    );
-    
-    wp_safe_redirect( wp_get_referer() );
-    exit;
+	$nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
+	if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'tradepress_reset_setup_wizard_nonce' ) ) {
+		wp_die( esc_html__( 'Security check failed', 'tradepress' ) );
+	}
+
+	delete_option( 'tradepress_setup_complete' );
+
+	TradePress_Admin_Notices::add_wordpress_notice(
+		'devtoolbar_reset_setup_wizard_notice',
+		'success',
+		false,
+		__( 'Setup Wizard Reset', 'tradepress' ),
+		__( 'Setup wizard has been reset. You can now access it from the TradePress menu.', 'tradepress' )
+	);
+
+	wp_safe_redirect( wp_get_referer() );
+	exit;
 }
 
 add_action( 'admin_post_tradepress_toggle_developer_mode_toolbar', 'tradepress_toggle_developer_mode_toolbar' );
@@ -147,33 +142,33 @@ add_action( 'admin_post_tradepress_toggle_developer_mode_toolbar', 'tradepress_t
  * @version 1.0.0
  */
 function tradepress_toggle_developer_mode_toolbar() {
-    if( !current_user_can( 'TradePressdevelopertoolbar' ) ) {
-        wp_die( esc_html__( 'Insufficient permissions', 'tradepress' ) );
-    }
+	if ( ! current_user_can( 'TradePressdevelopertoolbar' ) ) {
+		wp_die( esc_html__( 'Insufficient permissions', 'tradepress' ) );
+	}
 
-    $nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
-    if ( empty( $nonce ) || !wp_verify_nonce( $nonce, 'tradepress_developer_mode_nonce' ) ) {
-        wp_die( esc_html__( 'Security check failed', 'tradepress' ) );
-    }
-    
-    $current_status = get_option('tradepress_developer_mode', false);
-    $new_status = !$current_status;
-    
-    update_option('tradepress_developer_mode', $new_status);
-    
-    $status_text = $new_status ? __('enabled', 'tradepress') : __('disabled', 'tradepress');
-    
-    TradePress_Admin_Notices::add_wordpress_notice(
-        'devtoolbar_developer_mode_notice',
-        'success',
-        false,
-        __( 'Developer Mode Toggled', 'tradepress' ),
-        /* translators: %s: string value */
-        sprintf( __( 'Developer mode has been %s.', 'tradepress' ), $status_text )
-    );
-    
-    wp_safe_redirect( wp_get_referer() );
-    exit;
+	$nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
+	if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'tradepress_developer_mode_nonce' ) ) {
+		wp_die( esc_html__( 'Security check failed', 'tradepress' ) );
+	}
+
+	$current_status = get_option( 'tradepress_developer_mode', false );
+	$new_status     = ! $current_status;
+
+	update_option( 'tradepress_developer_mode', $new_status );
+
+	$status_text = $new_status ? __( 'enabled', 'tradepress' ) : __( 'disabled', 'tradepress' );
+
+	TradePress_Admin_Notices::add_wordpress_notice(
+		'devtoolbar_developer_mode_notice',
+		'success',
+		false,
+		__( 'Developer Mode Toggled', 'tradepress' ),
+		/* translators: %s: string value */
+		sprintf( __( 'Developer mode has been %s.', 'tradepress' ), $status_text )
+	);
+
+	wp_safe_redirect( wp_get_referer() );
+	exit;
 }
 
 add_action( 'admin_post_tradepress_refresh_api_matrix_cache', 'tradepress_refresh_api_matrix_cache' );
@@ -184,31 +179,34 @@ add_action( 'admin_post_tradepress_refresh_api_matrix_cache', 'tradepress_refres
  * @version 1.0.0
  */
 function tradepress_refresh_api_matrix_cache() {
-    if( !current_user_can( 'TradePressdevelopertoolbar' ) ) {
-        wp_die( esc_html__( 'Insufficient permissions', 'tradepress' ) );
-    }
+	if ( ! current_user_can( 'TradePressdevelopertoolbar' ) ) {
+		wp_die( esc_html__( 'Insufficient permissions', 'tradepress' ) );
+	}
 
-    $nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
-    if ( empty( $nonce ) || !wp_verify_nonce( $nonce, 'tradepress_refresh_api_cache_nonce' ) ) {
-        wp_die( esc_html__( 'Security check failed', 'tradepress' ) );
-    }
-    
-    // Load the API capability matrix class
-    require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/api-capability-matrix.php';
-    
-    // Refresh the cache
-    $matrix = TradePress_API_Capability_Matrix::refresh_cache();
-    
-    TradePress_Admin_Notices::add_wordpress_notice(
-        'devtoolbar_api_cache_refresh_notice',
-        'success',
-        false,
-        __( 'API Matrix Cache Refreshed', 'tradepress' ),
-        /* translators: %d: component name, %d: action performed */
-        sprintf( __( 'Cache refreshed successfully. Found %1$d platforms and %2$d data types.', 'tradepress' ), 
-            count($matrix['platforms']), count($matrix['data_types']) )
-    );
-    
-    wp_safe_redirect( wp_get_referer() );
-    exit;
+	$nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
+	if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'tradepress_refresh_api_cache_nonce' ) ) {
+		wp_die( esc_html__( 'Security check failed', 'tradepress' ) );
+	}
+
+	// Load the API capability matrix class
+	require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/api-capability-matrix.php';
+
+	// Refresh the cache
+	$matrix = TradePress_API_Capability_Matrix::refresh_cache();
+
+	TradePress_Admin_Notices::add_wordpress_notice(
+		'devtoolbar_api_cache_refresh_notice',
+		'success',
+		false,
+		__( 'API Matrix Cache Refreshed', 'tradepress' ),
+		/* translators: %d: component name, %d: action performed */
+		sprintf(
+			__( 'Cache refreshed successfully. Found %1$d platforms and %2$d data types.', 'tradepress' ),
+			count( $matrix['platforms'] ),
+			count( $matrix['data_types'] )
+		)
+	);
+
+	wp_safe_redirect( wp_get_referer() );
+	exit;
 }

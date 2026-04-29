@@ -9,8 +9,8 @@
  * @created 2025-01-20
  */
 
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
@@ -21,456 +21,467 @@ if (!defined('ABSPATH')) {
  */
 class SupportResistanceLevels extends TradePress_Scoring_Directive_Base {
 
-    private $symbol;
-    private $api_service;
-    private $config;
-    private $historical_data;
-    private $current_price;
-    private $all_levels = [];
+	private $symbol;
+	private $api_service;
+	private $config;
+	private $historical_data;
+	private $current_price;
+	private $all_levels = array();
 
-    /**
-     *   C On St Ru Ct.
-     *
-     * @param string $symbol
-     * @param TradePress_Financial_API_Service $api_service
-     * @param array $config
-     *
-     * @version 1.0.0
-     */
-    public function __construct(string $symbol = 'UNKNOWN', $api_service = null, array $config = []) {
-        $this->id = 'support_resistance_levels';
-        $this->name = 'Support & Resistance Levels';
-        $this->description = 'Identifies support and resistance zones using 6 technical methods with confluence analysis.';
-        $this->weight = 20;
-        $this->bullish_values = 'Near strong support, far from resistance';
-        $this->bearish_values = 'Near strong resistance, far from support';
-        $this->priority = 25;
-        
-        $this->symbol = strtoupper($symbol);
-        $this->api_service = $api_service;
-        $this->load_config($config);
-    }
+	/**
+	 *   C On St Ru Ct.
+	 *
+	 * @param string                           $symbol
+	 * @param TradePress_Financial_API_Service $api_service
+	 * @param array                            $config
+	 *
+	 * @version 1.0.0
+	 */
+	public function __construct( string $symbol = 'UNKNOWN', $api_service = null, array $config = array() ) {
 
-    /**
-     * Load config.
-     *
-     * @param array $config
-     *
-     * @version 1.0.0
-     */
-    private function load_config(array $config = []) {
-        $defaults = [
-            'data_period' => '1y',
-            'data_interval' => 'daily',
-            'ma_periods' => [50, 100, 200],
-            'fib_lookback_days' => 252,
-            'pivot_period' => 'daily',
-            'swing_lookback' => 20,
-            'proximity_percent' => 1.0,
-            'highly_overlapped_min_methods' => 4,
-            'well_overlapped_min_methods' => 2,
-        ];
-        $this->config = array_merge($defaults, $config);
-    }
+		$this->id             = 'support_resistance_levels';
+		$this->name           = 'Support & Resistance Levels';
+		$this->description    = 'Identifies support and resistance zones using 6 technical methods with confluence analysis.';
+		$this->weight         = 20;
+		$this->bullish_values = 'Near strong support, far from resistance';
+		$this->bearish_values = 'Near strong resistance, far from support';
+		$this->priority       = 25;
 
-    /**
-     *  F Et Ch D At A.
-     *
-     * @return mixed
-     *
-     * @version 1.0.0
-     */
-    private function _fetch_data(): bool {
-        try {
-            if (!$this->api_service || !method_exists($this->api_service, 'get_historical_data') || !method_exists($this->api_service, 'get_quote')) {
-                return false;
-            }
+		$this->symbol      = strtoupper( $symbol );
+		$this->api_service = $api_service;
+		$this->load_config( $config );
+	}
+	/**
+	 * Load config.
+	 *
+	 * @param array $config
+	 *
+	 * @version 1.0.0
+	 */
+	private function load_config( array $config = array() ) {
+		$defaults     = array(
+			'data_period'                   => '1y',
+			'data_interval'                 => 'daily',
+			'ma_periods'                    => array( 50, 100, 200 ),
+			'fib_lookback_days'             => 252,
+			'pivot_period'                  => 'daily',
+			'swing_lookback'                => 20,
+			'proximity_percent'             => 1.0,
+			'highly_overlapped_min_methods' => 4,
+			'well_overlapped_min_methods'   => 2,
+		);
+		$this->config = array_merge( $defaults, $config );
+	}
 
-            $this->historical_data = $this->api_service->get_historical_data(
-                $this->symbol,
-                $this->config['data_interval'],
-                $this->config['data_period']
-            );
+	/**
+	 *  F Et Ch D At A.
+	 *
+	 * @return mixed
+	 *
+	 * @version 1.0.0
+	 */
+	private function _fetch_data(): bool {
 
-            if (empty($this->historical_data)) {
-                throw new Exception("No historical data returned for {$this->symbol}.");
-            }
+		try {
+			if ( ! $this->api_service || ! method_exists( $this->api_service, 'get_historical_data' ) || ! method_exists( $this->api_service, 'get_quote' ) ) {
+				return false;
+			}
 
-            $quote = $this->api_service->get_quote($this->symbol);
-            $this->current_price = $quote['price'] ?? end($this->historical_data)['close'] ?? null;
+			$this->historical_data = $this->api_service->get_historical_data(
+				$this->symbol,
+				$this->config['data_interval'],
+				$this->config['data_period']
+			);
 
-            if ($this->current_price === null) {
-                throw new Exception("Could not determine current price for {$this->symbol}.");
-            }
+			if ( empty( $this->historical_data ) ) {
+				throw new Exception( "No historical data returned for {$this->symbol}." );
+			}
 
-            return true;
+			$quote               = $this->api_service->get_quote( $this->symbol );
+			$this->current_price = $quote['price'] ?? end( $this->historical_data )['close'] ?? null;
 
-        } catch (Exception $e) {
-            tradepress_trace_log("SupportResistanceLevels Error: Failed to fetch data for {$this->symbol}. " . $e->getMessage());
-            return false;
-        }
-    }
+			if ( $this->current_price === null ) {
+				throw new Exception( "Could not determine current price for {$this->symbol}." );
+			}
 
-    /**
-     *  C Al Cu La Te A Ll L Ev El S.
-     *
-     * @version 1.0.0
-     */
-    private function _calculate_all_levels() {
-        $this->all_levels = [
-            'swing_highs' => $this->_find_swing_highs(),
-            'swing_lows' => $this->_find_swing_lows(),
-            'moving_averages' => $this->_calculate_moving_averages(),
-            'fibonacci' => $this->_calculate_fibonacci_levels(),
-            'pivot_points' => $this->_calculate_pivot_points(),
-            'psychological' => $this->_find_psychological_levels(),
-        ];
+			return true;
 
-        $this->all_levels = array_filter($this->all_levels);
-    }
+		} catch ( Exception $e ) {
+			tradepress_trace_log( "SupportResistanceLevels Error: Failed to fetch data for {$this->symbol}. " . $e->getMessage() );
+			return false;
+		}
+	}
 
-    /**
-     *  F In D S Wi Ng H Ig Hs.
-     *
-     * @return mixed
-     *
-     * @version 1.0.0
-     */
-    private function _find_swing_highs(): array {
-        // Placeholder - implement swing high detection
-        return [];
-    }
+	/**
+	 *  C Al Cu La Te A Ll L Ev El S.
+	 *
+	 * @version 1.0.0
+	 */
+	private function _calculate_all_levels() {
+		$this->all_levels = array(
+			'swing_highs'     => $this->_find_swing_highs(),
+			'swing_lows'      => $this->_find_swing_lows(),
+			'moving_averages' => $this->_calculate_moving_averages(),
+			'fibonacci'       => $this->_calculate_fibonacci_levels(),
+			'pivot_points'    => $this->_calculate_pivot_points(),
+			'psychological'   => $this->_find_psychological_levels(),
+		);
 
-    /**
-     *  F In D S Wi Ng L Ow S.
-     *
-     * @return mixed
-     *
-     * @version 1.0.0
-     */
-    private function _find_swing_lows(): array {
-        // Placeholder - implement swing low detection
-        return [];
-    }
+		$this->all_levels = array_filter( $this->all_levels );
+	}
 
-    /**
-     *  C Al Cu La Te M Ov In G A Ve Ra Ge S.
-     *
-     * @return mixed
-     *
-     * @version 1.0.0
-     */
-    private function _calculate_moving_averages(): array {
-        // Placeholder - calculate MA levels above and below current price
-        return [];
-    }
+	/**
+	 *  F In D S Wi Ng H Ig Hs.
+	 *
+	 * @return mixed
+	 *
+	 * @version 1.0.0
+	 */
+	private function _find_swing_highs(): array {
+		// Placeholder - implement swing high detection
+		return array();
+	}
 
-    /**
-     *  C Al Cu La Te F Ib On Ac Ci L Ev El S.
-     *
-     * @return mixed
-     *
-     * @version 1.0.0
-     */
-    private function _calculate_fibonacci_levels(): array {
-        // Placeholder - calculate both retracements and extensions
-        return [];
-    }
+	/**
+	 *  F In D S Wi Ng L Ow S.
+	 *
+	 * @return mixed
+	 *
+	 * @version 1.0.0
+	 */
+	private function _find_swing_lows(): array {
+		// Placeholder - implement swing low detection
+		return array();
+	}
 
-    /**
-     *  C Al Cu La Te P Iv Ot P Oi Nt S.
-     *
-     * @return mixed
-     *
-     * @version 1.0.0
-     */
-    private function _calculate_pivot_points(): array {
-        // Placeholder - calculate R1/R2/R3 and S1/S2/S3
-        return [];
-    }
+	/**
+	 *  C Al Cu La Te M Ov In G A Ve Ra Ge S.
+	 *
+	 * @return mixed
+	 *
+	 * @version 1.0.0
+	 */
+	private function _calculate_moving_averages(): array {
+		// Placeholder - calculate MA levels above and below current price
+		return array();
+	}
 
-    /**
-     *  F In D P Sy Ch Ol Og Ic Al L Ev El S.
-     *
-     * @return mixed
-     *
-     * @version 1.0.0
-     */
-    private function _find_psychological_levels(): array {
-        // Placeholder - find round numbers above and below current price
-        return [];
-    }
+	/**
+	 *  C Al Cu La Te F Ib On Ac Ci L Ev El S.
+	 *
+	 * @return mixed
+	 *
+	 * @version 1.0.0
+	 */
+	private function _calculate_fibonacci_levels(): array {
+		// Placeholder - calculate both retracements and extensions
+		return array();
+	}
 
-    /**
-     *  A Na Ly Ze Z On Es.
-     *
-     * @return mixed
-     *
-     * @version 1.0.0
-     */
-    private function _analyze_zones(): array {
-        $resistance_levels = [];
-        $support_levels = [];
+	/**
+	 *  C Al Cu La Te P Iv Ot P Oi Nt S.
+	 *
+	 * @return mixed
+	 *
+	 * @version 1.0.0
+	 */
+	private function _calculate_pivot_points(): array {
+		// Placeholder - calculate R1/R2/R3 and S1/S2/S3
+		return array();
+	}
 
-        foreach ($this->all_levels as $method => $levels) {
-            foreach ($levels as $level) {
-                if (is_numeric($level)) {
-                    if ($level > $this->current_price) {
-                        $resistance_levels[] = ['price' => (float)$level, 'method' => $method];
-                    } elseif ($level < $this->current_price) {
-                        $support_levels[] = ['price' => (float)$level, 'method' => $method];
-                    }
-                }
-            }
-        }
+	/**
+	 *  F In D P Sy Ch Ol Og Ic Al L Ev El S.
+	 *
+	 * @return mixed
+	 *
+	 * @version 1.0.0
+	 */
+	private function _find_psychological_levels(): array {
+		// Placeholder - find round numbers above and below current price
+		return array();
+	}
 
-        return [
-            'resistance_zones' => $this->_group_levels($resistance_levels, 'resistance'),
-            'support_zones' => $this->_group_levels($support_levels, 'support')
-        ];
-    }
+	/**
+	 *  A Na Ly Ze Z On Es.
+	 *
+	 * @return mixed
+	 *
+	 * @version 1.0.0
+	 */
+	private function _analyze_zones(): array {
+		$resistance_levels = array();
+		$support_levels    = array();
 
-    /**
-     *  G Ro Up L Ev El S.
-     *
-     * @param array $levels
-     * @param string $type
-     *
-     * @return mixed
-     *
-     * @version 1.0.0
-     */
-    private function _group_levels(array $levels, string $type): array {
-        if (empty($levels)) {
-            return ['highly_overlapped' => [], 'well_overlapped' => []];
-        }
+		foreach ( $this->all_levels as $method => $levels ) {
+			foreach ( $levels as $level ) {
+				if ( is_numeric( $level ) ) {
+					if ( $level > $this->current_price ) {
+						$resistance_levels[] = array(
+							'price'  => (float) $level,
+							'method' => $method,
+						);
+					} elseif ( $level < $this->current_price ) {
+						$support_levels[] = array(
+							'price'  => (float) $level,
+							'method' => $method,
+						);
+					}
+				}
+			}
+		}
 
-        // Sort resistance ascending, support descending
-        usort($levels, function($a, $b) use ($type) {
-            return $type === 'resistance' ? $a['price'] <=> $b['price'] : $b['price'] <=> $a['price'];
-        });
+		return array(
+			'resistance_zones' => $this->_group_levels( $resistance_levels, 'resistance' ),
+			'support_zones'    => $this->_group_levels( $support_levels, 'support' ),
+		);
+	}
 
-        $zones = [];
-        $current_zone = null;
-        $proximity_amount = $this->current_price * ($this->config['proximity_percent'] / 100);
+	/**
+	 *  G Ro Up L Ev El S.
+	 *
+	 * @param array  $levels
+	 * @param string $type
+	 *
+	 * @return mixed
+	 *
+	 * @version 1.0.0
+	 */
+	private function _group_levels( array $levels, string $type ): array {
+		if ( empty( $levels ) ) {
+			return array(
+				'highly_overlapped' => array(),
+				'well_overlapped'   => array(),
+			);
+		}
 
-        foreach ($levels as $level_info) {
-            $level_price = $level_info['price'];
-            $level_method = $level_info['method'];
+		// Sort resistance ascending, support descending
+		usort(
+			$levels,
+			function ( $a, $b ) use ( $type ) {
+				return $type === 'resistance' ? $a['price'] <=> $b['price'] : $b['price'] <=> $a['price'];
+			}
+		);
 
-            if ($current_zone === null) {
-                $current_zone = [
-                    'min_price' => $level_price,
-                    'max_price' => $level_price,
-                    'methods' => [$level_method => 1]
-                ];
-            } elseif (abs($level_price - $current_zone['max_price']) <= $proximity_amount) {
-                $current_zone['min_price'] = min($current_zone['min_price'], $level_price);
-                $current_zone['max_price'] = max($current_zone['max_price'], $level_price);
-                $current_zone['methods'][$level_method] = 1;
-            } else {
-                if ($current_zone !== null) {
-                    $zones[] = $current_zone;
-                }
-                $current_zone = [
-                    'min_price' => $level_price,
-                    'max_price' => $level_price,
-                    'methods' => [$level_method => 1]
-                ];
-            }
-        }
+		$zones            = array();
+		$current_zone     = null;
+		$proximity_amount = $this->current_price * ( $this->config['proximity_percent'] / 100 );
 
-        if ($current_zone !== null) {
-            $zones[] = $current_zone;
-        }
+		foreach ( $levels as $level_info ) {
+			$level_price  = $level_info['price'];
+			$level_method = $level_info['method'];
 
-        $highly_overlapped = [];
-        $well_overlapped = [];
+			if ( $current_zone === null ) {
+				$current_zone = array(
+					'min_price' => $level_price,
+					'max_price' => $level_price,
+					'methods'   => array( $level_method => 1 ),
+				);
+			} elseif ( abs( $level_price - $current_zone['max_price'] ) <= $proximity_amount ) {
+				$current_zone['min_price']                = min( $current_zone['min_price'], $level_price );
+				$current_zone['max_price']                = max( $current_zone['max_price'], $level_price );
+				$current_zone['methods'][ $level_method ] = 1;
+			} else {
+				if ( $current_zone !== null ) {
+					$zones[] = $current_zone;
+				}
+				$current_zone = array(
+					'min_price' => $level_price,
+					'max_price' => $level_price,
+					'methods'   => array( $level_method => 1 ),
+				);
+			}
+		}
 
-        foreach ($zones as $zone) {
-            $method_count = count($zone['methods']);
-            $zone_data = [
-                'min_price' => $zone['min_price'],
-                'max_price' => $zone['max_price'],
-                'method_count' => $method_count,
-                'methods' => array_keys($zone['methods'])
-            ];
+		if ( $current_zone !== null ) {
+			$zones[] = $current_zone;
+		}
 
-            if ($method_count >= $this->config['highly_overlapped_min_methods']) {
-                $highly_overlapped[] = $zone_data;
-            } elseif ($method_count >= $this->config['well_overlapped_min_methods']) {
-                $well_overlapped[] = $zone_data;
-            }
-        }
+		$highly_overlapped = array();
+		$well_overlapped   = array();
 
-        return [
-            'highly_overlapped' => $highly_overlapped,
-            'well_overlapped' => $well_overlapped
-        ];
-    }
+		foreach ( $zones as $zone ) {
+			$method_count = count( $zone['methods'] );
+			$zone_data    = array(
+				'min_price'    => $zone['min_price'],
+				'max_price'    => $zone['max_price'],
+				'method_count' => $method_count,
+				'methods'      => array_keys( $zone['methods'] ),
+			);
 
-    /**
-     * Find support resistance zones.
-     *
-     * @return mixed
-     *
-     * @version 1.0.0
-     */
-    public function find_support_resistance_zones(): ?array {
-        if (!$this->_fetch_data()) {
-            return null;
-        }
+			if ( $method_count >= $this->config['highly_overlapped_min_methods'] ) {
+				$highly_overlapped[] = $zone_data;
+			} elseif ( $method_count >= $this->config['well_overlapped_min_methods'] ) {
+				$well_overlapped[] = $zone_data;
+			}
+		}
 
-        $this->_calculate_all_levels();
-        $zones = $this->_analyze_zones();
+		return array(
+			'highly_overlapped' => $highly_overlapped,
+			'well_overlapped'   => $well_overlapped,
+		);
+	}
 
-        return [
-            'symbol' => $this->symbol,
-            'current_price' => $this->current_price,
-            'resistance_zones' => $zones['resistance_zones'],
-            'support_zones' => $zones['support_zones'],
-            'all_levels' => $this->all_levels
-        ];
-    }
+	/**
+	 * Find support resistance zones.
+	 *
+	 * @return mixed
+	 *
+	 * @version 1.0.0
+	 */
+	public function find_support_resistance_zones(): ?array {
+		if ( ! $this->_fetch_data() ) {
+			return null;
+		}
 
-    /**
-     * Calculate score.
-     *
-     * @param mixed $symbol_data
-     * @param array $config
-     *
-     * @return mixed
-     *
-     * @version 1.0.0
-     */
-    public function calculate_score($symbol_data, $config = []) {
-        $score = 50; // Neutral base
+		$this->_calculate_all_levels();
+		$zones = $this->_analyze_zones();
 
-        try {
-            $current_price = isset($symbol_data['price']) ? (float)$symbol_data['price'] : 0;
-            
-            if ($current_price <= 0) {
-                return $score;
-            }
+		return array(
+			'symbol'           => $this->symbol,
+			'current_price'    => $this->current_price,
+			'resistance_zones' => $zones['resistance_zones'],
+			'support_zones'    => $zones['support_zones'],
+			'all_levels'       => $this->all_levels,
+		);
+	}
 
-            // Handle limited data scenario (testing mode)
-            if (isset($symbol_data['limited_data']) && $symbol_data['limited_data']) {
-                // Return basic score with simple price-based logic
-                $price_mod = fmod($current_price, 10);
-                if ($price_mod < 2) {
-                    $score += 15; // Near psychological support
-                } elseif ($price_mod > 8) {
-                    $score -= 10; // Near psychological resistance
-                }
-                return max(0, min(100, $score));
-            }
+	/**
+	 * Calculate score.
+	 *
+	 * @param mixed $symbol_data
+	 * @param array $config
+	 *
+	 * @return mixed
+	 *
+	 * @version 1.0.0
+	 */
+	public function calculate_score( $symbol_data, $config = array() ) {
+		$score = 50; // Neutral base
 
-            $zones_data = $this->find_support_resistance_zones();
-            
-            if (empty($zones_data)) {
-                return $score;
-            }
+		try {
+			$current_price = isset( $symbol_data['price'] ) ? (float) $symbol_data['price'] : 0;
 
-            $resistance_zones = array_merge(
-                $zones_data['resistance_zones']['highly_overlapped'] ?? [],
-                $zones_data['resistance_zones']['well_overlapped'] ?? []
-            );
+			if ( $current_price <= 0 ) {
+				return $score;
+			}
 
-            $support_zones = array_merge(
-                $zones_data['support_zones']['highly_overlapped'] ?? [],
-                $zones_data['support_zones']['well_overlapped'] ?? []
-            );
+			// Handle limited data scenario (testing mode)
+			if ( isset( $symbol_data['limited_data'] ) && $symbol_data['limited_data'] ) {
+				// Return basic score with simple price-based logic
+				$price_mod = fmod( $current_price, 10 );
+				if ( $price_mod < 2 ) {
+					$score += 15; // Near psychological support
+				} elseif ( $price_mod > 8 ) {
+					$score -= 10; // Near psychological resistance
+				}
+				return max( 0, min( 100, $score ) );
+			}
 
-            // Find nearest resistance and support
-            $nearest_resistance = $this->_find_nearest_zone($resistance_zones, $current_price, 'resistance');
-            $nearest_support = $this->_find_nearest_zone($support_zones, $current_price, 'support');
+			$zones_data = $this->find_support_resistance_zones();
 
-            // Calculate score based on position relative to levels
-            if ($nearest_resistance) {
-                $resistance_distance = (($nearest_resistance['min_price'] - $current_price) / $current_price) * 100;
-                if ($resistance_distance > 5) {
-                    $score += 20; // Far from resistance
-                } elseif ($resistance_distance > 2) {
-                    $score += 10;
-                } elseif ($resistance_distance < 0) {
-                    $score -= 15; // Above resistance
-                }
-            }
+			if ( empty( $zones_data ) ) {
+				return $score;
+			}
 
-            if ($nearest_support) {
-                $support_distance = (($current_price - $nearest_support['max_price']) / $current_price) * 100;
-                if ($support_distance < 2) {
-                    $score += 15; // Near strong support
-                } elseif ($support_distance < 5) {
-                    $score += 10;
-                } elseif ($support_distance > 10) {
-                    $score -= 10; // Far from support
-                }
-            }
+			$resistance_zones = array_merge(
+				$zones_data['resistance_zones']['highly_overlapped'] ?? array(),
+				$zones_data['resistance_zones']['well_overlapped'] ?? array()
+			);
 
-        } catch (Exception $e) {
-            tradepress_trace_log('Support/Resistance scoring error: ' . $e->getMessage());
-        }
+			$support_zones = array_merge(
+				$zones_data['support_zones']['highly_overlapped'] ?? array(),
+				$zones_data['support_zones']['well_overlapped'] ?? array()
+			);
 
-        return max(0, min(100, $score));
-    }
+			// Find nearest resistance and support
+			$nearest_resistance = $this->_find_nearest_zone( $resistance_zones, $current_price, 'resistance' );
+			$nearest_support    = $this->_find_nearest_zone( $support_zones, $current_price, 'support' );
 
-    /**
-     *  F In D N Ea Re St Z On E.
-     *
-     * @param mixed $zones
-     * @param mixed $current_price
-     * @param mixed $type
-     *
-     * @return mixed
-     *
-     * @version 1.0.0
-     */
-    private function _find_nearest_zone($zones, $current_price, $type) {
-        if (empty($zones)) {
-            return null;
-        }
+			// Calculate score based on position relative to levels
+			if ( $nearest_resistance ) {
+				$resistance_distance = ( ( $nearest_resistance['min_price'] - $current_price ) / $current_price ) * 100;
+				if ( $resistance_distance > 5 ) {
+					$score += 20; // Far from resistance
+				} elseif ( $resistance_distance > 2 ) {
+					$score += 10;
+				} elseif ( $resistance_distance < 0 ) {
+					$score -= 15; // Above resistance
+				}
+			}
 
-        $nearest = null;
-        $min_distance = PHP_FLOAT_MAX;
+			if ( $nearest_support ) {
+				$support_distance = ( ( $current_price - $nearest_support['max_price'] ) / $current_price ) * 100;
+				if ( $support_distance < 2 ) {
+					$score += 15; // Near strong support
+				} elseif ( $support_distance < 5 ) {
+					$score += 10;
+				} elseif ( $support_distance > 10 ) {
+					$score -= 10; // Far from support
+				}
+			}
+		} catch ( Exception $e ) {
+			tradepress_trace_log( 'Support/Resistance scoring error: ' . $e->getMessage() );
+		}
 
-        foreach ($zones as $zone) {
-            $zone_price = $type === 'resistance' ? $zone['min_price'] : $zone['max_price'];
-            $distance = abs($zone_price - $current_price);
-            
-            if ($distance < $min_distance) {
-                $min_distance = $distance;
-                $nearest = $zone;
-            }
-        }
+		return max( 0, min( 100, $score ) );
+	}
 
-        return $nearest;
-    }
+	/**
+	 *  F In D N Ea Re St Z On E.
+	 *
+	 * @param mixed $zones
+	 * @param mixed $current_price
+	 * @param mixed $type
+	 *
+	 * @return mixed
+	 *
+	 * @version 1.0.0
+	 */
+	private function _find_nearest_zone( $zones, $current_price, $type ) {
+		if ( empty( $zones ) ) {
+			return null;
+		}
 
-    /**
-     * Get max score.
-     *
-     * @param array $config
-     *
-     * @return mixed
-     *
-     * @version 1.0.0
-     */
-    public function get_max_score($config = []) {
-        return 100;
-    }
+		$nearest      = null;
+		$min_distance = PHP_FLOAT_MAX;
 
-    /**
-     * Get explanation.
-     *
-     * @param array $config
-     *
-     * @return mixed
-     *
-     * @version 1.0.0
-     */
-    public function get_explanation($config = []) {
-        return "Analyzes support and resistance levels using 6 technical methods. Higher scores for stocks near strong support and far from resistance. Confluence of multiple methods increases level significance.";
-    }
+		foreach ( $zones as $zone ) {
+			$zone_price = $type === 'resistance' ? $zone['min_price'] : $zone['max_price'];
+			$distance   = abs( $zone_price - $current_price );
+
+			if ( $distance < $min_distance ) {
+				$min_distance = $distance;
+				$nearest      = $zone;
+			}
+		}
+
+		return $nearest;
+	}
+
+	/**
+	 * Get max score.
+	 *
+	 * @param array $config
+	 *
+	 * @return mixed
+	 *
+	 * @version 1.0.0
+	 */
+	public function get_max_score( $config = array() ) {
+		return 100;
+	}
+
+	/**
+	 * Get explanation.
+	 *
+	 * @param array $config
+	 *
+	 * @return mixed
+	 *
+	 * @version 1.0.0
+	 */
+	public function get_explanation( $config = array() ) {
+		return 'Analyzes support and resistance levels using 6 technical methods. Higher scores for stocks near strong support and far from resistance. Confluence of multiple methods increases level significance.';
+	}
 }
-?>

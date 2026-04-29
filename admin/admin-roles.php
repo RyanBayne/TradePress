@@ -1,9 +1,9 @@
 <?php
 /**
- * Installation class only - both roles and capabilities are installed. 
- * 
- * When possible we will add roles and capabilities required for extensions to 
- * avoid duplicate capabilities that offer different levels of aaccess. 
+ * Installation class only - both roles and capabilities are installed.
+ *
+ * When possible we will add roles and capabilities required for extensions to
+ * avoid duplicate capabilities that offer different levels of aaccess.
  *
  * @package  TradePress/ Classes
  * @category Class
@@ -11,147 +11,196 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
-if( !class_exists( 'TradePress_Roles_Capabilities_Installation' ) ) :
+if ( ! class_exists( 'TradePress_Roles_Capabilities_Installation' ) ) :
 
-class TradePress_Roles_Capabilities_Installation {
+	class TradePress_Roles_Capabilities_Installation {
 
-    /**
-    * Array of all default roles and capabilities...
-    * 
-    * @version 1.0.95
-    */
-    public function fullarray() {
-        $array = array();
-                  
-        // Main Twitch Channel Editor 
-        $array['TradePress_role_main_channel_editor'] = array(
-            'title' => __( 'Main Channel Editor', 'tradepress' ),
-            'desc'  => '', // Empty strings must not be wrapped in translation functions per WPCS
-            'caps'  => array(        
-                'TradePress_edit_stream_info'         => array( 'title' => __( 'Edit Stream Status', 'tradepress' ), 'desc' => '' ),
-                'TradePress_run_commercials'          => array( 'title' => __( 'Run Commercials', 'tradepress' ), 'desc' => '' ),
-                'TradePress_edit_video_info'          => array( 'title' => __( 'Edit Videos', 'tradepress' ), 'desc' => '' ),
-                'TradePress_upload_videos'            => array( 'title' => __( 'Upload Videos', 'tradepress' ), 'desc' => '' ),
-                'TradePress_create_events'            => array( 'title' => __( 'Create Events', 'tradepress' ), 'desc' => '' ),
-                'TradePress_start_reruns'             => array( 'title' => __( 'Start Reruns', 'tradepress' ), 'desc' => '' ),
-                'TradePress_start_premiers'           => array( 'title' => __( 'Star Premiers', 'tradepress' ), 'desc' => '' ),
-                'TradePress_download_past_broadcasts' => array( 'title' => __( 'Download Past Broadcasts', 'tradepress' ), 'desc' => '' ),
-            )
-        );
-        $array['TradePress_role_main_channel_editor'] = apply_filters( 'TradePress_role_main_channel_editor', $array['TradePress_role_main_channel_editor'] );
-        
-        // Main Twitch Channel Moderator 
-        $array['TradePress_role_main_channel_moderator'] = array(
-            'title' => __( 'Main Channel Moderator', 'tradepress' ),
-            'desc'  => '',
-            'caps'  => array(        
-                'TradePress_time_out_users'             => array( 'title' => __( 'Time Out Users', 'tradepress' ), 'desc' => '' ),
-                'TradePress_ban_users'                  => array( 'title' => __( 'Ban Users', 'tradepress' ), 'desc' => '' ),
-                'TradePress_control_slow_mode'          => array( 'title' => __( 'Control Slow Mode', 'tradepress' ), 'desc' => '' ),
-                'TradePress_control_sub_chat_mode'      => array( 'title' => __( 'Control Chat Mod', 'tradepress' ), 'desc' => '' ),
-                'TradePress_control_follower_chat_mode' => array( 'title' => __( 'Control Follower Chat Mode', 'tradepress' ), 'desc' => '' ),
-            )
-        );
-        $array['TradePress_role_main_channel_moderator'] = apply_filters( 'TradePress_role_main_channel_moderator', $array['TradePress_role_main_channel_moderator'] );
-        
-        // Main Twitch Channel VIP 
-        $array['TradePress_role_main_channel_vip'] = array(
-            'title' => __( 'Main Channel Editor', 'tradepress' ),
-            'desc'  => '',
-            'caps'  => array(
-                'TradePress_no_slow_mode'   => array( 'title' => __( 'Slow Mode Immunity', 'tradepress' ), 'desc' => '' ),
-                'TradePress_sub_only'       => array( 'title' => __( 'Subscribers Only Access', 'tradepress' ), 'desc' => '' ),
-                'TradePress_followers_only' => array( 'title' => __( 'Followers Only Access', 'tradepress' ), 'desc' => '' ),
-                'TradePress_all_chat_rooms' => array( 'title' => __( 'All Chat Rooms', 'tradepress' ), 'desc' => '' ),
-                'TradePress_chat_links'     => array( 'title' => __( 'Post Chat Links', 'tradepress' ), 'desc' => '' ),
-            )
-        );
-        $array['TradePress_role_main_channel_vip'] = apply_filters( 'TradePress_role_main_channel_vip', $array['TradePress_role_main_channel_vip'] );
-        
-        // Main Channel Twitch Subscriber Plan 1000
-        $array['TradePress_role_subplan_1000'] = array(
-            'title' => __( 'Tier One Subscriber', 'tradepress' ),
-            'desc'  => '',
-            'caps'  => array(        
-                //'TradePress_subplan_1000' => array( 'title' => '', 'desc' => '' ),
-            )
-        );
-        $array['TradePress_role_subplan_1000'] = apply_filters( 'TradePress_role_subplan_1000', $array['TradePress_role_subplan_1000'] );
-        
-        // Main Channel Twitch Subscriber Plan 2000
-        $array['TradePress_role_subplan_2000'] = array(
-            'title' => __( 'Tier Two Subscriber', 'tradepress' ),
-            'desc'  => '',
-            'caps'  => array(        
-                //'TradePress_subplan_2000' => array( 'title' => '', 'desc' => '' ),
-            )
-        );
-        $array['TradePress_role_subplan_2000'] = apply_filters( 'TradePress_role_subplan_2000', $array['TradePress_role_subplan_2000'] );
-        
-        // Main Channel Twitch Subscriber Plan 3000
-        $array['TradePress_role_subplan_3000'] = array(
-            'title' => __( 'Tier Three Subscriber', 'tradepress' ),
-            'desc'  => '',
-            'caps'  => array(        
-                //'TradePress_subplan_3000' => array( 'title' => '', 'desc' => '' ),
-            )
-        ); 
-        $array['TradePress_role_subplan_3000'] = apply_filters( 'TradePress_role_subplan_3000', $array['TradePress_role_subplan_3000'] );
-                
-        return $array;
-    }
+		/**
+		 * Array of all default roles and capabilities...
+		 *
+		 * @version 1.0.95
+		 */
+		public function fullarray() {
+			$array = array();
 
-    /**
-     * Add roles and capabilities.
-     *
-     * @version 1.0.0
-     */
-    public function add_roles_and_capabilities() {
-        $full_array = $this->fullarray();
-                           
-        foreach( $full_array as $role => $role_array ) 
-        {
-            $capabilities_array = array(); 
-            
-            foreach( $role_array['caps'] as $capability => $cap_array )
-            {
-                $capabilities_array[] = $capability;
+			// Main Twitch Channel Editor
+			$array['TradePress_role_main_channel_editor'] = array(
+				'title' => __( 'Main Channel Editor', 'tradepress' ),
+				'desc'  => '', // Empty strings must not be wrapped in translation functions per WPCS
+				'caps'  => array(
+					'TradePress_edit_stream_info'         => array(
+						'title' => __( 'Edit Stream Status', 'tradepress' ),
+						'desc'  => '',
+					),
+					'TradePress_run_commercials'          => array(
+						'title' => __( 'Run Commercials', 'tradepress' ),
+						'desc'  => '',
+					),
+					'TradePress_edit_video_info'          => array(
+						'title' => __( 'Edit Videos', 'tradepress' ),
+						'desc'  => '',
+					),
+					'TradePress_upload_videos'            => array(
+						'title' => __( 'Upload Videos', 'tradepress' ),
+						'desc'  => '',
+					),
+					'TradePress_create_events'            => array(
+						'title' => __( 'Create Events', 'tradepress' ),
+						'desc'  => '',
+					),
+					'TradePress_start_reruns'             => array(
+						'title' => __( 'Start Reruns', 'tradepress' ),
+						'desc'  => '',
+					),
+					'TradePress_start_premiers'           => array(
+						'title' => __( 'Star Premiers', 'tradepress' ),
+						'desc'  => '',
+					),
+					'TradePress_download_past_broadcasts' => array(
+						'title' => __( 'Download Past Broadcasts', 'tradepress' ),
+						'desc'  => '',
+					),
+				),
+			);
+			$array['TradePress_role_main_channel_editor'] = apply_filters( 'TradePress_role_main_channel_editor', $array['TradePress_role_main_channel_editor'] );
 
-                global $wp_roles;
-                $wp_roles->add_cap( $role, $capability ); 
-            }
-            
-            add_role( $role, $role_array['title'], $capabilities_array );
-        }
-    }
-    
-    /**
-     * Remove roles and capabilities.
-     *
-     * @version 1.0.0
-     */
-    public function remove_roles_and_capabilities() { 
-        $full_array = $this->fullarray();
-        
-        foreach( $full_array as $role => $role_array )
-        {
-            foreach( $role_array['caps'] as $capability => $cap_array )
-            {
-                $capabilities_array[] = $capability;
+			// Main Twitch Channel Moderator
+			$array['TradePress_role_main_channel_moderator'] = array(
+				'title' => __( 'Main Channel Moderator', 'tradepress' ),
+				'desc'  => '',
+				'caps'  => array(
+					'TradePress_time_out_users'        => array(
+						'title' => __( 'Time Out Users', 'tradepress' ),
+						'desc'  => '',
+					),
+					'TradePress_ban_users'             => array(
+						'title' => __( 'Ban Users', 'tradepress' ),
+						'desc'  => '',
+					),
+					'TradePress_control_slow_mode'     => array(
+						'title' => __( 'Control Slow Mode', 'tradepress' ),
+						'desc'  => '',
+					),
+					'TradePress_control_sub_chat_mode' => array(
+						'title' => __( 'Control Chat Mod', 'tradepress' ),
+						'desc'  => '',
+					),
+					'TradePress_control_follower_chat_mode' => array(
+						'title' => __( 'Control Follower Chat Mode', 'tradepress' ),
+						'desc'  => '',
+					),
+				),
+			);
+			$array['TradePress_role_main_channel_moderator'] = apply_filters( 'TradePress_role_main_channel_moderator', $array['TradePress_role_main_channel_moderator'] );
 
-                global $wp_roles;
-                $wp_roles->remove_cap( $role, $capability ); 
-            }
-                        
-            if( get_role( $role ) ){
-                remove_role( $role );
-            }
-        }
-    }
+			// Main Twitch Channel VIP
+			$array['TradePress_role_main_channel_vip'] = array(
+				'title' => __( 'Main Channel Editor', 'tradepress' ),
+				'desc'  => '',
+				'caps'  => array(
+					'TradePress_no_slow_mode'   => array(
+						'title' => __( 'Slow Mode Immunity', 'tradepress' ),
+						'desc'  => '',
+					),
+					'TradePress_sub_only'       => array(
+						'title' => __( 'Subscribers Only Access', 'tradepress' ),
+						'desc'  => '',
+					),
+					'TradePress_followers_only' => array(
+						'title' => __( 'Followers Only Access', 'tradepress' ),
+						'desc'  => '',
+					),
+					'TradePress_all_chat_rooms' => array(
+						'title' => __( 'All Chat Rooms', 'tradepress' ),
+						'desc'  => '',
+					),
+					'TradePress_chat_links'     => array(
+						'title' => __( 'Post Chat Links', 'tradepress' ),
+						'desc'  => '',
+					),
+				),
+			);
+			$array['TradePress_role_main_channel_vip'] = apply_filters( 'TradePress_role_main_channel_vip', $array['TradePress_role_main_channel_vip'] );
 
-}
+			// Main Channel Twitch Subscriber Plan 1000
+			$array['TradePress_role_subplan_1000'] = array(
+				'title' => __( 'Tier One Subscriber', 'tradepress' ),
+				'desc'  => '',
+				'caps'  => array(
+					// 'TradePress_subplan_1000' => array( 'title' => '', 'desc' => '' ),
+				),
+			);
+			$array['TradePress_role_subplan_1000'] = apply_filters( 'TradePress_role_subplan_1000', $array['TradePress_role_subplan_1000'] );
+
+			// Main Channel Twitch Subscriber Plan 2000
+			$array['TradePress_role_subplan_2000'] = array(
+				'title' => __( 'Tier Two Subscriber', 'tradepress' ),
+				'desc'  => '',
+				'caps'  => array(
+					// 'TradePress_subplan_2000' => array( 'title' => '', 'desc' => '' ),
+				),
+			);
+			$array['TradePress_role_subplan_2000'] = apply_filters( 'TradePress_role_subplan_2000', $array['TradePress_role_subplan_2000'] );
+
+			// Main Channel Twitch Subscriber Plan 3000
+			$array['TradePress_role_subplan_3000'] = array(
+				'title' => __( 'Tier Three Subscriber', 'tradepress' ),
+				'desc'  => '',
+				'caps'  => array(
+					// 'TradePress_subplan_3000' => array( 'title' => '', 'desc' => '' ),
+				),
+			);
+			$array['TradePress_role_subplan_3000'] = apply_filters( 'TradePress_role_subplan_3000', $array['TradePress_role_subplan_3000'] );
+
+			return $array;
+		}
+
+		/**
+		 * Add roles and capabilities.
+		 *
+		 * @version 1.0.0
+		 */
+		public function add_roles_and_capabilities() {
+			$full_array = $this->fullarray();
+
+			foreach ( $full_array as $role => $role_array ) {
+				$capabilities_array = array();
+
+				foreach ( $role_array['caps'] as $capability => $cap_array ) {
+					$capabilities_array[] = $capability;
+
+					global $wp_roles;
+					$wp_roles->add_cap( $role, $capability );
+				}
+
+				add_role( $role, $role_array['title'], $capabilities_array );
+			}
+		}
+
+		/**
+		 * Remove roles and capabilities.
+		 *
+		 * @version 1.0.0
+		 */
+		public function remove_roles_and_capabilities() {
+			$full_array = $this->fullarray();
+
+			foreach ( $full_array as $role => $role_array ) {
+				foreach ( $role_array['caps'] as $capability => $cap_array ) {
+					$capabilities_array[] = $capability;
+
+					global $wp_roles;
+					$wp_roles->remove_cap( $role, $capability );
+				}
+
+				if ( get_role( $role ) ) {
+					remove_role( $role );
+				}
+			}
+		}
+	}
 
 endif;

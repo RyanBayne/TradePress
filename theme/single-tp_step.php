@@ -12,23 +12,24 @@ get_header(); ?>
 
 			<?php
 			// Start the loop.
-			while ( have_posts() ) : the_post();
+			while ( have_posts() ) :
+				the_post();
 
 				// Include the single post content template.
 				?>
-                <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-                    <header class="entry-header">
-                        <?php the_title( '<h1 class="entry-title">_DUMMY_STEP_RENDERER_</h1>', '</h1>' ); ?>
-                    </header><!-- .entry-header -->
+				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+					<header class="entry-header">
+						<?php the_title( '<h1 class="entry-title">_DUMMY_STEP_RENDERER_</h1>', '</h1>' ); ?>
+					</header><!-- .entry-header -->
 
-                    <div class="entry-content">
-                        <?php the_content(); ?>
-                    </div><!-- .entry-content -->
+					<div class="entry-content">
+						<?php the_content(); ?>
+					</div><!-- .entry-content -->
 
-                </article><!-- #post-## -->
-                <?php
+				</article><!-- #post-## -->
+				<?php
 
-			// End of the loop.
+				// End of the loop.
 			endwhile;
 			?>
 

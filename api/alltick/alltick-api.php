@@ -9,54 +9,54 @@
  */
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
  * TradePress AllTick API class
  */
 class TradePress_AllTick_API {
-    
-    /**
-     * API base URL
-     *
-     * @var string
-     */
-    private $api_base_url = 'https://api.alltick.com';
-    
-    /**
-     * Constructor
-      *
-      * @version 1.0.0
-     */
-    public function __construct() {
-        // Initialize AllTick API
-    }
-    
-    /**
-     * Get stock data
-     *
-     * @param string $symbol Stock symbol
-     * @return array|WP_Error Stock data or error
-      * @version 1.0.0
-     */
-    public function get_stock_data($symbol) {
-        // Implement stock data retrieval
-        return array();
-    }
-    
-    /**
-     * Get historical data
-     *
-     * @param string $symbol Stock symbol
-     * @param string $from Start date
-     * @param string $to End date
-     * @return array|WP_Error Historical data or error
-      * @version 1.0.0
-     */
-    public function get_historical_data($symbol, $from, $to) {
-        // Implement historical data retrieval
-        return array();
-    }
+
+	/**
+	 * API base URL
+	 *
+	 * @var string
+	 */
+	private $api_base_url = 'https://api.alltick.com';
+
+	/**
+	 * Constructor
+	 *
+	 * @version 1.0.0
+	 */
+	public function __construct() {
+		// Initialize AllTick API
+	}
+
+	/**
+	 * Get stock data
+	 *
+	 * @param string $symbol Stock symbol
+	 * @return array|WP_Error Stock data or error
+	 * @version 1.0.0
+	 */
+	public function get_stock_data( $symbol ) {
+		// Implement stock data retrieval
+		return array();
+	}
+
+	/**
+	 * Get historical data
+	 *
+	 * @param string $symbol Stock symbol
+	 * @param string $from Start date
+	 * @param string $to End date
+	 * @return array|WP_Error Historical data or error
+	 * @version 1.0.0
+	 */
+	public function get_historical_data( $symbol, $from, $to ) {
+		// Implement historical data retrieval
+		return array();
+	}
 }

@@ -7,20 +7,20 @@
  * @package  TradePress/Widgets
  * @since    1.0.0
  */
- 
+
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 // Include widget classes.
-//include_once( 'abstracts/abstract-TradePress-widget.php' );
+// include_once( 'abstracts/abstract-TradePress-widget.php' );
 
 /**
  * Register Widgets.
-  *
-  * @version 1.0.0
+ *
+ * @version 1.0.0
  */
 function TradePress_register_widgets() {
-    //register_widget( 'TradePress_Widget_Example' );
+	// register_widget( 'TradePress_Widget_Example' );
 }
 add_action( 'widgets_init', 'TradePress_register_widgets' );

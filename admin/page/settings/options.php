@@ -1,440 +1,428 @@
-<?php         
+<?php
 /**
  * TradePress - Options Table Interface
  *
  * Manage individual and groups of options. Contains methods for interfacing
  * with WordPress options. A key feature is controlling the update of individual
  * values in a group (array) of options. Risk of losting other values is removed.
- * 
+ *
  * This class also offers installation of options but that might be handled
  * by the main installation class and so we will visit this class later, removing
- * any redundent code. 
- * 
- * @todo Once TradePress is released, consider removing installation related methods.  
+ * any redundent code.
+ *
+ * @todo Once TradePress is released, consider removing installation related methods.
  *
  * @author   Ryan Bayne
  * @category Configuration
  * @package  TradePress/Core
  * @since    1.0.0
  */
- 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-} 
 
-/** 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
  * Handle all things "options".
- * 
+ *
  * @package WebTechGlobal WordPress Plugins
- * @author Ryan Bayne   
+ * @author Ryan Bayne
  * @since 1.0.0
- * @version 1.0 
+ * @version 1.0
  */
 class TradePress_Options {
-    use TradePress_OptionsTrait;
+	use TradePress_OptionsTrait;
 }
 
 trait TradePress_OptionsTrait {
-    
-    /**
-    * Array of the option types that are grouped (array of many options)
-    * 
-    * @var mixed
-    */
-    private static $grouped_options = array(      
-        'compact' => 'TradePress_options',
-        'private' => 'TradePress_private_options',
-    );
 
-    /**
-    * Maintain a list of valid option names for quick validation and
-    * building lists. 
-    * 
-    * @param mixed $type
-    * @version 1.0
-    * 
-    * @deprecated use get_option_information() which holds default values also.
-    * @see get_option_information()
-    */
-    public static function get_option_names( $type = 'compact' ) {           
-        switch ( $type ) {
+	/**
+	 * Array of the option types that are grouped (array of many options)
+	 *
+	 * @var mixed
+	 */
+	private static $grouped_options = array(
+		'compact' => 'TradePress_options',
+		'private' => 'TradePress_private_options',
+	);
 
-            //Individual options here, will be prepended with "TradePress".
-            case 'non_compact' :
-                return array(
-                    'exampleoption1', // Example individual option.
-                    'exampleoption2', // Example individual option.
-                    'exampleoption3', // Example individual option.
-                );                                                                                               
-            break;
-                              
-            //Add security sensitive options here i.e. tokens, keys.
-            case 'private' :
-                return array();
-            break;
-        }
+	/**
+	 * Maintain a list of valid option names for quick validation and
+	 * building lists.
+	 *
+	 * @param mixed $type
+	 * @version 1.0
+	 *
+	 * @deprecated use get_option_information() which holds default values also.
+	 * @see get_option_information()
+	 */
+	public static function get_option_names( $type = 'compact' ) {
+		switch ( $type ) {
 
-        // Return compact options by default.
-        return array(
-            'postdump', // (boolean) switch in Developer Menu for displaying $_POST.
-            'getdump', // (boolean) switch in Developer Menu for displaying $_GET.
-            'debugtracedisplay',
-            'debugtracelog'
-        );
-    }
+			// Individual options here, will be prepended with "TradePress".
+			case 'non_compact':
+				return array(
+					'exampleoption1', // Example individual option.
+					'exampleoption2', // Example individual option.
+					'exampleoption3', // Example individual option.
+				);
+			break;
 
-    /**
-    * Created to replace get_options_names() which holds only option names.
-    * 
-    * This method holds option names and their default values. We can thus
-    * query default values to correct missing options.
-    * 
-    * We can also set each option to be installed by default or by trigger i.e.
-    * during procedure.      
-    * 
-    * @author Ryan R. Bayne
-    * @param mixed $type
-    * @version 1.1
-    * 
-    * @param mixed $type single|merged|secure|deprec
-    * @param mixed $return all|keys|install|update|delete|value
-    * @param string|array $name use to get specific option details
-    */
-    public function get_option_information( $type = 'merged', $return = 'value', $name = array() ) {
-        $selected_array = array();    
-        
-        /* 
-            Types Explained
-            Single - individual records in the WP options table.
-            Merged - a single array of many options installed in WP options table.
-            Secure - coded options, not installed in data, developer must configure.
-            Deprec - Deprecated option.
+			// Add security sensitive options here i.e. tokens, keys.
+			case 'private':
+				return array();
+			break;
+		}
 
-            Options Array Values Explained
-            0. Install (0|1)  - add to options on activation of the plugin using add_option() only.
-            1. Autoload (0|1) - autoload the option.
-            2. Delete (0|1)   - delete when user uninstalls using form (most should be removed). 
-            3. Value (mixed)  - options default value.    
-        */
-        
-        switch ( $type ) {        
-            case 'single':
-            
-                // Remember the real option names are prepend with "TradePress".
-                $single_options = array(  
-                    // TradePress core options.                                  
-                    'example1' => array( 1,1,1, 'thevalue1' ),// Description of option.     
-                    'example2' => array( 1,0,1, 'thevalue2' ),// Description of option.
-                    'example3' => array( 1,0,1, 'thevalue3' ),// Description of option.
-                );  
+		// Return compact options by default.
+		return array(
+			'postdump', // (boolean) switch in Developer Menu for displaying $_POST.
+			'getdump', // (boolean) switch in Developer Menu for displaying $_GET.
+			'debugtracedisplay',
+			'debugtracelog',
+		);
+	}
 
-                $selected_array = $single_options;
+	/**
+	 * Created to replace get_options_names() which holds only option names.
+	 *
+	 * This method holds option names and their default values. We can thus
+	 * query default values to correct missing options.
+	 *
+	 * We can also set each option to be installed by default or by trigger i.e.
+	 * during procedure.
+	 *
+	 * @author Ryan R. Bayne
+	 * @param mixed        $type
+	 * @version 1.1
+	 *
+	 * @param mixed        $type single|merged|secure|deprec
+	 * @param mixed        $return all|keys|install|update|delete|value
+	 * @param string|array $name use to get specific option details
+	 */
+	public function get_option_information( $type = 'merged', $return = 'value', $name = array() ) {
+		$selected_array = array();
 
-                break;
-            case 'merged':     
-           
-                $merged_options = array(  
-                    'postdump'               => array( 'merged',1,1,1, false ),// (boolean) Switch in Developer menu for displaying $_POST data.
-                    'getdump'                => array( 'merged',1,1,1, false ),// (boolean) Switch in Developer menu for displaying $_GET dump.
-                    'debugtracedisplay'      => array( 'merged',1,1,1, false ),// (boolean) Switch in Developer menu for displaying trace for the current page load.
-                    'debugtracelog'          => array( 'merged',1,1,1, false ),// (boolean) Switch in Developer menu for logging trace for the current page load.
-                );
-                
-                $selected_array = $merged_options; 
-                        
-                break;
-            case 'secure':
-                return;
-                break;
-            case 'deprec':
-                return;
-                break;    
-        }
-        
-        if( $return == 'keys' )
-        {             
-            return array_keys( $selected_array );
-        }
-        else
-        {
-            return $selected_array;
-        }            
-    }
+		/*
+			Types Explained
+			Single - individual records in the WP options table.
+			Merged - a single array of many options installed in WP options table.
+			Secure - coded options, not installed in data, developer must configure.
+			Deprec - Deprecated option.
 
-    /**
-    * Install all options into the WordPress options table. 
-    * Does not update, only adds and so this method is only suitable
-    * for activation.
-    * 
-    * We focus on adding missing options when they are required after the
-    * first time installation.
-    * 
-    * @version 1.1
-    */
-    public function install_options() {         
-        $single_options = self::get_option_information( 'single', 'all' );
-        $merged_options = self::get_option_information( 'merged', 'all' );
-        $all_options = array_merge( $single_options, $merged_options );
-        if( $all_options )
-        {
-            foreach( $all_options as $option_name => $option_information )
-            {
-                if( $option_information[0] === 1 )
-                {
-                    add_option( $option_name, $option_information[3], $option_information[1] );    
-                }    
-            }
-        }
-        return;
-    }    
+			Options Array Values Explained
+			0. Install (0|1)  - add to options on activation of the plugin using add_option() only.
+			1. Autoload (0|1) - autoload the option.
+			2. Delete (0|1)   - delete when user uninstalls using form (most should be removed).
+			3. Value (mixed)  - options default value.
+		*/
 
-    /**
-    * Deletes every option. Do not change. Create a new method
-    * for any other approach to disable or uninstall a plugin please.
-    * 
-    * @version 1.0
-    */
-    public function uninstall_options() {
-      $single_options = self::get_option_information( 'single', 'all' );
-        $merged_options = self::get_option_information( 'merged', 'all' );
-        $all_options = array_merge( $single_options, $merged_options );
-        if( $all_options )
-        {
-            foreach( $all_options as $option_name => $option_information )
-            {
-                if( $option_information[2] === 1 )
-                {
-                    self::delete_option( $option_name );    
-                }    
-            }
-        }
-        return;
-    }
-    
-    /**
-    * Confirm that a required option or array of options
-    * are valid by name.
-    * 
-    * Pass group if the option/s belong to a group and are not
-    * stored as a seperate "non_compact" entry in the options table.
-    * 
-    * @param mixed $name
-    * @param mixed $group
-    * @return mixed
-     * @version 1.0.0
-    */
-    public static function is_valid( $name, $group = null ) {      
-        if ( is_array( $name ) ) {
-            $compact_names = array();
-            foreach ( array_keys( self::$grouped_options ) as $_group ) {
-                $compact_names = array_merge( $compact_names, self::get_option_names( $_group ) );
-            }
+		switch ( $type ) {
+			case 'single':
+				// Remember the real option names are prepend with "TradePress".
+				$single_options = array(
+					// TradePress core options.
+					'example1' => array( 1, 1, 1, 'thevalue1' ), // Description of option.
+					'example2' => array( 1, 0, 1, 'thevalue2' ), // Description of option.
+					'example3' => array( 1, 0, 1, 'thevalue3' ), // Description of option.
+				);
 
-            $result = array_diff( $name, self::get_option_names( 'non_compact' ), $compact_names );
+				$selected_array = $single_options;
 
-            return empty( $result );
-        }
+				break;
+			case 'merged':
+				$merged_options = array(
+					'postdump'          => array( 'merged', 1, 1, 1, false ), // (boolean) Switch in Developer menu for displaying $_POST data.
+					'getdump'           => array( 'merged', 1, 1, 1, false ), // (boolean) Switch in Developer menu for displaying $_GET dump.
+					'debugtracedisplay' => array( 'merged', 1, 1, 1, false ), // (boolean) Switch in Developer menu for displaying trace for the current page load.
+					'debugtracelog'     => array( 'merged', 1, 1, 1, false ), // (boolean) Switch in Developer menu for logging trace for the current page load.
+				);
 
-        if ( is_null( $group ) || 'non_compact' === $group ) {
-            if ( in_array( $name, self::get_option_names( $group ) ) ) {
-                return true;
-            }
-        }
+				$selected_array = $merged_options;
 
-        foreach ( array_keys( self::$grouped_options ) as $_group ) {
-            if ( is_null( $group ) || $group === $_group ) {
-                if ( in_array( $name, self::get_option_names( $_group ) ) ) {
-                    return true;
-                }
-            }
-        }
+				break;
+			case 'secure':
+				return;
+				break;
+			case 'deprec':
+				return;
+				break;
+		}
 
-        return false;
-    }
+		if ( $return == 'keys' ) {
+			return array_keys( $selected_array );
+		} else {
+			return $selected_array;
+		}
+	}
 
-    /**
-     * Returns the requested option.  Looks in TradePress_options group 
-     * or TradePress_$name as appropriate.
-     *
-     * @version 1.2
-     * @param string $name Option name
-     * @param mixed $default (optional)
-     * 
-     * @todo how can we get a grouped option without giving the group?
-     * If two groups have the same option name the returned value could be
-     * wrong. Add some lines that compares all groups and raises a specific
-     * error advising the developer to change the option name.
-     */
-    public static function get_option( $name, $default = false, $maybe_unserialize = true ) {
-                                    
-        // First check if the requested option is a non_compact one.
-        if ( self::is_valid( $name, 'non_compact' ) ) {
-            $option_value = get_option( "TradePress_$name", $default );
-            if( $maybe_unserialize )
-            {
-                return maybe_unserialize( $option_value );
-            }
-        }
+	/**
+	 * Install all options into the WordPress options table.
+	 * Does not update, only adds and so this method is only suitable
+	 * for activation.
+	 *
+	 * We focus on adding missing options when they are required after the
+	 * first time installation.
+	 *
+	 * @version 1.1
+	 */
+	public function install_options() {
+		$single_options = self::get_option_information( 'single', 'all' );
+		$merged_options = self::get_option_information( 'merged', 'all' );
+		$all_options    = array_merge( $single_options, $merged_options );
+		if ( $all_options ) {
+			foreach ( $all_options as $option_name => $option_information ) {
+				if ( $option_information[0] === 1 ) {
+					add_option( $option_name, $option_information[3], $option_information[1] );
+				}
+			}
+		}
+		return;
+	}
 
-        // Must be a grouped option, loop through groups.
-        foreach ( array_keys( self::$grouped_options ) as $group ) {
-            if ( self::is_valid( $name, $group ) ) {
-                return self::get_grouped_option( $group, $name, $default );
-            }
-        }
+	/**
+	 * Deletes every option. Do not change. Create a new method
+	 * for any other approach to disable or uninstall a plugin please.
+	 *
+	 * @version 1.0
+	 */
+	public function uninstall_options() {
+		$single_options = self::get_option_information( 'single', 'all' );
+		$merged_options = self::get_option_information( 'merged', 'all' );
+		$all_options    = array_merge( $single_options, $merged_options );
+		if ( $all_options ) {
+			foreach ( $all_options as $option_name => $option_information ) {
+				if ( $option_information[2] === 1 ) {
+					self::delete_option( $option_name );
+				}
+			}
+		}
+		return;
+	}
 
-        trigger_error( sprintf( 'Invalid TradePress option name: %s', $name ), E_USER_WARNING );
+	/**
+	 * Confirm that a required option or array of options
+	 * are valid by name.
+	 *
+	 * Pass group if the option/s belong to a group and are not
+	 * stored as a seperate "non_compact" entry in the options table.
+	 *
+	 * @param mixed $name
+	 * @param mixed $group
+	 * @return mixed
+	 * @version 1.0.0
+	 */
+	public static function is_valid( $name, $group = null ) {
+		if ( is_array( $name ) ) {
+			$compact_names = array();
+			foreach ( array_keys( self::$grouped_options ) as $_group ) {
+				$compact_names = array_merge( $compact_names, self::get_option_names( $_group ) );
+			}
 
-        return $default;
-    }
+			$result = array_diff( $name, self::get_option_names( 'non_compact' ), $compact_names );
 
-    /**
-    * Update a giving grouped option. Will add the $value if it
-    * does not already exist. The $name is the key.
-    * 
-    * @param mixed $group
-    * @param mixed $name
-    * @param mixed $value
-     * @version 1.0.0
-    */                               
-    private function update_grouped_option( $group, $name, $value ) {
-        $options = get_option( self::$grouped_options[ $group ] );
-        if ( ! is_array( $options ) ) {
-            $options = array();
-        }
-        $options[ $name ] = $value;
+			return empty( $result );
+		}
 
-        return update_option( self::$grouped_options[ $group ], $options );
-    }
+		if ( is_null( $group ) || 'non_compact' === $group ) {
+			if ( in_array( $name, self::get_option_names( $group ) ) ) {
+				return true;
+			}
+		}
 
-    /**
-     * Updates the single given option.
-     * Updates TradePress_options or jetpack_$name as appropriate.
-     *
-     * @param string $name Option name
-     * @param mixed $value Option value
-     * @param string $autoload If not compact option, allows specifying whether to autoload or not
-     * 
-     * @todo Check original functions use of do('pre_update_jetpack_option_
-     * which requires add_action that calls the delete method in this class.
-     * Why delete every option prior to update?
-      * @version 1.0.0
-     */
-    public function update_option( $name, $value, $autoload = null ) {    
-        if ( self::is_valid( $name, 'non_compact' ) ) {
-            /**             
-             * Allowing update_option to change autoload status only shipped in WordPress v4.2
-             * @link https://github.com/WordPress/WordPress/commit/305cf8b95
-             */
-            if ( version_compare( $GLOBALS['wp_version'], '4.2', '>=' ) ) {
-                return update_option( "TradePress_$name", $value, $autoload );
-            }
-            return update_option( "TradePress_$name", $value );
-        }
+		foreach ( array_keys( self::$grouped_options ) as $_group ) {
+			if ( is_null( $group ) || $group === $_group ) {
+				if ( in_array( $name, self::get_option_names( $_group ) ) ) {
+					return true;
+				}
+			}
+		}
 
-        foreach ( array_keys( self::$grouped_options ) as $group ) {
-            if ( self::is_valid( $name, $group ) ) {
-                return self::update_grouped_option( $group, $name, $value );
-            }
-        }
+		return false;
+	}
 
-        trigger_error( sprintf( 'Invalid TradePress option name: %s', $name ), E_USER_WARNING );
+	/**
+	 * Returns the requested option.  Looks in TradePress_options group
+	 * or TradePress_$name as appropriate.
+	 *
+	 * @version 1.2
+	 * @param string $name Option name
+	 * @param mixed  $default (optional)
+	 *
+	 * @todo how can we get a grouped option without giving the group?
+	 * If two groups have the same option name the returned value could be
+	 * wrong. Add some lines that compares all groups and raises a specific
+	 * error advising the developer to change the option name.
+	 */
+	public static function get_option( $name, $default = false, $maybe_unserialize = true ) {
 
-        return false;
-    }
+		// First check if the requested option is a non_compact one.
+		if ( self::is_valid( $name, 'non_compact' ) ) {
+			$option_value = get_option( "TradePress_$name", $default );
+			if ( $maybe_unserialize ) {
+				return maybe_unserialize( $option_value );
+			}
+		}
 
-    /**
-     * Updates the multiple given options.  Updates jetpack_options and/or 
-     * jetpack_$name as appropriate.
-     *
-     * @param array $array array( option name => option value, ... )
-      * @version 1.0.0
-     */
-    public function update_options( $array ) {
-        $names = array_keys( $array );
+		// Must be a grouped option, loop through groups.
+		foreach ( array_keys( self::$grouped_options ) as $group ) {
+			if ( self::is_valid( $name, $group ) ) {
+				return self::get_grouped_option( $group, $name, $default );
+			}
+		}
 
-        foreach ( array_diff( $names, self::get_option_names(), self::get_option_names( 'non_compact' ), self::get_option_names( 'private' ) ) as $unknown_name ) {
-            trigger_error( sprintf( 'Invalid TradePress option name: %s', $unknown_name ), E_USER_WARNING );
-            unset( $array[ $unknown_name ] );
-        }
+		trigger_error( sprintf( 'Invalid TradePress option name: %s', esc_html( (string) $name ) ), E_USER_WARNING );
 
-        foreach ( $names as $name ) {
-            self::update_option( $name, $array[ $name ] );
-        }
-    }
+		return $default;
+	}
 
-    /**
-     * Deletes the given option.  May be passed multiple option names as an array.
-     * Updates TradePress_options and/or deletes TradePress_$name as appropriate.
-     *
-     * @param string|array $names
-      * @version 1.0.0
-     */
-    public function delete_option( $names ) {       
-        $result = true;
-        $names  = (array) $names;
+	/**
+	 * Update a giving grouped option. Will add the $value if it
+	 * does not already exist. The $name is the key.
+	 *
+	 * @param mixed $group
+	 * @param mixed $name
+	 * @param mixed $value
+	 * @version 1.0.0
+	 */
+	private function update_grouped_option( $group, $name, $value ) {
+		$options = get_option( self::$grouped_options[ $group ] );
+		if ( ! is_array( $options ) ) {
+			$options = array();
+		}
+		$options[ $name ] = $value;
 
-        if ( ! self::is_valid( $names ) ) {
-            trigger_error( sprintf( 'Invalid TradePress option names: %s', print_r( $names, 1 ) ), E_USER_WARNING );
+		return update_option( self::$grouped_options[ $group ], $options );
+	}
 
-            return false;
-        }
+	/**
+	 * Updates the single given option.
+	 * Updates TradePress_options or jetpack_$name as appropriate.
+	 *
+	 * @param string $name Option name
+	 * @param mixed  $value Option value
+	 * @param string $autoload If not compact option, allows specifying whether to autoload or not
+	 *
+	 * @todo Check original functions use of do('pre_update_jetpack_option_
+	 * which requires add_action that calls the delete method in this class.
+	 * Why delete every option prior to update?
+	 * @version 1.0.0
+	 */
+	public function update_option( $name, $value, $autoload = null ) {
+		if ( self::is_valid( $name, 'non_compact' ) ) {
+			/**
+			 * Allowing update_option to change autoload status only shipped in WordPress v4.2
+			 *
+			 * @link https://github.com/WordPress/WordPress/commit/305cf8b95
+			 */
+			if ( version_compare( $GLOBALS['wp_version'], '4.2', '>=' ) ) {
+				return update_option( "TradePress_$name", $value, $autoload );
+			}
+			return update_option( "TradePress_$name", $value );
+		}
 
-        foreach ( array_intersect( $names, self::get_option_names( 'non_compact' ) ) as $name ) {
-            if ( ! delete_option( "TradePress_$name" ) ) {
-                $result = false;
-            }
-        }
+		foreach ( array_keys( self::$grouped_options ) as $group ) {
+			if ( self::is_valid( $name, $group ) ) {
+				return self::update_grouped_option( $group, $name, $value );
+			}
+		}
 
-        foreach ( array_keys( self::$grouped_options ) as $group ) {
-            if ( ! self::delete_grouped_option( $group, $names ) ) {
-                $result = false;
-            }
-        }
+		trigger_error( sprintf( 'Invalid TradePress option name: %s', esc_html( (string) $name ) ), E_USER_WARNING );
 
-        return $result;
-    }
+		return false;
+	}
 
-    /**
-    * Get one of many groups of options then return a value from within the
-    * group.
-    * 
-    * @param string $group non_compact, private, compact 
-    * @param mixed $name
-    * @param mixed $default
-     * @version 1.0.0
-    */
-    private static function get_grouped_option( $group, $name, $default = null ) {
-        $options = get_option( self::$grouped_options[ $group ] );
-        
-        // Does the group have the giving option name?
-        if ( is_array( $options ) && isset( $options[ $name ] ) ) {
-            return $options[ $name ];
-        }
+	/**
+	 * Updates the multiple given options.  Updates jetpack_options and/or
+	 * jetpack_$name as appropriate.
+	 *
+	 * @param array $array array( option name => option value, ... )
+	 * @version 1.0.0
+	 */
+	public function update_options( $array ) {
+		$names = array_keys( $array );
 
-        return $default;
-    }
+		foreach ( array_diff( $names, self::get_option_names(), self::get_option_names( 'non_compact' ), self::get_option_names( 'private' ) ) as $unknown_name ) {
+			trigger_error( sprintf( 'Invalid TradePress option name: %s', esc_html( (string) $unknown_name ) ), E_USER_WARNING );
+			unset( $array[ $unknown_name ] );
+		}
 
-    /**
-    * Delete an option value from grouped options.
-    * 
-    * @param mixed $group
-    * @param mixed $names
-     * @version 1.0.0
-    */
-    private function delete_grouped_option( $group, $names ) {         
-        $options = get_option( self::$grouped_options[ $group ], array() );
+		foreach ( $names as $name ) {
+			self::update_option( $name, $array[ $name ] );
+		}
+	}
 
-        $to_delete = array_intersect( $names, self::get_option_names( $group ), array_keys( $options ) );
-        if ( $to_delete ) {
-            foreach ( $to_delete as $name ) {
-                unset( $options[ $name ] );
-            }
+	/**
+	 * Deletes the given option.  May be passed multiple option names as an array.
+	 * Updates TradePress_options and/or deletes TradePress_$name as appropriate.
+	 *
+	 * @param string|array $names
+	 * @version 1.0.0
+	 */
+	public function delete_option( $names ) {
+		$result = true;
+		$names  = (array) $names;
 
-            return update_option( self::$grouped_options[ $group ], $options );
-        }
+		if ( ! self::is_valid( $names ) ) {
+			trigger_error( sprintf( 'Invalid TradePress option names: %s', esc_html( wp_json_encode( $names ) ) ), E_USER_WARNING );
 
-        return true;
-    }
+			return false;
+		}
 
+		foreach ( array_intersect( $names, self::get_option_names( 'non_compact' ) ) as $name ) {
+			if ( ! delete_option( "TradePress_$name" ) ) {
+				$result = false;
+			}
+		}
+
+		foreach ( array_keys( self::$grouped_options ) as $group ) {
+			if ( ! self::delete_grouped_option( $group, $names ) ) {
+				$result = false;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Get one of many groups of options then return a value from within the
+	 * group.
+	 *
+	 * @param string $group non_compact, private, compact
+	 * @param mixed  $name
+	 * @param mixed  $default
+	 * @version 1.0.0
+	 */
+	private static function get_grouped_option( $group, $name, $default = null ) {
+		$options = get_option( self::$grouped_options[ $group ] );
+
+		// Does the group have the giving option name?
+		if ( is_array( $options ) && isset( $options[ $name ] ) ) {
+			return $options[ $name ];
+		}
+
+		return $default;
+	}
+
+	/**
+	 * Delete an option value from grouped options.
+	 *
+	 * @param mixed $group
+	 * @param mixed $names
+	 * @version 1.0.0
+	 */
+	private function delete_grouped_option( $group, $names ) {
+		$options = get_option( self::$grouped_options[ $group ], array() );
+
+		$to_delete = array_intersect( $names, self::get_option_names( $group ), array_keys( $options ) );
+		if ( $to_delete ) {
+			foreach ( $to_delete as $name ) {
+				unset( $options[ $name ] );
+			}
+
+			return update_option( self::$grouped_options[ $group ], $options );
+		}
+
+		return true;
+	}
 }

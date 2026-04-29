@@ -390,7 +390,7 @@ Custom directives must supply at least one Layer B fixture with expected output 
 
 ## 12. Relationship to Existing Test Infrastructure
 
-The existing `TESTING-SYSTEM.md` describes a general plugin test framework (`TradePress_Test_Registry`, `TradePress_Test_Runner`, etc.). The directive testing system **extends** that infrastructure:
+The existing `wp-content/plugins/tradepress/docs/testing/TESTING-SYSTEM.md` describes a general plugin test framework (`TradePress_Test_Registry`, `TradePress_Test_Runner`, etc.). The directive testing system **extends** that infrastructure:
 
 - `TradePress_Directive_Test_Runner` extends `TradePress_Test_Runner`
 - Directive results use the existing `tradepress_test_runs` table schema, extended with directive-specific columns

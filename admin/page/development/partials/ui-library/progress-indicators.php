@@ -6,128 +6,128 @@
  * @version 1.0.7
  */
 
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 ?>
 <div class="tradepress-ui-section">
-    <h3><?php esc_html_e('Progress Indicators', 'tradepress'); ?></h3>
-    <p><?php esc_html_e('Visual indicators to show progress, loading states, and multi-step processes.', 'tradepress'); ?></p>
-    
-    <div class="tradepress-component-group">
-        <!-- Basic Progress Bars -->
-        <div class="component-demo">
-            <h4><?php esc_html_e('Basic Progress Bars', 'tradepress'); ?></h4>
-            
-            <div class="progress-example">
-                <div class="progress-label"><?php esc_html_e('Default Progress (40%)', 'tradepress'); ?></div>
-                <div class="media-progress-bar">
-                    <div style="width: 40%;"></div>
-                </div>
-            </div>
-            
-            <div class="progress-example">
-                <div class="progress-label"><?php esc_html_e('Success Progress (75%)', 'tradepress'); ?></div>
-                <div class="media-progress-bar progress-success">
-                    <div style="width: 75%;"></div>
-                </div>
-            </div>
-            
-            <div class="progress-example">
-                <div class="progress-label"><?php esc_html_e('Warning Progress (60%)', 'tradepress'); ?></div>
-                <div class="media-progress-bar progress-warning">
-                    <div style="width: 60%;"></div>
-                </div>
-            </div>
-            
-            <div class="progress-example">
-                <div class="progress-label"><?php esc_html_e('Error Progress (25%)', 'tradepress'); ?></div>
-                <div class="media-progress-bar progress-error">
-                    <div style="width: 25%;"></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- WordPress Admin Loading Spinners -->
-        <div class="component-demo">
-            <h4><?php esc_html_e('Loading Spinners (WordPress Native)', 'tradepress'); ?></h4>
-            
-            <div class="tradepress-component-showcase">
-                <div class="spinner-example">
-                    <div class="spinner-label"><?php esc_html_e('WordPress Default', 'tradepress'); ?></div>
-                    <span class="spinner is-active"></span>
-                </div>
-                
-                <div class="spinner-example">
-                    <div class="spinner-label"><?php esc_html_e('With Text', 'tradepress'); ?></div>
-                    <div class="loading-with-text">
-                        <span class="spinner is-active"></span>
-                        <span class="loading-text"><?php esc_html_e('Loading data...', 'tradepress'); ?></span>
-                    </div>
-                </div>
-                
-                <div class="spinner-example">
-                    <div class="spinner-label"><?php esc_html_e('Custom Color', 'tradepress'); ?></div>
-                    <span class="spinner is-active" style="filter: hue-rotate(120deg);"></span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Step Indicators - Using existing patterns -->
-        <div class="component-demo">
-            <h4><?php esc_html_e('Step Indicators', 'tradepress'); ?></h4>
-            
-            <div class="step-progress-container">
-                <div class="step-progress-item completed">
-                    <div class="step-progress-marker">
-                        <span class="dashicons dashicons-yes"></span>
-                    </div>
-                    <div class="step-progress-label"><?php esc_html_e('Account Setup', 'tradepress'); ?></div>
-                </div>
-                <div class="step-progress-item active">
-                    <div class="step-progress-marker">2</div>
-                    <div class="step-progress-label"><?php esc_html_e('API Connection', 'tradepress'); ?></div>
-                </div>
-                <div class="step-progress-item">
-                    <div class="step-progress-marker">3</div>
-                    <div class="step-progress-label"><?php esc_html_e('Preferences', 'tradepress'); ?></div>
-                </div>
-                <div class="step-progress-item">
-                    <div class="step-progress-marker">4</div>
-                    <div class="step-progress-label"><?php esc_html_e('Confirmation', 'tradepress'); ?></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Progress with Text - Using inline styles for positioning -->
-        <div class="component-demo">
-            <h4><?php esc_html_e('Progress with Text', 'tradepress'); ?></h4>
-            
-            <div class="progress-example">
-                <div class="progress-with-text-container">
-                    <div class="media-progress-bar">
-                        <div style="width: 65%;"></div>
-                    </div>
-                    <div class="progress-text-overlay">65%</div>
-                </div>
-            </div>
-            
-            <div class="progress-example">
-                <div class="progress-container-labeled">
-                    <div class="progress-header">
-                        <div class="progress-label"><?php esc_html_e('Data Processing', 'tradepress'); ?></div>
-                        <div class="progress-value">85%</div>
-                    </div>
-                    <div class="media-progress-bar progress-success">
-                        <div style="width: 85%;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-    </div>
+	<h3><?php esc_html_e( 'Progress Indicators', 'tradepress' ); ?></h3>
+	<p><?php esc_html_e( 'Visual indicators to show progress, loading states, and multi-step processes.', 'tradepress' ); ?></p>
+	
+	<div class="tradepress-component-group">
+		<!-- Basic Progress Bars -->
+		<div class="component-demo">
+			<h4><?php esc_html_e( 'Basic Progress Bars', 'tradepress' ); ?></h4>
+			
+			<div class="progress-example">
+				<div class="progress-label"><?php esc_html_e( 'Default Progress (40%)', 'tradepress' ); ?></div>
+				<div class="media-progress-bar">
+					<div style="width: 40%;"></div>
+				</div>
+			</div>
+			
+			<div class="progress-example">
+				<div class="progress-label"><?php esc_html_e( 'Success Progress (75%)', 'tradepress' ); ?></div>
+				<div class="media-progress-bar progress-success">
+					<div style="width: 75%;"></div>
+				</div>
+			</div>
+			
+			<div class="progress-example">
+				<div class="progress-label"><?php esc_html_e( 'Warning Progress (60%)', 'tradepress' ); ?></div>
+				<div class="media-progress-bar progress-warning">
+					<div style="width: 60%;"></div>
+				</div>
+			</div>
+			
+			<div class="progress-example">
+				<div class="progress-label"><?php esc_html_e( 'Error Progress (25%)', 'tradepress' ); ?></div>
+				<div class="media-progress-bar progress-error">
+					<div style="width: 25%;"></div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- WordPress Admin Loading Spinners -->
+		<div class="component-demo">
+			<h4><?php esc_html_e( 'Loading Spinners (WordPress Native)', 'tradepress' ); ?></h4>
+			
+			<div class="tradepress-component-showcase">
+				<div class="spinner-example">
+					<div class="spinner-label"><?php esc_html_e( 'WordPress Default', 'tradepress' ); ?></div>
+					<span class="spinner is-active"></span>
+				</div>
+				
+				<div class="spinner-example">
+					<div class="spinner-label"><?php esc_html_e( 'With Text', 'tradepress' ); ?></div>
+					<div class="loading-with-text">
+						<span class="spinner is-active"></span>
+						<span class="loading-text"><?php esc_html_e( 'Loading data...', 'tradepress' ); ?></span>
+					</div>
+				</div>
+				
+				<div class="spinner-example">
+					<div class="spinner-label"><?php esc_html_e( 'Custom Color', 'tradepress' ); ?></div>
+					<span class="spinner is-active" style="filter: hue-rotate(120deg);"></span>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Step Indicators - Using existing patterns -->
+		<div class="component-demo">
+			<h4><?php esc_html_e( 'Step Indicators', 'tradepress' ); ?></h4>
+			
+			<div class="step-progress-container">
+				<div class="step-progress-item completed">
+					<div class="step-progress-marker">
+						<span class="dashicons dashicons-yes"></span>
+					</div>
+					<div class="step-progress-label"><?php esc_html_e( 'Account Setup', 'tradepress' ); ?></div>
+				</div>
+				<div class="step-progress-item active">
+					<div class="step-progress-marker">2</div>
+					<div class="step-progress-label"><?php esc_html_e( 'API Connection', 'tradepress' ); ?></div>
+				</div>
+				<div class="step-progress-item">
+					<div class="step-progress-marker">3</div>
+					<div class="step-progress-label"><?php esc_html_e( 'Preferences', 'tradepress' ); ?></div>
+				</div>
+				<div class="step-progress-item">
+					<div class="step-progress-marker">4</div>
+					<div class="step-progress-label"><?php esc_html_e( 'Confirmation', 'tradepress' ); ?></div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Progress with Text - Using inline styles for positioning -->
+		<div class="component-demo">
+			<h4><?php esc_html_e( 'Progress with Text', 'tradepress' ); ?></h4>
+			
+			<div class="progress-example">
+				<div class="progress-with-text-container">
+					<div class="media-progress-bar">
+						<div style="width: 65%;"></div>
+					</div>
+					<div class="progress-text-overlay">65%</div>
+				</div>
+			</div>
+			
+			<div class="progress-example">
+				<div class="progress-container-labeled">
+					<div class="progress-header">
+						<div class="progress-label"><?php esc_html_e( 'Data Processing', 'tradepress' ); ?></div>
+						<div class="progress-value">85%</div>
+					</div>
+					<div class="media-progress-bar progress-success">
+						<div style="width: 85%;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
 
-    <?php
-    // Add interactive demo script
-    $progress_script = "
+	<?php
+	// Add interactive demo script
+	$progress_script = "
         jQuery(document).ready(function($) {
             // Simulate progress animation for media-progress-bar
             /**
@@ -177,7 +177,7 @@ defined('ABSPATH') || exit;
             animateProgress();
         });
     ";
-    
-    wp_add_inline_script('jquery', $progress_script);
-    ?>
+
+	wp_add_inline_script( 'jquery', $progress_script );
+	?>
 </div>

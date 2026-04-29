@@ -1,63 +1,75 @@
 <?php
 /**
  * TradePress - Enhanced Scoring Strategies Database Schema
- * 
+ *
  * Comprehensive database tables for managing scoring strategies with relationships
  *
  * @package TradePress/Admin/Installation
  * @version 2.0.0
  */
 
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 class TradePress_Scoring_Strategies_Schema {
-    
-    /**
-     * Create enhanced scoring strategy tables
-      *
-      * @version 1.0.0
-     */
-    public static function create_tables() {
-        global $wpdb, $charset_collate;
-        
-        // Enhanced strategies table (replaces existing basic one)
-        self::create_strategies_table();
-        
-        // Strategy directives relationship table
-        self::create_strategy_directives_table();
-        
-        // Strategy directive configurations (per-strategy overrides)
-        self::create_strategy_directive_configs_table();
-        
-        // Strategy test results and performance tracking
-        self::create_strategy_tests_table();
-        
-        // Strategy performance metrics
-        self::create_strategy_performance_table();
-        
-        // Strategy versions (for tracking changes)
-        self::create_strategy_versions_table();
-        
-        // Strategy categories/tags
-        self::create_strategy_categories_table();
-        
-        // Log the schema creation
-        update_option('tradepress_scoring_strategies_schema_version', '2.0.0');
-        update_option('tradepress_scoring_strategies_schema_created', current_time('mysql'));
-    }
-    
-    /**
-     * Enhanced strategies table
-      *
-      * @version 1.0.0
-     */
-    private static function create_strategies_table() {
-        global $wpdb, $charset_collate;
-        
-        $table_name = $wpdb->prefix . "tradepress_scoring_strategies";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+
+	/**
+	 * Create enhanced scoring strategy tables
+	 *
+	 * @version 1.0.0
+	 */
+	public static function create_tables() {
+		global $wpdb, $charset_collate;
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+		// Enhanced strategies table (replaces existing basic one)
+		self::create_strategies_table();
+
+		// Strategy directives relationship table
+		self::create_strategy_directives_table();
+
+		// Strategy directive configurations (per-strategy overrides)
+		self::create_strategy_directive_configs_table();
+
+		// Strategy test results and performance tracking
+		self::create_strategy_tests_table();
+
+		// Strategy performance metrics
+		self::create_strategy_performance_table();
+
+		// Strategy versions (for tracking changes)
+		self::create_strategy_versions_table();
+
+		// Strategy categories/tags
+		self::create_strategy_categories_table();
+
+		// Log the schema creation
+		update_option( 'tradepress_scoring_strategies_schema_version', '2.0.0' );
+		update_option( 'tradepress_scoring_strategies_schema_created', current_time( 'mysql' ) );
+	}
+
+	/**
+	 * Run schema creation statements through WordPress upgrade API.
+	 *
+	 * @param string $sql Schema SQL.
+	 * @return void
+	 */
+	private static function run_schema_delta( $sql ) {
+		dbDelta( $sql );
+	}
+
+	/**
+	 * Enhanced strategies table
+	 *
+	 * @version 1.0.0
+	 */
+	private static function create_strategies_table() {
+		global $wpdb, $charset_collate;
+
+		$table_name = $wpdb->prefix . 'tradepress_scoring_strategies';
+		$sql        = "CREATE TABLE IF NOT EXISTS $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             name varchar(255) NOT NULL,
             slug varchar(255) NOT NULL,
@@ -104,19 +116,19 @@ class TradePress_Scoring_Strategies_Schema {
             KEY success_rate (success_rate),
             KEY created_at (created_at)
         ) $charset_collate;";
-        $wpdb->query($sql);
-    }
-    
-    /**
-     * Strategy directives relationship table
-      *
-      * @version 1.0.0
-     */
-    private static function create_strategy_directives_table() {
-        global $wpdb, $charset_collate;
-        
-        $table_name = $wpdb->prefix . "tradepress_strategy_directives";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+		self::run_schema_delta( $sql );
+	}
+
+	/**
+	 * Strategy directives relationship table
+	 *
+	 * @version 1.0.0
+	 */
+	private static function create_strategy_directives_table() {
+		global $wpdb, $charset_collate;
+
+		$table_name = $wpdb->prefix . 'tradepress_strategy_directives';
+		$sql        = "CREATE TABLE IF NOT EXISTS $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             strategy_id bigint(20) unsigned NOT NULL,
             directive_id varchar(100) NOT NULL,
@@ -155,19 +167,19 @@ class TradePress_Scoring_Strategies_Schema {
             KEY is_active (is_active),
             KEY sort_order (sort_order)
         ) $charset_collate;";
-        $wpdb->query($sql);
-    }
-    
-    /**
-     * Strategy directive configurations (per-strategy overrides)
-      *
-      * @version 1.0.0
-     */
-    private static function create_strategy_directive_configs_table() {
-        global $wpdb, $charset_collate;
-        
-        $table_name = $wpdb->prefix . "tradepress_strategy_directive_configs";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+		self::run_schema_delta( $sql );
+	}
+
+	/**
+	 * Strategy directive configurations (per-strategy overrides)
+	 *
+	 * @version 1.0.0
+	 */
+	private static function create_strategy_directive_configs_table() {
+		global $wpdb, $charset_collate;
+
+		$table_name = $wpdb->prefix . 'tradepress_strategy_directive_configs';
+		$sql        = "CREATE TABLE IF NOT EXISTS $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             strategy_directive_id bigint(20) unsigned NOT NULL,
             config_key varchar(100) NOT NULL,
@@ -194,19 +206,19 @@ class TradePress_Scoring_Strategies_Schema {
             KEY overrides_global (overrides_global),
             KEY is_valid (is_valid)
         ) $charset_collate;";
-        $wpdb->query($sql);
-    }
-    
-    /**
-     * Strategy test results table
-      *
-      * @version 1.0.0
-     */
-    private static function create_strategy_tests_table() {
-        global $wpdb, $charset_collate;
-        
-        $table_name = $wpdb->prefix . "tradepress_strategy_tests";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+		self::run_schema_delta( $sql );
+	}
+
+	/**
+	 * Strategy test results table
+	 *
+	 * @version 1.0.0
+	 */
+	private static function create_strategy_tests_table() {
+		global $wpdb, $charset_collate;
+
+		$table_name = $wpdb->prefix . 'tradepress_strategy_tests';
+		$sql        = "CREATE TABLE IF NOT EXISTS $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             strategy_id bigint(20) unsigned NOT NULL,
             test_type enum('single_symbol','portfolio','backtest','live') DEFAULT 'single_symbol',
@@ -255,19 +267,19 @@ class TradePress_Scoring_Strategies_Schema {
             KEY recommendation (recommendation),
             KEY user_id (user_id)
         ) $charset_collate;";
-        $wpdb->query($sql);
-    }
-    
-    /**
-     * Strategy performance metrics table
-      *
-      * @version 1.0.0
-     */
-    private static function create_strategy_performance_table() {
-        global $wpdb, $charset_collate;
-        
-        $table_name = $wpdb->prefix . "tradepress_strategy_performance";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+		self::run_schema_delta( $sql );
+	}
+
+	/**
+	 * Strategy performance metrics table
+	 *
+	 * @version 1.0.0
+	 */
+	private static function create_strategy_performance_table() {
+		global $wpdb, $charset_collate;
+
+		$table_name = $wpdb->prefix . 'tradepress_strategy_performance';
+		$sql        = "CREATE TABLE IF NOT EXISTS $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             strategy_id bigint(20) unsigned NOT NULL,
             
@@ -321,19 +333,19 @@ class TradePress_Scoring_Strategies_Schema {
             KEY avg_score (avg_score),
             KEY calculation_date (calculation_date)
         ) $charset_collate;";
-        $wpdb->query($sql);
-    }
-    
-    /**
-     * Strategy versions table (for tracking changes)
-      *
-      * @version 1.0.0
-     */
-    private static function create_strategy_versions_table() {
-        global $wpdb, $charset_collate;
-        
-        $table_name = $wpdb->prefix . "tradepress_strategy_versions";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+		self::run_schema_delta( $sql );
+	}
+
+	/**
+	 * Strategy versions table (for tracking changes)
+	 *
+	 * @version 1.0.0
+	 */
+	private static function create_strategy_versions_table() {
+		global $wpdb, $charset_collate;
+
+		$table_name = $wpdb->prefix . 'tradepress_strategy_versions';
+		$sql        = "CREATE TABLE IF NOT EXISTS $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             strategy_id bigint(20) unsigned NOT NULL,
             version_number varchar(20) NOT NULL DEFAULT '1.0.0',
@@ -367,19 +379,19 @@ class TradePress_Scoring_Strategies_Schema {
             KEY is_active (is_active),
             KEY created_at (created_at)
         ) $charset_collate;";
-        $wpdb->query($sql);
-    }
-    
-    /**
-     * Strategy categories table
-      *
-      * @version 1.0.0
-     */
-    private static function create_strategy_categories_table() {
-        global $wpdb, $charset_collate;
-        
-        $table_name = $wpdb->prefix . "tradepress_strategy_categories";
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+		self::run_schema_delta( $sql );
+	}
+
+	/**
+	 * Strategy categories table
+	 *
+	 * @version 1.0.0
+	 */
+	private static function create_strategy_categories_table() {
+		global $wpdb, $charset_collate;
+
+		$table_name = $wpdb->prefix . 'tradepress_strategy_categories';
+		$sql        = "CREATE TABLE IF NOT EXISTS $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             name varchar(100) NOT NULL,
             slug varchar(100) NOT NULL,
@@ -413,219 +425,253 @@ class TradePress_Scoring_Strategies_Schema {
             KEY is_active (is_active),
             KEY sort_order (sort_order)
         ) $charset_collate;";
-        $wpdb->query($sql);
-    }
-    
-    /**
-     * Insert default strategy categories
-      *
-      * @version 1.0.0
-     */
-    public static function insert_default_categories() {
-        global $wpdb;
-        
-        $table_name = $wpdb->prefix . "tradepress_strategy_categories";
-        
-        // Check if categories already exist
-        $count = $wpdb->get_var("SELECT COUNT(*) FROM $table_name");
-        if ($count > 0) {
-            return; // Categories already exist
-        }
-        
-        $categories = array(
-            array(
-                'name' => 'Conservative Growth',
-                'slug' => 'conservative-growth',
-                'description' => 'Low-risk strategies focused on steady, long-term growth',
-                'default_risk_level' => 'low',
-                'default_time_horizon' => 'long',
-                'color' => '#2e7d32',
-                'icon' => 'trending-up',
-                'sort_order' => 1,
-                'is_system' => 1
-            ),
-            array(
-                'name' => 'Momentum Trading',
-                'slug' => 'momentum-trading',
-                'description' => 'Strategies that capitalize on strong price momentum and trends',
-                'default_risk_level' => 'medium',
-                'default_time_horizon' => 'short',
-                'color' => '#f57c00',
-                'icon' => 'rocket',
-                'sort_order' => 2,
-                'is_system' => 1
-            ),
-            array(
-                'name' => 'Value Investing',
-                'slug' => 'value-investing',
-                'description' => 'Strategies focused on undervalued stocks with strong fundamentals',
-                'default_risk_level' => 'low',
-                'default_time_horizon' => 'long',
-                'color' => '#0073aa',
-                'icon' => 'gem',
-                'sort_order' => 3,
-                'is_system' => 1
-            ),
-            array(
-                'name' => 'Technical Analysis',
-                'slug' => 'technical-analysis',
-                'description' => 'Strategies based on technical indicators and chart patterns',
-                'default_risk_level' => 'medium',
-                'default_time_horizon' => 'medium',
-                'color' => '#7b1fa2',
-                'icon' => 'chart-bar',
-                'sort_order' => 4,
-                'is_system' => 1
-            ),
-            array(
-                'name' => 'High Frequency',
-                'slug' => 'high-frequency',
-                'description' => 'Fast-paced strategies for intraday and scalping opportunities',
-                'default_risk_level' => 'high',
-                'default_time_horizon' => 'intraday',
-                'color' => '#d32f2f',
-                'icon' => 'flash',
-                'sort_order' => 5,
-                'is_system' => 1
-            ),
-            array(
-                'name' => 'Custom Strategies',
-                'slug' => 'custom',
-                'description' => 'User-created custom strategies',
-                'default_risk_level' => 'medium',
-                'default_time_horizon' => 'medium',
-                'color' => '#666666',
-                'icon' => 'cog',
-                'sort_order' => 99,
-                'is_system' => 0
-            )
-        );
-        
-        foreach ($categories as $category) {
-            $wpdb->insert($table_name, $category);
-        }
-    }
-    
-    /**
-     * Create foreign key relationships (if supported)
-      *
-      * @version 1.0.0
-     */
-    public static function create_foreign_keys() {
-        global $wpdb;
-        
-        // Note: WordPress typically doesn't use foreign keys due to MyISAM compatibility
-        // But we can add them for InnoDB installations
-        
-        $engine = $wpdb->get_var("SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '{$wpdb->prefix}tradepress_scoring_strategies'");
-        
-        if (strtolower($engine) === 'innodb') {
-            // Add foreign key constraints
-            $constraints = array(
-                "ALTER TABLE {$wpdb->prefix}tradepress_strategy_directives 
-                 ADD CONSTRAINT fk_strategy_directives_strategy 
-                 FOREIGN KEY (strategy_id) REFERENCES {$wpdb->prefix}tradepress_scoring_strategies(id) 
-                 ON DELETE CASCADE ON UPDATE CASCADE",
-                
-                "ALTER TABLE {$wpdb->prefix}tradepress_strategy_directive_configs 
-                 ADD CONSTRAINT fk_directive_configs_strategy_directive 
-                 FOREIGN KEY (strategy_directive_id) REFERENCES {$wpdb->prefix}tradepress_strategy_directives(id) 
-                 ON DELETE CASCADE ON UPDATE CASCADE",
-                
-                "ALTER TABLE {$wpdb->prefix}tradepress_strategy_tests 
-                 ADD CONSTRAINT fk_strategy_tests_strategy 
-                 FOREIGN KEY (strategy_id) REFERENCES {$wpdb->prefix}tradepress_scoring_strategies(id) 
-                 ON DELETE CASCADE ON UPDATE CASCADE",
-                
-                "ALTER TABLE {$wpdb->prefix}tradepress_strategy_performance 
-                 ADD CONSTRAINT fk_strategy_performance_strategy 
-                 FOREIGN KEY (strategy_id) REFERENCES {$wpdb->prefix}tradepress_scoring_strategies(id) 
-                 ON DELETE CASCADE ON UPDATE CASCADE",
-                
-                "ALTER TABLE {$wpdb->prefix}tradepress_strategy_versions 
-                 ADD CONSTRAINT fk_strategy_versions_strategy 
-                 FOREIGN KEY (strategy_id) REFERENCES {$wpdb->prefix}tradepress_scoring_strategies(id) 
-                 ON DELETE CASCADE ON UPDATE CASCADE"
-            );
-            
-            foreach ($constraints as $constraint) {
-                $wpdb->query($constraint);
-            }
-        }
-    }
-    
-    /**
-     * Get table relationships for documentation
-      *
-      * @version 1.0.0
-     */
-    public static function get_table_relationships() {
-        return array(
-            'tradepress_scoring_strategies' => array(
-                'description' => 'Main strategies table with metadata and performance tracking',
-                'relationships' => array(
-                    'has_many' => array(
-                        'tradepress_strategy_directives',
-                        'tradepress_strategy_tests', 
-                        'tradepress_strategy_performance',
-                        'tradepress_strategy_versions'
-                    ),
-                    'belongs_to' => array(
-                        'wp_users' => 'creator_id'
-                    )
-                )
-            ),
-            'tradepress_strategy_directives' => array(
-                'description' => 'Directives assigned to strategies with weights and configuration',
-                'relationships' => array(
-                    'belongs_to' => array(
-                        'tradepress_scoring_strategies' => 'strategy_id'
-                    ),
-                    'has_many' => array(
-                        'tradepress_strategy_directive_configs'
-                    )
-                )
-            ),
-            'tradepress_strategy_directive_configs' => array(
-                'description' => 'Per-strategy directive configuration overrides',
-                'relationships' => array(
-                    'belongs_to' => array(
-                        'tradepress_strategy_directives' => 'strategy_directive_id'
-                    )
-                )
-            ),
-            'tradepress_strategy_tests' => array(
-                'description' => 'Individual strategy test results and performance data',
-                'relationships' => array(
-                    'belongs_to' => array(
-                        'tradepress_scoring_strategies' => 'strategy_id',
-                        'wp_users' => 'user_id'
-                    )
-                )
-            ),
-            'tradepress_strategy_performance' => array(
-                'description' => 'Aggregated performance metrics over time periods',
-                'relationships' => array(
-                    'belongs_to' => array(
-                        'tradepress_scoring_strategies' => 'strategy_id'
-                    )
-                )
-            ),
-            'tradepress_strategy_versions' => array(
-                'description' => 'Version history and change tracking for strategies',
-                'relationships' => array(
-                    'belongs_to' => array(
-                        'tradepress_scoring_strategies' => 'strategy_id',
-                        'wp_users' => 'created_by'
-                    )
-                )
-            ),
-            'tradepress_strategy_categories' => array(
-                'description' => 'Strategy categorization and organization',
-                'relationships' => array(
-                    'self_referential' => 'parent_id'
-                )
-            )
-        );
-    }
+		self::run_schema_delta( $sql );
+	}
+
+	/**
+	 * Insert default strategy categories
+	 *
+	 * @version 1.0.0
+	 */
+	public static function insert_default_categories() {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'tradepress_strategy_categories';
+
+		// Check if categories already exist
+		$count = $wpdb->get_var(
+			$wpdb->prepare(
+				'SELECT TABLE_ROWS FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = %s',
+				$table_name
+			)
+		);
+		if ( $count > 0 ) {
+			return; // Categories already exist
+		}
+
+		$categories = array(
+			array(
+				'name'                 => 'Conservative Growth',
+				'slug'                 => 'conservative-growth',
+				'description'          => 'Low-risk strategies focused on steady, long-term growth',
+				'default_risk_level'   => 'low',
+				'default_time_horizon' => 'long',
+				'color'                => '#2e7d32',
+				'icon'                 => 'trending-up',
+				'sort_order'           => 1,
+				'is_system'            => 1,
+			),
+			array(
+				'name'                 => 'Momentum Trading',
+				'slug'                 => 'momentum-trading',
+				'description'          => 'Strategies that capitalize on strong price momentum and trends',
+				'default_risk_level'   => 'medium',
+				'default_time_horizon' => 'short',
+				'color'                => '#f57c00',
+				'icon'                 => 'rocket',
+				'sort_order'           => 2,
+				'is_system'            => 1,
+			),
+			array(
+				'name'                 => 'Value Investing',
+				'slug'                 => 'value-investing',
+				'description'          => 'Strategies focused on undervalued stocks with strong fundamentals',
+				'default_risk_level'   => 'low',
+				'default_time_horizon' => 'long',
+				'color'                => '#0073aa',
+				'icon'                 => 'gem',
+				'sort_order'           => 3,
+				'is_system'            => 1,
+			),
+			array(
+				'name'                 => 'Technical Analysis',
+				'slug'                 => 'technical-analysis',
+				'description'          => 'Strategies based on technical indicators and chart patterns',
+				'default_risk_level'   => 'medium',
+				'default_time_horizon' => 'medium',
+				'color'                => '#7b1fa2',
+				'icon'                 => 'chart-bar',
+				'sort_order'           => 4,
+				'is_system'            => 1,
+			),
+			array(
+				'name'                 => 'High Frequency',
+				'slug'                 => 'high-frequency',
+				'description'          => 'Fast-paced strategies for intraday and scalping opportunities',
+				'default_risk_level'   => 'high',
+				'default_time_horizon' => 'intraday',
+				'color'                => '#d32f2f',
+				'icon'                 => 'flash',
+				'sort_order'           => 5,
+				'is_system'            => 1,
+			),
+			array(
+				'name'                 => 'Custom Strategies',
+				'slug'                 => 'custom',
+				'description'          => 'User-created custom strategies',
+				'default_risk_level'   => 'medium',
+				'default_time_horizon' => 'medium',
+				'color'                => '#666666',
+				'icon'                 => 'cog',
+				'sort_order'           => 99,
+				'is_system'            => 0,
+			),
+		);
+
+		foreach ( $categories as $category ) {
+			$wpdb->insert( $table_name, $category );
+		}
+	}
+
+	/**
+	 * Create foreign key relationships (if supported)
+	 *
+	 * @version 1.0.0
+	 */
+	public static function create_foreign_keys() {
+		global $wpdb;
+
+		// Note: WordPress typically doesn't use foreign keys due to MyISAM compatibility
+		// But we can add them for InnoDB installations
+		if ( ! $wpdb->has_cap( 'identifier_placeholders' ) ) {
+			return;
+		}
+
+		$strategies_table = $wpdb->prefix . 'tradepress_scoring_strategies';
+		$engine           = $wpdb->get_var(
+			$wpdb->prepare(
+				'SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = %s',
+				$strategies_table
+			)
+		);
+
+		if ( strtolower( $engine ) === 'innodb' ) {
+			// Add foreign key constraints
+			$constraints = array(
+				array(
+					'table'            => $wpdb->prefix . 'tradepress_strategy_directives',
+					'constraint'       => 'fk_strategy_directives_strategy',
+					'column'           => 'strategy_id',
+					'reference_table'  => $wpdb->prefix . 'tradepress_scoring_strategies',
+					'reference_column' => 'id',
+				),
+				array(
+					'table'            => $wpdb->prefix . 'tradepress_strategy_directive_configs',
+					'constraint'       => 'fk_directive_configs_strategy_directive',
+					'column'           => 'strategy_directive_id',
+					'reference_table'  => $wpdb->prefix . 'tradepress_strategy_directives',
+					'reference_column' => 'id',
+				),
+				array(
+					'table'            => $wpdb->prefix . 'tradepress_strategy_tests',
+					'constraint'       => 'fk_strategy_tests_strategy',
+					'column'           => 'strategy_id',
+					'reference_table'  => $wpdb->prefix . 'tradepress_scoring_strategies',
+					'reference_column' => 'id',
+				),
+				array(
+					'table'            => $wpdb->prefix . 'tradepress_strategy_performance',
+					'constraint'       => 'fk_strategy_performance_strategy',
+					'column'           => 'strategy_id',
+					'reference_table'  => $wpdb->prefix . 'tradepress_scoring_strategies',
+					'reference_column' => 'id',
+				),
+				array(
+					'table'            => $wpdb->prefix . 'tradepress_strategy_versions',
+					'constraint'       => 'fk_strategy_versions_strategy',
+					'column'           => 'strategy_id',
+					'reference_table'  => $wpdb->prefix . 'tradepress_scoring_strategies',
+					'reference_column' => 'id',
+				),
+			);
+
+			foreach ( $constraints as $constraint ) {
+				$wpdb->query(
+					$wpdb->prepare(
+						'ALTER TABLE %i ADD CONSTRAINT %i FOREIGN KEY (%i) REFERENCES %i(%i) ON DELETE CASCADE ON UPDATE CASCADE',
+						$constraint['table'],
+						$constraint['constraint'],
+						$constraint['column'],
+						$constraint['reference_table'],
+						$constraint['reference_column']
+					)
+				);
+			}
+		}
+	}
+
+	/**
+	 * Get table relationships for documentation
+	 *
+	 * @version 1.0.0
+	 */
+	public static function get_table_relationships() {
+		return array(
+			'tradepress_scoring_strategies'         => array(
+				'description'   => 'Main strategies table with metadata and performance tracking',
+				'relationships' => array(
+					'has_many'   => array(
+						'tradepress_strategy_directives',
+						'tradepress_strategy_tests',
+						'tradepress_strategy_performance',
+						'tradepress_strategy_versions',
+					),
+					'belongs_to' => array(
+						'wp_users' => 'creator_id',
+					),
+				),
+			),
+			'tradepress_strategy_directives'        => array(
+				'description'   => 'Directives assigned to strategies with weights and configuration',
+				'relationships' => array(
+					'belongs_to' => array(
+						'tradepress_scoring_strategies' => 'strategy_id',
+					),
+					'has_many'   => array(
+						'tradepress_strategy_directive_configs',
+					),
+				),
+			),
+			'tradepress_strategy_directive_configs' => array(
+				'description'   => 'Per-strategy directive configuration overrides',
+				'relationships' => array(
+					'belongs_to' => array(
+						'tradepress_strategy_directives' => 'strategy_directive_id',
+					),
+				),
+			),
+			'tradepress_strategy_tests'             => array(
+				'description'   => 'Individual strategy test results and performance data',
+				'relationships' => array(
+					'belongs_to' => array(
+						'tradepress_scoring_strategies' => 'strategy_id',
+						'wp_users'                      => 'user_id',
+					),
+				),
+			),
+			'tradepress_strategy_performance'       => array(
+				'description'   => 'Aggregated performance metrics over time periods',
+				'relationships' => array(
+					'belongs_to' => array(
+						'tradepress_scoring_strategies' => 'strategy_id',
+					),
+				),
+			),
+			'tradepress_strategy_versions'          => array(
+				'description'   => 'Version history and change tracking for strategies',
+				'relationships' => array(
+					'belongs_to' => array(
+						'tradepress_scoring_strategies' => 'strategy_id',
+						'wp_users'                      => 'created_by',
+					),
+				),
+			),
+			'tradepress_strategy_categories'        => array(
+				'description'   => 'Strategy categorization and organization',
+				'relationships' => array(
+					'self_referential' => 'parent_id',
+				),
+			),
+		);
+	}
 }

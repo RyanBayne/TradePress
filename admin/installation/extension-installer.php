@@ -1,176 +1,180 @@
-<?php       
+<?php
 /**
  * TradePress Extension Installed
- * 
+ *
  * @author   Ryan Bayne
  * @category Configuration
  * @package  TradePress/Core
  * @since    2.0
  */
- 
+
 if ( ! defined( 'ABSPATH' ) ) {
-    throw new Exception('Direct access not allowed');
+	throw new Exception( 'Direct access not allowed' );
 }
 
-if( !class_exists( 'TradePress_Extension_Installer' ) ) : 
+if ( ! class_exists( 'TradePress_Extension_Installer' ) ) :
 
-/**
- * TradePress_Extension_Installer installs plugins directly from WordPress.org
- */
-class TradePress_Extension_Installer {      
-                   
-    /**
-     * I Ni T.
-     *
-     * @version 1.0.0
-     */
-    public static function init() {       
-        // Reduce this operation to administrators only...
-        add_action( 'TradePress_plugin_background_installer', array( __CLASS__, 'background_installer' ), 10, 2 );
-    }
+	/**
+	 * TradePress_Extension_Installer installs plugins directly from WordPress.org
+	 */
+	class TradePress_Extension_Installer {
 
-    /**
-     * Install a plugin from .org in the background via a cron job (used by installer - opt in).
-     * 
-     * @param string $plugin_to_install_id
-     * @param array $plugin_to_install
-     * @since 1.2.7
-     * 
-     * @version 3.0
-     */
-    public static function background_installer( $plugin_to_install_id, $plugin_to_install ) {
-        // Explicitly clear the event.
-        wp_clear_scheduled_hook( 'TradePress_plugin_background_installer', func_get_args() );
-          
-        if ( ! empty( $plugin_to_install['repo-slug'] ) ) {
-            
-            // Requires some core WP files.
-            require_once( ABSPATH . 'wp-admin/includes/file.php' );
-            require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
-            require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
-            require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		/**
+		 * I Ni T.
+		 *
+		 * @version 1.0.0
+		 */
+		public static function init() {
+			// Reduce this operation to administrators only...
+			add_action( 'TradePress_plugin_background_installer', array( __CLASS__, 'background_installer' ), 10, 2 );
+		}
 
-            WP_Filesystem();
+		/**
+		 * Install a plugin from .org in the background via a cron job (used by installer - opt in).
+		 *
+		 * @param string $plugin_to_install_id
+		 * @param array  $plugin_to_install
+		 * @since 1.2.7
+		 *
+		 * @version 3.0
+		 */
+		public static function background_installer( $plugin_to_install_id, $plugin_to_install ) {
+			// Explicitly clear the event.
+			wp_clear_scheduled_hook( 'TradePress_plugin_background_installer', func_get_args() );
 
-            $skin              = new Automatic_Upgrader_Skin;
-            $upgrader          = new WP_Upgrader( $skin );
-            $plugin_slug       = $plugin_to_install['repo-slug'];
-            $installed_plugins = array_keys( get_plugins() );
-            $installed_plugins = array_map( 'TradePress_format_plugin_slug', $installed_plugins );
-            $plugin            = $plugin_slug . '/' . $plugin_slug . '.php';
-            $installed         = false;
-            $activate          = false;
+			if ( ! empty( $plugin_to_install['repo-slug'] ) ) {
 
-            // See if the plugin is installed already
-            if ( in_array( $plugin_to_install['repo-slug'], $installed_plugins, true ) ) {
-                $installed = true;
-                $activate  = ! is_plugin_active( $plugin );
-            }
+				// Requires some core WP files.
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+				require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+				require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-            // Install this thing!
-            if ( ! $installed ) {
-                // Suppress feedback
-                ob_start();
+				WP_Filesystem();
 
-                try {
-                    $plugin_information = plugins_api( 'plugin_information', array(
-                        'slug'   => $plugin_to_install['repo-slug'],
-                        'fields' => array(
-                            'short_description' => false,
-                            'sections'          => false,
-                            'requires'          => false,
-                            'rating'            => false,
-                            'ratings'           => false,
-                            'downloaded'        => false,
-                            'last_updated'      => false,
-                            'added'             => false,
-                            'tags'              => false,
-                            'homepage'          => false,
-                            'donate_link'       => false,
-                            'author_profile'    => false,
-                            'author'            => false,
-                        ),
-                    ) );
+				$skin              = new Automatic_Upgrader_Skin();
+				$upgrader          = new WP_Upgrader( $skin );
+				$plugin_slug       = $plugin_to_install['repo-slug'];
+				$installed_plugins = array_keys( get_plugins() );
+				$installed_plugins = array_map( 'TradePress_format_plugin_slug', $installed_plugins );
+				$plugin            = $plugin_slug . '/' . $plugin_slug . '.php';
+				$installed         = false;
+				$activate          = false;
 
-                    if ( is_wp_error( $plugin_information ) ) {
-                        throw new Exception( $plugin_information->get_error_message() );
-                    }
+				// See if the plugin is installed already
+				if ( in_array( $plugin_to_install['repo-slug'], $installed_plugins, true ) ) {
+					$installed = true;
+					$activate  = ! is_plugin_active( $plugin );
+				}
 
-                    $package  = $plugin_information->download_link;
-                    $download = $upgrader->download_package( $package );
+				// Install this thing!
+				if ( ! $installed ) {
+					// Suppress feedback
+					ob_start();
 
-                    if ( is_wp_error( $download ) ) {
-                        throw new Exception( $download->get_error_message() );
-                    }
+					try {
+						$plugin_information = plugins_api(
+							'plugin_information',
+							array(
+								'slug'   => $plugin_to_install['repo-slug'],
+								'fields' => array(
+									'short_description' => false,
+									'sections'          => false,
+									'requires'          => false,
+									'rating'            => false,
+									'ratings'           => false,
+									'downloaded'        => false,
+									'last_updated'      => false,
+									'added'             => false,
+									'tags'              => false,
+									'homepage'          => false,
+									'donate_link'       => false,
+									'author_profile'    => false,
+									'author'            => false,
+								),
+							)
+						);
 
-                    $working_dir = $upgrader->unpack_package( $download, true );
+						if ( is_wp_error( $plugin_information ) ) {
+							throw new Exception( $plugin_information->get_error_message() );
+						}
 
-                    if ( is_wp_error( $working_dir ) ) {
-                        throw new Exception( $working_dir->get_error_message() );
-                    }
+						$package  = $plugin_information->download_link;
+						$download = $upgrader->download_package( $package );
 
-                    $result = $upgrader->install_package( array(
-                        'source'                      => $working_dir,
-                        'destination'                 => WP_PLUGIN_DIR,
-                        'clear_destination'           => false,
-                        'abort_if_destination_exists' => false,
-                        'clear_working'               => true,
-                        'hook_extra'                  => array(
-                            'type'   => 'plugin',
-                            'action' => 'install',
-                        ),
-                    ) );
+						if ( is_wp_error( $download ) ) {
+							throw new Exception( $download->get_error_message() );
+						}
 
-                    if ( is_wp_error( $result ) ) {
-                        throw new Exception( $result->get_error_message() );
-                    }
+						$working_dir = $upgrader->unpack_package( $download, true );
 
-                    $activate = true;
+						if ( is_wp_error( $working_dir ) ) {
+							throw new Exception( $working_dir->get_error_message() );
+						}
 
-                } catch ( Exception $e ) {
-                    TradePress_Admin_Notices::add_custom_notice(
-                        $plugin_to_install_id . '_install_error',
-                        sprintf(
-                            /* translators: %1$s: plugin name, %2$s: error message, %3$s: manual install URL */
-                            __( '%1$s could not be installed (%2$s). <a href="%3$s">Please install it manually by clicking here.</a>', 'tradepress' ),
-                            $plugin_to_install['name'],
-                            $e->getMessage(),
-                            esc_url( admin_url( 'index.php?wc-install-plugin-redirect=' . $plugin_to_install['repo-slug'] ) )
-                        )
-                    );
-                }
+						$result = $upgrader->install_package(
+							array(
+								'source'            => $working_dir,
+								'destination'       => WP_PLUGIN_DIR,
+								'clear_destination' => false,
+								'abort_if_destination_exists' => false,
+								'clear_working'     => true,
+								'hook_extra'        => array(
+									'type'   => 'plugin',
+									'action' => 'install',
+								),
+							)
+						);
 
-                // Discard feedback
-                ob_end_clean();
-            }
+						if ( is_wp_error( $result ) ) {
+							throw new Exception( $result->get_error_message() );
+						}
 
-            wp_clean_plugins_cache();
+						$activate = true;
 
-            // Activate this thing
-            if ( $activate ) {
-                try {
-                    $result = activate_plugin( $plugin );
+					} catch ( Exception $e ) {
+						TradePress_Admin_Notices::add_custom_notice(
+							$plugin_to_install_id . '_install_error',
+							sprintf(
+							/* translators: %1$s: plugin name, %2$s: error message, %3$s: manual install URL */
+								__( '%1$s could not be installed (%2$s). <a href="%3$s">Please install it manually by clicking here.</a>', 'tradepress' ),
+								$plugin_to_install['name'],
+								$e->getMessage(),
+								esc_url( admin_url( 'index.php?wc-install-plugin-redirect=' . $plugin_to_install['repo-slug'] ) )
+							)
+						);
+					}
 
-                    if ( is_wp_error( $result ) ) {
-                        throw new Exception( $result->get_error_message() );
-                    }
-                } catch ( Exception $e ) {
-                    TradePress_Admin_Notices::add_custom_notice(
-                        $plugin_to_install_id . '_install_error',
-                        sprintf(
-                            /* translators: %1$s: plugin name, %2$s: plugins page URL */
-                            __( '%1$s was installed but could not be activated. <a href="%2$s">Please activate it manually by clicking here.</a>', 'tradepress' ),
-                            $plugin_to_install['name'],
-                            admin_url( 'plugins.php' )
-                        )
-                    );
-                }
-            }
-        }
-    }                     
+					// Discard feedback
+					ob_end_clean();
+				}
 
-}
+				wp_clean_plugins_cache();
+
+				// Activate this thing
+				if ( $activate ) {
+					try {
+						$result = activate_plugin( $plugin );
+
+						if ( is_wp_error( $result ) ) {
+							throw new Exception( $result->get_error_message() );
+						}
+					} catch ( Exception $e ) {
+						TradePress_Admin_Notices::add_custom_notice(
+							$plugin_to_install_id . '_install_error',
+							sprintf(
+							/* translators: %1$s: plugin name, %2$s: plugins page URL */
+								__( '%1$s was installed but could not be activated. <a href="%2$s">Please activate it manually by clicking here.</a>', 'tradepress' ),
+								$plugin_to_install['name'],
+								admin_url( 'plugins.php' )
+							)
+						);
+					}
+				}
+			}
+		}
+	}
 
 endif;
-                       
+
 TradePress_Extension_Installer::init();

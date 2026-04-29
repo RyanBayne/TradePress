@@ -1,32 +1,32 @@
 <?php
 /**
  * Queue Database Schema
- * 
+ *
  * Creates database tables for background processing queue system
  *
  * @package TradePress
  * @subpackage BackgroundProcessing
  */
 
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 class TradePress_Queue_Schema {
-    
-    /**
-     * Create queue tables
-      *
-      * @version 1.0.0
-     */
-    public static function create_tables() {
-        global $wpdb;
-        
-        $charset_collate = $wpdb->get_charset_collate();
-        
-        // Queue items table
-        $queue_table = $wpdb->prefix . 'tradepress_queue';
-        $queue_sql = "CREATE TABLE $queue_table (
+
+	/**
+	 * Create queue tables
+	 *
+	 * @version 1.0.0
+	 */
+	public static function create_tables() {
+		global $wpdb;
+
+		$charset_collate = $wpdb->get_charset_collate();
+
+		// Queue items table
+		$queue_table = $wpdb->prefix . 'tradepress_queue';
+		$queue_sql   = "CREATE TABLE $queue_table (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             queue_name varchar(50) NOT NULL,
             priority int(11) NOT NULL DEFAULT 10,
@@ -45,76 +45,78 @@ class TradePress_Queue_Schema {
             KEY priority_scheduled (priority DESC, scheduled_at ASC),
             KEY status_attempts (status, attempts)
         ) $charset_collate;";
-        
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($queue_sql);
-        
-        // Update database version
-        update_option('tradepress_queue_db_version', '1.0.0');
-    }
-    
-    /**
-     * Check if tables exist and create if needed
-      *
-      * @version 1.0.0
-     */
-    public static function maybe_create_tables() {
-        $db_version = get_option('tradepress_queue_db_version', '0');
-        
-        if (version_compare($db_version, '1.0.0', '<')) {
-            self::create_tables();
-        }
-    }
-    
-    /**
-     * Add item to queue
-      *
-      * @version 1.0.0
-      *
-      * @param mixed $queue_name
-      * @param mixed $item_type
-      * @param mixed $item_data
-      * @param int $priority
-      * @param mixed $scheduled_at
-     */
-    public static function add_item($queue_name, $item_type, $item_data, $priority = 10, $scheduled_at = null) {
-        global $wpdb;
-        
-        self::maybe_create_tables();
-        
-        if (!$scheduled_at) {
-            $scheduled_at = current_time('mysql');
-        }
-        
-        $table = $wpdb->prefix . 'tradepress_queue';
-        
-        return $wpdb->insert(
-            $table,
-            array(
-                'queue_name' => $queue_name,
-                'priority' => $priority,
-                'item_type' => $item_type,
-                'item_data' => json_encode($item_data),
-                'created_at' => current_time('mysql'),
-                'scheduled_at' => $scheduled_at
-            ),
-            array('%s', '%d', '%s', '%s', '%s', '%s')
-        );
-    }
-    
-    /**
-     * Get next item from queue
-      *
-      * @version 1.0.0
-      *
-      * @param mixed $queue_name
-     */
-    public static function get_next_item($queue_name) {
-        global $wpdb;
-        
-        $table = $wpdb->prefix . 'tradepress_queue';
-        
-        return $wpdb->get_row($wpdb->prepare("
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		dbDelta( $queue_sql );
+
+		// Update database version
+		update_option( 'tradepress_queue_db_version', '1.0.0' );
+	}
+
+	/**
+	 * Check if tables exist and create if needed
+	 *
+	 * @version 1.0.0
+	 */
+	public static function maybe_create_tables() {
+		$db_version = get_option( 'tradepress_queue_db_version', '0' );
+
+		if ( version_compare( $db_version, '1.0.0', '<' ) ) {
+			self::create_tables();
+		}
+	}
+
+	/**
+	 * Add item to queue
+	 *
+	 * @version 1.0.0
+	 *
+	 * @param mixed $queue_name
+	 * @param mixed $item_type
+	 * @param mixed $item_data
+	 * @param int   $priority
+	 * @param mixed $scheduled_at
+	 */
+	public static function add_item( $queue_name, $item_type, $item_data, $priority = 10, $scheduled_at = null ) {
+		global $wpdb;
+
+		self::maybe_create_tables();
+
+		if ( ! $scheduled_at ) {
+			$scheduled_at = current_time( 'mysql' );
+		}
+
+		$table = $wpdb->prefix . 'tradepress_queue';
+
+		return $wpdb->insert(
+			$table,
+			array(
+				'queue_name'   => $queue_name,
+				'priority'     => $priority,
+				'item_type'    => $item_type,
+				'item_data'    => json_encode( $item_data ),
+				'created_at'   => current_time( 'mysql' ),
+				'scheduled_at' => $scheduled_at,
+			),
+			array( '%s', '%d', '%s', '%s', '%s', '%s' )
+		);
+	}
+
+	/**
+	 * Get next item from queue
+	 *
+	 * @version 1.0.0
+	 *
+	 * @param mixed $queue_name
+	 */
+	public static function get_next_item( $queue_name ) {
+		global $wpdb;
+
+		$table = $wpdb->prefix . 'tradepress_queue';
+
+		return $wpdb->get_row(
+			$wpdb->prepare(
+				"
             SELECT * FROM $table 
             WHERE queue_name = %s 
             AND status = 'pending' 
@@ -122,6 +124,10 @@ class TradePress_Queue_Schema {
             AND attempts < max_attempts
             ORDER BY priority DESC, scheduled_at ASC 
             LIMIT 1
-        ", $queue_name, current_time('mysql')));
-    }
+        ",
+				$queue_name,
+				current_time( 'mysql' )
+			)
+		);
+	}
 }

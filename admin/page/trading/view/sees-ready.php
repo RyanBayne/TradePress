@@ -14,12 +14,12 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
+	exit; // Exit if accessed directly
 }
 ?>
 
 <div class="tradepress-sees-ready-tab">
-    <h2><?php esc_html_e( 'SEES - Ready Mode', 'tradepress' ); ?></h2>
-    <p><?php esc_html_e( 'This tab will feature a pre-configured SEES strategy, ready for use with live data once APIs are set up. Content to be added.', 'tradepress' ); ?></p>
-    <!-- SEES Ready content will go here -->
+	<h2><?php esc_html_e( 'SEES - Ready Mode', 'tradepress' ); ?></h2>
+	<p><?php esc_html_e( 'This tab will feature a pre-configured SEES strategy, ready for use with live data once APIs are set up. Content to be added.', 'tradepress' ); ?></p>
+	<!-- SEES Ready content will go here -->
 </div>

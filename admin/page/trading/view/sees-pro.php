@@ -13,12 +13,12 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
+	exit; // Exit if accessed directly
 }
 ?>
 
 <div class="tradepress-sees-pro-tab">
-    <h2><?php esc_html_e( 'SEES - Pro Mode', 'tradepress' ); ?></h2>
-    <p><?php esc_html_e( 'This tab will provide tools for creating and managing custom SEES strategies for advanced users. Content to be added.', 'tradepress' ); ?></p>
-    <!-- SEES Pro content will go here -->
+	<h2><?php esc_html_e( 'SEES - Pro Mode', 'tradepress' ); ?></h2>
+	<p><?php esc_html_e( 'This tab will provide tools for creating and managing custom SEES strategies for advanced users. Content to be added.', 'tradepress' ); ?></p>
+	<!-- SEES Pro content will go here -->
 </div>

@@ -1,78 +1,77 @@
 <?php
 /**
  * TradePress - The object registry provides object access throughout WordPress
- * without using globals.  
- * 
+ * without using globals.
+ *
  * This is a singleton class that stores objects in an array and provides access
  * to them via a key.  This is useful for storing objects that need to be accessed
  * in multiple places throughout the WordPress environment.  This class is used
  * to store objects that are used in the TradePress plugin.
- * 
+ *
  * @author   Ryan Bayne
  * @category Scripts
  * @package  TradePress/Core
  * @since    1.0.0
  */
- 
+
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
-           
-if( !class_exists( 'TradePress_Object_Registry' ) ) :
 
-class TradePress_Object_Registry {
+if ( ! class_exists( 'TradePress_Object_Registry' ) ) :
 
-    static $storage = array();
+	class TradePress_Object_Registry {
 
-    /**
-     * A Dd.
-     *
-     * @param mixed $id
-     * @param mixed $class
-     *
-     * @version 1.0.0
-     */
-    static function add( $id, $class ) {
-        self::$storage[ $id ] = $class;
-    }
+		static $storage = array();
 
-    /**
-     * G Et.
-     *
-     * @param mixed $id
-     *
-     * @return mixed
-     *
-     * @version 1.0.0
-     */
-    static function get( $id ) {
-        return array_key_exists( $id, self::$storage ) ? self::$storage[$id] : NULL;    
-    }
-    
-    /**
-    * Update the variable in the registry object.
-    * 
-    * @param string $id
-    * @param string $var variable name
-    * @param mixed $new new variable value
-    * @param mixed $old old variable value
-    * 
-    * @version 2.0
-    */
-    static function update_var( $id, $var, $new, $old = null ) { 
-        self::$storage[$id]->$var = $new;     
-    }
-    
-    /**
-    * Update a value already in the registry using add_action and this function...
-    * 
-    * @param mixed $args
-     * @version 1.0.0
-    */
-    static function update_var_action( $args ) {
-        self::update_var( $args['id'], $args['var'], $args['new'] );    
-    }
-}
+		/**
+		 * A Dd.
+		 *
+		 * @param mixed $id
+		 * @param mixed $class
+		 *
+		 * @version 1.0.0
+		 */
+		static function add( $id, $class ) {
+			self::$storage[ $id ] = $class;
+		}
+
+		/**
+		 * G Et.
+		 *
+		 * @param mixed $id
+		 *
+		 * @return mixed
+		 *
+		 * @version 1.0.0
+		 */
+		static function get( $id ) {
+			return array_key_exists( $id, self::$storage ) ? self::$storage[ $id ] : null;
+		}
+
+		/**
+		 * Update the variable in the registry object.
+		 *
+		 * @param string $id
+		 * @param string $var variable name
+		 * @param mixed  $new new variable value
+		 * @param mixed  $old old variable value
+		 *
+		 * @version 2.0
+		 */
+		static function update_var( $id, $var, $new, $old = null ) {
+			self::$storage[ $id ]->$var = $new;
+		}
+
+		/**
+		 * Update a value already in the registry using add_action and this function...
+		 *
+		 * @param mixed $args
+		 * @version 1.0.0
+		 */
+		static function update_var_action( $args ) {
+			self::update_var( $args['id'], $args['var'], $args['new'] );
+		}
+	}
 
 endif;
-

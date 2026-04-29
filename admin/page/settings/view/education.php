@@ -9,190 +9,202 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 if ( ! class_exists( 'TradePress_Settings_Education' ) ) :
 
-/**
- * TradePress_Settings_Education.
- */
-class TradePress_Settings_Education extends TradePress_Settings_Page {
+	/**
+	 * TradePress_Settings_Education.
+	 */
+	class TradePress_Settings_Education extends TradePress_Settings_Page {
 
-    /**
-     * Constructor.
-      *
-      * @version 1.0.0
-     */
-    public function __construct() {
-        $this->id    = 'education';
-        $this->label = __( 'Education', 'tradepress' );
+		/**
+		 * Constructor.
+		 *
+		 * @version 1.0.0
+		 */
+		public function __construct() {
+			$this->id    = 'education';
+			$this->label = __( 'Education', 'tradepress' );
 
-        add_filter( 'TradePress_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
-        add_action( 'TradePress_settings_' . $this->id, array( $this, 'output' ) );
-        add_action( 'TradePress_settings_save_' . $this->id, array( $this, 'save' ) );
-        add_action( 'TradePress_sections_' . $this->id, array( $this, 'output_sections' ) );
-        add_action( 'admin_init', array( $this, 'handle_toolbar_actions' ) );
-    }
+			add_filter( 'TradePress_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
+			add_action( 'TradePress_settings_' . $this->id, array( $this, 'output' ) );
+			add_action( 'TradePress_settings_save_' . $this->id, array( $this, 'save' ) );
+			add_action( 'TradePress_sections_' . $this->id, array( $this, 'output_sections' ) );
+			add_action( 'admin_init', array( $this, 'handle_toolbar_actions' ) );
+		}
 
-    /**
-     * Get sections.
-     *
-     * @return array
-      * @version 1.0.0
-     */
-    public function get_sections() {
-        return array(
-            'default' => __( 'Pointers', 'tradepress' ),
-        );
-    }
+		/**
+		 * Get sections.
+		 *
+		 * @return array
+		 * @version 1.0.0
+		 */
+		public function get_sections() {
+			return array(
+				'default' => __( 'Pointers', 'tradepress' ),
+			);
+		}
 
-    /**
-     * Get settings array.
-     *
-     * @return array
-      * @version 1.0.0
-      *
-      * @param string $current_section
-     */
-    public function get_settings( $current_section = 'default' ) {
-        $settings = array();
-        
-        if ( 'default' == $current_section ) {
-            $settings = array(
-                array(
-                    'title' => __( 'Education System', 'tradepress' ),
-                    'type'  => 'title',
-                    'desc'  => __( 'Manage tips, guidance, help content and pointers throughout the TradePress interface.', 'tradepress' ),
-                    'id'    => 'education_options'
-                ),
+		/**
+		 * Get settings array.
+		 *
+		 * @return array
+		 * @version 1.0.0
+		 *
+		 * @param string $current_section
+		 */
+		public function get_settings( $current_section = 'default' ) {
+			$settings = array();
 
-                array(
-                    'title'    => __( 'Reset Pointers', 'tradepress' ),
-                    'desc'     => __( 'Reset all WordPress pointers to show again for all users.', 'tradepress' ),
-                    'id'       => 'reset_pointers_section',
-                    'type'     => 'reset_pointers_button',
-                    'desc_tip' => __( 'This will clear the dismissed_wp_pointers user meta for all users, causing all pointers to display again.', 'tradepress' ),
-                ),
+			if ( 'default' == $current_section ) {
+				$settings = array(
+					array(
+						'title' => __( 'Education System', 'tradepress' ),
+						'type'  => 'title',
+						'desc'  => __( 'Manage tips, guidance, help content and pointers throughout the TradePress interface.', 'tradepress' ),
+						'id'    => 'education_options',
+					),
 
-                array(
-                    'type' => 'sectionend',
-                    'id'   => 'education_options'
-                ),
-            );
-        }
+					array(
+						'title'    => __( 'Reset Pointers', 'tradepress' ),
+						'desc'     => __( 'Reset all WordPress pointers to show again for all users.', 'tradepress' ),
+						'id'       => 'reset_pointers_section',
+						'type'     => 'reset_pointers_button',
+						'desc_tip' => __( 'This will clear the dismissed_wp_pointers user meta for all users, causing all pointers to display again.', 'tradepress' ),
+					),
 
-        return apply_filters( 'TradePress_get_settings_' . $this->id, $settings, $current_section );
-    }
+					array(
+						'type' => 'sectionend',
+						'id'   => 'education_options',
+					),
+				);
+			}
 
-    /**
-     * Output the settings.
-      *
-      * @version 1.0.0
-     */
-    public function output() {
-        global $current_section;
-        
-        $settings = $this->get_settings( $current_section );
-        
-        // Add custom action for reset button field
-        add_action( 'TradePress_admin_field_reset_pointers_button', array( $this, 'output_reset_button' ) );
-        
-        TradePress_Admin_Settings::output_fields( $settings );
-    }
-    
-    /**
-     * Output reset pointers button.
-      *
-      * @version 1.0.0
-      *
-      * @param mixed $value
-     */
-    public function output_reset_button( $value ) {
-        ?>
-        <tr valign="top">
-            <th scope="row" class="titledesc">
-                <label><?php echo esc_html( $value['title'] ); ?></label>
-                <?php if ( ! empty( $value['desc_tip'] ) ) : ?>
-                    <span class="TradePress-help-tip" data-tip="<?php echo esc_attr( $value['desc_tip'] ); ?>"></span>
-                <?php endif; ?>
-            </th>
-            <td class="forminp">
-                <button type="submit" name="reset_pointers_button" class="button button-secondary">
-                    <?php esc_html_e( 'Reset All Pointers', 'tradepress' ); ?>
-                </button>
-                <?php if ( ! empty( $value['desc'] ) ) : ?>
-                    <p class="description"><?php echo wp_kses_post( $value['desc'] ); ?></p>
-                <?php endif; ?>
-            </td>
-        </tr>
-        <?php
-    }
+			return apply_filters( 'TradePress_get_settings_' . $this->id, $settings, $current_section );
+		}
 
-    /**
-     * Save settings.
-      *
-      * @version 1.0.0
-     */
-    public function save() {
-        global $current_section;
-        
-        if ( isset( $_POST['reset_pointers_button'] ) ) {
-            $this->reset_all_pointers();
-            TradePress_Admin_Settings::add_message( __( 'All pointers have been reset and will show again for all users.', 'tradepress' ) );
-            return;
-        }
+		/**
+		 * Output the settings.
+		 *
+		 * @version 1.0.0
+		 */
+		public function output() {
+			global $current_section;
 
-        $settings = $this->get_settings( $current_section );
-        TradePress_Admin_Settings::save_fields( $settings );
-    }
+			$settings = $this->get_settings( $current_section );
 
-    /**
-     * Handle toolbar actions
-      *
-      * @version 1.0.0
-     */
-    public function handle_toolbar_actions() {
-        if ( isset( $_GET['action'] ) && $_GET['action'] === 'tradepress_reset_pointers' ) {
-            if ( ! wp_verify_nonce( $_GET['_wpnonce'], 'tradepress_reset_pointers' ) || ! current_user_can( 'manage_options' ) ) {
-                wp_die( esc_html__( 'Security check failed.', 'tradepress' ) );
-            }
-            
-            $this->reset_all_pointers();
-            
-            // Redirect with success message
-            wp_safe_redirect( add_query_arg( array(
-                'page' => 'tradepress-settings',
-                'tab' => 'education',
-                'pointers_reset' => '1'
-            ), admin_url( 'admin.php' ) ) );
-            exit;
-        }
-        
-        // Show success message if redirected from toolbar action
-        if ( isset( $_GET['pointers_reset'] ) && $_GET['pointers_reset'] === '1' ) {
-            add_action( 'admin_notices', function() {
-                echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'All pointers have been reset and will show again for all users.', 'tradepress' ) . '</p></div>';
-            } );
-        }
-    }
+			// Add custom action for reset button field
+			add_action( 'TradePress_admin_field_reset_pointers_button', array( $this, 'output_reset_button' ) );
 
-    /**
-     * Reset all WordPress pointers for all users.
-      *
-      * @version 1.0.0
-     */
-    private function reset_all_pointers() {
-        global $wpdb;
-        
-        // Delete dismissed_wp_pointers meta for all users
-        $wpdb->delete(
-            $wpdb->usermeta,
-            array( 'meta_key' => 'dismissed_wp_pointers' ),
-            array( '%s' )
-        );
-    }
-}
+			TradePress_Admin_Settings::output_fields( $settings );
+		}
+
+		/**
+		 * Output reset pointers button.
+		 *
+		 * @version 1.0.0
+		 *
+		 * @param mixed $value
+		 */
+		public function output_reset_button( $value ) {
+			?>
+		<tr valign="top">
+			<th scope="row" class="titledesc">
+				<label><?php echo esc_html( $value['title'] ); ?></label>
+				<?php if ( ! empty( $value['desc_tip'] ) ) : ?>
+					<span class="TradePress-help-tip" data-tip="<?php echo esc_attr( $value['desc_tip'] ); ?>"></span>
+				<?php endif; ?>
+			</th>
+			<td class="forminp">
+				<button type="submit" name="reset_pointers_button" class="button button-secondary">
+					<?php esc_html_e( 'Reset All Pointers', 'tradepress' ); ?>
+				</button>
+				<?php if ( ! empty( $value['desc'] ) ) : ?>
+					<p class="description"><?php echo wp_kses_post( $value['desc'] ); ?></p>
+				<?php endif; ?>
+			</td>
+		</tr>
+			<?php
+		}
+
+		/**
+		 * Save settings.
+		 *
+		 * @version 1.0.0
+		 */
+		public function save() {
+			global $current_section;
+			$reset_pointers_button = filter_input( INPUT_POST, 'reset_pointers_button', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+
+			if ( ! empty( $reset_pointers_button ) ) {
+				$this->reset_all_pointers();
+				TradePress_Admin_Settings::add_message( __( 'All pointers have been reset and will show again for all users.', 'tradepress' ) );
+				return;
+			}
+
+			$settings = $this->get_settings( $current_section );
+			TradePress_Admin_Settings::save_fields( $settings );
+		}
+
+		/**
+		 * Handle toolbar actions
+		 *
+		 * @version 1.0.0
+		 */
+		public function handle_toolbar_actions() {
+			$action = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$nonce  = filter_input( INPUT_GET, '_wpnonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+
+			if ( 'tradepress_reset_pointers' === $action ) {
+				if ( empty( $nonce ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $nonce ) ), 'tradepress_reset_pointers' ) || ! current_user_can( 'manage_options' ) ) {
+					wp_die( esc_html__( 'Security check failed.', 'tradepress' ) );
+				}
+
+				$this->reset_all_pointers();
+
+				// Redirect with success message
+				wp_safe_redirect(
+					add_query_arg(
+						array(
+							'page'           => 'tradepress-settings',
+							'tab'            => 'education',
+							'pointers_reset' => '1',
+						),
+						admin_url( 'admin.php' )
+					)
+				);
+				exit;
+			}
+
+			// Show success message if redirected from toolbar action
+			if ( isset( $_GET['pointers_reset'] ) && $_GET['pointers_reset'] === '1' ) {
+				add_action(
+					'admin_notices',
+					function () {
+						echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'All pointers have been reset and will show again for all users.', 'tradepress' ) . '</p></div>';
+					}
+				);
+			}
+		}
+
+		/**
+		 * Reset all WordPress pointers for all users.
+		 *
+		 * @version 1.0.0
+		 */
+		private function reset_all_pointers() {
+			global $wpdb;
+
+			// Delete dismissed_wp_pointers meta for all users
+			$wpdb->delete(
+				$wpdb->usermeta,
+				array( 'meta_key' => 'dismissed_wp_pointers' ),
+				array( '%s' )
+			);
+		}
+	}
 
 endif;
 

@@ -7,9 +7,9 @@
  * @package  TradePress/Core
  * @since    1.0.0
  */
- 
-if ( ! defined( 'ABSPATH' ) ) {    
-    exit;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
-include_once( dirname( __FILE__ ) . '/functions/developer-toolbar-requests.php' );
+require_once __DIR__ . '/functions/developer-toolbar-requests.php';

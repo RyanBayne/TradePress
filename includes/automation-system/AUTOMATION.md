@@ -12,7 +12,7 @@ This document outlines the step-by-step plan for implementing and maintaining th
 - Review the following files for project structure and priorities:
   - `development.php` (tasks/roadmap)
   - `tradepress.php` (constants)
-  - `docs/DATA-ARCHITECTURE.md` (data flow)
+  - `docs/data/DATA-ARCHITECTURE.md` (data flow)
   - `loader.php` (plugin loader)
   - `options.php` (WordPress options)
   - `docs/DEVELOPMENT-NOTES.md` (developer notes)
@@ -134,7 +134,7 @@ To optimize API usage and server resources, schedule CRON jobs for different dat
 ## References
 
 - See `AI.md` for detailed development rules and version management.
-- Use `DATA-ARCHITECTURE.md` for understanding data flow and storage.
+- Use `docs/data/DATA-ARCHITECTURE.md` for understanding data flow and storage.
 - Refer to `DEVELOPMENT-NOTES.md` for unused files and architectural notes.
 
 ---

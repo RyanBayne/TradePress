@@ -8,23 +8,23 @@
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 /**
  * Create risk management database tables
  *
  * @return void
-  * @version 1.0.0
+ * @version 1.0.0
  */
 function tradepress_create_risk_management_tables() {
-    global $wpdb;
-    
-    $charset_collate = $wpdb->get_charset_collate();
-    
-    $table_name = $wpdb->prefix . 'tradepress_risk_monitor_actions';
-    
-    $sql = "CREATE TABLE $table_name (
+	global $wpdb;
+
+	$charset_collate = $wpdb->get_charset_collate();
+
+	$table_name = $wpdb->prefix . 'tradepress_risk_monitor_actions';
+
+	$sql = "CREATE TABLE $table_name (
         id bigint(20) NOT NULL AUTO_INCREMENT,
         position_id bigint(20) NOT NULL,
         action_time datetime NOT NULL,
@@ -41,21 +41,21 @@ function tradepress_create_risk_management_tables() {
         KEY position_id (position_id),
         KEY action_time (action_time)
     ) $charset_collate;";
-    
-    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-    dbDelta($sql);
+
+	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+	dbDelta( $sql );
 }
 
 /**
  * Check if risk management tables exist
  *
  * @return bool True if tables exist
-  * @version 1.0.0
+ * @version 1.0.0
  */
 function tradepress_risk_management_tables_exist() {
-    global $wpdb;
-    
-    $table_name = $wpdb->prefix . 'tradepress_risk_monitor_actions';
-    
-    return $wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name;
+	global $wpdb;
+
+	$table_name = $wpdb->prefix . 'tradepress_risk_monitor_actions';
+
+	return $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) === $table_name;
 }

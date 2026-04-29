@@ -19,53 +19,53 @@
  */
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
  * TradePress IEX Cloud API class
  */
 class TradePress_IEXCloud_API {
-    
-    /**
-     * API base URL
-     *
-     * @var string
-     */
-    private $api_base_url = 'https://cloud.iexapis.com';
-    
-    /**
-     * Constructor
-      *
-      * @version 1.0.0
-     */
-    public function __construct() {
-        // Initialize IEX Cloud API
-    }
-    
-    /**
-     * Get stock quote
-     *
-     * @param string $symbol Stock symbol
-     * @return array|WP_Error Stock quote or error
-      * @version 1.0.0
-     */
-    public function get_quote($symbol) {
-        // Implement stock quote retrieval
-        return array();
-    }
-    
-    /**
-     * Get company news
-     *
-     * @param string $symbol Stock symbol
-     * @param int $last Number of news items to return
-     * @return array|WP_Error Company news or error
-      * @version 1.0.0
-     */
-    public function get_company_news($symbol, $last = 10) {
-        // Implement company news retrieval
-        return array();
-    }
+
+	/**
+	 * API base URL
+	 *
+	 * @var string
+	 */
+	private $api_base_url = 'https://cloud.iexapis.com';
+
+	/**
+	 * Constructor
+	 *
+	 * @version 1.0.0
+	 */
+	public function __construct() {
+		// Initialize IEX Cloud API
+	}
+
+	/**
+	 * Get stock quote
+	 *
+	 * @param string $symbol Stock symbol
+	 * @return array|WP_Error Stock quote or error
+	 * @version 1.0.0
+	 */
+	public function get_quote( $symbol ) {
+		// Implement stock quote retrieval
+		return array();
+	}
+
+	/**
+	 * Get company news
+	 *
+	 * @param string $symbol Stock symbol
+	 * @param int    $last Number of news items to return
+	 * @return array|WP_Error Company news or error
+	 * @version 1.0.0
+	 */
+	public function get_company_news( $symbol, $last = 10 ) {
+		// Implement company news retrieval
+		return array();
+	}
 }

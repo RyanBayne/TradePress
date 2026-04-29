@@ -1,7 +1,7 @@
 <?php
 /**
  * TradePress API Notices
- * 
+ *
  * Display notices about API changes
  *
  * @package TradePress
@@ -10,7 +10,6 @@
  */
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
-

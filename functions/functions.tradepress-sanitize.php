@@ -7,9 +7,9 @@
  * @package  TradePress/Core
  * @since    1.0.0
  */
- 
+
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 /**
@@ -19,10 +19,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @param mixed $taxonomy
  * @return string
-  * @version 1.0.0
+ * @version 1.0.0
  */
 function TradePress_sanitize_taxonomy_name( $taxonomy ) {
-    return apply_filters( 'sanitize_taxonomy_name', urldecode( sanitize_title( urldecode( $taxonomy ) ) ), $taxonomy );
+	return apply_filters( 'sanitize_taxonomy_name', urldecode( sanitize_title( urldecode( $taxonomy ) ) ), $taxonomy );
 }
 
 /**
@@ -32,20 +32,20 @@ function TradePress_sanitize_taxonomy_name( $taxonomy ) {
  *
  * @param  string $value
  * @return string
-  * @version 1.0.0
- */                                              
-function TradePress_sanitize_permalink( $value ) {       
-    global $wpdb;
+ * @version 1.0.0
+ */
+function TradePress_sanitize_permalink( $value ) {
+	global $wpdb;
 
-    $value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', $value );
+	$value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', $value );
 
-    if ( is_wp_error( $value ) ) {
-        $value = '';
-    }
+	if ( is_wp_error( $value ) ) {
+		$value = '';
+	}
 
-    $value = esc_url_raw( $value );
-    $value = str_replace( 'http://', '', $value );
-    return untrailingslashit( $value );
+	$value = esc_url_raw( $value );
+	$value = str_replace( 'http://', '', $value );
+	return untrailingslashit( $value );
 }
 
 /**
@@ -53,19 +53,24 @@ function TradePress_sanitize_permalink( $value ) {
  *
  * @param string $var
  * @return string
-  * @version 1.0.0
+ * @version 1.0.0
  */
-function TradePress_sanitize_tooltip( $var ) { 
-    // Tooltips are encoded with htmlspecialchars to prevent XSS. Should not be used in conjunction with esc_attr()    
-    return htmlspecialchars( wp_kses( html_entity_decode( $var ), array(
-        'br'     => array(),
-        'em'     => array(),
-        'strong' => array(),
-        'small'  => array(),
-        'span'   => array(),
-        'ul'     => array(),
-        'li'     => array(),
-        'ol'     => array(),
-        'p'      => array(),
-    ) ) );
+function TradePress_sanitize_tooltip( $var ) {
+	// Tooltips are encoded with htmlspecialchars to prevent XSS. Should not be used in conjunction with esc_attr()
+	return htmlspecialchars(
+		wp_kses(
+			html_entity_decode( $var ),
+			array(
+				'br'     => array(),
+				'em'     => array(),
+				'strong' => array(),
+				'small'  => array(),
+				'span'   => array(),
+				'ul'     => array(),
+				'li'     => array(),
+				'ol'     => array(),
+				'p'      => array(),
+			)
+		)
+	);
 }
