@@ -227,14 +227,14 @@ class TradePress_Admin_Development_Feature_Status {
 										<td colspan="5">
 											<strong><?php esc_html_e( 'Page Statistics:', 'tradepress' ); ?></strong> 
 											<?php
-											printf(
+											echo esc_html( sprintf(
 												/* translators: %d: total count, %d: live count, %d: demo/tested count, %d: completion percentage */
 												__( 'Total: %1$d, Live: %2$d, Demo: %3$d, Completion Rate: %4$d%%', 'tradepress' ),
 												$page_total,
 												$page_live,
 												$page_demo,
 												( $page_total > 0 ) ? round( ( $page_live / $page_total ) * 100 ) : 0
-											);
+											) );
 											?>
 										</td>
 									</tr>
@@ -352,14 +352,14 @@ class TradePress_Admin_Development_Feature_Status {
 										<td colspan="5">
 											<strong><?php esc_html_e( 'System Statistics:', 'tradepress' ); ?></strong> 
 											<?php
-											printf(
+											echo esc_html( sprintf(
 												/* translators: %d: total count, %d: live count, %d: demo/tested count, %d: completion percentage */
 												__( 'Total: %1$d, Live: %2$d, Demo: %3$d, Completion Rate: %4$d%%', 'tradepress' ),
 												$system_total,
 												$system_live,
 												$system_demo,
 												( $system_total > 0 ) ? round( ( $system_live / $system_total ) * 100 ) : 0
-											);
+											) );
 											?>
 										</td>
 									</tr>
@@ -426,8 +426,8 @@ class TradePress_Admin_Development_Feature_Status {
 									<tr>
 										<td><?php echo esc_html( $directive['name'] ); ?></td>
 										<td>
-											<span class="status-badge <?php echo $directive['active'] ? 'status-active' : 'status-inactive'; ?>">
-												<?php echo $directive['active'] ? 'Active' : 'Inactive'; ?>
+											<span class="status-badge <?php echo esc_attr( \$directive['active'] ? 'status-active' : 'status-inactive' ); ?>">
+												<?php echo esc_html( \$directive['active'] ? 'Active' : 'Inactive' ); ?>
 											</span>
 										</td>
 										<td>
@@ -445,14 +445,14 @@ class TradePress_Admin_Development_Feature_Status {
 										<td colspan="6">
 											<strong><?php esc_html_e( 'Directive Statistics:', 'tradepress' ); ?></strong> 
 											<?php
-											printf(
+											echo esc_html( sprintf(
 												/* translators: %d: test name, %d: test name, %d: test name, %d: test name */
 												__( 'Total: %1$d, Tested: %2$d, Development: %3$d, Completion Rate: %4$d%%', 'tradepress' ),
 												$directive_total,
 												$directive_tested,
 												$directive_development,
 												( $directive_total > 0 ) ? round( ( $directive_tested / $directive_total ) * 100 ) : 0
-											);
+											) );
 											?>
 										</td>
 									</tr>

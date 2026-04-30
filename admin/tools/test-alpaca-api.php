@@ -37,15 +37,15 @@ function tradepress_test_alpaca_api() {
 	require_once TRADEPRESS_PLUGIN_DIR . 'api/alpaca/alpaca-api.php';
 	$api = new TradePress_Alpaca_API( $settings['api_key'], $settings['api_secret'], isset( $settings['use_sandbox'] ) ? (bool) $settings['use_sandbox'] : true );
 
-	echo '<h2>' . __( 'Alpaca API Test Results', 'tradepress' ) . '</h2>';
+	echo '<h2>' . esc_html__( 'Alpaca API Test Results', 'tradepress' ) . '</h2>';
 
 	// Test 1: Validate credentials
-	echo '<h3>' . __( 'Test 1: API Credentials', 'tradepress' ) . '</h3>';
+	echo '<h3>' . esc_html__( 'Test 1: API Credentials', 'tradepress' ) . '</h3>';
 	$result = $api->validate_credentials();
 
 	if ( is_wp_error( $result ) ) {
 		echo '<div class="notice notice-error"><p>';
-		echo esc_html__( 'Failed: ', 'tradepress' ) . $result->get_error_message();
+		echo esc_html__( 'Failed: ', 'tradepress' ) . esc_html( $result->get_error_message() );
 		echo '</p></div>';
 	} else {
 		echo '<div class="notice notice-success"><p>';
@@ -54,60 +54,51 @@ function tradepress_test_alpaca_api() {
 	}
 
 	// Test 2: Get account information
-	echo '<h3>' . __( 'Test 2: Account Information', 'tradepress' ) . '</h3>';
+	echo '<h3>' . esc_html__( 'Test 2: Account Information', 'tradepress' ) . '</h3>';
 	$account = $api->get_account();
 	if ( is_wp_error( $account ) ) {
 		echo '<div class="notice notice-error"><p>';
-		echo esc_html__( 'Failed: ', 'tradepress' ) . $account->get_error_message();
+		echo esc_html__( 'Failed: ', 'tradepress' ) . esc_html( $account->get_error_message() );
 		echo '</p></div>';
 	} else {
 		echo '<div class="notice notice-success"><p>';
 		echo esc_html__( 'Success: Account information retrieved.', 'tradepress' );
 		echo '</p></div>';
-
-		echo '<pre>';
-		print_r( $account );
-		echo '</pre>';
+		echo '<pre>' . esc_html( print_r( $account, true ) ) . '</pre>';
 	}
 
 	// Test 3: Get market clock
-	echo '<h3>' . __( 'Test 3: Market Clock', 'tradepress' ) . '</h3>';
+	echo '<h3>' . esc_html__( 'Test 3: Market Clock', 'tradepress' ) . '</h3>';
 	$clock = $api->get_clock();
 
 	if ( is_wp_error( $clock ) ) {
 		echo '<div class="notice notice-error"><p>';
-		echo esc_html__( 'Failed: ', 'tradepress' ) . $clock->get_error_message();
+		echo esc_html__( 'Failed: ', 'tradepress' ) . esc_html( $clock->get_error_message() );
 		echo '</p></div>';
 	} else {
 		echo '<div class="notice notice-success"><p>';
 		echo esc_html__( 'Success: Market clock information retrieved.', 'tradepress' );
 		echo '</p></div>';
-
-		echo '<pre>';
-		print_r( $clock );
-		echo '</pre>';
+		echo '<pre>' . esc_html( print_r( $clock, true ) ) . '</pre>';
 	}
 
 	// Test 4: Get market data
-	echo '<h3>' . __( 'Test 4: Market Data API - Latest Quote', 'tradepress' ) . '</h3>';
+	echo '<h3>' . esc_html__( 'Test 4: Market Data API - Latest Quote', 'tradepress' ) . '</h3>';
 	$quote = $api->get_latest_quote( 'AAPL' );
 
 	if ( is_wp_error( $quote ) ) {
 		echo '<div class="notice notice-error"><p>';
-		echo esc_html__( 'Failed: ', 'tradepress' ) . $quote->get_error_message();
+		echo esc_html__( 'Failed: ', 'tradepress' ) . esc_html( $quote->get_error_message() );
 		echo '</p></div>';
 	} else {
 		echo '<div class="notice notice-success"><p>';
 		echo esc_html__( 'Success: Latest quote information retrieved.', 'tradepress' );
 		echo '</p></div>';
-
-		echo '<pre>';
-		print_r( $quote );
-		echo '</pre>';
+		echo '<pre>' . esc_html( print_r( $quote, true ) ) . '</pre>';
 	}
 
 	// Test 5: Get bars
-	echo '<h3>' . __( 'Test 5: Market Data API - Daily Bars', 'tradepress' ) . '</h3>';
+	echo '<h3>' . esc_html__( 'Test 5: Market Data API - Daily Bars', 'tradepress' ) . '</h3>';
 	$bars = $api->get_bars(
 		'1D',
 		'AAPL',
@@ -118,16 +109,13 @@ function tradepress_test_alpaca_api() {
 
 	if ( is_wp_error( $bars ) ) {
 		echo '<div class="notice notice-error"><p>';
-		echo esc_html__( 'Failed: ', 'tradepress' ) . $bars->get_error_message();
+		echo esc_html__( 'Failed: ', 'tradepress' ) . esc_html( $bars->get_error_message() );
 		echo '</p></div>';
 	} else {
 		echo '<div class="notice notice-success"><p>';
 		echo esc_html__( 'Success: Bar data retrieved.', 'tradepress' );
 		echo '</p></div>';
-
-		echo '<pre>';
-		print_r( $bars );
-		echo '</pre>';
+		echo '<pre>' . esc_html( print_r( $bars, true ) ) . '</pre>';
 	}
 }
 
