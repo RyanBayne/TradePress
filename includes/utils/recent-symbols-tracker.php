@@ -163,10 +163,21 @@ class TradePress_Recent_Symbols {
 		$symbols      = self::get_recent_symbols( $user_id );
 		$symbols_data = array();
 
+		// Do not return demo data to regular users. Return empty records so callers
+		// can show a proper empty state. Demo data is only acceptable in developer mode.
+		$can_show_demo = function_exists( 'is_demo_mode' ) && is_demo_mode()
+			&& function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
+
 		foreach ( $symbols as $symbol ) {
-			// In a real implementation, this would fetch actual data from database or API
-			// For now, generate demo data
-			$symbols_data[ $symbol ] = self::get_demo_symbol_data( $symbol );
+			if ( $can_show_demo ) {
+				$symbols_data[ $symbol ] = self::get_demo_symbol_data( $symbol );
+			} else {
+				// Return a minimal placeholder; callers should show "No Data" until live price data is importable.
+				$symbols_data[ $symbol ] = array(
+					'symbol'      => $symbol,
+					'data_status' => 'no_data',
+				);
+			}
 		}
 
 		return apply_filters( 'tradepress_recent_symbols_data', $symbols_data );

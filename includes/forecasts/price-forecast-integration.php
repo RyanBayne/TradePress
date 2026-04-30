@@ -68,6 +68,16 @@ class TradePress_Price_Forecast_Integration {
 	private function get_symbol_forecasts( $symbols ) {
 		$forecast_data = array();
 
+		// Only supply demo forecast data in developer demo mode. In all other contexts
+		// return an empty array so the advisor step shows a proper empty state rather
+		// than fabricated analyst targets.
+		$can_show_demo = function_exists( 'is_demo_mode' ) && is_demo_mode()
+			&& function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
+
+		if ( ! $can_show_demo ) {
+			return $forecast_data;
+		}
+
 		foreach ( $symbols as $symbol ) {
 			$forecast_data[ $symbol ] = $this->get_demo_forecast_for_symbol( $symbol );
 		}

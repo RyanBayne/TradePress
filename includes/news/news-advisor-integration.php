@@ -66,10 +66,17 @@ class TradePress_News_Advisor_Integration {
 	 * @version 1.0.0
 	 */
 	private function get_symbol_news( $symbols ) {
-		// For now, use demo data similar to the research news feed
-		// In production, this would query the news database
+		// Only supply demo news data in developer demo mode. In all other contexts
+		// return an empty array so the advisor step shows a proper empty state rather
+		// than fabricated headlines.
+		$can_show_demo = function_exists( 'is_demo_mode' ) && is_demo_mode()
+			&& function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
 
 		$news_items = array();
+
+		if ( ! $can_show_demo ) {
+			return $news_items;
+		}
 
 		foreach ( $symbols as $symbol ) {
 			$news_items[ $symbol ] = $this->get_demo_news_for_symbol( $symbol );
@@ -279,6 +286,15 @@ class TradePress_News_Advisor_Integration {
 	public function get_additional_opportunities( $excluded_symbols = array() ) {
 		if ( function_exists( 'tradepress_trace_log' ) ) {
 			tradepress_trace_log( 'Getting additional news-based opportunities', array( 'excluded_symbols' => $excluded_symbols ) );
+		}
+
+		// Demo-only: hardcoded trending symbols are not real data.
+		// Return empty unless in developer demo mode.
+		$can_show_demo = function_exists( 'is_demo_mode' ) && is_demo_mode()
+			&& function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
+
+		if ( ! $can_show_demo ) {
+			return array();
 		}
 
 		// Get trending symbols with positive news

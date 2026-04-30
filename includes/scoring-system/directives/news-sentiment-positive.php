@@ -133,39 +133,42 @@ class TradePress_News_Sentiment_Positive_Directive extends TradePress_Scoring_Di
 	 * @version 1.0.0
 	 */
 	private function get_news_sentiment( $symbol, $lookback_days ) {
-		// Placeholder implementation - would integrate with news sentiment API
-		// For now, return mock data for testing
+		// Demo/dev path: return mock sentiment data only when both demo mode and developer access are active.
+		$can_show_demo = function_exists( 'is_demo_mode' ) && is_demo_mode()
+			&& function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
 
-		// Simulate API call delay
-		usleep( 100000 ); // 0.1 second
+		if ( $can_show_demo ) {
+			$mock_sentiments = array(
+				'AAPL'  => array(
+					'average_sentiment' => 0.75,
+					'news_count'        => 8,
+				),
+				'TSLA'  => array(
+					'average_sentiment' => 0.65,
+					'news_count'        => 12,
+				),
+				'MSFT'  => array(
+					'average_sentiment' => 0.70,
+					'news_count'        => 6,
+				),
+				'GOOGL' => array(
+					'average_sentiment' => 0.68,
+					'news_count'        => 7,
+				),
+				'AMZN'  => array(
+					'average_sentiment' => 0.72,
+					'news_count'        => 9,
+				),
+			);
 
-		// Mock sentiment data based on symbol
-		$mock_sentiments = array(
-			'AAPL'  => array(
-				'average_sentiment' => 0.75,
-				'news_count'        => 8,
-			),
-			'TSLA'  => array(
-				'average_sentiment' => 0.65,
-				'news_count'        => 12,
-			),
-			'MSFT'  => array(
-				'average_sentiment' => 0.70,
-				'news_count'        => 6,
-			),
-			'GOOGL' => array(
-				'average_sentiment' => 0.68,
-				'news_count'        => 7,
-			),
-			'AMZN'  => array(
-				'average_sentiment' => 0.72,
-				'news_count'        => 9,
-			),
-		);
+			return $mock_sentiments[ $symbol ] ?? array(
+				'average_sentiment' => 0.55,
+				'news_count'        => 3,
+			);
+		}
 
-		return $mock_sentiments[ $symbol ] ?? array(
-			'average_sentiment' => 0.55,
-			'news_count'        => 3,
-		);
+		// Live path: query stored news sentiment from the database (not yet implemented).
+		// Return null so calculate_score() scores 0 rather than using fake data.
+		return null;
 	}
 }

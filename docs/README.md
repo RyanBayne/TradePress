@@ -10,7 +10,9 @@ Repository docs are the source of truth for implementation decisions, testing ru
 |---|---|
 | `ai/` | AI collaborator rules and current project context used by future coding sessions |
 | `data/` | Data architecture, freshness, queueing, storage, and schema planning |
+| `diagrams/` | Developer diagrams for data flow, standardisation, and testing architecture |
 | `testing/` | Testing system, sanity-suite, diagnostics, and test framework notes |
+| `release/` | Release, versioning, packaging, and publication procedures |
 | `systems/` | Core system architecture and behaviour contracts |
 | `procedures/` | Development procedures, guardrails, and checklists |
 
@@ -23,7 +25,14 @@ Repository docs are the source of truth for implementation decisions, testing ru
 | `data/DATA-ARCHITECTURE.md` | Canonical data-flow model for API, import, queue, storage, freshness, and display work |
 | `data/DATA-FRESHNESS-FRAMEWORK.md` | Freshness/staleness rules for queueing and data-readiness decisions |
 | `data/DATABASE-META-TABLES-PLAN.md` | Database and meta-table planning before storage changes |
+| `data/DATA-ELEMENTS-SPECIFICATION.md` | Data Elements admin/system specification and data group metadata model |
+| `data/data-freshness-manager.md` | Data Freshness Manager implementation notes and Recent Call Register integration |
+| `data/recent-call-register.md` | Transient-based API call cache and duplicate-call prevention notes |
 | `testing/TESTING-SYSTEM.md` | BugNet/testing framework plan and diagnostics reference |
+| `testing/TRADING212-API-TESTING.md` | Trading212 API testing plan for demo/live provider validation |
+| `diagrams/api-data-standardization-flow.md` | API data adapter and normalisation flow diagram |
+| `diagrams/directive-testing-procedure.md` | Directive testing procedure and standard architecture diagram |
+| `release/VERSION-CHANGES.md` | Version update and changelog procedure for release work |
 | `systems/SCORING-SYSTEM.md` | Scoring architecture, raw score semantics, strategy maximums, and percentage display rules |
 | `systems/DIRECTIVE-TESTING-STRATEGY.md` | Directive testing strategy, score-contract testing, fixture strategy, and sanity runners |
 | `procedures/implementation-guardrail-checklist.md` | Required checklist before queue, provider, data-flow, freshness, or health-state changes |

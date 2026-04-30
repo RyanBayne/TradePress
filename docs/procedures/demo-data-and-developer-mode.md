@@ -40,3 +40,14 @@ Always acceptable for regular users:
 - Configuration pages that do not pretend to show live data.
 - Calculators that work from user-entered values.
 - Empty states that clearly state what data or API key is required.
+
+## Empty State Standard
+
+Use the same four labels across all regular-user tabs:
+
+- Coming Soon: Feature is intentionally not available yet.
+- In Development: Work is active but not release-ready.
+- No Data: The feature is working but there is currently nothing stored/imported to show.
+- Requires API Key: A provider key/configuration is required before data can be loaded.
+
+Keep labels explicit and avoid generic placeholders.

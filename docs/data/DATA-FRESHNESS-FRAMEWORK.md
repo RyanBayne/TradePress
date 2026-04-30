@@ -14,7 +14,7 @@ The Data Freshness Framework serves as a gatekeeper layer between the database a
 
 #### `TradePress_Data_Freshness_Manager`
 - **Purpose:** Central coordinator for all data freshness validation
-- **Location:** `includes/class.tradepress-data-freshness-manager.php`
+- **Location:** `includes/data-freshness-manager.php`
 - **Methods:**
   - `validate_data_freshness($data_type, $symbol, $purpose)`
   - `get_freshness_requirements($purpose)`

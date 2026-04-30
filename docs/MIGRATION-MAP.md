@@ -27,10 +27,17 @@ Planning and business documentation can remain in `TradePress-Documentation`.
 | `TradePress-Documentation/docs/procedures/STYLES.md` | `wp-content/plugins/tradepress/docs/procedures/STYLES.md` | Developer / UI cleanup procedure | Moved |
 | `TradePress-Documentation/docs/procedures/demo-content-inventory.md` | `wp-content/plugins/tradepress/docs/procedures/demo-content-inventory.md` | Developer / release readiness inventory | Moved |
 | `TradePress-Documentation/docs/procedures/demo-data-and-developer-mode.md` | `wp-content/plugins/tradepress/docs/procedures/demo-data-and-developer-mode.md` | Developer / demo visibility policy | Moved |
+| `TradePress-Documentation/docs/TRADING212-API-TESTING.md` | `wp-content/plugins/tradepress/docs/testing/TRADING212-API-TESTING.md` | Developer / provider testing | Moved |
+| `TradePress-Documentation/docs/diagrams/api-data-standardization-flow.md` | `wp-content/plugins/tradepress/docs/diagrams/api-data-standardization-flow.md` | Developer / architecture diagram | Moved |
+| `TradePress-Documentation/docs/diagrams/directive-testing-procedure.md` | `wp-content/plugins/tradepress/docs/diagrams/directive-testing-procedure.md` | Developer / testing diagram | Moved |
+| `TradePress-Documentation/docs/DATA-ELEMENTS-SPECIFICATION.md` | `wp-content/plugins/tradepress/docs/data/DATA-ELEMENTS-SPECIFICATION.md` | Developer / data contract | Moved |
+| `TradePress-Documentation/docs/features/data_freshness_manager.md` | `wp-content/plugins/tradepress/docs/data/data-freshness-manager.md` | Developer / data freshness implementation | Moved |
+| `TradePress-Documentation/docs/features/recent_call_register.md` | `wp-content/plugins/tradepress/docs/data/recent-call-register.md` | Developer / API cache implementation | Moved |
+| `TradePress-Documentation/docs/procedures/VERSION-CHANGES.md` | `wp-content/plugins/tradepress/docs/release/VERSION-CHANGES.md` | Developer / release procedure | Moved |
 
 Short pointer stubs remain at the original locations during migration so existing links continue to guide readers to the canonical files.
 
-Migration note: during the data-doc batch, Google Drive denied overwrite/rename access for two old source files after the plugin copies were created. During the AI/testing batch, Google Drive or another process also locked the old AI/testing files. During the release-procedure batch, old `POST-HANDLER.md` and `STYLES.md` were locked; the demo inventory and demo policy old paths were converted to pointer stubs. Treat the plugin paths above as canonical even if an old source file temporarily remains readable in `TradePress-Documentation/docs/`.
+Migration note: during the data-doc batch, Google Drive denied overwrite/rename access for two old source files after the plugin copies were created. During the AI/testing batch, Google Drive or another process also locked the old AI/testing files. During the release-procedure batch, old `POST-HANDLER.md` and `STYLES.md` were locked; the demo inventory and demo policy old paths were converted to pointer stubs. During the testing/provider batch, old `TRADING212-API-TESTING.md` was locked; the old diagram paths were converted to pointer stubs. Treat the plugin paths above as canonical even if an old source file temporarily remains readable in `TradePress-Documentation/docs/`.
 
 ## Audited Remaining Documentation
 
@@ -42,18 +49,6 @@ These files directly affect implementation, architecture, testing, release gates
 
 | Source | Suggested destination | Notes |
 |---|---|---|
-| `TradePress-Documentation/docs/TRADING212-API-TESTING.md` | `wp-content/plugins/tradepress/docs/testing/TRADING212-API-TESTING.md` | Provider/API testing reference. Move next. |
-| `TradePress-Documentation/docs/DATA-ELEMENTS-SPECIFICATION.md` | `wp-content/plugins/tradepress/docs/data/DATA-ELEMENTS-SPECIFICATION.md` | Data contract/specification. Review overlap with data architecture during move. |
-| `TradePress-Documentation/docs/features/data_freshness_manager.md` | `wp-content/plugins/tradepress/docs/data/data-freshness-manager.md` | Feature-specific data freshness design. Merge or cross-link with `DATA-FRESHNESS-FRAMEWORK.md`. |
-| `TradePress-Documentation/docs/features/recent_call_register.md` | `wp-content/plugins/tradepress/docs/data/recent-call-register.md` | API call cache/transient implementation reference. Move with data/provider docs. |
-| `TradePress-Documentation/docs/diagrams/api-data-standardization-flow.md` | `wp-content/plugins/tradepress/docs/diagrams/api-data-standardization-flow.md` | Developer architecture diagram. Move with data adapter docs. |
-| `TradePress-Documentation/docs/diagrams/directive-testing-procedure.md` | `wp-content/plugins/tradepress/docs/diagrams/directive-testing-procedure.md` | Developer testing diagram. Move with testing docs. |
-| `TradePress-Documentation/docs/systems/ASYNCHRONOUS-PROCESSING.md` | `wp-content/plugins/tradepress/docs/systems/ASYNCHRONOUS-PROCESSING.md` | Queue/background-processing architecture. Move after checking freshness/data docs for duplication. |
-| `TradePress-Documentation/docs/systems/ALGORITHM-EXECUTION.md` | `wp-content/plugins/tradepress/docs/systems/ALGORITHM-EXECUTION.md` | Algorithm execution planning. Move only if it reflects current queue/trading strategy rules; otherwise revise first. |
-| `TradePress-Documentation/docs/systems/TECHNICAL-ANALYSIS.md` | `wp-content/plugins/tradepress/docs/systems/TECHNICAL-ANALYSIS.md` | Technical-analysis methodology. Move after confirming current directive names and API assumptions. |
-| `TradePress-Documentation/docs/systems/TEMPLATE-SYSTEM.md` | `wp-content/plugins/tradepress/docs/systems/TEMPLATE-SYSTEM.md` | Template architecture. Move if still relevant to active plugin UI/template paths. |
-| `TradePress-Documentation/docs/procedures/VERSION-CHANGES.md` | `wp-content/plugins/tradepress/docs/release/VERSION-CHANGES.md` | Release/version procedure. Move if it is current. |
-
 ### Keep In Project Management Docs
 
 These are roadmap, sprint, strategy, or progress-planning documents. They can reference plugin docs, but should not become canonical plugin implementation docs unless rewritten.
@@ -68,6 +63,10 @@ These are roadmap, sprint, strategy, or progress-planning documents. They can re
 | `TradePress-Documentation/docs/DIRECTIVE-ANALYSIS.md` | Historical directive planning | Keep external or archive; current directive contract lives in plugin docs and sanity tests. |
 | `TradePress-Documentation/docs/DIRECTIVE-STATUS-UPDATE.md` | Historical directive status | Keep external or archive; current status should come from tests/roadmap issues. |
 | `TradePress-Documentation/docs/systems/MACHINE-LEARNING.md` | Future roadmap / research | Keep external until ML work becomes active. |
+| `TradePress-Documentation/docs/systems/ASYNCHRONOUS-PROCESSING.md` | Empty placeholder | Do not move. Archive or delete after confirming no content is needed. Queue/background-processing guidance should be rebuilt from current code and `DATA-ARCHITECTURE.md`. |
+| `TradePress-Documentation/docs/systems/ALGORITHM-EXECUTION.md` | Stale future planning | Do not move as-is. It lists mostly unimplemented automation ideas and does not reflect current strategy health/auto-pause rules. Rewrite from current automation/trading code if needed. |
+| `TradePress-Documentation/docs/systems/TECHNICAL-ANALYSIS.md` | Future methodology planning | Do not move as-is. It contains broad unimplemented analysis ideas. Current technical indicator implementation is covered by `SCORING-SYSTEM.md`, `DIRECTIVE-TESTING-STRATEGY.md`, and sanity tests. |
+| `TradePress-Documentation/docs/systems/TEMPLATE-SYSTEM.md` | Stale frontend/template planning | Do not move as-is. It is useful as historical context, but current UI/template guidance should be derived from active theme/template files and `STYLES.md`. |
 | `TradePress-Documentation/docs/strategies/*.md` | Strategy research / product planning | Keep external; later extract user-friendly pages to Wiki and executable contracts to plugin docs. |
 | `TradePress-Documentation/docs/projects/*.md` | Project implementation notes | Keep external unless a stable developer procedure should be extracted. |
 | `TradePress-Documentation/docs/procedures/END-SESSION.md` | Project workflow | Keep external; this is a collaboration/session procedure, not plugin implementation. |
@@ -103,21 +102,19 @@ These old paths have already been migrated or should be treated as non-canonical
 | `TradePress-Documentation/docs/procedures/STYLES.md` | `wp-content/plugins/tradepress/docs/procedures/STYLES.md` | Old file locked during stub replacement. |
 | `TradePress-Documentation/docs/procedures/demo-content-inventory.md` | `wp-content/plugins/tradepress/docs/procedures/demo-content-inventory.md` | Old path is a pointer stub. |
 | `TradePress-Documentation/docs/procedures/demo-data-and-developer-mode.md` | `wp-content/plugins/tradepress/docs/procedures/demo-data-and-developer-mode.md` | Old path is a pointer stub. |
+| `TradePress-Documentation/docs/TRADING212-API-TESTING.md` | `wp-content/plugins/tradepress/docs/testing/TRADING212-API-TESTING.md` | Old file locked during stub replacement. |
+| `TradePress-Documentation/docs/diagrams/api-data-standardization-flow.md` | `wp-content/plugins/tradepress/docs/diagrams/api-data-standardization-flow.md` | Old path is a pointer stub. |
+| `TradePress-Documentation/docs/diagrams/directive-testing-procedure.md` | `wp-content/plugins/tradepress/docs/diagrams/directive-testing-procedure.md` | Old path is a pointer stub. |
+| `TradePress-Documentation/docs/DATA-ELEMENTS-SPECIFICATION.md` | `wp-content/plugins/tradepress/docs/data/DATA-ELEMENTS-SPECIFICATION.md` | Old path is a pointer stub. |
+| `TradePress-Documentation/docs/features/data_freshness_manager.md` | `wp-content/plugins/tradepress/docs/data/data-freshness-manager.md` | Old path is a pointer stub. |
+| `TradePress-Documentation/docs/features/recent_call_register.md` | `wp-content/plugins/tradepress/docs/data/recent-call-register.md` | Old path is a pointer stub. |
+| `TradePress-Documentation/docs/procedures/VERSION-CHANGES.md` | `wp-content/plugins/tradepress/docs/release/VERSION-CHANGES.md` | Old path is a pointer stub. |
 | `TradePress-Documentation/docs/systems/SCORING-SYSTEM.md` | `wp-content/plugins/tradepress/docs/systems/SCORING-SYSTEM.md` | Old path is a pointer stub. |
 | `TradePress-Documentation/docs/systems/DIRECTIVE-TESTING-STRATEGY.md` | `wp-content/plugins/tradepress/docs/systems/DIRECTIVE-TESTING-STRATEGY.md` | Old path is a pointer stub. |
 
 ## Recommended Next Batches
 
-1. **Testing and provider docs**
-   Move `TRADING212-API-TESTING.md`, `api-data-standardization-flow.md`, and `directive-testing-procedure.md`.
-
-2. **Data contracts**
-   Move or merge `DATA-ELEMENTS-SPECIFICATION.md`, `features/data_freshness_manager.md`, and `features/recent_call_register.md`.
-
-3. **Architecture systems review**
-   Review `ASYNCHRONOUS-PROCESSING.md`, `ALGORITHM-EXECUTION.md`, `TECHNICAL-ANALYSIS.md`, and `TEMPLATE-SYSTEM.md` for freshness before moving.
-
-4. **Wiki seed expansion**
+1. **Wiki seed expansion**
    Convert education and user-facing feature docs into `docs/wiki-seed/` pages, then publish to the GitHub Wiki once enabled.
 
 ## Link Migration Rule
