@@ -220,7 +220,7 @@ function tradepress_data_tables_tab_content() {
 									)
 								);
 								?>
-											" class="<?php echo $current_orderby === 'name' ? 'sorted' : 'sortable'; ?> <?php echo $current_orderby === 'name' ? $current_order : ''; ?>">
+											" class="<?php echo esc_attr( $current_orderby === 'name' ? 'sorted' : 'sortable' ); ?> <?php echo esc_attr( $current_orderby === 'name' ? $current_order : '' ); ?>">
 									<?php esc_html_e( 'Table Name', 'tradepress' ); ?>
 								</a>
 							</div>
@@ -236,7 +236,7 @@ function tradepress_data_tables_tab_content() {
 									)
 								);
 								?>
-											" class="<?php echo $current_orderby === 'status' ? 'sorted' : 'sortable'; ?> <?php echo $current_orderby === 'status' ? $current_order : ''; ?>">
+											" class="<?php echo esc_attr( $current_orderby === 'status' ? 'sorted' : 'sortable' ); ?> <?php echo esc_attr( $current_orderby === 'status' ? $current_order : '' ); ?>">
 									<?php esc_html_e( 'Status', 'tradepress' ); ?>
 								</a>
 							</div>
@@ -255,7 +255,7 @@ function tradepress_data_tables_tab_content() {
 									)
 								);
 								?>
-											" class="<?php echo $current_orderby === 'last_updated' ? 'sorted' : 'sortable'; ?> <?php echo $current_orderby === 'last_updated' ? $current_order : ''; ?>">
+											" class="<?php echo esc_attr( $current_orderby === 'last_updated' ? 'sorted' : 'sortable' ); ?> <?php echo esc_attr( $current_orderby === 'last_updated' ? $current_order : '' ); ?>">
 									<?php esc_html_e( 'Last Updated', 'tradepress' ); ?>
 								</a>
 							</div>
@@ -303,7 +303,7 @@ function tradepress_data_tables_tab_content() {
 										<strong><?php echo esc_html( str_replace( $wpdb->prefix . 'tradepress_', '', $table['name'] ) ); ?></strong>
 									</div>
 									<div style="flex: 1;">
-										<span class="status-badge <?php echo esc_attr( $status_class ) === 'status-good' ? 'status-active' : $status_class; ?>">
+										<span class="status-badge <?php echo esc_attr( $status_class === 'status-good' ? 'status-active' : $status_class ); ?>">
 											<?php echo esc_html( $table['status'] ); ?>
 										</span>
 									</div>
@@ -311,7 +311,7 @@ function tradepress_data_tables_tab_content() {
 									<div style="flex: 1;"><?php echo esc_html( $table['size'] ); ?></div>
 									<div style="flex: 1;">
 										<span class="status-badge <?php echo esc_attr( $process_status_class ); ?>">
-											<?php echo count( $table['processes'] ); ?>
+											<?php echo (int) count( $table['processes'] ); ?>
 										</span>
 									</div>
 									<div style="flex: 1;">
