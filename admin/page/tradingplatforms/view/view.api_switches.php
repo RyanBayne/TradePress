@@ -31,7 +31,7 @@ unset( $api_display_names['yahoo_finance'] );
 unset( $api_array[ array_search( 'yahoo_finance', $api_array ) ] );
 
 // Check if demo mode is active
-$is_demo = function_exists( 'is_demo_mode' ) ? is_demo_mode() : false;
+$is_demo = false;
 ?>
 
 

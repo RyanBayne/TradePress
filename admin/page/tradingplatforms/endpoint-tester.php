@@ -124,15 +124,7 @@ class TradePress_Endpoint_Tester {
 		// Store results in transient for the page to display
 		$transient_key = 'tradepress_endpoint_test_' . md5( $platform_id . '_' . $endpoint_id );
 
-		// Determine correct environment value
-		$is_demo = false;
-		if ( function_exists( 'is_demo_mode' ) ) {
-			$is_demo = is_demo_mode();
-		} else {
-			$is_demo = get_option( 'TradePress_demo_mode', 'no' ) === 'yes' ||
-						( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE );
-		}
-		$environment = $is_demo ? 'Demo' : 'Live';
+		$environment = 'Live';
 
 		if ( is_wp_error( $test_result ) ) {
 			// Generate enhanced error report
@@ -276,38 +268,7 @@ class TradePress_Endpoint_Tester {
 		// Get API credentials
 		$api_credentials = $this->get_api_credentials( $platform_id, $api_type );
 
-		// Check if we're in demo mode
-		$is_demo = false;
-		if ( function_exists( 'is_demo_mode' ) ) {
-			$is_demo = is_demo_mode();
-		} else {
-			$is_demo = get_option( 'TradePress_demo_mode', 'no' ) === 'yes' ||
-						( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE );
-		}
-
-		if ( $is_demo ) {
-			// Generate demo responses based on platform and endpoint
-			switch ( $platform_id ) {
-				case 'alphavantage':
-					if ( $endpoint['id'] === 'TIME_SERIES_INTRADAY' ) {
-						// For successful responses
-						return $this->generate_mock_response( $endpoint );
-					}
-
-					// For other Alpha Vantage endpoints, return a mock success response
-					return $this->generate_mock_response( $endpoint );
-
-				default:
-					// Return a generic mock response for other platforms
-					return $this->generate_mock_response( $endpoint );
-			}
-		} else {
-			// In a real implementation, make the actual API call here
-			// This would use the appropriate API client class for the platform
-
-			// Example API call (not fully implemented for all platforms):
-			return $this->make_api_request( $platform_id, $endpoint, $api_credentials );
-		}
+		return $this->make_api_request( $platform_id, $endpoint, $api_credentials );
 	}
 
 	/**
@@ -724,15 +685,7 @@ class TradePress_Endpoint_Tester {
 			$trading_mode = 'paper'; // Default for display purposes
 		}
 
-		// Determine correct environment value
-		$is_demo = false;
-		if ( function_exists( 'is_demo_mode' ) ) {
-			$is_demo = is_demo_mode();
-		} else {
-			$is_demo = get_option( 'TradePress_demo_mode', 'no' ) === 'yes' ||
-						( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE );
-		}
-		$environment = $is_demo ? 'Demo' : 'Live';
+		$environment = 'Live';
 
 		// Build the error report
 		$report  = "### API Test Error Report ###\n";

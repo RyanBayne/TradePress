@@ -2165,18 +2165,12 @@ function tradepress_get_latest_api_call( $api_id ) {
 }
 
 /**
- * Get the current environment mode (Live or Demo)
+ * Get the current environment mode.
  *
  * @return string Environment mode
  * @version 1.0.0
  */
 function get_environment_mode() {
-	// Check for TRADEPRESS_DEMO_MODE constant first
-	if ( is_demo_mode() ) {
-		return 'Demo';
-	}
-
-	// If neither condition is met, return Live
 	return 'Live';
 }
 
@@ -2188,29 +2182,22 @@ function get_environment_mode() {
  */
 function tradepress_is_developer_mode() {
 
-	$developer_mode_option = get_option( 'tradepress_developer_mode', false );
-	$option_enabled        = false;
-
-	if ( is_string( $developer_mode_option ) ) {
-		$option_enabled = in_array( strtolower( $developer_mode_option ), array( '1', 'true', 'yes', 'on' ), true );
-	} else {
-		$option_enabled = true === $developer_mode_option || 1 === $developer_mode_option;
+	if ( ! defined( 'WP_DEVELOPMENT_MODE' ) ) {
+		return false;
 	}
 
-	$wp_development_mode = false;
-	if ( defined( 'WP_DEVELOPMENT_MODE' ) ) {
-		$wp_development_mode_value = constant( 'WP_DEVELOPMENT_MODE' );
+	$wp_development_mode_value = constant( 'WP_DEVELOPMENT_MODE' );
 
-		if ( is_array( $wp_development_mode_value ) ) {
-			$wp_development_mode = ! empty( $wp_development_mode_value );
-		} elseif ( is_string( $wp_development_mode_value ) ) {
-			$wp_development_mode = '' !== trim( $wp_development_mode_value )
-				&& ! in_array( strtolower( $wp_development_mode_value ), array( '0', 'false', 'off' ), true );
-		} else {
-			$wp_development_mode = (bool) $wp_development_mode_value;
-		}
+	if ( is_array( $wp_development_mode_value ) ) {
+		return ! empty( $wp_development_mode_value );
 	}
-	return $option_enabled || $wp_development_mode;
+
+	if ( is_string( $wp_development_mode_value ) ) {
+		return '' !== trim( $wp_development_mode_value )
+			&& ! in_array( strtolower( $wp_development_mode_value ), array( '0', 'false', 'off' ), true );
+	}
+
+	return (bool) $wp_development_mode_value;
 }
 
 /**

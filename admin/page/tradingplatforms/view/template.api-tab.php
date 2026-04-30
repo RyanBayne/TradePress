@@ -31,8 +31,8 @@ $api_description = isset( $api_description ) ? $api_description : '';
 $api_version     = isset( $api_version ) ? $api_version : 'v1';
 $api_logo_url    = isset( $api_logo_url ) ? $api_logo_url : '';
 $endpoints       = isset( $endpoints ) ? $endpoints : array();
-$demo_mode       = isset( $demo_mode ) ? $demo_mode : 'no';
-$is_demo_mode    = isset( $is_demo_mode ) ? $is_demo_mode : false;
+$demo_mode       = 'no';
+$is_demo_mode    = false;
 
 // Include helper functions if they haven't been included already
 if ( ! function_exists( 'get_status_color' ) ) {
@@ -51,8 +51,7 @@ if ( ! function_exists( 'get_status_color' ) ) {
 // $rate_limits - Rate limiting data array
 // $documentation_links - Array of documentation links
 
-// Check for demo mode - prioritize TRADEPRESS_DEMO_MODE constant if defined
-$is_demo_mode = defined( 'TRADEPRESS_DEMO_MODE' ) ? (bool) TRADEPRESS_DEMO_MODE : ( $demo_mode === 'yes' );
+$is_demo_mode = false;
 
 // Process API settings form submission
 if ( isset( $_POST[ 'tradepress_' . $api_id . '_api_settings_nonce' ] ) && wp_verify_nonce( $_POST[ 'tradepress_' . $api_id . '_api_settings_nonce' ], 'tradepress_' . $api_id . '_api_settings' ) ) {
@@ -137,39 +136,6 @@ if ( isset( $_POST[ 'tradepress_' . $api_id . '_operational_nonce' ] ) && wp_ver
 				echo '<div class="notice notice-success is-dismissible"><p>' .
 				/* translators: %s: component name */
 				sprintf( __( '%s operational status updated successfully.', 'tradepress' ), esc_html( $api_name ) ) .
-				'</p></div>';
-			}
-		);
-	}
-}
-
-// Process demo mode toggle form submission
-if ( isset( $_POST[ 'tradepress_' . $api_id . '_demo_mode_nonce' ] ) && wp_verify_nonce( $_POST[ 'tradepress_' . $api_id . '_demo_mode_nonce' ], 'tradepress_' . $api_id . '_api_settings' ) ) {
-
-	// Save demo mode setting if TRADEPRESS_DEMO_MODE constant is not defined
-	if ( ! defined( 'TRADEPRESS_DEMO_MODE' ) ) {
-		if ( isset( $_POST[ 'TradePress_switch_' . $api_id . '_demo_mode' ] ) ) {
-			$demo_mode = sanitize_text_field( $_POST[ 'TradePress_switch_' . $api_id . '_demo_mode' ] );
-			update_option( 'TradePress_switch_' . $api_id . '_demo_mode', $demo_mode );
-
-			// Add success message
-			add_action(
-				'admin_notices',
-				function () use ( $api_name ) {
-					echo '<div class="notice notice-success is-dismissible"><p>' .
-					/* translators: %s: component name */
-					sprintf( __( '%s demo mode updated successfully.', 'tradepress' ), esc_html( $api_name ) ) .
-					'</p></div>';
-				}
-			);
-		}
-	} else {
-		// Show notice that demo mode is controlled by constant
-		add_action(
-			'admin_notices',
-			function () {
-				echo '<div class="notice notice-info is-dismissible"><p>' .
-				__( 'Demo mode is controlled by the TRADEPRESS_DEMO_MODE constant in your configuration. This setting will not take effect.', 'tradepress' ) .
 				'</p></div>';
 			}
 		);
@@ -314,14 +280,6 @@ $trading_mode         = get_option( 'TradePress_api_' . $api_id . '_trading_mode
 ?>
 
 <div class="wrap tradepress-admin">
-	<?php
-	// Check if demo mode is active
-	$is_demo = function_exists( 'is_demo_mode' ) ? is_demo_mode() : false;
-
-	// Display demo/live mode indicator using centralized function
-	TradePress_Admin_Notices::demo_mode_indicator();
-	?>
-
 	<?php require TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/tradingplatforms/view/partials/api-service-overview.php'; ?>
 
 	<div class="api-dashboard">
@@ -568,4 +526,3 @@ $trading_mode         = get_option( 'TradePress_api_' . $api_id . '_trading_mode
 	}
 	?>
 </div>
-

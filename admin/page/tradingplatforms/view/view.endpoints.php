@@ -29,10 +29,6 @@ echo '<h2>' . esc_html__( 'Available Endpoints', 'tradepress' ) . '</h2>';
 echo tradepress_get_tab_mode_indicator( $page_id, $tab_id );
 echo '</div>';
 
-// Show demo notice if in demo mode
-if ( $tab_mode['mode'] === 'demo' ) {
-	TradePress_Admin_Notices::simple_demo_indicator();
-}
 ?>
 
 <div class="endpoints-table-wrapper">

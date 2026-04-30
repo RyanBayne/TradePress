@@ -11,6 +11,49 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$log_file    = WP_CONTENT_DIR . '/scoring.log';
+$log_entries = array();
+$error_count = 0;
+$warning_count = 0;
+
+if ( file_exists( $log_file ) && is_readable( $log_file ) ) {
+	$log_lines = file( $log_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
+	$log_lines = is_array( $log_lines ) ? array_slice( array_reverse( $log_lines ), 0, 50 ) : array();
+
+	foreach ( $log_lines as $line ) {
+		$time    = '';
+		$message = $line;
+
+		if ( preg_match( '/^\[(.*?)\]\s*(.*)$/', $line, $matches ) ) {
+			$time    = $matches[1];
+			$message = $matches[2];
+		}
+
+		$level = 'info';
+		if ( stripos( $message, 'error' ) !== false || stripos( $message, 'failed' ) !== false ) {
+			$level = 'error';
+		} elseif ( stripos( $message, 'warning' ) !== false || stripos( $message, 'limit' ) !== false ) {
+			$level = 'warning';
+		} elseif ( stripos( $message, 'debug' ) !== false ) {
+			$level = 'debug';
+		}
+
+		$log_entries[] = array(
+			'time'    => $time,
+			'level'   => $level,
+			'source'  => 'scoring',
+			'message' => $message,
+			'context' => basename( $log_file ),
+		);
+
+		if ( 'error' === $level ) {
+			$error_count++;
+		} elseif ( 'warning' === $level ) {
+			$warning_count++;
+		}
+	}
+}
 ?>
 
 <div class="tradepress-logs-interface">
@@ -57,55 +100,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</tr>
 				</thead>
 				<tbody id="logs-tbody">
-					<?php
-					// Sample log entries for demonstration
-					$sample_logs = array(
-						array(
-							'time'    => date( 'H:i:s' ),
-							'level'   => 'info',
-							'source'  => 'algorithm',
-							'message' => 'Scoring algorithm execution completed successfully',
-							'context' => '247 symbols processed',
-						),
-						array(
-							'time'    => date( 'H:i:s', strtotime( '-2 minutes' ) ),
-							'level'   => 'debug',
-							'source'  => 'directives',
-							'message' => 'RSI Oversold directive triggered for NVDA',
-							'context' => 'RSI: 28.4, Threshold: 30',
-						),
-						array(
-							'time'    => date( 'H:i:s', strtotime( '-5 minutes' ) ),
-							'level'   => 'warning',
-							'source'  => 'api',
-							'message' => 'API rate limit approaching',
-							'context' => '95% of daily limit used',
-						),
-						array(
-							'time'    => date( 'H:i:s', strtotime( '-8 minutes' ) ),
-							'level'   => 'info',
-							'source'  => 'scoring',
-							'message' => 'Symbol score updated: AAPL',
-							'context' => 'Score: 78 (was 72)',
-						),
-						array(
-							'time'    => date( 'H:i:s', strtotime( '-12 minutes' ) ),
-							'level'   => 'error',
-							'source'  => 'api',
-							'message' => 'Failed to fetch data for MSFT',
-							'context' => 'Connection timeout after 30s',
-						),
-						array(
-							'time'    => date( 'H:i:s', strtotime( '-15 minutes' ) ),
-							'level'   => 'info',
-							'source'  => 'algorithm',
-							'message' => 'Algorithm execution started',
-							'context' => 'Mode: Full scan, Symbols: 247',
-						),
-					);
-
-					foreach ( $sample_logs as $log ) :
-						?>
+					<?php if ( empty( $log_entries ) ) : ?>
+						<tr>
+							<td colspan="5">
+								<div class="notice notice-info inline">
+									<p>
+										<strong><?php esc_html_e( 'No scoring logs found.', 'tradepress' ); ?></strong>
+										<?php esc_html_e( 'Real scoring activity will appear here after scoring logging is enabled and a scoring run writes to scoring.log.', 'tradepress' ); ?>
+									</p>
+								</div>
+							</td>
+						</tr>
+					<?php endif; ?>
+					<?php foreach ( $log_entries as $log ) : ?>
 						<tr class="log-entry log-<?php echo esc_attr( $log['level'] ); ?>">
 							<td class="log-time"><?php echo esc_html( $log['time'] ); ?></td>
 							<td class="log-level">
@@ -124,20 +131,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 		
 		<div class="logs-pagination">
 			<div class="pagination-info">
-				<?php esc_html_e( 'Showing 1-20 of 156 log entries', 'tradepress' ); ?>
+				<?php
+				printf(
+					/* translators: %d: number of log entries shown. */
+					esc_html__( 'Showing latest %d real scoring log entries', 'tradepress' ),
+					count( $log_entries )
+				);
+				?>
 			</div>
 			<div class="pagination-controls">
 				<button type="button" class="tp-button tp-button-outline" disabled>
 					<?php esc_html_e( 'Previous', 'tradepress' ); ?>
 				</button>
-				<span class="page-numbers">
-					<span class="current">1</span>
-					<a href="#">2</a>
-					<a href="#">3</a>
-					<span>...</span>
-					<a href="#">8</a>
-				</span>
-				<button type="button" class="tp-button tp-button-outline">
+				<button type="button" class="tp-button tp-button-outline" disabled>
 					<?php esc_html_e( 'Next', 'tradepress' ); ?>
 				</button>
 			</div>
@@ -145,23 +151,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 	
 	<div class="logs-statistics">
-		<h4><?php esc_html_e( 'Today\'s Activity Summary', 'tradepress' ); ?></h4>
+		<h4><?php esc_html_e( 'Log Summary', 'tradepress' ); ?></h4>
 		<div class="stats-grid">
 			<div class="stat-item">
-				<span class="stat-number">247</span>
-				<span class="stat-label"><?php esc_html_e( 'Symbols Processed', 'tradepress' ); ?></span>
+				<span class="stat-number"><?php echo esc_html( count( $log_entries ) ); ?></span>
+				<span class="stat-label"><?php esc_html_e( 'Entries Shown', 'tradepress' ); ?></span>
 			</div>
 			<div class="stat-item">
-				<span class="stat-number">1,423</span>
-				<span class="stat-label"><?php esc_html_e( 'API Calls Made', 'tradepress' ); ?></span>
+				<span class="stat-number"><?php echo esc_html( $error_count ); ?></span>
+				<span class="stat-label"><?php esc_html_e( 'Errors', 'tradepress' ); ?></span>
 			</div>
 			<div class="stat-item">
-				<span class="stat-number">12</span>
-				<span class="stat-label"><?php esc_html_e( 'Directives Triggered', 'tradepress' ); ?></span>
+				<span class="stat-number"><?php echo esc_html( $warning_count ); ?></span>
+				<span class="stat-label"><?php esc_html_e( 'Warnings', 'tradepress' ); ?></span>
 			</div>
 			<div class="stat-item">
-				<span class="stat-number">3</span>
-				<span class="stat-label"><?php esc_html_e( 'Errors Logged', 'tradepress' ); ?></span>
+				<span class="stat-number"><?php echo file_exists( $log_file ) ? esc_html( size_format( filesize( $log_file ) ) ) : esc_html__( 'None', 'tradepress' ); ?></span>
+				<span class="stat-label"><?php esc_html_e( 'Log File Size', 'tradepress' ); ?></span>
 			</div>
 		</div>
 	</div>

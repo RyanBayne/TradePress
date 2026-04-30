@@ -100,13 +100,6 @@ class TradePress_Admin_Scoring_Directives_Page {
 			);
 		}
 
-		if ( function_exists( 'is_demo_mode' ) && is_demo_mode() ) {
-			$this->tabs['demo'] = array(
-				'title'       => __( 'Demo Mode', 'tradepress' ),
-				'description' => __( 'Demo mode controls and settings', 'tradepress' ),
-				'file'        => 'view/demo.php',
-			);
-		}
 	}
 
 	/**
@@ -140,17 +133,6 @@ class TradePress_Admin_Scoring_Directives_Page {
 	 * @version 1.0.0
 	 */
 	private function render_demo_notice() {
-		if ( function_exists( 'is_demo_mode' ) && is_demo_mode() ) {
-			?>
-			<div class="notice notice-info">
-				<p>
-					<span class="dashicons dashicons-admin-tools"></span>
-					<strong><?php esc_html_e( 'Demo Mode Active:', 'tradepress' ); ?></strong>
-					<?php esc_html_e( 'All scoring directives are in demonstration mode. Changes will not affect live trading data.', 'tradepress' ); ?>
-				</p>
-			</div>
-			<?php
-		}
 	}
 
 	/**

@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function tradepress_technical_indicators_tab_content() {
 	// Check if demo mode is active
-	$is_demo = function_exists( 'is_demo_mode' ) ? is_demo_mode() : false;
+	$is_demo = false;
 
 	// Get any saved settings or default values
 	$demo_stock = isset( $_GET['symbol'] ) ? sanitize_text_field( $_GET['symbol'] ) : 'AAPL';

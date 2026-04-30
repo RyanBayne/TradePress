@@ -25,7 +25,7 @@ function tradepress_get_tab_mode( $page_id, $tab_id ) {
 	$features = get_option( 'tradepress_features_data', array() );
 
 	$result = array(
-		'mode'    => 'demo',
+		'mode'    => 'development',
 		'status'  => 'WIP',
 		'enabled' => true,
 		'version' => '0.1.0',
@@ -38,7 +38,10 @@ function tradepress_get_tab_mode( $page_id, $tab_id ) {
 		// Find the first ability to determine mode (assuming all abilities in a tab have the same mode)
 		if ( ! empty( $tab['abilities'] ) ) {
 			$first_ability     = reset( $tab['abilities'] );
-			$result['mode']    = isset( $first_ability['status'] ) ? $first_ability['status'] : 'demo';
+			$result['mode']    = isset( $first_ability['status'] ) ? $first_ability['status'] : 'development';
+			if ( 'demo' === $result['mode'] ) {
+				$result['mode'] = 'development';
+			}
 			$result['version'] = isset( $first_ability['version'] ) ? $first_ability['version'] : '0.1.0';
 			$result['status']  = ( $result['mode'] === 'live' && version_compare( $result['version'], '1.0.0', '>=' ) ) ? 'Ready' : 'WIP';
 		}
@@ -71,7 +74,7 @@ function tradepress_is_tab_enabled( $page_id, $tab_id ) {
 function tradepress_get_tab_mode_indicator( $page_id, $tab_id ) {
 	$tab_data = tradepress_get_tab_mode( $page_id, $tab_id );
 
-	$mode_class   = ( $tab_data['mode'] === 'live' ) ? 'live-mode' : 'demo-mode';
+	$mode_class   = ( $tab_data['mode'] === 'live' ) ? 'live-mode' : 'development-mode';
 	$status_class = ( $tab_data['status'] === 'Ready' ) ? 'ready-status' : 'wip-status';
 
 	$indicator  = '<div class="tradepress-tab-indicator">';
@@ -112,7 +115,7 @@ function tradepress_add_tab_mode_indicator_styles() {
 			border: 1px solid #c8e6d0;
 		}
 		
-		.tab-mode.demo-mode {
+		.tab-mode.development-mode {
 			background-color: #fef8e8;
 			color: #f0c33c;
 			border: 1px solid #f8e6b8;

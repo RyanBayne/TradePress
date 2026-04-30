@@ -45,7 +45,7 @@ $auth_methods = array(
 $selected_auth = get_option( 'tradepress_general_api_auth_method', 'key' );
 
 // Check if demo mode is active
-$is_demo = function_exists( 'is_demo_mode' ) ? is_demo_mode() : false;
+$is_demo = false;
 ?>
 
 <div class="wrap tradepress-api-settings">
@@ -487,4 +487,3 @@ $is_demo = function_exists( 'is_demo_mode' ) ? is_demo_mode() : false;
 		</form>
 	</div>
 </div>
-

@@ -119,7 +119,7 @@ if ( $api_test_performed && $api_test_results ) :
 		</span><br>
 		<strong>Environment:</strong> 
 		<?php
-			$is_demo = get_option( 'tradepress_demo_mode', false );
+			$is_demo = false;
 			echo esc_html( $is_demo ? 'Demo' : 'Live' );
 		?>
 		<br>

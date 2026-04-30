@@ -194,12 +194,14 @@ if ( ! class_exists( 'TradePress_Admin_Assets' ) ) :
 				TRADEPRESS_VERSION
 			);
 
-			// Register research page styles
+			// Register research page layout styles.
+			$research_layout_style_file    = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/css/layouts/research.css';
+			$research_layout_style_version = file_exists( $research_layout_style_file ) ? (string) filemtime( $research_layout_style_file ) : TRADEPRESS_VERSION;
 			wp_register_style(
 				'tradepress-research-page',
-				TRADEPRESS_PLUGIN_URL . 'assets/css/pages/research.css',
+				TRADEPRESS_PLUGIN_URL . 'assets/css/layouts/research.css',
 				array(),
-				TRADEPRESS_VERSION
+				$research_layout_style_version
 			);
 
 			// Register economic calendar styles
@@ -403,7 +405,7 @@ if ( ! class_exists( 'TradePress_Admin_Assets' ) ) :
 			}
 
 			// Enqueue research page styles when on the research page
-			if ( isset( $_GET['page'] ) && $_GET['page'] === 'tradepress_research' ) {
+			if ( isset( $_GET['page'] ) && ( $_GET['page'] === 'tradepress_research' || $_GET['page'] === 'tradepress-research' ) ) {
 				wp_enqueue_style( 'tradepress-research-page' );
 
 				// Enqueue economic calendar styles when on the economic-calendar tab
@@ -902,7 +904,8 @@ if ( ! class_exists( 'TradePress_Admin_Assets' ) ) :
 
 			// Price forecast page
 			if ( isset( $_GET['page'] ) && ( $_GET['page'] === 'tradepress_research' || $_GET['page'] === 'tradepress-research' ) &&
-			( ! isset( $_GET['tab'] ) || $_GET['tab'] === 'price_forecast' ) ) {
+			isset( $_GET['tab'] ) && $_GET['tab'] === 'price_forecast' &&
+			function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views() ) {
 				wp_enqueue_style( 'tradepress-price-forecast' );
 			}
 
@@ -1488,7 +1491,7 @@ if ( ! class_exists( 'TradePress_Admin_Assets' ) ) :
 								'error_creating_issue' => __( 'Error creating GitHub issue', 'tradepress' ),
 								'start_working'        => __( 'Start Current Task', 'tradepress' ),
 								'issue_created'        => __( 'GitHub issue created', 'tradepress' ),
-								'demo_mode_active'     => __( 'Demo Mode Active', 'tradepress' ),
+								'demo_mode_active'     => __( 'Development Preview Active', 'tradepress' ),
 							),
 							'repo_owner' => get_option( 'TRADEPRESS_GITHUB_repo_owner', '' ),
 							'repo_name'  => get_option( 'TRADEPRESS_GITHUB_repo_name', '' ),
@@ -1632,8 +1635,7 @@ if ( ! class_exists( 'TradePress_Admin_Assets' ) ) :
 
 					// Get today's events for notifications — demo-only, dev mode only.
 					$todays_events = array();
-					$can_show_demo = function_exists( 'is_demo_mode' ) && is_demo_mode()
-						&& function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
+					$can_show_demo = false;
 					if ( $can_show_demo && function_exists( 'tradepress_get_todays_economic_events' ) && function_exists( 'tradepress_get_demo_economic_events' ) ) {
 						$start_date    = wp_date( 'Y-m-d' );
 						$end_date      = wp_date( 'Y-m-d', strtotime( '+7 days' ) );

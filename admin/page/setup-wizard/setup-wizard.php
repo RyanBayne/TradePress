@@ -215,10 +215,6 @@ if ( ! class_exists( 'TradePress_Admin_Setup_Wizard_Page' ) ) :
 		public function setup_introduction_save() {
 			check_admin_referer( 'tradepress-setup' );
 
-			// Save developer mode setting
-			$developer_mode = isset( $_POST['tradepress_developer_mode'] ) ? 1 : 0;
-			update_option( 'tradepress_developer_mode', $developer_mode );
-
 			// Save API keys
 			if ( isset( $_POST['tradepress_alpaca_api_key'] ) ) {
 				update_option( 'tradepress_alpaca_api_key', sanitize_text_field( $_POST['tradepress_alpaca_api_key'] ) );

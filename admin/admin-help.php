@@ -192,7 +192,7 @@ if ( ! class_exists( 'TradePress_Admin_Help', false ) ) :
 			);
 
 			// Add Developer Mode tab if enabled
-			if ( get_option( 'tradepress_developer_mode', false ) ) {
+			if ( function_exists( 'tradepress_is_developer_mode' ) && tradepress_is_developer_mode() ) {
 				$screen->add_help_tab(
 					array(
 						'id'      => 'TradePress_developer_mode_tab',
@@ -203,18 +203,6 @@ if ( ! class_exists( 'TradePress_Admin_Help', false ) ) :
 				);
 			}
 
-			// Add Demo Mode tab if enabled
-			if ( function_exists( 'is_demo_mode' ) && is_demo_mode() ) {
-				$screen->add_help_tab(
-					array(
-						'id'      => 'TradePress_demo_mode_tab',
-						'title'   => __( 'Demo Mode', 'tradepress' ),
-						'content' => '<h2>' . __( 'Demo Mode Active', 'tradepress' ) . '</h2>' .
-									'<p>' . __( 'Demo mode is currently enabled. All actions are simulated and no real data is affected.', 'tradepress' ) . '</p>' .
-									'<p>' . __( 'This is a safe environment for testing features without affecting live data.', 'tradepress' ) . '</p>',
-					)
-				);
-			}
 		}
 
 

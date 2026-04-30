@@ -254,28 +254,27 @@ class TradePress_Install {
 
 		// Default settings
 		add_option( 'tradepress_api_service', 'alpaca' );
-		add_option( 'tradepress_demo_mode', 'yes' );
 		add_option( 'tradepress_log_level', 'info' );
 
 		// Algorithm defaults
 		add_option( 'tradepress_algorithm_status', 'idle' );
 		add_option( 'tradepress_algorithm_run_frequency', 'daily' );
 
-		// Features configuration - ensure all views default to demo mode
+		// Features configuration.
 		$features = array(
 			'dashboard' => array(
 				'enabled' => true,
 				'tabs'    => array(
 					'overview'    => array(
-						'mode'    => 'demo',
+						'mode'    => 'development',
 						'enabled' => true,
 					),
 					'performance' => array(
-						'mode'    => 'demo',
+						'mode'    => 'development',
 						'enabled' => true,
 					),
 					'alerts'      => array(
-						'mode'    => 'demo',
+						'mode'    => 'development',
 						'enabled' => true,
 					),
 				),
@@ -284,11 +283,11 @@ class TradePress_Install {
 				'enabled' => true,
 				'tabs'    => array(
 					'recent_symbols'     => array(
-						'mode'    => 'demo',
+						'mode'    => 'development',
 						'enabled' => true,
 					),
 					'support_resistance' => array(
-						'mode'    => 'demo',
+						'mode'    => 'development',
 						'enabled' => true,
 					),
 				),
@@ -297,15 +296,15 @@ class TradePress_Install {
 				'enabled' => true,
 				'tabs'    => array(
 					'market_overview'   => array(
-						'mode'    => 'demo',
+						'mode'    => 'development',
 						'enabled' => true,
 					),
 					'economic_calendar' => array(
-						'mode'    => 'demo',
+						'mode'    => 'development',
 						'enabled' => true,
 					),
 					'news'              => array(
-						'mode'    => 'demo',
+						'mode'    => 'development',
 						'enabled' => true,
 					),
 				),

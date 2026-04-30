@@ -84,7 +84,7 @@ function tradepress_news_get_provider_status() {
  * @version 1.0.0
  */
 function tradepress_news_feed_tab_content() {
-	$is_demo_mode  = function_exists( 'is_demo_mode' ) ? is_demo_mode() : false;
+	$is_demo_mode  = false;
 	$can_show_demo = function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
 	$use_demo_data = $is_demo_mode && $can_show_demo;
 

@@ -90,20 +90,6 @@ if ( empty( $directives ) ) {
 ?>
 
 <div class="tradepress-create-strategy-container">
-	<?php
-	// Check if demo mode is active
-	if ( function_exists( 'is_demo_mode' ) && is_demo_mode() ) {
-		echo '<div class="demo-indicator">';
-		echo '<div class="demo-icon dashicons dashicons-admin-tools"></div>';
-		echo '<div class="demo-text">';
-		echo '<h4>Strategy Builder - Demo Mode</h4>';
-		echo '<p>Create custom trading strategies by combining technical indicators and scoring rules.</p>';
-		echo '</div>';
-		echo '<span class="demo-badge">DEMO</span>';
-		echo '</div>';
-	}
-	?>
-
 	<div class="create-strategy-header">
 		<div class="strategy-meta-wrapper">
 			<div class="strategy-name-field">

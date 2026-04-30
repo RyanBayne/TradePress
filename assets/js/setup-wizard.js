@@ -32,19 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Developer mode toggle
-    const devModeCheckbox = document.getElementById('tradepress_developer_mode');
-    if (devModeCheckbox) {
-        devModeCheckbox.addEventListener('change', function() {
-            const devSection = document.getElementById('tradepress-dev-section');
-            if (this.checked) {
-                devSection.style.display = 'block';
-            } else {
-                devSection.style.display = 'none';
-            }
-        });
-    }
-
     // Symbol selection functionality
     const symbolCards = document.querySelectorAll('.tradepress-symbol-card');
     symbolCards.forEach(card => {

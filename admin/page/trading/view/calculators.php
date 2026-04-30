@@ -23,20 +23,6 @@ wp_enqueue_script( 'tradepress-calculators' );
 ?>
 
 <div class="tradepress-calculator-container">
-	<?php
-	// Check if demo mode is active
-	if ( function_exists( 'is_demo_mode' ) && is_demo_mode() ) {
-		echo '<div class="demo-indicator">';
-		echo '<div class="demo-icon dashicons dashicons-admin-tools"></div>';
-		echo '<div class="demo-text">';
-		echo '<h4>Demo Mode Active</h4>';
-		echo '<p>These calculators are fully functional regardless of demo mode.</p>';
-		echo '</div>';
-		echo '<span class="demo-badge">DEMO</span>';
-		echo '</div>';
-	}
-	?>
-
 	<div class="calculator-tabs">
 		<ul>
 			<li><a href="#averaging-down-calculator">Averaging Down</a></li>

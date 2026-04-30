@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function tradepress_trading_platforms_comparisons_tab() {
 	// Check if demo mode is active
-	$is_demo = function_exists( 'is_demo_mode' ) ? is_demo_mode() : false;
+	$is_demo = false;
 
 	// Get all financial API providers from the directory
 	require_once TRADEPRESS_PLUGIN_DIR . 'api/api-directory.php';

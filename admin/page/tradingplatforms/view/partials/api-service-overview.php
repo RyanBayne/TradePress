@@ -1,11 +1,14 @@
 <!-- Service Overview -->
 	<div class="service-overview">
 		<div class="service-logo">
-			<img src="<?php echo esc_url( $api_logo_url ); ?>" alt="<?php echo esc_attr( $api_name . ' Logo' ); ?>">
+			<?php if ( ! empty( $api_logo_url ) ) : ?>
+				<img src="<?php echo esc_url( $api_logo_url ); ?>" alt="<?php echo esc_attr( $api_name ); ?>" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+			<?php endif; ?>
+			<span class="service-logo-fallback" style="<?php echo ! empty( $api_logo_url ) ? 'display:none;' : ''; ?>display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:#2271b1;color:#fff;font-size:18px;font-weight:700;border-radius:8px;"><?php echo esc_html( strtoupper( substr( $api_name, 0, 2 ) ) ); ?></span>
 		</div>
 		<div class="service-details">
+			<h3 class="service-name"><?php echo esc_html( $api_name ); ?></h3>
 			<div class="service-meta">
-				<span class="service-version"><?php esc_html_e( 'API Version:', 'tradepress' ); ?> <?php echo esc_html( $api_version ); ?></span>
 				<form method="post" id="tradepress-<?php echo esc_attr( $api_id ); ?>-operational-toggle" class="service-status-form">
 					<?php wp_nonce_field( 'tradepress_' . $api_id . '_api_settings', 'tradepress_' . $api_id . '_operational_nonce' ); ?>
 					<input type="hidden" name="api_id" value="<?php echo esc_attr( $api_id ); ?>">
@@ -34,15 +37,6 @@
 				</form>
 				<?php endif; ?>
 				
-				<form method="post" id="tradepress-<?php echo esc_attr( $api_id ); ?>-demo-mode-toggle" class="demo-mode-button-form">
-					<?php wp_nonce_field( 'tradepress_' . $api_id . '_api_settings', 'tradepress_' . $api_id . '_demo_mode_nonce' ); ?>
-					<input type="hidden" name="api_id" value="<?php echo esc_attr( $api_id ); ?>">
-					<input type="hidden" name="TradePress_switch_<?php echo esc_attr( $api_id ); ?>_demo_mode" 
-							value="<?php echo ( $demo_mode === 'yes' ) ? 'no' : 'yes'; ?>" id="demo-mode-value-<?php echo esc_attr( $api_id ); ?>">
-					<button type="submit" name="toggle_demo_mode" class="demo-mode-toggle-button <?php echo $demo_mode === 'yes' ? 'demo-on' : 'demo-off'; ?>">
-						<?php echo $demo_mode === 'yes' ? esc_html__( 'Demo Mode On', 'tradepress' ) : esc_html__( 'Demo Mode Off', 'tradepress' ); ?>
-					</button>
-				</form>
 			</div>
 			
 			<div class="api-service-info">
@@ -52,11 +46,11 @@
 					<span class="info-value"><?php echo esc_html( $api_version ); ?></span>
 				</div>
 				
-				<!-- Display environment (demo/live) -->
+				<!-- Display environment -->
 				<div class="api-info-item">
-					<span class="info-label"><?php esc_html_e( 'Dev Environment:', 'tradepress' ); ?></span>
-					<span class="info-value <?php echo $is_demo_mode ? 'demo-env' : 'live-env'; ?>">
-						<?php echo $is_demo_mode ? esc_html__( 'Demo', 'tradepress' ) : esc_html__( 'Live', 'tradepress' ); ?>
+					<span class="info-label"><?php esc_html_e( 'Environment:', 'tradepress' ); ?></span>
+					<span class="info-value live-env">
+						<?php esc_html_e( 'Live', 'tradepress' ); ?>
 					</span>
 				</div>
 				

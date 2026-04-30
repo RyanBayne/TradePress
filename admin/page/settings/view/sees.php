@@ -82,7 +82,7 @@ if ( ! class_exists( 'TradePress_Settings_SEES' ) ) :
 							'default' => 'demo',
 							'type'    => 'select',
 							'options' => array(
-								'demo'  => __( 'Demo Mode Only', 'tradepress' ),
+								'demo'  => __( 'Development Only', 'tradepress' ),
 								'paper' => __( 'Paper Trading', 'tradepress' ),
 								'live'  => __( 'Live Trading (Use with extreme caution)', 'tradepress' ),
 							),

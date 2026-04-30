@@ -1,11 +1,8 @@
 <?php
 /**
- * TradePress Trading Area - SEES Demo Tab View
+ * TradePress Trading Area - SEES Legacy View
  *
- * Scoring Engine Execution System (SEES) - Demo Mode.
- * This tab will demonstrate the SEES functionality using hard-coded data
- * with randomization to simulate a live market effect. It's intended for
- * showcasing the system's capabilities without live API connections.
+ * Legacy generated-data preview. Demo output is no longer supported.
  *
  * @package TradePress\Admin\trading\Views
  * @version 1.0.0
@@ -16,30 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-// Ensure data functions are available
-if ( ! function_exists( 'tradepress_get_test_stock_symbols' ) || ! function_exists( 'tradepress_get_test_company_details' ) ) {
-	$data_functions_file = TRADEPRESS_PLUGIN_DIR . 'includes/data/symbols-data.php';
-	if ( file_exists( $data_functions_file ) ) {
-		require_once $data_functions_file;
-	} else {
-		echo '<div class="notice notice-error"><p>' . esc_html__( 'Error: Test data functions file is missing.', 'tradepress' ) . '</p></div>';
-		return;
-	}
-}
-
-$test_symbols        = function_exists( 'tradepress_get_test_stock_symbols' ) ? tradepress_get_test_stock_symbols() : array();
-$company_details_all = function_exists( 'tradepress_get_test_company_details' ) ? tradepress_get_test_company_details() : array();
-
-// For the demo, let's pick a subset of symbols to make it manageable, e.g., first 20
-$demo_symbols = array_slice( $test_symbols, 0, 20 );
-
-// Determine current mode
-$current_mode = 'Live'; // Default to Live
-if ( function_exists( 'is_demo_mode' ) && is_demo_mode() ) {
-	$current_mode = 'Demo';
-} elseif ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-	$current_mode = 'Demo';
-}
+echo '<div class="notice notice-info"><p><strong>' . esc_html__( 'SEES preview removed.', 'tradepress' ) . '</strong> ' . esc_html__( 'Generated demo trading data is no longer supported. This view will return when it is backed by imported or live data.', 'tradepress' ) . '</p></div>';
+return;
 ?>
 
 <div class="wrap tradepress-sees-demo">

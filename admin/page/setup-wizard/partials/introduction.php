@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Get current settings
-$developer_mode    = get_option( 'tradepress_developer_mode', false );
+$developer_mode    = function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
 $alpaca_key        = get_option( 'tradepress_alpaca_api_key', '' );
 $alpaca_secret     = get_option( 'tradepress_alpaca_secret_key', '' );
 $alpha_vantage_key = get_option( 'tradepress_alpha_vantage_api_key', '' );
@@ -17,20 +17,6 @@ $alpha_vantage_key = get_option( 'tradepress_alpha_vantage_api_key', '' );
 <h1><?php esc_html_e( 'Setup & Configuration', 'tradepress' ); ?></h1>
 
 <form method="post">
-	<div class="tradepress-setup-section">
-		<h2><?php esc_html_e( 'Developer Mode', 'tradepress' ); ?></h2>
-		<p><?php esc_html_e( 'Enable developer mode to access advanced debugging tools, detailed logging, and development features.', 'tradepress' ); ?></p>
-		<table class="form-table">
-			<tr>
-				<th scope="row"><label for="tradepress_developer_mode"><?php esc_html_e( 'Developer Mode', 'tradepress' ); ?></label></th>
-				<td>
-					<input type="checkbox" id="tradepress_developer_mode" name="tradepress_developer_mode" class="input-checkbox" value="1" <?php checked( $developer_mode, 1 ); ?> />
-					<label for="tradepress_developer_mode"><?php esc_html_e( 'Enable developer mode (shows debug info, file paths, and advanced tools)', 'tradepress' ); ?></label>
-				</td>
-			</tr>
-		</table>
-	</div>
-
 	<div class="tradepress-setup-section">
 		<h2><?php esc_html_e( 'API Configuration', 'tradepress' ); ?></h2>
 		<p><?php esc_html_e( 'Configure your API keys for market data and trading platforms. Currently supporting Alpaca and Alpha Vantage APIs.', 'tradepress' ); ?></p>
@@ -60,12 +46,14 @@ $alpha_vantage_key = get_option( 'tradepress_alpha_vantage_api_key', '' );
 			</tr>
 		</table>
 		
-		<div class="tradepress-dev-section" id="tradepress-dev-section" style="<?php echo $developer_mode ? '' : 'display: none;'; ?>">
+		<?php if ( $developer_mode ) : ?>
+		<div class="tradepress-dev-section" id="tradepress-dev-section">
 			<h3><?php esc_html_e( 'Development Mode: Paper Trading Credentials', 'tradepress' ); ?></h3>
 			<p><?php esc_html_e( 'Paste your API credentials (api_name:key:secret format, one per line)', 'tradepress' ); ?></p>
 			<textarea name="tradepress_mass_credentials" class="large-text" rows="3" placeholder="alpaca:PKXXXXXXXX:your_secret_key&#10;alpha_vantage:PKXXXXXXXXXXX"></textarea>
 			<p class="description"><?php esc_html_e( 'Format: api_name:key:secret (or api_name:key for Alpha Vantage). Supported: alpaca, alpha_vantage', 'tradepress' ); ?></p>
 		</div>
+		<?php endif; ?>
 	</div>
 
 	<div class="tradepress-disclaimer-section">
@@ -84,16 +72,3 @@ $alpha_vantage_key = get_option( 'tradepress_alpha_vantage_api_key', '' );
 		<?php wp_nonce_field( 'tradepress-setup' ); ?>
 	</p>
 </form>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-	const devModeCheckbox = document.getElementById('tradepress_developer_mode');
-	const devSection = document.getElementById('tradepress-dev-section');
-	
-	if (devModeCheckbox && devSection) {
-		devModeCheckbox.addEventListener('change', function() {
-			devSection.style.display = this.checked ? 'block' : 'none';
-		});
-	}
-});
-</script>

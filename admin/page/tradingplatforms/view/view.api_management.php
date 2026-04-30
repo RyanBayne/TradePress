@@ -221,7 +221,7 @@ if ( isset( $_POST['action'] ) && ( $_POST['action'] === 'test_api' || $_POST['a
 
 				// Log to alpaca.log if enabled
 				if ( get_option( 'bugnet_output_alpaca', 'no' ) === 'yes' ) {
-					$developer_mode = get_option( 'tradepress_developer_mode', 'no' ) === 'yes';
+					$developer_mode = function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
 					$log_msg        = '[' . date( 'Y-m-d H:i:s' ) . "] API Test Started - Mode: {$trading_mode}, Symbol: {$default_symbol}, Endpoint: {$endpoint}";
 					if ( $developer_mode ) {
 						$log_msg .= ", URL: {$url}, Headers: " . json_encode( $headers );
@@ -250,7 +250,7 @@ if ( isset( $_POST['action'] ) && ( $_POST['action'] === 'test_api' || $_POST['a
 
 				// Log details to alpaca.log if enabled
 				if ( get_option( 'bugnet_output_alpaca', 'no' ) === 'yes' ) {
-					$developer_mode = get_option( 'tradepress_developer_mode', 'no' ) === 'yes';
+					$developer_mode = function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
 					$log_msg        = '[' . date( 'Y-m-d H:i:s' ) . "] API Response - HTTP: {$http_code}, Status: {$status}";
 					if ( $curl_errno !== 0 ) {
 						$log_msg .= ", cURL Error: {$curl_errno} - {$curl_error}";
@@ -378,7 +378,7 @@ if ( isset( $_POST['action'] ) && ( $_POST['action'] === 'test_api' || $_POST['a
 		update_option( 'tradepress_' . $api_id . '_rate_limit_count', $rate_limit_after );
 
 		// Check if developer mode is enabled
-		$developer_mode = get_option( 'tradepress_developer_mode', 'no' ) === 'yes';
+		$developer_mode = function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
 
 		if ( $developer_mode ) {
 			// Developer mode output

@@ -185,39 +185,14 @@ class TradePress_Current_Task_Handler {
 			return;
 		}
 
-		// Check if we're in demo mode
-		$demo_mode = defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE;
+		$current_task['status'] = $new_status;
 
-		if ( $demo_mode ) {
-			// For demo mode, we just update the status without any actual processing
-			$current_task['status'] = $new_status;
-
-			// If starting a task, add a demo timestamp
-			if ( $new_status === 'in-progress' ) {
-				$current_task['started_at'] = current_time( 'mysql' );
-				// Add a demo message when starting a task in demo mode
-				self::add_admin_notice(
-					'info',
-					__( 'DEMO MODE: Task status changed to In Progress. In normal mode, this would trigger workflow events.', 'tradepress' )
-				);
-			} elseif ( $new_status === 'completed' ) {
-				$current_task['completed_at'] = current_time( 'mysql' );
-				self::add_admin_notice(
-					'success',
-					__( 'DEMO MODE: Task marked as completed. Great job!', 'tradepress' )
-				);
-			}
-		} else {
-			// Normal mode processing
-			$current_task['status'] = $new_status;
-
-			if ( $new_status === 'in-progress' ) {
-				$current_task['started_at'] = current_time( 'mysql' );
-				self::add_admin_notice( 'success', __( 'Task status updated to In Progress.', 'tradepress' ) );
-			} elseif ( $new_status === 'completed' ) {
-				$current_task['completed_at'] = current_time( 'mysql' );
-				self::add_admin_notice( 'success', __( 'Task marked as completed.', 'tradepress' ) );
-			}
+		if ( $new_status === 'in-progress' ) {
+			$current_task['started_at'] = current_time( 'mysql' );
+			self::add_admin_notice( 'success', __( 'Task status updated to In Progress.', 'tradepress' ) );
+		} elseif ( $new_status === 'completed' ) {
+			$current_task['completed_at'] = current_time( 'mysql' );
+			self::add_admin_notice( 'success', __( 'Task marked as completed.', 'tradepress' ) );
 		}
 
 		// Save updated task

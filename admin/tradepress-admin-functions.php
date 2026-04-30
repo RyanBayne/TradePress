@@ -224,39 +224,6 @@ function tradepress_add_direct_api_test_link() {
 add_action( 'admin_menu', 'tradepress_add_direct_api_test_link', 999 );
 
 /**
- * Process demo mode toggle from developer toolbar
- *
- * @version 1.0.0
- */
-function tradepress_toggle_demo_mode() {
-	// Security: Verify the nonce to prevent CSRF attacks.
-	check_admin_referer( 'tradepress-toggle-demo-mode' );
-
-	if ( ! current_user_can( 'TradePressdevelopertoolbar' ) ) {
-		wp_die( esc_html__( 'You do not have permission to perform this action.', 'tradepress' ) );
-	}
-
-	// Ensure we have access to the is_demo_mode function
-	if ( ! function_exists( 'is_demo_mode' ) ) {
-		require_once TRADEPRESS_PLUGIN_DIR . 'functions/functions.tradepress-test-data.php';
-	}
-
-	// Get current demo mode status
-	$is_demo_active = is_demo_mode();
-
-	// Toggle - using the same option key that the original is_demo_mode() function uses
-	update_option( 'TradePress_demo_mode', ! $is_demo_active ? 'yes' : 'no' );
-
-	// Clear any cached data that might depend on demo mode
-	delete_transient( 'tradepress_earnings_data' );
-
-	// Redirect back to the previous page
-	wp_safe_redirect( wp_get_referer() );
-	exit;
-}
-add_action( 'admin_post_TradePress_demo_mode_switch', 'tradepress_toggle_demo_mode' );
-
-/**
  * Fetch earnings calendar data from Alpha Vantage
  *
  * @version 1.0.0

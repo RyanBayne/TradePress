@@ -66,11 +66,10 @@ class TradePress_News_Advisor_Integration {
 	 * @version 1.0.0
 	 */
 	private function get_symbol_news( $symbols ) {
-		// Only supply demo news data in developer demo mode. In all other contexts
+		// Do not supply generated news data in normal product flows. In all contexts
 		// return an empty array so the advisor step shows a proper empty state rather
 		// than fabricated headlines.
-		$can_show_demo = function_exists( 'is_demo_mode' ) && is_demo_mode()
-			&& function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
+		$can_show_demo = false;
 
 		$news_items = array();
 
@@ -289,9 +288,8 @@ class TradePress_News_Advisor_Integration {
 		}
 
 		// Demo-only: hardcoded trending symbols are not real data.
-		// Return empty unless in developer demo mode.
-		$can_show_demo = function_exists( 'is_demo_mode' ) && is_demo_mode()
-			&& function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
+		// Return empty until imported news opportunities are available.
+		$can_show_demo = false;
 
 		if ( ! $can_show_demo ) {
 			return array();

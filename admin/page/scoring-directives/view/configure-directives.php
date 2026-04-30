@@ -505,7 +505,7 @@ function tradepress_validate_directive_disable( $directive_id ) {
 				?>
 				
 				<div class="table-header" style="display: flex; background: #f1f1f1; padding: 12px 15px; font-weight: 600; border-bottom: 1px solid #c3c4c7;">
-					<?php if ( get_option( 'tradepress_developer_mode', 'no' ) === 'yes' ) : ?>
+					<?php if ( function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views() ) : ?>
 					<div style="flex: 0.5;"><?php esc_html_e( 'Code', 'tradepress' ); ?></div>
 					<?php endif; ?>
 					<div style="flex: 2;">
@@ -584,7 +584,7 @@ function tradepress_validate_directive_disable( $directive_id ) {
 					?>
 					<div class="accordion-row">
 						<div class="accordion-header">
-							<?php if ( get_option( 'tradepress_developer_mode', 'no' ) === 'yes' ) : ?>
+							<?php if ( function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views() ) : ?>
 							<div style="flex: 0.5;">
 								<code style="background: #0073aa; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold;"><?php echo esc_html( $directive['code'] ?? '' ); ?></code>
 							</div>
@@ -757,7 +757,7 @@ function tradepress_validate_directive_disable( $directive_id ) {
 				<div class="section-header">
 					<h3>
 						<span class="construction-icon dashicons dashicons-admin-tools" title="<?php esc_attr_e( 'Under Construction', 'tradepress' ); ?>"></span>
-						<?php if ( get_option( 'tradepress_developer_mode', 'no' ) === 'yes' && ! empty( $directive['code'] ) ) : ?>
+						<?php if ( function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views() && ! empty( $directive['code'] ) ) : ?>
 							<code style="background: #0073aa; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; margin-right: 8px;"><?php echo esc_html( $directive['code'] ); ?></code>
 						<?php endif; ?>
 						<?php echo esc_html( $directive['name'] ); ?>

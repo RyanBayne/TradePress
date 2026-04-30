@@ -13,27 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Check if global demo mode is enabled
- *
- * @return bool True if in demo mode, false otherwise
- * @version 1.0.0
- */
-function is_demo_mode() {
-	// Check for TRADEPRESS_DEMO_MODE constant first
-	if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-		return true;
-	}
-
-	// Check for demo mode option using the correct option name
-	$global_demo_mode = get_option( 'tradepress_demo_mode', 'yes' );
-	if ( $global_demo_mode === 'yes' ) {
-		return true;
-	}
-
-	return false;
-}
-
-/**
  * Generate test price data for a symbol
  *
  * @param string $symbol The stock symbol

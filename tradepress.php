@@ -103,7 +103,6 @@ if ( ! class_exists( 'WordPressTradePress' ) ) :
 		// Load directive testing AJAX handler
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/ajax/directive-testing.php';
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/ajax/directive-toggle.php';
-		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/ajax/demo-mode-toggle.php';
 
 		// Load strategy management handler
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/scoring-directives/strategy-handler.php';

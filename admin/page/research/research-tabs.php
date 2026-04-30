@@ -50,7 +50,7 @@ class TradePress_Research {
 	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
-		$this->active_tab  = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'price_forecast';
+		$this->active_tab  = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'overview';
 	}
 
 	/**
@@ -67,11 +67,14 @@ class TradePress_Research {
 			$tradepress_research->init(); // Initialize hooks for screen options
 		}
 
-		// Get current active tab
-		$current_tab = empty( $_GET['tab'] ) ? 'price_forecast' : sanitize_title( wp_unslash( $_GET['tab'] ) );
-
 		// Get tabs to display tab name in title
 		$tabs = $tradepress_research->get_tabs();
+
+		// Get current active tab
+		$current_tab = empty( $_GET['tab'] ) ? 'overview' : sanitize_title( wp_unslash( $_GET['tab'] ) );
+		if ( ! isset( $tabs[ $current_tab ] ) ) {
+			$current_tab = 'overview';
+		}
 
 		// Output the UI
 		?>
@@ -153,7 +156,7 @@ class TradePress_Research {
 		$instance = new self( 'tradepress', defined( 'TRADEPRESS_VERSION' ) ? TRADEPRESS_VERSION : '1.1.0' );
 		$tabs     = $instance->get_tabs();
 
-		$current_tab = empty( $_GET['tab'] ) ? 'price_forecast' : sanitize_key( $_GET['tab'] );
+		$current_tab = empty( $_GET['tab'] ) ? 'overview' : sanitize_key( $_GET['tab'] );
 
 		if ( isset( $tabs[ $current_tab ]['title'] ) ) {
 			$tab_title  = $tabs[ $current_tab ]['title'];
@@ -222,39 +225,46 @@ class TradePress_Research {
 				'title'    => __( 'Overview', 'tradepress' ),
 				'callback' => array( $this, 'load_overview_tab' ),
 			),
-			'sector-rotation'      => array(
-				'title'    => __( 'Sector Rotation', 'tradepress' ),
-				'callback' => array( $this, 'load_sector_rotation_tab' ),
-			),
-			'market-correlations'  => array(
-				'title'    => __( 'Market Correlations', 'tradepress' ),
-				'callback' => array( $this, 'load_market_correlations_tab' ),
-			),
 			'economic-calendar'    => array(
 				'title'    => __( 'Economic Calendar', 'tradepress' ),
 				'callback' => array( $this, 'load_economic_calendar_tab' ),
 			),
-			'technical-indicators' => array(
-				'title'    => __( 'Technical Indicators', 'tradepress' ),
-				'callback' => array( $this, 'load_technical_indicators_tab' ),
-			),
-			'earnings'             => array(
-				'title'    => __( 'Earnings Calendar', 'tradepress' ),
-				'callback' => array( $this, 'load_earnings_tab' ),
-			),
-			'price_forecast'       => array(
-				'title'    => __( 'Price Forecast', 'tradepress' ),
-				'callback' => array( $this, 'render_price_forecast_tab' ),
-			),
-			'news_feed'            => array(
-				'title'    => __( 'News Feed', 'tradepress' ),
-				'callback' => array( $this, 'load_news_feed_tab' ),
-			),
-			'social_networks'      => array(
-				'title'    => __( 'Social Networks', 'tradepress' ),
-				'callback' => array( $this, 'load_social_networks_tab' ),
-			),
 		);
+
+		if ( function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views() ) {
+			$dev_tabs = array(
+				'sector-rotation'     => array(
+					'title'    => __( 'Sector Rotation', 'tradepress' ),
+					'callback' => array( $this, 'load_sector_rotation_tab' ),
+				),
+				'market-correlations' => array(
+					'title'    => __( 'Market Correlations', 'tradepress' ),
+					'callback' => array( $this, 'load_market_correlations_tab' ),
+				),
+				'technical-indicators' => array(
+					'title'    => __( 'Technical Indicators', 'tradepress' ),
+					'callback' => array( $this, 'load_technical_indicators_tab' ),
+				),
+				'news_feed'           => array(
+					'title'    => __( 'News Feed', 'tradepress' ),
+					'callback' => array( $this, 'load_news_feed_tab' ),
+				),
+				'earnings'            => array(
+					'title'    => __( 'Earnings Calendar', 'tradepress' ),
+					'callback' => array( $this, 'load_earnings_tab' ),
+				),
+				'social_networks'     => array(
+					'title'    => __( 'Social Networks', 'tradepress' ),
+					'callback' => array( $this, 'load_social_networks_tab' ),
+				),
+				'price_forecast'      => array(
+					'title'    => __( 'Price Forecast', 'tradepress' ),
+					'callback' => array( $this, 'render_price_forecast_tab' ),
+				),
+			);
+
+			$tabs = array_slice( $tabs, 0, 1, true ) + $dev_tabs + array_slice( $tabs, 1, null, true );
+		}
 
 		return apply_filters( 'tradepress_research_tabs', $tabs );
 	}
@@ -285,7 +295,6 @@ class TradePress_Research {
 	 */
 	public function load_overview_tab() {
 		include TRADEPRESS_PLUGIN_DIR . 'admin/page/research/view/overview.php';
-		tradepress_research_overview_tab_content();
 	}
 
 	/**

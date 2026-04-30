@@ -205,21 +205,15 @@ function tradepress_earnings_tab_content() {
 		$user_timezone = 'UTC';
 	}
 
-	// Check if we're in demo mode - if so, use mock data, otherwise use real data
-	if ( ! function_exists( 'is_demo_mode' ) ) {
-		require_once TRADEPRESS_PLUGIN_DIR . 'functions/functions.tradepress-test-data.php';
-	}
-
-	$is_demo         = function_exists( 'is_demo_mode' ) ? is_demo_mode() : false;
+	$is_demo         = false;
 	$can_show_demo   = function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
 	$use_demo_data   = $is_demo && $can_show_demo;
 	$provider_status = tradepress_earnings_get_provider_status();
 	$earnings_data   = array();
 
 	if ( $use_demo_data ) {
-		// Generate mock earnings data in developer demo mode only.
 		$earnings_data     = tradepress_get_mock_earnings_data( $start_date, $end_date, $sector_filter, $importance_filter );
-		$data_source       = 'Demo Mode';
+		$data_source       = 'Development Preview';
 		$last_updated_text = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), current_time( 'timestamp' ) );
 	} else {
 		// In real mode, read stored/imported earnings data only.

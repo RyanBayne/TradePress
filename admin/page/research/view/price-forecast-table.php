@@ -25,6 +25,15 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 class TradePress_Price_Forecast_Table extends WP_List_Table {
 
 	/**
+	 * Check whether real forecast rows are available for the table.
+	 *
+	 * @return bool
+	 */
+	public static function has_real_data() {
+		return ! empty( self::get_raw_forecast_rows() );
+	}
+
+	/**
 	 * Constructor
 	 *
 	 * @version 1.0.0
@@ -252,82 +261,21 @@ class TradePress_Price_Forecast_Table extends WP_List_Table {
 	 * @version 1.0.0
 	 */
 	private function get_forecast_data( $search = '', $orderby = 'symbol', $order = 'asc' ) {
-		// In a real implementation, you would fetch this data from your database
-		// For demo purposes, we'll generate some mock data
+		$data = $this->normalize_forecast_rows( self::get_raw_forecast_rows() );
 
-		// Demo symbols
-		$symbols = array(
-			'AAPL' => 'Apple Inc.',
-			'MSFT' => 'Microsoft Corporation',
-			'GOOG' => 'Alphabet Inc.',
-			'AMZN' => 'Amazon.com, Inc.',
-			'META' => 'Meta Platforms, Inc.',
-			'TSLA' => 'Tesla, Inc.',
-			'NVDA' => 'NVIDIA Corporation',
-			'AMD'  => 'Advanced Micro Devices, Inc.',
-			'INTC' => 'Intel Corporation',
-			'IBM'  => 'International Business Machines Corporation',
-			'ORCL' => 'Oracle Corporation',
-			'CRM'  => 'Salesforce, Inc.',
-			'ADBE' => 'Adobe Inc.',
-			'CSCO' => 'Cisco Systems, Inc.',
-			'NFLX' => 'Netflix, Inc.',
-		);
-
-		// Filter by search term if provided
-		if ( ! empty( $search ) ) {
-			$filtered_symbols = array();
-			foreach ( $symbols as $symbol => $name ) {
-				if ( stripos( $symbol, $search ) !== false || stripos( $name, $search ) !== false ) {
-					$filtered_symbols[ $symbol ] = $name;
-				}
-			}
-			$symbols = $filtered_symbols;
+		if ( empty( $data ) ) {
+			return array();
 		}
 
-		// Generate data for each symbol
-		$data = array();
-		foreach ( $symbols as $symbol => $name ) {
-			// Generate current price between $10 and $1000
-			$current_price = mt_rand( 100, 10000 ) / 10;
-
-			// Generate confidence score between 50 and 95
-			$confidence = mt_rand( 500, 950 ) / 10;
-
-			// Generate last updated timestamp within the past week
-			$updated = date( 'Y-m-d H:i:s', strtotime( '-' . mt_rand( 1, 168 ) . ' hours' ) );
-
-			// Create forecasts for different time periods
-			$forecasts = array(
-				'forecast_1m' => array(
-					'price'      => $current_price * ( 1 + mt_rand( -50, 100 ) / 1000 ),
-					'confidence' => mt_rand( 600, 900 ) / 10,
-				),
-				'forecast_3m' => array(
-					'price'      => $current_price * ( 1 + mt_rand( -100, 200 ) / 1000 ),
-					'confidence' => mt_rand( 550, 850 ) / 10,
-				),
-				'forecast_6m' => array(
-					'price'      => $current_price * ( 1 + mt_rand( -150, 300 ) / 1000 ),
-					'confidence' => mt_rand( 500, 800 ) / 10,
-				),
-				'forecast_1y' => array(
-					'price'      => $current_price * ( 1 + mt_rand( -200, 400 ) / 1000 ),
-					'confidence' => mt_rand( 450, 750 ) / 10,
-				),
-			);
-
-			// Add to data array
-			$data[] = array(
-				'symbol'      => $symbol,
-				'name'        => $name,
-				'current'     => $current_price,
-				'forecast_1m' => $forecasts['forecast_1m'],
-				'forecast_3m' => $forecasts['forecast_3m'],
-				'forecast_6m' => $forecasts['forecast_6m'],
-				'forecast_1y' => $forecasts['forecast_1y'],
-				'confidence'  => $confidence,
-				'updated'     => $updated,
+		// Filter by search term if provided.
+		if ( ! empty( $search ) ) {
+			$data = array_filter(
+				$data,
+				function ( $row ) use ( $search ) {
+					$symbol = (string) ( $row['symbol'] ?? '' );
+					$name   = (string) ( $row['name'] ?? '' );
+					return stripos( $symbol, $search ) !== false || stripos( $name, $search ) !== false;
+				}
 			);
 		}
 
@@ -353,7 +301,76 @@ class TradePress_Price_Forecast_Table extends WP_List_Table {
 			}
 		);
 
-		return $data;
+		return array_values( $data );
+	}
+
+	/**
+	 * Get raw forecast rows from storage/filter.
+	 *
+	 * @return array
+	 */
+	private static function get_raw_forecast_rows() {
+		$rows = get_option( 'tradepress_price_forecast_table_data', array() );
+
+		if ( ! is_array( $rows ) ) {
+			$rows = array();
+		}
+
+		$rows = apply_filters( 'tradepress_price_forecast_table_rows', $rows );
+
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
+	 * Normalize externally-supplied rows into the table schema.
+	 *
+	 * @param array $rows Raw rows.
+	 * @return array
+	 */
+	private function normalize_forecast_rows( $rows ) {
+		$normalized = array();
+
+		foreach ( $rows as $row ) {
+			if ( ! is_array( $row ) || empty( $row['symbol'] ) ) {
+				continue;
+			}
+
+			$current = isset( $row['current'] ) ? (float) $row['current'] : 0.0;
+			if ( isset( $row['current_price'] ) ) {
+				$current = (float) $row['current_price'];
+			}
+
+			$forecast_1m = isset( $row['forecast_1m'] ) && is_array( $row['forecast_1m'] ) ? $row['forecast_1m'] : array();
+			$forecast_3m = isset( $row['forecast_3m'] ) && is_array( $row['forecast_3m'] ) ? $row['forecast_3m'] : array();
+			$forecast_6m = isset( $row['forecast_6m'] ) && is_array( $row['forecast_6m'] ) ? $row['forecast_6m'] : array();
+			$forecast_1y = isset( $row['forecast_1y'] ) && is_array( $row['forecast_1y'] ) ? $row['forecast_1y'] : array();
+
+			$normalized[] = array(
+				'symbol'      => strtoupper( sanitize_text_field( (string) $row['symbol'] ) ),
+				'name'        => sanitize_text_field( (string) ( $row['name'] ?? '' ) ),
+				'current'     => $current,
+				'forecast_1m' => array(
+					'price'      => (float) ( $forecast_1m['price'] ?? 0 ),
+					'confidence' => (float) ( $forecast_1m['confidence'] ?? 0 ),
+				),
+				'forecast_3m' => array(
+					'price'      => (float) ( $forecast_3m['price'] ?? 0 ),
+					'confidence' => (float) ( $forecast_3m['confidence'] ?? 0 ),
+				),
+				'forecast_6m' => array(
+					'price'      => (float) ( $forecast_6m['price'] ?? 0 ),
+					'confidence' => (float) ( $forecast_6m['confidence'] ?? 0 ),
+				),
+				'forecast_1y' => array(
+					'price'      => (float) ( $forecast_1y['price'] ?? 0 ),
+					'confidence' => (float) ( $forecast_1y['confidence'] ?? 0 ),
+				),
+				'confidence'  => isset( $row['confidence'] ) ? (float) $row['confidence'] : 0.0,
+				'updated'     => sanitize_text_field( (string) ( $row['updated'] ?? current_time( 'mysql' ) ) ),
+			);
+		}
+
+		return $normalized;
 	}
 
 	/**

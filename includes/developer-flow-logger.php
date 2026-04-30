@@ -21,7 +21,7 @@ class TradePress_Developer_Flow_Logger {
 	 * @param string $description
 	 */
 	public static function start_flow( $context, $description = '' ) {
-		if ( get_option( 'tradepress_developer_mode' ) !== 'yes' ) {
+		if ( ! function_exists( 'tradepress_is_developer_mode' ) || ! tradepress_is_developer_mode() ) {
 			return;
 		}
 
@@ -49,7 +49,7 @@ class TradePress_Developer_Flow_Logger {
 	 * @param array  $data
 	 */
 	public static function log_decision( $decision, $result, $reason = '', $data = array() ) {
-		if ( get_option( 'tradepress_developer_mode' ) !== 'yes' ) {
+		if ( ! function_exists( 'tradepress_is_developer_mode' ) || ! tradepress_is_developer_mode() ) {
 			return;
 		}
 
@@ -77,7 +77,7 @@ class TradePress_Developer_Flow_Logger {
 	 * @param array  $data
 	 */
 	public static function log_action( $action, $details = '', $data = array() ) {
-		if ( get_option( 'tradepress_developer_mode' ) !== 'yes' ) {
+		if ( ! function_exists( 'tradepress_is_developer_mode' ) || ! tradepress_is_developer_mode() ) {
 			return;
 		}
 
@@ -104,7 +104,7 @@ class TradePress_Developer_Flow_Logger {
 	 * @param array $data
 	 */
 	public static function log_cache( $operation, $key, $result, $data = array() ) {
-		if ( get_option( 'tradepress_developer_mode' ) !== 'yes' ) {
+		if ( ! function_exists( 'tradepress_is_developer_mode' ) || ! tradepress_is_developer_mode() ) {
 			return;
 		}
 
@@ -133,7 +133,7 @@ class TradePress_Developer_Flow_Logger {
 	 * @param array $data
 	 */
 	public static function log_api( $provider, $endpoint, $result, $data = array() ) {
-		if ( get_option( 'tradepress_developer_mode' ) !== 'yes' ) {
+		if ( ! function_exists( 'tradepress_is_developer_mode' ) || ! tradepress_is_developer_mode() ) {
 			return;
 		}
 
@@ -160,7 +160,7 @@ class TradePress_Developer_Flow_Logger {
 	 * @param mixed  $error
 	 */
 	public static function end_flow( $final_result = '', $error = null ) {
-		if ( get_option( 'tradepress_developer_mode' ) !== 'yes' ) {
+		if ( ! function_exists( 'tradepress_is_developer_mode' ) || ! tradepress_is_developer_mode() ) {
 			return;
 		}
 

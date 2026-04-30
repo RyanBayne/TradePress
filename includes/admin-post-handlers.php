@@ -263,48 +263,11 @@ function tradepress_handle_advisor_step_6() {
 	exit;
 }
 
-// Developer Mode Toggle Handler
-add_action( 'admin_post_tradepress_toggle_developer_mode_toolbar', 'tradepress_handle_developer_mode_toggle' );
-
 /**
- * Handle developer mode toggle.
+ * Handle legacy developer mode toggle requests.
  *
  * @version 1.0.0
  */
 function tradepress_handle_developer_mode_toggle() {
-
-	tradepress_trace_log( 'Developer mode toggle handler called' );
-	$nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
-	if ( ! wp_verify_nonce( $nonce, 'tradepress_developer_mode_nonce' ) ) {
-		wp_die( esc_html__( 'Security check failed.', 'tradepress' ) );
-	}
-
-	if ( ! current_user_can( 'TradePressdevelopertoolbar' ) ) {
-		wp_die( esc_html__( 'Permission denied.', 'tradepress' ) );
-	}
-
-	$current_status = get_option( 'tradepress_developer_mode', false );
-	$new_status     = ! $current_status;
-
-	update_option( 'tradepress_developer_mode', $new_status );
-
-	tradepress_trace_log(
-		'Developer mode toggled',
-		array(
-			'old_status' => $current_status,
-			'new_status' => $new_status,
-		)
-	);
-
-	// Add admin notice
-	$message = $new_status ? 'Developer mode enabled' : 'Developer mode disabled';
-	add_action(
-		'admin_notices',
-		function () use ( $message ) {
-			echo '<div class="notice notice-success"><p>' . esc_html( $message ) . '</p></div>';
-		}
-	);
-
-	wp_safe_redirect( wp_get_referer() ?: admin_url() );
-	exit;
+	wp_die( esc_html__( 'Developer Mode is controlled by the WP_DEVELOPMENT_MODE constant.', 'tradepress' ) );
 }

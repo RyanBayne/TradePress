@@ -63,8 +63,10 @@ if ( ! class_exists( 'TradePress_Admin_Menus' ) ) :
 			// 5. Watchlists (need to know which stocks to monitor)
 			add_submenu_page( $this->slug, __( 'Watchlists', 'tradepress' ), __( 'Watchlists', 'tradepress' ), 'manage_options', 'tradepress_watchlists', array( $this, 'watchlists_page' ) );
 
-			// 6. Automation (needs smooth operation for all-day scoring)
-			add_submenu_page( $this->slug, __( 'Automation', 'tradepress' ), __( 'Automation', 'tradepress' ), 'manage_options', 'tradepress_automation', array( $this, 'automation_page' ) );
+			// 6. Automation (developer mode only)
+			if ( $is_dev_mode ) {
+				add_submenu_page( $this->slug, __( 'Automation', 'tradepress' ), __( 'Automation', 'tradepress' ), 'manage_options', 'tradepress_automation', array( $this, 'automation_page' ) );
+			}
 
 			// 7. Scoring Directives
 			if ( $is_dev_mode ) {
@@ -79,8 +81,7 @@ if ( ! class_exists( 'TradePress_Admin_Menus' ) ) :
 				add_submenu_page( $this->slug, __( 'Analysis', 'tradepress' ), __( 'Analysis', 'tradepress' ), 'manage_options', 'tradepress_analysis', array( $this, 'analysis_page' ) );
 			}
 
-			// 10. Trading (keep visible but hide incomplete tabs within the page)
-			add_submenu_page( $this->slug, __( 'Trading', 'tradepress' ), __( 'Trading', 'tradepress' ), 'manage_options', 'tradepress_trading', array( $this, 'trading_page' ) );
+			// 10. Trading page is intentionally hidden from admin navigation.
 
 			// Trading Platforms (keep for now)
 			add_submenu_page( $this->slug, __( 'Trading Platforms', 'tradepress' ), __( 'Trading Platforms', 'tradepress' ), 'manage_options', 'tradepress_platforms', array( $this, 'platforms_page' ) );
@@ -135,6 +136,10 @@ if ( ! class_exists( 'TradePress_Admin_Menus' ) ) :
 		 * @version 1.0.0
 		 */
 		public function automation_page() {
+			if ( ! function_exists( 'tradepress_is_developer_mode' ) || ! tradepress_is_developer_mode() ) {
+				wp_die( esc_html__( 'Automation is available only in Developer Mode.', 'tradepress' ) );
+			}
+
 			TradePress_Admin_Automation_Page::output(); // TODO: rename from area to tabs
 		}
 		/**
@@ -175,6 +180,8 @@ if ( ! class_exists( 'TradePress_Admin_Menus' ) ) :
 		 * @version 1.0.0
 		 */
 		public function trading_page() {
+			wp_die( esc_html__( 'Trading page is currently hidden.', 'tradepress' ) );
+
 			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/trading/trading-tabs.php';
 			$trading = new TradePress_Admin_Trading_Page();
 			$trading->output();

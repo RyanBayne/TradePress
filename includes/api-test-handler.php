@@ -204,18 +204,6 @@ class TradePress_API_Test_Handler {
 	 * @version 1.0.0
 	 */
 	private function get_environment_mode() {
-		// Check for TRADEPRESS_DEMO_MODE constant first
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return 'Demo';
-		}
-
-		// Check for demo mode option next
-		$demo_mode = get_option( 'tradepress_demo_mode', 'yes' );
-		if ( $demo_mode === 'yes' ) {
-			return 'Demo';
-		}
-
-		// If neither condition is met, return Live
 		return 'Live';
 	}
 

@@ -80,8 +80,9 @@ foreach ( $real_endpoints as $key => $endpoint ) {
 // Set up the variables needed for the template
 $api_name        = 'Alpha Vantage';
 $api_description = __( 'Financial data API providing realtime and historical stock data, forex, cryptocurrency, and technical indicators.', 'tradepress' );
-$api_version     = 'v1';
-$api_logo_url    = ! empty( $provider['logo_url'] ) ? $provider['logo_url'] : TRADEPRESS_PLUGIN_URL . 'assets/images/alphavantage-logo.png';
+$api_version  = 'v1';
+// Prefer a reliable icon URL; fall back to an initials placeholder via inline SVG data URI.
+$api_logo_url = ! empty( $provider['icon_url'] ) ? $provider['icon_url'] : '';
 
 // Documentation links
 $documentation_links = array(

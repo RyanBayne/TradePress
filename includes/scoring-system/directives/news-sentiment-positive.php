@@ -133,9 +133,8 @@ class TradePress_News_Sentiment_Positive_Directive extends TradePress_Scoring_Di
 	 * @version 1.0.0
 	 */
 	private function get_news_sentiment( $symbol, $lookback_days ) {
-		// Demo/dev path: return mock sentiment data only when both demo mode and developer access are active.
-		$can_show_demo = function_exists( 'is_demo_mode' ) && is_demo_mode()
-			&& function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
+		// Generated sentiment data is not used in product flows.
+		$can_show_demo = false;
 
 		if ( $can_show_demo ) {
 			$mock_sentiments = array(

@@ -15,7 +15,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // Check if demo mode is active
-$is_demo = function_exists( 'is_demo_mode' ) ? is_demo_mode() : false;
+$is_demo = false;
 
 // Display demo indicator warning only if in demo mode
 if ( $is_demo ) : ?>
@@ -32,6 +32,22 @@ endif;
 
 // Check if a specific symbol was requested for detailed view
 $symbol = isset( $_GET['symbol'] ) ? sanitize_text_field( $_GET['symbol'] ) : '';
+
+$has_real_forecast_data = class_exists( 'TradePress_Price_Forecast_Table' )
+	&& is_callable( array( 'TradePress_Price_Forecast_Table', 'has_real_data' ) )
+	&& TradePress_Price_Forecast_Table::has_real_data();
+
+if ( ! $has_real_forecast_data ) {
+	?>
+	<div class="notice notice-info">
+		<p>
+			<strong><?php esc_html_e( 'No live forecast data available.', 'tradepress' ); ?></strong>
+			<?php esc_html_e( 'The Price Forecast table is hidden until real forecast rows are imported or provided by an active data source.', 'tradepress' ); ?>
+		</p>
+	</div>
+	<?php
+	return;
+}
 
 if ( ! empty( $symbol ) ) {
 	// Display detailed view for the selected symbol

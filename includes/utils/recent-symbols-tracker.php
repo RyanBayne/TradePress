@@ -165,8 +165,7 @@ class TradePress_Recent_Symbols {
 
 		// Do not return demo data to regular users. Return empty records so callers
 		// can show a proper empty state. Demo data is only acceptable in developer mode.
-		$can_show_demo = function_exists( 'is_demo_mode' ) && is_demo_mode()
-			&& function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
+		$can_show_demo = false;
 
 		foreach ( $symbols as $symbol ) {
 			if ( $can_show_demo ) {

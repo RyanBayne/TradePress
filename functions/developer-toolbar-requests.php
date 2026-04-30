@@ -151,20 +151,12 @@ function tradepress_toggle_developer_mode_toolbar() {
 		wp_die( esc_html__( 'Security check failed', 'tradepress' ) );
 	}
 
-	$current_status = get_option( 'tradepress_developer_mode', false );
-	$new_status     = ! $current_status;
-
-	update_option( 'tradepress_developer_mode', $new_status );
-
-	$status_text = $new_status ? __( 'enabled', 'tradepress' ) : __( 'disabled', 'tradepress' );
-
 	TradePress_Admin_Notices::add_wordpress_notice(
 		'devtoolbar_developer_mode_notice',
-		'success',
+		'warning',
 		false,
-		__( 'Developer Mode Toggled', 'tradepress' ),
-		/* translators: %s: string value */
-		sprintf( __( 'Developer mode has been %s.', 'tradepress' ), $status_text )
+		__( 'Developer Mode Uses WP_DEVELOPMENT_MODE', 'tradepress' ),
+		__( 'Developer Mode can no longer be toggled in the UI. Define WP_DEVELOPMENT_MODE in wp-config.php instead.', 'tradepress' )
 	);
 
 	wp_safe_redirect( wp_get_referer() );

@@ -207,17 +207,6 @@ if ( ! class_exists( 'TradePress_Settings_General' ) ) :
 						),
 
 						array(
-							'title'           => __( 'Demo Mode', 'tradepress' ),
-							'desc'            => __( 'When enabled, TradePress will use test data instead of real API calls. This is a global setting affecting all plugin features.', 'tradepress' ),
-							'id'              => 'tradepress_demo_mode',
-							'default'         => 'yes',
-							'type'            => 'checkbox',
-							'checkboxgroup'   => '',
-							'show_if_checked' => 'yes',
-							'autoload'        => true,
-						),
-
-						array(
 							'title'           => __( 'Beta Testing', 'tradepress' ),
 							'desc'            => __( 'Enable access to beta features and new functionality that may use demo data temporarily.', 'tradepress' ),
 							'id'              => 'tradepress_beta_testing',
@@ -375,26 +364,6 @@ if ( ! class_exists( 'TradePress_Settings_General' ) ) :
 						array(
 							'desc'            => __( 'Log API Raw Response/Body', 'tradepress' ),
 							'id'              => 'TradePress_api_logging_body_switch',
-							'default'         => 'no',
-							'type'            => 'checkbox',
-							'checkboxgroup'   => '',
-							'show_if_checked' => 'yes',
-							'autoload'        => true,
-						),
-
-						array(
-							'desc'            => __( 'Demo Mode', 'tradepress' ),
-							'id'              => 'tradepress_demo_mode',
-							'default'         => 'yes',
-							'type'            => 'checkbox',
-							'checkboxgroup'   => '',
-							'show_if_checked' => 'yes',
-							'autoload'        => true,
-						),
-
-						array(
-							'desc'            => __( 'Developer Mode', 'tradepress' ),
-							'id'              => 'tradepress_developer_mode',
 							'default'         => 'no',
 							'type'            => 'checkbox',
 							'checkboxgroup'   => '',
@@ -782,7 +751,6 @@ if ( ! class_exists( 'TradePress_Settings_General' ) ) :
 endif;
 
 return new TradePress_Settings_General();
-
 
 
 

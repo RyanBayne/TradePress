@@ -45,7 +45,7 @@ defined( 'ABSPATH' ) || exit;
 						<p><?php esc_html_e( 'Reusable indicators for feature readiness and mock-data states.', 'tradepress' ); ?></p>
 					</header>
 
-					<?php $is_demo_mode_active = function_exists( 'is_demo_mode' ) ? is_demo_mode() : true; ?>
+					<?php $is_demo_mode_active = false; ?>
 					<div class="tradepress-mode-stack" role="list">
 						<?php if ( $is_demo_mode_active ) : ?>
 						<article class="tradepress-mode-signal is-demo is-active" role="listitem">

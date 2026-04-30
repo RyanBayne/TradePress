@@ -73,7 +73,7 @@ class TradePress_API_Usage_Tracker {
 		update_option( $usage_key, $usage );
 
 		// Developer notice
-		if ( get_option( 'tradepress_developer_mode' ) === 'yes' ) {
+		if ( function_exists( 'tradepress_is_developer_mode' ) && tradepress_is_developer_mode() ) {
 			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/developer-notices.php';
 			TradePress_Developer_Notices::api_call_notice(
 				$provider_id,
@@ -167,7 +167,7 @@ class TradePress_API_Usage_Tracker {
 		foreach ( $ordered_providers as $provider_id ) {
 			// Skip if rate limited (unless it's the last option)
 			if ( self::is_likely_rate_limited( $provider_id ) && count( $ordered_providers ) > 1 ) {
-				if ( get_option( 'tradepress_developer_mode' ) === 'yes' ) {
+				if ( function_exists( 'tradepress_is_developer_mode' ) && tradepress_is_developer_mode() ) {
 					require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/developer-notices.php';
 					TradePress_Developer_Notices::api_call_notice(
 						$provider_id,
@@ -182,7 +182,7 @@ class TradePress_API_Usage_Tracker {
 			// Try to create API instance
 			$api = TradePress_API_Factory::create_from_settings( $provider_id );
 			if ( ! is_wp_error( $api ) ) {
-				if ( get_option( 'tradepress_developer_mode' ) === 'yes' ) {
+				if ( function_exists( 'tradepress_is_developer_mode' ) && tradepress_is_developer_mode() ) {
 					require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/developer-notices.php';
 					TradePress_Developer_Notices::api_call_notice(
 						$provider_id,

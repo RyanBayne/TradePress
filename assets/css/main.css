@@ -63,7 +63,7 @@
 @import 'pages/automation.css';
 @import 'pages/discord-settings.css';
 @import 'pages/features.css';
-@import 'pages/research.css';
+@import 'layouts/research.css';
 @import 'pages/sandbox.css';
 @import 'pages/setup.css';
 @import 'pages/shortcodes.css';

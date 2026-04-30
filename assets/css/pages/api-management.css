@@ -163,114 +163,160 @@
 
 /* Service Overview Styles */
 .service-overview {
-    margin-bottom: 25px;
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 12px 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background: #fff;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.service-logo {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.service-logo img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 6px;
 }
 
 .service-details {
-    width: 100%;
+    flex: 0 1 auto;
+    min-width: 0;
+}
+
+.service-name {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1d2327;
+    line-height: 1.3;
 }
 
 .service-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 15px;
+    gap: 8px;
+    margin-bottom: 14px;
     align-items: center;
 }
 
-.service-version {
-    font-size: 13px;
-    color: #666;
-    margin-right: 15px;
+/* Inline control buttons in service-meta */
+.service-status-form,
+.trading-mode-button-form,
+.demo-mode-button-form {
+    margin: 0;
 }
 
 /* Button Styles */
 .service-status-toggle-button,
 .trading-mode-toggle-button,
 .demo-mode-toggle-button {
-    padding: 6px 12px;
+    padding: 4px 10px;
     border: none;
-    border-radius: 3px;
-    font-size: 12px;
+    border-radius: 12px;
+    font-size: 11px;
     font-weight: 600;
     cursor: pointer;
     text-transform: uppercase;
+    letter-spacing: 0.4px;
+    line-height: 1.5;
 }
 
 .service-status-toggle-button.operational {
-    background: #28a745;
-    color: white;
+    background: #d1fae5;
+    color: #065f46;
 }
 
 .service-status-toggle-button.disabled {
-    background: #dc3545;
-    color: white;
+    background: #fee2e2;
+    color: #991b1b;
 }
 
 .trading-mode-toggle-button.live {
-    background: #dc3545;
-    color: white;
+    background: #fee2e2;
+    color: #991b1b;
 }
 
 .trading-mode-toggle-button.paper {
-    background: #17a2b8;
-    color: white;
+    background: #dbeafe;
+    color: #1e40af;
 }
 
 .demo-mode-toggle-button.demo-on {
-    background: #ffc107;
-    color: #212529;
+    background: #fef3c7;
+    color: #92400e;
 }
 
 .demo-mode-toggle-button.demo-off {
-    background: #6c757d;
-    color: white;
+    background: #f3f4f6;
+    color: #374151;
 }
 
 /* API Service Info */
 .api-service-info {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    grid-template-columns: repeat(2, minmax(0, max-content));
+    gap: 6px 14px;
 }
 
 .api-info-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
+    gap: 6px;
+    padding: 0;
+    border-bottom: none;
 }
 
 .info-label {
     font-weight: 600;
-    color: #555;
-    font-size: 13px;
+    color: #666;
+    font-size: 12px;
 }
 
 .info-value {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #f3f4f6;
+    color: #374151;
 }
 
 .info-value.demo-env {
-    color: #856404;
+    background: #fef3c7;
+    color: #92400e;
 }
 
 .info-value.live-env {
-    color: #155724;
+    background: #d1fae5;
+    color: #065f46;
 }
 
 .info-value.data-only-api {
-    color: #004085;
+    background: #dbeafe;
+    color: #1e40af;
 }
 
 .info-value.live-trading {
-    color: #721c24;
+    background: #fee2e2;
+    color: #991b1b;
 }
 
 .info-value.paper-trading {
-    color: #0c5460;
+    background: #dbeafe;
+    color: #1e40af;
 }
 
 /* Rate Limiting Section */
@@ -316,10 +362,6 @@
     .api-meta {
         grid-template-columns: 1fr 1fr;
     }
-    
-    .api-service-info {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (max-width: 768px) {
@@ -340,9 +382,17 @@
         grid-template-columns: 1fr;
     }
     
+    .service-overview {
+        display: flex;
+        width: 100%;
+    }
+
+    .api-service-info {
+        grid-template-columns: 1fr;
+    }
+
     .service-meta {
-        flex-direction: column;
-        align-items: flex-start;
+        gap: 6px;
     }
     
     .api-actions {
