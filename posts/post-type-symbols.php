@@ -393,6 +393,12 @@ class TradePress_Post_Type_Symbols {
 	 * @version 1.0.0
 	 */
 	public static function include_symbols_in_recent_posts( $args ) {
+		// Only modify when not in an admin context to avoid polluting
+		// admin list-table URLs with an array post_type that causes
+		// an Array-to-string warning in esc_attr().
+		if ( is_admin() ) {
+			return $args;
+		}
 		if ( ! isset( $args['post_type'] ) ) {
 			$args['post_type'] = array( 'post', 'symbols' );
 		}
