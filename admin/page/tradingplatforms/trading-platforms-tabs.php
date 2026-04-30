@@ -289,7 +289,11 @@ if ( ! class_exists( 'TradePress_Admin_TradingPlatforms_Page' ) ) :
 				if ( $api_id === 'trading212' ) {
 					// Check if Trading212 API key exists and is not empty
 					$api_settings = get_option( 'tradepress_api_settings', array() );
-					if ( ! empty( $api_settings['trading212_api_key'] ) ) {
+					$api_key      = isset( $api_settings['trading212_api_key'] ) ? trim( (string) $api_settings['trading212_api_key'] ) : '';
+					if ( '' === $api_key ) {
+						$api_key = trim( (string) get_option( 'tradepress_trading212_api_key', '' ) );
+					}
+					if ( '' !== $api_key ) {
 						$show_tab = true;
 					}
 				}
