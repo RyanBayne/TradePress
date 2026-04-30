@@ -97,7 +97,8 @@ function tradepress_data_tables_tab_content() {
 	global $wpdb;
 
 	// Get TradePress tables
-	$tables_result = $wpdb->get_results( "SHOW TABLES LIKE '{$wpdb->prefix}tradepress%'" );
+	$like          = $wpdb->esc_like( $wpdb->prefix . 'tradepress' ) . '%';
+	$tables_result = $wpdb->get_results( $wpdb->prepare( 'SHOW TABLES LIKE %s', $like ) );
 	$tables        = array();
 
 	// Check if we have any tables
