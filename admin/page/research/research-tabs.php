@@ -50,7 +50,7 @@ class TradePress_Research {
 	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
-		$this->active_tab  = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'overview';
+		$this->active_tab  = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'economic-calendar';
 	}
 
 	/**
@@ -71,9 +71,10 @@ class TradePress_Research {
 		$tabs = $tradepress_research->get_tabs();
 
 		// Get current active tab
-		$current_tab = empty( $_GET['tab'] ) ? 'overview' : sanitize_title( wp_unslash( $_GET['tab'] ) );
+		$default_tab = array_key_first( $tabs );
+		$current_tab = empty( $_GET['tab'] ) ? $default_tab : sanitize_title( wp_unslash( $_GET['tab'] ) );
 		if ( ! isset( $tabs[ $current_tab ] ) ) {
-			$current_tab = 'overview';
+			$current_tab = $default_tab;
 		}
 
 		// Output the UI
@@ -156,7 +157,8 @@ class TradePress_Research {
 		$instance = new self( 'tradepress', defined( 'TRADEPRESS_VERSION' ) ? TRADEPRESS_VERSION : '1.1.0' );
 		$tabs     = $instance->get_tabs();
 
-		$current_tab = empty( $_GET['tab'] ) ? 'overview' : sanitize_key( $_GET['tab'] );
+		$default_tab = array_key_first( $tabs );
+		$current_tab = empty( $_GET['tab'] ) ? $default_tab : sanitize_key( $_GET['tab'] );
 
 		if ( isset( $tabs[ $current_tab ]['title'] ) ) {
 			$tab_title  = $tabs[ $current_tab ]['title'];
@@ -221,10 +223,6 @@ class TradePress_Research {
 	 */
 	public function get_tabs() {
 		$tabs = array(
-			'overview'             => array(
-				'title'    => __( 'Overview', 'tradepress' ),
-				'callback' => array( $this, 'load_overview_tab' ),
-			),
 			'economic-calendar'    => array(
 				'title'    => __( 'Economic Calendar', 'tradepress' ),
 				'callback' => array( $this, 'load_economic_calendar_tab' ),
@@ -233,6 +231,10 @@ class TradePress_Research {
 
 		if ( function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views() ) {
 			$dev_tabs = array(
+				'overview'            => array(
+					'title'    => __( 'Overview', 'tradepress' ),
+					'callback' => array( $this, 'load_overview_tab' ),
+				),
 				'sector-rotation'     => array(
 					'title'    => __( 'Sector Rotation', 'tradepress' ),
 					'callback' => array( $this, 'load_sector_rotation_tab' ),
@@ -263,7 +265,7 @@ class TradePress_Research {
 				),
 			);
 
-			$tabs = array_slice( $tabs, 0, 1, true ) + $dev_tabs + array_slice( $tabs, 1, null, true );
+			$tabs = $dev_tabs + $tabs;
 		}
 
 		return apply_filters( 'tradepress_research_tabs', $tabs );
@@ -283,8 +285,11 @@ class TradePress_Research {
 		if ( isset( $tabs[ $tab ] ) && isset( $tabs[ $tab ]['callback'] ) && is_callable( $tabs[ $tab ]['callback'] ) ) {
 			call_user_func( $tabs[ $tab ]['callback'] );
 		} else {
-			// Default to overview tab if the requested tab doesn't exist
-			$this->load_overview_tab();
+			// Default to the first available tab if the requested tab is hidden or invalid.
+			$default_tab = array_key_first( $tabs );
+			if ( $default_tab && isset( $tabs[ $default_tab ]['callback'] ) && is_callable( $tabs[ $default_tab ]['callback'] ) ) {
+				call_user_func( $tabs[ $default_tab ]['callback'] );
+			}
 		}
 	}
 

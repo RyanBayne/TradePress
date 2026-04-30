@@ -471,33 +471,11 @@ class TradePress_Post_Type_Symbols {
 	 * @version 1.0.0
 	 */
 	public static function set_custom_edit_symbols_columns( $columns ) {
-		// Add the demo notice at the top of the page
-		add_action( 'admin_notices', array( __CLASS__, 'display_demo_notice' ) );
-
 		$columns['ticker']     = __( 'Ticker', 'tradepress' );
 		$columns['exchange']   = __( 'Exchange', 'tradepress' );
 		$columns['last_price'] = __( 'Last Price', 'tradepress' );
 		$columns['score']      = __( 'Score', 'tradepress' );
 		return $columns;
-	}
-
-	/**
-	 * Display a demo indicator notice at the top of the Symbols listing page
-	 *
-	 * @version 1.0.0
-	 */
-	public static function display_demo_notice() {
-		$screen = get_current_screen();
-		if ( $screen && $screen->id === 'edit-symbols' ) {
-			echo '<div class="demo-indicator">
-                <div class="demo-icon dashicons dashicons-admin-tools"></div>
-                <div class="demo-text">
-                    <h4>' . esc_html__( 'Demo Data', 'tradepress' ) . '</h4>
-                    <p>' . esc_html__( 'The Score column contains demo values for testing and development purposes.', 'tradepress' ) . '</p>
-                </div>
-                <span class="demo-badge">' . esc_html__( 'DEMO', 'tradepress' ) . '</span>
-            </div>';
-		}
 	}
 
 	/**
@@ -520,21 +498,40 @@ class TradePress_Post_Type_Symbols {
 				echo ! empty( $price ) ? '$' . number_format( $price, 2 ) : '';
 				break;
 			case 'score':
-				// Get existing score or generate a demo score if it doesn't exist
-				$score = get_post_meta( $post_id, '_tradepress_score', true );
-
-				if ( empty( $score ) ) {
-					// Generate a demo score between 0 and 100
-					$score = mt_rand( 10, 95 );
-
-					// Store the demo score
-					update_post_meta( $post_id, '_tradepress_score', $score );
+				$score = self::get_latest_symbol_score( $post_id );
+				if ( null === $score ) {
+					echo '<span class="score-not-scored">' . esc_html__( 'Not Scored', 'tradepress' ) . '</span>';
+					break;
 				}
 
-				// Output the score with color coding based on value
 				self::render_score_indicator( $score );
 				break;
 		}
+	}
+
+	/**
+	 * Get the latest stored score for a symbol post.
+	 *
+	 * @param int $post_id Symbol post ID.
+	 * @return int|null Latest stored score, or null when the symbol has not been scored.
+	 * @version 1.0.0
+	 */
+	public static function get_latest_symbol_score( $post_id ) {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'tradepress_symbol_scores';
+		$score      = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT score FROM {$table_name} WHERE symbol_id = %d ORDER BY created_at DESC LIMIT 1",
+				$post_id
+			)
+		);
+
+		if ( null === $score ) {
+			return null;
+		}
+
+		return (int) $score;
 	}
 
 	/**
@@ -565,20 +562,10 @@ class TradePress_Post_Type_Symbols {
 			$label = __( 'Excellent', 'tradepress' );
 		}
 
-		// For demo purposes, use a random value between 70-100 for the max possible score
-		// In a real implementation, this would come from the strategy that scored the symbol
-		$max_possible_score = mt_rand( max( $score, 70 ), 100 );
-
-		// Calculate the percentage of the maximum possible score
-		$percentage = round( ( $score / $max_possible_score ) * 100 );
-
 		// Create a visual score indicator
 		echo '<div class="score-indicator" style="display: inline-block; min-width: 40px; text-align: center; padding: 3px 8px; border-radius: 3px; background-color: ' . esc_attr( $color ) . '; color: white;">';
 		echo esc_html( $score );
 		echo '</div> ';
-
-		// Display percentage alongside the score
-		echo '<span class="score-percentage" style="margin-left: 5px; font-weight: bold;">' . esc_html( $percentage ) . '%</span> ';
 
 		// Display the score label
 		echo '<span class="score-label" style="margin-left: 5px; color: ' . esc_attr( $color ) . ';">' . esc_html( $label ) . '</span>';

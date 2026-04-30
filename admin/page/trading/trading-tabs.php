@@ -79,12 +79,11 @@ if ( ! class_exists( 'TradePress_Admin_Trading_Page' ) ) :
 				'portfolio'          => __( 'Portfolio', 'tradepress' ),
 				'trade-history'      => __( 'Trade History', 'tradepress' ),
 				'manual-trade'       => __( 'Manual Trading', 'tradepress' ),
-				'sees-demo'          => __( 'SEES Demo', 'tradepress' ),
 				'sees-ready'         => __( 'SEES Ready', 'tradepress' ),
 				'sees-pro'           => __( 'SEES Pro', 'tradepress' ),
 			);
 			$tabs = apply_filters( 'tradepress_trading_area_tabs', $tabs );
-			return tradepress_filter_development_tabs( $tabs, array( 'trading-strategies', 'portfolio', 'trade-history', 'manual-trade', 'sees-demo', 'sees-ready', 'sees-pro' ) );
+			return tradepress_filter_development_tabs( $tabs, array( 'trading-strategies', 'portfolio', 'trade-history', 'manual-trade', 'sees-ready', 'sees-pro' ) );
 		}
 		/**
 		 * Output the trading area interface.
@@ -128,7 +127,6 @@ add_action( 'tradepress_trading_area_trade-history_tab_content', 'tradepress_dis
 add_action( 'tradepress_trading_area_manual-trade_tab_content', 'tradepress_display_manual_trade_tab_content' );
 
 // New SEES tabs
-add_action( 'tradepress_trading_area_sees-demo_tab_content', 'tradepress_display_sees_demo_tab_content' );
 add_action( 'tradepress_trading_area_sees-ready_tab_content', 'tradepress_display_sees_ready_tab_content' );
 add_action( 'tradepress_trading_area_sees-pro_tab_content', 'tradepress_display_sees_pro_tab_content' );
 
@@ -137,104 +135,6 @@ add_action( 'tradepress_trading_area_calculators_tab_content', 'tradepress_displ
 
 // Trading Strategies tab (merged)
 add_action( 'tradepress_trading_area_trading-strategies_tab_content', 'tradepress_display_trading_strategies_tab_content' );
-
-// AJAX handler for SEES Demo Data
-add_action( 'wp_ajax_tradepress_fetch_sees_demo_data', 'tradepress_ajax_fetch_sees_demo_data' );
-
-if ( ! function_exists( 'tradepress_ajax_fetch_sees_demo_data' ) ) {
-	/**
-	 * AJAX handler to fetch SEES demo data.
-	 *
-	 * @version 1.0.0
-	 */
-	function tradepress_ajax_fetch_sees_demo_data() {
-		check_ajax_referer( 'tradepress_fetch_sees_demo_data_nonce', '_ajax_nonce' );
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			// Or a more specific capability
-			wp_send_json_error( __( 'You do not have permission to access this data.', 'tradepress' ), 403 );
-			return;
-		}
-
-		if ( function_exists( 'tradepress_can_access_development_views' ) && ! tradepress_can_access_development_views() ) {
-			wp_send_json_error( __( 'SEES demo data is available only when Developer Mode is enabled.', 'tradepress' ), 403 );
-			return;
-		}
-
-		// Ensure the data functions file is loaded
-		$symbols_data_file = TRADEPRESS_PLUGIN_DIR . 'includes/data/symbols-data.php';
-		if ( file_exists( $symbols_data_file ) ) {
-			require_once $symbols_data_file;
-		} else {
-			wp_send_json_error( __( 'Symbols data file not found.', 'tradepress' ), 500 );
-			return;
-		}
-
-		if ( ! function_exists( 'tradepress_get_test_stock_symbols' ) || ! function_exists( 'tradepress_get_test_company_details' ) ) {
-			wp_send_json_error( __( 'Required data functions are missing.', 'tradepress' ), 500 );
-			return;
-		}
-
-		$symbols_data        = tradepress_get_test_stock_symbols();
-		$company_details_all = tradepress_get_test_company_details();
-		$sees_data           = array();
-
-		// Flatten the symbols array to get all symbols
-		$symbols = array();
-		foreach ( $symbols_data as $category => $symbol_list ) {
-			if ( $category === 'global_markets' ) {
-				foreach ( $symbol_list as $symbol_data ) {
-					$symbols[] = $symbol_data['symbol'];
-				}
-			} else {
-				$symbols = array_merge( $symbols, $symbol_list );
-			}
-		}
-
-		// Limit the number of symbols for the demo to avoid overwhelming the page
-		$demo_symbols_limit = 25;
-		$count              = 0;
-
-		foreach ( $symbols as $symbol ) {
-			if ( $count >= $demo_symbols_limit ) {
-				break;
-			}
-
-			$details = isset( $company_details_all[ $symbol ] ) ? $company_details_all[ $symbol ] : array();
-
-			// Skip if essential details like name are missing, or if it's an ETP/ETF for this demo's purpose
-			if ( empty( $details['name'] ) || ( isset( $details['industry'] ) && in_array( strtolower( $details['industry'] ), array( 'etf', 'etp' ) ) ) ) {
-				// For ETPs/ETFs, we might want a different handling or skip them in this specific demo
-				// if they don't fit the "company score" model well.
-				// For now, we'll skip if name is missing.
-				if ( empty( $details['name'] ) ) {
-					continue;
-				}
-			}
-
-			// Generate mock data
-			$score          = rand( 30, 95 ); // Mock SEES score
-			$price          = isset( $details['avg_volume'] ) ? (float) ( $details['avg_volume'] / 1000000 + rand( 50, 250 ) ) : rand( 10, 500 ) * ( rand( 80, 120 ) / 100 ); // Mock price
-			$change_percent = ( rand( -1000, 1000 ) / 100 ); // Mock change percentage between -10% and +10%
-
-			$sees_data[] = array(
-				'symbol'         => $symbol,
-				'name'           => isset( $details['name'] ) ? $details['name'] : 'N/A',
-				'industry'       => isset( $details['industry'] ) ? $details['industry'] : 'N/A',
-				'score'          => $score,
-				'price'          => number_format( $price, 2 ),
-				'change_percent' => number_format( $change_percent, 2 ),
-			);
-			++$count;
-		}
-
-		if ( empty( $sees_data ) ) {
-			wp_send_json_success( array(), 200 ); // Send success with empty array if no valid data generated
-		} else {
-			wp_send_json_success( $sees_data, 200 );
-		}
-	}
-}
 
 // Placeholder functions for existing tabs (if not already defined elsewhere)
 /**
@@ -272,20 +172,6 @@ function tradepress_display_manual_trade_tab_content() {
 }
 
 // Functions to display content for the new SEES tabs
-/**
- * Display sees demo tab content.
- *
- * @version 1.0.0
- */
-function tradepress_display_sees_demo_tab_content() {
-	$view_file = TRADEPRESS_PLUGIN_DIR . 'admin/page/trading/view/sees-demo.php';
-	if ( file_exists( $view_file ) ) {
-		include_once $view_file;
-	} else {
-		echo '<p>' . esc_html__( 'SEES Demo tab content view file not found.', 'tradepress' ) . '</p>';
-	}
-}
-
 /**
  * Display sees ready tab content.
  *

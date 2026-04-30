@@ -397,49 +397,9 @@ $is_demo = false;
 							</tr>
 						</thead>
 						<tbody id="api-logs-body">
-							<!-- Demo entries with demo indicator -->
 							<tr>
-								<td colspan="4">
-									<div class="demo-indicator" style="margin-bottom: 10px;">
-										<div class="demo-icon dashicons dashicons-info"></div>
-										<div class="demo-text">
-											<h4><?php esc_html_e( 'Demo Data', 'tradepress' ); ?></h4>
-											<p><?php esc_html_e( 'Sample log entries for demonstration purposes.', 'tradepress' ); ?></p>
-										</div>
-									</div>
-								</td>
+								<td colspan="4"><?php esc_html_e( 'No API log entries recorded yet.', 'tradepress' ); ?></td>
 							</tr>
-							<tr class="log-entry log-info">
-								<td>2025-04-11 14:32:05</td>
-								<td><span class="log-level info">INFO</span></td>
-								<td>/api/v1/quote</td>
-								<td>Successfully fetched quote data for AAPL.US</td>
-							</tr>
-							<tr class="log-entry log-warning">
-								<td>2025-04-11 14:30:18</td>
-								<td><span class="log-level warning">WARNING</span></td>
-								<td>/api/v1/historical</td>
-								<td>Partial data returned for date range 2025-03-01 to 2025-04-01</td>
-							</tr>
-							<tr class="log-entry log-error">
-								<td>2025-04-11 14:15:42</td>
-								<td><span class="log-level error">ERROR</span></td>
-								<td>/api/v1/company</td>
-								<td>API request failed: 429 Too Many Requests - Rate limit exceeded</td>
-							</tr>
-							<tr class="log-entry log-info">
-								<td>2025-04-11 14:10:22</td>
-								<td><span class="log-level info">INFO</span></td>
-								<td>/api/v1/search</td>
-								<td>API search completed with 15 results for query "tech"</td>
-							</tr>
-							<tr class="log-entry log-info">
-								<td>2025-04-11 14:05:17</td>
-								<td><span class="log-level info">INFO</span></td>
-								<td>/ws/tick</td>
-								<td>WebSocket connection established</td>
-							</tr>
-							<!-- More demo entries could be added here -->
 						</tbody>
 					</table>
 				</div>

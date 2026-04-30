@@ -124,8 +124,6 @@ if ( ! class_exists( 'TradePress_Admin_Toolbar_QuickTools' ) ) :
 			// Add quick tools submenu
 			$this->add_quick_tools_menu();
 
-			// Add development notice if in demo mode
-			$this->add_development_notice();
 		}
 
 		/**
@@ -295,34 +293,6 @@ if ( ! class_exists( 'TradePress_Admin_Toolbar_QuickTools' ) ) :
 				),
 			);
 			$wp_admin_bar->add_menu( $args );
-		}
-
-		/**
-		 * Add development notice to toolbar if in demo mode
-		 *
-		 * @version 1.0.0
-		 */
-		private function add_development_notice() {
-			global $wp_admin_bar;
-
-			// Check if demo mode is active
-			$is_demo_mode = function_exists( 'is_demo_mode' ) ? is_demo_mode() : false;
-
-			if ( $is_demo_mode ) {
-				$settings_url = admin_url( 'admin.php?page=TradePress&tab=general' );
-
-				$args = array(
-					'id'    => 'tradepress-dev-notice',
-					'title' => __( 'Development in Progress', 'tradepress' ) . ' ⚠ ' . __( 'Demo Data Active', 'tradepress' ),
-					'href'  => $settings_url,
-					'meta'  => array(
-						'class' => 'tradepress-toolbar-dev-notice',
-						'title' => __( 'Click to go to General Settings', 'tradepress' ),
-					),
-				);
-
-				$wp_admin_bar->add_menu( $args );
-			}
 		}
 
 		/**

@@ -1142,12 +1142,6 @@ if ( ! class_exists( 'TradePress_Admin_Assets' ) ) :
 				wp_enqueue_script( 'tradepress-test-runner' );
 			}
 
-			// Specific styles and scripts for the SEES Demo tab
-			if ( 'tradepress_page_tradepress_trading' === $screen_id && 'sees-demo' === $tab ) {
-				wp_enqueue_style( 'tradepress-sees-demo-styles', TRADEPRESS_PLUGIN_URL . 'assets/css/pages/sees-demo.css', array(), TRADEPRESS_VERSION );
-				wp_enqueue_script( 'tradepress-sees-demo-script', TRADEPRESS_PLUGIN_URL . 'assets/js/sees-demo.js', array( 'jquery' ), TRADEPRESS_VERSION, true );
-			}
-
 			// Register scripts
 			if ( in_array( $screen_id, TradePress_get_screen_ids() ) ) {
 
@@ -1841,22 +1835,6 @@ if ( ! class_exists( 'TradePress_Admin_Assets' ) ) :
 			// Styles and scripts for specific admin pages
 			if ( strpos( $hook_suffix, 'tradepress_trading' ) !== false ) {
 				wp_enqueue_style( 'tradepress-trading-area-styles', TRADEPRESS_PLUGIN_URL . 'assets/css/trading-area.css', array(), $plugin_version );
-				// Enqueue SEES Demo specific assets if on that tab
-				if ( isset( $_GET['page'] ) && $_GET['page'] === 'tradepress_trading' && isset( $_GET['tab'] ) && $_GET['tab'] === 'sees-demo' ) {
-					wp_enqueue_style( 'tradepress-sees-demo-styles', TRADEPRESS_PLUGIN_URL . 'assets/css/pages/sees-demo.css', array(), $plugin_version );
-					wp_enqueue_script( 'tradepress-sees-demo-js', TRADEPRESS_PLUGIN_URL . 'assets/js/sees-demo.js', array( 'jquery' ), $plugin_version, true );
-
-					// Localize script for nonce and translatable strings
-					wp_localize_script(
-						'tradepress-sees-demo-js',
-						'tradepress_sees_demo_nonce',
-						array(
-							'nonce'           => wp_create_nonce( 'tradepress_fetch_sees_demo_data_nonce' ),
-							'error_message'   => __( 'Error loading SEES data. Please try again.', 'tradepress' ),
-							'no_data_message' => __( 'No SEES data available at the moment.', 'tradepress' ),
-						)
-					);
-				}
 			} elseif ( strpos( $hook_suffix, 'tradepress_settings' ) !== false ) {
 				// Additional styles for settings page
 				wp_enqueue_style( 'tradepress-settings-styles', TRADEPRESS_PLUGIN_URL . 'assets/css/settings.css', array(), $plugin_version );

@@ -40,14 +40,6 @@ foreach ( $strategies as $strategy ) {
 ?>
 
 <div class="wrap strategies-tab-content">
-	<!-- Demo Data Notice -->
-	<div class="notice notice-info">
-		<p>
-			<strong><?php esc_html_e( 'Demo Data', 'tradepress' ); ?>:</strong> 
-			<?php esc_html_e( 'These are sample trading strategies for demonstration purposes. Create your own strategies using the "Create Strategies" tab.', 'tradepress' ); ?>
-		</p>
-	</div>
-
 	<div class="strategies-header">
 		<div class="strategies-actions">
 			<a href="#" class="button button-primary add-new-strategy">

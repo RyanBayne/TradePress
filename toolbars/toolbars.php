@@ -29,7 +29,6 @@ if ( ! class_exists( 'TradePress_Toolbars' ) ) :
 
 			// Register admin post handlers for toolbar actions
 			add_action( 'admin_post_TradePress_beta_testing_switch', array( $this, 'handle_beta_testing_switch' ) );
-			add_action( 'admin_post_TradePress_demo_mode_switch', array( $this, 'handle_demo_mode_switch' ) );
 			add_action( 'admin_post_TradePress_backup_plugin_increment_version', array( $this, 'handle_backup_plugin' ) );
 			add_action( 'admin_post_tradepress_reset_pointers', array( $this, 'handle_reset_pointers' ) );
 		}
@@ -81,42 +80,6 @@ if ( ! class_exists( 'TradePress_Toolbars' ) ) :
 
 			// Add success notice
 			$this->add_toolbar_notice( 'success', __( 'TradePress Beta Testing', 'tradepress' ), $message );
-
-			// Redirect back
-			wp_safe_redirect( wp_get_referer() ?: admin_url() );
-			exit;
-		}
-
-		/**
-		 * Handle demo mode toggle
-		 *
-		 * @version 1.0.0
-		 */
-		public function handle_demo_mode_switch() {
-			// Check capabilities
-			if ( ! current_user_can( 'TradePressdevelopertoolbar' ) ) {
-				wp_die( esc_html__( 'Insufficient permissions', 'tradepress' ) );
-			}
-
-			// Check for demo mode function
-			if ( ! function_exists( 'is_demo_mode' ) ) {
-				require_once TRADEPRESS_PLUGIN_DIR . 'functions/functions.tradepress-test-data.php';
-			}
-
-			// Get current status
-			$current_status = function_exists( 'is_demo_mode' ) ? is_demo_mode() : false;
-			$new_status     = ! $current_status;
-
-			// Update the option
-			update_option( 'TradePress_demo_mode', $new_status ? 'yes' : 'no' );
-
-			// Create notice message
-			$status_text = $new_status ? __( 'enabled', 'tradepress' ) : __( 'disabled', 'tradepress' );
-			/* translators: %s: string value */
-			$message = sprintf( __( 'Demo mode has been %s.', 'tradepress' ), $status_text );
-
-			// Add success notice
-			$this->add_toolbar_notice( 'success', __( 'TradePress Demo Mode', 'tradepress' ), $message );
 
 			// Redirect back
 			wp_safe_redirect( wp_get_referer() ?: admin_url() );

@@ -120,34 +120,6 @@ if ( ! class_exists( 'TradePress_Admin_Toolbar_Developers' ) ) :
 
 				$wp_admin_bar->add_menu( $args );
 
-				// NEW ITEM - Demo Mode Switch
-				$thisaction = 'TradePress_demo_mode_switch';
-
-				// $_POST processing function can be found in post.php
-				$href = admin_url( 'admin-post.php?action=' . $thisaction );
-
-				// We need to check using require_once if the function exists, to ensure we use the right value
-				if ( ! function_exists( 'is_demo_mode' ) ) {
-					require_once TRADEPRESS_PLUGIN_DIR . 'functions/functions.tradepress-test-data.php';
-				}
-
-				$is_demo = function_exists( 'is_demo_mode' ) ? is_demo_mode() : false;
-
-				if ( $is_demo ) {
-					$title = __( '✅ Demo Mode: ON', 'tradepress' );
-				} else {
-					$title = __( '❌ Demo Mode: OFF', 'tradepress' );
-				}
-
-				$args = array(
-					'id'     => 'TradePress-toolbarmenu-toggledemomode',
-					'parent' => 'TradePress-toolbarmenu-configurationoptions',
-					'title'  => $title,
-					'href'   => esc_url( $href ),
-				);
-
-				$wp_admin_bar->add_menu( $args );
-
 				// NEW ITEM - Developer Mode Toggle
 				$developer_mode = get_option( 'tradepress_developer_mode', false );
 				$thisaction     = 'tradepress_toggle_developer_mode_toolbar';
