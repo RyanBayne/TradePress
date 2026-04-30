@@ -39,8 +39,8 @@ class TradePress_Post_Type_Symbols {
 		// Add this hook to the init function
 		add_action( 'save_post', array( __CLASS__, 'update_data_timestamp' ), 10, 3 );
 
-		// Add this new line to include symbols in Recent Posts widget
-		add_filter( 'widget_posts_args', array( __CLASS__, 'include_symbols_in_recent_posts' ), 10, 1 );
+		// Removed: include_symbols_in_recent_posts filter caused Array-to-string
+		// warning in wp-admin/edit.php when post_type array was reflected into URL.
 
 		// Add filters for managing admin columns
 		add_filter( 'manage_symbols_posts_columns', array( __CLASS__, 'set_custom_edit_symbols_columns' ) );
