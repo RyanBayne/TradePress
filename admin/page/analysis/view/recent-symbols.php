@@ -37,6 +37,10 @@ if ( $tab_mode['mode'] === 'demo' ) {
 	echo '<p>' . esc_html__( 'This tab is running in demo mode with sample data. In live mode, this will display actual analysis data from your tracked symbols.', 'tradepress' ) . '</p>';
 	echo '</div>';
 	echo '</div>';
+} else {
+	// In Development — no live analysis data path exists yet.
+	echo '<div class="notice notice-info"><p><strong>' . esc_html__( 'In Development', 'tradepress' ) . '</strong> — ' . esc_html__( 'Recently analysed symbols will appear here once live analysis data has been imported.', 'tradepress' ) . '</p></div>';
+	return;
 }
 
 // Demo symbols data

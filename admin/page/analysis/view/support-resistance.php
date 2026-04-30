@@ -79,7 +79,9 @@ if ( ! empty( $symbol ) ) {
 				$results = get_demo_level_results( $symbol, $levels_type );
 			}
 		} else {
-			$results = get_demo_level_results( $symbol, $levels_type );
+			// Required analysis classes are not loaded — do not fall back to demo data.
+			$has_results = false;
+			echo '<div class="notice notice-warning"><p><strong>' . esc_html__( 'In Development', 'tradepress' ) . '</strong> — ' . esc_html__( 'The support and resistance analysis engine is not yet available. It will be enabled once OHLC data import is stable.', 'tradepress' ) . '</p></div>';
 		}
 	}
 }

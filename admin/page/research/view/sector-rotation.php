@@ -22,10 +22,19 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @version 1.0.0
  */
 function tradepress_sector_rotation_tab_content() {
+	// Guard: only render demo data in demo mode for dev users.
+	$tab_mode      = function_exists( 'tradepress_get_tab_mode' ) ? tradepress_get_tab_mode( 'research', 'sector_rotation' ) : array( 'mode' => 'demo', 'enabled' => true );
+	$can_show_demo = function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
+
+	if ( $tab_mode['mode'] !== 'demo' || ! $can_show_demo ) {
+		echo '<div class="notice notice-info"><p><strong>' . esc_html__( 'In Development', 'tradepress' ) . '</strong> &mdash; ' . esc_html__( 'Sector rotation analysis will display here once sector/industry price history has been imported.', 'tradepress' ) . '</p></div>';
+		return;
+	}
+
 	// Get timeframe from URL parameter, default to 1 month
 	$timeframe = isset( $_GET['timeframe'] ) ? sanitize_text_field( $_GET['timeframe'] ) : '1m';
 
-	// Generate sector rotation data (would connect to real API in production)
+	// Demo-only: generate sector rotation sample data.
 	$sector_data     = tradepress_get_demo_sector_data( $timeframe );
 	$rotation_phases = tradepress_get_rotation_phases();
 	$current_phase   = tradepress_get_current_rotation_phase();

@@ -54,12 +54,12 @@ foreach ( $real_endpoints as $key => $endpoint ) {
 		continue; // Skip non-endpoint items or utility methods
 	}
 
-	$demo_status = rand( 0, 10 ) > 1 ? 'active' : 'maintenance';
+	$demo_status = 'active';
 	$endpoints[] = array(
 		'name'        => ucfirst( str_replace( '_', ' ', $key ) ),
 		'endpoint'    => $endpoint['endpoint'],
 		'description' => isset( $endpoint['description'] ) ? $endpoint['description'] : '',
-		'usage_count' => rand( 100, 2000 ),
+		'usage_count' => 0,
 		'status'      => $demo_status,
 		'method'      => isset( $endpoint['method'] ) ? $endpoint['method'] : 'GET',
 		'key'         => $key,

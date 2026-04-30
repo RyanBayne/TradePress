@@ -45,12 +45,12 @@ $rate_limits = array(
 // Generate usage data for endpoints
 $endpoints = array();
 foreach ( $real_endpoints as $key => $endpoint ) {
-	$demo_status = rand( 0, 10 ) > 1 ? 'active' : 'maintenance'; // 90% chance of being active
+	$demo_status = 'active'; // 90% chance of being active
 	$endpoints[] = array(
 		'name'        => ucfirst( str_replace( '_', ' ', $key ) ),
 		'endpoint'    => $endpoint['endpoint'],
 		'description' => $endpoint['description'],
-		'usage_count' => rand( 100, 2000 ),
+		'usage_count' => 0,
 		'status'      => $demo_status,
 		'method'      => isset( $endpoint['method'] ) ? $endpoint['method'] : 'GET',
 	);

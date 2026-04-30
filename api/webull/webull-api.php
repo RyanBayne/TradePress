@@ -207,7 +207,10 @@ class TradePress_WeBull_API {
 	 * @version 1.0.0
 	 */
 	public function get_quote( $symbol ) {
-		if ( empty( $this->access_token ) || defined( 'TRADEPRESS_DEMO_MODE' ) ) {
+		if ( empty( $this->access_token ) ) {
+			return new WP_Error( 'api_key_required', __( 'Webull credentials are required. Please configure your API credentials.', 'tradepress' ) );
+		}
+		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
 			return $this->get_demo_data( 'get_quotes' );
 		}
 
@@ -259,7 +262,10 @@ class TradePress_WeBull_API {
 	 * @version 1.0.0
 	 */
 	public function get_account_balance() {
-		if ( empty( $this->access_token ) || defined( 'TRADEPRESS_DEMO_MODE' ) ) {
+		if ( empty( $this->access_token ) ) {
+			return new WP_Error( 'api_key_required', __( 'Webull credentials are required. Please configure your API credentials.', 'tradepress' ) );
+		}
+		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
 			return $this->get_demo_data( 'get_account_values' );
 		}
 		return $this->get_account_values();
@@ -272,7 +278,10 @@ class TradePress_WeBull_API {
 	 * @version 1.0.0
 	 */
 	public function get_portfolio_positions() {
-		if ( empty( $this->access_token ) || defined( 'TRADEPRESS_DEMO_MODE' ) ) {
+		if ( empty( $this->access_token ) ) {
+			return new WP_Error( 'api_key_required', __( 'Webull credentials are required. Please configure your API credentials.', 'tradepress' ) );
+		}
+		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
 			return $this->get_demo_data( 'get_positions' );
 		}
 		return $this->get_positions();
@@ -285,7 +294,10 @@ class TradePress_WeBull_API {
 	 * @version 1.0.0
 	 */
 	public function get_open_orders() {
-		if ( empty( $this->access_token ) || defined( 'TRADEPRESS_DEMO_MODE' ) ) {
+		if ( empty( $this->access_token ) ) {
+			return new WP_Error( 'api_key_required', __( 'Webull credentials are required. Please configure your API credentials.', 'tradepress' ) );
+		}
+		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
 			return $this->get_demo_data( 'get_orders' );
 		}
 		return $this->get_orders( null, null, 'Working' );
@@ -299,7 +311,10 @@ class TradePress_WeBull_API {
 	 * @version 1.0.0
 	 */
 	public function search_symbols( $query ) {
-		if ( empty( $this->access_token ) || defined( 'TRADEPRESS_DEMO_MODE' ) ) {
+		if ( empty( $this->access_token ) ) {
+			return new WP_Error( 'api_key_required', __( 'Webull credentials are required. Please configure your API credentials.', 'tradepress' ) );
+		}
+		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
 			return $this->get_demo_data( 'search_ticker' );
 		}
 		return $this->search_ticker( $query );
@@ -313,14 +328,11 @@ class TradePress_WeBull_API {
 	 * @version 1.0.0
 	 */
 	public function get_watchlist_symbols( $watchlist_id = null ) {
-		if ( empty( $this->access_token ) || defined( 'TRADEPRESS_DEMO_MODE' ) ) {
-			return array(
-				array(
-					'id'          => 12345,
-					'name'        => 'Default',
-					'tickerCount' => 5,
-				),
-			);
+		if ( empty( $this->access_token ) ) {
+			return new WP_Error( 'api_key_required', __( 'Webull credentials are required. Please configure your API credentials.', 'tradepress' ) );
+		}
+		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
+			return $this->get_demo_data( 'get_watchlists' );
 		}
 
 		if ( $watchlist_id ) {

@@ -245,36 +245,12 @@ if ( ! function_exists( 'tradepress_get_real_service_status' ) ) {
 	 * @version 1.0.0
 	 */
 	function tradepress_get_real_service_status( $api_id ) {
-		// This function should check the API service status
-		// For a real implementation, you would make a call to the API's status endpoint
-
-		// For now, we'll return a basic status based on whether we can ping the service
-		$status = array();
-
-		try {
-			// Attempt to ping the API service (implementation depends on the specific API)
-			// For demonstration purposes, we'll randomly determine if the service is available
-			$random = mt_rand( 0, 10 );
-
-			if ( $random >= 8 ) {
-				// Simulate an intermittent issue for testing
-				throw new Exception( __( 'Service temporarily unavailable', 'tradepress' ) );
-			}
-
-			$status = array(
-				'status'       => 'success',
-				'message'      => __( 'Service operational', 'tradepress' ),
-				'last_updated' => current_time( 'mysql' ),
-			);
-		} catch ( Exception $e ) {
-			$status = array(
-				'status'       => 'error',
-				'message'      => $e->getMessage(),
-				'last_updated' => current_time( 'mysql' ),
-			);
-		}
-
-		return $status;
+		// No live status-page integration yet — return "not checked" until a real ping is implemented.
+		return array(
+			'status'       => 'unknown',
+			'message'      => __( 'Not checked — status page integration pending', 'tradepress' ),
+			'last_updated' => current_time( 'mysql' ),
+		);
 	}
 }
 
@@ -290,20 +266,15 @@ if ( ! function_exists( 'tradepress_get_real_rate_limits' ) ) {
 	 * @version 1.0.0
 	 */
 	function tradepress_get_real_rate_limits( $api_id ) {
-		// This function should retrieve real rate limit data from the API
-		// For now, we'll return data based on the specific API ID or random values for testing
-
-		$rate_limits = array();
-
-		// Example implementation - in a real scenario, this would come from the API response headers
-		// or a dedicated rate limiting endpoint
+		// Rate limit data must come from API response headers or a dedicated endpoint.
+		// Quota limits are documented; "used" counts are not available until real calls are tracked.
 		switch ( $api_id ) {
 			case 'alpaca':
 				$rate_limits = array(
 					'daily_quota'  => 200,
-					'daily_used'   => mt_rand( 10, 50 ),
+					'daily_used'   => null,
 					'minute_quota' => 60,
-					'minute_used'  => mt_rand( 0, 10 ),
+					'minute_used'  => null,
 					'reset_time'   => date( 'Y-m-d H:i:s', strtotime( '+1 day', strtotime( '00:00:00' ) ) ),
 				);
 				break;
@@ -311,19 +282,18 @@ if ( ! function_exists( 'tradepress_get_real_rate_limits' ) ) {
 			case 'alphavantage':
 				$rate_limits = array(
 					'daily_quota' => 500,
-					'daily_used'  => mt_rand( 50, 200 ),
+					'daily_used'  => null,
 					'reset_time'  => date( 'Y-m-d H:i:s', strtotime( '+1 day', strtotime( '00:00:00' ) ) ),
 				);
 				break;
 
 			default:
-				// Generic rate limit data for testing
 				$rate_limits = array(
-					'daily_quota'  => 1000,
-					'daily_used'   => mt_rand( 100, 400 ),
-					'hourly_quota' => 100,
-					'hourly_used'  => mt_rand( 10, 40 ),
-					'reset_time'   => date( 'Y-m-d H:i:s', strtotime( '+1 day', strtotime( '00:00:00' ) ) ),
+					'daily_quota'  => null,
+					'daily_used'   => null,
+					'hourly_quota' => null,
+					'hourly_used'  => null,
+					'reset_time'   => null,
 				);
 				break;
 		}

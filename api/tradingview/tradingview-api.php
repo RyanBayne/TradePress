@@ -411,8 +411,12 @@ class TradePress_TradingView_API {
 	 * @version 1.0.0
 	 */
 	private function make_request( $endpoint, $method = 'GET', $params = array() ) {
-		// Demo mode - return sample data
-		if ( empty( $this->api_key ) || defined( 'TRADEPRESS_DEMO_MODE' ) ) {
+		// No credentials — return an error; do not expose demo data to callers.
+		if ( empty( $this->api_key ) ) {
+			return new WP_Error( 'api_key_required', __( 'A TradingView API key is required. Please configure your API credentials.', 'tradepress' ) );
+		}
+
+		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
 			return $this->get_demo_data( $endpoint );
 		}
 

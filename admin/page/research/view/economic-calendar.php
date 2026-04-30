@@ -17,26 +17,177 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Resolve the first non-empty option value from a list of keys.
+ *
+ * @param array $keys Option keys to check.
+ * @return string
+ */
+function tradepress_economic_calendar_get_first_option_value( $keys ) {
+	foreach ( $keys as $key ) {
+		$value = get_option( $key, '' );
+		if ( ! empty( $value ) ) {
+			return (string) $value;
+		}
+	}
+
+	return '';
+}
+
+/**
+ * Build provider and import status information for Economic Calendar.
+ *
+ * @return array
+ */
+function tradepress_economic_calendar_get_provider_status() {
+	$alpha_key = tradepress_economic_calendar_get_first_option_value(
+		array(
+			'tradepress_api_alphavantage_key',
+			'TradePress_alphavantage_api_key',
+			'tradepress_alphavantage_api_key',
+			'TradePress_api_alphavantage_key',
+		)
+	);
+
+	$fmp_key = tradepress_economic_calendar_get_first_option_value(
+		array(
+			'tradepress_fmp_api_key',
+			'TradePress_fmp_api_key',
+			'TradePress_api_fmp_key',
+			'TradePress_api_fmp_realmoney_apikey',
+			'TradePress_api_fmp_papermoney_apikey',
+		)
+	);
+
+	$tradingview_key = tradepress_economic_calendar_get_first_option_value(
+		array(
+			'tradepress_tradingview_api_key',
+			'TradePress_tradingview_api_key',
+			'TradePress_api_tradingview_key',
+			'TradePress_api_tradingview_realmoney_apikey',
+			'TradePress_api_tradingview_papermoney_apikey',
+		)
+	);
+
+	$last_import = (int) max(
+		(int) get_option( 'tradepress_economic_calendar_last_imported', 0 ),
+		(int) get_option( 'tradepress_economic_calendar_last_updated', 0 ),
+		(int) get_option( 'tradepress_economic_calendar_last_update', 0 )
+	);
+
+	return array(
+		'alpha_enabled'              => ( 'yes' === get_option( 'TradePress_switch_alphavantage_api_services', 'no' ) ),
+		'alpha_key_configured'       => ! empty( $alpha_key ),
+		'fmp_enabled'                => ( 'yes' === get_option( 'TradePress_switch_fmp_api_services', 'no' ) ),
+		'fmp_key_configured'         => ! empty( $fmp_key ),
+		'tradingview_enabled'        => ( 'yes' === get_option( 'TradePress_switch_tradingview_api_services', 'no' ) ),
+		'tradingview_key_configured' => ! empty( $tradingview_key ),
+		'last_import'                => $last_import,
+		'queue_status'               => get_option( 'tradepress_data_import_status', 'stopped' ),
+	);
+}
+
+/**
  * Display the Economic Calendar tab content
  *
  * @version 1.0.0
  */
 function tradepress_economic_calendar_tab_content() {
-	// Get date range parameters with defaults
-	$start_date = isset( $_GET['start_date'] ) ? sanitize_text_field( $_GET['start_date'] ) : date( 'Y-m-d' );
-	$end_date   = isset( $_GET['end_date'] ) ? sanitize_text_field( $_GET['end_date'] ) : date( 'Y-m-d', strtotime( '+7 days' ) );
-	$importance = isset( $_GET['importance'] ) ? sanitize_text_field( $_GET['importance'] ) : 'all';
-	$regions    = isset( $_GET['regions'] ) ? (array) $_GET['regions'] : array( 'us', 'eu', 'uk', 'jp', 'ca', 'au' );
+	$tab_mode      = function_exists( 'tradepress_get_tab_mode' ) ? tradepress_get_tab_mode( 'research', 'economic_calendar' ) : array( 'mode' => 'demo', 'enabled' => true );
+	$can_show_demo = function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
+	$tab_mode_name = isset( $tab_mode['mode'] ) ? (string) $tab_mode['mode'] : 'demo';
+	$use_demo_data = ( 'demo' === $tab_mode_name && $can_show_demo );
 
-	// Get economic events data (demo data for now)
-	$economic_events = tradepress_get_demo_economic_events( $start_date, $end_date, $importance, $regions );
+	// Get date range parameters with defaults
+	$start_date = isset( $_GET['start_date'] ) ? sanitize_text_field( wp_unslash( $_GET['start_date'] ) ) : date( 'Y-m-d' );
+	$end_date   = isset( $_GET['end_date'] ) ? sanitize_text_field( wp_unslash( $_GET['end_date'] ) ) : date( 'Y-m-d', strtotime( '+7 days' ) );
+	$importance = isset( $_GET['importance'] ) ? sanitize_text_field( wp_unslash( $_GET['importance'] ) ) : 'all';
+	$regions    = isset( $_GET['regions'] ) ? array_map( 'sanitize_text_field', wp_unslash( (array) $_GET['regions'] ) ) : array( 'us', 'eu', 'uk', 'jp', 'ca', 'au' );
+
+	// Demo events are shown only to developer-mode users. Regular users read stored/imported data only.
+	$economic_events = $use_demo_data
+		? tradepress_get_demo_economic_events( $start_date, $end_date, $importance, $regions )
+		: tradepress_fetch_economic_calendar_data( $start_date, $end_date, $importance, $regions );
 
 	// Get region names for display
-	$region_names = tradepress_get_economic_regions();
+	$region_names     = tradepress_get_economic_regions();
+	$provider_status         = tradepress_economic_calendar_get_provider_status();
+	$calendar_provider_ready = $provider_status['fmp_key_configured'] || $provider_status['tradingview_key_configured'];
+	$empty_state_text        = $calendar_provider_ready
+		? __( 'No imported economic events are stored for this filter yet. Run or schedule an economic-calendar import, then refresh this view.', 'tradepress' )
+		: __( 'No economic-calendar provider is configured. Add a supported provider key, then run or schedule an import before using this view with live data.', 'tradepress' );
 
 	// Display the economic calendar interface
 	?>
 	<div class="tradepress-economic-calendar-container">
+
+		<?php if ( $use_demo_data ) : ?>
+			<div class="demo-indicator">
+				<span class="demo-icon dashicons dashicons-admin-tools" aria-hidden="true"></span>
+				<div class="demo-text">
+					<h4><?php esc_html_e( 'Developer demo economic calendar', 'tradepress' ); ?></h4>
+					<p><?php esc_html_e( 'These economic events are sample records and are hidden from regular users.', 'tradepress' ); ?></p>
+				</div>
+				<span class="demo-badge"><?php esc_html_e( 'Developer', 'tradepress' ); ?></span>
+			</div>
+		<?php endif; ?>
+
+		<div class="notice notice-info inline" style="margin: 10px 0 16px 0;">
+			<p><strong><?php esc_html_e( 'Provider status', 'tradepress' ); ?></strong></p>
+			<ul style="margin: 8px 0 0 20px; list-style: disc;">
+				<li>
+					<?php
+					echo esc_html(
+						sprintf(
+							/* translators: %1$s: enabled/disabled text, %2$s: configured/missing text */
+							__( 'Alpha Vantage economic indicators: %1$s, key %2$s', 'tradepress' ),
+							$provider_status['alpha_enabled'] ? __( 'enabled', 'tradepress' ) : __( 'disabled', 'tradepress' ),
+							$provider_status['alpha_key_configured'] ? __( 'configured', 'tradepress' ) : __( 'missing', 'tradepress' )
+						)
+					);
+					?>
+				</li>
+				<li>
+					<?php
+					echo esc_html(
+						sprintf(
+							/* translators: %1$s: enabled/disabled text, %2$s: configured/missing text */
+							__( 'FMP economic-calendar support: %1$s, key %2$s', 'tradepress' ),
+							$provider_status['fmp_enabled'] ? __( 'enabled', 'tradepress' ) : __( 'disabled', 'tradepress' ),
+							$provider_status['fmp_key_configured'] ? __( 'configured', 'tradepress' ) : __( 'missing', 'tradepress' )
+						)
+					);
+					?>
+				</li>
+				<li>
+					<?php
+					echo esc_html(
+						sprintf(
+							/* translators: %1$s: enabled/disabled text, %2$s: configured/missing text */
+							__( 'TradingView economic-calendar support: %1$s, key %2$s', 'tradepress' ),
+							$provider_status['tradingview_enabled'] ? __( 'enabled', 'tradepress' ) : __( 'disabled', 'tradepress' ),
+							$provider_status['tradingview_key_configured'] ? __( 'configured', 'tradepress' ) : __( 'missing', 'tradepress' )
+						)
+					);
+					?>
+				</li>
+				<li>
+					<?php
+					if ( $provider_status['last_import'] > 0 ) {
+						printf(
+							esc_html__( 'Last imported: %s', 'tradepress' ),
+							esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $provider_status['last_import'] ) )
+						);
+					} else {
+						printf(
+							esc_html__( 'Import state: %1$s (data import process is %2$s).', 'tradepress' ),
+							esc_html__( 'not yet imported', 'tradepress' ),
+							esc_html( $provider_status['queue_status'] )
+						);
+					}
+					?>
+				</li>
+			</ul>
+		</div>
 
 		
 		<div class="tradepress-research-section">
@@ -76,8 +227,8 @@ function tradepress_economic_calendar_tab_content() {
 							<div class="region-checkboxes">
 								<?php foreach ( $region_names as $code => $name ) : ?>
 									<label class="region-checkbox">
-										<input type="checkbox" name="regions[]" value="<?php echo esc_attr( $code ); ?>" 
-											<?php checked( in_array( $code, $regions ) ); ?>>
+										<input type="checkbox" name="regions[]" value="<?php echo esc_attr( $code ); ?>"
+											<?php checked( in_array( $code, $regions, true ) ); ?>>
 										<span class="region-flag flag-<?php echo esc_attr( $code ); ?>"></span>
 										<?php echo esc_html( $name ); ?>
 									</label>
@@ -134,6 +285,7 @@ function tradepress_economic_calendar_tab_content() {
 			</div>
 		</div>
 		
+		<?php if ( $use_demo_data && ! empty( $economic_events ) ) : ?>
 		<div class="tradepress-notification-center">
 			<h3><?php esc_html_e( 'Trading Notifications', 'tradepress' ); ?></h3>
 			<div class="notification-options">
@@ -162,12 +314,13 @@ function tradepress_economic_calendar_tab_content() {
 			echo tradepress_get_calendar_export_button( $economic_events );
 			?>
 		</div>
+		<?php endif; ?>
 		
 		<div class="tradepress-research-results">
 			<!-- Today's Highlights -->
 			<?php
 			$todays_events = tradepress_get_todays_economic_events( $economic_events );
-			if ( ! empty( $todays_events ) ) :
+			if ( $use_demo_data && ! empty( $todays_events ) ) :
 				?>
 			<div class="tradepress-highlights-panel">
 				<h3><?php esc_html_e( 'Today\'s Economic Events', 'tradepress' ); ?></h3>
@@ -204,8 +357,9 @@ function tradepress_economic_calendar_tab_content() {
 				<h3><?php esc_html_e( 'Economic Calendar', 'tradepress' ); ?> <span class="date-range">(<?php echo esc_html( date( 'M j, Y', strtotime( $start_date ) ) ); ?> - <?php echo esc_html( date( 'M j, Y', strtotime( $end_date ) ) ); ?>)</span></h3>
 				
 				<?php if ( empty( $economic_events ) ) : ?>
-					<div class="tradepress-no-events">
-						<p><?php esc_html_e( 'No economic events found for the selected date range and filters.', 'tradepress' ); ?></p>
+					<div class="tradepress-no-events" data-state="no-data">
+						<h4><?php echo esc_html( $use_demo_data ? __( 'No demo economic events', 'tradepress' ) : __( 'No imported economic events', 'tradepress' ) ); ?></h4>
+						<p><?php echo esc_html( $use_demo_data ? __( 'No demo economic events matched the selected date range and filters.', 'tradepress' ) : $empty_state_text ); ?></p>
 					</div>
 				<?php else : ?>
 					<!-- Group events by date -->
@@ -568,6 +722,75 @@ function tradepress_get_economic_regions() {
 		'ca' => __( 'Canada', 'tradepress' ),
 		'au' => __( 'Australia', 'tradepress' ),
 	);
+}
+
+/**
+ * Read stored economic calendar data.
+ *
+ * Live provider requests should be handled by the import layer, not by the
+ * admin view. Until the import/storage contract is finalised, regular users
+ * should see an explicit empty state rather than demo events.
+ *
+ * @param string $start_date Start date (Y-m-d format).
+ * @param string $end_date End date (Y-m-d format).
+ * @param string $importance Importance filter.
+ * @param array  $regions Region filters.
+ * @return array
+ */
+function tradepress_fetch_economic_calendar_data( $start_date, $end_date, $importance, $regions ) {
+	$raw_events = get_option( 'tradepress_economic_calendar_data', array() );
+
+	if ( empty( $raw_events ) || ! is_array( $raw_events ) ) {
+		return array();
+	}
+
+	$filtered_events = array();
+
+	foreach ( $raw_events as $event ) {
+		if ( ! is_array( $event ) ) {
+			continue;
+		}
+
+		$event_date       = isset( $event['date'] ) ? (string) $event['date'] : '';
+		$event_importance = isset( $event['importance'] ) ? (string) $event['importance'] : 'medium';
+		$event_region     = isset( $event['region'] ) ? (string) $event['region'] : '';
+
+		if ( '' === $event_date || $event_date < $start_date || $event_date > $end_date ) {
+			continue;
+		}
+
+		if ( 'all' !== $importance &&
+			! ( 'high' === $importance && 'high' === $event_importance ) &&
+			! ( 'medium' === $importance && in_array( $event_importance, array( 'high', 'medium' ), true ) ) &&
+			! ( 'low' === $importance && 'low' === $event_importance ) ) {
+			continue;
+		}
+
+		if ( ! in_array( $event_region, $regions, true ) ) {
+			continue;
+		}
+
+		$filtered_events[] = array(
+			'date'        => $event_date,
+			'time'        => isset( $event['time'] ) ? (string) $event['time'] : 'TBA',
+			'title'       => isset( $event['title'] ) ? (string) $event['title'] : __( 'Economic Event', 'tradepress' ),
+			'description' => isset( $event['description'] ) ? (string) $event['description'] : '',
+			'region'      => $event_region,
+			'importance'  => $event_importance,
+			'forecast'    => isset( $event['forecast'] ) ? (string) $event['forecast'] : '',
+			'previous'    => isset( $event['previous'] ) ? (string) $event['previous'] : '',
+			'actual'      => isset( $event['actual'] ) ? (string) $event['actual'] : '',
+		);
+	}
+
+	usort(
+		$filtered_events,
+		function ( $a, $b ) {
+			return strtotime( $a['date'] . ' ' . $a['time'] ) - strtotime( $b['date'] . ' ' . $b['time'] );
+		}
+	);
+
+	return $filtered_events;
 }
 
 /**

@@ -315,13 +315,23 @@ class TradePress_Trading212_API {
 	}
 
 	/**
+	 * Get account information
+	 *
+	 * @return array|WP_Error Account information or error
+	 * @version 1.0.0
+	 */
+	public function get_account_info() {
+		return $this->make_request( 'equity/account/info' );
+	}
+
+	/**
 	 * Get account cash/balance
 	 *
 	 * @return array|WP_Error Account cash information or error
 	 * @version 1.0.0
 	 */
 	public function get_account_cash() {
-		return $this->make_request( 'account/cash' );
+		return $this->make_request( 'equity/account/cash' );
 	}
 
 	/**
@@ -367,6 +377,59 @@ class TradePress_Trading212_API {
 	}
 
 	/**
+	 * Get exchanges and their working schedules
+	 *
+	 * @return array|WP_Error List of exchanges or error
+	 * @version 1.0.0
+	 */
+	public function get_exchanges() {
+		return $this->make_request( 'equity/metadata/exchanges' );
+	}
+
+	/**
+	 * Get all pies for the account
+	 *
+	 * @return array|WP_Error List of pies or error
+	 * @version 1.0.0
+	 */
+	public function get_pies() {
+		return $this->make_request( 'equity/pies' );
+	}
+
+	/**
+	 * Get a specific pie by ID
+	 *
+	 * @param int $pie_id The pie ID.
+	 * @return array|WP_Error Pie details or error
+	 * @version 1.0.0
+	 */
+	public function get_pie( $pie_id ) {
+		return $this->make_request( 'equity/pies/' . (int) $pie_id );
+	}
+
+	/**
+	 * Get historical dividend records
+	 *
+	 * @param array $params Optional: cursor, ticker, limit.
+	 * @return array|WP_Error Dividend history or error
+	 * @version 1.0.0
+	 */
+	public function get_history_dividends( $params = array() ) {
+		return $this->make_request( 'equity/history/dividends', 'GET', $params );
+	}
+
+	/**
+	 * Get historical order records
+	 *
+	 * @param array $params Optional: cursor, ticker, limit.
+	 * @return array|WP_Error Order history or error
+	 * @version 1.0.0
+	 */
+	public function get_history_orders( $params = array() ) {
+		return $this->make_request( 'equity/history/orders', 'GET', $params );
+	}
+
+	/**
 	 * Get transaction history
 	 *
 	 * @param array $params Optional parameters (startDate, endDate, limit)
@@ -405,8 +468,7 @@ class TradePress_Trading212_API {
 	 * @version 1.0.0
 	 */
 	public function get_watchlists() {
-		// Fix: Use the correct request method with proper error handling
-		$response = $this->make_request( 'v3/watchlists' );
+		$response = $this->make_request( 'equity/watchlists' );
 		if ( is_wp_error( $response ) ) {
 			return $response;
 		}
@@ -423,8 +485,12 @@ class TradePress_Trading212_API {
 	 * @version 1.0.0
 	 */
 	private function make_request( $endpoint, $method = 'GET', $params = array() ) {
-		// Demo mode - return sample data
-		if ( empty( $this->api_key ) || defined( 'TRADEPRESS_DEMO_MODE' ) ) {
+		// No credentials — return an error; do not expose demo data to callers.
+		if ( empty( $this->api_key ) ) {
+			return new WP_Error( 'api_key_required', __( 'A Trading 212 API key is required. Please configure your API credentials.', 'tradepress' ) );
+		}
+
+		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
 			return $this->get_demo_data( $endpoint );
 		}
 
@@ -435,7 +501,7 @@ class TradePress_Trading212_API {
 			'method'  => $method,
 			'timeout' => 30,
 			'headers' => array(
-				'Authorization' => 'Bearer ' . $this->api_key,
+				'Authorization' => $this->api_key,
 				'Content-Type'  => 'application/json',
 			),
 		);
@@ -495,8 +561,7 @@ class TradePress_Trading212_API {
 	 * @version 1.0.0
 	 */
 	public function get_watchlist_tickers( $watchlist_id ) {
-		// Fix: Use the correct request method with proper error handling
-		$response = $this->make_request( "v3/watchlists/{$watchlist_id}/tickers" );
+		$response = $this->make_request( 'equity/watchlists/' . (int) $watchlist_id );
 		if ( is_wp_error( $response ) ) {
 			return $response;
 		}

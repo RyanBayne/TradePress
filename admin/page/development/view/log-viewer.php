@@ -18,8 +18,10 @@ $log_files     = glob( $log_directory . '*.log' );
 	<h2>Log Viewer</h2>
 	
 	<?php if ( empty( $log_files ) ) : ?>
-		<div class="notice notice-info inline">
-			<p>No log files found.</p>
+		<div class="postbox tradepress-compact-card">
+			<div class="inside">
+				<p>No log files found.</p>
+			</div>
 		</div>
 	<?php else : ?>
 		<div class="sandbox-panel">
@@ -33,8 +35,10 @@ $log_files     = glob( $log_directory . '*.log' );
 		</div>
 		
 		<div id="log-content">
-			<div class="notice notice-info inline">
-				<p>Select a log file above and click "Load Log" to view its contents.</p>
+			<div class="postbox tradepress-compact-card">
+				<div class="inside">
+					<p>Select a log file above and click "Load Log" to view its contents.</p>
+				</div>
 			</div>
 		</div>
 	<?php endif; ?>

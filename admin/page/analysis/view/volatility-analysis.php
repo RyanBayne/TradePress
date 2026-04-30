@@ -27,8 +27,16 @@ if ( ! class_exists( 'TradePress_Volatility_Tools' ) ) {
  * @version 1.0.0
  */
 function tradepress_volatility_analysis_tab_content() {
-	// Check if demo mode is active
-	$is_demo = function_exists( 'is_demo_mode' ) ? is_demo_mode() : false;
+	// Check tab mode via the features system.
+	$tab_mode = function_exists( 'tradepress_get_tab_mode' ) ? tradepress_get_tab_mode( 'analysis', 'volatility_analysis' ) : array( 'mode' => 'demo', 'enabled' => true );
+
+	if ( $tab_mode['mode'] !== 'demo' ) {
+		echo '<div class="notice notice-info"><p><strong>' . esc_html__( 'In Development', 'tradepress' ) . '</strong> — ' . esc_html__( 'Volatility analysis will display here once live OHLC data has been imported for the requested symbol.', 'tradepress' ) . '</p></div>';
+		return;
+	}
+
+	// Demo mode — $is_demo kept for any downstream checks.
+	$is_demo = true;
 
 	// Get any saved settings or demo data
 	$demo_stock      = isset( $_GET['symbol'] ) ? sanitize_text_field( wp_unslash( $_GET['symbol'] ) ) : 'AAPL';

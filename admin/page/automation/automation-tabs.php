@@ -1030,7 +1030,7 @@ class TradePress_Admin_Automation_Page {
 						
 						<?php if ( $key_status === 'missing' ) : ?>
 							<div class="notice notice-warning inline">
-								<p><?php esc_html_e( 'Earnings calendar updates require a valid Alpha Vantage API key. Please configure your API key to use this feature.', 'tradepress' ); ?></p>
+									<p><strong><?php esc_html_e( 'Requires API Key:', 'tradepress' ); ?></strong> <?php esc_html_e( 'Earnings calendar updates require a valid Alpha Vantage API key. Please configure your API key to use this feature.', 'tradepress' ); ?></p>
 							</div>
 						<?php endif; ?>
 					</div>
@@ -1054,7 +1054,7 @@ class TradePress_Admin_Automation_Page {
 						<tbody>
 							<?php if ( empty( $tradepress_jobs ) ) : ?>
 								<tr>
-									<td colspan="4"><?php esc_html_e( 'No TradePress CRON jobs scheduled.', 'tradepress' ); ?></td>
+									<td colspan="4"><strong><?php esc_html_e( 'No Data:', 'tradepress' ); ?></strong> <?php esc_html_e( 'No TradePress CRON jobs are currently scheduled.', 'tradepress' ); ?></td>
 								</tr>
 							<?php else : ?>
 								<?php foreach ( $tradepress_jobs as $job ) : ?>

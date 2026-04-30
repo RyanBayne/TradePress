@@ -22,6 +22,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @version 1.0.0
  */
 function tradepress_market_correlations_tab_content() {
+	// Guard: only render demo data in demo mode for dev users.
+	$tab_mode      = function_exists( 'tradepress_get_tab_mode' ) ? tradepress_get_tab_mode( 'research', 'market_correlations' ) : array( 'mode' => 'demo', 'enabled' => true );
+	$can_show_demo = function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
+
+	if ( $tab_mode['mode'] !== 'demo' || ! $can_show_demo ) {
+		echo '<div class="notice notice-info"><p><strong>' . esc_html__( 'In Development', 'tradepress' ) . '</strong> &mdash; ' . esc_html__( 'Market correlation analysis will display here once price history has been imported for the selected symbols.', 'tradepress' ) . '</p></div>';
+		return;
+	}
+
 	// Get parameters from URL with defaults
 	$base_symbol     = isset( $_GET['base_symbol'] ) ? sanitize_text_field( $_GET['base_symbol'] ) : 'SPY';
 	$compare_symbols = isset( $_GET['compare_symbols'] ) ? sanitize_text_field( $_GET['compare_symbols'] ) : 'QQQ,DIA,IWM,GLD,TLT';
@@ -30,7 +39,7 @@ function tradepress_market_correlations_tab_content() {
 	// Convert compare symbols to array
 	$compare_array = explode( ',', $compare_symbols );
 
-	// Demo data - in production, this would be calculated from real API data
+	// Demo-only: generate sample correlation data.
 	$correlation_data = tradepress_generate_demo_correlations( $base_symbol, $compare_array, $timeframe );
 
 	?>

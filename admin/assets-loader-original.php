@@ -306,6 +306,14 @@ if ( ! class_exists( 'TradePress_Admin_Assets' ) ) :
 				TRADEPRESS_VERSION
 			);
 
+			// Register Trading Strategies styles.
+			wp_register_style(
+				'tradepress-trading-strategies',
+				TRADEPRESS_PLUGIN_URL . 'assets/css/pages/trading-strategies.css',
+				array(),
+				TRADEPRESS_VERSION
+			);
+
 			// Register Portfolio styles
 			wp_register_style(
 				'tradepress-trading-portfolio',
@@ -1019,9 +1027,9 @@ if ( ! class_exists( 'TradePress_Admin_Assets' ) ) :
 				);
 			}
 
-			// Trading Strategies page (merged tab with sub-tabs)
+			// Trading Strategies page (merged tab with sub-tabs). This is the default Trading tab when no tab is supplied.
 			if ( isset( $_GET['page'] ) && $_GET['page'] === 'tradepress_trading' &&
-			isset( $_GET['tab'] ) && $_GET['tab'] === 'trading-strategies' ) {
+			( ! isset( $_GET['tab'] ) || $_GET['tab'] === 'trading-strategies' ) ) {
 				wp_enqueue_style( 'tradepress-trading-create-strategy' );
 				wp_enqueue_script( 'tradepress-trading-create-strategy' );
 				wp_enqueue_style( 'tradepress-trading-strategies' );
@@ -1616,9 +1624,11 @@ if ( ! class_exists( 'TradePress_Admin_Assets' ) ) :
 				if ( $current_tab === 'economic-calendar' || $current_tab === '' ) {
 					wp_enqueue_script( 'tradepress-economic-calendar' );
 
-					// Get today's events for notifications
+					// Get today's events for notifications — demo-only, dev mode only.
 					$todays_events = array();
-					if ( function_exists( 'tradepress_get_todays_economic_events' ) && function_exists( 'tradepress_get_demo_economic_events' ) ) {
+					$can_show_demo = function_exists( 'is_demo_mode' ) && is_demo_mode()
+						&& function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
+					if ( $can_show_demo && function_exists( 'tradepress_get_todays_economic_events' ) && function_exists( 'tradepress_get_demo_economic_events' ) ) {
 						$start_date    = wp_date( 'Y-m-d' );
 						$end_date      = wp_date( 'Y-m-d', strtotime( '+7 days' ) );
 						$events        = tradepress_get_demo_economic_events( $start_date, $end_date, 'all', array( 'us', 'eu', 'uk', 'jp', 'ca', 'au' ) );
