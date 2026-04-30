@@ -266,7 +266,7 @@
     margin-bottom: 20px;
 }
 
-.directive-section:not(#directive-isa_reset) {
+.tradepress-directives-container .directive-section:not(#directive-isa_reset) {
     display: none;
 }
 

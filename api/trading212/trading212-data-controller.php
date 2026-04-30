@@ -238,6 +238,153 @@ class TradePress_Trading212_Data_Controller {
 	}
 
 	/**
+	 * Get exchanges and their working schedules
+	 *
+	 * @param bool $force_refresh Force refresh from API instead of cache.
+	 * @return array|WP_Error List of exchanges
+	 * @version 1.0.0
+	 */
+	public function get_exchanges( $force_refresh = false ) {
+		$cache_key   = 'tradepress_trading212_exchanges';
+		$cached_data = get_transient( $cache_key );
+
+		if ( ! $force_refresh && $cached_data !== false ) {
+			return $cached_data;
+		}
+
+		$exchanges = $this->api->get_exchanges();
+
+		if ( ! is_wp_error( $exchanges ) ) {
+			set_transient( $cache_key, $exchanges, $this->cache_time * 12 ); // Cache 1 hour — rarely changes.
+		}
+
+		return $exchanges;
+	}
+
+	/**
+	 * Get equity portfolio positions
+	 *
+	 * @param bool $force_refresh Force refresh from API instead of cache.
+	 * @return array|WP_Error Portfolio positions
+	 * @version 1.0.0
+	 */
+	public function get_equity_portfolio( $force_refresh = false ) {
+		$cache_key   = 'tradepress_trading212_equity_portfolio';
+		$cached_data = get_transient( $cache_key );
+
+		if ( ! $force_refresh && $cached_data !== false ) {
+			return $cached_data;
+		}
+
+		$portfolio = $this->api->get_equity_portfolio();
+
+		if ( ! is_wp_error( $portfolio ) ) {
+			set_transient( $cache_key, $portfolio, $this->cache_time );
+		}
+
+		return $portfolio;
+	}
+
+	/**
+	 * Get all pies for the account
+	 *
+	 * @param bool $force_refresh Force refresh from API instead of cache.
+	 * @return array|WP_Error List of pies
+	 * @version 1.0.0
+	 */
+	public function get_pies( $force_refresh = false ) {
+		$cache_key   = 'tradepress_trading212_pies';
+		$cached_data = get_transient( $cache_key );
+
+		if ( ! $force_refresh && $cached_data !== false ) {
+			return $cached_data;
+		}
+
+		$pies = $this->api->get_pies();
+
+		if ( ! is_wp_error( $pies ) ) {
+			set_transient( $cache_key, $pies, $this->cache_time );
+		}
+
+		return $pies;
+	}
+
+	/**
+	 * Get a specific pie by ID
+	 *
+	 * @param int  $pie_id Pie ID.
+	 * @param bool $force_refresh Force refresh from API instead of cache.
+	 * @return array|WP_Error Pie details
+	 * @version 1.0.0
+	 */
+	public function get_pie( $pie_id, $force_refresh = false ) {
+		$cache_key   = 'tradepress_trading212_pie_' . (int) $pie_id;
+		$cached_data = get_transient( $cache_key );
+
+		if ( ! $force_refresh && $cached_data !== false ) {
+			return $cached_data;
+		}
+
+		$pie = $this->api->get_pie( $pie_id );
+
+		if ( ! is_wp_error( $pie ) ) {
+			set_transient( $cache_key, $pie, $this->cache_time );
+		}
+
+		return $pie;
+	}
+
+	/**
+	 * Get historical dividend records
+	 *
+	 * @param array $params Optional: cursor, ticker, limit.
+	 * @param bool  $force_refresh Force refresh from API instead of cache.
+	 * @return array|WP_Error Dividend history
+	 * @version 1.0.0
+	 */
+	public function get_history_dividends( $params = array(), $force_refresh = false ) {
+		$cache_key   = 'tradepress_trading212_history_dividends_' . md5( serialize( $params ) );
+		$cached_data = get_transient( $cache_key );
+
+		if ( ! $force_refresh && $cached_data !== false ) {
+			return $cached_data;
+		}
+
+		$dividends = $this->api->get_history_dividends( $params );
+
+		if ( ! is_wp_error( $dividends ) ) {
+			set_transient( $cache_key, $dividends, $this->cache_time * 6 ); // Cache 30 minutes.
+		}
+
+		return $dividends;
+	}
+
+	/**
+	 * Get historical order records
+	 *
+	 * @param array $params Optional: cursor, ticker, limit.
+	 * @param bool  $force_refresh Force refresh from API instead of cache.
+	 * @return array|WP_Error Order history
+	 * @version 1.0.0
+	 */
+	public function get_history_orders( $params = array(), $force_refresh = false ) {
+		$cache_key   = 'tradepress_trading212_history_orders_' . md5( serialize( $params ) );
+		$cached_data = get_transient( $cache_key );
+
+		if ( ! $force_refresh && $cached_data !== false ) {
+			return $cached_data;
+		}
+
+		$orders = $this->api->get_history_orders( $params );
+
+		if ( ! is_wp_error( $orders ) ) {
+			set_transient( $cache_key, $orders, $this->cache_time * 6 ); // Cache 30 minutes.
+		}
+
+		return $orders;
+	}
+
+	/**
 	 * Get a list of all available endpoints in the Trading212 API
 	 *
 	 * @return array List of endpoints

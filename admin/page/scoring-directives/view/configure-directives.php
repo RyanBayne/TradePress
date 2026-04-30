@@ -765,6 +765,70 @@ function tradepress_validate_directive_disable( $directive_id ) {
 				</div>
 				
 				<div class="section-content">
+					<div class="directive-description">
+						<p><?php echo esc_html( $directive['description'] ); ?></p>
+					</div>
+
+					<div class="directive-metadata">
+						<?php if ( isset( $directive['development_status'] ) ) : ?>
+							<span class="directive-meta-item">
+								<strong><?php esc_html_e( 'Status:', 'tradepress' ); ?></strong>
+								<?php echo esc_html( ucwords( str_replace( '_', ' ', $directive['development_status'] ) ) ); ?>
+							</span>
+						<?php endif; ?>
+						<?php if ( isset( $directive['category'] ) ) : ?>
+							<span class="directive-meta-item">
+								<strong><?php esc_html_e( 'Category:', 'tradepress' ); ?></strong>
+								<?php echo esc_html( ucwords( str_replace( '_', ' ', $directive['category'] ) ) ); ?>
+							</span>
+						<?php endif; ?>
+						<?php if ( isset( $directive['max_score'] ) ) : ?>
+							<span class="directive-meta-item">
+								<strong><?php esc_html_e( 'Max Score:', 'tradepress' ); ?></strong>
+								<?php echo esc_html( $directive['max_score'] ); ?>
+							</span>
+						<?php endif; ?>
+					</div>
+
+					<?php if ( ! empty( $directive['components'] ) && is_array( $directive['components'] ) ) : ?>
+					<div class="setting-group">
+						<label><?php esc_html_e( 'Components:', 'tradepress' ); ?></label>
+						<div class="setting-control">
+							<ul class="directive-components-list">
+								<?php foreach ( $directive['components'] as $component_id ) : ?>
+									<?php
+									$component_directive = $all_directives[ $component_id ] ?? array();
+									$component_name      = $component_directive['name'] ?? ucwords( str_replace( '_', ' ', $component_id ) );
+									$component_status    = ! empty( $component_directive['active'] ) ? __( 'Active', 'tradepress' ) : __( 'Inactive', 'tradepress' );
+									?>
+									<li>
+										<span><?php echo esc_html( $component_name ); ?></span>
+										<small><?php echo esc_html( $component_status ); ?></small>
+									</li>
+								<?php endforeach; ?>
+							</ul>
+						</div>
+					</div>
+					<?php endif; ?>
+
+					<?php if ( ! empty( $directive['api_requirements'] ) && is_array( $directive['api_requirements'] ) ) : ?>
+					<div class="setting-group">
+						<label><?php esc_html_e( 'Data/APIs:', 'tradepress' ); ?></label>
+						<div class="setting-control">
+							<p class="setting-description"><?php echo esc_html( implode( ', ', $directive['api_requirements'] ) ); ?></p>
+						</div>
+					</div>
+					<?php endif; ?>
+
+					<?php if ( ! empty( $directive['tip'] ) ) : ?>
+					<div class="setting-group">
+						<label><?php esc_html_e( 'Guidance:', 'tradepress' ); ?></label>
+						<div class="setting-control">
+							<p class="setting-description"><?php echo esc_html( $directive['tip'] ); ?></p>
+						</div>
+					</div>
+					<?php endif; ?>
+
 					<?php if ( ! $directive['active'] ) : ?>
 						<div class="directive-disabled-message">
 							<div class="notice notice-warning inline">
@@ -774,11 +838,6 @@ function tradepress_validate_directive_disable( $directive_id ) {
 						</div>
 					<?php else : ?>
 
-						
-						<div class="directive-description">
-							<p><?php echo esc_html( $directive['description'] ); ?></p>
-						</div>
-						
 						<form method="post">
 							<?php wp_nonce_field( 'tradepress_save_directive', 'save_nonce' ); ?>
 							<input type="hidden" name="action" value="save_directive">
@@ -1410,6 +1469,13 @@ function tradepress_validate_directive_disable( $directive_id ) {
 								<div class="setting-control">
 									<input type="number" name="payout_ratio_threshold" value="<?php echo esc_attr( $saved_config['payout_ratio_threshold'] ?? 80 ); ?>" min="50" max="100">
 									<p class="setting-description"><?php esc_html_e( 'Maximum acceptable payout ratio percentage for sustainability.', 'tradepress' ); ?></p>
+								</div>
+							</div>
+							<?php else : ?>
+							<div class="setting-group">
+								<label><?php esc_html_e( 'Configuration:', 'tradepress' ); ?></label>
+								<div class="setting-control">
+									<p class="setting-description"><?php esc_html_e( 'This directive does not yet expose custom settings in the admin UI. The saved weight and registry metadata are still shown so the directive can be reviewed without an empty panel.', 'tradepress' ); ?></p>
 								</div>
 							</div>
 							<?php endif; ?>
@@ -2946,4 +3012,3 @@ jQuery(document).ready(function($) {
 	});
 });
 </script>
-

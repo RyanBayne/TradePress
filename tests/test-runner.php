@@ -43,6 +43,10 @@ class TradePress_Test_Runner {
         'ui_crawl' => [
             'title' => 'UI Crawl',
             'description' => 'Visit admin tabs one by one and report page-level errors'
+        ],
+        'trading212' => [
+            'title' => 'Trading212 API',
+            'description' => 'Live endpoint tests for the Trading212 integration — runs against your configured API key'
         ]
     ];
     
@@ -270,12 +274,191 @@ class TradePress_Test_Runner {
     }
 
     /**
+     * Render Trading212 API Tests tab.
+     *
+     * @version 1.0.0
+     */
+    private function render_trading212_tab() {
+        $api_settings  = get_option( 'tradepress_api_settings', array() );
+        $settings_key  = isset( $api_settings['trading212_api_key'] ) ? trim( (string) $api_settings['trading212_api_key'] ) : '';
+        $live_key      = trim( (string) get_option( 'tradepress_trading212_api_key', '' ) );
+        $paper_key     = trim( (string) get_option( 'tradepress_trading212_paper_api_key', '' ) );
+        if ( '' === $live_key ) {
+            $live_key = trim( (string) get_option( 'TradePress_api_trading212_realmoney_apikey', '' ) );
+        }
+        if ( '' === $paper_key ) {
+            $paper_key = trim( (string) get_option( 'TradePress_api_trading212_papermoney_apikey', '' ) );
+        }
+
+        $environment = isset( $api_settings['trading212_environment'] ) ? (string) $api_settings['trading212_environment'] : '';
+        if ( '' !== $environment && '' === $settings_key && ( '' !== $live_key || '' !== $paper_key ) ) {
+            $environment = '';
+        }
+        if ( '' === $environment ) {
+            $legacy_environment = (string) get_option( 'tradepress_trading212_environment', '' );
+            if ( in_array( $legacy_environment, array( 'demo', 'live' ), true ) ) {
+                $environment = $legacy_environment;
+            }
+        }
+        if ( '' === $environment ) {
+            $trading_mode = (string) get_option( 'TradePress_api_trading212_trading_mode', '' );
+            if ( 'live' === $trading_mode ) {
+                $environment = 'live';
+            } elseif ( 'paper' === $trading_mode ) {
+                $environment = 'demo';
+            }
+        }
+        if ( '' === $environment ) {
+            $environment = ( '' !== $live_key && '' === $paper_key ) ? 'live' : 'demo';
+        }
+
+        $api_key = '' !== $settings_key ? $settings_key : ( 'live' === $environment ? $live_key : $paper_key );
+        if ( '' === $api_key ) {
+            $api_key = '' !== $live_key ? $live_key : $paper_key;
+        }
+        $has_key = '' !== $api_key;
+
+        echo '<h2>' . esc_html( $this->tabs['trading212']['title'] ) . '</h2>';
+        echo '<p class="description">' . esc_html( $this->tabs['trading212']['description'] ) . '</p>';
+
+        if ( ! $has_key ) {
+            echo '<div class="notice notice-warning inline"><p>';
+            echo esc_html__( 'No Trading212 API key is configured. Add your key in Trading Platforms settings before running these tests.', 'tradepress' );
+            echo '</p></div>';
+        }
+
+        echo '<div class="tradepress-t212-tests">';
+
+        echo '<div style="margin: 12px 0; padding: 10px 14px; background: #f0f0f1; border-left: 4px solid #72aee6; font-size: 13px;">';
+        echo '<strong>' . esc_html__( 'Environment:', 'tradepress' ) . '</strong> ';
+        echo '<code>' . esc_html( $environment ) . '</code>';
+        if ( 'live' === $environment ) {
+            echo ' &mdash; <span style="color:#d63638;">' . esc_html__( 'Live environment — read-only tests only, no orders will be placed.', 'tradepress' ) . '</span>';
+        }
+        echo '</div>';
+
+        echo '<div class="test-controls" style="margin: 20px 0;">';
+        echo '<button id="run-trading212-tests" class="button button-primary"' . ( $has_key ? '' : ' disabled' ) . '>';
+        echo esc_html__( 'Run Trading212 Tests', 'tradepress' );
+        echo '</button> ';
+        echo '<button id="clear-trading212-results" class="button">';
+        echo esc_html__( 'Clear Results', 'tradepress' );
+        echo '</button>';
+        echo '</div>';
+
+        echo '<div id="trading212-test-results" style="margin-top: 20px;">';
+        echo '<p><em>' . esc_html__( 'Click "Run Trading212 Tests" to execute all read-only endpoint tests against your configured API key.', 'tradepress' ) . '</em></p>';
+        echo '</div>';
+        echo '</div>';
+
+        // Inline JS — scoped to this tab, no separate file needed.
+        ?>
+        <style>
+        .t212-test-group { margin: 20px 0; }
+        .t212-test-group h3 { margin: 0 0 8px; font-size: 14px; }
+        .t212-test-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; border-bottom: 1px solid #e0e0e0; font-size: 13px; }
+        .t212-test-row:last-child { border-bottom: none; }
+        .t212-test-row.pass { background: #f0fff4; }
+        .t212-test-row.fail { background: #fff0f0; }
+        .t212-test-row.skip { background: #fffbe6; }
+        .t212-badge { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 600; text-transform: uppercase; min-width: 42px; text-align: center; }
+        .t212-badge.pass { background: #d1fae5; color: #065f46; }
+        .t212-badge.fail { background: #fee2e2; color: #991b1b; }
+        .t212-badge.skip { background: #fef9c3; color: #713f12; }
+        .t212-endpoint { font-family: monospace; color: #444; flex: 1; }
+        .t212-detail { font-size: 12px; color: #666; flex: 2; word-break: break-all; }
+        .t212-summary { padding: 12px 14px; font-weight: 600; border-top: 2px solid #ccc; margin-top: 4px; }
+        </style>
+        <script>
+        (function($) {
+            $('#run-trading212-tests').on('click', function() {
+                var $btn = $(this);
+                var $results = $('#trading212-test-results');
+                $btn.prop('disabled', true).text('<?php echo esc_js( __( 'Running\u2026', 'tradepress' ) ); ?>');
+                $results.html('<p><em><?php echo esc_js( __( 'Running tests\u2026', 'tradepress' ) ); ?></em></p>');
+
+                $.ajax({
+                    url: tradePressTests.ajax_url,
+                    method: 'POST',
+                    data: {
+                        action: 'tradepress_run_tests',
+                        nonce: tradePressTests.nonce,
+                        test_suite: 'trading212'
+                    },
+                    success: function(response) {
+                        if (response.success && response.data) {
+                            $results.html(renderTrading212Results(response.data));
+                        } else {
+                            var msg = (response.data) ? response.data : '<?php echo esc_js( __( 'Unknown error', 'tradepress' ) ); ?>';
+                            $results.html('<div class="notice notice-error"><p>' + $('<span>').text(msg).html() + '</p></div>');
+                        }
+                    },
+                    error: function() {
+                        $results.html('<div class="notice notice-error"><p><?php echo esc_js( __( 'AJAX request failed.', 'tradepress' ) ); ?></p></div>');
+                    },
+                    complete: function() {
+                        $btn.prop('disabled', false).text('<?php echo esc_js( __( 'Run Trading212 Tests', 'tradepress' ) ); ?>');
+                    }
+                });
+            });
+
+            $('#clear-trading212-results').on('click', function() {
+                $('#trading212-test-results').html('<p><em><?php echo esc_js( __( 'Click "Run Trading212 Tests" to execute all read-only endpoint tests against your configured API key.', 'tradepress' ) ); ?></em></p>');
+            });
+
+            function renderTrading212Results(data) {
+                if (!data || !data.tests) {
+                    return '<p><?php echo esc_js( __( 'No test data returned.', 'tradepress' ) ); ?></p>';
+                }
+                var html = '';
+                var passCount = 0, failCount = 0, skipCount = 0;
+
+                // Group by category
+                var groups = {};
+                $.each(data.tests, function(i, test) {
+                    var group = test.group || 'General';
+                    if (!groups[group]) groups[group] = [];
+                    groups[group].push(test);
+                });
+
+                $.each(groups, function(groupName, tests) {
+                    html += '<div class="t212-test-group"><h3>' + $('<span>').text(groupName).html() + '</h3><div style="border:1px solid #e0e0e0;">';
+                    $.each(tests, function(i, test) {
+                        var status = test.status || 'fail';
+                        if (status === 'pass') passCount++;
+                        else if (status === 'skip') skipCount++;
+                        else failCount++;
+
+                        html += '<div class="t212-test-row ' + status + '">';
+                        html += '<span class="t212-badge ' + status + '">' + status.toUpperCase() + '</span>';
+                        html += '<span class="t212-endpoint">' + $('<span>').text(test.endpoint || test.name).html() + '</span>';
+                        html += '<span class="t212-detail">' + $('<span>').text(test.message || '').html() + '</span>';
+                        html += '</div>';
+                    });
+                    html += '</div></div>';
+                });
+
+                var totalCount = passCount + failCount + skipCount;
+                var summaryColor = (failCount === 0) ? '#0a7c42' : '#d63638';
+                html += '<div class="t212-summary" style="color:' + summaryColor + ';">';
+                html += '<?php echo esc_js( __( 'Results:', 'tradepress' ) ); ?> ' + passCount + ' <?php echo esc_js( __( 'passed', 'tradepress' ) ); ?>, ' + failCount + ' <?php echo esc_js( __( 'failed', 'tradepress' ) ); ?>, ' + skipCount + ' <?php echo esc_js( __( 'skipped', 'tradepress' ) ); ?> (<?php echo esc_js( __( 'of', 'tradepress' ) ); ?> ' + totalCount + ')';
+                if (data.environment) {
+                    html += ' &mdash; Environment: <code>' + $('<span>').text(data.environment).html() + '</code>';
+                }
+                html += '</div>';
+                return html;
+            }
+        })(jQuery);
+        </script>
+        <?php
+    }
+
+    /**
      * Render UI Crawl tab.
       *
       * @version 1.0.0
      */
-    private function render_ui_crawl_tab() {
-        $seed_urls = $this->get_ui_crawl_seed_urls();
+    private function render_ui_crawl_tab() {        $seed_urls = $this->get_ui_crawl_seed_urls();
 
         echo '<section class="tradepress-ui-crawl">';
         echo '<div class="tradepress-ui-crawl__hero">';
@@ -523,6 +706,24 @@ class TradePress_Test_Runner {
 
                     $tester  = new TradePress_Recent_Call_Register_Tests();
                     $results = $tester->run_phase3_tests();
+                    break;
+
+                case 'trading212':
+                    $api_test_file = plugin_dir_path( __FILE__ ) . 'integration/trading212/trading212-api-tests.php';
+
+                    if ( ! file_exists( $api_test_file ) ) {
+                        throw new Exception( 'Trading212 test file not found: ' . $api_test_file );
+                    }
+
+                    require_once TRADEPRESS_PLUGIN_DIR_PATH . 'api/trading212/trading212-api.php';
+                    require_once $api_test_file;
+
+                    if ( ! class_exists( 'TradePress_Trading212_API_Tests' ) ) {
+                        throw new Exception( 'TradePress_Trading212_API_Tests class not found' );
+                    }
+
+                    $tester  = new TradePress_Trading212_API_Tests();
+                    $results = $tester->run_all_tests();
                     break;
 
                 default:

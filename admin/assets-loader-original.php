@@ -235,11 +235,13 @@ if ( ! class_exists( 'TradePress_Admin_Assets' ) ) :
 			);
 
 			// Register scoring directives styles
+			$scoring_directives_style_file    = TRADEPRESS_PLUGIN_DIR . 'assets/css/pages/scoring-directives.css';
+			$scoring_directives_style_version = file_exists( $scoring_directives_style_file ) ? (string) filemtime( $scoring_directives_style_file ) : TRADEPRESS_VERSION;
 			wp_register_style(
 				'tradepress-scoring-directives',
 				TRADEPRESS_PLUGIN_URL . 'assets/css/pages/scoring-directives.css',
 				array(),
-				TRADEPRESS_VERSION
+				$scoring_directives_style_version
 			);
 
 			// Register price forecast styles
@@ -776,11 +778,13 @@ if ( ! class_exists( 'TradePress_Admin_Assets' ) ) :
 			);
 
 			// Register configure directives styles
+			$configure_directives_style_file    = TRADEPRESS_PLUGIN_DIR . 'assets/css/pages/configure-directives.css';
+			$configure_directives_style_version = file_exists( $configure_directives_style_file ) ? (string) filemtime( $configure_directives_style_file ) : TRADEPRESS_VERSION;
 			wp_register_style(
 				'tradepress-configure-directives',
 				TRADEPRESS_PLUGIN_URL . 'assets/css/pages/configure-directives.css',
 				array(),
-				TRADEPRESS_VERSION
+				$configure_directives_style_version
 			);
 
 			// Development page styles - Current Task tab - Fixed conditional logic
@@ -1249,11 +1253,13 @@ if ( ! class_exists( 'TradePress_Admin_Assets' ) ) :
 			);
 
 			// Register scoring directives script
+			$scoring_directives_script_file    = TRADEPRESS_PLUGIN_DIR . 'assets/js/tradepress-scoring-directives.js';
+			$scoring_directives_script_version = file_exists( $scoring_directives_script_file ) ? (string) filemtime( $scoring_directives_script_file ) : TRADEPRESS_VERSION;
 			wp_register_script(
 				'tradepress-scoring-directives',
 				TRADEPRESS_PLUGIN_URL . 'assets/js/tradepress-scoring-directives.js',
 				array( 'jquery' ),
-				TRADEPRESS_VERSION,
+				$scoring_directives_script_version,
 				true
 			);
 

@@ -146,6 +146,13 @@ class TradePress_Trading212_API {
 	private $api_key;
 
 	/**
+	 * API secret
+	 *
+	 * @var string
+	 */
+	private $api_secret;
+
+	/**
 	 * Debug mode
 	 *
 	 * @var bool
@@ -158,10 +165,80 @@ class TradePress_Trading212_API {
 	 * @version 1.0.0
 	 */
 	public function __construct() {
-		$api_settings      = get_option( 'tradepress_api_settings', array() );
-		$this->api_key     = isset( $api_settings['trading212_api_key'] ) ? $api_settings['trading212_api_key'] : '';
-		$this->debug_mode  = isset( $api_settings['enable_api_logging'] ) && $api_settings['enable_api_logging'];
-		$this->environment = isset( $api_settings['trading212_environment'] ) ? $api_settings['trading212_environment'] : 'demo';
+		$api_settings = get_option( 'tradepress_api_settings', array() );
+
+		$settings_key    = isset( $api_settings['trading212_api_key'] ) ? trim( (string) $api_settings['trading212_api_key'] ) : '';
+		$settings_secret = isset( $api_settings['trading212_api_secret'] ) ? trim( (string) $api_settings['trading212_api_secret'] ) : '';
+
+		$live_key    = trim( (string) get_option( 'tradepress_trading212_api_key', '' ) );
+		$live_secret = trim( (string) get_option( 'tradepress_trading212_api_secret', '' ) );
+		$paper_key   = trim( (string) get_option( 'tradepress_trading212_paper_api_key', '' ) );
+		$paper_secret = trim( (string) get_option( 'tradepress_trading212_paper_api_secret', '' ) );
+
+		if ( '' === $live_key ) {
+			$live_key = trim( (string) get_option( 'TradePress_api_trading212_realmoney_apikey', '' ) );
+		}
+		if ( '' === $live_secret ) {
+			$live_secret = trim( (string) get_option( 'TradePress_api_trading212_realmoney_secretkey', '' ) );
+		}
+		if ( '' === $paper_key ) {
+			$paper_key = trim( (string) get_option( 'TradePress_api_trading212_papermoney_apikey', '' ) );
+		}
+		if ( '' === $paper_secret ) {
+			$paper_secret = trim( (string) get_option( 'TradePress_api_trading212_papermoney_secretkey', '' ) );
+		}
+
+		$this->debug_mode = isset( $api_settings['enable_api_logging'] ) && $api_settings['enable_api_logging'];
+
+		$environment               = isset( $api_settings['trading212_environment'] ) ? (string) $api_settings['trading212_environment'] : '';
+		$environment_from_settings = '' !== $environment;
+
+		if ( $environment_from_settings && '' === $settings_key && ( '' !== $live_key || '' !== $paper_key ) ) {
+			// Ignore stale shared-environment values when credentials are only in legacy per-option storage.
+			$environment = '';
+		}
+		if ( '' === $environment ) {
+			$legacy_environment = (string) get_option( 'tradepress_trading212_environment', '' );
+			if ( in_array( $legacy_environment, array( 'demo', 'live' ), true ) ) {
+				$environment = $legacy_environment;
+			}
+		}
+
+		if ( '' === $environment ) {
+			$trading_mode = (string) get_option( 'TradePress_api_trading212_trading_mode', '' );
+			if ( 'live' === $trading_mode ) {
+				$environment = 'live';
+			} elseif ( 'paper' === $trading_mode ) {
+				$environment = 'demo';
+			}
+		}
+
+		if ( '' === $environment ) {
+			if ( '' !== $paper_key && '' === $live_key ) {
+				$environment = 'demo';
+			} elseif ( '' !== $live_key && '' === $paper_key ) {
+				$environment = 'live';
+			}
+		}
+
+		$this->environment = in_array( $environment, array( 'demo', 'live' ), true ) ? $environment : 'demo';
+
+		if ( '' !== $settings_key ) {
+			$this->api_key    = $settings_key;
+			$this->api_secret = $settings_secret;
+		} elseif ( 'live' === $this->environment ) {
+			$this->api_key    = $live_key;
+			$this->api_secret = $live_secret;
+		} else {
+			$this->api_key    = $paper_key;
+			$this->api_secret = $paper_secret;
+
+			// Last fallback for demo mode when only a live key is configured.
+			if ( '' === $this->api_key ) {
+				$this->api_key    = $live_key;
+				$this->api_secret = $live_secret;
+			}
+		}
 	}
 
 	/**
@@ -341,7 +418,7 @@ class TradePress_Trading212_API {
 	 * @version 1.0.0
 	 */
 	public function get_instruments() {
-		return $this->make_request( 'equity/instruments' );
+		return $this->make_request( 'equity/metadata/instruments' );
 	}
 
 	/**
@@ -497,11 +574,17 @@ class TradePress_Trading212_API {
 		$base_url = $this->api_base_urls[ $this->environment ];
 		$url      = $base_url . $endpoint;
 
+		$authorization_header = $this->api_key;
+		if ( '' !== $this->api_secret ) {
+			$authorization_header = 'Basic ' . base64_encode( $this->api_key . ':' . $this->api_secret );
+		}
+
 		$args = array(
-			'method'  => $method,
-			'timeout' => 30,
-			'headers' => array(
-				'Authorization' => $this->api_key,
+			'method'    => $method,
+			'timeout'   => 30,
+			'sslverify' => ! ( defined( 'WP_DEBUG' ) && WP_DEBUG ),
+			'headers'   => array(
+				'Authorization' => $authorization_header,
 				'Content-Type'  => 'application/json',
 			),
 		);

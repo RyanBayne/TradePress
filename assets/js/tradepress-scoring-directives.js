@@ -1,4 +1,8 @@
 jQuery(document).ready(function($) {
+    if ($('.configure-directives-container').length) {
+        return;
+    }
+
     // Initialize - show the ISA Reset directive by default
     showDirectiveDetails('isa_reset');
     $('.directive-row[data-directive="isa_reset"]').addClass('selected');

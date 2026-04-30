@@ -285,11 +285,14 @@ class TradePress_Asset_Queue {
 	 * @version 1.0.7
 	 */
 	private function enqueue_configure_directives_assets() {
+		$style_file    = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/css/pages/configure-directives.css';
+		$style_version = file_exists( $style_file ) ? (string) filemtime( $style_file ) : TRADEPRESS_VERSION;
+
 		wp_enqueue_style(
 			'tradepress-configure-directives',
 			TRADEPRESS_PLUGIN_URL . 'assets/css/pages/configure-directives.css',
 			array(),
-			TRADEPRESS_VERSION
+			$style_version
 		);
 	}
 
