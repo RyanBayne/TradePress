@@ -254,7 +254,7 @@ Raw Response Size: <?php echo esc_html( strlen( is_array( $raw_response ) ? json
 				<div class="endpoint-path"><?php echo esc_html( $endpoint['endpoint'] ); ?></div>
 			</td>
 			<td><?php echo esc_html( $endpoint['description'] ); ?></td>
-			<td><span class="method-badge method-<?php echo strtolower( esc_attr( $endpoint['method'] ) ); ?>"><?php echo esc_html( $endpoint['method'] ); ?></span></td>
+			<td><span class="method-badge method-<?php echo esc_attr( strtolower( $endpoint['method'] ) ); ?>"><?php echo esc_html( $endpoint['method'] ); ?></span></td>
 			<td class="usage-count"><?php echo esc_html( number_format( $endpoint_counter ) ); ?></td>
 			<td>
 				<div class="status-indicator">

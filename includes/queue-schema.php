@@ -172,6 +172,83 @@ class TradePress_Queue_Schema {
 	}
 
 	/**
+	 * Get a queue status summary for monitoring views.
+	 *
+	 * @version 1.0.0
+	 *
+	 * @param string $queue_name Queue name.
+	 * @return array
+	 */
+	public static function get_queue_summary( $queue_name ) {
+		global $wpdb;
+
+		self::maybe_create_tables();
+
+		$table   = $wpdb->prefix . 'tradepress_queue';
+		$summary = array(
+			'pending'       => 0,
+			'processing'    => 0,
+			'completed'     => 0,
+			'failed'        => 0,
+			'total'         => 0,
+			'active'        => 0,
+			'last_created'  => '',
+			'last_finished' => '',
+			'last_error'    => '',
+		);
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"
+				SELECT status, COUNT(*) AS status_count
+				FROM $table
+				WHERE queue_name = %s
+				GROUP BY status
+				",
+				$queue_name
+			),
+			ARRAY_A
+		);
+
+		foreach ( $rows as $row ) {
+			$status = sanitize_key( $row['status'] );
+			$count  = (int) $row['status_count'];
+
+			if ( isset( $summary[ $status ] ) ) {
+				$summary[ $status ] = $count;
+			}
+
+			$summary['total'] += $count;
+		}
+
+		$last_row = $wpdb->get_row(
+			$wpdb->prepare(
+				"
+				SELECT created_at, completed_at, error_message
+				FROM $table
+				WHERE queue_name = %s
+				ORDER BY created_at DESC
+				LIMIT 1
+				",
+				$queue_name
+			),
+			ARRAY_A
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		if ( $last_row ) {
+			$summary['last_created']  = isset( $last_row['created_at'] ) ? $last_row['created_at'] : '';
+			$summary['last_finished'] = isset( $last_row['completed_at'] ) ? $last_row['completed_at'] : '';
+			$summary['last_error']    = isset( $last_row['error_message'] ) ? $last_row['error_message'] : '';
+		}
+
+		$summary['active'] = $summary['pending'] + $summary['processing'];
+
+		return $summary;
+	}
+
+	/**
 	 * Get next item from queue
 	 *
 	 * @version 1.0.0

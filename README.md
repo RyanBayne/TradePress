@@ -21,7 +21,7 @@ Anyone participating (developing, testing, active feedback) will maintain access
 
 Early days yet though! 
 
-## Features
+## Features (In-Development)
 
 ### Core Capabilities
 - **Scoring Directives** - Custom algorithmic scoring system combining multiple technical indicators (RSI, MACD, CCI, ADX, Bollinger Bands, EMA, Volume analysis)

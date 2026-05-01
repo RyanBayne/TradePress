@@ -564,18 +564,18 @@ if ( isset( $_POST['action'] ) && ( $_POST['action'] === 'test_api' || $_POST['a
 							</div>
 							<div style="flex: 1;">
 								<span class="status-badge <?php echo $api_enabled === 'yes' ? 'status-active' : 'status-inactive'; ?>">
-									<?php echo $api_enabled === 'yes' ? 'Operational' : 'Disabled'; ?>
+									<?php echo $api_enabled === 'yes' ? esc_html__( 'Operational', 'tradepress' ) : esc_html__( 'Disabled', 'tradepress' ); ?>
 								</span>
 							</div>
 							<div style="flex: 1;">
 								<span class="type-badge <?php echo $is_data_only ? 'type-data' : 'type-trading'; ?>">
-									<?php echo $is_data_only ? 'Data Only' : 'Trading'; ?>
+									<?php echo $is_data_only ? esc_html__( 'Data Only', 'tradepress' ) : esc_html__( 'Trading', 'tradepress' ); ?>
 								</span>
 							</div>
 							<div style="flex: 1;">
 								<?php if ( ! $is_data_only ) : ?>
 									<span class="mode-badge mode-<?php echo esc_attr( $trading_mode ); ?>">
-										<?php echo $trading_mode === 'live' ? 'Live' : 'Paper'; ?>
+										<?php echo $trading_mode === 'live' ? esc_html__( 'Live', 'tradepress' ) : esc_html__( 'Paper', 'tradepress' ); ?>
 									</span>
 								<?php else : ?>
 									<span style="color: #666;">N/A</span>
@@ -602,7 +602,7 @@ if ( isset( $_POST['action'] ) && ( $_POST['action'] === 'test_api' || $_POST['a
 
 								<div>
 									<strong>Rate Limiting:</strong><br>
-									<span class="rate-limit-badge rate-<?php echo strtolower( $rate_limit_status ); ?>"><?php echo esc_html( $rate_limit_status ); ?></span> - <?php echo esc_html( $rate_limit_count ); ?>/<?php echo esc_html( $rate_limit_max ); ?> calls today
+									<span class="rate-limit-badge rate-<?php echo esc_attr( strtolower( $rate_limit_status ) ); ?>"><?php echo esc_html( $rate_limit_status ); ?></span> - <?php echo esc_html( $rate_limit_count ); ?>/<?php echo esc_html( $rate_limit_max ); ?> calls today
 								</div>
 							</div>
 							
@@ -634,7 +634,7 @@ if ( isset( $_POST['action'] ) && ( $_POST['action'] === 'test_api' || $_POST['a
 									<input type="hidden" name="trading_mode_nonce" value="<?php echo esc_attr( wp_create_nonce( 'tradepress_toggle_trading_mode' ) ); ?>">
 									<input type="hidden" name="action" value="toggle_trading_mode">
 									<input type="hidden" name="api_id" value="<?php echo esc_attr( $api_id ); ?>">
-									<input type="hidden" name="new_mode" value="<?php echo $trading_mode === 'live' ? 'paper' : 'live'; ?>">
+									<input type="hidden" name="new_mode" value="<?php echo esc_attr( $trading_mode === 'live' ? 'paper' : 'live' ); ?>">
 									<button type="submit" class="button">
 										<?php echo $trading_mode === 'live' ? esc_html__( 'Switch to Paper', 'tradepress' ) : esc_html__( 'Switch to Live', 'tradepress' ); ?>
 									</button>
@@ -644,7 +644,7 @@ if ( isset( $_POST['action'] ) && ( $_POST['action'] === 'test_api' || $_POST['a
 									<input type="hidden" name="toggle_nonce" value="<?php echo esc_attr( wp_create_nonce( 'tradepress_toggle_api' ) ); ?>">
 									<input type="hidden" name="action" value="toggle_api_status">
 									<input type="hidden" name="api_id" value="<?php echo esc_attr( $api_id ); ?>">
-									<input type="hidden" name="new_state" value="<?php echo $api_enabled === 'yes' ? '0' : '1'; ?>">
+									<input type="hidden" name="new_state" value="<?php echo esc_attr( $api_enabled === 'yes' ? '0' : '1' ); ?>">
 									<button type="submit" class="button">
 										<?php echo $api_enabled === 'yes' ? esc_html__( 'Disable', 'tradepress' ) : esc_html__( 'Enable', 'tradepress' ); ?>
 									</button>

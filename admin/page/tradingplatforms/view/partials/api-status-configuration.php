@@ -54,7 +54,7 @@
 						</div>
 						
 						<div class="test-credentials-buttons">
-							<button type="button" class="button test-api-connection" data-api="<?php echo esc_attr( $api_id ); ?>" data-nonce="<?php echo wp_create_nonce( 'test-api-connection' ); ?>">
+							<button type="button" class="button test-api-connection" data-api="<?php echo esc_attr( $api_id ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'test-api-connection' ) ); ?>">
 								<span class="dashicons dashicons-yes"></span> 
 								<?php esc_html_e( 'Test API Connection', 'tradepress' ); ?>
 							</button>
@@ -100,7 +100,7 @@
 								</div>
 								
 								<div class="test-credentials-buttons">
-									<button type="button" class="button test-api-credentials" data-api="<?php echo esc_attr( $api_id ); ?>" data-mode="real" data-nonce="<?php echo wp_create_nonce( 'test-api-credentials' ); ?>">
+									<button type="button" class="button test-api-credentials" data-api="<?php echo esc_attr( $api_id ); ?>" data-mode="real" data-nonce="<?php echo esc_attr( wp_create_nonce( 'test-api-credentials' ) ); ?>">
 										<span class="dashicons dashicons-yes"></span> 
 										<?php esc_html_e( 'Test Live Trading', 'tradepress' ); ?>
 									</button>
@@ -146,7 +146,7 @@
 								</div>
 								
 								<div class="test-credentials-buttons">
-									<button type="button" class="button test-api-credentials" data-api="<?php echo esc_attr( $api_id ); ?>" data-mode="paper" data-nonce="<?php echo wp_create_nonce( 'test-api-credentials' ); ?>">
+									<button type="button" class="button test-api-credentials" data-api="<?php echo esc_attr( $api_id ); ?>" data-mode="paper" data-nonce="<?php echo esc_attr( wp_create_nonce( 'test-api-credentials' ) ); ?>">
 										<span class="dashicons dashicons-yes"></span> 
 										<?php esc_html_e( 'Test Paper Trading', 'tradepress' ); ?>
 									</button>
