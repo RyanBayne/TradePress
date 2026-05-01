@@ -163,94 +163,14 @@ class TradePress_Recent_Symbols {
 		$symbols      = self::get_recent_symbols( $user_id );
 		$symbols_data = array();
 
-		// Do not return demo data to regular users. Return empty records so callers
-		// can show a proper empty state. Demo data is only acceptable in developer mode.
-		$can_show_demo = false;
-
 		foreach ( $symbols as $symbol ) {
-			if ( $can_show_demo ) {
-				$symbols_data[ $symbol ] = self::get_demo_symbol_data( $symbol );
-			} else {
-				// Return a minimal placeholder; callers should show "No Data" until live price data is importable.
-				$symbols_data[ $symbol ] = array(
-					'symbol'      => $symbol,
-					'data_status' => 'no_data',
-				);
-			}
+			$symbols_data[ $symbol ] = array(
+				'symbol'      => $symbol,
+				'data_status' => 'no_data',
+			);
 		}
 
 		return apply_filters( 'tradepress_recent_symbols_data', $symbols_data );
 	}
 
-	/**
-	 * Generate demo data for a symbol
-	 *
-	 * @param string $symbol Stock symbol
-	 * @return array Symbol data
-	 * @version 1.0.0
-	 */
-	private static function get_demo_symbol_data( $symbol ) {
-		// Set seed based on symbol name for consistent random values
-		srand( crc32( $symbol ) );
-
-		$price       = mt_rand( 1000, 50000 ) / 100;
-		$change_pct  = ( mt_rand( -500, 500 ) / 100 );
-		$is_positive = $change_pct >= 0;
-		$change      = $price * ( $change_pct / 100 );
-
-		// Generate some typical price levels
-		return array(
-			'symbol'         => $symbol,
-			'company_name'   => self::get_demo_company_name( $symbol ),
-			'price'          => $price,
-			'change'         => $change,
-			'change_percent' => $change_pct,
-			'is_positive'    => $is_positive,
-			'volume'         => mt_rand( 100000, 10000000 ),
-			'last_checked'   => date( 'Y-m-d H:i:s', time() - mt_rand( 60, 3600 ) ),
-			'thumbnail'      => 'https://via.placeholder.com/50x50.png?text=' . $symbol,
-		);
-	}
-
-	/**
-	 * Get demo company name based on symbol
-	 *
-	 * @param string $symbol Stock symbol
-	 * @return string Company name
-	 * @version 1.0.0
-	 */
-	private static function get_demo_company_name( $symbol ) {
-		$common_names = array(
-			'AAPL'  => 'Apple Inc.',
-			'MSFT'  => 'Microsoft Corporation',
-			'GOOGL' => 'Alphabet Inc.',
-			'GOOG'  => 'Alphabet Inc.',
-			'AMZN'  => 'Amazon.com, Inc.',
-			'TSLA'  => 'Tesla, Inc.',
-			'META'  => 'Meta Platforms, Inc.',
-			'NFLX'  => 'Netflix, Inc.',
-			'NVDA'  => 'NVIDIA Corporation',
-			'AMD'   => 'Advanced Micro Devices, Inc.',
-			'INTC'  => 'Intel Corporation',
-			'IBM'   => 'International Business Machines',
-			'CSCO'  => 'Cisco Systems, Inc.',
-			'DIS'   => 'The Walt Disney Company',
-			'JPM'   => 'JPMorgan Chase & Co.',
-			'BAC'   => 'Bank of America Corporation',
-			'WMT'   => 'Walmart Inc.',
-			'JNJ'   => 'Johnson & Johnson',
-			'PG'    => 'Procter & Gamble Co',
-			'KO'    => 'The Coca-Cola Company',
-			'PEP'   => 'PepsiCo, Inc.',
-			'T'     => 'AT&T Inc.',
-			'VZ'    => 'Verizon Communications Inc.',
-		);
-
-		if ( isset( $common_names[ $symbol ] ) ) {
-			return $common_names[ $symbol ];
-		}
-
-		// Generate a placeholder name for unknown symbols
-		return $symbol . ' Corporation';
-	}
 }

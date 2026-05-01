@@ -150,6 +150,11 @@ class TradePress_Trading_Algorithm {
 
 			// Get data for this symbol from APIs
 			$symbol_data         = $this->get_symbol_data( $symbol->post_title );
+			if ( is_wp_error( $symbol_data ) ) {
+				$this->logger->log( 'warning', 'processing', 'Skipping symbol without real market data: ' . $symbol->post_title . ' - ' . $symbol_data->get_error_message() );
+				++$stats['symbols_processed'];
+				continue;
+			}
 			$stats['api_calls'] += $symbol_data['api_calls'];
 
 			// Calculate score
@@ -218,33 +223,13 @@ class TradePress_Trading_Algorithm {
 	 * @version 1.0.0
 	 */
 	private function get_symbol_data( $symbol_ticker ) {
-		$api_calls = 0;
-		$data      = array();
-
-		// Implement API cycling here - for now just a placeholder
-		$data['price'] = array(
-			'current'        => rand( 10, 500 ) + ( rand( 0, 100 ) / 100 ),
-			'previous_close' => rand( 10, 500 ) + ( rand( 0, 100 ) / 100 ),
-			'change_percent' => rand( -10, 10 ) + ( rand( 0, 100 ) / 100 ),
-		);
-
-		$data['volume'] = rand( 10000, 10000000 );
-		++$api_calls;
-
-		// Technical indicators
-		$data['technical'] = array(
-			'rsi'             => rand( 20, 80 ),
-			'macd'            => rand( -20, 20 ) / 10,
-			'moving_averages' => array(
-				'sma_50'  => rand( 10, 500 ) + ( rand( 0, 100 ) / 100 ),
-				'sma_200' => rand( 10, 500 ) + ( rand( 0, 100 ) / 100 ),
-			),
-		);
-		++$api_calls;
-
-		return array(
-			'data'      => $data,
-			'api_calls' => $api_calls,
+		return new WP_Error(
+			'tradepress_market_data_unavailable',
+			sprintf(
+				/* translators: %s: Symbol ticker. */
+				__( 'No real market data source is configured for %s.', 'tradepress' ),
+				$symbol_ticker
+			)
 		);
 	}
 

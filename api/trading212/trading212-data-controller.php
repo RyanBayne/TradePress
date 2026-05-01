@@ -395,17 +395,6 @@ class TradePress_Trading212_Data_Controller {
 	}
 
 	/**
-	 * Get demo data for a specific endpoint
-	 *
-	 * @param string $endpoint The endpoint to get demo data for
-	 * @return array Sample data for the endpoint
-	 * @version 1.0.0
-	 */
-	public function get_demo_data( $endpoint ) {
-		return $this->api->get_demo_data( $endpoint );
-	}
-
-	/**
 	 * Import instruments from Trading212 into TradePress symbols
 	 *
 	 * @return array Results of the import operation

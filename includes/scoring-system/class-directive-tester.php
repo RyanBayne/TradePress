@@ -81,8 +81,7 @@ class TradePress_Directive_Tester {
 				return self::test_earnings_proximity_directive( $symbol_data );
 
 			default:
-				// Demo scoring for unknown directives
-				return rand( 0, 100 );
+				return 0;
 		}
 	}
 
@@ -117,8 +116,11 @@ class TradePress_Directive_Tester {
 	 * @param mixed $symbol_data
 	 */
 	private static function test_rsi_oversold_directive( $symbol_data ) {
-		// Demo RSI calculation
-		$rsi = isset( $symbol_data['technical']['rsi'] ) ? $symbol_data['technical']['rsi'] : rand( 20, 80 );
+		if ( ! isset( $symbol_data['technical']['rsi'] ) ) {
+			return 0;
+		}
+
+		$rsi = $symbol_data['technical']['rsi'];
 
 		if ( $rsi < 30 ) {
 			return 20; // Strong oversold signal

@@ -118,10 +118,7 @@ if ( $api_test_performed && $api_test_results ) :
 			<?php echo $is_successful ? esc_html__( 'Success', 'tradepress' ) : esc_html__( 'Connection Error', 'tradepress' ); ?>
 		</span><br>
 		<strong>Environment:</strong> 
-		<?php
-			$is_demo = false;
-			echo esc_html( $is_demo ? 'Demo' : 'Live' );
-		?>
+		<?php echo esc_html__( 'Configured API', 'tradepress' ); ?>
 		<br>
 		<?php if ( $is_data_only_api ) : ?>
 		<strong>Trading Mode:</strong> <?php echo esc_html__( 'Not Applicable', 'tradepress' ); ?><br>
@@ -170,7 +167,7 @@ Endpoint: <?php echo esc_html( $api_test_endpoint ); ?>')); ?>
 
 Status: <?php echo $is_successful ? esc_html__( 'Success', 'tradepress' ) : esc_html__( 'Connection Error', 'tradepress' ); ?>
 
-Environment: <?php echo esc_html( $is_demo ? 'Demo' : 'Live' ); ?>
+Environment: Configured API
 
 		<?php if ( $is_data_only_api ) : ?>
 Trading Mode: Not Applicable

@@ -293,365 +293,77 @@ if ( ! function_exists( 'tradepress_sortable_securities_v2_shortcode' ) ) {
 }
 
 /**
- * This function is used to test the Alpaca API connection.
+ * Return a clear unavailable message for legacy API status shortcodes.
  *
- * It attempts to connect to the Alpaca API and retrieve a real-time quote for NVDA.
+ * These shortcodes previously returned misleading provider status output.
+ * They now fail closed until each provider is wired to real configured credentials.
  *
- * @param array       $atts    The attributes passed to the shortcode.
- * @param string|null $content The shortcode content (if any).
- *
- * @return string The API connection status and sample data, or an error message.
- * @version 1.0.0
+ * @param string $provider Provider display name.
+ * @return string
  */
-function TradePress_shortcode_alpaca_api_status( $atts, $content ) {
-	// Alpaca API endpoint for real-time quote (replace with the actual endpoint)
-	$symbol          = 'NVDA';
-	$alpaca_endpoint = "https://api.alpaca.markets/v2/stocks/$symbol/quotes/latest";
-
-	// Alpaca API key and secret for live trading
-	$alpaca_api_key_live    = 'AKYFA8GDDNB8Z7R29M37';
-	$alpaca_api_secret_live = 'x1zHngmgVw4MyPIiTI3BXcaxbPIjtWFAao0evJhc';
-
-	// Alpaca API key and secret for paper trading
-	$alpaca_api_key_paper    = 'PKLV5WJ6Z33SZQ3MBXEJ';
-	$alpaca_api_secret_paper = 'PKLV5WJ6Z33SZQ3MBXEJ';
-
-	// Check if paper trading is enabled
-	$use_paper_key = get_option( 'tradepress_paper_trading_only', false );
-
-	// Choose which API key to use.
-	if ( $use_paper_key ) {
-		$alpaca_api_key    = $alpaca_api_key_paper;
-		$alpaca_api_secret = $alpaca_api_secret_paper;
-	} else {
-		$alpaca_api_key    = $alpaca_api_key_live;
-		$alpaca_api_secret = $alpaca_api_secret_live;
-	}
-
-	// Set up the context for the HTTP request
-	$context = stream_context_create(
-		array(
-			'http' => array(
-				'header' => array(
-					"APCA-API-KEY-ID: $alpaca_api_key",
-					"APCA-API-SECRET-KEY: $alpaca_api_secret",
-				),
-			),
-		)
+function tradepress_api_status_shortcode_unavailable( $provider ) {
+	return sprintf(
+		/* translators: %s: API provider name */
+		__( '%s API status is not available from this legacy shortcode. Configure and test the provider from Trading Platforms using real credentials/data.', 'tradepress' ),
+		$provider
 	);
-
-	// Attempt to fetch the data from the Alpaca API
-	$response = @file_get_contents( $alpaca_endpoint, false, $context );
-
-	// Check for API request errors
-	if ( $response === false ) {
-		$error = error_get_last()['message'];
-		return 'Alpaca API connection failed: ' . $error . "\n";
-	}
-
-	// Decode the JSON response
-	$data = json_decode( $response, true );
-
-	// Check if the response was successfully decoded
-	if ( $data === null ) {
-		return 'Alpaca API response could not be decoded.';
-	}
-
-	// Check if data was received from the API
-	if ( isset( $data['quote'] ) ) {
-		$last_trade_price     = $data['quote']['lp'];
-		$last_trade_timestamp = date( 'Y-m-d H:i:s', strtotime( $data['quote']['t'] ) );
-
-		$api_status = "Alpaca API connection is working.\n"
-			. "Sample Data:\n"
-			. "Symbol: NVDA\n"
-			. "Last Trade Price: $last_trade_price\n"
-			. "Last Trade Time: $last_trade_timestamp\n";
-	} else {
-		$api_status = "Alpaca API connection is working, but no data was returned.\n" . json_encode( $data );
-	}
-
-	return $api_status;
 }
 
+function TradePress_shortcode_alpaca_api_status( $atts, $content ) {
+	return tradepress_api_status_shortcode_unavailable( 'Alpaca' );
+}
 
-/**
- * This function is used to test the alpha vantage API connection.
- *
- * It will make a simple call and return basic details.
- *
- * @param array       $atts    The attributes passed to the shortcode.
- * @param string|null $content The shortcode content (if any).
- *
- * @return string The API connection status and sample data.
- * @version 1.0.0
- */
 function TradePress_shortcode_alphavantage_api_status( $atts, $content ) {
-	// Replace with your actual Alpha Vantage API interaction logic
-	$api_status = "Alpha Vantage API connection is working.\n"
-		. "Sample Data:\n"
-		. "NVDA (Nvidia) - This will be replaced with live data. \n";
-
-	return $api_status;
+	return tradepress_api_status_shortcode_unavailable( 'Alpha Vantage' );
 }
-/**
- * This function is used to test the polygon API connection.
- *
- * It will make a simple call and return basic details.
- *
- * @param array       $atts    The attributes passed to the shortcode.
- * @param string|null $content The shortcode content (if any).
- *
- * @return string The API connection status and sample data.
- * @version 1.0.0
- */
+
 function TradePress_shortcode_polygon_api_status( $atts, $content ) {
-	// Replace with your actual Polygon API interaction logic
-	$api_status = "Polygon API connection is working.\n"
-		. "Sample Data:\n"
-		. "NVDA (Nvidia) - This will be replaced with live data. \n";
-
-	return $api_status;
+	return tradepress_api_status_shortcode_unavailable( 'Polygon' );
 }
 
-/**
- * This function is used to test the tradier API connection.
- *
- * It will make a simple call and return basic details.
- *
- * @param array       $atts    The attributes passed to the shortcode.
- * @param string|null $content The shortcode content (if any).
- *
- * @return string The API connection status and sample data.
- * @version 1.0.0
- */
 function TradePress_shortcode_tradier_api_status( $atts, $content ) {
-	// Replace with your actual Tradier API interaction logic
-	$api_status = "Tradier API connection is working.\n"
-		. "Sample Data:\n"
-		. "NVDA (Nvidia) - This will be replaced with live data. \n";
-
-	return $api_status;
+	return tradepress_api_status_shortcode_unavailable( 'Tradier' );
 }
 
-/**
- * This function is used to test the TwelveData API connection.
- *
- * It will make a simple call and return basic details.
- *
- * @param array       $atts    The attributes passed to the shortcode.
- * @param string|null $content The shortcode content (if any).
- *
- * @return string The API connection status and sample data.
- * @version 1.0.0
- */
 function TradePress_shortcode_twelvedata_api_status( $atts, $content ) {
-	// Replace with your actual TwelveData API interaction logic
-	$api_status = "TwelveData API connection is working.\n"
-		. "Sample Data:\n"
-		. "NVDA (Nvidia) - This will be replaced with live data. \n";
-
-	return $api_status;
+	return tradepress_api_status_shortcode_unavailable( 'TwelveData' );
 }
 
-/**
- * This function is used to test the IexCloud API connection.
- *
- * It will make a simple call and return basic details.
- *
- * @param array       $atts    The attributes passed to the shortcode.
- * @param string|null $content The shortcode content (if any).
- *
- * @return string The API connection status and sample data.
- * @version 1.0.0
- */
 function TradePress_shortcode_iexcloud_api_status( $atts, $content ) {
-	// Replace with your actual IexCloud API interaction logic
-	$api_status = "IexCloud API connection is working.\n"
-		. "Sample Data:\n"
-		. "NVDA (Nvidia) - This will be replaced with live data. \n";
-
-	return $api_status;
+	return tradepress_api_status_shortcode_unavailable( 'IEX Cloud' );
 }
 
-/**
- * This function is used to test the AllTick API connection.
- *
- * It will make a simple call and return basic details.
- *
- * @param array       $atts    The attributes passed to the shortcode.
- * @param string|null $content The shortcode content (if any).
- *
- * @return string The API connection status and sample data.
- * @version 1.0.0
- */
 function TradePress_shortcode_alltick_api_status( $atts, $content ) {
-	// Replace with your actual AllTick API interaction logic
-	$api_status = "AllTick API connection is working.\n"
-		. "Sample Data:\n"
-		. "NVDA (Nvidia) - This will be replaced with live data. \n";
-
-	return $api_status;
+	return tradepress_api_status_shortcode_unavailable( 'AllTick' );
 }
 
-/**
- * This function is used to test the EODHD API connection.
- *
- * It will make a simple call and return basic details.
- *
- * @param array       $atts    The attributes passed to the shortcode.
- * @param string|null $content The shortcode content (if any).
- *
- * @return string The API connection status and sample data.
- * @version 1.0.0
- */
 function TradePress_shortcode_eodhd_api_status( $atts, $content ) {
-	$symbol   = 'NVDA';
-	$apikey   = '65e88652d0d065.46673402';
-	$endpoint = "https://eodhistoricaldata.com/api/real-time/$symbol?api_token=$apikey&fmt=json&s=$symbol.US";
-
-	$data = json_decode( file_get_contents( $endpoint ), true );
-
-	$api_status = "EODHD API connection is working.\n"
-		. "Sample Data:\n"
-		. json_encode( $data );
-
-	return $api_status;
+	return tradepress_api_status_shortcode_unavailable( 'EODHD' );
 }
 
-/**
- * This function is used to test the FinnHub API connection.
- *
- * It will make a simple call and return basic details.
- *
- * @param array       $atts    The attributes passed to the shortcode.
- * @param string|null $content The shortcode content (if any).
- *
- * @return string The API connection status and sample data.
- * @version 1.0.0
- */
 function TradePress_shortcode_finnhub_api_status( $atts, $content ) {
-	$symbol   = 'NVDA';
-	$apikey   = 'cn03e9pr01qmdv715i5gcn03e9pr01qmdv715i60';
-	$endpoint = "https://finnhub.io/api/v1/quote?symbol=$symbol&token=$apikey";
-
-	$data = json_decode( file_get_contents( $endpoint ), true );
-
-	$api_status = "FinnHub API connection is working.\n"
-		. "Sample Data:\n"
-		. json_encode( $data );
-
-	return $api_status;
+	return tradepress_api_status_shortcode_unavailable( 'Finnhub' );
 }
-/**
- * This function is used to test the FMP API connection.
- *
- * It will make a simple call and return basic details.
- *
- * @param array       $atts    The attributes passed to the shortcode.
- * @param string|null $content The shortcode content (if any).
- *
- * @return string The API connection status and sample data.
- * @version 1.0.0
- */
+
 function TradePress_shortcode_fmp_api_status( $atts, $content ) {
-	$symbol   = 'NVDA';
-	$apikey   = '9e0031e24081eb6df77728742c47a87a';
-	$endpoint = "https://financialmodelingprep.com/api/v3/quote/$symbol?apikey=$apikey";
-
-	$data = json_decode( file_get_contents( $endpoint ), true );
-
-	$api_status = "FMP API connection is working.\n"
-		. "Sample Data:\n"
-		. json_encode( $data );
-
-	return $api_status;
+	return tradepress_api_status_shortcode_unavailable( 'Financial Modeling Prep' );
 }
 
-/**
- * This function is used to test the Intrinio API connection.
- *
- * It will make a simple call and return basic details.
- *
- * @param array       $atts    The attributes passed to the shortcode.
- * @param string|null $content The shortcode content (if any).
- *
- * @return string The API connection status and sample data.
- * @version 1.0.0
- */
 function TradePress_shortcode_intrinio_api_status( $atts, $content ) {
-	// Replace with your actual Intrinio API interaction logic
-	$api_status = "Intrinio API connection is working.\n"
-		. "Sample Data:\n"
-		. "NVDA (Nvidia) - This will be replaced with live data. \n";
-
-	return $api_status;
+	return tradepress_api_status_shortcode_unavailable( 'Intrinio' );
 }
 
-/**
- * This function is used to test the MarketStack API connection.
- *
- * It will make a simple call and return basic details.
- *
- * @param array       $atts    The attributes passed to the shortcode.
- * @param string|null $content The shortcode content (if any).
- *
- * @return string The API connection status and sample data.
- * @version 1.0.0
- */
 function TradePress_shortcode_marketstack_api_status( $atts, $content ) {
-	// Replace with your actual MarketStack API interaction logic
-	$symbol     = 'NVDA';
-	$apikey     = '4f890a3862395efb2690a31f4582e18f';
-	$endpoint   = "http://api.marketstack.com/v1/eod/latest?access_key=$apikey&symbols=$symbol";
-	$data       = json_decode( file_get_contents( $endpoint ), true );
-	$api_status = "MarketStack API connection is working.\n"
-		. "Sample Data:\n"
-		. json_encode( $data );
-
-	return $api_status;
+	return tradepress_api_status_shortcode_unavailable( 'MarketStack' );
 }
 
-/**
- * This function is used to test the Trading212 API connection.
- *
- * It will make a simple call and return basic details.
- *
- * @param array       $atts    The attributes passed to the shortcode.
- * @param string|null $content The shortcode content (if any).
- *
- * @return string The API connection status and sample data.
- * @version 1.0.0
- */
 function TradePress_shortcode_trading212_api_status( $atts, $content ) {
-	// Replace with your actual Trading212 API interaction logic
-	$api_status = "Trading212 API connection is working.\n"
-		. "Sample Data:\n"
-		. "NVDA (Nvidia) - This will be replaced with live data. \n";
-
-	return $api_status;
+	return tradepress_api_status_shortcode_unavailable( 'Trading212' );
 }
 
-/**
- * This function is used to test the TradingView API connection.
- *
- * It will make a simple call and return basic details.
- *
- * @param array       $atts    The attributes passed to the shortcode.
- * @param string|null $content The shortcode content (if any).
- *
- * @return string The API connection status and sample data.
- * @version 1.0.0
- */
 function TradePress_shortcode_tradingview_api_status( $atts, $content ) {
-	// Replace with your actual TradingView API interaction logic
-	$api_status = "TradingView API connection is working.\n"
-		. "Sample Data:\n"
-		. "NVDA (Nvidia) - This will be replaced with live data. \n";
-
-	return $api_status;
+	return tradepress_api_status_shortcode_unavailable( 'TradingView' );
 }
-
 /**
  * TradePress Shortcodes Main Registration
  *

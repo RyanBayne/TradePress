@@ -18,6 +18,8 @@ The data flow is described in the sections below. A repository-local diagram can
 
 ## Data Flow Patterns
 
+Release-facing Research view decisions are recorded in `wp-content/plugins/tradepress/docs/data/research-data-flow-contract.md`. Use that contract for News Feed and Earnings Calendar provider suitability, freshness SLAs, queue triggers, UI data modes, and no-inline-API validation.
+
 ### Queue-Based Data Flow (Current Architecture)
 
 1. User requests data (e.g., views a symbol page)

@@ -14,22 +14,6 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-// Check if demo mode is active
-$is_demo = false;
-
-// Display demo indicator warning only if in demo mode
-if ( $is_demo ) : ?>
-<div class="demo-indicator">
-	<div class="demo-icon dashicons dashicons-info-outline"></div>
-	<div class="demo-text">
-		<h4><?php esc_html_e( 'Demo Mode Active', 'tradepress' ); ?></h4>
-		<p><?php esc_html_e( 'The price forecast data displayed on this page is for demonstration purposes only and does not represent live market data.', 'tradepress' ); ?></p>
-	</div>
-	<span class="demo-badge"><?php esc_html_e( 'DEMO', 'tradepress' ); ?></span>
-</div>
-	<?php
-endif;
-
 // Check if a specific symbol was requested for detailed view
 $symbol = isset( $_GET['symbol'] ) ? sanitize_text_field( $_GET['symbol'] ) : '';
 

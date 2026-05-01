@@ -1477,77 +1477,7 @@ class TradePress_Advisor_Controller {
 			
 			<div class="final-recommendations">
 				<h4><?php esc_html_e( 'Investment Recommendations', 'tradepress' ); ?></h4>
-				<p class="recommendations-note"><?php esc_html_e( 'Based on comprehensive analysis across earnings, news, forecasts, economic factors, and technical indicators:', 'tradepress' ); ?></p>
-				
-				<div class="recommendations-grid">
-					<?php foreach ( $selected_symbols as $index => $symbol ) : ?>
-						<?php
-						// Generate mock comprehensive scores for demo
-						$scores = array(
-							'overall'   => rand( 65, 95 ),
-							'earnings'  => rand( 70, 90 ),
-							'news'      => rand( 60, 85 ),
-							'forecasts' => rand( 75, 95 ),
-							'economic'  => rand( 65, 80 ),
-							'technical' => rand( 70, 90 ),
-						);
-
-						$recommendation = $scores['overall'] >= 85 ? 'strong_buy' : ( $scores['overall'] >= 75 ? 'buy' : ( $scores['overall'] >= 65 ? 'hold' : 'sell' ) );
-						$rec_class      = array(
-							'strong_buy' => 'rec-strong-buy',
-							'buy'        => 'rec-buy',
-							'hold'       => 'rec-hold',
-							'sell'       => 'rec-sell',
-						)[ $recommendation ];
-						?>
-						<div class="recommendation-card">
-							<div class="rec-header">
-								<h5><?php echo esc_html( $symbol ); ?></h5>
-								<div class="rec-badges">
-									<span class="overall-score"><?php echo esc_html( $scores['overall'] ); ?>/100</span>
-									<span class="recommendation-badge <?php echo esc_attr( $rec_class ); ?>">
-										<?php echo esc_html( ucwords( str_replace( '_', ' ', $recommendation ) ) ); ?>
-									</span>
-								</div>
-							</div>
-							
-							<div class="score-breakdown">
-								<div class="score-item">
-									<span class="score-label"><?php esc_html_e( 'Earnings:', 'tradepress' ); ?></span>
-									<span class="score-value"><?php echo esc_html( $scores['earnings'] ); ?>/100</span>
-								</div>
-								<div class="score-item">
-									<span class="score-label"><?php esc_html_e( 'News:', 'tradepress' ); ?></span>
-									<span class="score-value"><?php echo esc_html( $scores['news'] ); ?>/100</span>
-								</div>
-								<div class="score-item">
-									<span class="score-label"><?php esc_html_e( 'Forecasts:', 'tradepress' ); ?></span>
-									<span class="score-value"><?php echo esc_html( $scores['forecasts'] ); ?>/100</span>
-								</div>
-								<div class="score-item">
-									<span class="score-label"><?php esc_html_e( 'Economic:', 'tradepress' ); ?></span>
-									<span class="score-value"><?php echo esc_html( $scores['economic'] ); ?>/100</span>
-								</div>
-								<div class="score-item">
-									<span class="score-label"><?php esc_html_e( 'Technical:', 'tradepress' ); ?></span>
-									<span class="score-value"><?php echo esc_html( $scores['technical'] ); ?>/100</span>
-								</div>
-							</div>
-							
-							<div class="rec-summary">
-								<?php
-								$summaries = array(
-									'Strong earnings outlook with positive analyst forecasts and favorable technical indicators.',
-									'Solid fundamentals supported by recent positive news and economic tailwinds.',
-									'Mixed signals with strong technical setup but economic headwinds to consider.',
-									'Positive momentum across multiple analysis factors with good risk-reward profile.',
-								);
-								echo esc_html( $summaries[ $index % count( $summaries ) ] );
-								?>
-							</div>
-						</div>
-					<?php endforeach; ?>
-				</div>
+				<p class="recommendations-note"><?php esc_html_e( 'Recommendations are unavailable until all required analysis steps are connected to real data sources.', 'tradepress' ); ?></p>
 			</div>
 			
 			<div class="analysis-actions">

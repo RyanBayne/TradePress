@@ -67,6 +67,13 @@ function tradepress_news_get_provider_status() {
 	);
 
 	$queue_status = get_option( 'tradepress_data_import_status', 'stopped' );
+	$has_stored_records = tradepress_news_has_stored_records();
+	$age_seconds        = $last_import > 0 ? current_time( 'timestamp' ) - $last_import : null;
+	$queue_pending      = tradepress_news_has_pending_import();
+	$error_states       = get_option( 'tradepress_data_import_error_state', array() );
+	$runtime_health     = isset( $error_states['news'] ) || isset( $error_states['news_fetch_failed'] ) || isset( $error_states['news_exception'] )
+		? 'failed'
+		: 'healthy';
 
 	return array(
 		'alpha_enabled'         => $alpha_enabled,
@@ -75,7 +82,144 @@ function tradepress_news_get_provider_status() {
 		'alpaca_key_configured' => ! empty( $alpaca_key ),
 		'last_import'           => $last_import,
 		'queue_status'          => $queue_status,
+		'age_seconds'           => $age_seconds,
+		'freshness_sla'         => HOUR_IN_SECONDS,
+		'queue_threshold'       => 30 * MINUTE_IN_SECONDS,
+		'has_stored_records'    => $has_stored_records,
+		'queue_pending'         => $queue_pending,
+		'queued_this_request'   => false,
+		'data_mode'             => tradepress_news_resolve_data_mode( $has_stored_records, $age_seconds, $queue_pending ),
+		'runtime_health'        => $runtime_health,
 	);
+}
+
+/**
+ * Check whether news storage currently contains records.
+ *
+ * @return bool
+ */
+function tradepress_news_has_stored_records() {
+	$raw_data = get_option( 'tradepress_news_data', array() );
+
+	return ! empty( $raw_data ) && is_array( $raw_data );
+}
+
+/**
+ * Check whether a news import is already queued.
+ *
+ * @return bool
+ */
+function tradepress_news_has_pending_import() {
+	if ( ! class_exists( 'TradePress_Queue_Schema' ) && defined( 'TRADEPRESS_PLUGIN_DIR_PATH' ) ) {
+		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/queue-schema.php';
+	}
+
+	if ( ! class_exists( 'TradePress_Queue_Schema' ) ) {
+		return false;
+	}
+
+	return TradePress_Queue_Schema::has_active_item( 'data_import', 'fetch_news' );
+}
+
+/**
+ * Resolve the standard data-mode label for stored news data.
+ *
+ * @param bool     $has_stored_records Whether stored records exist.
+ * @param int|null $age_seconds Stored data age in seconds.
+ * @param bool     $queue_pending Whether a refresh is queued or processing.
+ * @return string
+ */
+function tradepress_news_resolve_data_mode( $has_stored_records, $age_seconds, $queue_pending ) {
+	if ( $queue_pending ) {
+		return 'Queued';
+	}
+
+	if ( ! $has_stored_records ) {
+		return 'Empty';
+	}
+
+	if ( null === $age_seconds ) {
+		return 'Cached';
+	}
+
+	return $age_seconds <= ( 30 * MINUTE_IN_SECONDS ) ? 'Live' : 'Cached';
+}
+
+/**
+ * Queue a news refresh when stored data is missing or old enough.
+ *
+ * @param array $provider_status Current provider status.
+ * @return array Updated provider status.
+ */
+function tradepress_news_maybe_queue_refresh( $provider_status ) {
+	$provider_ready = ( $provider_status['alpaca_enabled'] && $provider_status['alpaca_key_configured'] )
+		|| ( $provider_status['alpha_enabled'] && $provider_status['alpha_key_configured'] );
+	$refresh_due    = ! $provider_status['has_stored_records']
+		|| null === $provider_status['age_seconds']
+		|| $provider_status['age_seconds'] >= $provider_status['queue_threshold'];
+
+	if ( function_exists( 'tradepress_debug' ) ) {
+		tradepress_debug(
+			array(
+				'provider_ready' => $provider_ready,
+				'refresh_due'    => $refresh_due,
+				'queue_pending'  => $provider_status['queue_pending'],
+				'data_mode'      => $provider_status['data_mode'],
+			),
+			'News refresh queue evaluation'
+		);
+	}
+
+	if ( ! $provider_ready || ! $refresh_due || $provider_status['queue_pending'] ) {
+		return $provider_status;
+	}
+
+	if ( ! class_exists( 'TradePress_Data_Import_Process' ) && defined( 'TRADEPRESS_PLUGIN_DIR_PATH' ) ) {
+		if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
+			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/class.background-process.php';
+		}
+
+		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/data-import-process.php';
+	}
+
+	if ( ! class_exists( 'TradePress_Data_Import_Process' ) ) {
+		if ( function_exists( 'tradepress_log_error' ) ) {
+			tradepress_log_error(
+				'News refresh could not be queued because TradePress_Data_Import_Process is unavailable.',
+				array( 'source' => 'research_news_feed' )
+			);
+		}
+
+		return $provider_status;
+	}
+
+	$queued = TradePress_Data_Import_Process::queue_data_fetch(
+		'fetch_news',
+		array(
+			'source' => 'research_news_feed',
+			'reason' => $provider_status['has_stored_records'] ? 'stale' : 'missing',
+			'limit'  => 50,
+		),
+		20
+	);
+
+	if ( $queued ) {
+		$provider_status['queue_pending']       = true;
+		$provider_status['queued_this_request'] = true;
+		$provider_status['data_mode']           = 'Queued';
+
+		if ( function_exists( 'tradepress_log_user_action' ) ) {
+			tradepress_log_user_action(
+				'news_refresh_queued',
+				array(
+					'source' => 'research_news_feed',
+					'reason' => $provider_status['has_stored_records'] ? 'stale' : 'missing',
+				)
+			);
+		}
+	}
+
+	return $provider_status;
 }
 
 /**
@@ -84,10 +228,6 @@ function tradepress_news_get_provider_status() {
  * @version 1.0.0
  */
 function tradepress_news_feed_tab_content() {
-	$is_demo_mode  = false;
-	$can_show_demo = function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
-	$use_demo_data = $is_demo_mode && $can_show_demo;
-
 	// Get active symbol for filtering if available.
 	$active_symbol = isset( $_GET['symbol'] ) ? sanitize_text_field( wp_unslash( $_GET['symbol'] ) ) : '';
 
@@ -96,12 +236,8 @@ function tradepress_news_feed_tab_content() {
 	$date_filter      = isset( $_GET['date_range'] ) ? sanitize_text_field( wp_unslash( $_GET['date_range'] ) ) : '7d';
 	$sentiment_filter = isset( $_GET['sentiment'] ) ? sanitize_text_field( wp_unslash( $_GET['sentiment'] ) ) : 'all';
 
-	// Demo content is available only to development users. Regular users see stored/imported data or an empty state.
-	$feed_items = $use_demo_data
-		? get_demo_feed_items( $active_symbol, $source_filter, $date_filter, $sentiment_filter )
-		: get_live_feed_items( $active_symbol, $source_filter, $date_filter, $sentiment_filter );
-
-	$provider_status = tradepress_news_get_provider_status();
+	$provider_status = tradepress_news_maybe_queue_refresh( tradepress_news_get_provider_status() );
+	$feed_items      = get_live_feed_items( $active_symbol, $source_filter, $date_filter, $sentiment_filter );
 
 	// Available sources for filter dropdown
 	$sources = array(
@@ -122,27 +258,40 @@ function tradepress_news_feed_tab_content() {
 		'custom' => __( 'Custom Range', 'tradepress' ),
 	);
 
-	// Sentiment options
+	// Sentiments options
 	$sentiments = array(
 		'all'      => __( 'All Sentiment', 'tradepress' ),
 		'positive' => __( 'Positive', 'tradepress' ),
 		'negative' => __( 'Negative', 'tradepress' ),
 		'neutral'  => __( 'Neutral', 'tradepress' ),
 	);
+
+	// Resolve empty-state cause before entering HTML template output.
+	$news_alpha_ready  = $provider_status['alpha_enabled'] && $provider_status['alpha_key_configured'];
+	$news_alpaca_ready = $provider_status['alpaca_enabled'] && $provider_status['alpaca_key_configured'];
+	$any_key           = $provider_status['alpha_key_configured'] || $provider_status['alpaca_key_configured'];
+	$any_ready         = $news_alpha_ready || $news_alpaca_ready;
+
+	if ( ! $any_key ) {
+		$empty_state   = 'no-provider';
+		$empty_heading = __( 'No news provider configured', 'tradepress' );
+		$empty_message = __( 'Add an Alpha Vantage or Alpaca API key in API Management, enable the service in Settings, then run or schedule a news import.', 'tradepress' );
+	} elseif ( ! $any_ready ) {
+		$empty_state   = 'provider-disabled';
+		$empty_heading = __( 'News provider not enabled', 'tradepress' );
+		$empty_message = __( 'An API key is configured but no news-capable provider service is enabled. Enable Alpha Vantage or Alpaca in Settings, then run or schedule a news import.', 'tradepress' );
+	} elseif ( $provider_status['queue_pending'] ) {
+		$empty_state   = 'queued';
+		$empty_heading = __( 'News import queued', 'tradepress' );
+		$empty_message = __( 'A news import is queued or running. This view will show stored records after the background import completes.', 'tradepress' );
+	} else {
+		$empty_state   = 'no-import';
+		$empty_heading = __( 'No imported news items', 'tradepress' );
+		$empty_message = __( 'Provider is configured and enabled. Run or schedule a news import from the Data Import tab to populate this view.', 'tradepress' );
+	}
 	?>
 	
 	<div class="tradepress-news-feed-container">
-		<?php if ( $use_demo_data ) : ?>
-			<div class="demo-indicator">
-				<span class="demo-icon dashicons dashicons-admin-tools" aria-hidden="true"></span>
-				<div class="demo-text">
-					<h4><?php esc_html_e( 'Developer demo feed', 'tradepress' ); ?></h4>
-					<p><?php esc_html_e( 'These items are sample records and are hidden from regular users.', 'tradepress' ); ?></p>
-				</div>
-				<span class="demo-badge"><?php esc_html_e( 'Developer', 'tradepress' ); ?></span>
-			</div>
-		<?php endif; ?>
-
 		<div class="notice notice-info inline" style="margin: 10px 0 16px 0;">
 			<p><strong><?php esc_html_e( 'Provider status', 'tradepress' ); ?></strong></p>
 			<ul style="margin: 8px 0 0 20px; list-style: disc;">
@@ -172,17 +321,23 @@ function tradepress_news_feed_tab_content() {
 				</li>
 				<li>
 					<?php
+					printf(
+						/* translators: %1$s: data mode label, %2$s: runtime health label. */
+						esc_html__( 'Data mode: %1$s, health: %2$s', 'tradepress' ),
+						esc_html( $provider_status['data_mode'] ),
+						esc_html( $provider_status['runtime_health'] )
+					);
+					?>
+				</li>
+				<li>
+					<?php
 					if ( $provider_status['last_import'] > 0 ) {
 						printf(
 							esc_html__( 'Last imported: %s', 'tradepress' ),
 							esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $provider_status['last_import'] ) )
 						);
 					} else {
-						printf(
-							esc_html__( 'Import state: %1$s (data import process is %2$s).', 'tradepress' ),
-							esc_html__( 'not yet imported', 'tradepress' ),
-							esc_html( $provider_status['queue_status'] )
-						);
+						esc_html_e( 'Last imported: not yet imported', 'tradepress' );
 					}
 					?>
 				</li>
@@ -257,10 +412,10 @@ function tradepress_news_feed_tab_content() {
 		
 		<div class="news-feed-content">
 			<?php if ( empty( $feed_items ) ) : ?>
-				<div class="no-feed-items" data-state="no-data">
+				<div class="no-feed-items" data-state="<?php echo esc_attr( $empty_state ); ?>">
 					<span class="dashicons dashicons-rss" aria-hidden="true"></span>
-					<h3><?php esc_html_e( 'No imported news items', 'tradepress' ); ?></h3>
-					<p><?php esc_html_e( 'Configure at least one news-capable provider, run/queue data import, then return here to review stored market news.', 'tradepress' ); ?></p>
+					<h3><?php echo esc_html( $empty_heading ); ?></h3>
+					<p><?php echo esc_html( $empty_message ); ?></p>
 				</div>
 			<?php else : ?>
 				<div class="feed-items-container">
@@ -343,6 +498,8 @@ function tradepress_news_feed_tab_content() {
  * @version 1.0.0
  */
 function get_demo_feed_items( $symbol = '', $source = 'all', $date_range = '7d', $sentiment = 'all' ) {
+	return array();
+
 	// Sample items to demonstrate the UI
 	$items = array(
 		array(
@@ -472,13 +629,135 @@ function get_demo_feed_items( $symbol = '', $source = 'all', $date_range = '7d',
  * @version 1.0.0
  */
 function get_live_feed_items( $symbol = '', $source = 'all', $date_range = '7d', $sentiment = 'all' ) {
-	/**
-	 * Live news import is intentionally not fetched inline here.
-	 *
-	 * The Research page must read stored/imported data only. Provider calls
-	 * should be queued through the data import process, then rendered from the
-	 * storage layer once a news table/import path is finalised.
-	 */
-	return array();
+	$items = get_option( 'tradepress_news_data', array() );
+
+	if ( empty( $items ) || ! is_array( $items ) ) {
+		return array();
+	}
+
+	$filtered_items = array();
+	$symbol         = strtoupper( trim( (string) $symbol ) );
+	$cutoff_time    = tradepress_news_get_date_cutoff( $date_range );
+
+	foreach ( $items as $item ) {
+		if ( ! is_array( $item ) ) {
+			continue;
+		}
+
+		$item = tradepress_news_normalize_stored_item_for_display( $item );
+
+		if ( ! empty( $symbol ) && ! in_array( $symbol, array_map( 'strtoupper', $item['symbols'] ), true ) ) {
+			continue;
+		}
+
+		if ( 'all' !== $source && $item['source_type'] !== $source ) {
+			continue;
+		}
+
+		if ( 'all' !== $sentiment && $item['sentiment'] !== $sentiment ) {
+			continue;
+		}
+
+		if ( null !== $cutoff_time && $item['published_at'] < $cutoff_time ) {
+			continue;
+		}
+
+		$filtered_items[] = $item;
+	}
+
+	usort(
+		$filtered_items,
+		function ( $a, $b ) {
+			return $b['published_at'] <=> $a['published_at'];
+		}
+	);
+
+	return $filtered_items;
+}
+
+/**
+ * Get the timestamp cutoff for a date-range filter.
+ *
+ * @param string $date_range Date-range filter.
+ * @return int|null
+ */
+function tradepress_news_get_date_cutoff( $date_range ) {
+	switch ( $date_range ) {
+		case '1d':
+			return current_time( 'timestamp' ) - DAY_IN_SECONDS;
+		case '30d':
+			return current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS );
+		case 'custom':
+			$start_date = isset( $_GET['start_date'] ) ? sanitize_text_field( wp_unslash( $_GET['start_date'] ) ) : '';
+			if ( '' !== $start_date ) {
+				$timestamp = strtotime( $start_date . ' 00:00:00' );
+				return false !== $timestamp ? $timestamp : null;
+			}
+			return null;
+		case '7d':
+		default:
+			return current_time( 'timestamp' ) - ( 7 * DAY_IN_SECONDS );
+	}
+}
+
+/**
+ * Normalise a stored news record for display.
+ *
+ * @param array $item Stored news item.
+ * @return array
+ */
+function tradepress_news_normalize_stored_item_for_display( $item ) {
+	$published_at = isset( $item['published_at'] ) ? (int) $item['published_at'] : current_time( 'timestamp' );
+	$symbols      = isset( $item['symbols'] ) && is_array( $item['symbols'] ) ? $item['symbols'] : array();
+
+	return array(
+		'id'           => isset( $item['id'] ) ? (string) $item['id'] : md5( wp_json_encode( $item ) ),
+		'source_type'  => isset( $item['source_type'] ) ? sanitize_html_class( (string) $item['source_type'] ) : 'news',
+		'source_name'  => isset( $item['source_name'] ) ? (string) $item['source_name'] : __( 'Imported News', 'tradepress' ),
+		'source_icon'  => isset( $item['source_icon'] ) ? (string) $item['source_icon'] : 'dashicons dashicons-media-document',
+		'title'        => isset( $item['title'] ) ? (string) $item['title'] : '',
+		'message'      => isset( $item['message'] ) ? (string) $item['message'] : '',
+		'symbols'      => array_values( array_filter( array_map( 'sanitize_text_field', $symbols ) ) ),
+		'image_url'    => isset( $item['image_url'] ) ? (string) $item['image_url'] : '',
+		'link'         => isset( $item['link'] ) ? (string) $item['link'] : '',
+		'sentiment'    => isset( $item['sentiment'] ) ? sanitize_html_class( (string) $item['sentiment'] ) : 'neutral',
+		'published_at' => $published_at,
+		'time_ago'     => tradepress_news_format_time_ago( $published_at ),
+	);
+}
+
+/**
+ * Format a timestamp as a compact relative age label.
+ *
+ * @param int $timestamp Unix timestamp.
+ * @return string
+ */
+function tradepress_news_format_time_ago( $timestamp ) {
+	$age = max( 0, current_time( 'timestamp' ) - (int) $timestamp );
+
+	if ( $age < HOUR_IN_SECONDS ) {
+		$minutes = max( 1, (int) floor( $age / MINUTE_IN_SECONDS ) );
+		return sprintf(
+			/* translators: %d: number of minutes. */
+			_n( '%d minute ago', '%d minutes ago', $minutes, 'tradepress' ),
+			$minutes
+		);
+	}
+
+	if ( $age < DAY_IN_SECONDS ) {
+		$hours = (int) floor( $age / HOUR_IN_SECONDS );
+		return sprintf(
+			/* translators: %d: number of hours. */
+			_n( '%d hour ago', '%d hours ago', $hours, 'tradepress' ),
+			$hours
+		);
+	}
+
+	$days = (int) floor( $age / DAY_IN_SECONDS );
+	return sprintf(
+		/* translators: %d: number of days. */
+		_n( '%d day ago', '%d days ago', $days, 'tradepress' ),
+		$days
+	);
 }
 ?>

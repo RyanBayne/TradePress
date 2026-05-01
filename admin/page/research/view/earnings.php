@@ -58,6 +58,14 @@ function tradepress_earnings_get_provider_status() {
 		(int) get_option( 'tradepress_earnings_last_updated', 0 )
 	);
 
+	$has_stored_records = tradepress_earnings_has_stored_records();
+	$age_seconds        = $last_import > 0 ? current_time( 'timestamp' ) - $last_import : null;
+	$queue_pending      = tradepress_earnings_has_pending_import();
+	$error_states       = get_option( 'tradepress_data_import_error_state', array() );
+	$runtime_health     = isset( $error_states['earnings'] ) || isset( $error_states['earnings_fetch_failed'] ) || isset( $error_states['earnings_exception'] )
+		? 'failed'
+		: 'healthy';
+
 	return array(
 		'alpha_enabled'        => $alpha_enabled,
 		'alpha_key_configured' => ! empty( $alpha_key ),
@@ -65,7 +73,146 @@ function tradepress_earnings_get_provider_status() {
 		'cron_interval'        => $cron_interval,
 		'next_scheduled'       => $next_scheduled,
 		'last_import'          => $last_import,
+		'age_seconds'          => $age_seconds,
+		'freshness_sla'        => DAY_IN_SECONDS,
+		'queue_threshold'      => 12 * HOUR_IN_SECONDS,
+		'has_stored_records'   => $has_stored_records,
+		'queue_pending'        => $queue_pending,
+		'queued_this_request'  => false,
+		'data_mode'            => tradepress_earnings_resolve_data_mode( $has_stored_records, $age_seconds, $queue_pending ),
+		'runtime_health'       => $runtime_health,
 	);
+}
+
+/**
+ * Check whether earnings storage currently contains records.
+ *
+ * @return bool
+ */
+function tradepress_earnings_has_stored_records() {
+	$raw_data = get_option( 'tradepress_earnings_data', array() );
+
+	if ( empty( $raw_data ) ) {
+		$raw_data = get_option( 'tradepress_earnings_calendar_data', array() );
+	}
+
+	return ! empty( $raw_data ) && is_array( $raw_data );
+}
+
+/**
+ * Check whether an earnings import is already queued.
+ *
+ * @return bool
+ */
+function tradepress_earnings_has_pending_import() {
+	if ( ! class_exists( 'TradePress_Queue_Schema' ) && defined( 'TRADEPRESS_PLUGIN_DIR_PATH' ) ) {
+		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/queue-schema.php';
+	}
+
+	if ( ! class_exists( 'TradePress_Queue_Schema' ) ) {
+		return false;
+	}
+
+	return TradePress_Queue_Schema::has_active_item( 'data_import', 'fetch_earnings' );
+}
+
+/**
+ * Resolve the standard data-mode label for stored earnings data.
+ *
+ * @param bool     $has_stored_records Whether stored records exist.
+ * @param int|null $age_seconds Stored data age in seconds.
+ * @param bool     $queue_pending Whether a refresh is queued or processing.
+ * @return string
+ */
+function tradepress_earnings_resolve_data_mode( $has_stored_records, $age_seconds, $queue_pending ) {
+	if ( $queue_pending ) {
+		return 'Queued';
+	}
+
+	if ( ! $has_stored_records ) {
+		return 'Empty';
+	}
+
+	if ( null === $age_seconds ) {
+		return 'Cached';
+	}
+
+	return $age_seconds <= ( 12 * HOUR_IN_SECONDS ) ? 'Live' : 'Cached';
+}
+
+/**
+ * Queue an earnings refresh when stored data is missing or old enough.
+ *
+ * @param array $provider_status Current provider status.
+ * @return array Updated provider status.
+ */
+function tradepress_earnings_maybe_queue_refresh( $provider_status ) {
+	$provider_ready = $provider_status['alpha_enabled'] && $provider_status['alpha_key_configured'];
+	$refresh_due    = ! $provider_status['has_stored_records']
+		|| null === $provider_status['age_seconds']
+		|| $provider_status['age_seconds'] >= $provider_status['queue_threshold'];
+
+	if ( function_exists( 'tradepress_debug' ) ) {
+		tradepress_debug(
+			array(
+				'provider_ready' => $provider_ready,
+				'refresh_due'    => $refresh_due,
+				'queue_pending'  => $provider_status['queue_pending'],
+				'data_mode'      => $provider_status['data_mode'],
+			),
+			'Earnings refresh queue evaluation'
+		);
+	}
+
+	if ( ! $provider_ready || ! $refresh_due || $provider_status['queue_pending'] ) {
+		return $provider_status;
+	}
+
+	if ( ! class_exists( 'TradePress_Data_Import_Process' ) && defined( 'TRADEPRESS_PLUGIN_DIR_PATH' ) ) {
+		if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
+			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/class.background-process.php';
+		}
+
+		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/data-import-process.php';
+	}
+
+	if ( ! class_exists( 'TradePress_Data_Import_Process' ) ) {
+		if ( function_exists( 'tradepress_log_error' ) ) {
+			tradepress_log_error(
+				'Earnings refresh could not be queued because TradePress_Data_Import_Process is unavailable.',
+				array( 'source' => 'research_earnings_calendar' )
+			);
+		}
+
+		return $provider_status;
+	}
+
+	$queued = TradePress_Data_Import_Process::queue_data_fetch(
+		'fetch_earnings',
+		array(
+			'source' => 'research_earnings_calendar',
+			'reason' => $provider_status['has_stored_records'] ? 'stale' : 'missing',
+		),
+		20
+	);
+
+	if ( $queued ) {
+		$provider_status['queue_pending']       = true;
+		$provider_status['queued_this_request'] = true;
+		$provider_status['data_mode']           = 'Queued';
+
+		if ( function_exists( 'tradepress_log_user_action' ) ) {
+			tradepress_log_user_action(
+				'earnings_refresh_queued',
+				array(
+					'source' => 'research_earnings_calendar',
+					'reason' => $provider_status['has_stored_records'] ? 'stale' : 'missing',
+				)
+			);
+		}
+	}
+
+	return $provider_status;
 }
 
 /**
@@ -205,29 +352,23 @@ function tradepress_earnings_tab_content() {
 		$user_timezone = 'UTC';
 	}
 
-	$is_demo         = false;
-	$can_show_demo   = function_exists( 'tradepress_can_access_development_views' ) && tradepress_can_access_development_views();
-	$use_demo_data   = $is_demo && $can_show_demo;
-	$provider_status = tradepress_earnings_get_provider_status();
-	$earnings_data   = array();
+	$provider_status = tradepress_earnings_maybe_queue_refresh( tradepress_earnings_get_provider_status() );
+	$earnings_data   = tradepress_fetch_earnings_calendar_data( $start_date, $end_date, $sector_filter );
 
-	if ( $use_demo_data ) {
-		$earnings_data     = tradepress_get_mock_earnings_data( $start_date, $end_date, $sector_filter, $importance_filter );
-		$data_source       = 'Development Preview';
-		$last_updated_text = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), current_time( 'timestamp' ) );
+	// Get data source and last updated information for display
+	$data_source       = get_option( 'tradepress_earnings_data_source', 'Alpha Vantage' );
+	$last_updated      = get_option( 'tradepress_earnings_last_updated', 0 );
+	$last_updated_text = $last_updated ? date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $last_updated ) : 'Never';
+
+	if ( ! $provider_status['alpha_key_configured'] ) {
+		$empty_state_message = __( 'Alpha Vantage API key is not configured. Add a key in API Management, then run or schedule earnings import.', 'tradepress' );
+	} elseif ( ! $provider_status['alpha_enabled'] ) {
+		$empty_state_message = __( 'Alpha Vantage is configured but not enabled. Enable the service in Settings, then run or schedule earnings import.', 'tradepress' );
+	} elseif ( $provider_status['queue_pending'] ) {
+		$empty_state_message = __( 'An earnings import is queued or running. This view will show stored records after the background import completes.', 'tradepress' );
 	} else {
-		// In real mode, read stored/imported earnings data only.
-		$earnings_data = tradepress_fetch_earnings_calendar_data( $start_date, $end_date, $sector_filter );
-
-		// Get data source and last updated information for display
-		$data_source       = get_option( 'tradepress_earnings_data_source', 'Alpha Vantage' );
-		$last_updated      = get_option( 'tradepress_earnings_last_updated', 0 );
-		$last_updated_text = $last_updated ? date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $last_updated ) : 'Never';
+		$empty_state_message = __( 'No earnings records are stored for this filter yet. Run or schedule an earnings import, then refresh this view.', 'tradepress' );
 	}
-
-	$empty_state_message = $provider_status['alpha_key_configured']
-		? __( 'No earnings records are stored for this filter yet. Run or schedule an earnings import, then refresh this view.', 'tradepress' )
-		: __( 'Alpha Vantage API key is not configured. Add a key in API Management, then run or schedule earnings import.', 'tradepress' );
 
 	// Group earnings by date
 	$earnings_by_date = array();
@@ -244,19 +385,7 @@ function tradepress_earnings_tab_content() {
 	?>
 	
 	<div class="tradepress-earnings-container">
-		<?php if ( $use_demo_data ) : ?>
-			<div class="demo-indicator">
-				<span class="demo-icon dashicons dashicons-admin-tools" aria-hidden="true"></span>
-				<div class="demo-text">
-					<h4><?php esc_html_e( 'Developer demo earnings', 'tradepress' ); ?></h4>
-					<p><?php esc_html_e( 'These earnings records include generated values and are hidden from regular users.', 'tradepress' ); ?></p>
-				</div>
-				<span class="demo-badge"><?php esc_html_e( 'Developer', 'tradepress' ); ?></span>
-			</div>
-		<?php endif; ?>
-
-		<?php if ( ! $use_demo_data ) : ?>
-			<div class="notice notice-info inline" style="margin: 10px 0 16px 0;">
+		<div class="notice notice-info inline" style="margin: 10px 0 16px 0;">
 				<p><strong><?php esc_html_e( 'Provider status', 'tradepress' ); ?></strong></p>
 				<ul style="margin: 8px 0 0 20px; list-style: disc;">
 					<li>
@@ -268,6 +397,16 @@ function tradepress_earnings_tab_content() {
 								$provider_status['alpha_enabled'] ? __( 'enabled', 'tradepress' ) : __( 'disabled', 'tradepress' ),
 								$provider_status['alpha_key_configured'] ? __( 'configured', 'tradepress' ) : __( 'missing', 'tradepress' )
 							)
+						);
+						?>
+					</li>
+					<li>
+						<?php
+						printf(
+							/* translators: %1$s: data mode label, %2$s: runtime health label. */
+							esc_html__( 'Data mode: %1$s, health: %2$s', 'tradepress' ),
+							esc_html( $provider_status['data_mode'] ),
+							esc_html( $provider_status['runtime_health'] )
 						);
 						?>
 					</li>
@@ -302,8 +441,7 @@ function tradepress_earnings_tab_content() {
 						?>
 					</li>
 				</ul>
-			</div>
-		<?php endif; ?>
+		</div>
 		
 		<div class="tradepress-research-section">
 			<!-- Earnings Calendar Controls -->
@@ -636,6 +774,8 @@ function tradepress_earnings_tab_content() {
  * @version 1.0.0
  */
 function tradepress_get_mock_earnings_data( $start_date, $end_date, $sector_filter = 'all', $importance_filter = 'all' ) {
+	return array();
+
 	// Sample company data
 	$companies = array(
 		array(

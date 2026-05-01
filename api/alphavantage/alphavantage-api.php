@@ -518,6 +518,27 @@ class TradePress_AlphaVantage_API extends TradePress_Base_API {
 	}
 
 	/**
+	 * Get market news and sentiment data.
+	 *
+	 * @param string $symbol Optional symbol to filter by.
+	 * @param int    $limit Number of news items to return.
+	 * @return array|WP_Error News sentiment data or error.
+	 * @version 1.0.0
+	 */
+	public function get_news( $symbol = '', $limit = 50 ) {
+		$params = array(
+			'limit' => max( 1, min( 1000, (int) $limit ) ),
+			'sort'  => 'LATEST',
+		);
+
+		if ( ! empty( $symbol ) ) {
+			$params['tickers'] = strtoupper( $symbol );
+		}
+
+		return $this->make_request( 'NEWS_SENTIMENT', $params );
+	}
+
+	/**
 	 * Get API call statistics
 	 *
 	 * @return array API call statistics

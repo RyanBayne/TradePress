@@ -250,6 +250,27 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
 	}
 
 	/**
+	 * Get market news from Alpaca's data API.
+	 *
+	 * @param string $symbol Optional symbol to filter by.
+	 * @param int    $limit Number of news items to return.
+	 * @return array|WP_Error News data or error.
+	 * @version 1.0.0
+	 */
+	public function get_news( $symbol = '', $limit = 50 ) {
+		$params = array(
+			'limit' => max( 1, min( 50, (int) $limit ) ),
+			'sort'  => 'desc',
+		);
+
+		if ( ! empty( $symbol ) ) {
+			$params['symbols'] = strtoupper( $symbol );
+		}
+
+		return $this->make_request( 'v1beta1/news', $params );
+	}
+
+	/**
 	 * Make an API request to Alpaca
 	 *
 	 * @param string $endpoint API endpoint
@@ -271,10 +292,15 @@ class TradePress_Alpaca_API extends TradePress_Base_API {
 		$is_market_data = strpos( $endpoint, 'market-data' ) !== false ||
 						strpos( $endpoint, 'bars' ) !== false ||
 						strpos( $endpoint, 'quotes' ) !== false ||
-						strpos( $endpoint, 'trades' ) !== false;
+						strpos( $endpoint, 'trades' ) !== false ||
+						strpos( $endpoint, 'news' ) !== false;
 
-		// Use the appropriate base URL
-		$base_url = $is_market_data ? $this->data_url : $this->base_url;
+		// Use the appropriate base URL.
+		if ( 0 === strpos( $endpoint, 'v1beta1/' ) ) {
+			$base_url = 'https://data.alpaca.markets/';
+		} else {
+			$base_url = $is_market_data ? $this->data_url : $this->base_url;
+		}
 
 		// Build the full URL
 		$url = $base_url . ltrim( $endpoint, '/' );

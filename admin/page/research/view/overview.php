@@ -11,120 +11,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Get recent symbols data
 $recent_symbols_data = array();
+if ( ! class_exists( 'TradePress_Recent_Symbols' ) ) {
+	$recent_symbols_file = TRADEPRESS_PLUGIN_DIR_PATH . 'includes/utils/recent-symbols-tracker.php';
+	if ( file_exists( $recent_symbols_file ) ) {
+		require_once $recent_symbols_file;
+	}
+}
 if ( class_exists( 'TradePress_Recent_Symbols' ) ) {
-	require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/utils/recent-symbols.php';
-	$recent_symbols_data = TradePress_Recent_Symbols::get_recent_symbols_data( 10 ); // Get 10 recent symbols
+	$recent_symbols_data = TradePress_Recent_Symbols::get_recent_symbols_data();
 }
 
-// Get top technical indicators
-$technical_symbols = array();
-if ( function_exists( 'tradepress_generate_test_technical_indicators' ) ) {
-	$symbols = array( 'AAPL', 'MSFT', 'NVDA', 'TSLA', 'GOOG' );
-	foreach ( $symbols as $symbol ) {
-		$technical_symbols[ $symbol ] = tradepress_generate_test_technical_indicators( $symbol );
-	}
+$technical_symbols  = apply_filters( 'tradepress_research_overview_technical_symbols', array() );
+$market_movers      = apply_filters( 'tradepress_research_overview_market_movers', array() );
+$directives_symbols = apply_filters( 'tradepress_research_overview_directive_symbols', array() );
+
+if ( ! is_array( $technical_symbols ) ) {
+	$technical_symbols = array();
 }
-
-// Get market movers data without directly instantiating the class
-$market_movers = array();
-
-// Create sample market movers data since we can't call the dashboard widget method
-$market_movers = array(
-	'gainers' => array(
-		array(
-			'symbol'     => 'AAPL',
-			'price'      => 185.92,
-			'change_pct' => 2.45,
-		),
-		array(
-			'symbol'     => 'MSFT',
-			'price'      => 376.17,
-			'change_pct' => 1.87,
-		),
-		array(
-			'symbol'     => 'NVDA',
-			'price'      => 950.02,
-			'change_pct' => 3.25,
-		),
-		array(
-			'symbol'     => 'AMZN',
-			'price'      => 180.35,
-			'change_pct' => 1.23,
-		),
-	),
-	'losers'  => array(
-		array(
-			'symbol'     => 'META',
-			'price'      => 487.95,
-			'change_pct' => -1.74,
-		),
-		array(
-			'symbol'     => 'NFLX',
-			'price'      => 657.31,
-			'change_pct' => -2.12,
-		),
-		array(
-			'symbol'     => 'GOOG',
-			'price'      => 156.98,
-			'change_pct' => -0.87,
-		),
-		array(
-			'symbol'     => 'TSLA',
-			'price'      => 223.31,
-			'change_pct' => -3.54,
-		),
-	),
-	'volume'  => array(
-		array(
-			'symbol' => 'AAPL',
-			'price'  => 185.92,
-			'volume' => 75489632,
-		),
-		array(
-			'symbol' => 'SPY',
-			'price'  => 523.89,
-			'volume' => 68741523,
-		),
-		array(
-			'symbol' => 'NVDA',
-			'price'  => 950.02,
-			'volume' => 35874123,
-		),
-		array(
-			'symbol' => 'TSLA',
-			'price'  => 223.31,
-			'volume' => 28561974,
-		),
-	),
-);
-
-// Get symbols with strong scoring directives
-$directives_symbols = array();
-if ( class_exists( 'TradePress_Directive_Registry' ) ) {
-	$symbols    = array( 'AAPL', 'NVDA', 'MSFT', 'META', 'AMZN' );
-	$directives = TradePress_Directive_Registry::get_directives();
-
-	foreach ( $symbols as $symbol ) {
-		$score                 = mt_rand( 60, 95 );
-		$directives_count      = mt_rand( 2, 6 );
-		$applicable_directives = array_rand( $directives, min( $directives_count, count( $directives ) ) );
-		if ( ! is_array( $applicable_directives ) ) {
-			$applicable_directives = array( $applicable_directives );
-		}
-
-		$directive_names = array();
-		foreach ( $applicable_directives as $directive_key ) {
-			if ( isset( $directives[ $directive_key ] ) ) {
-				$directive_names[] = $directives[ $directive_key ]['name'];
-			}
-		}
-
-		$directives_symbols[ $symbol ] = array(
-			'score'      => $score,
-			'directives' => $directive_names,
-			'strength'   => ( $score >= 80 ) ? 'strong' : ( ( $score >= 65 ) ? 'moderate' : 'weak' ),
-		);
-	}
+if ( ! is_array( $market_movers ) ) {
+	$market_movers = array();
+}
+if ( ! is_array( $directives_symbols ) ) {
+	$directives_symbols = array();
 }
 ?>
 
@@ -167,10 +75,10 @@ if ( class_exists( 'TradePress_Directive_Registry' ) ) {
 									<p class="company-name"><?php echo isset( $data['company_name'] ) ? esc_html( $data['company_name'] ) : ''; ?></p>
 								</div>
 								<div class="symbol-metrics">
-									<span class="price"><?php echo isset( $data['price'] ) ? '$' . number_format( $data['price'], 2 ) : ''; ?></span>
+									<span class="price"><?php echo isset( $data['price'] ) ? esc_html( '$' . number_format( $data['price'], 2 ) ) : ''; ?></span>
 									<?php if ( isset( $data['change_percent'] ) ) : ?>
-										<span class="change <?php echo ( $data['change_percent'] >= 0 ) ? 'positive' : 'negative'; ?>">
-											<?php echo ( $data['change_percent'] >= 0 ) ? '+' : ''; ?><?php echo number_format( $data['change_percent'], 2 ); ?>%
+										<span class="change <?php echo esc_attr( ( $data['change_percent'] >= 0 ) ? 'positive' : 'negative' ); ?>">
+											<?php echo esc_html( ( ( $data['change_percent'] >= 0 ) ? '+' : '' ) . number_format( $data['change_percent'], 2 ) . '%' ); ?>
 										</span>
 									<?php endif; ?>
 								</div>
@@ -193,7 +101,7 @@ if ( class_exists( 'TradePress_Directive_Registry' ) ) {
 			<div class="card-content">
 				<?php if ( empty( $technical_symbols ) ) : ?>
 					<div class="no-data-message">
-						<p><?php esc_html_e( 'No technical analysis data available. Analyze symbols to see technical indicators summary.', 'tradepress' ); ?></p>
+						<p><strong><?php esc_html_e( 'No Data', 'tradepress' ); ?></strong> - <?php esc_html_e( 'Technical indicator summaries will display here after stored indicator data is imported or calculated.', 'tradepress' ); ?></p>
 						<a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_research&tab=technical-indicators' ) ); ?>" class="button button-secondary"><?php esc_html_e( 'Technical Analysis', 'tradepress' ); ?></a>
 					</div>
 				<?php else : ?>
@@ -255,7 +163,7 @@ if ( class_exists( 'TradePress_Directive_Registry' ) ) {
 			<div class="card-content">
 				<?php if ( empty( $market_movers ) || ! isset( $market_movers['gainers'] ) || ! isset( $market_movers['losers'] ) ) : ?>
 					<div class="no-data-message">
-						<p><?php esc_html_e( 'Market movers data is not available at the moment.', 'tradepress' ); ?></p>
+						<p><strong><?php esc_html_e( 'No Data', 'tradepress' ); ?></strong> - <?php esc_html_e( 'Market movers will display here after provider data has been imported.', 'tradepress' ); ?></p>
 					</div>
 				<?php else : ?>
 					<div class="movers-tabs">
@@ -328,7 +236,7 @@ if ( class_exists( 'TradePress_Directive_Registry' ) ) {
 			<div class="card-content">
 				<?php if ( empty( $directives_symbols ) ) : ?>
 					<div class="no-data-message">
-						<p><?php esc_html_e( 'No scoring directives data available. Configure and run the scoring algorithm to see results here.', 'tradepress' ); ?></p>
+						<p><strong><?php esc_html_e( 'No Data', 'tradepress' ); ?></strong> - <?php esc_html_e( 'Scoring directive results will display here after the scoring process stores symbol results.', 'tradepress' ); ?></p>
 						<a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_automation&tab=scoring-directives' ) ); ?>" class="button button-secondary"><?php esc_html_e( 'Scoring Directives', 'tradepress' ); ?></a>
 					</div>
 				<?php else : ?>

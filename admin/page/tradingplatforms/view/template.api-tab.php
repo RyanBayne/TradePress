@@ -31,8 +31,6 @@ $api_description = isset( $api_description ) ? $api_description : '';
 $api_version     = isset( $api_version ) ? $api_version : 'v1';
 $api_logo_url    = isset( $api_logo_url ) ? $api_logo_url : '';
 $endpoints       = isset( $endpoints ) ? $endpoints : array();
-$demo_mode       = 'no';
-$is_demo_mode    = false;
 
 // Include helper functions if they haven't been included already
 if ( ! function_exists( 'get_status_color' ) ) {
@@ -50,8 +48,6 @@ if ( ! function_exists( 'get_status_color' ) ) {
 // $service_status - Service status array
 // $rate_limits - Rate limiting data array
 // $documentation_links - Array of documentation links
-
-$is_demo_mode = false;
 
 // Process API settings form submission
 if ( isset( $_POST[ 'tradepress_' . $api_id . '_api_settings_nonce' ] ) && wp_verify_nonce( $_POST[ 'tradepress_' . $api_id . '_api_settings_nonce' ], 'tradepress_' . $api_id . '_api_settings' ) ) {
@@ -95,7 +91,7 @@ if ( isset( $_POST[ 'tradepress_' . $api_id . '_api_settings_nonce' ] ) && wp_ve
 		'admin_notices',
 		function () use ( $api_name ) {
 			/* translators: %s: component name */
-			echo '<div class="notice notice-success is-dismissible"><p>' . sprintf( __( '%s API settings saved successfully.', 'tradepress' ), esc_html( $api_name ) ) . '</p></div>';
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( sprintf( __( '%s API settings saved successfully.', 'tradepress' ), $api_name ) ) . '</p></div>';
 		}
 	);
 }
@@ -114,7 +110,7 @@ if ( isset( $_POST[ 'tradepress_' . $api_id . '_trading_mode_nonce' ] ) && wp_ve
 			function () use ( $api_name ) {
 				echo '<div class="notice notice-success is-dismissible"><p>' .
 				/* translators: %s: component name */
-				sprintf( __( '%s trading mode updated successfully.', 'tradepress' ), esc_html( $api_name ) ) .
+				esc_html( sprintf( __( '%s trading mode updated successfully.', 'tradepress' ), $api_name ) ) .
 				'</p></div>';
 			}
 		);
@@ -135,7 +131,7 @@ if ( isset( $_POST[ 'tradepress_' . $api_id . '_operational_nonce' ] ) && wp_ver
 			function () use ( $api_name ) {
 				echo '<div class="notice notice-success is-dismissible"><p>' .
 				/* translators: %s: component name */
-				sprintf( __( '%s operational status updated successfully.', 'tradepress' ), esc_html( $api_name ) ) .
+				esc_html( sprintf( __( '%s operational status updated successfully.', 'tradepress' ), $api_name ) ) .
 				'</p></div>';
 			}
 		);
@@ -180,12 +176,9 @@ if ( ! function_exists( 'tradepress_get_real_local_status' ) ) {
 			);
 		} else {
 			try {
-				// Try to make a test call to the API
-				// This would be implemented based on the specific API class for the API ID
-				// For demonstration, we'll return a success status
 				$status = array(
-					'status'  => 'success',
-					'message' => __( 'Connected', 'tradepress' ),
+					'status'  => 'warning',
+					'message' => __( 'Credentials configured; live connection test not implemented for this provider.', 'tradepress' ),
 				);
 			} catch ( Exception $e ) {
 				$status = array(
@@ -385,7 +378,7 @@ $trading_mode         = get_option( 'TradePress_api_' . $api_id . '_trading_mode
 													<input name="TradePress_api_<?php echo esc_attr( $api_id ); ?>_realmoney_apikey" id="inline_TradePress_api_<?php echo esc_attr( $api_id ); ?>_realmoney_apikey" type="text" 
 															value="<?php echo esc_attr( $realmoney_apikey ); ?>" class="regular-text">
 													<?php /* translators: %s: string value */ ?>
-													<p class="description"><?php printf( __( 'Your API key ID for real money trading on %s.', 'tradepress' ), esc_html( $api_name ) ); ?></p>
+													<p class="description"><?php echo esc_html( sprintf( __( 'Your API key ID for real money trading on %s.', 'tradepress' ), $api_name ) ); ?></p>
 												</td>
 											</tr>
 											
@@ -397,7 +390,7 @@ $trading_mode         = get_option( 'TradePress_api_' . $api_id . '_trading_mode
 													<input name="TradePress_api_<?php echo esc_attr( $api_id ); ?>_realmoney_secretkey" id="inline_TradePress_api_<?php echo esc_attr( $api_id ); ?>_realmoney_secretkey" type="password" 
 															value="<?php echo esc_attr( $realmoney_secretkey ); ?>" class="regular-text">
 													<?php /* translators: %s: string value */ ?>
-													<p class="description"><?php printf( __( 'Your API secret key for real money trading on %s.', 'tradepress' ), esc_html( $api_name ) ); ?></p>
+													<p class="description"><?php echo esc_html( sprintf( __( 'Your API secret key for real money trading on %s.', 'tradepress' ), $api_name ) ); ?></p>
 												</td>
 											</tr>
 											
@@ -409,7 +402,7 @@ $trading_mode         = get_option( 'TradePress_api_' . $api_id . '_trading_mode
 													<input name="TradePress_api_<?php echo esc_attr( $api_id ); ?>_papermoney_apikey" id="inline_TradePress_api_<?php echo esc_attr( $api_id ); ?>_papermoney_apikey" type="text" 
 															value="<?php echo esc_attr( $papermoney_apikey ); ?>" class="regular-text">
 													<?php /* translators: %s: string value */ ?>
-													<p class="description"><?php printf( __( 'Your API key ID for paper trading on %s.', 'tradepress' ), esc_html( $api_name ) ); ?></p>
+													<p class="description"><?php echo esc_html( sprintf( __( 'Your API key ID for paper trading on %s.', 'tradepress' ), $api_name ) ); ?></p>
 												</td>
 											</tr>
 											
@@ -421,7 +414,7 @@ $trading_mode         = get_option( 'TradePress_api_' . $api_id . '_trading_mode
 													<input name="TradePress_api_<?php echo esc_attr( $api_id ); ?>_papermoney_secretkey" id="inline_TradePress_api_<?php echo esc_attr( $api_id ); ?>_papermoney_secretkey" type="password" 
 															value="<?php echo esc_attr( $papermoney_secretkey ); ?>" class="regular-text">
 													<?php /* translators: %s: string value */ ?>
-													<p class="description"><?php printf( __( 'Your API secret key for paper trading on %s.', 'tradepress' ), esc_html( $api_name ) ); ?></p>
+													<p class="description"><?php echo esc_html( sprintf( __( 'Your API secret key for paper trading on %s.', 'tradepress' ), $api_name ) ); ?></p>
 												</td>
 											</tr>
 

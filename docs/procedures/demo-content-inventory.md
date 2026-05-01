@@ -24,9 +24,10 @@ This inventory tracks TradePress views and systems that still use demo, mock, sa
 | Analysis | Recently Analysed Symbols | `admin/page/analysis/view/recent-symbols.php` — entire view was hardcoded demo data (AAPL, MSFT, NVDA, TSLA, AMZN, META, GOOGL, AMD, INTC, QCOM). No live data path exists. Batch 2 (2026-04-29): added mode guard so non-demo mode renders `In Development` empty state and returns early. Follow-up tracked in GitHub issue [#77](https://github.com/RyanBayne/TradePress/issues/77). | Implement live data path from stored symbol/analysis records; demo rendering retained for dev preview only. |
 | Analysis | Support & Resistance | `get_demo_level_results()` in `admin/page/analysis/view/support-resistance.php`. Live path (`SupportResistanceLevels` class) exists but had two silent fallbacks to demo data (classes unavailable; bad result). Batch 3 (2026-04-30): both fallbacks replaced with explicit `In Development` / `No Data` empty states. Tracked in GitHub issue [#80](https://github.com/RyanBayne/TradePress/issues/80). | Stabilise OHLC import so live path reliably returns data; then remove `get_demo_level_results()`. |
 | Analysis | Volatility Analysis | `tradepress_volatility_analysis_tab_content()` in `admin/page/analysis/view/volatility-analysis.php` called `calculate_demo_*()` unconditionally — `$is_demo` was set but never used to gate calls. Batch 3 (2026-04-30): added `tradepress_get_tab_mode()` guard; non-demo mode now shows `In Development` and returns early. Tracked in GitHub issue [#80](https://github.com/RyanBayne/TradePress/issues/80). | Implement live volatility path from stored OHLC data; then remove demo calculation calls. |
+| Research | Overview | `admin/page/research/view/overview.php` used generated technical indicators, hardcoded market movers, and random scoring directive results. Batch 9 (2026-04-30): removed default demo/random sources, fixed recent symbols tracker loading, and switched panels to filter-backed data with explicit `No Data` empty states. | Wire the overview filters to stored technical indicators, provider market movers, and stored scoring results. |
 | Research | Economic Calendar | `tradepress_get_demo_economic_events()` remains in `admin/page/research/view/economic-calendar.php` for Developer Mode preview only. Batch 4 (2026-04-30): added `tradepress_get_tab_mode()` + `can_show_demo` guard and asset-loader guard. Follow-up batch (2026-04-30): regular users now keep the filter shell plus provider/import status, read stored `tradepress_economic_calendar_data` only, and see an explicit empty state instead of demo events. Tracked in [#81](https://github.com/RyanBayne/TradePress/issues/81). | Implement queued economic-calendar import/storage integration for FMP/TradingView or another selected provider; then remove demo call. |
 | Research | Earnings Calendar | `tradepress_get_mock_earnings_data()` remains in `admin/page/research/view/earnings.php` (dev-only), and a provider/status panel now shows Alpha Vantage key status, CRON schedule state, and last import timestamp. Real-mode render now reads stored options only (no inline API fetch). | Continue with queued earnings import integration and replace remaining card/table randomised fields with stored analytics. |
-| Research | News Feed | `get_demo_feed_items()` remains in `admin/page/research/view/news-feed.php` (dev-only), and a provider/status panel now shows Alpha Vantage + Alpaca support, key/config state, and import status/last import. | Implement queued news import + stored news rendering path so regular users move from empty state to live/cached items. |
+| Research | News Feed | `get_demo_feed_items()` remains in `admin/page/research/view/news-feed.php` but returns no records; provider/status panel now shows Alpha Vantage + Alpaca support, key/config state, import status, data mode, and last import. The regular-user path renders stored `tradepress_news_data` records and queues `fetch_news` when data is missing or stale. | Migrate alpha option-backed news storage to a dedicated news table during the schema pass. |
 | Research | Sector Rotation | `tradepress_get_demo_sector_data()`, `get_demo_top_industries()`, `get_demo_bottom_industries()` in `admin/page/research/view/sector-rotation.php`. No mode gate. Batch 4 (2026-04-30): added `tradepress_get_tab_mode()` + `can_show_demo` guard. Tracked in [#81](https://github.com/RyanBayne/TradePress/issues/81). | Use imported sector/industry price history; remove demo calls. |
 | Research | Price Forecast | Mock forecast data and demo warning partial. | Hide unless real forecast provider/data exists. |
 | Research | Market Correlations | `tradepress_generate_demo_correlations()` in `admin/page/research/view/market-correlations.php`. No mode gate. Batch 4 (2026-04-30): added `tradepress_get_tab_mode()` + `can_show_demo` guard. Tracked in [#81](https://github.com/RyanBayne/TradePress/issues/81). | Use stored price series correlation; remove demo call. |
@@ -90,6 +91,26 @@ Scope this first pass to one tab only so progress is visible and low-risk.
 - **Support & Resistance**: Live path (`SupportResistanceLevels` + `TradePress_Financial_API_Service`) exists and is correct for demo mode. Two fallback paths silently called `get_demo_level_results()` in non-demo mode: (1) when required classes are unavailable, (2) when the live analysis returned a non-array. Both replaced with explicit empty states (`In Development` / `No Data`). Demo path unchanged.
 - **Volatility Analysis**: `tradepress_volatility_analysis_tab_content()` had no mode gate — `$is_demo` was set but ignored; `calculate_demo_*()` always called. Added `tradepress_get_tab_mode()` guard at function top; non-demo mode now returns early with `In Development` state.
 - Follow-up issue: [#80](https://github.com/RyanBayne/TradePress/issues/80).
+
+### Batch 9: Research > Overview tab
+
+- Objective: Remove hardcoded and random overview data that could be mistaken for imported market or scoring data.
+- Source path: `admin/page/research/view/overview.php`
+
+#### Checklist
+
+- [x] Identify view-level demo/random data sources.
+- [x] Remove default generated technical indicator calls.
+- [x] Remove hardcoded market movers.
+- [x] Remove random scoring directive results.
+- [x] Replace affected panels with explicit `No Data` empty states.
+
+#### Batch 9 Outcome (2026-04-30)
+
+- **Technical Indicators Summary**: Removed calls to `tradepress_generate_test_technical_indicators()` for hardcoded symbols. The panel now reads `tradepress_research_overview_technical_symbols` and otherwise shows `No Data`.
+- **Market Movers**: Removed the hardcoded gainer/loser/volume arrays. The panel now reads `tradepress_research_overview_market_movers` and otherwise shows `No Data`.
+- **Scoring Directives Results**: Removed `mt_rand()` scores and random directive selection. The panel now reads `tradepress_research_overview_directive_symbols` and otherwise shows `No Data`.
+- **Recent Research Activity**: Corrected class loading to use `includes/utils/recent-symbols-tracker.php`; existing tracker output remains real user-meta backed and filterable.
 
 ### Batch 2: Analysis > Recently Analysed Symbols tab
 

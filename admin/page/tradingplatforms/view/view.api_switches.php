@@ -30,8 +30,6 @@ foreach ( $all_providers as $id => $provider ) {
 unset( $api_display_names['yahoo_finance'] );
 unset( $api_array[ array_search( 'yahoo_finance', $api_array ) ] );
 
-// Check if demo mode is active
-$is_demo = false;
 ?>
 
 

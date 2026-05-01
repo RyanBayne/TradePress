@@ -253,11 +253,16 @@ function tradepress_apply_score_directives_to_symbol( $score, $symbol_data ) {
 
 	foreach ( $active_directives as $id => $directive ) {
 		if ( ! empty( $directive['active'] ) && $directive['active'] ) {
-			// In a real implementation, we'd call the actual scoring function
-			// for this directive based on $symbol_data and $directive parameters.
-			// For now, using a placeholder.
-			$directive_score_value = mt_rand( 0, 100 ); // Placeholder for actual directive calculation
+			if ( empty( $directive['callback'] ) || ! is_callable( $directive['callback'] ) ) {
+				continue;
+			}
+
+			$directive_score_value = call_user_func( $directive['callback'], $symbol_data, $directive );
 			$weight                = isset( $directive['weight'] ) ? (int) $directive['weight'] : 0;
+
+			if ( ! is_numeric( $directive_score_value ) ) {
+				continue;
+			}
 
 			$weighted_score += $directive_score_value * $weight;
 			$total_weight   += $weight;

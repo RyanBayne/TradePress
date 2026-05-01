@@ -68,69 +68,7 @@ class TradePress_Price_Forecast_Integration {
 	private function get_symbol_forecasts( $symbols ) {
 		$forecast_data = array();
 
-		// Do not supply generated forecast data in normal product flows. In all contexts
-		// return an empty array so the advisor step shows a proper empty state rather
-		// than fabricated analyst targets.
-		$can_show_demo = false;
-
-		if ( ! $can_show_demo ) {
-			return $forecast_data;
-		}
-
-		foreach ( $symbols as $symbol ) {
-			$forecast_data[ $symbol ] = $this->get_demo_forecast_for_symbol( $symbol );
-		}
-
 		return $forecast_data;
-	}
-
-	/**
-	 * Generate demo forecast data for a symbol
-	 *
-	 * @param string $symbol Stock symbol
-	 * @return array Forecast data
-	 * @version 1.0.0
-	 */
-	private function get_demo_forecast_for_symbol( $symbol ) {
-		// Generate current price between $10 and $1000
-		$current_price = mt_rand( 100, 10000 ) / 10;
-
-		// Generate confidence score between 50 and 95
-		$base_confidence = mt_rand( 500, 950 ) / 10;
-
-		// Create forecasts for different time periods with varying confidence
-		$forecasts = array(
-			'1m' => array(
-				'price'        => $current_price * ( 1 + mt_rand( -50, 100 ) / 1000 ),
-				'confidence'   => $base_confidence + mt_rand( -50, 100 ) / 10,
-				'sources'      => array( 'Goldman Sachs', 'Morgan Stanley', 'JP Morgan' ),
-				'source_count' => 3,
-			),
-			'3m' => array(
-				'price'        => $current_price * ( 1 + mt_rand( -100, 200 ) / 1000 ),
-				'confidence'   => $base_confidence + mt_rand( -100, 50 ) / 10,
-				'sources'      => array( 'Goldman Sachs', 'Morgan Stanley', 'Barclays', 'Credit Suisse' ),
-				'source_count' => 4,
-			),
-			'6m' => array(
-				'price'        => $current_price * ( 1 + mt_rand( -150, 300 ) / 1000 ),
-				'confidence'   => $base_confidence + mt_rand( -150, 0 ) / 10,
-				'sources'      => array( 'Goldman Sachs', 'Morgan Stanley', 'Barclays' ),
-				'source_count' => 3,
-			),
-			'1y' => array(
-				'price'        => $current_price * ( 1 + mt_rand( -200, 400 ) / 1000 ),
-				'confidence'   => $base_confidence + mt_rand( -200, -50 ) / 10,
-				'sources'      => array( 'Goldman Sachs', 'Barclays' ),
-				'source_count' => 2,
-			),
-		);
-
-		return array(
-			'current_price' => $current_price,
-			'forecasts'     => $forecasts,
-			'last_updated'  => date( 'Y-m-d H:i:s', strtotime( '-' . mt_rand( 1, 72 ) . ' hours' ) ),
-		);
 	}
 
 	/**

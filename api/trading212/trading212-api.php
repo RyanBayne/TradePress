@@ -233,7 +233,7 @@ class TradePress_Trading212_API {
 			$this->api_key    = $paper_key;
 			$this->api_secret = $paper_secret;
 
-			// Last fallback for demo mode when only a live key is configured.
+			// Last fallback for the paper environment when only a live key is configured.
 			if ( '' === $this->api_key ) {
 				$this->api_key    = $live_key;
 				$this->api_secret = $live_secret;
@@ -562,13 +562,9 @@ class TradePress_Trading212_API {
 	 * @version 1.0.0
 	 */
 	private function make_request( $endpoint, $method = 'GET', $params = array() ) {
-		// No credentials — return an error; do not expose demo data to callers.
+		// No credentials: return an error instead of synthetic data.
 		if ( empty( $this->api_key ) ) {
 			return new WP_Error( 'api_key_required', __( 'A Trading 212 API key is required. Please configure your API credentials.', 'tradepress' ) );
-		}
-
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_data( $endpoint );
 		}
 
 		$base_url = $this->api_base_urls[ $this->environment ];
@@ -658,7 +654,7 @@ class TradePress_Trading212_API {
 	 * @param string $ticker Instrument ticker
 	 * @param string $period Period type (1D, 1W, 1M, etc.)
 	 * @param int    $size Number of candles to return
-	 * @param bool   $include_fake Whether to include fake candles
+	 * @param bool   $include_fake Deprecated. Fake candles are not requested.
 	 * @return array|WP_Error Charting data or error
 	 * @version 1.0.0
 	 */
@@ -669,7 +665,7 @@ class TradePress_Trading212_API {
 					'ticker'      => $ticker,
 					'period'      => $period,
 					'size'        => $size,
-					'includeFake' => $include_fake,
+					'includeFake' => false,
 				),
 			),
 		);
@@ -698,7 +694,7 @@ class TradePress_Trading212_API {
 				'ticker'      => $ticker_data['ticker'],
 				'period'      => isset( $ticker_data['period'] ) ? $ticker_data['period'] : '1D',
 				'size'        => isset( $ticker_data['size'] ) ? $ticker_data['size'] : 100,
-				'includeFake' => isset( $ticker_data['include_fake'] ) ? $ticker_data['include_fake'] : false,
+				'includeFake' => false,
 			);
 		}
 
@@ -919,360 +915,6 @@ class TradePress_Trading212_API {
 	 */
 	public function get_session_token() {
 		return get_option( 'tradepress_trading212_session', '' );
-	}
-
-	/**
-	 * Get demo data for endpoints
-	 *
-	 * @param string $endpoint API endpoint
-	 * @return array Sample data
-	 * @version 1.0.0
-	 */
-	public function get_demo_data( $endpoint ) {
-		$demo_data = array();
-
-		// Account information demo data
-		if ( $endpoint === 'account/info' ) {
-			$demo_data = array(
-				'accountId'   => 'demo12345',
-				'currency'    => 'USD',
-				'type'        => 'LIVE',
-				'maxLeverage' => 1,
-				'canUseNews'  => true,
-				'isBlocked'   => false,
-				'alias'       => 'My Trading Account',
-			);
-		}
-
-		// Account cash demo data
-		elseif ( $endpoint === 'account/cash' ) {
-			$demo_data = array(
-				'free'       => 25000.50,
-				'total'      => 50000.75,
-				'blocked'    => 25000.25,
-				'ppl'        => 3500.10,
-				'guarantees' => 1500.00,
-				'currency'   => 'USD',
-			);
-		}
-
-		// Instruments demo data
-		elseif ( $endpoint === 'equity/instruments' ) {
-			$demo_data = array(
-				array(
-					'instrumentCode'    => 'AAPL',
-					'name'              => 'Apple Inc.',
-					'currencyCode'      => 'USD',
-					'isin'              => 'US0378331005',
-					'marketId'          => 'NASDAQ',
-					'productType'       => 'STOCK',
-					'shortEnabled'      => true,
-					'fractionalEnabled' => true,
-					'minTrade'          => 1,
-					'maxTrade'          => 100000,
-				),
-				array(
-					'instrumentCode'    => 'MSFT',
-					'name'              => 'Microsoft Corporation',
-					'currencyCode'      => 'USD',
-					'isin'              => 'US5949181045',
-					'marketId'          => 'NASDAQ',
-					'productType'       => 'STOCK',
-					'shortEnabled'      => true,
-					'fractionalEnabled' => true,
-					'minTrade'          => 1,
-					'maxTrade'          => 100000,
-				),
-				array(
-					'instrumentCode'    => 'GOOGL',
-					'name'              => 'Alphabet Inc.',
-					'currencyCode'      => 'USD',
-					'isin'              => 'US02079K3059',
-					'marketId'          => 'NASDAQ',
-					'productType'       => 'STOCK',
-					'shortEnabled'      => true,
-					'fractionalEnabled' => true,
-					'minTrade'          => 1,
-					'maxTrade'          => 100000,
-				),
-				array(
-					'instrumentCode'    => 'TSLA',
-					'name'              => 'Tesla, Inc.',
-					'currencyCode'      => 'USD',
-					'isin'              => 'US88160R1014',
-					'marketId'          => 'NASDAQ',
-					'productType'       => 'STOCK',
-					'shortEnabled'      => true,
-					'fractionalEnabled' => true,
-					'minTrade'          => 1,
-					'maxTrade'          => 100000,
-				),
-				array(
-					'instrumentCode'    => 'AMZN',
-					'name'              => 'Amazon.com, Inc.',
-					'currencyCode'      => 'USD',
-					'isin'              => 'US0231351067',
-					'marketId'          => 'NASDAQ',
-					'productType'       => 'STOCK',
-					'shortEnabled'      => true,
-					'fractionalEnabled' => true,
-					'minTrade'          => 1,
-					'maxTrade'          => 100000,
-				),
-			);
-		}
-
-		// Positions demo data
-		elseif ( $endpoint === 'equity/positions' ) {
-			$demo_data = array(
-				array(
-					'instrumentCode' => 'AAPL',
-					'quantity'       => 10,
-					'averagePrice'   => 150.25,
-					'currentPrice'   => 165.75,
-					'ppl'            => 155.00,
-					'result'         => array(
-						'value'      => 155.00,
-						'percentage' => 10.32,
-					),
-				),
-				array(
-					'instrumentCode' => 'MSFT',
-					'quantity'       => 5,
-					'averagePrice'   => 240.50,
-					'currentPrice'   => 260.25,
-					'ppl'            => 98.75,
-					'result'         => array(
-						'value'      => 98.75,
-						'percentage' => 8.21,
-					),
-				),
-				array(
-					'instrumentCode' => 'TSLA',
-					'quantity'       => 8,
-					'averagePrice'   => 800.00,
-					'currentPrice'   => 785.50,
-					'ppl'            => -116.00,
-					'result'         => array(
-						'value'      => -116.00,
-						'percentage' => -1.81,
-					),
-				),
-			);
-		}
-
-		// Orders demo data
-		elseif ( $endpoint === 'equity/orders' ) {
-			$demo_data = array(
-				array(
-					'orderId'          => 'ord12345',
-					'instrumentCode'   => 'AAPL',
-					'quantity'         => 2,
-					'type'             => 'MARKET',
-					'status'           => 'PENDING',
-					'timeValidity'     => 'DAY',
-					'createdTimestamp' => date( 'Y-m-d\TH:i:s\Z', strtotime( '-1 hour' ) ),
-					'timeInForce'      => 'GTC',
-				),
-				array(
-					'orderId'          => 'ord12346',
-					'instrumentCode'   => 'GOOGL',
-					'quantity'         => 1,
-					'type'             => 'LIMIT',
-					'status'           => 'PENDING',
-					'limitPrice'       => 2500.00,
-					'timeValidity'     => 'DAY',
-					'createdTimestamp' => date( 'Y-m-d\TH:i:s\Z', strtotime( '-2 hours' ) ),
-					'timeInForce'      => 'GTC',
-				),
-			);
-		}
-
-		// Transaction history demo data
-		elseif ( $endpoint === 'equity/history/transactions' ) {
-			$demo_data = array(
-				array(
-					'id'             => 'tx12345',
-					'instrumentCode' => 'AAPL',
-					'type'           => 'BUY',
-					'timestamp'      => date( 'Y-m-d\TH:i:s\Z', strtotime( '-3 days' ) ),
-					'price'          => 150.25,
-					'quantity'       => 10,
-					'amount'         => 1502.50,
-					'fee'            => 0,
-					'currencyCode'   => 'USD',
-				),
-				array(
-					'id'             => 'tx12346',
-					'instrumentCode' => 'MSFT',
-					'type'           => 'BUY',
-					'timestamp'      => date( 'Y-m-d\TH:i:s\Z', strtotime( '-2 days' ) ),
-					'price'          => 240.50,
-					'quantity'       => 5,
-					'amount'         => 1202.50,
-					'fee'            => 0,
-					'currencyCode'   => 'USD',
-				),
-				array(
-					'id'             => 'tx12347',
-					'instrumentCode' => 'NFLX',
-					'type'           => 'SELL',
-					'timestamp'      => date( 'Y-m-d\TH:i:s\Z', strtotime( '-1 day' ) ),
-					'price'          => 525.50,
-					'quantity'       => 3,
-					'amount'         => 1576.50,
-					'fee'            => 0,
-					'currencyCode'   => 'USD',
-				),
-			);
-		}
-
-		// Market quotes demo data
-		elseif ( $endpoint === 'equity/quotes' ) {
-			$demo_data = array(
-				array(
-					'instrumentCode' => 'AAPL',
-					'bid'            => 165.50,
-					'ask'            => 165.75,
-					'spread'         => 0.25,
-					'timestamp'      => date( 'Y-m-d\TH:i:s\Z' ),
-					'price'          => 165.63,
-					'change'         => 2.15,
-					'changePercent'  => 1.31,
-				),
-				array(
-					'instrumentCode' => 'MSFT',
-					'bid'            => 260.00,
-					'ask'            => 260.25,
-					'spread'         => 0.25,
-					'timestamp'      => date( 'Y-m-d\TH:i:s\Z' ),
-					'price'          => 260.13,
-					'change'         => 3.25,
-					'changePercent'  => 1.27,
-				),
-				array(
-					'instrumentCode' => 'GOOGL',
-					'bid'            => 2540.75,
-					'ask'            => 2541.25,
-					'spread'         => 0.50,
-					'timestamp'      => date( 'Y-m-d\TH:i:s\Z' ),
-					'price'          => 2541.00,
-					'change'         => 15.50,
-					'changePercent'  => 0.61,
-				),
-				array(
-					'instrumentCode' => 'TSLA',
-					'bid'            => 785.25,
-					'ask'            => 785.75,
-					'spread'         => 0.50,
-					'timestamp'      => date( 'Y-m-d\TH:i:s\Z' ),
-					'price'          => 785.50,
-					'change'         => -12.25,
-					'changePercent'  => -1.54,
-				),
-				array(
-					'instrumentCode' => 'AMZN',
-					'bid'            => 3300.50,
-					'ask'            => 3301.25,
-					'spread'         => 0.75,
-					'timestamp'      => date( 'Y-m-d\TH:i:s\Z' ),
-					'price'          => 3300.88,
-					'change'         => 25.75,
-					'changePercent'  => 0.79,
-				),
-			);
-		}
-
-		// Watchlists demo data
-		elseif ( $endpoint === 'equity/watchlists' || strpos( $endpoint, 'v3/watchlists' ) !== false ) {
-			$demo_data = array(
-				array(
-					'id'          => 'wl12345',
-					'name'        => 'Tech Stocks',
-					'instruments' => array( 'AAPL', 'MSFT', 'GOOGL', 'TSLA', 'AMZN' ),
-				),
-				array(
-					'id'          => 'wl12346',
-					'name'        => 'Financial Stocks',
-					'instruments' => array( 'JPM', 'BAC', 'WFC', 'C', 'GS' ),
-				),
-				array(
-					'id'          => 'wl12347',
-					'name'        => 'Healthcare Stocks',
-					'instruments' => array( 'JNJ', 'PFE', 'UNH', 'ABBV', 'MRK' ),
-				),
-			);
-		}
-
-		// Chart data demo
-		elseif ( strpos( $endpoint, 'charting' ) !== false ) {
-			$demo_data = array(
-				'candles' => array(
-					array(
-						'time'   => strtotime( '-5 days' ) * 1000,
-						'open'   => 160.25,
-						'high'   => 162.50,
-						'low'    => 159.75,
-						'close'  => 161.80,
-						'volume' => 45000000,
-					),
-					array(
-						'time'   => strtotime( '-4 days' ) * 1000,
-						'open'   => 161.80,
-						'high'   => 164.20,
-						'low'    => 161.50,
-						'close'  => 163.45,
-						'volume' => 52000000,
-					),
-					array(
-						'time'   => strtotime( '-3 days' ) * 1000,
-						'open'   => 163.45,
-						'high'   => 165.80,
-						'low'    => 162.90,
-						'close'  => 164.75,
-						'volume' => 48000000,
-					),
-					array(
-						'time'   => strtotime( '-2 days' ) * 1000,
-						'open'   => 164.75,
-						'high'   => 166.25,
-						'low'    => 163.80,
-						'close'  => 165.20,
-						'volume' => 41000000,
-					),
-					array(
-						'time'   => strtotime( '-1 day' ) * 1000,
-						'open'   => 165.20,
-						'high'   => 167.50,
-						'low'    => 164.90,
-						'close'  => 165.63,
-						'volume' => 39000000,
-					),
-				),
-			);
-		}
-
-		// Search results demo
-		elseif ( strpos( $endpoint, 'search' ) !== false ) {
-			$demo_data = array(
-				'results' => array(
-					array(
-						'ticker'   => 'AAPL',
-						'name'     => 'Apple Inc.',
-						'type'     => 'STOCK',
-						'exchange' => 'NASDAQ',
-					),
-					array(
-						'ticker'   => 'MSFT',
-						'name'     => 'Microsoft Corporation',
-						'type'     => 'STOCK',
-						'exchange' => 'NASDAQ',
-					),
-				),
-			);
-		}
-
-		return $demo_data;
 	}
 
 	/**

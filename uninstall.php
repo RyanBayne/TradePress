@@ -13,7 +13,7 @@
 
 // Ensure plugin uninstall is being run by WordPress.
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-	wp_die( __( 'Uninstallation file incorrectly requested for the TradePress plugin.', 'tradepress' ) );
+	wp_die( esc_html__( 'Uninstallation file incorrectly requested for the TradePress plugin.', 'tradepress' ) );
 }
 
 if ( 'yes' == get_option( 'TradePress_remove_database_tables' ) ) {

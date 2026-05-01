@@ -210,9 +210,6 @@ class TradePress_WeBull_API {
 		if ( empty( $this->access_token ) ) {
 			return new WP_Error( 'api_key_required', __( 'Webull credentials are required. Please configure your API credentials.', 'tradepress' ) );
 		}
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_data( 'get_quotes' );
-		}
 
 		$search_result = $this->search_ticker( $symbol );
 		if ( is_wp_error( $search_result ) || empty( $search_result ) ) {
@@ -233,17 +230,8 @@ class TradePress_WeBull_API {
 	 * @version 1.0.0
 	 */
 	public function get_historical_data( $symbol, $period = '1mo', $interval = 'd1' ) {
-		if ( empty( $this->access_token ) || defined( 'TRADEPRESS_DEMO_MODE' ) ) {
-			return array(
-				array(
-					'timestamp' => time() - 86400,
-					'open'      => 177.50,
-					'high'      => 179.25,
-					'low'       => 177.33,
-					'close'     => 178.84,
-					'volume'    => 1234567,
-				),
-			);
+		if ( empty( $this->access_token ) ) {
+			return new WP_Error( 'api_key_required', __( 'Webull credentials are required. Please configure your API credentials.', 'tradepress' ) );
 		}
 
 		$search_result = $this->search_ticker( $symbol );
@@ -265,9 +253,6 @@ class TradePress_WeBull_API {
 		if ( empty( $this->access_token ) ) {
 			return new WP_Error( 'api_key_required', __( 'Webull credentials are required. Please configure your API credentials.', 'tradepress' ) );
 		}
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_data( 'get_account_values' );
-		}
 		return $this->get_account_values();
 	}
 
@@ -281,9 +266,6 @@ class TradePress_WeBull_API {
 		if ( empty( $this->access_token ) ) {
 			return new WP_Error( 'api_key_required', __( 'Webull credentials are required. Please configure your API credentials.', 'tradepress' ) );
 		}
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_data( 'get_positions' );
-		}
 		return $this->get_positions();
 	}
 
@@ -296,9 +278,6 @@ class TradePress_WeBull_API {
 	public function get_open_orders() {
 		if ( empty( $this->access_token ) ) {
 			return new WP_Error( 'api_key_required', __( 'Webull credentials are required. Please configure your API credentials.', 'tradepress' ) );
-		}
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_data( 'get_orders' );
 		}
 		return $this->get_orders( null, null, 'Working' );
 	}
@@ -314,9 +293,6 @@ class TradePress_WeBull_API {
 		if ( empty( $this->access_token ) ) {
 			return new WP_Error( 'api_key_required', __( 'Webull credentials are required. Please configure your API credentials.', 'tradepress' ) );
 		}
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_data( 'search_ticker' );
-		}
 		return $this->search_ticker( $query );
 	}
 
@@ -330,9 +306,6 @@ class TradePress_WeBull_API {
 	public function get_watchlist_symbols( $watchlist_id = null ) {
 		if ( empty( $this->access_token ) ) {
 			return new WP_Error( 'api_key_required', __( 'Webull credentials are required. Please configure your API credentials.', 'tradepress' ) );
-		}
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_data( 'get_watchlists' );
 		}
 
 		if ( $watchlist_id ) {
@@ -1189,74 +1162,6 @@ class TradePress_WeBull_API {
 		// Implementation depends on specific requirements of TradePress_Financial_API_Service
 		// This is a placeholder for future implementation
 		return $data;
-	}
-
-	/**
-	 * Get demo data for endpoints when not authenticated
-	 *
-	 * @param string $method Method being called
-	 * @return array Sample data
-	 * @version 1.0.0
-	 */
-	private function get_demo_data( $method ) {
-		switch ( $method ) {
-			case 'get_account_values':
-				return array(
-					'account_value' => 50000.00,
-					'buying_power'  => 100000.00,
-					'cash'          => 25000.00,
-					'currency'      => 'USD',
-				);
-
-			case 'get_positions':
-				return array(
-					array(
-						'symbol'                => 'AAPL',
-						'quantity'              => 100,
-						'avg_price'             => 150.25,
-						'market_value'          => 17886.00,
-						'cost_basis'            => 15025.00,
-						'unrealized_pl'         => 2861.00,
-						'unrealized_pl_percent' => 0.1904,
-					),
-				);
-
-			case 'get_orders':
-				return array(
-					array(
-						'id'       => '123456789',
-						'symbol'   => 'MSFT',
-						'side'     => 'BUY',
-						'type'     => 'LMT',
-						'quantity' => 25,
-						'price'    => 250.00,
-						'status'   => 'Working',
-					),
-				);
-
-			case 'search_ticker':
-				return array(
-					array(
-						'tickerId' => 913256135,
-						'symbol'   => 'AAPL',
-						'name'     => 'Apple Inc',
-					),
-				);
-
-			case 'get_quotes':
-				return array(
-					array(
-						'symbol'         => 'AAPL',
-						'price'          => 178.84,
-						'change'         => 0.18,
-						'change_percent' => 0.1,
-						'volume'         => 1234567,
-					),
-				);
-
-			default:
-				return array();
-		}
 	}
 
 	/**

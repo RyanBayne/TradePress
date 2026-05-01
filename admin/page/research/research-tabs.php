@@ -431,77 +431,8 @@ class TradePress_Research {
 		require_once TRADEPRESS_PLUGIN_DIR . 'admin/page/research/partials/research-price-forecast.php';
 	}
 
-	/**
-	 * Get sample price forecast data.
-	 * In a real scenario, this would fetch data from various sources.
-	 *
-	 * @since    1.0.0
-	 * @return   array    Sample forecast data.
-	 * @version 1.0.0
-	 */
 	public function get_price_forecast_data() {
-		// Sample data - in production this would come from actual APIs/sources
-		$forecast_data = array(
-			'AAPL'  => array(
-				'sources' => array(
-					'Analyst Consensus'    => array(
-						'low'     => 170.25,
-						'average' => 198.50,
-						'high'    => 225.75,
-					),
-					'Algorithm Prediction' => array(
-						'low'     => 165.80,
-						'average' => 195.20,
-						'high'    => 220.40,
-					),
-					'Technical Analysis'   => array(
-						'low'     => 172.60,
-						'average' => 200.10,
-						'high'    => 230.30,
-					),
-				),
-			),
-			'MSFT'  => array(
-				'sources' => array(
-					'Analyst Consensus'    => array(
-						'low'     => 340.20,
-						'average' => 375.50,
-						'high'    => 410.75,
-					),
-					'Algorithm Prediction' => array(
-						'low'     => 335.90,
-						'average' => 372.30,
-						'high'    => 405.60,
-					),
-					'Technical Analysis'   => array(
-						'low'     => 345.75,
-						'average' => 380.25,
-						'high'    => 415.30,
-					),
-				),
-			),
-			'GOOGL' => array(
-				'sources' => array(
-					'Analyst Consensus'    => array(
-						'low'     => 125.40,
-						'average' => 145.20,
-						'high'    => 165.75,
-					),
-					'Algorithm Prediction' => array(
-						'low'     => 120.80,
-						'average' => 142.50,
-						'high'    => 162.30,
-					),
-					'Technical Analysis'   => array(
-						'low'     => 128.60,
-						'average' => 148.90,
-						'high'    => 168.25,
-					),
-				),
-			),
-		);
-
-		return apply_filters( 'tradepress_price_forecast_data', $forecast_data );
+		return apply_filters( 'tradepress_price_forecast_data', array() );
 	}
 
 	/**
@@ -513,9 +444,6 @@ class TradePress_Research {
 	 * @return void
 	 */
 	public function display_symbol_details( $symbol ) {
-		// Generate some demo data for the selected symbol
-		$demo_data = $this->generate_symbol_forecast_demo_data( $symbol );
-
 		?>
 		<div class="symbol-forecast-details">
 			<div class="symbol-header">
@@ -523,150 +451,11 @@ class TradePress_Research {
 				<h3><?php echo esc_html( sprintf( __( 'Price Forecast for %s', 'tradepress' ), $symbol ) ); ?></h3>
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress-research&tab=price_forecast' ) ); ?>" class="button"><?php esc_html_e( 'Back to All Forecasts', 'tradepress' ); // Escaped output per WordPress coding standards ?></a>
 			</div>
-			
-			<div class="forecast-summary">
-				<div class="forecast-card current-price">
-					<span class="label"><?php esc_html_e( 'Current Price', 'tradepress' ); // Escaped output per WordPress coding standards ?></span>
-					<span class="value">$<?php echo number_format( $demo_data['current_price'], 2 ); ?></span>
-				</div>
-				
-				<div class="forecast-range">
-					<div class="forecast-card low">
-						<span class="label"><?php esc_html_e( 'Low Forecast', 'tradepress' ); // Escaped output per WordPress coding standards ?></span>
-						<span class="value" style="<?php echo $this->get_confidence_color_style( $demo_data['confidence_low'] ); ?>">
-							$<?php echo number_format( $demo_data['forecast_low'], 2 ); ?>
-						</span>
-						<span class="confidence"><?php echo number_format( $demo_data['confidence_low'], 1 ); ?>% <?php esc_html_e( 'confidence', 'tradepress' ); // Escaped output per WordPress coding standards ?></span>
-					</div>
-					
-					<div class="forecast-card medium">
-						<span class="label"><?php esc_html_e( 'Medium Forecast', 'tradepress' ); // Escaped output per WordPress coding standards ?></span>
-						<span class="value" style="<?php echo $this->get_confidence_color_style( $demo_data['confidence_medium'] ); ?>">
-							$<?php echo number_format( $demo_data['forecast_medium'], 2 ); ?>
-						</span>
-						<span class="confidence"><?php echo number_format( $demo_data['confidence_medium'], 1 ); ?>% <?php esc_html_e( 'confidence', 'tradepress' ); // Escaped output per WordPress coding standards ?></span>
-					</div>
-					
-					<div class="forecast-card high">
-						<span class="label"><?php esc_html_e( 'High Forecast', 'tradepress' ); // Escaped output per WordPress coding standards ?></span>
-						<span class="value" style="<?php echo $this->get_confidence_color_style( $demo_data['confidence_high'] ); ?>">
-							$<?php echo number_format( $demo_data['forecast_high'], 2 ); ?>
-						</span>
-						<span class="confidence"><?php echo number_format( $demo_data['confidence_high'], 1 ); ?>% <?php esc_html_e( 'confidence', 'tradepress' ); // Escaped output per WordPress coding standards ?></span>
-					</div>
-				</div>
+			<div class="notice notice-info inline">
+				<p><?php esc_html_e( 'No imported forecast details are available for this symbol.', 'tradepress' ); ?></p>
 			</div>
-			
-			<div class="forecast-sources">
-				<h4><?php esc_html_e( 'Source Data', 'tradepress' ); // Escaped output per WordPress coding standards ?></h4>
-				<table class="wp-list-table widefat fixed striped">
-					<thead>
-						<tr>
-							<th><?php esc_html_e( 'Source', 'tradepress' ); // Escaped output per WordPress coding standards ?></th>
-							<th><?php esc_html_e( 'Low', 'tradepress' ); // Escaped output per WordPress coding standards ?></th>
-							<th><?php esc_html_e( 'Medium', 'tradepress' ); // Escaped output per WordPress coding standards ?></th>
-							<th><?php esc_html_e( 'High', 'tradepress' ); // Escaped output per WordPress coding standards ?></th>
-							<th><?php esc_html_e( 'Date', 'tradepress' ); // Escaped output per WordPress coding standards ?></th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php foreach ( $demo_data['sources'] as $source ) : ?>
-						<tr>
-							<td><?php echo esc_html( $source['name'] ); ?></td>
-							<td>$<?php echo number_format( $source['low'], 2 ); ?></td>
-							<td>$<?php echo number_format( $source['medium'], 2 ); ?></td>
-							<td>$<?php echo number_format( $source['high'], 2 ); ?></td>
-							<td><?php echo esc_html( human_time_diff( strtotime( $source['date'] ), current_time( 'timestamp' ) ) ); ?> <?php esc_html_e( 'ago', 'tradepress' ); // Escaped output per WordPress coding standards ?></td>
-						</tr>
-						<?php endforeach; ?>
-					</tbody>
-				</table>
-			</div>
-			
-			<div class="forecast-time-horizons">
-				<h4><?php esc_html_e( 'Forecasts by Time Horizon', 'tradepress' ); // Escaped output per WordPress coding standards ?></h4>
-				<div class="time-horizon-tabs">
-					<button class="time-horizon-tab active" data-horizon="1m"><?php esc_html_e( '1 Month', 'tradepress' ); // Escaped output per WordPress coding standards ?></button>
-					<button class="time-horizon-tab" data-horizon="3m"><?php esc_html_e( '3 Month', 'tradepress' ); // Escaped output per WordPress coding standards ?></button>
-					<button class="time-horizon-tab" data-horizon="6m"><?php esc_html_e( '6 Month', 'tradepress' ); // Escaped output per WordPress coding standards ?></button>
-					<button class="time-horizon-tab" data-horizon="1y"><?php esc_html_e( '1 Year', 'tradepress' ); // Escaped output per WordPress coding standards ?></button>
-				</div>
-				
-				<!-- Time horizon content panels will be populated with JavaScript -->
-				<div id="horizon-1m" class="time-horizon-content active">
-					<!-- 1 Month forecast data -->
-					<p><?php esc_html_e( 'The 1-month forecast shows a potential', 'tradepress' ); // Escaped output per WordPress coding standards ?> <?php echo ( $demo_data['forecast_medium'] > $demo_data['current_price'] ) ? 'increase' : 'decrease'; ?> 
-					<?php esc_html_e( 'of approximately', 'tradepress' ); // Escaped output per WordPress coding standards ?> <?php echo abs( number_format( ( $demo_data['forecast_medium'] - $demo_data['current_price'] ) / $demo_data['current_price'] * 100, 1 ) ); ?>%.</p>
-				</div>
-				
-				<!-- Additional horizon panels would be populated in a real implementation -->
-			</div>
-			
-
 		</div>
 		<?php
-	}
-
-	/**
-	 * Generate demo data for a specific symbol
-	 *
-	 * @param string $symbol The symbol to generate data for
-	 * @return array Demo data
-	 * @version 1.0.0
-	 */
-	private function generate_symbol_forecast_demo_data( $symbol ) {
-		// Generate random current price between $10 and $1000
-		$current_price = mt_rand( 100, 10000 ) / 10;
-
-		// Generate random confidence levels
-		$confidence_low    = mt_rand( 30, 95 );
-		$confidence_medium = mt_rand( 40, 98 );
-		$confidence_high   = mt_rand( 30, 90 );
-		$avg_confidence    = round( ( $confidence_low + $confidence_medium + $confidence_high ) / 3, 1 );
-
-		// Generate forecasts based on current price
-		$forecast_change_factor = 1 + ( mt_rand( -15, 40 ) / 100 ); // -15% to +40% change
-		$forecast_medium        = round( $current_price * $forecast_change_factor, 2 );
-		$forecast_low           = round( $forecast_medium * ( 1 - ( mt_rand( 5, 20 ) / 100 ) ), 2 ); // 5-20% below medium
-		$forecast_high          = round( $forecast_medium * ( 1 + ( mt_rand( 5, 25 ) / 100 ) ), 2 ); // 5-25% above medium
-
-		// Generate source data
-		$sources      = array();
-		$source_names = array(
-			'Financial Analysts Consensus',
-			'Technical Analysis',
-			'Algorithm Prediction',
-			'Market Sentiment Index',
-			'Historical Pattern Analysis',
-		);
-
-		foreach ( $source_names as $name ) {
-			// Random variation from the forecast values
-			$variation = mt_rand( 90, 110 ) / 100;
-			$days_ago  = mt_rand( 0, 7 );
-
-			$sources[] = array(
-				'name'   => $name,
-				'low'    => round( $forecast_low * $variation, 2 ),
-				'medium' => round( $forecast_medium * $variation, 2 ),
-				'high'   => round( $forecast_high * $variation, 2 ),
-				'date'   => date( 'Y-m-d H:i:s', strtotime( "-$days_ago days" ) ),
-			);
-		}
-
-		return array(
-			'symbol'            => $symbol,
-			'current_price'     => $current_price,
-			'forecast_low'      => $forecast_low,
-			'forecast_medium'   => $forecast_medium,
-			'forecast_high'     => $forecast_high,
-			'confidence_low'    => $confidence_low,
-			'confidence_medium' => $confidence_medium,
-			'confidence_high'   => $confidence_high,
-			'confidence'        => $avg_confidence,
-			'sources'           => $sources,
-			'last_updated'      => date( 'Y-m-d H:i:s', strtotime( '-' . mt_rand( 0, 14 ) . ' days' ) ),
-		);
 	}
 
 	/**

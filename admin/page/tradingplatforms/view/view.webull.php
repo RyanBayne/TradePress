@@ -22,13 +22,13 @@ $provider = TradePress_API_Directory::get_provider( 'webull' );
 
 // Status data for the WeBull API
 $local_status = array(
-	'status'  => 'active', // or 'inactive'
-	'message' => 'Properly configured and working',
+	'status'  => 'unknown',
+	'message' => 'Not checked',
 );
 
 $service_status = array(
-	'status'       => 'operational', // or 'disruption', 'outage', 'maintenance'
-	'message'      => 'All systems operational',
+	'status'       => 'unknown',
+	'message'      => 'Not checked',
 	'last_updated' => '2025-04-13 09:30:45',
 );
 
@@ -42,16 +42,16 @@ $rate_limits = array(
 	'reset_time'   => '2025-04-14 00:00:00',
 );
 
-// Generate usage data for endpoints
+// Build endpoint metadata from declared provider endpoints
 $endpoints = array();
 foreach ( $real_endpoints as $key => $endpoint ) {
-	$demo_status = 'active'; // 90% chance of being active
+	$endpoint_status = 'unknown';
 	$endpoints[] = array(
 		'name'        => ucfirst( str_replace( '_', ' ', $key ) ),
 		'endpoint'    => $endpoint['endpoint'],
 		'description' => $endpoint['description'],
 		'usage_count' => 0,
-		'status'      => $demo_status,
+		'status'      => $endpoint_status,
 		'method'      => isset( $endpoint['method'] ) ? $endpoint['method'] : 'GET',
 	);
 }

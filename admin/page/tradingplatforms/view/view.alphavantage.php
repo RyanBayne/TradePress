@@ -42,13 +42,13 @@ if ( empty( $api_key ) ) {
 	$connection_test = $api->test_connection();
 	$local_status    = array(
 		'status'  => is_wp_error( $connection_test ) ? 'error' : 'active',
-		'message' => is_wp_error( $connection_test ) ? $connection_test->get_error_message() : 'Connected and authenticated',
+		'message' => is_wp_error( $connection_test ) ? $connection_test->get_error_message() : 'Connection test passed',
 	);
 }
 
 $service_status = array(
-	'status'       => 'operational', // Alpha Vantage doesn't have a public status API, so we assume operational
-	'message'      => 'All systems operational',
+	'status'       => 'unknown', // Status is not checked until a live status source is implemented
+	'message'      => 'Not checked',
 	'last_updated' => date( 'Y-m-d H:i:s' ),
 );
 
@@ -70,7 +70,7 @@ foreach ( $real_endpoints as $key => $endpoint ) {
 			'endpoint'    => isset( $endpoint['function'] ) ? $endpoint['function'] : '',
 			'description' => isset( $endpoint['description'] ) ? $endpoint['description'] : '',
 			'usage_count' => get_transient( 'alphavantage_endpoint_' . $key . '_count' ) ?: 0,
-			'status'      => 'active', // We assume all endpoints are active
+			'status'      => 'unknown',
 			'method'      => 'GET',
 			'key'         => $key,
 		);

@@ -1,226 +1,90 @@
 <?php
 /**
- * TradePress Analysis - Support & Resistance tab
+ * TradePress Analysis - Support & Resistance tab.
  *
  * @package TradePress/Admin/Analysis
- * @version 1.0.0
- * @created 2024-04-26 20:30:00
+ * @version 1.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit;
 }
 
-// Make sure the helper functions are loaded
 if ( ! function_exists( 'tradepress_get_tab_mode' ) ) {
 	require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/functions/function.tradepress-features-helpers.php';
 }
 
-// Get the tab mode information
-$page_id  = 'analysis';
-$tab_id   = 'support_resistance';
-$tab_mode = tradepress_get_tab_mode( $page_id, $tab_id );
+$tab_mode = tradepress_get_tab_mode( 'analysis', 'support_resistance' );
 
-// Check if tab is enabled
 if ( ! $tab_mode['enabled'] ) {
-	echo '<div class="notice notice-warning"><p>' .
-		esc_html__( 'This tab is currently disabled in Features settings.', 'tradepress' ) .
-		'</p></div>';
+	echo '<div class="notice notice-warning"><p>' . esc_html__( 'This tab is currently disabled in Features settings.', 'tradepress' ) . '</p></div>';
 	return;
 }
 
-// Show demo mode notice if applicable
-if ( $tab_mode['mode'] === 'demo' ) {
-	echo '<div class="demo-mode-notice">';
-	echo '<div class="demo-mode-icon dashicons dashicons-warning"></div>';
-	echo '<div class="demo-mode-content">';
-	echo '<h4>' . esc_html__( 'Demo Mode', 'tradepress' ) . '</h4>';
-	echo '<p>' . esc_html__( 'This tab is running in demo mode with sample data. In live mode, this will identify actual support and resistance levels for your symbols.', 'tradepress' ) . '</p>';
-	echo '</div>';
-	echo '</div>';
-}
-
-// Include the unified support/resistance directive class.
 if ( ! class_exists( 'SupportResistanceLevels' ) ) {
 	require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/directives/support-resistance-levels.php';
 }
 
-// Process form submission if symbol is provided
 $symbol      = isset( $_POST['symbol'] ) ? sanitize_text_field( wp_unslash( $_POST['symbol'] ) ) : '';
 $levels_type = isset( $_POST['levels_type'] ) ? sanitize_text_field( wp_unslash( $_POST['levels_type'] ) ) : 'both';
 $results     = array();
-$has_results = false;
+$notice      = '';
 
 if ( ! empty( $symbol ) ) {
-	$has_results = true;
-
-	// In demo mode, use sample data
-	if ( $tab_mode['mode'] === 'demo' ) {
-		$results = get_demo_level_results( $symbol, $levels_type );
+	if ( ! class_exists( 'TradePress_Financial_API_Service' ) || ! class_exists( 'SupportResistanceLevels' ) ) {
+		$notice = __( 'The support and resistance analysis engine is not available yet. Results will appear here once live OHLC data import is stable.', 'tradepress' );
 	} else {
-		// In live mode, use the unified support/resistance directive when available.
-		if ( class_exists( 'TradePress_Financial_API_Service' ) && class_exists( 'SupportResistanceLevels' ) ) {
-			$api_service  = new TradePress_Financial_API_Service();
-			$sr_analyzer  = new SupportResistanceLevels( $symbol, $api_service );
-			$zones_result = $sr_analyzer->find_support_resistance_zones();
+		$api_service  = new TradePress_Financial_API_Service();
+		$sr_analyzer  = new SupportResistanceLevels( $symbol, $api_service );
+		$zones_result = $sr_analyzer->find_support_resistance_zones();
 
-			if ( is_array( $zones_result ) ) {
+		if ( is_array( $zones_result ) ) {
+			if ( 'resistance' === $levels_type || 'both' === $levels_type ) {
 				$results['resistance'] = array(
 					'current_price'     => isset( $zones_result['current_price'] ) ? (float) $zones_result['current_price'] : 0,
 					'highly_overlapped' => isset( $zones_result['resistance_zones']['highly_overlapped'] ) ? $zones_result['resistance_zones']['highly_overlapped'] : array(),
 					'well_overlapped'   => isset( $zones_result['resistance_zones']['well_overlapped'] ) ? $zones_result['resistance_zones']['well_overlapped'] : array(),
 				);
-				$results['support']    = array(
+			}
+
+			if ( 'support' === $levels_type || 'both' === $levels_type ) {
+				$results['support'] = array(
 					'current_price'     => isset( $zones_result['current_price'] ) ? (float) $zones_result['current_price'] : 0,
 					'highly_overlapped' => isset( $zones_result['support_zones']['highly_overlapped'] ) ? $zones_result['support_zones']['highly_overlapped'] : array(),
 					'well_overlapped'   => isset( $zones_result['support_zones']['well_overlapped'] ) ? $zones_result['support_zones']['well_overlapped'] : array(),
 				);
-			} else {
-				$results = get_demo_level_results( $symbol, $levels_type );
 			}
-		} else {
-			// Required analysis classes are not loaded — do not fall back to demo data.
-			$has_results = false;
-			echo '<div class="notice notice-warning"><p><strong>' . esc_html__( 'In Development', 'tradepress' ) . '</strong> — ' . esc_html__( 'The support and resistance analysis engine is not yet available. It will be enabled once OHLC data import is stable.', 'tradepress' ) . '</p></div>';
+		}
+
+		if ( empty( $results ) ) {
+			$notice = __( 'No support or resistance levels were found for that symbol using available live data.', 'tradepress' );
 		}
 	}
 }
 
-/**
- * Get demo results for support and resistance levels
- *
- * @param string $symbol The symbol to analyze
- * @param string $levels_type Type of levels to return (resistance, support, or both)
- * @return array Sample results
- * @version 1.0.0
- */
-function get_demo_level_results( $symbol, $levels_type ) {
-	$current_price = 0;
+if ( ! function_exists( 'tradepress_render_analysis_level_zones' ) ) {
+	function tradepress_render_analysis_level_zones( $zones ) {
+		if ( empty( $zones ) ) {
+			echo '<p>' . esc_html__( 'No zones found.', 'tradepress' ) . '</p>';
+			return;
+		}
 
-	// Set different price points based on symbol for demo variety
-	switch ( strtoupper( $symbol ) ) {
-		case 'AAPL':
-			$current_price = 186.34;
-			break;
-		case 'MSFT':
-			$current_price = 334.57;
-			break;
-		case 'NVDA':
-			$current_price = 925.73;
-			break;
-		case 'TSLA':
-			$current_price = 184.47;
-			break;
-		case 'AMZN':
-			$current_price = 178.12;
-			break;
-		case 'GOOGL':
-			$current_price = 167.83;
-			break;
-		default:
-			$current_price = 100.00 + ( wp_rand( 0, 50000 ) / 100 );
+		echo '<div class="levels-grid">';
+		foreach ( $zones as $zone ) {
+			$methods = isset( $zone['methods'] ) && is_array( $zone['methods'] ) ? $zone['methods'] : array();
+			echo '<div class="level-card">';
+			echo '<div class="price-range"><span class="zone-label">' . esc_html__( 'Zone:', 'tradepress' ) . '</span> ';
+			echo '<span class="price-values">$' . esc_html( number_format( (float) $zone['min_price'], 2 ) ) . ' - $' . esc_html( number_format( (float) $zone['max_price'], 2 ) ) . '</span></div>';
+			echo '<div class="confirmation"><span class="confirmation-label">' . esc_html__( 'Confirmed by:', 'tradepress' ) . '</span> ';
+			echo '<span class="confirmation-count">' . esc_html( count( $methods ) ) . ' ' . esc_html__( 'methods', 'tradepress' ) . '</span></div>';
+			echo '</div>';
+		}
+		echo '</div>';
 	}
-
-	$results = array();
-
-	// Add resistance levels if requested
-	if ( $levels_type === 'resistance' || $levels_type === 'both' ) {
-		$resistance_base = $current_price * 1.05; // Base resistance 5% above current price
-
-		$results['resistance'] = array(
-			'symbol'            => strtoupper( $symbol ),
-			'current_price'     => $current_price,
-			'highly_overlapped' => array(
-				array(
-					'min_price'    => round( $resistance_base * 1.02, 2 ),
-					'max_price'    => round( $resistance_base * 1.03, 2 ),
-					'method_count' => 4,
-					'methods'      => array( 'swing_highs', 'fibonacci', 'pivot_points', 'psychological' ),
-				),
-				array(
-					'min_price'    => round( $resistance_base * 1.10, 2 ),
-					'max_price'    => round( $resistance_base * 1.12, 2 ),
-					'method_count' => 3,
-					'methods'      => array( 'swing_highs', 'trendline_peaks', 'psychological' ),
-				),
-			),
-			'well_overlapped'   => array(
-				array(
-					'min_price'    => round( $resistance_base * 1.06, 2 ),
-					'max_price'    => round( $resistance_base * 1.07, 2 ),
-					'method_count' => 2,
-					'methods'      => array( 'fibonacci', 'moving_averages' ),
-				),
-				array(
-					'min_price'    => round( $resistance_base * 1.15, 2 ),
-					'max_price'    => round( $resistance_base * 1.16, 2 ),
-					'method_count' => 2,
-					'methods'      => array( 'pivot_points', 'psychological' ),
-				),
-			),
-			'all_levels'        => array(
-				'swing_highs'     => array( round( $resistance_base * 1.02, 2 ), round( $resistance_base * 1.11, 2 ) ),
-				'trendline_peaks' => array( round( $resistance_base * 1.11, 2 ) ),
-				'fibonacci'       => array( round( $resistance_base * 1.02, 2 ), round( $resistance_base * 1.06, 2 ) ),
-				'pivot_points'    => array( round( $resistance_base * 1.03, 2 ), round( $resistance_base * 1.15, 2 ) ),
-				'psychological'   => array( round( $resistance_base * 1.03, 2 ), round( $resistance_base * 1.10, 2 ), round( $resistance_base * 1.16, 2 ) ),
-				'moving_averages' => array( round( $resistance_base * 1.07, 2 ) ),
-			),
-		);
-	}
-
-	// Add support levels if requested
-	if ( $levels_type === 'support' || $levels_type === 'both' ) {
-		$support_base = $current_price * 0.95; // Base support 5% below current price
-
-		$results['support'] = array(
-			'symbol'            => strtoupper( $symbol ),
-			'current_price'     => $current_price,
-			'highly_overlapped' => array(
-				array(
-					'min_price'    => round( $support_base * 0.97, 2 ),
-					'max_price'    => round( $support_base * 0.98, 2 ),
-					'method_count' => 4,
-					'methods'      => array( 'swing_lows', 'fibonacci', 'pivot_points', 'psychological' ),
-				),
-				array(
-					'min_price'    => round( $support_base * 0.90, 2 ),
-					'max_price'    => round( $support_base * 0.91, 2 ),
-					'method_count' => 3,
-					'methods'      => array( 'swing_lows', 'trendline_bottoms', 'psychological' ),
-				),
-			),
-			'well_overlapped'   => array(
-				array(
-					'min_price'    => round( $support_base * 0.94, 2 ),
-					'max_price'    => round( $support_base * 0.95, 2 ),
-					'method_count' => 2,
-					'methods'      => array( 'fibonacci', 'moving_averages' ),
-				),
-				array(
-					'min_price'    => round( $support_base * 0.85, 2 ),
-					'max_price'    => round( $support_base * 0.86, 2 ),
-					'method_count' => 2,
-					'methods'      => array( 'pivot_points', 'psychological' ),
-				),
-			),
-			'all_levels'        => array(
-				'swing_lows'        => array( round( $support_base * 0.98, 2 ), round( $support_base * 0.90, 2 ) ),
-				'trendline_bottoms' => array( round( $support_base * 0.91, 2 ) ),
-				'fibonacci'         => array( round( $support_base * 0.97, 2 ), round( $support_base * 0.94, 2 ) ),
-				'pivot_points'      => array( round( $support_base * 0.98, 2 ), round( $support_base * 0.85, 2 ) ),
-				'psychological'     => array( round( $support_base * 0.97, 2 ), round( $support_base * 0.90, 2 ), round( $support_base * 0.86, 2 ) ),
-				'moving_averages'   => array( round( $support_base * 0.95, 2 ) ),
-			),
-		);
-	}
-
-	return $results;
 }
-
 ?>
 
-<div class="support-resistance-container">    
+<div class="support-resistance-container">
 	<div class="support-resistance-form-container">
 		<form method="post" action="" class="support-resistance-form">
 			<div class="form-row">
@@ -240,223 +104,34 @@ function get_demo_level_results( $symbol, $levels_type ) {
 			</div>
 		</form>
 	</div>
-	
-	<?php if ( $has_results ) : ?>
+
+	<?php if ( ! empty( $notice ) ) : ?>
+		<div class="notice notice-info"><p><?php echo esc_html( $notice ); ?></p></div>
+	<?php endif; ?>
+
+	<?php if ( ! empty( $results ) ) : ?>
 		<div class="support-resistance-results">
-			<?php /* translators: %s: stock ticker symbol */ ?>
 			<h3><?php echo esc_html( sprintf( __( 'Results for %s', 'tradepress' ), strtoupper( $symbol ) ) ); ?></h3>
-			
-			<?php if ( isset( $results['resistance'] ) ) : ?>
-				<div class="resistance-results">
-					<h4><?php esc_html_e( 'Resistance Levels', 'tradepress' ); ?></h4>
-					
+
+			<?php foreach ( $results as $type => $result ) : ?>
+				<div class="<?php echo esc_attr( $type ); ?>-results">
+					<h4><?php echo esc_html( 'resistance' === $type ? __( 'Resistance Levels', 'tradepress' ) : __( 'Support Levels', 'tradepress' ) ); ?></h4>
 					<div class="current-price">
-						<strong><?php esc_html_e( 'Current Price:', 'tradepress' ); ?></strong> 
-						$<?php echo number_format( $results['resistance']['current_price'], 2 ); ?>
+						<strong><?php esc_html_e( 'Current Price:', 'tradepress' ); ?></strong>
+						$<?php echo esc_html( number_format( (float) $result['current_price'], 2 ) ); ?>
 					</div>
-					
-					<?php if ( ! empty( $results['resistance']['highly_overlapped'] ) ) : ?>
-						<div class="levels-section">
-							<h5><?php esc_html_e( 'Strong Resistance Zones', 'tradepress' ); ?></h5>
-							<p class="description"><?php esc_html_e( 'These zones have significant agreement across multiple technical methods.', 'tradepress' ); ?></p>
-							
-							<div class="levels-grid">
-								<?php foreach ( $results['resistance']['highly_overlapped'] as $zone ) : ?>
-									<div class="level-card strong-zone">
-										<div class="price-range">
-											<span class="zone-label"><?php esc_html_e( 'Zone:', 'tradepress' ); ?></span>
-											<span class="price-values">$<?php echo number_format( $zone['min_price'], 2 ); ?> - $<?php echo number_format( $zone['max_price'], 2 ); ?></span>
-										</div>
-										<div class="confirmation">
-											<span class="confirmation-label"><?php esc_html_e( 'Confirmed by:', 'tradepress' ); ?></span>
-											<span class="confirmation-count"><?php echo count( $zone['methods'] ); ?> methods</span>
-										</div>
-										<div class="zone-methods">
-											<?php foreach ( $zone['methods'] as $method ) : ?>
-												<span class="method-badge"><?php echo esc_html( ucwords( str_replace( '_', ' ', $method ) ) ); ?></span>
-											<?php endforeach; ?>
-										</div>
-									</div>
-								<?php endforeach; ?>
-							</div>
-						</div>
-					<?php endif; ?>
-					
-					<?php if ( ! empty( $results['resistance']['well_overlapped'] ) ) : ?>
-						<div class="levels-section">
-							<h5><?php esc_html_e( 'Moderate Resistance Zones', 'tradepress' ); ?></h5>
-							<p class="description"><?php esc_html_e( 'These zones have some agreement between different technical methods.', 'tradepress' ); ?></p>
-							
-							<div class="levels-grid">
-								<?php foreach ( $results['resistance']['well_overlapped'] as $zone ) : ?>
-									<div class="level-card moderate-zone">
-										<div class="price-range">
-											<span class="zone-label"><?php esc_html_e( 'Zone:', 'tradepress' ); ?></span>
-											<span class="price-values">$<?php echo number_format( $zone['min_price'], 2 ); ?> - $<?php echo number_format( $zone['max_price'], 2 ); ?></span>
-										</div>
-										<div class="confirmation">
-											<span class="confirmation-label"><?php esc_html_e( 'Confirmed by:', 'tradepress' ); ?></span>
-											<span class="confirmation-count"><?php echo count( $zone['methods'] ); ?> methods</span>
-										</div>
-										<div class="zone-methods">
-											<?php foreach ( $zone['methods'] as $method ) : ?>
-												<span class="method-badge"><?php echo esc_html( ucwords( str_replace( '_', ' ', $method ) ) ); ?></span>
-											<?php endforeach; ?>
-										</div>
-									</div>
-								<?php endforeach; ?>
-							</div>
-						</div>
-					<?php endif; ?>
-					
-					<?php if ( isset( $results['resistance']['all_levels'] ) ) : ?>
-						<div class="levels-section levels-detail">
-							<button type="button" class="button toggle-details"><?php esc_html_e( 'Show All Individual Levels', 'tradepress' ); ?></button>
-							<div class="detailed-levels" style="display: none;">
-								<h5><?php esc_html_e( 'All Individual Resistance Levels', 'tradepress' ); ?></h5>
-								<table class="levels-table">
-									<thead>
-										<tr>
-											<th><?php esc_html_e( 'Method', 'tradepress' ); ?></th>
-											<th><?php esc_html_e( 'Price Levels', 'tradepress' ); ?></th>
-										</tr>
-									</thead>
-									<tbody>
-										<?php foreach ( $results['resistance']['all_levels'] as $method => $levels ) : ?>
-											<tr>
-												<td><?php echo esc_html( ucwords( str_replace( '_', ' ', $method ) ) ); ?></td>
-												<td>
-													<?php
-													$formatted_levels = array_map(
-														function ( $level ) {
-															return '$' . number_format( $level, 2 );
-														},
-														$levels
-													);
-													echo implode( ', ', $formatted_levels );
-													?>
-												</td>
-											</tr>
-										<?php endforeach; ?>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					<?php endif; ?>
-				</div>
-			<?php endif; ?>
-			
-			<?php if ( isset( $results['support'] ) ) : ?>
-				<div class="support-results">
-					<h4><?php esc_html_e( 'Support Levels', 'tradepress' ); ?></h4>
-					
-					<div class="current-price">
-						<strong><?php esc_html_e( 'Current Price:', 'tradepress' ); ?></strong> 
-						$<?php echo number_format( $results['support']['current_price'], 2 ); ?>
+
+					<div class="levels-section">
+						<h5><?php esc_html_e( 'Strong Zones', 'tradepress' ); ?></h5>
+						<?php tradepress_render_analysis_level_zones( $result['highly_overlapped'] ); ?>
 					</div>
-					
-					<?php if ( ! empty( $results['support']['highly_overlapped'] ) ) : ?>
-						<div class="levels-section">
-							<h5><?php esc_html_e( 'Strong Support Zones', 'tradepress' ); ?></h5>
-							<p class="description"><?php esc_html_e( 'These zones have significant agreement across multiple technical methods.', 'tradepress' ); ?></p>
-							
-							<div class="levels-grid">
-								<?php foreach ( $results['support']['highly_overlapped'] as $zone ) : ?>
-									<div class="level-card strong-zone support-zone">
-										<div class="price-range">
-											<span class="zone-label"><?php esc_html_e( 'Zone:', 'tradepress' ); ?></span>
-											<span class="price-values">$<?php echo number_format( $zone['min_price'], 2 ); ?> - $<?php echo number_format( $zone['max_price'], 2 ); ?></span>
-										</div>
-										<div class="confirmation">
-											<span class="confirmation-label"><?php esc_html_e( 'Confirmed by:', 'tradepress' ); ?></span>
-											<span class="confirmation-count"><?php echo count( $zone['methods'] ); ?> methods</span>
-										</div>
-										<div class="zone-methods">
-											<?php foreach ( $zone['methods'] as $method ) : ?>
-												<span class="method-badge"><?php echo esc_html( ucwords( str_replace( '_', ' ', $method ) ) ); ?></span>
-											<?php endforeach; ?>
-										</div>
-									</div>
-								<?php endforeach; ?>
-							</div>
-						</div>
-					<?php endif; ?>
-					
-					<?php if ( ! empty( $results['support']['well_overlapped'] ) ) : ?>
-						<div class="levels-section">
-							<h5><?php esc_html_e( 'Moderate Support Zones', 'tradepress' ); ?></h5>
-							<p class="description"><?php esc_html_e( 'These zones have some agreement between different technical methods.', 'tradepress' ); ?></p>
-							
-							<div class="levels-grid">
-								<?php foreach ( $results['support']['well_overlapped'] as $zone ) : ?>
-									<div class="level-card moderate-zone support-zone">
-										<div class="price-range">
-											<span class="zone-label"><?php esc_html_e( 'Zone:', 'tradepress' ); ?></span>
-											<span class="price-values">$<?php echo number_format( $zone['min_price'], 2 ); ?> - $<?php echo number_format( $zone['max_price'], 2 ); ?></span>
-										</div>
-										<div class="confirmation">
-											<span class="confirmation-label"><?php esc_html_e( 'Confirmed by:', 'tradepress' ); ?></span>
-											<span class="confirmation-count"><?php echo count( $zone['methods'] ); ?> methods</span>
-										</div>
-										<div class="zone-methods">
-											<?php foreach ( $zone['methods'] as $method ) : ?>
-												<span class="method-badge"><?php echo esc_html( ucwords( str_replace( '_', ' ', $method ) ) ); ?></span>
-											<?php endforeach; ?>
-										</div>
-									</div>
-								<?php endforeach; ?>
-							</div>
-						</div>
-					<?php endif; ?>
-					
-					<?php if ( isset( $results['support']['all_levels'] ) ) : ?>
-						<div class="levels-section levels-detail">
-							<button type="button" class="button toggle-details"><?php esc_html_e( 'Show All Individual Levels', 'tradepress' ); ?></button>
-							<div class="detailed-levels" style="display: none;">
-								<h5><?php esc_html_e( 'All Individual Support Levels', 'tradepress' ); ?></h5>
-								<table class="levels-table">
-									<thead>
-										<tr>
-											<th><?php esc_html_e( 'Method', 'tradepress' ); ?></th>
-											<th><?php esc_html_e( 'Price Levels', 'tradepress' ); ?></th>
-										</tr>
-									</thead>
-									<tbody>
-										<?php foreach ( $results['support']['all_levels'] as $method => $levels ) : ?>
-											<tr>
-												<td><?php echo esc_html( ucwords( str_replace( '_', ' ', $method ) ) ); ?></td>
-												<td>
-													<?php
-													$formatted_levels = array_map(
-														function ( $level ) {
-															return '$' . number_format( $level, 2 );
-														},
-														$levels
-													);
-													echo implode( ', ', $formatted_levels );
-													?>
-												</td>
-											</tr>
-										<?php endforeach; ?>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					<?php endif; ?>
+
+					<div class="levels-section">
+						<h5><?php esc_html_e( 'Moderate Zones', 'tradepress' ); ?></h5>
+						<?php tradepress_render_analysis_level_zones( $result['well_overlapped'] ); ?>
+					</div>
 				</div>
-			<?php endif; ?>
-			
-			<div class="levels-footer">
-				<div class="levels-notes">
-					<h4><?php esc_html_e( 'How to Use These Levels', 'tradepress' ); ?></h4>
-					<ul>
-						<li><?php esc_html_e( 'Strong zones (confirmed by 3+ methods) are more likely to act as significant barriers.', 'tradepress' ); ?></li>
-						<li><?php esc_html_e( 'Use resistance levels as potential exit points for long positions or entry points for short positions.', 'tradepress' ); ?></li>
-						<li><?php esc_html_e( 'Use support levels as potential entry points for long positions or exit points for short positions.', 'tradepress' ); ?></li>
-						<li><?php esc_html_e( 'When a level breaks, it often becomes the opposite type (broken resistance becomes support, broken support becomes resistance).', 'tradepress' ); ?></li>
-					</ul>
-				</div>
-			</div>
+			<?php endforeach; ?>
 		</div>
 	<?php endif; ?>
 </div>

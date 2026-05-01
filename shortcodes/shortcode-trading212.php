@@ -112,14 +112,6 @@ class TradePress_Shortcode_Trading212 {
 	 * @version 1.0.0
 	 */
 	public function shortcode_api_status( $atts ) {
-		$atts = shortcode_atts(
-			array(
-				'demo' => 'yes', // Use demo data if API key is not available
-			),
-			$atts,
-			'trading212_api_status'
-		);
-
 		// Define all endpoints to display
 		$endpoints = array(
 			'account_info' => 'Account Information',
@@ -135,28 +127,13 @@ class TradePress_Shortcode_Trading212 {
 		ob_start();
 
 		echo '<div class="tradepress-trading212-status">';
-		echo '<h2>' . esc_html__( 'Trading212 API Status & Sample Data', 'tradepress' ) . '</h2>';
-
-		$api_settings = get_option( 'tradepress_api_settings', array() );
-		$api_key      = isset( $api_settings['trading212_api_key'] ) ? $api_settings['trading212_api_key'] : '';
-
-		if ( empty( $api_key ) && $atts['demo'] !== 'yes' ) {
-			echo '<div class="tradepress-trading212-notice tradepress-notice-error">';
-			echo esc_html__( 'Trading212 API key is not configured. Please add your API key in the plugin settings or enable demo mode.', 'tradepress' );
-			echo '</div>';
-			echo '</div>'; // Close main div
-			return ob_get_clean();
-		}
+		echo '<h2>' . esc_html__( 'Trading212 API Status', 'tradepress' ) . '</h2>';
 
 		echo '<div class="tradepress-trading212-notice tradepress-notice-info">';
-		if ( empty( $api_key ) ) {
-			echo esc_html__( 'Using demo data mode. The data shown below is sample data, not real Trading212 data.', 'tradepress' );
-		} else {
-			echo esc_html__( 'Using live Trading212 API data.', 'tradepress' );
-		}
+		echo esc_html__( 'Showing data returned by the configured Trading212 API connection.', 'tradepress' );
 		echo '</div>';
 
-		// Display available endpoints with sample data
+		// Display available endpoints with configured API data.
 		echo '<div class="tradepress-trading212-endpoints">';
 
 		foreach ( $endpoints as $endpoint => $label ) {

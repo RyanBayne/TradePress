@@ -22,13 +22,13 @@ if ( class_exists( 'TradePress_Trading212_Endpoints' ) ) {
 
 // Status data for the Trading212 API
 $local_status = array(
-	'status'  => 'active', // or 'inactive'
-	'message' => 'Properly configured and working',
+	'status'  => 'unknown',
+	'message' => 'Not checked',
 );
 
 $service_status = array(
-	'status'       => 'operational', // or 'disruption', 'outage', 'maintenance'
-	'message'      => 'All systems operational',
+	'status'       => 'unknown',
+	'message'      => 'Not checked',
 	'last_updated' => '2025-04-13 09:30:45',
 );
 
@@ -43,7 +43,7 @@ $rate_limits = array(
 	'reset_time'   => date( 'Y-m-d H:i:s', strtotime( '+1 day' ) ),
 );
 
-// Generate usage data for endpoints
+// Build endpoint metadata from declared provider endpoints
 $endpoints = array();
 if ( ! empty( $real_endpoints ) ) {
 	foreach ( $real_endpoints as $key => $endpoint ) {
@@ -51,38 +51,14 @@ if ( ! empty( $real_endpoints ) ) {
 			continue; // Skip utility methods
 		}
 
-		$demo_status = 'active'; // 90% chance of being active
+		$endpoint_status = 'unknown';
 		$endpoints[] = array(
 			'name'        => ucfirst( str_replace( '_', ' ', $key ) ),
 			'endpoint'    => isset( $endpoint['endpoint'] ) ? $endpoint['endpoint'] : '',
 			'description' => isset( $endpoint['description'] ) ? $endpoint['description'] : '',
 			'usage_count' => 0,
-			'status'      => $demo_status,
+			'status'      => $endpoint_status,
 			'method'      => isset( $endpoint['method'] ) ? $endpoint['method'] : 'GET',
-			'key'         => $key,
-		);
-	}
-} else {
-	// Fallback dummy data if the endpoints class isn't fully implemented yet
-	$dummy_endpoints = array(
-		'account_info'  => 'Get account information and balance',
-		'portfolio'     => 'Get portfolio positions and performance',
-		'watchlists'    => 'Manage personal watchlists',
-		'market_quotes' => 'Get real-time quotes for instruments',
-		'instruments'   => 'Get available trading instruments',
-		'orders'        => 'Manage and view orders',
-		'transactions'  => 'View transaction history',
-		'candles'       => 'Get historical price data',
-	);
-
-	foreach ( $dummy_endpoints as $key => $description ) {
-		$endpoints[] = array(
-			'name'        => ucfirst( str_replace( '_', ' ', $key ) ),
-			'endpoint'    => '/api/v1/' . $key,
-			'description' => $description,
-			'usage_count' => 0,
-			'status'      => 'active',
-			'method'      => 'GET',
 			'key'         => $key,
 		);
 	}

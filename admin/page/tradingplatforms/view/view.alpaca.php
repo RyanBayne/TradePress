@@ -23,8 +23,8 @@ $real_endpoints = TradePress_Alpaca_Endpoints::get_real_endpoints();
 $local_status = get_real_api_local_status( $api_id );
 
 $service_status = array(
-	'status'       => 'operational', // or 'disruption', 'outage', 'maintenance'
-	'message'      => 'All systems operational',
+	'status'       => 'unknown',
+	'message'      => 'Not checked',
 	'last_updated' => date( 'Y-m-d H:i:s' ),
 );
 
@@ -45,7 +45,7 @@ foreach ( $real_endpoints as $key => $endpoint ) {
 		'endpoint'    => $endpoint['endpoint'],
 		'description' => $endpoint['description'],
 		'usage_count' => 0, // Reset usage counts as they'll be tracked properly
-		'status'      => 'active', // All endpoints are active
+		'status'      => 'unknown',
 		'method'      => isset( $endpoint['method'] ) ? $endpoint['method'] : 'GET',
 		'key'         => $key, // Save the original endpoint key for accessing example responses
 	);

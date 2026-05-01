@@ -411,13 +411,9 @@ class TradePress_TradingView_API {
 	 * @version 1.0.0
 	 */
 	private function make_request( $endpoint, $method = 'GET', $params = array() ) {
-		// No credentials — return an error; do not expose demo data to callers.
+		// No credentials: return an error instead of synthetic data.
 		if ( empty( $this->api_key ) ) {
 			return new WP_Error( 'api_key_required', __( 'A TradingView API key is required. Please configure your API credentials.', 'tradepress' ) );
-		}
-
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_data( $endpoint );
 		}
 
 		$url = $this->api_base_url . '/' . $endpoint;
@@ -465,70 +461,6 @@ class TradePress_TradingView_API {
 		}
 
 		return $data;
-	}
-
-	/**
-	 * Get demo data for endpoints
-	 *
-	 * @param string $endpoint API endpoint
-	 * @return array Sample data
-	 * @version 1.0.0
-	 */
-	private function get_demo_data( $endpoint ) {
-		switch ( $endpoint ) {
-			case 'quotes':
-				return array(
-					'AAPL' => array(
-						'last'           => 179.92,
-						'change'         => 1.07,
-						'change_percent' => 0.6,
-						'volume'         => 46378900,
-						'previous_close' => 178.85,
-						'open'           => 179.25,
-						'high'           => 180.45,
-						'low'            => 178.76,
-					),
-				);
-
-			case 'chart/data':
-				return array(
-					's' => 'ok',
-					't' => array( time() - 172800, time() - 86400, time() ),
-					'o' => array( 177.92, 179.25, 178.08 ),
-					'h' => array( 179.25, 180.45, 179.43 ),
-					'l' => array( 177.45, 178.76, 177.85 ),
-					'c' => array( 178.10, 179.92, 178.85 ),
-					'v' => array( 43265400, 46378900, 45870100 ),
-				);
-
-			case 'symbols/search':
-				return array(
-					array(
-						'symbol'      => 'AAPL',
-						'full_name'   => 'NASDAQ:AAPL',
-						'description' => 'APPLE INC',
-						'exchange'    => 'NASDAQ',
-						'type'        => 'stock',
-					),
-				);
-
-			case 'news':
-				return array(
-					'data' => array(
-						array(
-							'id'           => '12345',
-							'title'        => 'Apple Reports Strong Quarterly Results',
-							'published_at' => date( 'Y-m-d\TH:i:s\Z' ),
-							'source'       => 'TradingView',
-							'summary'      => 'Apple Inc. reported strong quarterly results...',
-							'tags'         => array( 'AAPL', 'earnings' ),
-						),
-					),
-				);
-
-			default:
-				return array();
-		}
 	}
 
 	/**

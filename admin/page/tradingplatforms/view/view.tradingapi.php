@@ -44,8 +44,6 @@ $auth_methods = array(
 // Get selected auth method
 $selected_auth = get_option( 'tradepress_general_api_auth_method', 'key' );
 
-// Check if demo mode is active
-$is_demo = false;
 ?>
 
 <div class="wrap tradepress-api-settings">

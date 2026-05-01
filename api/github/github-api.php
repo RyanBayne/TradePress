@@ -167,11 +167,6 @@ class TRADEPRESS_GITHUB_API {
 	 * @version 1.0.0
 	 */
 	public function get_issues( $owner, $repo, $params = array(), $force_refresh = false ) {
-		// Check if we're in demo mode
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_issues( $owner, $repo );
-		}
-
 		// Generate cache key
 		$cache_key = $this->get_cache_key( 'issues', $owner, $repo, $params );
 
@@ -211,11 +206,6 @@ class TRADEPRESS_GITHUB_API {
 	 * @version 1.0.0
 	 */
 	public function get_issue( $owner, $repo, $issue_number, $force_refresh = false ) {
-		// Check if we're in demo mode
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_issue( $owner, $repo, $issue_number );
-		}
-
 		// Generate cache key
 		$cache_key = $this->get_cache_key( 'issue', $owner, $repo, array( 'issue_number' => $issue_number ) );
 
@@ -248,11 +238,6 @@ class TRADEPRESS_GITHUB_API {
 	 * @version 1.0.0
 	 */
 	public function get_labels( $owner, $repo, $force_refresh = false ) {
-		// Check if we're in demo mode
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_labels( $owner, $repo );
-		}
-
 		// Generate cache key
 		$cache_key = $this->get_cache_key( 'labels', $owner, $repo );
 
@@ -285,11 +270,6 @@ class TRADEPRESS_GITHUB_API {
 	 * @version 1.0.0
 	 */
 	public function get_collaborators( $owner, $repo, $force_refresh = false ) {
-		// Check if we're in demo mode
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_collaborators( $owner, $repo );
-		}
-
 		// Generate cache key
 		$cache_key = $this->get_cache_key( 'collaborators', $owner, $repo );
 
@@ -323,11 +303,6 @@ class TRADEPRESS_GITHUB_API {
 	 * @version 1.0.0
 	 */
 	public function get_milestones( $owner, $repo, $state = 'open', $force_refresh = false ) {
-		// Check if we're in demo mode
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_milestones( $owner, $repo, $state );
-		}
-
 		// Generate cache key
 		$cache_key = $this->get_cache_key( 'milestones', $owner, $repo, array( 'state' => $state ) );
 
@@ -360,48 +335,8 @@ class TRADEPRESS_GITHUB_API {
 	 * @version 1.0.0
 	 */
 	public function create_issue( $owner, $repo, $data ) {
-		// Check if we're in demo mode
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_created_issue( $owner, $repo, $data );
-		}
-
 		// Make API request to create issue
 		return $this->request( "/repos/{$owner}/{$repo}/issues", 'POST', $data );
-	}
-
-	/**
-	 * Get a demo created issue for testing
-	 *
-	 * @param string $owner Repository owner
-	 * @param string $repo Repository name
-	 * @param array  $data Issue data
-	 * @return object Demo issue object
-	 * @version 1.0.0
-	 */
-	private function get_demo_created_issue( $owner, $repo, $data ) {
-		// Create a fake response with the provided data
-		$issue = (object) array(
-			'number'     => rand( 100, 999 ),
-			'title'      => $data['title'],
-			'body'       => isset( $data['body'] ) ? $data['body'] : '',
-			'html_url'   => "https://github.com/{$owner}/{$repo}/issues/" . rand( 100, 999 ),
-			'state'      => 'open',
-			'labels'     => array(),
-			'created_at' => date( 'Y-m-d\TH:i:s\Z' ),
-			'updated_at' => date( 'Y-m-d\TH:i:s\Z' ),
-		);
-
-		// Add labels if provided
-		if ( ! empty( $data['labels'] ) ) {
-			foreach ( $data['labels'] as $label_name ) {
-				$issue->labels[] = (object) array(
-					'name'  => $label_name,
-					'color' => substr( md5( $label_name ), 0, 6 ),
-				);
-			}
-		}
-
-		return $issue;
 	}
 
 	/**
@@ -552,36 +487,6 @@ class TRADEPRESS_GITHUB_API {
 		return ( time() - $last_refresh ) > $threshold;
 	}
 
-	/**
-	 * Get demo labels for testing
-	 *
-	 * @param string $owner Repository owner
-	 * @param string $repo Repository name
-	 * @return array Array of demo labels
-	 * @version 1.0.0
-	 */
-	private function get_demo_labels( $owner, $repo ) {
-		return array(
-			(object) array(
-				'id'          => 1,
-				'name'        => 'bug',
-				'color'       => 'f29513',
-				'description' => 'Something isn\'t working',
-			),
-			(object) array(
-				'id'          => 2,
-				'name'        => 'enhancement',
-				'color'       => '84b6eb',
-				'description' => 'New feature or request',
-			),
-			(object) array(
-				'id'          => 3,
-				'name'        => 'documentation',
-				'color'       => '0075ca',
-				'description' => 'Improvements or additions to documentation',
-			),
-		);
-	}
 }
 
 /**

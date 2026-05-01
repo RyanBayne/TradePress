@@ -573,72 +573,7 @@ class TradePress_Scoring_Algorithm {
 		);
 	}
 
-	/**
-	 * Calculate scores for securities
-	 *
-	 * SIMPLIFIED VERSION: Generates scoring data using only basic PHP operations
-	 * to avoid WordPress AJAX conflicts. No external API calls or complex operations.
-	 *
-	 * @return array Array of boxes with security data and scores
-	 * @version 1.0.0
-	 */
 	public function calculate_scores() {
-		// Use only basic PHP operations to avoid AJAX conflicts
-		$boxes = array();
-
-		// Get a simple list of test symbols - no external dependencies
-		$symbols = $this->get_simple_test_symbols();
-
-		$id = 1;
-		foreach ( $symbols as $symbol => $name ) {
-			// Generate randomized scores using only basic PHP
-			$base_score = 50; // Base score
-			$variation  = mt_rand( -30, 40 ); // Random variation
-			$score      = max( 1, min( 100, $base_score + $variation ) ); // Keep within 1-100
-
-			// Generate simple price data
-			$base_price      = 100;
-			$price_variation = mt_rand( -50, 200 ) / 10; // -5.0 to +20.0
-			$price           = number_format( max( 10, $base_price + $price_variation ), 2 );
-
-			$boxes[] = array(
-				'id'       => $id,
-				'symbol'   => $symbol,
-				'security' => $name,
-				'score'    => $score,
-				'price'    => '$' . $price,
-			);
-
-			++$id;
-
-			// Limit to reasonable number for performance
-			if ( $id > 8 ) {
-				break;
-			}
-		}
-
-		return $boxes;
-	}
-
-	/**
-	 * Get simple test stock symbols - no external dependencies
-	 *
-	 * @return array Array of stock symbols and names
-	 * @version 1.0.0
-	 */
-	private function get_simple_test_symbols() {
-		// Hardcoded array to avoid any file system or external dependencies
-		return array(
-			'AAPL'  => 'Apple Inc.',
-			'MSFT'  => 'Microsoft Corporation',
-			'GOOGL' => 'Alphabet Inc.',
-			'AMZN'  => 'Amazon.com Inc.',
-			'TSLA'  => 'Tesla Inc.',
-			'NVDA'  => 'NVIDIA Corporation',
-			'META'  => 'Meta Platforms Inc.',
-			'JPM'   => 'JPMorgan Chase & Co.',
-			'V'     => 'Visa Inc.',
-			'JNJ'   => 'Johnson & Johnson',
-		);
+		return array();
 	}
 }

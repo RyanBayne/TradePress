@@ -27,8 +27,8 @@ $api_logo_url    = TRADEPRESS_PLUGIN_URL . 'assets/images/polygon-logo.png';
 $local_status = get_real_api_local_status( $api_id );
 
 $service_status = array(
-	'status'       => 'operational',
-	'message'      => 'All systems operational',
+	'status'       => 'unknown',
+	'message'      => 'Not checked',
 	'last_updated' => date( 'Y-m-d H:i:s' ),
 );
 
@@ -41,20 +41,20 @@ $rate_limits = array(
 	'reset_time'   => date( 'Y-m-d H:i:s', strtotime( '+1 minute' ) ),
 );
 
-// Generate dummy usage data for real endpoints
+// Build endpoint metadata from declared provider endpoints
 $endpoints = array();
 foreach ( $real_endpoints as $key => $endpoint ) {
 	if ( ! is_array( $endpoint ) || ! isset( $endpoint['endpoint'] ) ) {
 		continue; // Skip non-endpoint items or utility methods
 	}
 
-	$demo_status = 'active';
+	$endpoint_status = 'unknown';
 	$endpoints[] = array(
 		'name'        => ucfirst( str_replace( '_', ' ', $key ) ),
 		'endpoint'    => $endpoint['endpoint'],
 		'description' => isset( $endpoint['description'] ) ? $endpoint['description'] : '',
 		'usage_count' => 0,
-		'status'      => $demo_status,
+		'status'      => $endpoint_status,
 		'method'      => isset( $endpoint['method'] ) ? $endpoint['method'] : 'GET',
 		'key'         => $key,
 	);

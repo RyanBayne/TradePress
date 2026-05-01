@@ -134,133 +134,9 @@ class TradePress_AJAX {
 			return false;
 		}
 
-		// In a real implementation, this would retrieve data from the database or transients
-		// For demonstration, we'll use transients to store and retrieve API call data
 		$api_call = get_transient( 'tradepress_api_' . $api_id . '_latest_call' );
 
-		// If no data in transient, try to create sample data for demonstration
-		if ( empty( $api_call ) && defined( 'TRADEPRESS_TESTING' ) && TRADEPRESS_TESTING ) {
-			$api_call = self::generate_sample_api_call( $api_id );
-
-			// Cache this sample data
-			set_transient( 'tradepress_api_' . $api_id . '_latest_call', $api_call, HOUR_IN_SECONDS );
-		}
-
 		return $api_call;
-	}
-
-	/**
-	 * Generate sample API call data for testing and demonstration purposes.
-	 *
-	 * @param string $api_id The API identifier.
-	 * @return array Sample API call data.
-	 * @version 1.0.0
-	 */
-	private static function generate_sample_api_call( $api_id ) {
-		// Create different sample data based on the API
-		switch ( $api_id ) {
-			case 'alpaca':
-				return array(
-					'api_id'       => 'alpaca',
-					'endpoint'     => '/v2/account',
-					'method'       => 'GET',
-					'timestamp'    => current_time( 'mysql' ),
-					'request_data' => array(
-						'headers' => array(
-							'APCA-API-KEY-ID'     => 'XXXX-XXXX-XXXX-XXXX',
-							'APCA-API-SECRET-KEY' => '********',
-						),
-					),
-					'response'     => json_encode(
-						array(
-							'id'              => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-							'account_number'  => 'ABCDEFG',
-							'status'          => 'ACTIVE',
-							'currency'        => 'USD',
-							'buying_power'    => '25000.00',
-							'cash'            => '10000.00',
-							'portfolio_value' => '15000.00',
-							'created_at'      => '2023-01-01T00:00:00Z',
-							'last_equity'     => '14500.00',
-							'equity'          => '15000.00',
-						),
-						JSON_PRETTY_PRINT
-					),
-				);
-
-			case 'alphavantage':
-				return array(
-					'api_id'       => 'alphavantage',
-					'endpoint'     => '/query',
-					'method'       => 'GET',
-					'timestamp'    => current_time( 'mysql' ),
-					'request_data' => array(
-						'params' => array(
-							'function' => 'TIME_SERIES_DAILY',
-							'symbol'   => 'AAPL',
-							'apikey'   => 'XXXXXXXXXXXX',
-						),
-					),
-					'response'     => json_encode(
-						array(
-							'Meta Data'           => array(
-								'1. Information'    => 'Daily Prices (open, high, low, close) and Volumes',
-								'2. Symbol'         => 'AAPL',
-								'3. Last Refreshed' => '2023-04-17',
-								'4. Output Size'    => 'Compact',
-								'5. Time Zone'      => 'US/Eastern',
-							),
-							'Time Series (Daily)' => array(
-								'2023-04-17' => array(
-									'1. open'   => '165.0900',
-									'2. high'   => '166.4500',
-									'3. low'    => '164.4300',
-									'4. close'  => '165.2300',
-									'5. volume' => '49800229',
-								),
-								'2023-04-14' => array(
-									'1. open'   => '164.3000',
-									'2. high'   => '166.3200',
-									'3. low'    => '163.8200',
-									'4. close'  => '165.2100',
-									'5. volume' => '45223403',
-								),
-							),
-						),
-						JSON_PRETTY_PRINT
-					),
-				);
-
-			default:
-				// Generic API call data
-				return array(
-					'api_id'       => $api_id,
-					'endpoint'     => '/api/data',
-					'method'       => 'GET',
-					'timestamp'    => current_time( 'mysql' ),
-					'request_data' => array(
-						'headers' => array(
-							'Authorization' => 'Bearer XXXX-XXXX-XXXX-XXXX',
-						),
-						'params'  => array(
-							'symbol' => 'MSFT',
-						),
-					),
-					'response'     => json_encode(
-						array(
-							'success' => true,
-							'data'    => array(
-								'symbol'         => 'MSFT',
-								'price'          => 325.42,
-								'volume'         => 23540122,
-								'change'         => 1.25,
-								'change_percent' => 0.38,
-							),
-						),
-						JSON_PRETTY_PRINT
-					),
-				);
-		}
 	}
 
 	/**
@@ -381,12 +257,9 @@ class TradePress_AJAX {
 		if ( $import_function && function_exists( $import_function ) ) {
 			$result = call_user_func( $import_function, array( 'force' => true ) );
 		} else {
-			// Simulate successful import for demo
-			sleep( 1 ); // Simulate processing time
 			$result = array(
-				'success'          => true,
-				'message'          => 'Import completed successfully',
-				'records_imported' => rand( 10, 100 ),
+				'success' => false,
+				'message' => __( 'No real import function is configured for this data element.', 'tradepress' ),
 			);
 		}
 
@@ -468,11 +341,9 @@ class TradePress_AJAX {
 			if ( $import_function && function_exists( $import_function ) ) {
 				$result = call_user_func( $import_function, array( 'force' => true ) );
 			} else {
-				// Simulate successful import for demo
 				$result = array(
-					'success'          => true,
-					'message'          => 'Import completed successfully',
-					'records_imported' => rand( 10, 100 ),
+					'success' => false,
+					'message' => __( 'No real import function is configured for this data element.', 'tradepress' ),
 				);
 			}
 

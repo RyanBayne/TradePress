@@ -324,13 +324,9 @@ class TradePress_Fidelity_API {
 	 * @version 1.0.0
 	 */
 	private function make_request( $endpoint, $method = 'GET', $params = array() ) {
-		// No credentials — return an error; do not expose demo data to callers.
+		// No credentials: return an error instead of synthetic data.
 		if ( empty( $this->access_token ) ) {
 			return new WP_Error( 'api_key_required', __( 'A Fidelity access token is required. Please configure your API credentials.', 'tradepress' ) );
-		}
-
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_data( $endpoint );
 		}
 
 		$url = $this->api_base_url . '/api/v1/' . $endpoint;
@@ -378,56 +374,6 @@ class TradePress_Fidelity_API {
 		}
 
 		return $data;
-	}
-
-	/**
-	 * Get demo data for endpoints
-	 *
-	 * @param string $endpoint API endpoint
-	 * @return array Sample data
-	 * @version 1.0.0
-	 */
-	private function get_demo_data( $endpoint ) {
-		if ( strpos( $endpoint, 'accounts' ) === 0 ) {
-			if ( $endpoint === 'accounts' ) {
-				return array(
-					'accounts' => array(
-						array(
-							'account_number' => 'Z12345678',
-							'account_name'   => 'Individual Investment Account',
-							'account_type'   => 'INDIVIDUAL',
-							'cash_balance'   => 25420.75,
-							'total_value'    => 187650.25,
-						),
-					),
-				);
-			}
-
-			if ( strpos( $endpoint, 'positions' ) !== false ) {
-				return array(
-					'positions' => array(
-						array(
-							'symbol'       => 'AAPL',
-							'quantity'     => 150,
-							'market_value' => 23679.00,
-							'price'        => 157.86,
-						),
-					),
-				);
-			}
-		}
-
-		if ( strpos( $endpoint, 'market/quotes' ) === 0 ) {
-			return array(
-				'symbol'         => 'AAPL',
-				'last_price'     => 157.86,
-				'change'         => 2.35,
-				'change_percent' => 1.51,
-				'volume'         => 42589631,
-			);
-		}
-
-		return array();
 	}
 
 	/**

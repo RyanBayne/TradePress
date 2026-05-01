@@ -22,9 +22,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @version 1.0.0
  */
 function tradepress_trading_platforms_comparisons_tab() {
-	// Check if demo mode is active
-	$is_demo = false;
-
 	// Get all financial API providers from the directory
 	require_once TRADEPRESS_PLUGIN_DIR . 'api/api-directory.php';
 	$providers = TradePress_API_Directory::get_financial_providers();
@@ -107,7 +104,7 @@ function tradepress_trading_platforms_comparisons_tab() {
 		),
 	);
 
-	// Demo comparison data - in a real implementation this would come from a database
+	// Provider comparison reference data. Unfilled provider fields are marked as pending below.
 	$comparison_data = array(
 		'trading212'          => array(
 			'real_time_data'        => array(

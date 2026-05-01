@@ -31,6 +31,8 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 		switch ( $item['action'] ) {
 			case 'fetch_earnings':
 				return $this->fetch_earnings_data( $item );
+			case 'fetch_news':
+				return $this->fetch_news_data( $item );
 			case 'fetch_prices':
 				return $this->fetch_price_data( $item );
 			case 'fetch_market_status':
@@ -40,6 +42,115 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 			default:
 				return false;
 		}
+	}
+
+	/**
+	 * Fetch market news in the background queue.
+	 *
+	 * @version 1.0.0
+	 *
+	 * @param mixed $item Queue item.
+	 * @return bool|array
+	 */
+	private function fetch_news_data( $item ) {
+		$retry_count = isset( $item['retry_count'] ) ? $item['retry_count'] : 0;
+		$max_retries = 3;
+		$symbol      = isset( $item['symbol'] ) ? sanitize_text_field( (string) $item['symbol'] ) : '';
+		$limit       = isset( $item['limit'] ) ? absint( $item['limit'] ) : 50;
+		$limit       = max( 1, min( 50, $limit ) );
+
+		try {
+			$this->log_process_activity(
+				'info',
+				'Attempting to fetch news data',
+				array(
+					'retry'  => $retry_count,
+					'symbol' => $symbol,
+					'limit'  => $limit,
+				)
+			);
+
+			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'api/api-factory.php';
+
+			$provider_order = $this->get_news_provider_order();
+			$last_error     = null;
+
+			foreach ( $provider_order as $provider_id ) {
+				$api = TradePress_API_Factory::create_from_settings( $provider_id, 'paper', 'news' );
+
+				if ( is_wp_error( $api ) ) {
+					$last_error = $api;
+					continue;
+				}
+
+				if ( ! method_exists( $api, 'get_news' ) ) {
+					$last_error = new WP_Error( 'unsupported_news_provider', $provider_id . ' does not expose get_news().' );
+					continue;
+				}
+
+				$news_data = $api->get_news( $symbol, $limit );
+
+				if ( is_wp_error( $news_data ) ) {
+					$last_error = $news_data;
+					continue;
+				}
+
+				$normalized_news = $this->normalize_news_records( $news_data, $provider_id );
+
+				update_option( 'tradepress_news_data', $normalized_news );
+				update_option( 'tradepress_news_last_imported', current_time( 'timestamp' ) );
+				update_option( 'tradepress_news_data_source', $provider_id );
+
+				delete_option( 'tradepress_data_import_error_state' );
+
+				$this->log_process_activity(
+					'info',
+					'News data imported successfully',
+					array(
+						'provider'   => $provider_id,
+						'data_count' => count( $normalized_news ),
+					)
+				);
+
+				return false;
+			}
+
+			if ( $last_error instanceof WP_Error ) {
+				$this->handle_api_error( 'news', $last_error, $retry_count, $max_retries );
+			}
+
+			return $this->handle_retry( $item, $retry_count, $max_retries, 'news_fetch_failed' );
+		} catch ( Exception $e ) {
+			$this->log_process_activity(
+				'error',
+				'Exception in news data fetch',
+				array(
+					'error' => $e->getMessage(),
+					'retry' => $retry_count,
+				)
+			);
+
+			return $this->handle_retry( $item, $retry_count, $max_retries, 'news_exception' );
+		}
+	}
+
+	/**
+	 * Get enabled news providers in priority order.
+	 *
+	 * @return array
+	 */
+	private function get_news_provider_order() {
+		$providers = array();
+
+		if ( 'yes' === get_option( 'TradePress_switch_alpaca_api_services', 'no' ) ) {
+			$providers[] = 'alpaca';
+		}
+
+		if ( 'yes' === get_option( 'TradePress_switch_alphavantage_api_services', 'no' ) ) {
+			$providers[] = 'alphavantage';
+		}
+
+		return $providers;
 	}
 
 	/**
@@ -56,12 +167,51 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 
 		$item_data = array_merge( $data, array( 'action' => $action ) );
 
-		return TradePress_Queue_Schema::add_item(
+		$queued = TradePress_Queue_Schema::add_item(
 			'data_import',
 			$action,
 			$item_data,
 			$priority
 		);
+
+		if ( $queued ) {
+			update_option( 'tradepress_data_import_status', 'running' );
+			update_option( 'tradepress_data_import_start_time', current_time( 'timestamp' ) );
+
+			self::schedule_db_queue_processing();
+		}
+
+		return $queued;
+	}
+
+	/**
+	 * Schedule processing for the database-backed import queue.
+	 *
+	 * @return void
+	 */
+	private static function schedule_db_queue_processing() {
+		if ( ! wp_next_scheduled( 'tradepress_process_data_import_queue' ) ) {
+			wp_schedule_single_event( time() + 1, 'tradepress_process_data_import_queue' );
+		}
+	}
+
+	/**
+	 * Process database-backed import queue items from WP-Cron.
+	 *
+	 * @return void
+	 */
+	public static function process_scheduled_db_queue() {
+		$process   = new self();
+		$processed = $process->process_queue_items();
+
+		if ( $processed > 0 && TradePress_Queue_Schema::has_active_queue( 'data_import' ) ) {
+			self::schedule_db_queue_processing();
+			return;
+		}
+
+		if ( ! TradePress_Queue_Schema::has_active_queue( 'data_import' ) ) {
+			$process->complete();
+		}
 	}
 
 	/**
@@ -403,6 +553,182 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 		}
 
 		return $normalized;
+	}
+
+	/**
+	 * Normalize provider news records to the Research News Feed shape.
+	 *
+	 * @param mixed  $records Raw provider response.
+	 * @param string $provider_id Provider identifier.
+	 * @return array
+	 */
+	private function normalize_news_records( $records, $provider_id ) {
+		if ( isset( $records['news'] ) && is_array( $records['news'] ) ) {
+			$records = $records['news'];
+		} elseif ( isset( $records['feed'] ) && is_array( $records['feed'] ) ) {
+			$records = $records['feed'];
+		}
+
+		if ( ! is_array( $records ) ) {
+			return array();
+		}
+
+		$normalized = array();
+		foreach ( $records as $record ) {
+			if ( ! is_array( $record ) ) {
+				continue;
+			}
+
+			$normalized_record = $this->normalize_news_record( $record, $provider_id );
+			if ( ! empty( $normalized_record['title'] ) || ! empty( $normalized_record['message'] ) ) {
+				$normalized[] = $normalized_record;
+			}
+		}
+
+		return $normalized;
+	}
+
+	/**
+	 * Normalize a single provider news record.
+	 *
+	 * @param array  $record Raw provider record.
+	 * @param string $provider_id Provider identifier.
+	 * @return array
+	 */
+	private function normalize_news_record( $record, $provider_id ) {
+		$source_name = $record['source'] ?? ( $record['source_name'] ?? ( 'alpaca' === $provider_id ? 'Alpaca News' : 'Alpha Vantage News' ) );
+		$title       = $record['headline'] ?? ( $record['title'] ?? '' );
+		$message     = $record['summary'] ?? ( $record['message'] ?? '' );
+		$link        = $record['url'] ?? ( $record['link'] ?? '' );
+		$image_url   = $record['banner_image'] ?? ( $record['image_url'] ?? '' );
+		if ( empty( $image_url ) && isset( $record['images'] ) && is_array( $record['images'] ) && isset( $record['images'][0] ) && is_array( $record['images'][0] ) ) {
+			$image_url = $record['images'][0]['url'] ?? '';
+		}
+		$symbols     = $record['symbols'] ?? array();
+
+		if ( empty( $symbols ) && ! empty( $record['ticker_sentiment'] ) && is_array( $record['ticker_sentiment'] ) ) {
+			foreach ( $record['ticker_sentiment'] as $ticker_sentiment ) {
+				if ( ! empty( $ticker_sentiment['ticker'] ) ) {
+					$symbols[] = $ticker_sentiment['ticker'];
+				}
+			}
+		}
+
+		if ( is_string( $symbols ) ) {
+			$symbols = array_map( 'trim', explode( ',', $symbols ) );
+		}
+
+		$published_at = $record['created_at'] ?? ( $record['time_published'] ?? ( $record['published_at'] ?? '' ) );
+		$timestamp    = $this->normalize_news_timestamp( $published_at );
+		$sentiment    = $this->normalize_news_sentiment( $record );
+
+		return array(
+			'id'           => md5( $provider_id . '|' . $title . '|' . $link . '|' . $timestamp ),
+			'source_type'  => 'news',
+			'source_name'  => sanitize_text_field( (string) $source_name ),
+			'source_icon'  => 'dashicons dashicons-media-document',
+			'title'        => sanitize_text_field( (string) $title ),
+			'message'      => wp_strip_all_tags( (string) $message ),
+			'symbols'      => array_values( array_filter( array_map( 'sanitize_text_field', $symbols ) ) ),
+			'image_url'    => esc_url_raw( (string) $image_url ),
+			'link'         => esc_url_raw( (string) $link ),
+			'sentiment'    => $sentiment,
+			'published_at' => $timestamp,
+			'time_ago'     => $this->format_time_ago( $timestamp ),
+			'provider'     => $provider_id,
+		);
+	}
+
+	/**
+	 * Convert provider news timestamps to a Unix timestamp.
+	 *
+	 * @param mixed $published_at Provider timestamp.
+	 * @return int
+	 */
+	private function normalize_news_timestamp( $published_at ) {
+		if ( is_numeric( $published_at ) ) {
+			return (int) $published_at;
+		}
+
+		if ( is_string( $published_at ) && '' !== $published_at ) {
+			$alpha_vantage_time = preg_match( '/^\d{8}T\d{6}$/', $published_at )
+				? DateTime::createFromFormat( 'Ymd\THis', $published_at, new DateTimeZone( 'UTC' ) )
+				: false;
+
+			if ( $alpha_vantage_time instanceof DateTime ) {
+				return $alpha_vantage_time->getTimestamp();
+			}
+
+			$timestamp = strtotime( $published_at );
+			if ( false !== $timestamp ) {
+				return $timestamp;
+			}
+		}
+
+		return current_time( 'timestamp' );
+	}
+
+	/**
+	 * Normalize provider sentiment to positive, negative, or neutral.
+	 *
+	 * @param array $record Raw provider record.
+	 * @return string
+	 */
+	private function normalize_news_sentiment( $record ) {
+		$label = strtolower( (string) ( $record['overall_sentiment_label'] ?? ( $record['sentiment'] ?? '' ) ) );
+
+		if ( false !== strpos( $label, 'bullish' ) || false !== strpos( $label, 'positive' ) ) {
+			return 'positive';
+		}
+
+		if ( false !== strpos( $label, 'bearish' ) || false !== strpos( $label, 'negative' ) ) {
+			return 'negative';
+		}
+
+		if ( isset( $record['overall_sentiment_score'] ) && is_numeric( $record['overall_sentiment_score'] ) ) {
+			$score = (float) $record['overall_sentiment_score'];
+			if ( $score > 0.15 ) {
+				return 'positive';
+			}
+
+			if ( $score < -0.15 ) {
+				return 'negative';
+			}
+		}
+
+		return 'neutral';
+	}
+
+	/**
+	 * Format a timestamp as a compact relative age label.
+	 *
+	 * @param int $timestamp Unix timestamp.
+	 * @return string
+	 */
+	private function format_time_ago( $timestamp ) {
+		$age = max( 0, current_time( 'timestamp' ) - (int) $timestamp );
+
+		if ( $age < HOUR_IN_SECONDS ) {
+			return sprintf(
+				/* translators: %d: number of minutes. */
+				_n( '%d minute ago', '%d minutes ago', max( 1, (int) floor( $age / MINUTE_IN_SECONDS ) ), 'tradepress' ),
+				max( 1, (int) floor( $age / MINUTE_IN_SECONDS ) )
+			);
+		}
+
+		if ( $age < DAY_IN_SECONDS ) {
+			return sprintf(
+				/* translators: %d: number of hours. */
+				_n( '%d hour ago', '%d hours ago', (int) floor( $age / HOUR_IN_SECONDS ), 'tradepress' ),
+				(int) floor( $age / HOUR_IN_SECONDS )
+			);
+		}
+
+		return sprintf(
+			/* translators: %d: number of days. */
+			_n( '%d day ago', '%d days ago', (int) floor( $age / DAY_IN_SECONDS ), 'tradepress' ),
+			(int) floor( $age / DAY_IN_SECONDS )
+		);
 	}
 
 	/**
@@ -821,3 +1147,5 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 		update_option( 'tradepress_data_import_error_state', $error_states );
 	}
 }
+
+add_action( 'tradepress_process_data_import_queue', array( 'TradePress_Data_Import_Process', 'process_scheduled_db_queue' ) );

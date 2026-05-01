@@ -290,7 +290,7 @@ if ( isset( $_POST['action'] ) && ( $_POST['action'] === 'test_api' || $_POST['a
 						$import_notices[] = "✓ API Response: Received {$stored_count} price data records";
 						if ( isset( $data['bars'][0] ) ) {
 							$sample_bar       = $data['bars'][0];
-							$import_notices[] = '🔍 Sample Data Fields: ' . implode( ', ', array_keys( $sample_bar ) );
+							$import_notices[] = 'Detected Data Fields: ' . implode( ', ', array_keys( $sample_bar ) );
 						}
 					}
 				} else {

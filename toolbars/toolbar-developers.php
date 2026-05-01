@@ -387,10 +387,14 @@ if ( ! class_exists( 'TradePress_Admin_Toolbar_Developers' ) ) :
 					function () use ( $new_version, $backup_full_path ) {
 						echo '<div class="notice notice-success"><p>';
 						/* translators: %s: backup directory path, %s: version number */
-						printf(
-							__( '✅ Plugin backed up successfully to: %1$s<br>Version updated to: %2$s', 'tradepress' ),
-							esc_html( $backup_full_path ),
-							esc_html( $new_version )
+						echo wp_kses(
+							sprintf(
+								/* translators: %1$s: backup path, %2$s: version number */
+								__( '✅ Plugin backed up successfully to: %1$s<br>Version updated to: %2$s', 'tradepress' ),
+								esc_html( $backup_full_path ),
+								esc_html( $new_version )
+							),
+							array( 'br' => array() )
 						);
 						echo '</p></div>';
 					}
@@ -412,7 +416,14 @@ if ( ! class_exists( 'TradePress_Admin_Toolbar_Developers' ) ) :
 						/*
 						translators: %s: backup directory path */
 						/* translators: Developer toolbar notification message */
-						printf( __( '❌ Backup failed: %s<br><small>Check wp-content/debug.log for detailed error information.</small>', 'tradepress' ), esc_html( $e->getMessage() ) );
+						echo wp_kses(
+							sprintf(
+								/* translators: %s: error message */
+								__( '❌ Backup failed: %s<br><small>Check wp-content/debug.log for detailed error information.</small>', 'tradepress' ),
+								esc_html( $e->getMessage() )
+							),
+							array( 'br' => array(), 'small' => array() )
+						);
 						echo '</p></div>';
 					}
 				);

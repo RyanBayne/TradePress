@@ -20,18 +20,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<p class="description"><?php esc_html_e( 'Use this tool to explore data available through the API.', 'tradepress' ); ?></p>
 	</div>
 	
-	<?php if ( $is_demo_mode ) : ?>
-	<!-- Demo mode indicator for data explorer -->
-	<div class="demo-indicator">
-		<div class="demo-icon dashicons dashicons-admin-tools"></div>
-		<div class="demo-text">
-			<h4><?php esc_html_e( 'Demo Mode', 'tradepress' ); ?></h4>
-			<p><?php esc_html_e( 'The explorer is showing simulated data.', 'tradepress' ); ?></p>
-		</div>
-		<span class="demo-badge"><?php esc_html_e( 'DEMO', 'tradepress' ); ?></span>
-	</div>
-	<?php endif; ?>
-	
 	<div class="explorer-controls">
 		<!-- Explorer form fields will go here, tailored to the specific API -->
 		<?php

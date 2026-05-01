@@ -103,6 +103,75 @@ class TradePress_Queue_Schema {
 	}
 
 	/**
+	 * Check whether an item is already pending or processing.
+	 *
+	 * @version 1.0.0
+	 *
+	 * @param string $queue_name Queue name.
+	 * @param string $item_type Item type.
+	 * @return bool
+	 */
+	public static function has_active_item( $queue_name, $item_type ) {
+		global $wpdb;
+
+		self::maybe_create_tables();
+
+		$table = $wpdb->prefix . 'tradepress_queue';
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$count = $wpdb->get_var(
+			$wpdb->prepare(
+				"
+				SELECT COUNT(*)
+				FROM $table
+				WHERE queue_name = %s
+				AND item_type = %s
+				AND status IN ( 'pending', 'processing' )
+				AND attempts < max_attempts
+				",
+				$queue_name,
+				$item_type
+			)
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		return (int) $count > 0;
+	}
+
+	/**
+	 * Check whether a queue has any pending or processing items.
+	 *
+	 * @version 1.0.0
+	 *
+	 * @param string $queue_name Queue name.
+	 * @return bool
+	 */
+	public static function has_active_queue( $queue_name ) {
+		global $wpdb;
+
+		self::maybe_create_tables();
+
+		$table = $wpdb->prefix . 'tradepress_queue';
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$count = $wpdb->get_var(
+			$wpdb->prepare(
+				"
+				SELECT COUNT(*)
+				FROM $table
+				WHERE queue_name = %s
+				AND status IN ( 'pending', 'processing' )
+				AND attempts < max_attempts
+				",
+				$queue_name
+			)
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		return (int) $count > 0;
+	}
+
+	/**
 	 * Get next item from queue
 	 *
 	 * @version 1.0.0

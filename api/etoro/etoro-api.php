@@ -316,13 +316,9 @@ class TradePress_Etoro_API {
 	 * @version 1.0.0
 	 */
 	private function make_request( $endpoint, $method = 'GET', $params = array() ) {
-		// No credentials — return an error; do not expose demo data to callers.
+		// No credentials: return an error instead of synthetic data.
 		if ( empty( $this->access_token ) ) {
 			return new WP_Error( 'api_key_required', __( 'An eToro access token is required. Please configure your API credentials.', 'tradepress' ) );
-		}
-
-		if ( defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE ) {
-			return $this->get_demo_data( $endpoint );
 		}
 
 		$url = $this->api_base_url . '/api/' . $endpoint;
@@ -370,116 +366,6 @@ class TradePress_Etoro_API {
 		}
 
 		return $data;
-	}
-
-	/**
-	 * Get demo data for endpoints
-	 *
-	 * @param string $endpoint API endpoint
-	 * @return array Sample data
-	 * @version 1.0.0
-	 */
-	private function get_demo_data( $endpoint ) {
-		if ( strpos( $endpoint, 'user/accounts' ) !== false ) {
-			return array(
-				'accounts' => array(
-					array(
-						'accountId'        => '12345678',
-						'accountName'      => 'Real',
-						'accountType'      => 'Real',
-						'currency'         => 'USD',
-						'balance'          => 5000.50,
-						'availableBalance' => 4500.25,
-						'equity'           => 5200.75,
-					),
-					array(
-						'accountId'        => '87654321',
-						'accountName'      => 'Demo',
-						'accountType'      => 'Demo',
-						'currency'         => 'USD',
-						'balance'          => 100000.00,
-						'availableBalance' => 100000.00,
-						'equity'           => 100000.00,
-					),
-				),
-			);
-		}
-
-		if ( strpos( $endpoint, 'positions' ) !== false ) {
-			return array(
-				'positions' => array(
-					array(
-						'positionId'       => '1621284697',
-						'instrumentId'     => '100000',
-						'symbol'           => 'BTC',
-						'name'             => 'Bitcoin',
-						'isBuy'            => true,
-						'amount'           => 100,
-						'leverage'         => 2,
-						'openRate'         => 50100.1,
-						'currentRate'      => 50350.25,
-						'profit'           => 25.75,
-						'profitPercentage' => 12.88,
-					),
-				),
-			);
-		}
-
-		if ( strpos( $endpoint, 'watchlist' ) !== false ) {
-			return array(
-				'assets' => array(
-					array(
-						'instrumentId'  => '100000',
-						'symbol'        => 'BTC',
-						'name'          => 'Bitcoin',
-						'type'          => 'CRYPTO',
-						'lastPrice'     => 50123.45,
-						'change'        => 2.35,
-						'changePercent' => 4.91,
-					),
-					array(
-						'instrumentId'  => '10012',
-						'symbol'        => 'AAPL',
-						'name'          => 'Apple Inc',
-						'type'          => 'STOCK',
-						'lastPrice'     => 175.84,
-						'change'        => -1.25,
-						'changePercent' => -0.71,
-					),
-				),
-			);
-		}
-
-		if ( strpos( $endpoint, 'market/search' ) !== false ) {
-			return array(
-				'results' => array(
-					array(
-						'instrumentId' => '100000',
-						'symbol'       => 'BTC',
-						'name'         => 'Bitcoin',
-						'type'         => 'CRYPTO',
-						'lastPrice'    => 50123.45,
-					),
-				),
-			);
-		}
-
-		if ( strpos( $endpoint, 'market/instrument' ) !== false ) {
-			return array(
-				'instrumentId'  => '100000',
-				'symbol'        => 'BTC',
-				'name'          => 'Bitcoin',
-				'type'          => 'CRYPTO',
-				'lastPrice'     => 50123.45,
-				'bid'           => 50120.15,
-				'ask'           => 50126.75,
-				'change'        => 2.35,
-				'changePercent' => 4.91,
-				'volume'        => 12547896.32,
-			);
-		}
-
-		return array();
 	}
 
 	/**

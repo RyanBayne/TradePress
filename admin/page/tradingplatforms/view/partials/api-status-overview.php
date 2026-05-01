@@ -12,20 +12,14 @@
 						<!-- Local Status -->
 						<div class="status-indicator">
 							<?php
-							if ( $demo_mode === 'yes' ) {
-								$status_color   = get_status_color( $local_status['status'] );
-								$status_message = $local_status['message'];
-							} else {
-								// Try to get real status from API or database
-								try {
-									$real_local_status = tradepress_get_real_local_status( $api_id );
-									$status_color      = get_status_color( $real_local_status['status'] );
-									$status_message    = $real_local_status['message'];
-								} catch ( Exception $e ) {
-									$status_color   = 'status-red';
-									$status_message = '<span class="error-status"><span class="dashicons dashicons-warning"></span> ' .
-													esc_html__( 'Error: ', 'tradepress' ) . esc_html( $e->getMessage() ) . '</span>';
-								}
+							try {
+								$real_local_status = tradepress_get_real_local_status( $api_id );
+								$status_color      = get_status_color( $real_local_status['status'] );
+								$status_message    = $real_local_status['message'];
+							} catch ( Exception $e ) {
+								$status_color   = 'status-red';
+								$status_message = '<span class="error-status"><span class="dashicons dashicons-warning"></span> ' .
+												esc_html__( 'Error: ', 'tradepress' ) . esc_html( $e->getMessage() ) . '</span>';
 							}
 							?>
 							<div class="status-dot <?php echo esc_attr( $status_color ); ?>"></div>
@@ -39,57 +33,44 @@
 						<div class="status-indicator">
 							<div class="status-dot 
 							<?php
-							if ( $demo_mode === 'yes' ) {
-								echo esc_attr( get_status_color( $service_status['status'] ) );
-							} else {
-								try {
-									$real_service_status = tradepress_get_real_service_status( $api_id );
-									echo esc_attr( get_status_color( $real_service_status['status'] ) );
-								} catch ( Exception $e ) {
-									echo 'error';
-								}
+							try {
+								$real_service_status = tradepress_get_real_service_status( $api_id );
+								echo esc_attr( get_status_color( $real_service_status['status'] ) );
+							} catch ( Exception $e ) {
+								echo 'error';
 							}
 							?>
 							"></div>
 							<div>
 								<strong><?php esc_html_e( 'Service Status:', 'tradepress' ); ?></strong>
 								<?php
-								if ( $demo_mode === 'yes' ) {
-									echo esc_html( $service_status['message'] );
+								try {
+									$real_service_status = tradepress_get_real_service_status( $api_id );
+									echo esc_html( $real_service_status['message'] );
 									?>
 									<div class="status-updated">
-										<small><?php esc_html_e( 'Last Updated:', 'tradepress' ); ?> <?php echo esc_html( $service_status['last_updated'] ); ?></small>
+										<small><?php esc_html_e( 'Last Updated:', 'tradepress' ); ?> <?php echo esc_html( $real_service_status['last_updated'] ); ?></small>
 									</div>
 									<?php
-								} else {
-									try {
-										$real_service_status = tradepress_get_real_service_status( $api_id );
-										echo esc_html( $real_service_status['message'] );
-										?>
-										<div class="status-updated">
-											<small><?php esc_html_e( 'Last Updated:', 'tradepress' ); ?> <?php echo esc_html( $real_service_status['last_updated'] ); ?></small>
-										</div>
-										<?php
-									} catch ( Exception $e ) {
-										echo '<span class="error-status"><span class="dashicons dashicons-warning"></span> ';
-										echo esc_html__( 'Error: ', 'tradepress' ) . esc_html( $e->getMessage() );
-										echo '</span>';
-									}
+								} catch ( Exception $e ) {
+									echo '<span class="error-status"><span class="dashicons dashicons-warning"></span> ';
+									echo esc_html__( 'Error: ', 'tradepress' ) . esc_html( $e->getMessage() );
+									echo '</span>';
 								}
 								?>
 							</div>
 						</div>
 						
 						<?php
-						if ( $demo_mode === 'yes' || ! empty( tradepress_get_real_rate_limits( $api_id ) ) ) :
+						if ( ! empty( tradepress_get_real_rate_limits( $api_id ) ) ) :
 							?>
 						<!-- Rate Limiting -->
 						<h4><?php esc_html_e( 'Rate Limiting', 'tradepress' ); ?></h4>
 						
 							<?php
-							$rate_limit_data = $demo_mode === 'yes' ? $rate_limits : tradepress_get_real_rate_limits( $api_id );
+							$rate_limit_data = tradepress_get_real_rate_limits( $api_id );
 
-							if ( $demo_mode === 'no' && empty( $rate_limit_data ) ) {
+							if ( empty( $rate_limit_data ) ) {
 								echo '<div class="error-status"><span class="dashicons dashicons-warning"></span> ';
 								echo esc_html__( 'Error: Unable to retrieve rate limit data', 'tradepress' );
 								echo '</div>';

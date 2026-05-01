@@ -5,6 +5,22 @@
 
 A comprehensive WordPress plugin for algorithmic stock analysis, trading decision support, and portfolio management. TradePress combines technical indicators, scoring directives, and multi-platform API integrations to help traders identify opportunities and manage risk.
 
+## Developer Updates (Ryan)
+TradePress is in active development (1st May 2026)
+
+Until April 26, TradePress was a demo, barely even a prototype, so anyone activating it now. Would think it's just a broken plugin. In recent days, I've hidden most of the UI to avoid confusion, including the primary feature, SEES (Scoring Engine Execution System).
+
+Development will now be more incremental, controlled and submitted to WordPress.org within days.
+
+# Premium Transparency 
+I intend to provide the WordPress.org community with a useful plugin. That will likely include SEES, with a built in strategy, tried and testing, proven to work.
+
+There will be a period of caution, as I will want to ensure that disclaimers and guidance is implemented. Anything in the way of trading signals after that milestone, is likely to be offered in a premium extension, unless community support can cover some of my hours/costs. That has been known to happen, and in that case. The completely free plugin, could include some potentially powerful features. 
+
+Anyone participating (developing, testing, active feedback) will maintain access to the entire project. The best scenario for me, would be an inner circle of contributors, maintaining a premium level of performance and support. 
+
+Early days yet though! 
+
 ## Features
 
 ### Core Capabilities

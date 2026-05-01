@@ -120,71 +120,6 @@ class TradePress_Volatility_Tools {
 	}
 
 	/**
-	 * Generate demo historical volatility data
-	 *
-	 * @param string $symbol Stock symbol
-	 * @param int    $days Number of days
-	 * @return float Demo historical volatility
-	 * @version 1.0.0
-	 */
-	public static function calculate_demo_historical_volatility( $symbol, $days = 30 ) {
-		// Generate consistent demo data based on symbol and days
-		$base_volatility = 0;
-
-		// Use symbol characters to create a seeded random volatility
-		for ( $i = 0; $i < strlen( $symbol ); $i++ ) {
-			$base_volatility += ord( $symbol[ $i ] );
-		}
-
-		$base_volatility = ( $base_volatility % 15 ) + 10; // Base between 10-25%
-
-		// Adjust based on timeframe
-		$modifier = 1 + ( ( $days - 30 ) / 100 );
-
-		return $base_volatility * $modifier;
-	}
-
-	/**
-	 * Generate demo implied volatility data
-	 *
-	 * @param string $symbol Stock symbol
-	 * @return float Demo implied volatility
-	 * @version 1.0.0
-	 */
-	public static function calculate_demo_implied_volatility( $symbol ) {
-		// Generate consistent demo data based on symbol
-		// Usually implied volatility is higher than historical
-		$historical = self::calculate_demo_historical_volatility( $symbol );
-
-		// Add a premium to historical volatility
-		$random_premium = ( ( ord( $symbol[0] ) % 10 ) + 5 ) / 10; // 0.5 to 1.4
-
-		return $historical * ( 1 + $random_premium );
-	}
-
-	/**
-	 * Generate demo beta data
-	 *
-	 * @param string $symbol Stock symbol
-	 * @return float Demo beta
-	 * @version 1.0.0
-	 */
-	public static function calculate_demo_beta( $symbol ) {
-		// Generate consistent demo beta based on symbol
-		$base_beta = 0;
-
-		// Use symbol characters to create a seeded random beta
-		for ( $i = 0; $i < strlen( $symbol ); $i++ ) {
-			$base_beta += ord( $symbol[ $i ] );
-		}
-
-		// Convert to a beta between 0.5 and 2.0
-		$beta = ( $base_beta % 150 + 50 ) / 100;
-
-		return $beta;
-	}
-
-	/**
 	 * Determine the current volatility regime
 	 *
 	 * @param float $historical_volatility Historical volatility
@@ -429,34 +364,6 @@ class TradePress_Volatility_Tools {
 			'middle' => $sma,
 			'lower'  => $lower_band,
 		);
-	}
-
-	/**
-	 * Generate demo ATR data
-	 *
-	 * @param string $symbol Stock symbol
-	 * @param int    $period Number of periods
-	 * @return float Demo ATR value
-	 * @version 1.0.0
-	 */
-	public static function calculate_demo_atr( $symbol, $period = 14 ) {
-		// Generate consistent demo data based on symbol and period
-		$base_price = 0;
-
-		// Use symbol characters to create a seeded base price
-		for ( $i = 0; $i < strlen( $symbol ); $i++ ) {
-			$base_price += ord( $symbol[ $i ] );
-		}
-
-		$base_price = ( $base_price % 90 ) + 10; // Base between 10-100
-
-		// ATR typically ranges from 1-5% of price for most stocks
-		$atr_percentage = ( ( ( ord( $symbol[0] ) % 4 ) + 1 ) / 100 ); // 1-5%
-
-		// Adjust based on period (shorter periods may have higher ATR)
-		$modifier = 1 + ( ( 20 - min( 20, $period ) ) / 40 ); // 1-1.5x modifier for shorter periods
-
-		return $base_price * $atr_percentage * $modifier;
 	}
 
 	/**
