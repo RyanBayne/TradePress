@@ -16,8 +16,33 @@ if ( ! class_exists( 'TradePress_API_Directory' ) ) {
 	require_once TRADEPRESS_PLUGIN_DIR_PATH . '/api/api-directory.php';
 }
 
+if ( ! class_exists( 'TradePress_API_Usage_Tracker' ) ) {
+	require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/api-usage-tracker.php';
+}
+
 // Get all API providers
 $all_providers = TradePress_API_Directory::get_all_providers();
+
+$enabled_provider_health = array();
+foreach ( $all_providers as $api_id => $provider ) {
+	$is_enabled = get_option( 'TradePress_switch_' . $api_id . '_api_services', 'no' ) === 'yes';
+	if ( ! $is_enabled ) {
+		continue;
+	}
+
+	$enabled_provider_health[ $api_id ] = TradePress_API_Usage_Tracker::get_provider_runtime_health( $api_id );
+}
+
+$recent_provider_activity = $enabled_provider_health;
+uasort(
+	$recent_provider_activity,
+	function ( $a, $b ) {
+		$a_last = ! empty( $a['last_call'] ) ? strtotime( (string) $a['last_call'] ) : 0;
+		$b_last = ! empty( $b['last_call'] ) ? strtotime( (string) $b['last_call'] ) : 0;
+
+		return $b_last <=> $a_last;
+	}
+);
 
 // Handle form submissions for priority settings
 if ( isset( $_POST['action'] ) && $_POST['action'] === 'save_api_priorities' ) {
@@ -100,16 +125,26 @@ foreach ( $all_providers as $api_id => $provider ) {
 			<div class="rate-limit-dashboard">
 				<?php
 				foreach ( $all_providers as $api_id => $provider ) :
-					$is_enabled = get_option( 'TradePress_switch_' . $api_id . '_api_services', 'no' ) === 'yes';
-					if ( ! $is_enabled ) {
+					if ( ! isset( $enabled_provider_health[ $api_id ] ) ) {
 						continue;
 					}
 
-					// Get rate limit data (placeholder for now)
-					$calls_today   = get_option( 'tradepress_' . $api_id . '_rate_limit_count', 0 );
-					$daily_limit   = 25; // This would come from API provider settings
-					$usage_percent = ( $calls_today / $daily_limit ) * 100;
-					$status_class  = $usage_percent > 80 ? 'critical' : ( $usage_percent > 60 ? 'warning' : 'normal' );
+					$health        = $enabled_provider_health[ $api_id ];
+					$calls_today   = (int) $health['total_calls'];
+					$daily_limit   = max( 1, (int) $health['daily_limit'] );
+					$usage_percent = (float) $health['usage_ratio'] * 100;
+
+					if ( $health['health_state'] === 'unavailable' ) {
+						$status_class = 'critical';
+					} elseif ( $health['health_state'] === 'degraded' ) {
+						$status_class = 'warning';
+					} else {
+						$status_class = 'normal';
+					}
+
+					$last_call_label = ! empty( $health['last_call'] )
+						? date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $health['last_call'] ) )
+						: __( 'No calls yet', 'tradepress' );
 					?>
 					<div class="rate-limit-card">
 						<div class="card-header">
@@ -125,7 +160,14 @@ foreach ( $all_providers as $api_id => $provider ) {
 								<span class="percentage"><?php echo (int) round( $usage_percent, 1 ); ?>%</span>
 							</div>
 							<div class="last-call">
-								Last call: <?php echo esc_html( date( 'H:i:s' ) ); ?>
+								<?php
+								printf(
+									/* translators: 1: last call datetime, 2: health score */
+									esc_html__( 'Last call: %1$s | Health: %2$d', 'tradepress' ),
+									esc_html( $last_call_label ),
+									(int) $health['health_score']
+								);
+								?>
 							</div>
 						</div>
 					</div>
@@ -169,24 +211,84 @@ foreach ( $all_providers as $api_id => $provider ) {
 			
 			<h3><?php esc_html_e( 'Recent API Activity', 'tradepress' ); ?></h3>
 			<div class="api-activity-log">
-				<div class="activity-item">
-					<span class="timestamp"><?php echo esc_html( date( 'H:i:s' ) ); ?></span>
-					<span class="api-name">Alpaca</span>
-					<span class="endpoint">bars/NVDA</span>
-					<span class="status success">Success</span>
-				</div>
-				<div class="activity-item">
-					<span class="timestamp"><?php echo esc_html( date( 'H:i:s', time() - 120 ) ); ?></span>
-					<span class="api-name">Alpha Vantage</span>
-					<span class="endpoint">TIME_SERIES_INTRADAY</span>
-					<span class="status success">Success</span>
-				</div>
-				<div class="activity-item">
-					<span class="timestamp"><?php echo esc_html( date( 'H:i:s', time() - 300 ) ); ?></span>
-					<span class="api-name">Polygon</span>
-					<span class="endpoint">aggregates/AAPL</span>
-					<span class="status error">Rate Limited</span>
-				</div>
+				<?php
+				$rows_printed = 0;
+				foreach ( $recent_provider_activity as $provider_id => $health ) :
+					$provider_name = isset( $all_providers[ $provider_id ]['name'] ) ? $all_providers[ $provider_id ]['name'] : $provider_id;
+					$timestamp     = ! empty( $health['last_call'] )
+						? date_i18n( get_option( 'time_format' ), strtotime( $health['last_call'] ) )
+						: __( 'N/A', 'tradepress' );
+
+					$status_class = 'success';
+					$status_text  = __( 'Healthy', 'tradepress' );
+
+					if ( $health['health_state'] === 'unavailable' ) {
+						$status_class = 'error';
+						$status_text  = __( 'Unavailable', 'tradepress' );
+					} elseif ( $health['health_state'] === 'degraded' ) {
+						$status_class = 'warning';
+						$status_text  = __( 'Degraded', 'tradepress' );
+					}
+					?>
+					<div class="activity-item">
+						<span class="timestamp"><?php echo esc_html( $timestamp ); ?></span>
+						<span class="api-name"><?php echo esc_html( $provider_name ); ?></span>
+						<span class="endpoint"><?php echo esc_html( sprintf( 'Calls: %1$d (Errors: %2$d)', (int) $health['total_calls'], (int) $health['failed_calls'] ) ); ?></span>
+						<span class="status <?php echo esc_attr( $status_class ); ?>"><?php echo esc_html( $status_text ); ?></span>
+					</div>
+					<?php
+					++$rows_printed;
+					if ( $rows_printed >= 8 ) {
+						break;
+					}
+				endforeach;
+
+				if ( 0 === $rows_printed ) :
+					?>
+					<div class="activity-item">
+						<span class="timestamp">--</span>
+						<span class="api-name"><?php esc_html_e( 'No enabled providers', 'tradepress' ); ?></span>
+						<span class="endpoint"><?php esc_html_e( 'Enable and configure at least one provider', 'tradepress' ); ?></span>
+						<span class="status warning"><?php esc_html_e( 'Pending', 'tradepress' ); ?></span>
+					</div>
+				<?php endif; ?>
+			</div>
+
+			<h3><?php esc_html_e( 'Provider Failover Events', 'tradepress' ); ?></h3>
+			<div class="api-activity-log">
+				<?php
+				$failover_events = class_exists( 'TradePress_API_Usage_Tracker' )
+					? TradePress_API_Usage_Tracker::get_recent_failover_events( 15 )
+					: array();
+
+				if ( ! empty( $failover_events ) ) :
+					foreach ( $failover_events as $event ) :
+						$reason_map = array(
+							'factory_error'    => __( 'Config error', 'tradepress' ),
+							'method_missing'   => __( 'Method missing', 'tradepress' ),
+							'api_error'        => __( 'API error', 'tradepress' ),
+							'failed_over'      => __( 'Failed over', 'tradepress' ),
+							'rate_limited'     => __( 'Rate limited', 'tradepress' ),
+						);
+						$reason_label = isset( $reason_map[ $event['reason'] ] ) ? $reason_map[ $event['reason'] ] : esc_html( $event['reason'] );
+						$status_class = ( $event['reason'] === 'failed_over' ) ? 'warning' : 'error';
+						$selected_txt = ! empty( $event['selected'] ) ? '→ ' . esc_html( $event['selected'] ) : '—';
+						?>
+						<div class="activity-item">
+							<span class="timestamp"><?php echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $event['ts'] ) ) ); ?></span>
+							<span class="api-name"><?php echo esc_html( $event['skipped'] ); ?></span>
+							<span class="endpoint"><?php echo esc_html( $event['data_type'] ); ?> <span class="status <?php echo esc_attr( $status_class ); ?>"><?php echo esc_html( $reason_label ); ?></span></span>
+							<span class="status success"><?php echo esc_html( $selected_txt ); ?></span>
+						</div>
+					<?php endforeach; ?>
+				<?php else : ?>
+					<div class="activity-item">
+						<span class="timestamp">--</span>
+						<span class="api-name"><?php esc_html_e( 'No failover events recorded', 'tradepress' ); ?></span>
+						<span class="endpoint"><?php esc_html_e( 'All providers responding on first attempt', 'tradepress' ); ?></span>
+						<span class="status success"><?php esc_html_e( 'Clean', 'tradepress' ); ?></span>
+					</div>
+				<?php endif; ?>
 			</div>
 		</div>
 		
@@ -361,34 +463,23 @@ foreach ( $all_providers as $api_id => $provider ) {
 						<h4><?php esc_html_e( 'Next API Call Prediction', 'tradepress' ); ?></h4>
 						<div class="next-call-prediction">
 							<?php
-							// Determine which API would be used for next data call
-							$next_data_api     = 'None available';
-							$prediction_reason = 'No data APIs configured';
+							$ranked_data_candidates = TradePress_API_Usage_Tracker::get_ranked_providers_for_data( 'quote' );
+							$next_data_api          = __( 'None available', 'tradepress' );
+							$prediction_reason      = __( 'No configured providers available for quote data.', 'tradepress' );
 
-							if ( ! empty( $primary_apis['primary_data_only'] ) ) {
-								$primary_id    = $primary_apis['primary_data_only'];
-								$primary_calls = get_option( 'tradepress_' . $primary_id . '_rate_limit_count', 0 );
-								$primary_limit = 25; // This would come from API settings
+							if ( ! empty( $ranked_data_candidates ) ) {
+								$best         = $ranked_data_candidates[0];
+								$provider_id  = $best['provider_id'];
+								$provider     = isset( $all_providers[ $provider_id ] ) ? $all_providers[ $provider_id ] : array();
+								$provider_name = isset( $provider['name'] ) ? $provider['name'] : $provider_id;
 
-								if ( $primary_calls < $primary_limit ) {
-									$next_data_api     = $all_providers[ $primary_id ]['name'] ?? 'Unknown';
-									$prediction_reason = 'Primary API available (' . $primary_calls . '/' . $primary_limit . ' calls used)';
-								} elseif ( ! empty( $secondary_apis['secondary_data_only'] ) ) {
-									$secondary_id    = $secondary_apis['secondary_data_only'];
-									$secondary_calls = get_option( 'tradepress_' . $secondary_id . '_rate_limit_count', 0 );
-									$secondary_limit = 25;
-
-									if ( $secondary_calls < $secondary_limit ) {
-										$next_data_api     = $all_providers[ $secondary_id ]['name'] ?? 'Unknown';
-										$prediction_reason = 'Primary exhausted, using secondary (' . $secondary_calls . '/' . $secondary_limit . ' calls used)';
-									} else {
-										$next_data_api     = 'Random fallback';
-										$prediction_reason = 'Both primary and secondary APIs exhausted';
-									}
-								} else {
-									$next_data_api     = 'Rate limited';
-									$prediction_reason = 'Primary API exhausted, no secondary configured';
-								}
+								$next_data_api = $provider_name;
+								$prediction_reason = sprintf(
+									/* translators: 1: health score, 2: health state */
+									__( 'Selected by runtime health ranking (score %1$d, state: %2$s).', 'tradepress' ),
+									(int) $best['health_score'],
+									esc_html( $best['health_state'] )
+								);
 							}
 							?>
 							<div class="prediction-item">
@@ -503,6 +594,10 @@ foreach ( $all_providers as $api_id => $provider ) {
 
 .status.success {
 	color: #28a745;
+}
+
+.status.warning {
+	color: #ffc107;
 }
 
 .status.error {

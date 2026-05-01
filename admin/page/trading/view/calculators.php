@@ -14,12 +14,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-// Enqueue required styles and scripts.
-wp_enqueue_script( 'jquery-ui-tabs' );
-wp_enqueue_style( 'wp-jquery-ui-dialog' );
-wp_enqueue_style( 'tradepress-calculators' );
-wp_enqueue_script( 'tradepress-calculators' );
 ?>
 
 <div class="tradepress-calculator-container">

@@ -130,6 +130,11 @@ class TradePress_Asset_Queue {
 		if ( $this->current_page === 'tradepress_trading' && $this->current_tab === 'sees-diagnostics' ) {
 			$this->enqueue_sees_diagnostics_assets();
 		}
+
+		// Trading calculators tab assets (centralized queue path).
+		if ( $this->current_page === 'tradepress_trading' && $this->current_tab === 'calculators' ) {
+			$this->enqueue_trading_calculators_assets();
+		}
 	}
 
 	/**
@@ -383,6 +388,40 @@ class TradePress_Asset_Queue {
 				'noDataMessage'    => __( 'No symbols available for diagnostics.', 'tradepress' ),
 				'loadErrorMessage' => __( 'Unable to load diagnostics data.', 'tradepress' ),
 			)
+		);
+	}
+
+	/**
+	 * Enqueue trading calculators tab assets
+	 *
+	 * @version 1.0.0
+	 */
+	private function enqueue_trading_calculators_assets() {
+		// Enqueue jQuery UI tabs dependency
+		wp_enqueue_script( 'jquery-ui-tabs' );
+		wp_enqueue_style( 'wp-jquery-ui-dialog' );
+
+		// Enqueue calculators styles
+		$style_path = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/css/pages/calculators.css';
+		$style_ver  = file_exists( $style_path ) ? (string) filemtime( $style_path ) : TRADEPRESS_VERSION;
+
+		wp_enqueue_style(
+			'tradepress-calculators',
+			TRADEPRESS_PLUGIN_URL . 'assets/css/pages/calculators.css',
+			array( 'tradepress-variables' ),
+			$style_ver
+		);
+
+		// Enqueue calculators scripts
+		$script_path = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/js/tradepress-calculators.js';
+		$script_ver  = file_exists( $script_path ) ? (string) filemtime( $script_path ) : TRADEPRESS_VERSION;
+
+		wp_enqueue_script(
+			'tradepress-calculators',
+			TRADEPRESS_PLUGIN_URL . 'assets/js/tradepress-calculators.js',
+			array( 'jquery', 'jquery-ui-tabs' ),
+			$script_ver,
+			true
 		);
 	}
 }

@@ -146,6 +146,9 @@ Design constraints for current core scope:
 - `admin/page/trading/trading-tabs.php` now requires Developer Mode for SEES demo and diagnostic AJAX handlers, not only `manage_options`.
 - `admin/page/trading/view/sees-diagnostics.php` is labelled Dev-only Demo and reports its transitional storage boundary.
 - `assets/js/sees-diagnostics.js` displays selected strategy metadata, component counts, decision state, and next function from the AJAX trace response.
+- `assets/js/sees-diagnostics.js` now reads `threshold_distance` as the canonical score-threshold distance, keeps `distance_to_threshold` as fallback compatibility, labels branch statuses, distinguishes component warnings from hard failures, and supports copying the trace payload for verification evidence.
+- Create Scoring Strategies now exposes `Minimum Score Threshold` and saves it as `min_score_threshold`; this value is the source of `minimum_threshold` in SEES Diagnostics scoring-mode traces.
+- Manual continued-path evidence captured: strategy `SEES UI Testing`, 4 components, score `79.36 / 100.00`, threshold distance `+29.36`, decision continued to `tradepress_rank_scoring_strategy_result()`.
 - `admin/page/analysis/view/recent-symbols.php` reads `tradepress_symbol_scores` only and renders Cached or Empty state.
 - `admin/page/analysis/view/support-resistance.php` no longer instantiates `TradePress_Financial_API_Service` or `SupportResistanceLevels` during render; it validates explicit user input and reports that stored OHLC-backed analysis is not connected yet.
 - `admin/page/analysis/view/volatility-analysis.php` renders a dev-only placeholder/status panel only; no provider or analyzer is called during render.

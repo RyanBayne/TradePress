@@ -66,6 +66,19 @@
     color: #f56e28;
 }
 
+.directive-dev-indicator {
+    color: #b32d2e;
+    margin-left: 6px;
+    vertical-align: text-bottom;
+}
+
+.directive-dev-indicator .dashicons {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    line-height: 1;
+}
+
 .switch {
     position: relative;
     display: inline-block;

@@ -102,6 +102,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<h3><?php esc_html_e( 'Algorithm Visual Trace', 'tradepress' ); ?></h3>
 			<div class="tp-sees-trace-actions">
 				<button type="button" id="tp-sees-copy-json" class="button button-secondary"><?php esc_html_e( 'Copy Trace JSON', 'tradepress' ); ?></button>
+				<span id="tp-sees-copy-status" class="tp-sees-copy-status" aria-live="polite"></span>
 			</div>
 			<div class="tp-sees-trace-header" id="tp-sees-trace-header"></div>
 			<div id="tp-sees-trace-process" class="tp-sees-trace-process"></div>

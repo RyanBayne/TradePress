@@ -581,6 +581,7 @@ function tradepress_validate_directive_disable( $directive_id ) {
 				}
 
 				foreach ( $filtered_directives as $directive_id => $directive ) :
+					$dev_status = isset( $directive['development_status'] ) ? sanitize_key( (string) $directive['development_status'] ) : '';
 					?>
 					<div class="accordion-row">
 						<div class="accordion-header">
@@ -590,7 +591,14 @@ function tradepress_validate_directive_disable( $directive_id ) {
 							</div>
 							<?php endif; ?>
 							<div style="flex: 2;">
-								<strong><?php echo esc_html( $directive['name'] ); ?></strong>
+								<strong>
+									<?php echo esc_html( $directive['name'] ); ?>
+									<?php if ( $dev_status === 'development' ) : ?>
+										<span class="tradepress-development-tab-indicator directive-dev-indicator" title="<?php esc_attr_e( 'Development status', 'tradepress' ); ?>" aria-label="<?php esc_attr_e( 'Development status', 'tradepress' ); ?>">
+											<span class="dashicons dashicons-admin-tools" aria-hidden="true"></span>
+										</span>
+									<?php endif; ?>
+								</strong>
 							</div>
 							<div style="flex: 1;">
 								<span class="status-badge <?php echo $directive['active'] ? 'status-active' : 'status-inactive'; ?>">
@@ -599,7 +607,6 @@ function tradepress_validate_directive_disable( $directive_id ) {
 							</div>
 							<div style="flex: 1;">
 								<?php
-								$dev_status   = $directive['development_status'] ?? 'development';
 								$status_class = $dev_status === 'tested' ? 'status-active' : 'status-inactive';
 								?>
 								<span class="status-badge <?php echo esc_attr( $status_class ); ?>">

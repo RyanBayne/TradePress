@@ -21,6 +21,7 @@ jQuery(function ($) {
     const startAutoBtn = $('#tp-sees-start-auto');
     const stopAutoBtn = $('#tp-sees-stop-auto');
 	const copyJsonBtn = $('#tp-sees-copy-json');
+	const copyStatus = $('#tp-sees-copy-status');
 	const autoStatus = $('#tp-sees-auto-status');
 
     let symbols = [];
@@ -54,6 +55,20 @@ jQuery(function ($) {
                     ? 'Auto refresh is running every ' + (parseInt(refreshIntervalSelect.val(), 10) / 1000) + 's.'
                     : 'Auto refresh is stopped.'
             );
+        }
+    }
+
+    function setCopyStatus(message) {
+        if (copyStatus.length) {
+            copyStatus.text(message || '');
+        }
+    }
+
+    function setTraceAvailable(hasTrace) {
+        copyJsonBtn.prop('disabled', !hasTrace);
+
+        if (!hasTrace) {
+            setCopyStatus('');
         }
     }
 
@@ -174,9 +189,11 @@ jQuery(function ($) {
         const rows = details.map(function (detail) {
             const status = String(detail.status || 'info').toLowerCase();
             const cssStatus = ['passed', 'failed', 'warning'].includes(status) ? status : 'info';
+            const statusLabel = cssStatus.charAt(0).toUpperCase() + cssStatus.slice(1);
 
             return (
                 '<div class="tp-sees-branch-item is-' + escapeHtml(cssStatus) + '">' +
+                '<span class="tp-sees-branch-status">' + escapeHtml(statusLabel) + '</span>' +
                 '<strong>' + escapeHtml(detail.gate || 'gate') + '</strong>: ' +
                 escapeHtml(detail.reason || '') +
                 ' <span class="tp-sees-process-code">' + escapeHtml(detail.code_path || '') + '</span>' +
@@ -245,11 +262,15 @@ jQuery(function ($) {
         renderProcessTrace(trace.process || []);
         renderStrategyStack(trace);
         lastTracePayload = trace;
+        setTraceAvailable(true);
+        setCopyStatus('');
 
         stepsContainer.empty();
 
         (trace.steps || []).forEach(function (step, index) {
-            const passClass = step.passed ? 'is-pass' : 'is-fail';
+            const hasWarning = Boolean(step.warning);
+            const passClass = hasWarning ? 'is-warning' : (step.passed ? 'is-pass' : 'is-fail');
+            const statusText = hasWarning ? 'Warning' : (step.passed ? 'Pass' : 'Fail');
             const scoreValue = toNumber(step.score);
             const weightValue = toNumber(step.weight);
             const weightedValue = toNumber(step.weighted_score);
@@ -261,7 +282,7 @@ jQuery(function ($) {
                 '<header>' +
                 '<span class="tp-sees-step-index">Step ' + (index + 1) + '</span>' +
                 '<span class="tp-sees-step-label">' + escapeHtml(step.label) + '</span>' +
-                '<span class="tp-sees-step-status">' + (step.passed ? 'Pass' : 'Fail') + '</span>' +
+                '<span class="tp-sees-step-status">' + statusText + '</span>' +
                 '</header>' +
                 '<div class="tp-sees-step-values">' +
                 '<span>Input: ' + escapeHtml(step.input_value) + '</span>' +
@@ -305,6 +326,7 @@ jQuery(function ($) {
                 renderTrace(response.data);
             } else {
                 lastTracePayload = null;
+                setTraceAvailable(false);
                 traceHeader.empty();
                 processContainer.empty();
                 branchDetailsContainer.empty();
@@ -313,6 +335,7 @@ jQuery(function ($) {
             }
         }).fail(function () {
             lastTracePayload = null;
+            setTraceAvailable(false);
             traceHeader.empty();
             processContainer.empty();
             branchDetailsContainer.empty();
@@ -323,13 +346,18 @@ jQuery(function ($) {
 
     function copyTracePayload() {
         if (!lastTracePayload) {
+            setCopyStatus('No trace payload available.');
             return;
         }
 
         const payload = JSON.stringify(lastTracePayload, null, 2);
 
         if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(payload);
+            navigator.clipboard.writeText(payload).then(function () {
+                setCopyStatus('Trace JSON copied.');
+            }).catch(function () {
+                setCopyStatus('Copy failed.');
+            });
             return;
         }
 
@@ -338,6 +366,7 @@ jQuery(function ($) {
         helper[0].select();
         document.execCommand('copy');
         helper.remove();
+        setCopyStatus('Trace JSON copied.');
     }
 
     function fetchStrategyOptions(callback) {
@@ -468,6 +497,7 @@ jQuery(function ($) {
     });
 
     setAutoButtons(false);
+    setTraceAvailable(false);
     fetchStrategyOptions(function () {
         fetchCardsAndSync();
     });

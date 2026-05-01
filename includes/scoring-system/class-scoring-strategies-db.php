@@ -15,6 +15,41 @@ if ( ! defined( 'ABSPATH' ) ) {
 class TradePress_Scoring_Strategies_DB {
 
 	/**
+	 * Ensure the scoring strategy schema exists before storage operations.
+	 *
+	 * @return bool True when the main strategies table exists after the check.
+	 */
+	private static function ensure_tables() {
+		global $wpdb;
+
+		$table = $wpdb->prefix . 'tradepress_scoring_strategies';
+		$like  = $wpdb->esc_like( $table );
+		$found = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $like ) );
+
+		if ( $found === $table ) {
+			return true;
+		}
+
+		$schema_file = TRADEPRESS_PLUGIN_DIR_PATH . 'admin/installation/scoring-strategies-schema.php';
+		if ( ! file_exists( $schema_file ) ) {
+			return false;
+		}
+
+		require_once $schema_file;
+
+		if ( ! class_exists( 'TradePress_Scoring_Strategies_Schema' ) ) {
+			return false;
+		}
+
+		TradePress_Scoring_Strategies_Schema::create_tables();
+		TradePress_Scoring_Strategies_Schema::insert_default_categories();
+
+		$found = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $like ) );
+
+		return $found === $table;
+	}
+
+	/**
 	 * Get strategy by ID
 	 *
 	 * @version 1.0.0
@@ -23,6 +58,10 @@ class TradePress_Scoring_Strategies_DB {
 	 */
 	public static function get_strategy( $strategy_id ) {
 		global $wpdb;
+
+		if ( ! self::ensure_tables() ) {
+			return null;
+		}
 
 		$table = $wpdb->prefix . 'tradepress_scoring_strategies';
 		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table WHERE id = %d", $strategy_id ) );
@@ -37,6 +76,10 @@ class TradePress_Scoring_Strategies_DB {
 	 */
 	public static function get_strategies( $args = array() ) {
 		global $wpdb;
+
+		if ( ! self::ensure_tables() ) {
+			return array();
+		}
 
 		$defaults = array(
 			'status'     => 'all',
@@ -97,6 +140,10 @@ class TradePress_Scoring_Strategies_DB {
 	 */
 	public static function create_strategy( $data ) {
 		global $wpdb;
+
+		if ( ! self::ensure_tables() ) {
+			return new WP_Error( 'db_error', 'Failed to create scoring strategy tables.' );
+		}
 
 		$table = $wpdb->prefix . 'tradepress_scoring_strategies';
 
@@ -192,6 +239,10 @@ class TradePress_Scoring_Strategies_DB {
 	public static function add_strategy_directive( $strategy_id, $directive_data ) {
 		global $wpdb;
 
+		if ( ! self::ensure_tables() ) {
+			return new WP_Error( 'db_error', 'Failed to create scoring strategy tables.' );
+		}
+
 		$table = $wpdb->prefix . 'tradepress_strategy_directives';
 
 		$directive_data['strategy_id'] = $strategy_id;
@@ -214,6 +265,10 @@ class TradePress_Scoring_Strategies_DB {
 	 */
 	public static function get_strategy_directives( $strategy_id ) {
 		global $wpdb;
+
+		if ( ! self::ensure_tables() ) {
+			return array();
+		}
 
 		$table = $wpdb->prefix . 'tradepress_strategy_directives';
 

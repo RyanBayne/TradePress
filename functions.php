@@ -1514,7 +1514,7 @@ function TradePress_are_errors_allowed() {
 		'::1',
 	);
 
-	if ( in_array( $_SERVER['REMOTE_ADDR'], $whitelist ) ) {
+	if ( in_array( isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : '', $whitelist ) ) {
 		return true;
 	}
 

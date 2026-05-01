@@ -22,6 +22,10 @@ class TradePress_Scoring_Strategies_Schema {
 	public static function create_tables() {
 		global $wpdb, $charset_collate;
 
+		if ( empty( $charset_collate ) ) {
+			$charset_collate = $wpdb->get_charset_collate();
+		}
+
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 		// Enhanced strategies table (replaces existing basic one)
@@ -105,7 +109,7 @@ class TradePress_Scoring_Strategies_Schema {
             updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             
             PRIMARY KEY (id),
-            UNIQUE KEY slug (slug),
+            UNIQUE KEY slug (slug(191)),
             KEY name (name(100)),
             KEY status (status),
             KEY category (category),

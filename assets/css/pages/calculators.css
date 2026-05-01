@@ -1,0 +1,172 @@
+/**
+ * TradePress - Calculators Tab Styles
+ * 
+ * Styles specific to the trading calculators interface.
+ * Additional general calculator styles are in trading.css
+ *
+ * @package TradePress/CSS/Pages
+ * @since 1.0.0
+ */
+
+/* Calculator Form Styles */
+.calculator-form {
+    margin: var(--tp-spacing-lg) 0;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--tp-spacing-md);
+    margin-bottom: var(--tp-spacing-md);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: var(--tp-spacing-xs);
+    color: #2c3338;
+}
+
+.form-group input,
+.form-group select {
+    padding: var(--tp-spacing-xs) var(--tp-spacing-sm);
+    border: 1px solid #ddd;
+    border-radius: var(--tp-border-radius);
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #0073aa;
+    box-shadow: 0 0 0 2px rgba(0, 115, 170, 0.2);
+    outline: none;
+}
+
+/* Calculator Results */
+.calculator-results {
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    margin-top: var(--tp-spacing-lg);
+}
+
+.calculator-results h4 {
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-md);
+    color: #2c3338;
+    font-size: 16px;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--tp-spacing-md);
+}
+
+.result-item {
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-md);
+    text-align: center;
+}
+
+.result-label {
+    display: block;
+    font-size: 12px;
+    color: #646970;
+    margin-bottom: var(--tp-spacing-xs);
+    font-weight: 500;
+}
+
+.result-value {
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    color: #2c3338;
+}
+
+/* Tab Container */
+.calculator-tabs {
+    margin-top: var(--tp-spacing-lg);
+}
+
+.calculator-tabs .ui-tabs-nav {
+    border-bottom: 2px solid #dcdcde;
+    background: transparent;
+}
+
+.calculator-tabs .ui-tabs-nav li {
+    margin-bottom: -2px;
+}
+
+.calculator-tabs .ui-tabs-nav li.ui-tabs-active {
+    border-bottom: 2px solid #0073aa;
+}
+
+.calculator-tabs .ui-tabs-nav a {
+    color: #646970;
+    padding: 10px 15px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.calculator-tabs .ui-tabs-nav li.ui-tabs-active a {
+    color: #0073aa;
+    font-weight: 600;
+}
+
+.calculator-section {
+    padding: var(--tp-spacing-lg) 0;
+}
+
+.calculator-section h3 {
+    margin-top: 0;
+    margin-bottom: var(--tp-spacing-sm);
+    color: #2c3338;
+    font-size: 18px;
+}
+
+.calculator-section .description {
+    color: #646970;
+    margin-bottom: var(--tp-spacing-md);
+    font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Coming Soon Notices */
+.coming-soon-notice {
+    background: #f0f6fc;
+    border: 1px solid #0073aa;
+    border-radius: var(--tp-border-radius);
+    padding: var(--tp-spacing-lg);
+    margin: var(--tp-spacing-lg) 0;
+    text-align: center;
+}
+
+.coming-soon-notice p {
+    color: #0073aa;
+    margin: 0;
+    font-weight: 500;
+}
+
+.coming-soon-notice strong {
+    display: block;
+    font-size: 16px;
+    margin-bottom: var(--tp-spacing-xs);
+}

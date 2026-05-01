@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Load directives
+// Load directives.
 if ( ! function_exists( 'tradepress_get_all_directives' ) ) {
 	require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/directives-loader.php';
 }
@@ -21,7 +21,7 @@ $all_directives    = tradepress_get_all_directives();
 $active_directives = array_filter(
 	$all_directives,
 	function ( $directive ) {
-		return $directive['active'] === true;
+		return true === $directive['active'];
 	}
 );
 ?>
@@ -83,6 +83,12 @@ $active_directives = array_filter(
 						<label for="strategy-description"><?php esc_html_e( 'Description:', 'tradepress' ); ?></label>
 						<textarea id="strategy-description" rows="3" class="regular-text" placeholder="<?php esc_attr_e( 'Describe your strategy', 'tradepress' ); ?>"></textarea>
 					</div>
+
+					<div class="form-group">
+						<label for="strategy-min-score-threshold"><?php esc_html_e( 'Minimum Score Threshold:', 'tradepress' ); ?></label>
+						<input type="number" id="strategy-min-score-threshold" class="small-text" min="0" max="500" step="0.01" value="50">
+						<p class="description"><?php esc_html_e( 'SEES Diagnostics stops scoring traces below this raw strategy score. Use a higher value to test stopped-path traces.', 'tradepress' ); ?></p>
+					</div>
 				</div>
 				
 				<div class="strategy-directives-area">
@@ -103,6 +109,12 @@ $active_directives = array_filter(
 							<span><?php esc_html_e( 'Directives:', 'tradepress' ); ?></span>
 							<span id="directive-count">0</span>
 						</div>
+					</div>
+					<div class="strategy-weight-tools">
+						<button type="button" class="button button-secondary" id="evenly-divide-weights" disabled>
+							<?php esc_html_e( 'Evenly Divide Weights', 'tradepress' ); ?>
+						</button>
+						<span id="weight-helper-message" class="description"></span>
 					</div>
 				</div>
 				
@@ -277,6 +289,17 @@ $active_directives = array_filter(
 	display: flex;
 	gap: 10px;
 	margin-top: 20px;
+}
+
+.strategy-weight-tools {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 10px 0 0;
+}
+
+.strategy-weight-tools .description {
+	color: #646970;
 }
 
 .form-group {
@@ -534,6 +557,10 @@ jQuery(document).ready(function($) {
 			name: name,
 			weight: weight
 		});
+
+		if (!currentTemplate) {
+			normalizeWeightsEvenly(false);
+		}
 		
 		renderStrategyDirectives();
 		updateSummary();
@@ -607,8 +634,14 @@ jQuery(document).ready(function($) {
 		const $totalWeight = $('#total-weight');
 		$totalWeight.removeClass('weight-low weight-perfect weight-high');
 		if (totalWeight < 90) $totalWeight.addClass('weight-low');
-		else if (totalWeight >= 90 && totalWeight <= 110) $totalWeight.addClass('weight-perfect');
+		else if (totalWeight === 100) $totalWeight.addClass('weight-perfect');
 		else $totalWeight.addClass('weight-high');
+
+		if (strategyDirectives.length > 0 && totalWeight !== 100) {
+			$('#weight-helper-message').text('<?php echo esc_js( __( 'Use Evenly Divide Weights to make the total exactly 100%.', 'tradepress' ) ); ?>');
+		} else {
+			$('#weight-helper-message').text('');
+		}
 	}
 	
 	/**
@@ -621,6 +654,43 @@ jQuery(document).ready(function($) {
 		const hasName = $('#strategy-name').val().trim().length > 0;
 		
 		$('#save-strategy, #test-strategy').prop('disabled', !(hasDirectives && hasName));
+		$('#evenly-divide-weights').prop('disabled', !hasDirectives);
+	}
+
+	$('#evenly-divide-weights').on('click', function() {
+		normalizeWeightsEvenly(true);
+	});
+
+	/**
+	 * Divide weights evenly and keep the total exactly 100%.
+	 *
+	 * @param {boolean} showMessage Whether to show the helper message.
+	 * @return {void}
+	 */
+	function normalizeWeightsEvenly(showMessage) {
+		const count = strategyDirectives.length;
+
+		if (count === 0) {
+			return;
+		}
+
+		const baseWeight = Math.floor(100 / count);
+		let remainder = 100 - (baseWeight * count);
+
+		strategyDirectives = strategyDirectives.map((directive) => {
+			const nextDirective = Object.assign({}, directive);
+			nextDirective.weight = baseWeight + (remainder > 0 ? 1 : 0);
+			remainder--;
+			return nextDirective;
+		});
+
+		renderStrategyDirectives();
+		updateSummary();
+		updateButtons();
+
+		if (showMessage) {
+			$('#weight-helper-message').text('<?php echo esc_js( __( 'Weights divided evenly and total is now 100%.', 'tradepress' ) ); ?>');
+		}
 	}
 	
 	// Clear strategy
@@ -644,6 +714,7 @@ jQuery(document).ready(function($) {
 		const strategyData = {
 			name: $('#strategy-name').val().trim(),
 			description: $('#strategy-description').val().trim(),
+			min_score_threshold: parseFloat($('#strategy-min-score-threshold').val()) || 50,
 			directives: strategyDirectives.map((d, index) => ({
 				id: d.id,
 				name: d.name,
@@ -651,6 +722,22 @@ jQuery(document).ready(function($) {
 				sort_order: index
 			}))
 		};
+
+		const totalWeight = strategyDirectives.reduce((sum, d) => sum + d.weight, 0);
+		if (totalWeight !== 100) {
+			const shouldDivide = confirm('<?php echo esc_js( __( 'The selected directive weights must total 100%. Divide them evenly now?', 'tradepress' ) ); ?>');
+			if (!shouldDivide) {
+				return;
+			}
+
+			normalizeWeightsEvenly(true);
+			strategyData.directives = strategyDirectives.map((d, index) => ({
+				id: d.id,
+				name: d.name,
+				weight: d.weight,
+				sort_order: index
+			}));
+		}
 		
 		$button.prop('disabled', true).text('Creating...');
 		
@@ -660,6 +747,7 @@ jQuery(document).ready(function($) {
 			name: strategyData.name,
 			description: strategyData.description,
 			template: currentTemplate,
+			min_score_threshold: strategyData.min_score_threshold,
 			directives: JSON.stringify(strategyData.directives)
 		})
 		.done(function(response) {

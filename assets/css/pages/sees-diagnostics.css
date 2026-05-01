@@ -128,7 +128,15 @@
 .tp-sees-trace-actions {
     margin-bottom: 10px;
     display: flex;
+    gap: 8px;
     justify-content: flex-end;
+    align-items: center;
+}
+
+.tp-sees-copy-status {
+    min-width: 120px;
+    font-size: 12px;
+    color: #50575e;
 }
 
 .tp-sees-decision {
@@ -203,6 +211,18 @@
 .tp-sees-branch-item {
     font-size: 12px;
     margin: 6px 0;
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    gap: 6px;
+    align-items: baseline;
+}
+
+.tp-sees-branch-status {
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 11px;
+    font-weight: 700;
 }
 
 .tp-sees-branch-item.is-passed {
@@ -290,6 +310,10 @@
 
 .tp-sees-step.is-fail {
     border-left-color: #b32d2e;
+}
+
+.tp-sees-step.is-warning {
+    border-left-color: #996800;
 }
 
 .tp-sees-step header {

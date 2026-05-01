@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Load strategies from database
+// Load strategies from database.
 require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-scoring-strategies-db.php';
 
 $strategies = TradePress_Scoring_Strategies_DB::get_strategies(
@@ -23,7 +23,7 @@ $strategies = TradePress_Scoring_Strategies_DB::get_strategies(
 	)
 );
 
-// Convert to array format and add directive data
+// Convert to array format and add directive data.
 $sample_strategies = array();
 foreach ( $strategies as $strategy ) {
 	$directives = TradePress_Scoring_Strategies_DB::get_strategy_directives( $strategy->id );
@@ -38,15 +38,16 @@ foreach ( $strategies as $strategy ) {
 	}
 
 	$sample_strategies[] = array(
-		'id'           => $strategy->id,
-		'name'         => $strategy->name,
-		'description'  => $strategy->description,
-		'directives'   => $directive_array,
-		'created'      => date( 'Y-m-d', strtotime( $strategy->created_at ) ),
-		'last_used'    => $strategy->last_test_date ? human_time_diff( strtotime( $strategy->last_test_date ) ) . ' ago' : 'Never',
-		'status'       => $strategy->status,
-		'total_tests'  => $strategy->total_tests,
-		'success_rate' => $strategy->success_rate,
+		'id'                  => $strategy->id,
+		'name'                => $strategy->name,
+		'description'         => $strategy->description,
+		'directives'          => $directive_array,
+		'created'             => gmdate( 'Y-m-d', strtotime( $strategy->created_at ) ),
+		'last_used'           => $strategy->last_test_date ? human_time_diff( strtotime( $strategy->last_test_date ) ) . ' ago' : 'Never',
+		'status'              => $strategy->status,
+		'total_tests'         => $strategy->total_tests,
+		'success_rate'        => $strategy->success_rate,
+		'min_score_threshold' => isset( $strategy->min_score_threshold ) ? $strategy->min_score_threshold : 50,
 	);
 }
 ?>
@@ -91,6 +92,10 @@ foreach ( $strategies as $strategy ) {
 						<span class="meta-label"><?php esc_html_e( 'Directives:', 'tradepress' ); ?></span>
 						<span class="meta-value"><?php echo count( $strategy['directives'] ); ?></span>
 					</div>
+					<div class="meta-item">
+						<span class="meta-label"><?php esc_html_e( 'Minimum Score:', 'tradepress' ); ?></span>
+						<span class="meta-value"><?php echo esc_html( number_format_i18n( (float) $strategy['min_score_threshold'], 2 ) ); ?></span>
+					</div>
 				</div>
 				
 				<div class="strategy-directives">
@@ -115,7 +120,7 @@ foreach ( $strategies as $strategy ) {
 					<button type="button" class="button duplicate-strategy" data-strategy-id="<?php echo esc_attr( $strategy['id'] ); ?>">
 						<?php esc_html_e( 'Duplicate', 'tradepress' ); ?>
 					</button>
-					<?php if ( $strategy['status'] === 'active' ) : ?>
+					<?php if ( 'active' === $strategy['status'] ) : ?>
 						<button type="button" class="button deactivate-strategy" data-strategy-id="<?php echo esc_attr( $strategy['id'] ); ?>">
 							<?php esc_html_e( 'Deactivate', 'tradepress' ); ?>
 						</button>

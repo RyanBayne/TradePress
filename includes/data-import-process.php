@@ -142,17 +142,128 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 	 * @return array
 	 */
 	private function get_news_provider_order() {
-		$providers = array();
-
-		if ( 'yes' === get_option( 'TradePress_switch_alpaca_api_services', 'no' ) ) {
-			$providers[] = 'alpaca';
+		if ( ! class_exists( 'TradePress_API_Usage_Tracker' ) ) {
+			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/api-usage-tracker.php';
 		}
 
-		if ( 'yes' === get_option( 'TradePress_switch_alphavantage_api_services', 'no' ) ) {
+		$ranked    = TradePress_API_Usage_Tracker::get_ranked_providers_for_data( 'news' );
+		$providers = array();
+
+		foreach ( $ranked as $candidate ) {
+			if ( ! empty( $candidate['provider_id'] ) ) {
+				$providers[] = sanitize_key( (string) $candidate['provider_id'] );
+			}
+		}
+
+		// Keep a deterministic fallback order if ranking yields no provider.
+		if ( empty( $providers ) ) {
+			if ( 'yes' === get_option( 'TradePress_switch_alpaca_api_services', 'no' ) ) {
+				$providers[] = 'alpaca';
+			}
+
+			if ( 'yes' === get_option( 'TradePress_switch_alphavantage_api_services', 'no' ) ) {
+				$providers[] = 'alphavantage';
+			}
+		}
+
+		return array_values( array_unique( $providers ) );
+	}
+
+	/**
+	 * Get enabled earnings providers in runtime-health order.
+	 *
+	 * @return array
+	 */
+	private function get_earnings_provider_order() {
+		if ( ! class_exists( 'TradePress_API_Usage_Tracker' ) ) {
+			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/api-usage-tracker.php';
+		}
+
+		$ranked    = TradePress_API_Usage_Tracker::get_ranked_providers_for_data( 'earnings' );
+		$providers = array();
+
+		foreach ( $ranked as $candidate ) {
+			if ( ! empty( $candidate['provider_id'] ) ) {
+				$providers[] = sanitize_key( (string) $candidate['provider_id'] );
+			}
+		}
+
+		if ( empty( $providers ) && 'yes' === get_option( 'TradePress_switch_alphavantage_api_services', 'no' ) ) {
 			$providers[] = 'alphavantage';
 		}
 
-		return $providers;
+		return array_values( array_unique( $providers ) );
+	}
+
+	/**
+	 * Get enabled economic-calendar providers in runtime-health order.
+	 *
+	 * @return array
+	 */
+	private function get_economic_calendar_provider_order() {
+		if ( ! class_exists( 'TradePress_API_Usage_Tracker' ) ) {
+			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/api-usage-tracker.php';
+		}
+
+		$ranked    = TradePress_API_Usage_Tracker::get_ranked_providers_for_data( 'economic_calendar' );
+		$providers = array();
+
+		foreach ( $ranked as $candidate ) {
+			if ( ! empty( $candidate['provider_id'] ) ) {
+				$providers[] = sanitize_key( (string) $candidate['provider_id'] );
+			}
+		}
+
+		if ( empty( $providers ) && 'yes' === get_option( 'TradePress_switch_fmp_api_services', 'no' ) ) {
+			$providers[] = 'fmp';
+		}
+
+		return array_values( array_unique( $providers ) );
+	}
+
+	/**
+	 * Get enabled market-status providers in runtime-health order.
+	 *
+	 * @return array
+	 */
+	private function get_market_status_provider_order() {
+		if ( ! class_exists( 'TradePress_API_Usage_Tracker' ) ) {
+			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/api-usage-tracker.php';
+		}
+
+		$ranked    = TradePress_API_Usage_Tracker::get_ranked_providers_for_data( 'market_status' );
+		$providers = array();
+
+		foreach ( $ranked as $candidate ) {
+			if ( ! empty( $candidate['provider_id'] ) ) {
+				$providers[] = sanitize_key( (string) $candidate['provider_id'] );
+			}
+		}
+
+		// Deterministic fallback.
+		if ( empty( $providers ) && 'yes' === get_option( 'TradePress_switch_alphavantage_api_services', 'no' ) ) {
+			$providers[] = 'alphavantage';
+		}
+
+		return array_values( array_unique( $providers ) );
+	}
+
+	/**
+	 * Request earnings data using provider-compatible argument shape.
+	 *
+	 * @param mixed  $api API instance.
+	 * @param string $provider_id Provider ID.
+	 * @return array|WP_Error
+	 */
+	private function request_earnings_calendar_for_provider( $api, $provider_id ) {
+		$from = gmdate( 'Y-m-d', strtotime( '-3 months' ) );
+		$to   = gmdate( 'Y-m-d', strtotime( '+3 months' ) );
+
+		if ( $provider_id === 'alphavantage' ) {
+			return $api->get_earnings_calendar();
+		}
+
+		return $api->get_earnings_calendar( $from, $to );
 	}
 
 	/**
@@ -228,41 +339,63 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 		$max_retries = 3;
 
 		try {
-			// Log attempt
 			$this->log_process_activity( 'info', 'Attempting to fetch earnings data', array( 'retry' => $retry_count ) );
 
-			// Get Alpha Vantage API instance
-			$alpha_vantage = new TradePress_Alpha_Vantage_API();
+			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'api/api-factory.php';
 
-			// Fetch earnings calendar
-			$earnings_data = $alpha_vantage->get_earnings_calendar();
+			$provider_order = $this->get_earnings_provider_order();
+			$last_error     = null;
 
-			if ( $earnings_data && ! is_wp_error( $earnings_data ) ) {
+			foreach ( $provider_order as $provider_id ) {
+				$api = TradePress_API_Factory::create_from_settings( $provider_id, 'paper', 'earnings' );
+
+				if ( is_wp_error( $api ) ) {
+					$last_error = $api;
+					continue;
+				}
+
+				if ( ! method_exists( $api, 'get_earnings_calendar' ) ) {
+					$last_error = new WP_Error( 'unsupported_earnings_provider', $provider_id . ' does not expose get_earnings_calendar().' );
+					continue;
+				}
+
+				$earnings_data = $this->request_earnings_calendar_for_provider( $api, $provider_id );
+
+				if ( is_wp_error( $earnings_data ) ) {
+					$last_error = $earnings_data;
+					continue;
+				}
+
+				if ( ! $earnings_data ) {
+					$last_error = new WP_Error( 'empty_earnings_response', $provider_id . ' returned an empty earnings response.' );
+					continue;
+				}
+
 				$normalized_earnings_data = $this->normalize_earnings_records( $earnings_data );
 
-				// Store in database
 				update_option( 'tradepress_earnings_data', $normalized_earnings_data );
 				update_option( 'tradepress_earnings_last_update', current_time( 'timestamp' ) );
+				update_option( 'tradepress_earnings_data_source', $provider_id );
 
-				// Clear any previous error state
 				delete_option( 'tradepress_data_import_error_state' );
 
-				// Log success
 				$this->log_process_activity(
 					'info',
 					'Earnings data imported successfully',
 					array(
+						'provider'   => $provider_id,
 						'data_count' => count( $normalized_earnings_data ),
 					)
 				);
-				return false; // Task completed
+
+				return false;
 			}
 
-			// Handle API errors
-			if ( is_wp_error( $earnings_data ) ) {
-				$this->handle_api_error( 'earnings', $earnings_data, $retry_count, $max_retries );
+			if ( ! ( $last_error instanceof WP_Error ) ) {
+				$last_error = new WP_Error( 'earnings_provider_unavailable', 'No eligible earnings provider is currently available.' );
 			}
 
+			$this->handle_api_error( 'earnings', $last_error, $retry_count, $max_retries );
 			return $this->handle_retry( $item, $retry_count, $max_retries, 'earnings_fetch_failed' );
 
 		} catch ( Exception $e ) {
@@ -306,48 +439,59 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 
 			require_once TRADEPRESS_PLUGIN_DIR . 'api/api-factory.php';
 
-			$api = TradePress_API_Factory::create_from_settings( 'fmp', 'paper', 'economic_calendar' );
-
-			if ( is_wp_error( $api ) ) {
-				$this->handle_api_error( 'economic_calendar', $api, $retry_count, $max_retries );
-				return $this->handle_retry( $item, $retry_count, $max_retries, 'economic_calendar_provider_unavailable' );
-			}
-
-			if ( ! method_exists( $api, 'get_economic_calendar' ) ) {
-				$error = new WP_Error( 'unsupported_economic_calendar_provider', 'FMP API does not expose get_economic_calendar().' );
-				$this->handle_api_error( 'economic_calendar', $error, $retry_count, $max_retries );
-				return false;
-			}
+			$provider_order = $this->get_economic_calendar_provider_order();
+			$last_error     = null;
 
 			// Fetch 3 months back and 3 months forward for a usable window.
 			$from = gmdate( 'Y-m-d', strtotime( '-3 months' ) );
 			$to   = gmdate( 'Y-m-d', strtotime( '+3 months' ) );
 
-			$raw_events = $api->get_economic_calendar( $from, $to );
+			foreach ( $provider_order as $provider_id ) {
+				$api = TradePress_API_Factory::create_from_settings( $provider_id, 'paper', 'economic_calendar' );
 
-			if ( is_wp_error( $raw_events ) ) {
-				$this->handle_api_error( 'economic_calendar', $raw_events, $retry_count, $max_retries );
-				return $this->handle_retry( $item, $retry_count, $max_retries, 'economic_calendar_fetch_failed' );
+				if ( is_wp_error( $api ) ) {
+					$last_error = $api;
+					continue;
+				}
+
+				if ( ! method_exists( $api, 'get_economic_calendar' ) ) {
+					$last_error = new WP_Error( 'unsupported_economic_calendar_provider', $provider_id . ' does not expose get_economic_calendar().' );
+					continue;
+				}
+
+				$raw_events = $api->get_economic_calendar( $from, $to );
+
+				if ( is_wp_error( $raw_events ) ) {
+					$last_error = $raw_events;
+					continue;
+				}
+
+				$normalized = $this->normalize_economic_calendar_records( $raw_events );
+
+				update_option( 'tradepress_economic_calendar_data', $normalized );
+				update_option( 'tradepress_economic_calendar_last_imported', current_time( 'timestamp' ) );
+				update_option( 'tradepress_economic_calendar_data_source', $provider_id );
+
+				delete_option( 'tradepress_data_import_error_state' );
+
+				$this->log_process_activity(
+					'info',
+					'Economic calendar data imported successfully',
+					array(
+						'provider'   => $provider_id,
+						'data_count' => count( $normalized ),
+					)
+				);
+
+				return false;
 			}
 
-			$normalized = $this->normalize_economic_calendar_records( $raw_events );
+			if ( ! ( $last_error instanceof WP_Error ) ) {
+				$last_error = new WP_Error( 'economic_calendar_provider_unavailable', 'No eligible economic calendar provider is currently available.' );
+			}
 
-			update_option( 'tradepress_economic_calendar_data', $normalized );
-			update_option( 'tradepress_economic_calendar_last_imported', current_time( 'timestamp' ) );
-			update_option( 'tradepress_economic_calendar_data_source', 'fmp' );
-
-			delete_option( 'tradepress_data_import_error_state' );
-
-			$this->log_process_activity(
-				'info',
-				'Economic calendar data imported successfully',
-				array(
-					'provider'   => 'fmp',
-					'data_count' => count( $normalized ),
-				)
-			);
-
-			return false;
+			$this->handle_api_error( 'economic_calendar', $last_error, $retry_count, $max_retries );
+			return $this->handle_retry( $item, $retry_count, $max_retries, 'economic_calendar_fetch_failed' );
 
 		} catch ( Exception $e ) {
 			$this->log_process_activity(
@@ -644,23 +788,67 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 		try {
 			$this->log_process_activity( 'info', 'Fetching market status', array( 'retry' => $retry_count ) );
 
-			$alpha_vantage = new TradePress_Alpha_Vantage_API();
-			$market_status = $alpha_vantage->get_market_status();
+			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'api/api-factory.php';
 
-			if ( $market_status && ! is_wp_error( $market_status ) ) {
+			$provider_order = $this->get_market_status_provider_order();
+			$attempted      = array();
+			$last_error     = null;
+
+			foreach ( $provider_order as $provider_id ) {
+				$api = TradePress_API_Factory::create_from_settings( $provider_id, 'live', 'market_status' );
+
+				if ( is_wp_error( $api ) ) {
+					if ( ! empty( $attempted ) ) {
+						TradePress_API_Usage_Tracker::log_failover_event( 'market_status', $provider_id, 'factory_error', '' );
+					}
+					$last_error  = $api;
+					$attempted[] = $provider_id;
+					continue;
+				}
+
+				if ( ! method_exists( $api, 'get_market_status' ) ) {
+					if ( ! empty( $attempted ) ) {
+						TradePress_API_Usage_Tracker::log_failover_event( 'market_status', $provider_id, 'method_missing', '' );
+					}
+					$last_error  = new WP_Error( 'unsupported_market_status_provider', $provider_id . ' does not expose get_market_status().' );
+					$attempted[] = $provider_id;
+					continue;
+				}
+
+				$market_status = $api->get_market_status();
+
+				if ( is_wp_error( $market_status ) || ! $market_status ) {
+					if ( ! empty( $attempted ) ) {
+						TradePress_API_Usage_Tracker::log_failover_event( 'market_status', $provider_id, 'api_error', '' );
+					}
+					$last_error  = is_wp_error( $market_status ) ? $market_status : new WP_Error( 'empty_market_status', 'Empty market status from ' . $provider_id );
+					$attempted[] = $provider_id;
+					continue;
+				}
+
+				// Log failover if this was not the first provider.
+				if ( ! empty( $attempted ) ) {
+					foreach ( $attempted as $skipped_id ) {
+						TradePress_API_Usage_Tracker::log_failover_event( 'market_status', $skipped_id, 'failed_over', $provider_id );
+					}
+				}
+
 				update_option( 'tradepress_market_status', $market_status );
 				update_option( 'tradepress_market_status_last_update', current_time( 'timestamp' ) );
+				update_option( 'tradepress_market_status_data_source', $provider_id );
 
-				// Clear error state
 				delete_option( 'tradepress_data_import_error_state' );
 
-				$this->log_process_activity( 'info', 'Market status updated successfully' );
+				$this->log_process_activity(
+					'info',
+					'Market status updated successfully',
+					array( 'provider' => $provider_id )
+				);
 				return false;
 			}
 
-			// Handle API errors
-			if ( is_wp_error( $market_status ) ) {
-				$this->handle_api_error( 'market_status', $market_status, $retry_count, $max_retries );
+			if ( $last_error instanceof WP_Error ) {
+				$this->handle_api_error( 'market_status', $last_error, $retry_count, $max_retries );
 			}
 
 			return $this->handle_retry( $item, $retry_count, $max_retries, 'market_status_failed' );

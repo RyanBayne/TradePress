@@ -46,6 +46,7 @@ class TradePress_Strategy_Handler {
 		$name        = sanitize_text_field( $_POST['name'] );
 		$description = sanitize_textarea_field( $_POST['description'] );
 		$template    = sanitize_text_field( $_POST['template'] ?? '' );
+		$min_score_threshold = isset( $_POST['min_score_threshold'] ) ? (float) sanitize_text_field( wp_unslash( $_POST['min_score_threshold'] ) ) : 50.0;
 		$directives  = json_decode( stripslashes( $_POST['directives'] ), true );
 
 		if ( empty( $name ) ) {
@@ -58,8 +59,8 @@ class TradePress_Strategy_Handler {
 
 		// Validate total weight
 		$total_weight = array_sum( array_column( $directives, 'weight' ) );
-		if ( $total_weight < 90 || $total_weight > 110 ) {
-			wp_send_json_error( 'Total weight must be between 90% and 110%' );
+		if ( abs( 100 - $total_weight ) > 0.01 ) {
+			wp_send_json_error( 'Total weight must be exactly 100%' );
 		}
 
 		// Determine category based on template
@@ -76,6 +77,7 @@ class TradePress_Strategy_Handler {
 			'template'     => $template,
 			'status'       => 'draft',
 			'total_weight' => $total_weight,
+			'min_score_threshold' => max( 0, min( 500, $min_score_threshold ) ),
 			'creator_id'   => get_current_user_id(),
 		);
 
@@ -256,6 +258,7 @@ class TradePress_Strategy_Handler {
 			'risk_level'   => $strategy->risk_level,
 			'time_horizon' => $strategy->time_horizon,
 			'total_weight' => $strategy->total_weight,
+			'min_score_threshold' => $strategy->min_score_threshold,
 			'creator_id'   => get_current_user_id(),
 		);
 

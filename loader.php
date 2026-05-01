@@ -916,7 +916,12 @@ final class WordPressTradePress {
 	 */
 	public static function print_errors() {
 		global $wpdb;
-		$wpdb->print_error();
+
+		if ( empty( $wpdb->last_error ) ) {
+			return;
+		}
+
+		$wpdb->print_error( $wpdb->last_error );
 	}
 
 	/**

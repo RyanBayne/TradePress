@@ -69,12 +69,12 @@ if ( ! class_exists( 'TradePress_Listener' ) ) :
 			}
 
 			// Handle GET requests
-			if ( $_SERVER['REQUEST_METHOD'] === 'GET' ) {
+			if ( isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] === 'GET' ) {
 				$this->process_get_requests();
 			}
 
 			// Handle POST requests
-			if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
+			if ( isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] === 'POST' ) {
 				$this->process_post_requests();
 			}
 		}
