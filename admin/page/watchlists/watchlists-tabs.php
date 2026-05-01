@@ -35,7 +35,7 @@ if ( ! class_exists( 'TradePress_Admin_Watchlists_Page' ) ) :
 		 */
 		public function __construct() {
 			if ( isset( $_GET['tab'] ) ) {
-				$this->active_tab = sanitize_text_field( $_GET['tab'] );
+				$this->active_tab = sanitize_key( wp_unslash( $_GET['tab'] ) );
 			}
 		}
 
@@ -52,7 +52,17 @@ if ( ! class_exists( 'TradePress_Admin_Watchlists_Page' ) ) :
 				'create-watchlist' => __( 'Create Watchlist', 'tradepress' ),
 			);
 
-			return apply_filters( 'tradepress_watchlists_tabs', $tabs );
+			$tabs = apply_filters( 'tradepress_watchlists_tabs', $tabs );
+			return tradepress_filter_development_tabs( $tabs, $this->get_development_tab_ids() );
+		}
+
+		/**
+		 * Get tabs that are visible only in Developer Mode.
+		 *
+		 * @return array
+		 */
+		private function get_development_tab_ids() {
+			return array( 'active-symbols', 'user-watchlists', 'create-watchlist' );
 		}
 
 		/**
@@ -69,7 +79,7 @@ if ( ! class_exists( 'TradePress_Admin_Watchlists_Page' ) ) :
 				echo esc_html__( 'TradePress Watchlists', 'tradepress' );
 				if ( isset( $tabs[ $this->active_tab ] ) ) {
 					echo ' <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 0.8em; vertical-align: middle; margin: 0 5px;"></span> ';
-					echo esc_html( $tabs[ $this->active_tab ] );
+					echo tradepress_get_development_tab_label( $this->active_tab, $tabs[ $this->active_tab ], $this->get_development_tab_ids() );
 				}
 				?>
 			</h1>
@@ -80,7 +90,7 @@ if ( ! class_exists( 'TradePress_Admin_Watchlists_Page' ) ) :
 					$active = ( $this->active_tab === $tab_id ) ? 'nav-tab-active' : '';
 					$url    = admin_url( 'admin.php?page=tradepress_watchlists&tab=' . $tab_id );
 					?>
-					<a href="<?php echo esc_url( $url ); ?>" class="nav-tab <?php echo esc_attr( $active ); ?>"><?php echo esc_html( $tab_name ); ?></a>
+					<a href="<?php echo esc_url( $url ); ?>" class="nav-tab <?php echo esc_attr( $active ); ?>"><?php echo tradepress_get_development_tab_label( $tab_id, $tab_name, $this->get_development_tab_ids() ); ?></a>
 				<?php endforeach; ?>
 			</nav>
 			

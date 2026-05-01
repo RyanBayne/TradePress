@@ -10,12 +10,12 @@
  * @created 2023-05-01
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Enqueue required styles and scripts
+// Enqueue required styles and scripts.
 wp_enqueue_script( 'jquery-ui-tabs' );
 wp_enqueue_style( 'wp-jquery-ui-dialog' );
 wp_enqueue_style( 'tradepress-calculators' );
@@ -23,6 +23,30 @@ wp_enqueue_script( 'tradepress-calculators' );
 ?>
 
 <div class="tradepress-calculator-container">
+	<div class="tradepress-data-status-panel" data-mode="live" data-health="not_applicable">
+		<h3><?php esc_html_e( 'Calculator Data Status', 'tradepress' ); ?></h3>
+		<table class="widefat fixed striped">
+			<tbody>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Data mode', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'Live', 'tradepress' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Source of truth', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'User-entered calculator inputs only', 'tradepress' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Provider', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'Not applicable', 'tradepress' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Queue behavior', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'No queued refresh required', 'tradepress' ); ?></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
 	<div class="calculator-tabs">
 		<ul>
 			<li><a href="#averaging-down-calculator">Averaging Down</a></li>
@@ -108,8 +132,8 @@ wp_enqueue_script( 'tradepress-calculators' );
 			</p>
 			
 			<!-- Position Size Calculator form will go here -->
-			<div class="coming-soon-notice">
-				<p><?php esc_html_e( 'This calculator is coming soon.', 'tradepress' ); ?></p>
+			<div class="coming-soon-notice" data-state="coming-soon">
+				<p><strong><?php esc_html_e( 'Coming Soon:', 'tradepress' ); ?></strong> <?php esc_html_e( 'This calculator is not yet available.', 'tradepress' ); ?></p>
 			</div>
 		</div>
 		
@@ -121,8 +145,8 @@ wp_enqueue_script( 'tradepress-calculators' );
 			</p>
 			
 			<!-- Risk/Reward Calculator form will go here -->
-			<div class="coming-soon-notice">
-				<p><?php esc_html_e( 'This calculator is coming soon.', 'tradepress' ); ?></p>
+			<div class="coming-soon-notice" data-state="coming-soon">
+				<p><strong><?php esc_html_e( 'Coming Soon:', 'tradepress' ); ?></strong> <?php esc_html_e( 'This calculator is not yet available.', 'tradepress' ); ?></p>
 			</div>
 		</div>
 		
@@ -134,8 +158,8 @@ wp_enqueue_script( 'tradepress-calculators' );
 			</p>
 			
 			<!-- Profit/Loss Calculator form will go here -->
-			<div class="coming-soon-notice">
-				<p><?php esc_html_e( 'This calculator is coming soon.', 'tradepress' ); ?></p>
+			<div class="coming-soon-notice" data-state="coming-soon">
+				<p><strong><?php esc_html_e( 'Coming Soon:', 'tradepress' ); ?></strong> <?php esc_html_e( 'This calculator is not yet available.', 'tradepress' ); ?></p>
 			</div>
 		</div>
 		
@@ -147,8 +171,8 @@ wp_enqueue_script( 'tradepress-calculators' );
 			</p>
 			
 			<!-- Fibonacci Calculator form will go here -->
-			<div class="coming-soon-notice">
-				<p><?php esc_html_e( 'This calculator is coming soon.', 'tradepress' ); ?></p>
+			<div class="coming-soon-notice" data-state="coming-soon">
+				<p><strong><?php esc_html_e( 'Coming Soon:', 'tradepress' ); ?></strong> <?php esc_html_e( 'This calculator is not yet available.', 'tradepress' ); ?></p>
 			</div>
 		</div>
 	</div>

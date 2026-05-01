@@ -66,6 +66,26 @@
     margin-right: 4px;
 }
 
+.tradepress-development-tab-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+    color: #b32d2e;
+    vertical-align: text-bottom;
+}
+
+.tradepress-development-tab-indicator .dashicons {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.nav-tab .tradepress-development-tab-indicator {
+    margin-left: 3px;
+}
+
 @media screen and (max-width: 782px) {
     #tradepress-mode-indicators {
         top: 44px;

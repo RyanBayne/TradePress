@@ -12,76 +12,76 @@
  * @created  April 22, 2025
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Check if form submitted
-if ( isset( $_POST['save_discord_settings'] ) && isset( $_POST['_wpnonce'] ) && wp_verify_nonce( $_POST['_wpnonce'], 'tradepress-discord-settings' ) ) {
+// Check if form submitted.
+if ( isset( $_POST['save_discord_settings'] ) && isset( $_POST['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'tradepress-discord-settings' ) ) {
 
-	// Save Bot Token
+	// Save Bot Token.
 	if ( isset( $_POST['discord_bot_token'] ) ) {
-		$bot_token = sanitize_text_field( $_POST['discord_bot_token'] );
+		$bot_token = sanitize_text_field( wp_unslash( $_POST['discord_bot_token'] ) );
 		update_option( 'TRADEPRESS_DISCORD_bot_token', $bot_token );
 	}
 
-	// Save Bot Permissions Integer
+	// Save Bot Permissions Integer.
 	if ( isset( $_POST['discord_bot_permissions'] ) ) {
-		$bot_permissions = sanitize_text_field( $_POST['discord_bot_permissions'] );
+		$bot_permissions = sanitize_text_field( wp_unslash( $_POST['discord_bot_permissions'] ) );
 		update_option( 'TRADEPRESS_DISCORD_bot_permissions', $bot_permissions );
 	}
 
-	// Save Client ID
+	// Save Client ID.
 	if ( isset( $_POST['discord_client_id'] ) ) {
-		$client_id = sanitize_text_field( $_POST['discord_client_id'] );
+		$client_id = sanitize_text_field( wp_unslash( $_POST['discord_client_id'] ) );
 		update_option( 'TRADEPRESS_DISCORD_client_id', $client_id );
 	}
 
-	// Save Client Secret
+	// Save Client Secret.
 	if ( isset( $_POST['discord_client_secret'] ) ) {
-		$client_secret = sanitize_text_field( $_POST['discord_client_secret'] );
+		$client_secret = sanitize_text_field( wp_unslash( $_POST['discord_client_secret'] ) );
 		update_option( 'TRADEPRESS_DISCORD_client_secret', $client_secret );
 	}
 
-	// Save Public Key
+	// Save Public Key.
 	if ( isset( $_POST['discord_public_key'] ) ) {
-		$public_key = sanitize_text_field( $_POST['discord_public_key'] );
+		$public_key = sanitize_text_field( wp_unslash( $_POST['discord_public_key'] ) );
 		update_option( 'TRADEPRESS_DISCORD_public_key', $public_key );
 	}
 
-	// Save Application ID
+	// Save Application ID.
 	if ( isset( $_POST['discord_application_id'] ) ) {
-		$application_id = sanitize_text_field( $_POST['discord_application_id'] );
+		$application_id = sanitize_text_field( wp_unslash( $_POST['discord_application_id'] ) );
 		update_option( 'TRADEPRESS_DISCORD_application_id', $application_id );
 	}
 
-	// Save Guild ID
+	// Save Guild ID.
 	if ( isset( $_POST['discord_guild_id'] ) ) {
-		$guild_id = sanitize_text_field( $_POST['discord_guild_id'] );
+		$guild_id = sanitize_text_field( wp_unslash( $_POST['discord_guild_id'] ) );
 		update_option( 'TRADEPRESS_DISCORD_guild_id', $guild_id );
 	}
 
-	// Save Channel Settings
+	// Save Channel Settings.
 	if ( isset( $_POST['discord_alerts_channel'] ) ) {
-		update_option( 'TRADEPRESS_DISCORD_alerts_channel', sanitize_text_field( $_POST['discord_alerts_channel'] ) );
+		update_option( 'TRADEPRESS_DISCORD_alerts_channel', sanitize_text_field( wp_unslash( $_POST['discord_alerts_channel'] ) ) );
 	}
 
 	if ( isset( $_POST['discord_market_channel'] ) ) {
-		update_option( 'TRADEPRESS_DISCORD_market_channel', sanitize_text_field( $_POST['discord_market_channel'] ) );
+		update_option( 'TRADEPRESS_DISCORD_market_channel', sanitize_text_field( wp_unslash( $_POST['discord_market_channel'] ) ) );
 	}
 
 	if ( isset( $_POST['discord_signals_channel'] ) ) {
-		update_option( 'TRADEPRESS_DISCORD_signals_channel', sanitize_text_field( $_POST['discord_signals_channel'] ) );
+		update_option( 'TRADEPRESS_DISCORD_signals_channel', sanitize_text_field( wp_unslash( $_POST['discord_signals_channel'] ) ) );
 	}
 
-	// Save Redirect URI if present
+	// Save Redirect URI if present.
 	if ( isset( $_POST['discord_redirect_uri'] ) ) {
-		$redirect_uri = esc_url_raw( $_POST['discord_redirect_uri'] );
+		$redirect_uri = esc_url_raw( wp_unslash( $_POST['discord_redirect_uri'] ) );
 		update_option( 'TRADEPRESS_DISCORD_redirect_uri', $redirect_uri );
 	}
 
-	// Save notification settings
+	// Save notification settings.
 	$notification_types = array(
 		'trade_alerts',
 		'price_alerts',
@@ -90,17 +90,17 @@ if ( isset( $_POST['save_discord_settings'] ) && isset( $_POST['_wpnonce'] ) && 
 		'system_notifications',
 	);
 
-	foreach ( $notification_types as $type ) {
-		$option_name = 'TradePress_social_discord_notify_' . $type;
-		$value       = isset( $_POST[ 'discord_notify_' . $type ] ) ? 'yes' : 'no';
+	foreach ( $notification_types as $notification_type ) {
+		$option_name = 'TradePress_social_discord_notify_' . $notification_type;
+		$value       = isset( $_POST[ 'discord_notify_' . $notification_type ] ) ? 'yes' : 'no';
 		update_option( $option_name, $value );
 	}
 
-	// Set success message
+	// Set success message.
 	echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Discord settings saved successfully.', 'tradepress' ) . '</p></div>';
 }
 
-// Get current values
+// Get current values.
 $bot_token       = get_option( 'TRADEPRESS_DISCORD_bot_token', '' );
 $bot_permissions = get_option( 'TRADEPRESS_DISCORD_bot_permissions', '0' );
 $client_id       = get_option( 'TRADEPRESS_DISCORD_client_id', '' );
@@ -113,16 +113,9 @@ $market_channel  = get_option( 'TRADEPRESS_DISCORD_market_channel', '' );
 $signals_channel = get_option( 'TRADEPRESS_DISCORD_signals_channel', '' );
 $redirect_uri    = get_option( 'TRADEPRESS_DISCORD_redirect_uri', site_url( '/discord-callback' ) );
 
-// Load Discord API class
-if ( ! class_exists( 'TRADEPRESS_DISCORD_API' ) ) {
-	require_once trailingslashit( TRADEPRESS_PLUGIN_DIR_PATH ) . 'api/discord/discord-api.php';
-}
-
-// Initialize the Discord API instance
-$discord_api = new TRADEPRESS_DISCORD_API();
-
-// Get diagnostic results
-$diagnostics = $discord_api->run_diagnostics();
+$discord_services_enabled = get_option( 'TradePress_switch_discord_social_services', 'no' ) === 'yes';
+$discord_has_bot_token    = ! empty( $bot_token );
+$discord_has_channels     = ! empty( $alerts_channel ) || ! empty( $market_channel ) || ! empty( $signals_channel );
 
 ?>
 
@@ -219,14 +212,14 @@ $diagnostics = $discord_api->run_diagnostics();
 									<?php esc_html_e( 'The permissions integer for your bot. Required permissions include: Send Messages (2048), Embed Links (16384), Attach Files (32768).', 'tradepress' ); ?>
 									<br>
 									<?php
-									// Calculate recommended permissions (Send Messages + Embed Links + Attach Files)
-									$recommended_permissions = 2048 + 16384 + 32768; // = 51200
-									printf(
-										/* translators: %s: value */
-										esc_html__( 'Recommended value: %s. ', 'tradepress' ),
-										'<strong>' . $recommended_permissions . '</strong>'
-									);
-									?>
+										// Calculate recommended permissions (Send Messages + Embed Links + Attach Files).
+										$recommended_permissions = 2048 + 16384 + 32768; // = 51200
+										printf(
+											/* translators: %s: value */
+											esc_html__( 'Recommended value: %s. ', 'tradepress' ),
+											wp_kses( '<strong>' . (int) $recommended_permissions . '</strong>', array( 'strong' => array() ) )
+										);
+										?>
 									<a href="https://discord.com/developers/docs/topics/permissions" target="_blank"><?php esc_html_e( 'Learn more about Discord permissions', 'tradepress' ); ?></a>
 								</p>
 							</td>
@@ -402,7 +395,7 @@ $diagnostics = $discord_api->run_diagnostics();
 				
 				<p class="submit">
 					<input type="submit" name="save_discord_settings" class="button button-primary" value="<?php esc_attr_e( 'Save Discord Settings', 'tradepress' ); ?>">
-					<input type="submit" name="test_discord_connection" class="button button-secondary" value="<?php esc_attr_e( 'Test Connection', 'tradepress' ); ?>">
+					<button type="button" class="button button-secondary" disabled><?php esc_html_e( 'Test Connection (queued test not connected)', 'tradepress' ); ?></button>
 					<a href="<?php echo esc_url( admin_url( 'admin.php?page=TradePress_social&tab=discord' ) ); ?>" class="button button-secondary">
 						<?php esc_html_e( 'Back to Discord', 'tradepress' ); ?>
 					</a>
@@ -418,77 +411,54 @@ $diagnostics = $discord_api->run_diagnostics();
 					<!-- Overall Status -->
 					<div class="status-section">
 						<h4><?php esc_html_e( 'Overall Status', 'tradepress' ); ?></h4>
-						<div class="status-indicator <?php echo $diagnostics['success'] ? 'status-success' : 'status-error'; ?>">
-							<span class="dashicons <?php echo $diagnostics['success'] ? 'dashicons-yes-alt' : 'dashicons-warning'; ?>"></span>
+						<div class="status-indicator <?php echo $discord_services_enabled && $discord_has_bot_token ? 'status-success' : 'status-error'; ?>">
+							<span class="dashicons <?php echo $discord_services_enabled && $discord_has_bot_token ? 'dashicons-yes-alt' : 'dashicons-warning'; ?>"></span>
 							<span class="status-text">
-								<?php echo $diagnostics['success'] ? esc_html__( 'Connection Ready', 'tradepress' ) : esc_html__( 'Configuration Issues Detected', 'tradepress' ); ?>
+								<?php echo $discord_services_enabled && $discord_has_bot_token ? esc_html__( 'Configuration saved', 'tradepress' ) : esc_html__( 'Configuration incomplete', 'tradepress' ); ?>
 							</span>
 						</div>
-						
-						<?php if ( ! empty( $diagnostics['messages'] ) ) : ?>
-							<div class="status-messages">
-								<ul>
-									<?php foreach ( $diagnostics['messages'] as $message ) : ?>
-										<li><?php echo esc_html( $message ); ?></li>
-									<?php endforeach; ?>
-								</ul>
-							</div>
-						<?php endif; ?>
+						<p class="description"><?php esc_html_e( 'This panel reads saved settings only. It does not call Discord during page rendering.', 'tradepress' ); ?></p>
 					</div>
 					
 					<!-- Bot Token Status -->
 					<div class="status-section">
 						<h4><?php esc_html_e( 'Bot Token', 'tradepress' ); ?></h4>
-						<div class="status-indicator <?php echo $diagnostics['tests']['token']['passed'] ? 'status-success' : 'status-error'; ?>">
-							<span class="dashicons <?php echo $diagnostics['tests']['token']['passed'] ? 'dashicons-yes-alt' : 'dashicons-warning'; ?>"></span>
+						<div class="status-indicator <?php echo $discord_has_bot_token ? 'status-success' : 'status-error'; ?>">
+							<span class="dashicons <?php echo $discord_has_bot_token ? 'dashicons-yes-alt' : 'dashicons-warning'; ?>"></span>
 							<span class="status-text">
-								<?php echo esc_html( $diagnostics['tests']['token']['message'] ); ?>
+								<?php echo $discord_has_bot_token ? esc_html__( 'Bot token is saved.', 'tradepress' ) : esc_html__( 'Bot token is missing.', 'tradepress' ); ?>
 							</span>
 						</div>
 					</div>
 					
 					<!-- API Connection -->
 					<div class="status-section">
-						<h4><?php esc_html_e( 'API Connection', 'tradepress' ); ?></h4>
-						<div class="status-indicator <?php echo $diagnostics['tests']['validation']['passed'] ? 'status-success' : 'status-error'; ?>">
-							<span class="dashicons <?php echo $diagnostics['tests']['validation']['passed'] ? 'dashicons-yes-alt' : 'dashicons-warning'; ?>"></span>
+						<h4><?php esc_html_e( 'Service Switch', 'tradepress' ); ?></h4>
+						<div class="status-indicator <?php echo $discord_services_enabled ? 'status-success' : 'status-error'; ?>">
+							<span class="dashicons <?php echo $discord_services_enabled ? 'dashicons-yes-alt' : 'dashicons-warning'; ?>"></span>
 							<span class="status-text">
-								<?php echo esc_html( $diagnostics['tests']['validation']['message'] ); ?>
+								<?php echo $discord_services_enabled ? esc_html__( 'Discord services are enabled.', 'tradepress' ) : esc_html__( 'Discord services are disabled.', 'tradepress' ); ?>
+							</span>
+						</div>
+					</div>
+
+					<!-- Channel Configuration -->
+					<div class="status-section">
+						<h4><?php esc_html_e( 'Channel Configuration', 'tradepress' ); ?></h4>
+						<div class="status-indicator <?php echo $discord_has_channels ? 'status-success' : 'status-error'; ?>">
+							<span class="dashicons <?php echo $discord_has_channels ? 'dashicons-yes-alt' : 'dashicons-warning'; ?>"></span>
+							<span class="status-text">
+								<?php echo $discord_has_channels ? esc_html__( 'At least one channel is configured.', 'tradepress' ) : esc_html__( 'No channel IDs are configured.', 'tradepress' ); ?>
 							</span>
 						</div>
 					</div>
 					
-					<!-- Bot Information -->
-					<?php if ( isset( $diagnostics['tests']['bot_info'] ) && $diagnostics['tests']['bot_info']['passed'] && ! empty( $diagnostics['tests']['bot_info']['data'] ) ) : ?>
-						<div class="status-section">
-							<h4><?php esc_html_e( 'Bot Information', 'tradepress' ); ?></h4>
-							<div class="bot-info">
-								<?php $bot_data = $diagnostics['tests']['bot_info']['data']; ?>
-								
-								<div class="bot-avatar-container">
-									<?php if ( ! empty( $bot_data['avatar'] ) ) : ?>
-										<img src="<?php echo esc_url( $bot_data['avatar'] ); ?>" alt="Bot Avatar" class="bot-avatar" />
-									<?php else : ?>
-										<div class="bot-avatar-placeholder">
-											<span class="dashicons dashicons-admin-users"></span>
-										</div>
-									<?php endif; ?>
-								</div>
-								
-								<div class="bot-details">
-									<div class="bot-name"><?php echo esc_html( $bot_data['name'] ); ?></div>
-									<div class="bot-id">ID: <?php echo esc_html( $bot_data['id'] ); ?></div>
-								</div>
-							</div>
-						</div>
-					<?php endif; ?>
-					
 					<div class="status-actions">
-						<button type="button" id="refresh_discord_status" class="button">
-							<span class="dashicons dashicons-update"></span> <?php esc_html_e( 'Refresh Status', 'tradepress' ); ?>
+						<button type="button" id="refresh_discord_status" class="button" disabled>
+							<span class="dashicons dashicons-update"></span> <?php esc_html_e( 'Refresh Status (not connected)', 'tradepress' ); ?>
 						</button>
-						<button type="button" id="test_discord_connection" class="button">
-							<span class="dashicons dashicons-shield"></span> <?php esc_html_e( 'Test Connection', 'tradepress' ); ?>
+						<button type="button" id="test_discord_connection" class="button" disabled>
+							<span class="dashicons dashicons-shield"></span> <?php esc_html_e( 'Test Connection (not connected)', 'tradepress' ); ?>
 						</button>
 					</div>
 				</div>

@@ -379,13 +379,37 @@ class TradePress_Research {
 
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/research/view/social-networks/social-networks-tabs.php';
 
-		// Create sub-navigation for Social Networks
-		$current_subtab = isset( $_GET['subtab'] ) ? sanitize_title( $_GET['subtab'] ) : 'settings';
+		// Create sub-navigation for Social Networks.
+		$current_subtab = isset( $_GET['subtab'] ) ? sanitize_key( wp_unslash( $_GET['subtab'] ) ) : 'settings';
 
 		?>
 		<div class="social-networks-container">
 			<h3><?php esc_html_e( 'Social Networks Management', 'tradepress' ); // Escaped output per WordPress coding standards ?></h3>
-			<p><?php esc_html_e( 'Configure social media platform integrations for research and signal monitoring.', 'tradepress' ); // Escaped output per WordPress coding standards ?></p>
+			<p><?php esc_html_e( 'Configure social media platform settings. This view reads saved options only and does not fetch live social data during page rendering.', 'tradepress' ); // Escaped output per WordPress coding standards ?></p>
+
+			<div class="tradepress-data-status-panel" data-mode="dev-only-demo" data-health="not_applicable">
+				<h3><?php esc_html_e( 'Social Networks Data Status', 'tradepress' ); ?></h3>
+				<table class="widefat fixed striped">
+					<tbody>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Data mode', 'tradepress' ); ?></th>
+							<td><?php esc_html_e( 'Dev-only Demo', 'tradepress' ); ?></td>
+						</tr>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Source of truth', 'tradepress' ); ?></th>
+							<td><?php esc_html_e( 'Saved social platform options and switches', 'tradepress' ); ?></td>
+						</tr>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Provider', 'tradepress' ); ?></th>
+							<td><?php esc_html_e( 'Not selected for render path', 'tradepress' ); ?></td>
+						</tr>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Queue behavior', 'tradepress' ); ?></th>
+							<td><?php esc_html_e( 'No queue-backed social import exists for this view yet', 'tradepress' ); ?></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 			
 			<div class="subsubsub">
 				<ul>

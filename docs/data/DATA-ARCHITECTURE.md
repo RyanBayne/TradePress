@@ -20,6 +20,10 @@ The data flow is described in the sections below. A repository-local diagram can
 
 Release-facing Research view decisions are recorded in `wp-content/plugins/tradepress/docs/data/research-data-flow-contract.md`. Use that contract for News Feed and Earnings Calendar provider suitability, freshness SLAs, queue triggers, UI data modes, and no-inline-API validation.
 
+Data and Automation monitoring decisions are recorded in `wp-content/plugins/tradepress/docs/data/import-queue-monitoring-contract.md`. Use that contract for DB-backed import queue observability, manual queue triggers, and UI data-mode labels on queue monitoring surfaces.
+
+Trading and Analysis read-only surface decisions are recorded in `wp-content/plugins/tradepress/docs/data/trading-analysis-data-flow-contract.md`. Use that contract for provider suitability, freshness decisions, and no-inline-API validation on Trading/Analysis views as they are reviewed.
+
 ### Queue-Based Data Flow (Current Architecture)
 
 1. User requests data (e.g., views a symbol page)

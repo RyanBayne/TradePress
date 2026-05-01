@@ -63,7 +63,10 @@ jQuery(document).ready(function($) {
         accept: ".directive-item",
         drop: function(event, ui) {
             // Only add if it's a completely new item from the left panel
-            if (ui.draggable.hasClass("directive-item") && ui.draggable.parent().hasClass("category-directives")) {
+            if (
+                ui.draggable.hasClass("directive-item") &&
+                (ui.draggable.parent().hasClass("category-directives") || ui.draggable.parent().hasClass("available-list"))
+            ) {
                 addDirectiveToStrategy(ui.draggable);
             }
         }
@@ -253,7 +256,7 @@ jQuery(document).ready(function($) {
     });
     
     // Close modal
-    $(".tradepress-close-modal, .tradepress-close-button").on("click", function() {
+    $(".tp-close-modal, .tp-close-button").on("click", function() {
         $("#directive-details-modal").hide();
     });
     
@@ -268,8 +271,8 @@ jQuery(document).ready(function($) {
     
     // Also close modal if user clicks outside
     $(window).on("click", function(event) {
-        if ($(event.target).is(".tradepress-modal")) {
-            $(".tradepress-modal").hide();
+        if ($(event.target).is(".tp-modal")) {
+            $(".tp-modal").hide();
         }
     });
     
@@ -306,8 +309,8 @@ jQuery(document).ready(function($) {
             }
         }
         
-        // In a real implementation, we would submit the form via AJAX here
-        alert("Strategy saved successfully. (Demo implementation)");
+        // This Trading builder is currently a dev-only design surface.
+        alert("Strategy design validated. Saving is not connected to live trading automation from this view yet.");
         strategyHasChanges = false;
     });
     

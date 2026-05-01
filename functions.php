@@ -2238,3 +2238,40 @@ function tradepress_filter_development_tabs( $tabs, $development_tab_ids ) {
 
 	return $tabs;
 }
+
+/**
+ * Check whether a tab is only available through Developer Mode.
+ *
+ * @param string $tab_id              Tab ID.
+ * @param array  $development_tab_ids Tab IDs that require Developer Mode.
+ * @return bool True when the current tab is development-only and visible.
+ */
+function tradepress_is_development_tab( $tab_id, $development_tab_ids ) {
+
+	return tradepress_can_access_development_views()
+		&& in_array( (string) $tab_id, array_map( 'strval', (array) $development_tab_ids ), true );
+}
+
+/**
+ * Return an escaped tab label with a Developer Mode marker when appropriate.
+ *
+ * Use this only when echoing tab labels; the label text is escaped here because
+ * the marker intentionally contains trusted Dashicons markup.
+ *
+ * @param string $tab_id              Tab ID.
+ * @param string $tab_label           Tab label.
+ * @param array  $development_tab_ids Tab IDs that require Developer Mode.
+ * @return string Escaped HTML label.
+ */
+function tradepress_get_development_tab_label( $tab_id, $tab_label, $development_tab_ids ) {
+
+	$label = esc_html( $tab_label );
+
+	if ( ! tradepress_is_development_tab( $tab_id, $development_tab_ids ) ) {
+		return $label;
+	}
+
+	$indicator_label = esc_attr__( 'Development mode tab', 'tradepress' );
+
+	return $label . ' <span class="tradepress-development-tab-indicator" title="' . $indicator_label . '" aria-label="' . $indicator_label . '"><span class="dashicons dashicons-admin-tools" aria-hidden="true"></span></span>';
+}

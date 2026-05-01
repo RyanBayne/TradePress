@@ -84,7 +84,7 @@ jQuery(document).ready(function($) {
     $('#save-strategy').on('click', function() {
         var form = $('#strategy-form')[0];
         if (form.checkValidity()) {
-            alert('Strategy saved successfully! (Demo only - no actual save occurred)');
+            alert('Strategy design validated. Saving is not connected to live trading automation from this view yet.');
             $('#strategy-modal').hide();
         } else {
             $('<input type="submit">').hide().appendTo(form).click().remove();
@@ -131,11 +131,11 @@ jQuery(document).ready(function($) {
                 '<div class="metric-label">Total P/L</div>' +
                 '</div>' +
                 '<div class="metric-card">' +
-                '<div class="metric-value">24 days</div>' +
+                '<div class="metric-value">Not connected</div>' +
                 '<div class="metric-label">Avg Hold Time</div>' +
                 '</div>' +
                 '<div class="metric-card">' +
-                '<div class="metric-value">2.8:1</div>' +
+                '<div class="metric-value">Not connected</div>' +
                 '<div class="metric-label">Risk/Reward</div>' +
                 '</div>' +
                 '</div>' +
@@ -156,11 +156,11 @@ jQuery(document).ready(function($) {
         var id = $(this).data('id');
         var isArchive = $(this).hasClass('archive-strategy');
         
-        var message = isArchive ? 
-            'Strategy has been archived. It will not appear in the main list unless "Show Archived" is selected.' : 
-            'Strategy has been restored from archive.';
+        var message = isArchive ?
+            'Archive action validated for this design view.' :
+            'Restore action validated for this design view.';
             
-        alert(message + ' (Demo only - no actual change occurred)');
+        alert(message + ' Persistence is not connected to live trading automation from this view yet.');
     });
     
     // Built-in strategies table row expansion

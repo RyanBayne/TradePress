@@ -9,20 +9,71 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
+}
+
+if ( ! function_exists( 'tradepress_get_trading_strategy_rows' ) ) {
+	/**
+	 * Get strategy rows for the Trading strategy management view.
+	 *
+	 * This view is a dev-only design surface. It reads stored scoring strategy
+	 * drafts when available and does not execute trading automation.
+	 *
+	 * @return array Strategy row data.
+	 */
+	function tradepress_get_trading_strategy_rows() {
+		if ( ! class_exists( 'TradePress_Scoring_Strategies_DB' ) ) {
+			$db_file = TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-scoring-strategies-db.php';
+			if ( file_exists( $db_file ) ) {
+				require_once $db_file;
+			}
+		}
+
+		if ( ! class_exists( 'TradePress_Scoring_Strategies_DB' ) ) {
+			return array();
+		}
+
+		$stored_strategies = TradePress_Scoring_Strategies_DB::get_strategies(
+			array(
+				'status' => 'all',
+				'limit'  => 50,
+			)
+		);
+
+		$rows = array();
+		foreach ( $stored_strategies as $strategy ) {
+			$rows[] = array(
+				'id'           => isset( $strategy->id ) ? (int) $strategy->id : 0,
+				'name'         => isset( $strategy->name ) ? $strategy->name : '',
+				'description'  => isset( $strategy->description ) ? $strategy->description : '',
+				'status'       => isset( $strategy->status ) ? $strategy->status : 'draft',
+				'success_rate' => isset( $strategy->success_rate ) ? (float) $strategy->success_rate : 0,
+				'trades_count' => isset( $strategy->total_tests ) ? (int) $strategy->total_tests : 0,
+				'profit_loss'  => 0,
+				'created'      => isset( $strategy->created_at ) ? $strategy->created_at : current_time( 'mysql' ),
+				'author'       => isset( $strategy->creator_id ) ? get_the_author_meta( 'display_name', (int) $strategy->creator_id ) : '',
+			);
+		}
+
+		return $rows;
+	}
 }
 
 // Initialize search query if provided
-$search_query = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
+$search_query = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : '';
 
 // Initialize filter for archived strategies
-$show_archived = isset( $_GET['show_archived'] ) ? (bool) $_GET['show_archived'] : false;
+$show_archived = isset( $_GET['show_archived'] ) ? (bool) absint( wp_unslash( $_GET['show_archived'] ) ) : false;
+
+if ( ! isset( $strategies ) || ! is_array( $strategies ) ) {
+	$strategies = tradepress_get_trading_strategy_rows();
+}
 
 // Filter strategies based on search and archive status
 $filtered_strategies = array();
 foreach ( $strategies as $strategy ) {
 	// Skip archived strategies unless we're explicitly showing them
-	if ( $strategy['status'] == 'archived' && ! $show_archived ) {
+	if ( 'archived' === $strategy['status'] && ! $show_archived ) {
 		continue;
 	}
 
@@ -40,6 +91,30 @@ foreach ( $strategies as $strategy ) {
 ?>
 
 <div class="wrap strategies-tab-content">
+	<div class="tradepress-data-status-panel" data-mode="dev-only-demo" data-health="not_applicable">
+		<h3><?php esc_html_e( 'Strategy Builder Status', 'tradepress' ); ?></h3>
+		<table class="widefat fixed striped">
+			<tbody>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Data mode', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'Dev-only Demo', 'tradepress' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Source of truth', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'Stored scoring strategy drafts when available; otherwise empty state', 'tradepress' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Provider', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'Not applicable', 'tradepress' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Execution state', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'Design and review only; not live trading automation', 'tradepress' ); ?></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
 	<div class="strategies-header">
 		<div class="strategies-actions">
 			<a href="#" class="button button-primary add-new-strategy">
@@ -51,7 +126,9 @@ foreach ( $strategies as $strategy ) {
 			echo esc_url(
 				add_query_arg(
 					array(
-						'tab'           => 'strategies',
+						'page'          => 'tradepress_trading',
+						'tab'           => 'trading-strategies',
+						'sub_tab'       => 'custom',
 						'show_archived' => $show_archived ? '0' : '1',
 					)
 				)
@@ -64,8 +141,9 @@ foreach ( $strategies as $strategy ) {
 		
 		<div class="strategies-search">
 			<form method="get">
-				<input type="hidden" name="page" value="tradepress_automation">
-				<input type="hidden" name="tab" value="strategies">
+				<input type="hidden" name="page" value="tradepress_trading">
+				<input type="hidden" name="tab" value="trading-strategies">
+				<input type="hidden" name="sub_tab" value="custom">
 				<input type="hidden" name="show_archived" value="<?php echo esc_attr( $show_archived ? '1' : '0' ); ?>">
 				<input type="search" name="s" value="<?php echo esc_attr( $search_query ); ?>" placeholder="<?php esc_attr_e( 'Search strategies...', 'tradepress' ); ?>">
 				<button type="submit" class="button"><?php esc_html_e( 'Search', 'tradepress' ); ?></button>
@@ -103,14 +181,14 @@ foreach ( $strategies as $strategy ) {
 			</thead>
 			<tbody>
 				<?php foreach ( $filtered_strategies as $strategy ) : ?>
-				<tr id="strategy-row-<?php echo esc_attr( $strategy['id'] ); ?>" class="strategy-row <?php echo $strategy['status'] == 'archived' ? 'strategy-archived' : ''; ?>">
+				<tr id="strategy-row-<?php echo esc_attr( $strategy['id'] ); ?>" class="strategy-row <?php echo 'archived' === $strategy['status'] ? 'strategy-archived' : ''; ?>">
 					<td class="column-name">
 						<strong><a href="#" class="view-strategy" data-id="<?php echo esc_attr( $strategy['id'] ); ?>"><?php echo esc_html( $strategy['name'] ); ?></a></strong>
 						<div class="row-actions">
 							<span class="view"><a href="#" class="view-strategy" data-id="<?php echo esc_attr( $strategy['id'] ); ?>"><?php esc_html_e( 'View', 'tradepress' ); ?></a> | </span>
 							<span class="quick-view"><a href="#" class="quick-view-strategy" data-id="<?php echo esc_attr( $strategy['id'] ); ?>"><?php esc_html_e( 'Quick View', 'tradepress' ); ?></a> | </span>
 							<span class="copy"><a href="#" class="copy-strategy" data-id="<?php echo esc_attr( $strategy['id'] ); ?>"><?php esc_html_e( 'Copy', 'tradepress' ); ?></a> | </span>
-							<?php if ( $strategy['status'] == 'archived' ) : ?>
+							<?php if ( 'archived' === $strategy['status'] ) : ?>
 							<span class="unarchive"><a href="#" class="unarchive-strategy" data-id="<?php echo esc_attr( $strategy['id'] ); ?>"><?php esc_html_e( 'Unarchive', 'tradepress' ); ?></a></span>
 							<?php else : ?>
 							<span class="archive"><a href="#" class="archive-strategy" data-id="<?php echo esc_attr( $strategy['id'] ); ?>"><?php esc_html_e( 'Archive', 'tradepress' ); ?></a></span>
@@ -118,15 +196,15 @@ foreach ( $strategies as $strategy ) {
 						</div>
 					</td>
 					<td class="column-status">
-						<?php if ( $strategy['status'] == 'active' ) : ?>
+						<?php if ( 'active' === $strategy['status'] ) : ?>
 							<span class="strategy-status status-active"><?php esc_html_e( 'Active', 'tradepress' ); ?></span>
-						<?php elseif ( $strategy['status'] == 'archived' ) : ?>
+						<?php elseif ( 'archived' === $strategy['status'] ) : ?>
 							<span class="strategy-status status-archived"><?php esc_html_e( 'Archived', 'tradepress' ); ?></span>
 						<?php else : ?>
 							<span class="strategy-status status-<?php echo esc_attr( $strategy['status'] ); ?>"><?php echo esc_html( ucfirst( $strategy['status'] ) ); ?></span>
 						<?php endif; ?>
 						
-						<?php if ( $strategy['status'] != 'archived' ) : ?>
+						<?php if ( 'archived' !== $strategy['status'] ) : ?>
 							<div class="status-toggle">
 								<label class="switch">
 									<input type="checkbox" class="strategy-toggle" data-id="<?php echo esc_attr( $strategy['id'] ); ?>" <?php checked( $strategy['status'], 'active' ); ?>>
@@ -286,9 +364,10 @@ foreach ( $strategies as $strategy ) {
 				<div class="form-row">
 					<label for="strategy-trading-mode"><?php esc_html_e( 'Trading Mode', 'tradepress' ); ?></label>
 					<select id="strategy-trading-mode" name="trading_mode">
-						<option value="paper"><?php esc_html_e( 'Paper Trading Only', 'tradepress' ); ?></option>
-						<option value="live"><?php esc_html_e( 'Live Trading', 'tradepress' ); ?></option>
+						<option value="paper"><?php esc_html_e( 'Paper Trading Design', 'tradepress' ); ?></option>
+						<option value="live" disabled><?php esc_html_e( 'Live Trading (not connected)', 'tradepress' ); ?></option>
 					</select>
+					<p class="description"><?php esc_html_e( 'Mode selection is design metadata only from this view.', 'tradepress' ); ?></p>
 				</div>
 				
 				<div class="form-row">

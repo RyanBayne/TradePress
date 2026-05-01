@@ -33,6 +33,8 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 				return $this->fetch_earnings_data( $item );
 			case 'fetch_news':
 				return $this->fetch_news_data( $item );
+			case 'fetch_economic_calendar':
+				return $this->fetch_economic_calendar_data( $item );
 			case 'fetch_prices':
 				return $this->fetch_price_data( $item );
 			case 'fetch_market_status':
@@ -275,6 +277,177 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 
 			return $this->handle_retry( $item, $retry_count, $max_retries, 'earnings_exception' );
 		}
+	}
+
+	/**
+	 * Fetch economic calendar data in the background queue.
+	 *
+	 * Primary provider: FMP economic_calendar.
+	 * Fallback: none approved for free core.
+	 *
+	 * Stores normalised events in:
+	 *   tradepress_economic_calendar_data        (array)
+	 *   tradepress_economic_calendar_last_imported (timestamp)
+	 *   tradepress_economic_calendar_data_source  (string)
+	 *
+	 * @param array $item Queue item.
+	 * @return bool|array False on success; item array to retry on failure.
+	 */
+	private function fetch_economic_calendar_data( $item ) {
+		$retry_count = isset( $item['retry_count'] ) ? (int) $item['retry_count'] : 0;
+		$max_retries = 3;
+
+		try {
+			$this->log_process_activity(
+				'info',
+				'Attempting to fetch economic calendar data',
+				array( 'retry' => $retry_count )
+			);
+
+			require_once TRADEPRESS_PLUGIN_DIR . 'api/api-factory.php';
+
+			$api = TradePress_API_Factory::create_from_settings( 'fmp', 'paper', 'economic_calendar' );
+
+			if ( is_wp_error( $api ) ) {
+				$this->handle_api_error( 'economic_calendar', $api, $retry_count, $max_retries );
+				return $this->handle_retry( $item, $retry_count, $max_retries, 'economic_calendar_provider_unavailable' );
+			}
+
+			if ( ! method_exists( $api, 'get_economic_calendar' ) ) {
+				$error = new WP_Error( 'unsupported_economic_calendar_provider', 'FMP API does not expose get_economic_calendar().' );
+				$this->handle_api_error( 'economic_calendar', $error, $retry_count, $max_retries );
+				return false;
+			}
+
+			// Fetch 3 months back and 3 months forward for a usable window.
+			$from = gmdate( 'Y-m-d', strtotime( '-3 months' ) );
+			$to   = gmdate( 'Y-m-d', strtotime( '+3 months' ) );
+
+			$raw_events = $api->get_economic_calendar( $from, $to );
+
+			if ( is_wp_error( $raw_events ) ) {
+				$this->handle_api_error( 'economic_calendar', $raw_events, $retry_count, $max_retries );
+				return $this->handle_retry( $item, $retry_count, $max_retries, 'economic_calendar_fetch_failed' );
+			}
+
+			$normalized = $this->normalize_economic_calendar_records( $raw_events );
+
+			update_option( 'tradepress_economic_calendar_data', $normalized );
+			update_option( 'tradepress_economic_calendar_last_imported', current_time( 'timestamp' ) );
+			update_option( 'tradepress_economic_calendar_data_source', 'fmp' );
+
+			delete_option( 'tradepress_data_import_error_state' );
+
+			$this->log_process_activity(
+				'info',
+				'Economic calendar data imported successfully',
+				array(
+					'provider'   => 'fmp',
+					'data_count' => count( $normalized ),
+				)
+			);
+
+			return false;
+
+		} catch ( Exception $e ) {
+			$this->log_process_activity(
+				'error',
+				'Exception in economic calendar data fetch',
+				array(
+					'error' => $e->getMessage(),
+					'retry' => $retry_count,
+				)
+			);
+
+			return $this->handle_retry( $item, $retry_count, $max_retries, 'economic_calendar_exception' );
+		}
+	}
+
+	/**
+	 * Normalise raw FMP economic calendar records to the Research Economic Calendar shape.
+	 *
+	 * FMP record keys: date, country, event, currency, previous, estimate, actual, change, changePercentage, impact
+	 *
+	 * @param mixed $records Raw provider response.
+	 * @return array
+	 */
+	private function normalize_economic_calendar_records( $records ) {
+		if ( ! is_array( $records ) ) {
+			return array();
+		}
+
+		// FMP wraps results in an outer array sometimes.
+		if ( isset( $records['economicCalendar'] ) && is_array( $records['economicCalendar'] ) ) {
+			$records = $records['economicCalendar'];
+		}
+
+		$importance_map = array(
+			'High'   => 'high',
+			'Medium' => 'medium',
+			'Low'    => 'low',
+			'high'   => 'high',
+			'medium' => 'medium',
+			'low'    => 'low',
+			'3'      => 'high',
+			'2'      => 'medium',
+			'1'      => 'low',
+		);
+
+		$normalized = array();
+
+		foreach ( $records as $record ) {
+			if ( ! is_array( $record ) ) {
+				continue;
+			}
+
+			$raw_date = isset( $record['date'] ) ? (string) $record['date'] : '';
+			if ( '' === $raw_date ) {
+				continue;
+			}
+
+			// date may be "YYYY-MM-DD HH:MM:SS" — split to date and time.
+			$date_parts = explode( ' ', $raw_date );
+			$date       = $date_parts[0];
+			$time       = isset( $date_parts[1] ) ? substr( $date_parts[1], 0, 5 ) : 'TBA';
+
+			$raw_impact  = (string) ( $record['impact'] ?? ( $record['changePercentage'] ?? 'low' ) );
+			$importance  = $importance_map[ $raw_impact ] ?? 'medium';
+
+			$raw_country = strtolower( (string) ( $record['country'] ?? '' ) );
+			// Map country codes to the region codes the view expects.
+			$region_map  = array(
+				'us' => 'us', 'united states' => 'us',
+				'eu' => 'eu', 'euro area' => 'eu', 'eurozone' => 'eu',
+				'gb' => 'uk', 'uk' => 'uk', 'united kingdom' => 'uk',
+				'jp' => 'jp', 'japan' => 'jp',
+				'ca' => 'ca', 'canada' => 'ca',
+				'au' => 'au', 'australia' => 'au',
+			);
+			$region = $region_map[ $raw_country ] ?? $raw_country;
+
+			$normalized[] = array(
+				'date'        => sanitize_text_field( $date ),
+				'time'        => sanitize_text_field( $time ),
+				'title'       => sanitize_text_field( (string) ( $record['event'] ?? '' ) ),
+				'description' => '',
+				'region'      => sanitize_text_field( $region ),
+				'importance'  => $importance,
+				'forecast'    => isset( $record['estimate'] ) ? sanitize_text_field( (string) $record['estimate'] ) : '',
+				'previous'    => isset( $record['previous'] ) ? sanitize_text_field( (string) $record['previous'] ) : '',
+				'actual'      => isset( $record['actual'] ) ? sanitize_text_field( (string) $record['actual'] ) : '',
+				'currency'    => sanitize_text_field( (string) ( $record['currency'] ?? '' ) ),
+			);
+		}
+
+		// Sort ascending by date + time.
+		usort(
+			$normalized,
+			function ( $a, $b ) {
+				return strcmp( $a['date'] . ' ' . $a['time'], $b['date'] . ' ' . $b['time'] );
+			}
+		);
+
+		return $normalized;
 	}
 
 	/**
@@ -1088,12 +1261,24 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 			}
 
 			$item_data = json_decode( $item->item_data, true );
-			$result    = $this->task( $item_data );
 
-			// Update queue item status
 			global $wpdb;
 			$table = $wpdb->prefix . 'tradepress_queue';
 
+			$wpdb->update(
+				$table,
+				array(
+					'status'     => 'processing',
+					'started_at' => current_time( 'mysql' ),
+				),
+				array( 'id' => $item->id ),
+				array( '%s', '%s' ),
+				array( '%d' )
+			);
+
+			$result = $this->task( $item_data );
+
+			// Update queue item status
 			if ( $result === false ) {
 				// Task completed successfully
 				$wpdb->update(
@@ -1102,17 +1287,27 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 						'status'       => 'completed',
 						'completed_at' => current_time( 'mysql' ),
 					),
-					array( 'id' => $item->id )
+					array( 'id' => $item->id ),
+					array( '%s', '%s' ),
+					array( '%d' )
 				);
 			} else {
 				// Task needs retry
+				$new_attempts = $item->attempts + 1;
+				$new_status   = $new_attempts >= $item->max_attempts ? 'failed' : 'pending';
+
 				$wpdb->update(
 					$table,
 					array(
-						'attempts'     => $item->attempts + 1,
-						'scheduled_at' => date( 'Y-m-d H:i:s', strtotime( '+' . ( $item_data['retry_delay'] ?? 60 ) . ' seconds' ) ),
+						'status'        => $new_status,
+						'attempts'      => $new_attempts,
+						'scheduled_at'  => date( 'Y-m-d H:i:s', strtotime( '+' . ( $item_data['retry_delay'] ?? 60 ) . ' seconds' ) ),
+						'completed_at'  => 'failed' === $new_status ? current_time( 'mysql' ) : null,
+						'error_message' => isset( $item_data['error_code'] ) ? $item_data['error_code'] : '',
 					),
-					array( 'id' => $item->id )
+					array( 'id' => $item->id ),
+					array( '%s', '%d', '%s', '%s', '%s' ),
+					array( '%d' )
 				);
 			}
 

@@ -87,22 +87,93 @@ function tradepress_economic_calendar_get_provider_status() {
 }
 
 /**
+ * Check whether an economic calendar import is already queued or processing.
+ *
+ * @return bool
+ */
+function tradepress_economic_calendar_has_pending_import() {
+	if ( ! class_exists( 'TradePress_Queue_Schema' ) && defined( 'TRADEPRESS_PLUGIN_DIR_PATH' ) ) {
+		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/queue-schema.php';
+	}
+
+	if ( ! class_exists( 'TradePress_Queue_Schema' ) ) {
+		return false;
+	}
+
+	return TradePress_Queue_Schema::has_active_item( 'data_import', 'fetch_economic_calendar' );
+}
+
+/**
+ * Queue an economic calendar refresh when stored data is missing or stale.
+ *
+ * Freshness SLA: 24 h. Queue threshold: 12 h.
+ * Primary provider: FMP.
+ *
+ * @param array  $provider_status Current provider status array.
+ * @param int    $last_import     Unix timestamp of last successful import.
+ * @return bool True if a new queue item was added.
+ */
+function tradepress_economic_calendar_maybe_queue_refresh( $provider_status, $last_import ) {
+	$provider_ready = $provider_status['fmp_enabled'] && $provider_status['fmp_key_configured'];
+
+	if ( ! $provider_ready ) {
+		return false;
+	}
+
+	$has_data      = ! empty( get_option( 'tradepress_economic_calendar_data', array() ) );
+	$age_seconds   = $last_import > 0 ? current_time( 'timestamp' ) - $last_import : null;
+	$queue_threshold = 12 * HOUR_IN_SECONDS;
+	$refresh_due   = ! $has_data || null === $age_seconds || $age_seconds >= $queue_threshold;
+
+	if ( ! $refresh_due || tradepress_economic_calendar_has_pending_import() ) {
+		return false;
+	}
+
+	if ( ! class_exists( 'TradePress_Data_Import_Process' ) && defined( 'TRADEPRESS_PLUGIN_DIR_PATH' ) ) {
+		if ( ! class_exists( 'TradePress_Background_Processing' ) ) {
+			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/class.background-process.php';
+		}
+
+		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/data-import-process.php';
+	}
+
+	if ( ! class_exists( 'TradePress_Data_Import_Process' ) ) {
+		return false;
+	}
+
+	return (bool) TradePress_Data_Import_Process::queue_data_fetch(
+		'fetch_economic_calendar',
+		array(
+			'source' => 'research_economic_calendar',
+			'reason' => $has_data ? 'stale' : 'missing',
+		),
+		20
+	);
+}
+
+/**
  * Display the Economic Calendar tab content
  *
  * @version 1.0.0
  */
 function tradepress_economic_calendar_tab_content() {
 	// Get date range parameters with defaults
-	$start_date = isset( $_GET['start_date'] ) ? sanitize_text_field( wp_unslash( $_GET['start_date'] ) ) : date( 'Y-m-d' );
-	$end_date   = isset( $_GET['end_date'] ) ? sanitize_text_field( wp_unslash( $_GET['end_date'] ) ) : date( 'Y-m-d', strtotime( '+7 days' ) );
+	$start_date = isset( $_GET['start_date'] ) ? sanitize_text_field( wp_unslash( $_GET['start_date'] ) ) : gmdate( 'Y-m-d' );
+	$end_date   = isset( $_GET['end_date'] ) ? sanitize_text_field( wp_unslash( $_GET['end_date'] ) ) : gmdate( 'Y-m-d', strtotime( '+7 days' ) );
 	$importance = isset( $_GET['importance'] ) ? sanitize_text_field( wp_unslash( $_GET['importance'] ) ) : 'all';
 	$regions    = isset( $_GET['regions'] ) ? array_map( 'sanitize_text_field', wp_unslash( (array) $_GET['regions'] ) ) : array( 'us', 'eu', 'uk', 'jp', 'ca', 'au' );
 
+	$provider_status = tradepress_economic_calendar_get_provider_status();
+	$last_import     = $provider_status['last_import'];
+
+	// Queue a refresh if data is missing or stale and a provider is ready.
+	$queued_this_request = tradepress_economic_calendar_maybe_queue_refresh( $provider_status, $last_import );
+	$queue_pending       = $queued_this_request || tradepress_economic_calendar_has_pending_import();
+
 	$economic_events = tradepress_fetch_economic_calendar_data( $start_date, $end_date, $importance, $regions );
 
-	// Get region names for display
-	$region_names     = tradepress_get_economic_regions();
-	$provider_status = tradepress_economic_calendar_get_provider_status();
+	// Get region names for display.
+	$region_names = tradepress_get_economic_regions();
 
 	// Determine cause-aware empty state for the calendar view (logic before HTML output).
 	$fmp_key_ready         = $provider_status['fmp_key_configured'] && $provider_status['fmp_enabled'];
@@ -110,7 +181,10 @@ function tradepress_economic_calendar_tab_content() {
 	$any_key_configured    = $provider_status['fmp_key_configured'] || $provider_status['tradingview_key_configured'];
 	$any_provider_ready    = $fmp_key_ready || $tradingview_key_ready;
 
-	if ( ! $any_key_configured ) {
+	if ( $queue_pending ) {
+		$data_state       = 'queue_pending';
+		$empty_state_text = __( 'Economic calendar import is queued — events will appear here after the import completes.', 'tradepress' );
+	} elseif ( ! $any_key_configured ) {
 		$data_state       = 'no-provider';
 		$empty_state_text = __( 'No economic-calendar provider is configured. Add a supported provider key (FMP or TradingView) in API Management, then run an import.', 'tradepress' );
 	} elseif ( ! $any_provider_ready ) {
@@ -166,7 +240,9 @@ function tradepress_economic_calendar_tab_content() {
 				</li>
 				<li>
 					<?php
-					if ( $provider_status['last_import'] > 0 ) {
+					if ( $queue_pending ) {
+						esc_html_e( 'Import status: queued — data will update shortly.', 'tradepress' );
+					} elseif ( $provider_status['last_import'] > 0 ) {
 						printf(
 							esc_html__( 'Last imported: %s', 'tradepress' ),
 							esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $provider_status['last_import'] ) )

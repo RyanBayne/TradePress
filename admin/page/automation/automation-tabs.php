@@ -30,7 +30,7 @@ class TradePress_Admin_Automation_Page {
 
 		// Set the active tab based on URL parameter
 		if ( isset( $_GET['tab'] ) && ! empty( $_GET['tab'] ) ) {
-			$this->active_tab = sanitize_text_field( wp_unslash( $_GET['tab'] ) );
+			$this->active_tab = sanitize_key( wp_unslash( $_GET['tab'] ) );
 		}
 
 		$tabs = $this->get_tabs();
@@ -64,7 +64,7 @@ class TradePress_Admin_Automation_Page {
 				echo esc_html__( 'TradePress Automation', 'tradepress' );
 				if ( isset( $tabs[ $this->active_tab ] ) ) {
 					echo ' <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 0.8em; vertical-align: middle; margin: 0 5px;"></span> ';
-					echo esc_html( $tabs[ $this->active_tab ] );
+					echo esc_html( tradepress_get_development_tab_label( $this->active_tab, $tabs[ $this->active_tab ], $this->get_development_tab_ids() ) );
 				}
 				?>
 			</h1>
@@ -75,7 +75,7 @@ class TradePress_Admin_Automation_Page {
 					$active = ( $this->active_tab === $tab_id ) ? 'nav-tab-active' : '';
 					$url    = admin_url( 'admin.php?page=tradepress_automation&tab=' . $tab_id );
 					?>
-					<a href="<?php echo esc_url( $url ); ?>" class="nav-tab <?php echo esc_attr( $active ); ?>"><?php echo esc_html( $tab_name ); ?></a>
+					<a href="<?php echo esc_url( $url ); ?>" class="nav-tab <?php echo esc_attr( $active ); ?>"><?php echo esc_html( tradepress_get_development_tab_label( $tab_id, $tab_name, $this->get_development_tab_ids() ) ); ?></a>
 				<?php endforeach; ?>
 			</nav>
 			
@@ -109,7 +109,16 @@ class TradePress_Admin_Automation_Page {
 			'settings'    => __( 'Settings', 'tradepress' ),
 		);
 		$tabs = apply_filters( 'tradepress_automation_tabs', $tabs );
-		return tradepress_filter_development_tabs( $tabs, array( 'dashboard', 'algorithm', 'signals', 'trading', 'settings' ) );
+		return tradepress_filter_development_tabs( $tabs, $this->get_development_tab_ids() );
+	}
+
+	/**
+	 * Get tabs that are visible only in Developer Mode.
+	 *
+	 * @return array
+	 */
+	private function get_development_tab_ids() {
+		return array( 'dashboard', 'algorithm', 'signals', 'trading', 'settings' );
 	}
 
 	/**
@@ -347,10 +356,13 @@ class TradePress_Admin_Automation_Page {
 	 * @version 1.0.7
 	 */
 	private function data_import_tab() {
+		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/queue-schema.php';
+
 		// Get data import status
 		$import_status = get_option( 'tradepress_data_import_status', 'stopped' );
 		$start_time    = get_option( 'tradepress_data_import_start_time', 0 );
 		$last_run      = get_option( 'tradepress_data_import_last_run', 0 );
+		$queue_summary = TradePress_Queue_Schema::get_queue_summary( 'data_import' );
 
 		// Calculate runtime
 		$runtime = '00:00:00';
@@ -366,8 +378,27 @@ class TradePress_Admin_Automation_Page {
 		$earnings_last_update      = get_option( 'tradepress_earnings_last_update', 0 );
 		$market_status_last_update = get_option( 'tradepress_market_status_last_update', 0 );
 
-		$status_class = ( $import_status === 'running' ) ? 'status-running' : 'status-stopped';
-		$status_text  = ( $import_status === 'running' ) ? esc_html__( 'Running', 'tradepress' ) : esc_html__( 'Stopped', 'tradepress' );
+		if ( $queue_summary['active'] > 0 ) {
+			$status_class = 'status-running';
+			$status_text  = esc_html__( 'Queued', 'tradepress' );
+			$data_mode    = esc_html__( 'Queued', 'tradepress' );
+			$health_state = esc_html__( 'healthy', 'tradepress' );
+		} elseif ( $queue_summary['failed'] > 0 ) {
+			$status_class = 'status-stopped';
+			$status_text  = esc_html__( 'Needs attention', 'tradepress' );
+			$data_mode    = $last_run ? esc_html__( 'Cached', 'tradepress' ) : esc_html__( 'Empty', 'tradepress' );
+			$health_state = esc_html__( 'warning', 'tradepress' );
+		} elseif ( 'completed' === $import_status && $last_run ) {
+			$status_class = 'status-stopped';
+			$status_text  = esc_html__( 'Completed', 'tradepress' );
+			$data_mode    = esc_html__( 'Cached', 'tradepress' );
+			$health_state = esc_html__( 'healthy', 'tradepress' );
+		} else {
+			$status_class = 'status-stopped';
+			$status_text  = esc_html__( 'Empty', 'tradepress' );
+			$data_mode    = esc_html__( 'Empty', 'tradepress' );
+			$health_state = esc_html__( 'unknown', 'tradepress' );
+		}
 		?>
 		<div class="tab-content" id="data-import">
 			<div class="automation-section">
@@ -394,11 +425,75 @@ class TradePress_Admin_Automation_Page {
 						<select id="import-type-select">
 							<option value="all"><?php esc_html_e( 'All Data Types', 'tradepress' ); ?></option>
 							<option value="earnings"><?php esc_html_e( 'Earnings Calendar Only', 'tradepress' ); ?></option>
+							<option value="economic_calendar"><?php esc_html_e( 'Economic Calendar Only', 'tradepress' ); ?></option>
+							<option value="news"><?php esc_html_e( 'News Data Only', 'tradepress' ); ?></option>
 							<option value="prices"><?php esc_html_e( 'Price Data Only', 'tradepress' ); ?></option>
 							<option value="market_status"><?php esc_html_e( 'Market Status Only', 'tradepress' ); ?></option>
 						</select>
 					</div>
 				</div>
+			</div>
+
+			<div class="automation-section">
+				<h3><?php esc_html_e( 'Import Queue Status', 'tradepress' ); ?></h3>
+				<p><?php esc_html_e( 'Shows stored queue rows for the database-backed data import process. API calls are handled by WP-Cron queue processing, not by this page request.', 'tradepress' ); ?></p>
+
+				<table class="widefat fixed striped">
+					<tbody>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Data mode', 'tradepress' ); ?></th>
+							<td><?php echo esc_html( $data_mode ); ?></td>
+						</tr>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Runtime health', 'tradepress' ); ?></th>
+							<td><?php echo esc_html( $health_state ); ?></td>
+						</tr>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Pending / Processing', 'tradepress' ); ?></th>
+							<td>
+								<?php
+								printf(
+									/* translators: %1$d: pending queue item count, %2$d: processing queue item count */
+									esc_html__( '%1$d pending, %2$d processing', 'tradepress' ),
+									(int) $queue_summary['pending'],
+									(int) $queue_summary['processing']
+								);
+								?>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Completed / Failed', 'tradepress' ); ?></th>
+							<td>
+								<?php
+								printf(
+									/* translators: %1$d: completed queue item count, %2$d: failed queue item count */
+									esc_html__( '%1$d completed, %2$d failed', 'tradepress' ),
+									(int) $queue_summary['completed'],
+									(int) $queue_summary['failed']
+								);
+								?>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Last queued', 'tradepress' ); ?></th>
+							<td>
+								<?php
+								if ( ! empty( $queue_summary['last_created'] ) ) {
+									echo esc_html( mysql2date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $queue_summary['last_created'] ) );
+								} else {
+									esc_html_e( 'No queued import items yet', 'tradepress' );
+								}
+								?>
+							</td>
+						</tr>
+						<?php if ( ! empty( $queue_summary['last_error'] ) ) : ?>
+							<tr>
+								<th scope="row"><?php esc_html_e( 'Last error', 'tradepress' ); ?></th>
+								<td><?php echo esc_html( $queue_summary['last_error'] ); ?></td>
+							</tr>
+						<?php endif; ?>
+					</tbody>
+				</table>
 			</div>
 			
 			<div class="automation-section">
@@ -408,8 +503,18 @@ class TradePress_Admin_Automation_Page {
 				<div class="data-services-grid">
 					<div class="service-item active">
 						<span class="service-status">✅</span>
-						<span class="service-type"><?php esc_html_e( 'Symbol Data', 'tradepress' ); ?></span>
-						<span class="service-source"><?php esc_html_e( 'Alpaca API', 'tradepress' ); ?></span>
+						<span class="service-type"><?php esc_html_e( 'Earnings Calendar', 'tradepress' ); ?></span>
+						<span class="service-source"><?php esc_html_e( 'Alpha Vantage', 'tradepress' ); ?></span>
+					</div>
+					<div class="service-item active">
+						<span class="service-status">✅</span>
+						<span class="service-type"><?php esc_html_e( 'Economic Calendar', 'tradepress' ); ?></span>
+						<span class="service-source"><?php esc_html_e( 'Financial Modeling Prep', 'tradepress' ); ?></span>
+					</div>
+					<div class="service-item active">
+						<span class="service-status">✅</span>
+						<span class="service-type"><?php esc_html_e( 'News Feed', 'tradepress' ); ?></span>
+						<span class="service-source"><?php esc_html_e( 'Alpaca / Alpha Vantage', 'tradepress' ); ?></span>
 					</div>
 					<div class="service-item active">
 						<span class="service-status">✅</span>
@@ -418,18 +523,8 @@ class TradePress_Admin_Automation_Page {
 					</div>
 					<div class="service-item active">
 						<span class="service-status">✅</span>
-						<span class="service-type"><?php esc_html_e( 'Earnings Calendar', 'tradepress' ); ?></span>
-						<span class="service-source"><?php esc_html_e( 'Alpha Vantage', 'tradepress' ); ?></span>
-					</div>
-					<div class="service-item active">
-						<span class="service-status">✅</span>
-						<span class="service-type"><?php esc_html_e( 'Company Info', 'tradepress' ); ?></span>
-						<span class="service-source"><?php esc_html_e( 'Alpha Vantage', 'tradepress' ); ?></span>
-					</div>
-					<div class="service-item pending">
-						<span class="service-status">⏳</span>
-						<span class="service-type"><?php esc_html_e( 'News Data', 'tradepress' ); ?></span>
-						<span class="service-source"><?php esc_html_e( 'Planned', 'tradepress' ); ?></span>
+						<span class="service-type"><?php esc_html_e( 'Market Status', 'tradepress' ); ?></span>
+						<span class="service-source"><?php esc_html_e( 'Alpaca API', 'tradepress' ); ?></span>
 					</div>
 					<div class="service-item pending">
 						<span class="service-status">⏳</span>
@@ -452,6 +547,36 @@ class TradePress_Admin_Automation_Page {
 								// Escape date and human_time_diff output for safe HTML rendering
 								echo esc_html( wp_date( 'Y-m-d H:i:s', $earnings_last_update ) );
 								echo '<br><small>(' . esc_html( human_time_diff( $earnings_last_update, current_time( 'timestamp' ) ) ) . ' ago)</small>';
+							} else {
+								esc_html_e( 'Never updated', 'tradepress' );
+							}
+							?>
+						</span>
+					</div>
+
+					<div class="freshness-item">
+						<span class="freshness-label"><?php esc_html_e( 'Economic Calendar', 'tradepress' ); ?></span>
+						<span class="freshness-value">
+							<?php
+							$economic_calendar_last_imported = get_option( 'tradepress_economic_calendar_last_imported', 0 );
+							if ( $economic_calendar_last_imported ) {
+								echo esc_html( wp_date( 'Y-m-d H:i:s', $economic_calendar_last_imported ) );
+								echo '<br><small>(' . esc_html( human_time_diff( $economic_calendar_last_imported, current_time( 'timestamp' ) ) ) . ' ago)</small>';
+							} else {
+								esc_html_e( 'Never updated', 'tradepress' );
+							}
+							?>
+						</span>
+					</div>
+
+					<div class="freshness-item">
+						<span class="freshness-label"><?php esc_html_e( 'News Feed', 'tradepress' ); ?></span>
+						<span class="freshness-value">
+							<?php
+							$news_last_imported = get_option( 'tradepress_news_last_imported', 0 );
+							if ( $news_last_imported ) {
+								echo esc_html( wp_date( 'Y-m-d H:i:s', $news_last_imported ) );
+								echo '<br><small>(' . esc_html( human_time_diff( $news_last_imported, current_time( 'timestamp' ) ) ) . ' ago)</small>';
 							} else {
 								esc_html_e( 'Never updated', 'tradepress' );
 							}
@@ -900,7 +1025,7 @@ class TradePress_Admin_Automation_Page {
 									<?php
 									if ( $earnings_last_updated ) {
 										echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $earnings_last_updated ) );
-										echo ' (' . human_time_diff( $earnings_last_updated, time() ) . ' ' . esc_html__( 'ago', 'tradepress' ) . ')';
+										echo ' (' . esc_html( human_time_diff( $earnings_last_updated, time() ) ) . ' ' . esc_html__( 'ago', 'tradepress' ) . ')';
 									} else {
 										esc_html_e( 'Never', 'tradepress' );
 									}
@@ -926,7 +1051,7 @@ class TradePress_Admin_Automation_Page {
 									$next_run = wp_next_scheduled( 'tradepress_fetch_earnings_calendar' );
 									if ( $next_run ) {
 										echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $next_run ) );
-										echo ' (' . human_time_diff( time(), $next_run ) . ' ' . esc_html__( 'from now', 'tradepress' ) . ')';
+										echo ' (' . esc_html( human_time_diff( time(), $next_run ) ) . ' ' . esc_html__( 'from now', 'tradepress' ) . ')';
 									} else {
 										esc_html_e( 'Not scheduled', 'tradepress' );
 									}
@@ -1065,7 +1190,7 @@ class TradePress_Admin_Automation_Page {
 											<?php echo esc_html( $job['next_run'] ); ?>
 											<br>
 											<?php /* translators: %s: human-readable time difference (e.g. "2 hours") */ ?>
-											<small><?php printf( esc_html__( '(%s from now)', 'tradepress' ), $job['human_time'] ); ?></small>
+											<small><?php echo esc_html( sprintf( __( '(%s from now)', 'tradepress' ), $job['human_time'] ) ); ?></small>
 										</td>
 										<td>
 											<!-- Placeholder for future action buttons -->

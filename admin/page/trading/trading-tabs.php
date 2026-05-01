@@ -56,8 +56,8 @@ if ( ! class_exists( 'TradePress_Admin_Trading_Page' ) ) :
 		 * @version 1.0.0
 		 */
 		public function __construct() {
-			if ( isset( $_GET['tab'] ) && array_key_exists( sanitize_text_field( $_GET['tab'] ), $this->get_tabs() ) ) {
-				$this->active_tab = sanitize_text_field( $_GET['tab'] );
+			if ( isset( $_GET['tab'] ) && array_key_exists( sanitize_key( wp_unslash( $_GET['tab'] ) ), $this->get_tabs() ) ) {
+				$this->active_tab = sanitize_key( wp_unslash( $_GET['tab'] ) );
 			} else {
 				// If the requested tab doesn't exist, default to the first available tab's key.
 				$tabs             = $this->get_tabs();
@@ -83,7 +83,16 @@ if ( ! class_exists( 'TradePress_Admin_Trading_Page' ) ) :
 				'sees-pro'           => __( 'SEES Pro', 'tradepress' ),
 			);
 			$tabs = apply_filters( 'tradepress_trading_area_tabs', $tabs );
-			return tradepress_filter_development_tabs( $tabs, array( 'trading-strategies', 'portfolio', 'trade-history', 'manual-trade', 'sees-ready', 'sees-pro' ) );
+			return tradepress_filter_development_tabs( $tabs, $this->get_development_tab_ids() );
+		}
+
+		/**
+		 * Get tabs that are visible only in Developer Mode.
+		 *
+		 * @return array
+		 */
+		private function get_development_tab_ids() {
+			return array( 'trading-strategies', 'portfolio', 'trade-history', 'manual-trade', 'sees-ready', 'sees-pro' );
 		}
 		/**
 		 * Output the trading area interface.
@@ -98,14 +107,14 @@ if ( ! class_exists( 'TradePress_Admin_Trading_Page' ) ) :
 			echo esc_html__( 'TradePress Trading', 'tradepress' );
 			if ( isset( $tabs[ $this->active_tab ] ) ) {
 				echo ' <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 0.8em; vertical-align: middle; margin: 0 5px;"></span> ';
-				echo esc_html( $tabs[ $this->active_tab ] );
+				echo tradepress_get_development_tab_label( $this->active_tab, $tabs[ $this->active_tab ], $this->get_development_tab_ids() );
 			}
 			echo '</h1>';
 
 			echo '<nav class="nav-tab-wrapper woo-nav-tab-wrapper">';
 			foreach ( $tabs as $tab_id => $tab_name ) {
 				$active_class = ( $this->active_tab === $tab_id ) ? ' nav-tab-active' : '';
-				echo '<a href="' . esc_url( admin_url( 'admin.php?page=tradepress_trading&tab=' . $tab_id ) ) . '" class="nav-tab' . esc_attr( $active_class ) . '">' . esc_html( $tab_name ) . '</a>';
+				echo '<a href="' . esc_url( admin_url( 'admin.php?page=tradepress_trading&tab=' . $tab_id ) ) . '" class="nav-tab' . esc_attr( $active_class ) . '">' . tradepress_get_development_tab_label( $tab_id, $tab_name, $this->get_development_tab_ids() ) . '</a>';
 			}
 			echo '</nav>';
 
@@ -225,7 +234,7 @@ function tradepress_display_calculators_tab_content() {
  */
 function tradepress_display_trading_strategies_tab_content() {
 	// Get current sub-tab
-	$sub_tab = isset( $_GET['sub_tab'] ) ? sanitize_text_field( $_GET['sub_tab'] ) : 'create';
+	$sub_tab = isset( $_GET['sub_tab'] ) ? sanitize_key( wp_unslash( $_GET['sub_tab'] ) ) : 'create';
 
 	// Sub-tab navigation
 	$sub_tabs = array(
@@ -385,7 +394,17 @@ function tradepress_display_builtin_strategies() {
 	echo '<div class="tradepress-builtin-strategies">';
 	echo '<div class="strategies-header">';
 	echo '<h3>' . esc_html__( 'Built-in Trading Strategies', 'tradepress' ) . '</h3>';
-	echo '<p>' . esc_html__( 'These strategies are planned for implementation in TradePress. Each strategy can be customized and combined with others.', 'tradepress' ) . '</p>';
+	echo '<p>' . esc_html__( 'These strategies are planning references only. They are not active trading automation and do not read live provider data from this view.', 'tradepress' ) . '</p>';
+	echo '</div>';
+
+	echo '<div class="tradepress-data-status-panel" data-mode="dev-only-demo" data-health="not_applicable">';
+	echo '<h3>' . esc_html__( 'Built-in Strategy Status', 'tradepress' ) . '</h3>';
+	echo '<table class="widefat fixed striped"><tbody>';
+	echo '<tr><th scope="row">' . esc_html__( 'Data mode', 'tradepress' ) . '</th><td>' . esc_html__( 'Dev-only Demo', 'tradepress' ) . '</td></tr>';
+	echo '<tr><th scope="row">' . esc_html__( 'Source of truth', 'tradepress' ) . '</th><td>' . esc_html__( 'Static planning definitions in the Trading tab controller', 'tradepress' ) . '</td></tr>';
+	echo '<tr><th scope="row">' . esc_html__( 'Provider', 'tradepress' ) . '</th><td>' . esc_html__( 'Not applicable', 'tradepress' ) . '</td></tr>';
+	echo '<tr><th scope="row">' . esc_html__( 'Execution state', 'tradepress' ) . '</th><td>' . esc_html__( 'Planning reference only; not executable trading automation', 'tradepress' ) . '</td></tr>';
+	echo '</tbody></table>';
 	echo '</div>';
 
 	echo '<div class="strategies-table-container">';

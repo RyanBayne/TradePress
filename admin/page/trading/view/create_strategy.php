@@ -10,18 +10,18 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
-// Enqueue required scripts for drag and drop
+// Enqueue required scripts for drag and drop.
 wp_enqueue_script( 'jquery-ui-draggable' );
 wp_enqueue_script( 'jquery-ui-droppable' );
 wp_enqueue_script( 'jquery-ui-sortable' );
 
-// Get available scoring directives
+// Get available scoring directives.
 $directives = array();
 
-// Check if we have a scoring directives registry
+// Check if we have a scoring directives registry.
 if ( class_exists( 'TradePress_Scoring_Directives_Registry' ) ) {
 	try {
 		$registry = TradePress_Scoring_Directives_Registry::instance();
@@ -29,11 +29,11 @@ if ( class_exists( 'TradePress_Scoring_Directives_Registry' ) ) {
 			$directives = $registry->get_directives();
 		}
 	} catch ( Exception $e ) {
-		// Log error
+		// Leave the builder in empty/default state when the registry is unavailable.
 	}
 }
 
-// If registry is empty or not loaded, use default directives
+// If registry is empty or not loaded, use default directives.
 if ( empty( $directives ) ) {
 	$directives = array(
 		'rsi'                => array(
@@ -90,6 +90,30 @@ if ( empty( $directives ) ) {
 ?>
 
 <div class="tradepress-create-strategy-container">
+	<div class="tradepress-data-status-panel" data-mode="dev-only-demo" data-health="not_applicable">
+		<h3><?php esc_html_e( 'Strategy Builder Status', 'tradepress' ); ?></h3>
+		<table class="widefat fixed striped">
+			<tbody>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Data mode', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'Dev-only Demo', 'tradepress' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Source of truth', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'Scoring directive registry or static fallback definitions', 'tradepress' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Provider', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'Not applicable during strategy design', 'tradepress' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Execution state', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'Design only; saving and execution are not connected to live trading automation from this view', 'tradepress' ); ?></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
 	<div class="create-strategy-header">
 		<div class="strategy-meta-wrapper">
 			<div class="strategy-name-field">
@@ -113,7 +137,7 @@ if ( empty( $directives ) ) {
 	
 	<form id="strategy-builder-form" method="post">
 		<?php wp_nonce_field( 'save_custom_strategy', 'strategy_builder_nonce' ); ?>
-		<input type="hidden" name="strategy_id" value="<?php echo esc_attr( 'strategy_' . time() . '_' . rand( 1000, 9999 ) ); ?>">
+		<input type="hidden" name="strategy_id" value="<?php echo esc_attr( wp_unique_id( 'strategy_' ) ); ?>">
 		<input type="hidden" name="action" value="tradepress_save_custom_strategy">
 		
 		<div class="strategy-builder-columns">

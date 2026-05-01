@@ -448,6 +448,26 @@ class TradePress_FMP_API {
 	}
 
 	/**
+	 * Get economic calendar events.
+	 *
+	 * @param string $from Start date (Y-m-d).
+	 * @param string $to   End date (Y-m-d).
+	 * @return array|WP_Error Economic calendar events or error.
+	 * @version 1.0.0
+	 */
+	public function get_economic_calendar( $from = '', $to = '' ) {
+		$params = array();
+		if ( $from ) {
+			$params['from'] = $from;
+		}
+		if ( $to ) {
+			$params['to'] = $to;
+		}
+
+		return $this->make_request( 'economic_calendar', $params );
+	}
+
+	/**
 	 * Get dividends data
 	 *
 	 * @param string $symbol Stock symbol

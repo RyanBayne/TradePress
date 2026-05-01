@@ -13,16 +13,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Get current section (platform)
-$current_section = isset( $_GET['section'] ) ? sanitize_text_field( $_GET['section'] ) : '';
-
-// Available social platforms
+// Available social platforms.
 $social_platforms = array(
 	'discord'    => __( 'Discord', 'tradepress' ),
 	'twitter'    => __( 'Twitter', 'tradepress' ),
 	'stocktwits' => __( 'StockTwits', 'tradepress' ),
 	'stock_vip'  => __( 'Stock VIP', 'tradepress' ),
 );
+
+// Get current section (platform).
+$current_section = isset( $_GET['section'] ) ? sanitize_key( wp_unslash( $_GET['section'] ) ) : '';
+if ( ! isset( $social_platforms[ $current_section ] ) ) {
+	$current_section = '';
+}
 
 ?>
 <div class="wrap tradepress-social-settings">
@@ -37,7 +40,7 @@ $social_platforms = array(
 					<div class="platform-card">
 						<h3><?php echo esc_html( $platform_name ); ?></h3>
 						
-						<div class="platform-status <?php echo $is_enabled ? 'enabled' : 'disabled'; ?>">
+							<div class="platform-status <?php echo esc_attr( $is_enabled ? 'enabled' : 'disabled' ); ?>">
 							<span class="status-indicator"></span>
 							<?php echo $is_enabled ? esc_html__( 'Enabled', 'tradepress' ) : esc_html__( 'Disabled', 'tradepress' ); ?>
 						</div>
@@ -78,7 +81,7 @@ $social_platforms = array(
 		</div>
 		
 	<?php else : ?>
-		<!-- Platform-specific settings -->
+			<!-- Platform-specific settings. -->
 		<div class="platform-specific-settings">
 			<p>
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_research&tab=social_networks&subtab=settings' ) ); ?>">
@@ -88,14 +91,14 @@ $social_platforms = array(
 			
 			<h3><?php echo esc_html( $social_platforms[ $current_section ] ?? ucfirst( $current_section ) ); ?> <?php esc_html_e( 'Settings', 'tradepress' ); ?></h3>
 			
-			<?php
-			// Include platform-specific settings
-			$platform_settings_file = __DIR__ . '/settings/' . $current_section . '-settings.php';
-			if ( file_exists( $platform_settings_file ) ) {
-				include $platform_settings_file;
-			} else {
-				// Generic settings form
-				?>
+				<?php
+				// Include platform-specific settings.
+				$platform_settings_file = __DIR__ . '/settings/' . $current_section . '-settings.php';
+				if ( file_exists( $platform_settings_file ) ) {
+					include $platform_settings_file;
+				} else {
+					// Generic settings form.
+					?>
 				<form method="post" action="">
 					<?php wp_nonce_field( 'tradepress-social-settings-provider' ); ?>
 					<input type="hidden" name="social_provider" value="<?php echo esc_attr( $current_section ); ?>">
@@ -160,9 +163,9 @@ $social_platforms = array(
 					
 					<?php submit_button( __( 'Save Settings', 'tradepress' ), 'primary', 'save_social_provider' ); ?>
 				</form>
-				<?php
-			}
-			?>
+					<?php
+				}
+				?>
 		</div>
 	<?php endif; ?>
 </div>

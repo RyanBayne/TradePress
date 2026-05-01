@@ -169,14 +169,8 @@ class TradePress_Admin_Automation_Controller {
 				break;
 			case 'data_import':
 				if ( $action === 'start' ) {
-					$data_import = new TradePress_Data_Import_Process();
-					$data_import->push_to_queue( array( 'action' => 'fetch_earnings' ) );
-					$data_import->push_to_queue( array( 'action' => 'fetch_prices' ) );
-					$data_import->push_to_queue( array( 'action' => 'fetch_market_status' ) );
-					$data_import->save()->dispatch();
-					update_option( 'tradepress_data_import_status', 'running' );
-					update_option( 'tradepress_data_import_start_time', current_time( 'timestamp' ) );
-					$result = true;
+					$queued = $this->queue_data_import_actions( 'all' );
+					$result = $queued > 0;
 				} else {
 					$data_import = new TradePress_Data_Import_Process();
 					$data_import->cancel_process();
@@ -259,14 +253,7 @@ class TradePress_Admin_Automation_Controller {
 
 		if ( $action === 'start' ) {
 			// Start data import process
-			$data_import = new TradePress_Data_Import_Process();
-			$data_import->push_to_queue( array( 'action' => 'fetch_earnings' ) );
-			$data_import->push_to_queue( array( 'action' => 'fetch_prices' ) );
-			$data_import->push_to_queue( array( 'action' => 'fetch_market_status' ) );
-			$data_import->save()->dispatch();
-			update_option( 'tradepress_data_import_status', 'running' );
-			update_option( 'tradepress_data_import_start_time', current_time( 'timestamp' ) );
-			$results['data_import'] = true;
+			$results['data_import'] = $this->queue_data_import_actions( 'all' ) > 0;
 
 			// Start scoring process
 			$scoring_process = new TradePress_Scoring_Process();
@@ -373,6 +360,42 @@ class TradePress_Admin_Automation_Controller {
 				'overall_health'      => $overall_health,
 			)
 		);
+	}
+
+	/**
+	 * Queue data import actions through the database-backed import queue.
+	 *
+	 * @version 1.0.0
+	 *
+	 * @param string $import_type Import type requested by the UI.
+	 * @return int Number of newly queued items.
+	 */
+	private function queue_data_import_actions( $import_type ) {
+		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/queue-schema.php';
+
+		$action_map = array(
+			'earnings'           => array( 'fetch_earnings' ),
+			'prices'             => array( 'fetch_prices' ),
+			'market_status'      => array( 'fetch_market_status' ),
+			'news'               => array( 'fetch_news' ),
+			'economic_calendar'  => array( 'fetch_economic_calendar' ),
+			'all'                => array( 'fetch_earnings', 'fetch_news', 'fetch_prices', 'fetch_market_status', 'fetch_economic_calendar' ),
+		);
+
+		$actions = isset( $action_map[ $import_type ] ) ? $action_map[ $import_type ] : $action_map['all'];
+		$queued  = 0;
+
+		foreach ( $actions as $action ) {
+			if ( TradePress_Queue_Schema::has_active_item( 'data_import', $action ) ) {
+				continue;
+			}
+
+			if ( TradePress_Data_Import_Process::queue_data_fetch( $action ) ) {
+				++$queued;
+			}
+		}
+
+		return $queued;
 	}
 
 	/**
@@ -1025,38 +1048,22 @@ class TradePress_Admin_Automation_Controller {
 
 		$import_type = isset( $_POST['import_type'] ) ? sanitize_text_field( wp_unslash( $_POST['import_type'] ) ) : 'all';
 
-		// Initialize data import process
-		$data_import = new TradePress_Data_Import_Process();
+		$queued = $this->queue_data_import_actions( $import_type );
 
-		// Add items to queue based on import type
-		switch ( $import_type ) {
-			case 'earnings':
-				$data_import->push_to_queue( array( 'action' => 'fetch_earnings' ) );
-				break;
-			case 'prices':
-				$data_import->push_to_queue( array( 'action' => 'fetch_prices' ) );
-				break;
-			case 'market_status':
-				$data_import->push_to_queue( array( 'action' => 'fetch_market_status' ) );
-				break;
-			default:
-				$data_import->push_to_queue( array( 'action' => 'fetch_earnings' ) );
-				$data_import->push_to_queue( array( 'action' => 'fetch_prices' ) );
-				$data_import->push_to_queue( array( 'action' => 'fetch_market_status' ) );
-				break;
+		if ( 0 === $queued ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'No new data import items were queued. Matching items may already be pending or processing.', 'tradepress' ),
+					'status'  => get_option( 'tradepress_data_import_status', 'stopped' ),
+				)
+			);
 		}
-
-		// Start the background process
-		$data_import->save()->dispatch();
-
-		// Update status
-		update_option( 'tradepress_data_import_status', 'running' );
-		update_option( 'tradepress_data_import_start_time', current_time( 'timestamp' ) );
 
 		wp_send_json_success(
 			array(
 				'message' => __( 'Data import started successfully', 'tradepress' ),
 				'status'  => 'running',
+				'queued'  => $queued,
 			)
 		);
 	}
@@ -1103,6 +1110,8 @@ class TradePress_Admin_Automation_Controller {
 		$status     = get_option( 'tradepress_data_import_status', 'stopped' );
 		$start_time = get_option( 'tradepress_data_import_start_time', 0 );
 		$last_run   = get_option( 'tradepress_data_import_last_run', 0 );
+		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/queue-schema.php';
+		$queue_summary = TradePress_Queue_Schema::get_queue_summary( 'data_import' );
 
 		// Calculate runtime
 		$runtime = '00:00:00';
@@ -1123,6 +1132,7 @@ class TradePress_Admin_Automation_Controller {
 				'status'         => $status,
 				'runtime'        => $runtime,
 				'last_run'       => $last_run ? wp_date( 'Y-m-d H:i:s', $last_run ) : 'Never',
+				'queue'          => $queue_summary,
 				'data_freshness' => array(
 					'earnings'      => $earnings_last_update ? wp_date( 'Y-m-d H:i:s', $earnings_last_update ) : 'Never',
 					'market_status' => $market_status_last_update ? wp_date( 'Y-m-d H:i:s', $market_status_last_update ) : 'Never',
