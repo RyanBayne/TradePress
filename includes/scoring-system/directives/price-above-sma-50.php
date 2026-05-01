@@ -11,9 +11,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-tradepress-scoring-directive-base.php';
+require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/scoring-directive-base.php';
 
 class TradePress_Scoring_Directive_PRICE_ABOVE_SMA_50 extends TradePress_Scoring_Directive_Base {
+
+	/**
+	 * Constructor.
+	 *
+	 * @version 1.0.0
+	 */
+	public function __construct() {
+		$this->id             = 'price_above_sma_50';
+		$this->name           = 'Price Above SMA 50';
+		$this->description    = 'Scores based on price position relative to the 50-period Simple Moving Average';
+		$this->weight         = 10;
+		$this->max_score      = 100;
+		$this->bullish_values = 'Price above SMA 50';
+		$this->bearish_values = 'Price below SMA 50';
+		$this->priority       = 16;
+	}
 
 	/**
 	 * Calculate score.

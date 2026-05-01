@@ -16,6 +16,22 @@ require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/scoring-direc
 class TradePress_Scoring_Directive_RSI_OVERBOUGHT extends TradePress_Scoring_Directive_Base {
 
 	/**
+	 * Constructor.
+	 *
+	 * @version 1.0.0
+	 */
+	public function __construct() {
+		$this->id             = 'rsi_overbought';
+		$this->name           = 'RSI Overbought';
+		$this->description    = 'Identifies overbought RSI conditions for potential pullbacks';
+		$this->weight         = 10;
+		$this->max_score      = 100;
+		$this->bullish_values = 'Not applicable — bearish directive';
+		$this->bearish_values = 'RSI >= 70 (overbought)';
+		$this->priority       = 18;
+	}
+
+	/**
 	 * Calculate score.
 	 *
 	 * @param mixed $symbol_data

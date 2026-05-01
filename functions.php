@@ -2215,6 +2215,70 @@ function tradepress_can_access_development_views() {
 }
 
 /**
+ * Append a developer reference code to UI text in Developer Mode.
+ *
+ * Keep the reference registry in this function so codes remain easy to audit as
+ * this convention is applied across the plugin.
+ *
+ * @param string $text UI text.
+ * @param string $code Reference code.
+ * @return string UI text with reference code when Developer Mode is active.
+ */
+function tradepress_ui_reference( $text, $code ) {
+
+	$used_codes = array(
+		'TIT01' => 'Testing page title',
+		'TIT02' => 'Testing active tab heading',
+		'TIT03' => 'Testing standard tab heading',
+		'TIT04' => 'Testing bug investigation tab heading',
+		'TIT05' => 'Testing performance tab heading',
+		'TIT06' => 'Testing phase 3 tab heading',
+		'TIT07' => 'Testing feature status tab heading',
+		'TIT08' => 'Testing Trading212 API tab heading',
+		'TIT09' => 'Testing UI crawl tab heading',
+		'SUB01' => 'Testing active tab subtitle',
+		'SUB02' => 'Testing standard tab subtitle',
+		'SUB03' => 'Testing bug investigation tab subtitle',
+		'SUB04' => 'Testing performance tab subtitle',
+		'SUB05' => 'Testing phase 3 tab subtitle',
+		'SUB06' => 'Testing feature status tab subtitle',
+		'SUB07' => 'Testing Trading212 API tab subtitle',
+		'SUB08' => 'Testing UI crawl tab subtitle',
+		'SUB09' => 'Testing UI crawl scan subtitle',
+		'TAB01' => 'Testing Active Tests navigation tab',
+		'TAB02' => 'Testing Standard Tests navigation tab',
+		'TAB03' => 'Testing Bug Investigation navigation tab',
+		'TAB04' => 'Testing Performance Tests navigation tab',
+		'TAB05' => 'Testing Phase 3 Tests navigation tab',
+		'TAB06' => 'Testing Feature Status navigation tab',
+		'TAB07' => 'Testing UI Crawl navigation tab',
+		'TAB08' => 'Testing Trading212 API navigation tab',
+		'PAN01' => 'Testing Trading212 environment panel',
+		'PAN02' => 'Testing UI crawl seed URLs panel',
+		'PAN03' => 'Testing UI crawl mode panel',
+		'PAN04' => 'Testing UI crawl run summary panel',
+		'PAN05' => 'Testing UI crawl URL results panel',
+		'FOR01' => 'Testing discovery action group',
+		'FOR02' => 'Testing Phase 3 action group',
+		'FOR03' => 'Testing Trading212 action group',
+		'FOR04' => 'Testing UI crawl action group',
+	);
+
+	$code = strtoupper( sanitize_key( $code ) );
+	$code = str_replace( '_', '', $code );
+
+	if ( '' === $code || ! isset( $used_codes[ $code ] ) ) {
+		return $text;
+	}
+
+	if ( ! function_exists( 'tradepress_is_developer_mode' ) || ! tradepress_is_developer_mode() ) {
+		return $text;
+	}
+
+	return sprintf( '%1$s [%2$s]', $text, $code );
+}
+
+/**
  * Remove development-only tabs when Developer Mode is disabled.
  *
  * Tab controllers should call this after local tabs and extension filters have

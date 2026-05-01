@@ -15,14 +15,14 @@ class TradePress_Scoring_Directive_ISA extends TradePress_Scoring_Directive_Base
 	 * @version 1.0.0
 	 */
 	public function __construct() {
-		$this->id             = 'isa_reset';
-		$this->name           = 'ISA Reset Period';
-		$this->description    = 'Increases score during ISA reset period (March-April)';
+		$this->id             = 'isa';
+		$this->name           = 'ISA Season';
+		$this->description    = 'Increases score during the broader ISA investment season (January-April)';
 		$this->weight         = 10;
 		$this->max_score      = 50;
-		$this->bullish_values = 'Active during ISA reset period';
+		$this->bullish_values = 'Active during ISA season';
 		$this->bearish_values = 'Not applicable';
-		$this->priority       = 20;
+		$this->priority       = 19;
 	}
 
 	/**
@@ -36,29 +36,23 @@ class TradePress_Scoring_Directive_ISA extends TradePress_Scoring_Directive_Base
 	 * @version 1.0.0
 	 */
 	public function calculate_score( $symbol_data, $config = array() ) {
-		$days_before  = $config['days_before'] ?? 3;
-		$days_after   = $config['days_after'] ?? 3;
 		$score_impact = $config['score_impact'] ?? 10;
 
-		$isa_reset_date = date( 'Y' ) . '-04-06';
-		$current_date   = current_time( 'Y-m-d' );
+		$current_month = (int) current_time( 'n' );
 
-		$reset_timestamp   = strtotime( $isa_reset_date );
-		$current_timestamp = strtotime( $current_date );
-		$days_diff         = ( $reset_timestamp - $current_timestamp ) / ( 24 * 60 * 60 );
-
-		if ( $days_diff >= -$days_after && $days_diff <= $days_before ) {
+		// ISA season runs January through April (months 1-4)
+		if ( $current_month >= 1 && $current_month <= 4 ) {
 			return array(
-				'score'         => $score_impact,
-				'in_period'     => true,
-				'days_to_reset' => $days_diff,
+				'score'          => $score_impact,
+				'in_season'      => true,
+				'current_month'  => $current_month,
 			);
 		}
 
 		return array(
 			'score'         => 0,
-			'in_period'     => false,
-			'days_to_reset' => $days_diff,
+			'in_season'     => false,
+			'current_month' => $current_month,
 		);
 	}
 
@@ -85,13 +79,10 @@ class TradePress_Scoring_Directive_ISA extends TradePress_Scoring_Directive_Base
 	 * @version 1.0.0
 	 */
 	public function get_explanation( $config = array() ) {
-		$days_before  = $config['days_before'] ?? 3;
-		$days_after   = $config['days_after'] ?? 3;
 		$score_impact = $config['score_impact'] ?? 10;
 
-		return "ISA Reset Directive:\n\n" .
-				"Adds {$score_impact} points during ISA reset period\n" .
-				"Active Period: {$days_before} days before to {$days_after} days after April 6th\n\n" .
-				'This directive captures seasonal buying pressure when UK investors receive fresh ISA allowances.';
+		return "ISA Season Directive:\n\n" .
+				"Adds {$score_impact} points during the ISA investment season (January to April).\n\n" .
+				'This directive captures the broader seasonal buying pressure as UK investors deploy fresh ISA allowances throughout the tax year opening period.';
 	}
 }

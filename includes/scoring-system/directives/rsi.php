@@ -94,7 +94,10 @@ class TradePress_Scoring_Directive_RSI extends TradePress_Scoring_Directive_Base
 			if ( get_option( 'bugnet_output_directives' ) === 'yes' ) {
 				TradePress_Directive_Logger::log( "D17 RSI | {$symbol} | ERROR: {$error_msg}" );
 			}
-			return null; // Return null instead of 0 to indicate calculation failure
+			return array(
+				'score'  => 0,
+				'signal' => 'No RSI data: ' . $error_msg,
+			);
 		}
 
 		// Base score calculation
@@ -144,7 +147,11 @@ class TradePress_Scoring_Directive_RSI extends TradePress_Scoring_Directive_Base
 			TradePress_Directive_Logger::log( "D17 RSI | {$symbol} | RSI={$rsi_value} Condition={$condition} Extreme={$extreme} | Base=50 Adjustments=" . ( $base_score - 50 ) . " | Final_Score={$final_score}" );
 		}
 
-		return $final_score;
+		return array(
+			'score'     => $final_score,
+			'signal'    => $rsi_value <= $oversold ? 'Oversold' : ( $rsi_value >= $overbought ? 'Overbought' : 'Neutral' ),
+			'rsi_value' => $rsi_value,
+		);
 	}
 
 	/**

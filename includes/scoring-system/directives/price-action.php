@@ -39,41 +39,6 @@ class TradePress_Scoring_Directive_Price_Action extends TradePress_Scoring_Direc
 	 * @return array Score results with price action analysis
 	 */
 	public function calculate_score( $symbol_data, $config = array() ) {
-		// Get current price and moving averages from symbol data
-		$current_price = isset( $symbol_data['price']['current'] ) ? $symbol_data['price']['current'] : 0;
-		$ma50          = isset( $symbol_data['technical']['moving_averages']['sma_50'] ) ? $symbol_data['technical']['moving_averages']['sma_50'] : 0;
-		$ma200         = isset( $symbol_data['technical']['moving_averages']['sma_200'] ) ? $symbol_data['technical']['moving_averages']['sma_200'] : 0;
-
-		// Skip if we don't have valid data
-		if ( $current_price <= 0 || $ma50 <= 0 || $ma200 <= 0 ) {
-			return 50; // Neutral score
-		}
-
-		// Calculate score based on price relative to moving averages
-		$score = 50; // Start neutral
-
-		// Price above MA(50) is bullish
-		if ( $current_price > $ma50 ) {
-			$percent_above = ( ( $current_price / $ma50 ) - 1 ) * 100;
-			$score        += min( 25, $percent_above * 5 ); // Max +25 points
-		}
-		// Price below MA(50) is bearish
-		elseif ( $current_price < $ma50 ) {
-			$percent_below = ( 1 - ( $current_price / $ma50 ) ) * 100;
-			$score        -= min( 25, $percent_below * 5 ); // Max -25 points
-		}
-
-		// Price above MA(200) is bullish
-		if ( $current_price > $ma200 ) {
-			$percent_above = ( ( $current_price / $ma200 ) - 1 ) * 100;
-			$score        += min( 25, $percent_above * 5 ); // Max +25 points
-		}
-		// Price below MA(200) is bearish
-		elseif ( $current_price < $ma200 ) {
-			$percent_below = ( 1 - ( $current_price / $ma200 ) ) * 100;
-			$score        -= min( 25, $percent_below * 5 ); // Max -25 points
-		}
-
 		$ma_20_weight        = $config['ma_20_weight'] ?? 20;
 		$ma_50_weight        = $config['ma_50_weight'] ?? 30;
 		$ma_200_weight       = $config['ma_200_weight'] ?? 50;

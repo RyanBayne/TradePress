@@ -44,17 +44,19 @@ class TradePress_Scoring_Directive_Volume extends TradePress_Scoring_Directive_B
 	 * @return int|array Score from 0-100 (int for single mode, array for both)
 	 * @version 1.0.0
 	 */
-	public function calculate_score( $symbol_data, $trading_mode = 'long' ) {
+	public function calculate_score( $symbol_data, $config = array() ) {
 		// Check data freshness before processing
 		$symbol = $symbol_data['symbol'] ?? 'UNKNOWN';
 		$this->check_data_freshness( $symbol, array( 'volume_data', 'price_data', 'avg_volume' ) );
 
 		// Get configuration
-		$config            = get_option( 'tradepress_directive_volume', array() );
-		$base_multiplier   = $config['base_multiplier'] ?? 1.0;
-		$high_volume_bonus = $config['high_volume_bonus'] ?? 25;
-		$surge_bonus       = $config['surge_bonus'] ?? 50;
-		$min_score         = $config['min_score'] ?? 0;
+		$stored_config     = get_option( 'tradepress_directive_volume', array() );
+		$merged_config     = array_merge( $stored_config, $config );
+		$base_multiplier   = $merged_config['base_multiplier'] ?? 1.0;
+		$high_volume_bonus = $merged_config['high_volume_bonus'] ?? 25;
+		$surge_bonus       = $merged_config['surge_bonus'] ?? 50;
+		$min_score         = $merged_config['min_score'] ?? 0;
+		$trading_mode      = $merged_config['trading_mode'] ?? 'long';
 
 		// Log calculation start
 		if ( get_option( 'bugnet_output_directives' ) === 'yes' ) {

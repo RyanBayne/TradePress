@@ -8,10 +8,15 @@
  * @subpackage BackgroundProcessing
  */
 
+// phpcs:ignoreFile WordPress.Files.FileName.InvalidClassFileName -- Legacy filename is required directly across queue and research paths.
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Database schema and helpers for the persistent import queue.
+ */
 class TradePress_Queue_Schema {
 
 	/**
@@ -24,7 +29,7 @@ class TradePress_Queue_Schema {
 
 		$charset_collate = $wpdb->get_charset_collate();
 
-		// Queue items table
+		// Queue items table.
 		$queue_table = $wpdb->prefix . 'tradepress_queue';
 		$queue_sql   = "CREATE TABLE $queue_table (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -42,28 +47,51 @@ class TradePress_Queue_Schema {
             error_message text NULL,
             PRIMARY KEY (id),
             KEY queue_status (queue_name, status),
-            KEY priority_scheduled (priority DESC, scheduled_at ASC),
+            KEY priority_scheduled (priority, scheduled_at),
             KEY status_attempts (status, attempts)
         ) $charset_collate;";
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $queue_sql );
 
-		// Update database version
-		update_option( 'tradepress_queue_db_version', '1.0.0' );
+		if ( ! self::table_exists() ) {
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Static schema with a WordPress-generated table name; fallback for dbDelta failures.
+			$wpdb->query( $queue_sql );
+		}
+
+		if ( self::table_exists() ) {
+			// Update database version after the table exists.
+			update_option( 'tradepress_queue_db_version', '1.0.0' );
+		}
 	}
 
 	/**
 	 * Check if tables exist and create if needed
 	 *
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 */
 	public static function maybe_create_tables() {
 		$db_version = get_option( 'tradepress_queue_db_version', '0' );
 
-		if ( version_compare( $db_version, '1.0.0', '<' ) ) {
+		// Create if version is outdated OR the table simply doesn't exist yet.
+		if ( version_compare( $db_version, '1.0.0', '<' ) || ! self::table_exists() ) {
 			self::create_tables();
 		}
+	}
+
+	/**
+	 * Check whether the queue table exists.
+	 *
+	 * @version 1.0.0
+	 *
+	 * @return bool
+	 */
+	private static function table_exists() {
+		global $wpdb;
+
+		$table = $wpdb->prefix . 'tradepress_queue';
+
+		return $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table ) ) ) === $table;
 	}
 
 	/**
@@ -71,11 +99,12 @@ class TradePress_Queue_Schema {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $queue_name
-	 * @param mixed $item_type
-	 * @param mixed $item_data
-	 * @param int   $priority
-	 * @param mixed $scheduled_at
+	 * @param string     $queue_name   Queue name.
+	 * @param string     $item_type    Queue item type.
+	 * @param mixed      $item_data    Queue item payload.
+	 * @param int        $priority     Queue priority.
+	 * @param string|int $scheduled_at Optional scheduled datetime.
+	 * @return int|false Insert row ID on success, false on failure.
 	 */
 	public static function add_item( $queue_name, $item_type, $item_data, $priority = 10, $scheduled_at = null ) {
 		global $wpdb;
@@ -94,7 +123,7 @@ class TradePress_Queue_Schema {
 				'queue_name'   => $queue_name,
 				'priority'     => $priority,
 				'item_type'    => $item_type,
-				'item_data'    => json_encode( $item_data ),
+				'item_data'    => wp_json_encode( $item_data ),
 				'created_at'   => current_time( 'mysql' ),
 				'scheduled_at' => $scheduled_at,
 			),
@@ -251,15 +280,19 @@ class TradePress_Queue_Schema {
 	/**
 	 * Get next item from queue
 	 *
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 *
-	 * @param mixed $queue_name
+	 * @param string $queue_name Queue name.
+	 * @return object|null Database row when a pending item is available.
 	 */
 	public static function get_next_item( $queue_name ) {
 		global $wpdb;
 
+		self::maybe_create_tables();
+
 		$table = $wpdb->prefix . 'tradepress_queue';
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		return $wpdb->get_row(
 			$wpdb->prepare(
 				"
@@ -275,5 +308,6 @@ class TradePress_Queue_Schema {
 				current_time( 'mysql' )
 			)
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 }

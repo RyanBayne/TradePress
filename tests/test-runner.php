@@ -18,35 +18,59 @@ class TradePress_Test_Runner {
     private $tabs = [
         'active' => [
             'title' => 'Active Tests',
-            'description' => 'Currently active and running test suites'
+            'description' => 'Currently active and running test suites',
+            'tab_ref' => 'TAB01',
+            'title_ref' => 'TIT02',
+            'subtitle_ref' => 'SUB01'
         ],
         'standard' => [
             'title' => 'Standard Tests',
-            'description' => 'Core functionality test suites'
+            'description' => 'Core functionality test suites',
+            'tab_ref' => 'TAB02',
+            'title_ref' => 'TIT03',
+            'subtitle_ref' => 'SUB02'
         ],
         'bugs' => [
             'title' => 'Bug Investigation',
-            'description' => 'Tests related to bug reports and fixes'
+            'description' => 'Tests related to bug reports and fixes',
+            'tab_ref' => 'TAB03',
+            'title_ref' => 'TIT04',
+            'subtitle_ref' => 'SUB03'
         ],
         'performance' => [
             'title' => 'Performance Tests',
-            'description' => 'System performance and optimization tests'
+            'description' => 'System performance and optimization tests',
+            'tab_ref' => 'TAB04',
+            'title_ref' => 'TIT05',
+            'subtitle_ref' => 'SUB04'
         ],
         'phase3' => [
             'title' => 'Phase 3 Tests',
-            'description' => 'Recent Call Register testing suite'
+            'description' => 'Recent Call Register testing suite',
+            'tab_ref' => 'TAB05',
+            'title_ref' => 'TIT06',
+            'subtitle_ref' => 'SUB05'
         ],
         'feature_status' => [
             'title' => 'Feature Status',
-            'description' => 'Current implementation and readiness status across plugin features'
+            'description' => 'Current implementation and readiness status across plugin features',
+            'tab_ref' => 'TAB06',
+            'title_ref' => 'TIT07',
+            'subtitle_ref' => 'SUB06'
         ],
         'ui_crawl' => [
             'title' => 'UI Crawl',
-            'description' => 'Visit admin tabs one by one and report page-level errors'
+            'description' => 'Visit admin tabs one by one and report page-level errors',
+            'tab_ref' => 'TAB07',
+            'title_ref' => 'TIT09',
+            'subtitle_ref' => 'SUB08'
         ],
         'trading212' => [
             'title' => 'Trading212 API',
-            'description' => 'Live endpoint tests for the Trading212 integration — runs against your configured API key'
+            'description' => 'Live endpoint tests for the Trading212 integration — runs against your configured API key',
+            'tab_ref' => 'TAB08',
+            'title_ref' => 'TIT08',
+            'subtitle_ref' => 'SUB07'
         ]
     ];
     
@@ -98,7 +122,7 @@ class TradePress_Test_Runner {
         }
         
         echo '<div class="wrap tradepress-tests">';
-        echo '<h1>' . esc_html__('TradePress Testing', 'tradepress') . '</h1>';
+        echo '<h1>' . esc_html( $this->ref( __( 'TradePress Testing', 'tradepress' ), 'TIT01' ) ) . '</h1>';
         
         // Tab navigation
         echo '<nav class="nav-tab-wrapper">';
@@ -106,7 +130,7 @@ class TradePress_Test_Runner {
             $class = ($current_tab === $tab_id) ? 'nav-tab nav-tab-active' : 'nav-tab';
             $url = admin_url('admin.php?page=tradepress-tests&tab=' . $tab_id);
             echo '<a href="' . esc_url($url) . '" class="' . esc_attr($class) . '">';
-            echo esc_html($tab['title']);
+            echo esc_html( $this->ref( $tab['title'], $tab['tab_ref'] ) );
             echo '</a>';
         }
         echo '</nav>';
@@ -124,6 +148,21 @@ class TradePress_Test_Runner {
         echo '</div>';
         
         $this->enqueue_test_assets();
+    }
+
+    /**
+     * Apply a developer reference code to UI text.
+     *
+     * @param string $text UI text.
+     * @param string $code Reference code.
+     * @return string Referenced UI text.
+     */
+    private function ref( $text, $code ) {
+        if ( function_exists( 'tradepress_ui_reference' ) ) {
+            return tradepress_ui_reference( $text, $code );
+        }
+
+        return $text;
     }
     
     /**
@@ -174,9 +213,9 @@ class TradePress_Test_Runner {
     private function render_active_tab() {
         $active_tests = TradePress_Test_Registry::get_tests(['status' => 'active']);
         
-        echo '<h2>' . esc_html($this->tabs['active']['title']) . '</h2>';
-        echo '<p class="description">' . esc_html($this->tabs['active']['description']) . '</p>';
-        echo '<p><button type="button" id="discover-tests" class="button button-secondary">' . esc_html__( 'Discover Tests', 'tradepress' ) . '</button></p>';
+        echo '<h2>' . esc_html( $this->ref( $this->tabs['active']['title'], $this->tabs['active']['title_ref'] ) ) . '</h2>';
+        echo '<p class="description">' . esc_html( $this->ref( $this->tabs['active']['description'], $this->tabs['active']['subtitle_ref'] ) ) . '</p>';
+        echo '<p><button type="button" id="discover-tests" class="button button-secondary">' . esc_html( $this->ref( __( 'Discover Tests', 'tradepress' ), 'FOR01' ) ) . '</button></p>';
         echo '<div id="discover-tests-result" style="margin: 10px 0;"></div>';
         
         $this->render_test_table($active_tests);
@@ -190,8 +229,8 @@ class TradePress_Test_Runner {
     private function render_standard_tab() {
         $standard_tests = TradePress_Test_Registry::get_tests(['category' => 'standard']);
         
-        echo '<h2>' . esc_html($this->tabs['standard']['title']) . '</h2>';
-        echo '<p class="description">' . esc_html($this->tabs['standard']['description']) . '</p>';
+        echo '<h2>' . esc_html( $this->ref( $this->tabs['standard']['title'], $this->tabs['standard']['title_ref'] ) ) . '</h2>';
+        echo '<p class="description">' . esc_html( $this->ref( $this->tabs['standard']['description'], $this->tabs['standard']['subtitle_ref'] ) ) . '</p>';
         
         $this->render_test_table($standard_tests);
     }
@@ -204,8 +243,8 @@ class TradePress_Test_Runner {
     private function render_bugs_tab() {
         $bug_tests = TradePress_Test_Registry::get_tests(['category' => 'bugs']);
         
-        echo '<h2>' . esc_html($this->tabs['bugs']['title']) . '</h2>';
-        echo '<p class="description">' . esc_html($this->tabs['bugs']['description']) . '</p>';
+        echo '<h2>' . esc_html( $this->ref( $this->tabs['bugs']['title'], $this->tabs['bugs']['title_ref'] ) ) . '</h2>';
+        echo '<p class="description">' . esc_html( $this->ref( $this->tabs['bugs']['description'], $this->tabs['bugs']['subtitle_ref'] ) ) . '</p>';
         
         $this->render_test_table($bug_tests);
     }
@@ -218,8 +257,8 @@ class TradePress_Test_Runner {
     private function render_performance_tab() {
         $perf_tests = TradePress_Test_Registry::get_tests(['category' => 'performance']);
         
-        echo '<h2>' . esc_html($this->tabs['performance']['title']) . '</h2>';
-        echo '<p class="description">' . esc_html($this->tabs['performance']['description']) . '</p>';
+        echo '<h2>' . esc_html( $this->ref( $this->tabs['performance']['title'], $this->tabs['performance']['title_ref'] ) ) . '</h2>';
+        echo '<p class="description">' . esc_html( $this->ref( $this->tabs['performance']['description'], $this->tabs['performance']['subtitle_ref'] ) ) . '</p>';
         
         $this->render_test_table($perf_tests);
     }
@@ -230,12 +269,12 @@ class TradePress_Test_Runner {
       * @version 1.0.0
      */
     private function render_phase3_tab() {
-        echo '<h2>' . esc_html($this->tabs['phase3']['title']) . '</h2>';
-        echo '<p class="description">' . esc_html__('Comprehensive testing suite for the Recent Call Register system, validating API call deduplication, platform-aware caching, and cross-feature integration.', 'tradepress') . '</p>';
+        echo '<h2>' . esc_html( $this->ref( $this->tabs['phase3']['title'], $this->tabs['phase3']['title_ref'] ) ) . '</h2>';
+        echo '<p class="description">' . esc_html( $this->ref( __( 'Comprehensive testing suite for the Recent Call Register system, validating API call deduplication, platform-aware caching, and cross-feature integration.', 'tradepress' ), $this->tabs['phase3']['subtitle_ref'] ) ) . '</p>';
         
         echo '<div class="test-controls" style="margin: 20px 0;">';
         echo '<button id="run-phase3-tests" class="button button-primary">';
-        echo esc_html__('Run Phase 3 Tests', 'tradepress');
+        echo esc_html( $this->ref( __( 'Run Phase 3 Tests', 'tradepress' ), 'FOR02' ) );
         echo '</button>';
         echo '<button id="clear-test-results" class="button">';
         echo esc_html__('Clear Results', 'tradepress');
@@ -253,8 +292,8 @@ class TradePress_Test_Runner {
       * @version 1.0.0
      */
     private function render_feature_status_tab() {
-        echo '<h2>' . esc_html($this->tabs['feature_status']['title']) . '</h2>';
-        echo '<p class="description">' . esc_html($this->tabs['feature_status']['description']) . '</p>';
+        echo '<h2>' . esc_html( $this->ref( $this->tabs['feature_status']['title'], $this->tabs['feature_status']['title_ref'] ) ) . '</h2>';
+        echo '<p class="description">' . esc_html( $this->ref( $this->tabs['feature_status']['description'], $this->tabs['feature_status']['subtitle_ref'] ) ) . '</p>';
 
         $feature_status_view = TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/development/view/feature-status.php';
         if ( ! file_exists( $feature_status_view ) ) {
@@ -318,8 +357,8 @@ class TradePress_Test_Runner {
         }
         $has_key = '' !== $api_key;
 
-        echo '<h2>' . esc_html( $this->tabs['trading212']['title'] ) . '</h2>';
-        echo '<p class="description">' . esc_html( $this->tabs['trading212']['description'] ) . '</p>';
+        echo '<h2>' . esc_html( $this->ref( $this->tabs['trading212']['title'], $this->tabs['trading212']['title_ref'] ) ) . '</h2>';
+        echo '<p class="description">' . esc_html( $this->ref( $this->tabs['trading212']['description'], $this->tabs['trading212']['subtitle_ref'] ) ) . '</p>';
 
         if ( ! $has_key ) {
             echo '<div class="notice notice-warning inline"><p>';
@@ -330,7 +369,7 @@ class TradePress_Test_Runner {
         echo '<div class="tradepress-t212-tests">';
 
         echo '<div style="margin: 12px 0; padding: 10px 14px; background: #f0f0f1; border-left: 4px solid #72aee6; font-size: 13px;">';
-        echo '<strong>' . esc_html__( 'Environment:', 'tradepress' ) . '</strong> ';
+        echo '<strong>' . esc_html( $this->ref( __( 'Environment:', 'tradepress' ), 'PAN01' ) ) . '</strong> ';
         echo '<code>' . esc_html( $environment ) . '</code>';
         if ( 'live' === $environment ) {
             echo ' &mdash; <span style="color:#d63638;">' . esc_html__( 'Live environment — read-only tests only, no orders will be placed.', 'tradepress' ) . '</span>';
@@ -339,7 +378,7 @@ class TradePress_Test_Runner {
 
         echo '<div class="test-controls" style="margin: 20px 0;">';
         echo '<button id="run-trading212-tests" class="button button-primary"' . ( $has_key ? '' : ' disabled' ) . '>';
-        echo esc_html__( 'Run Trading212 Tests', 'tradepress' );
+        echo esc_html( $this->ref( __( 'Run Trading212 Tests', 'tradepress' ), 'FOR03' ) );
         echo '</button> ';
         echo '<button id="clear-trading212-results" class="button">';
         echo esc_html__( 'Clear Results', 'tradepress' );
@@ -463,34 +502,34 @@ class TradePress_Test_Runner {
         echo '<section class="tradepress-ui-crawl">';
         echo '<div class="tradepress-ui-crawl__hero">';
         echo '<div class="tradepress-ui-crawl__hero-copy">';
-        echo '<h2>' . esc_html($this->tabs['ui_crawl']['title']) . '</h2>';
-        echo '<p class="description">' . esc_html($this->tabs['ui_crawl']['description']) . '</p>';
-        echo '<p class="description">' . esc_html__( 'This scan checks each discovered tab URL for HTTP failures and common PHP/WordPress error signals in page HTML.', 'tradepress' ) . '</p>';
+        echo '<h2>' . esc_html( $this->ref( $this->tabs['ui_crawl']['title'], $this->tabs['ui_crawl']['title_ref'] ) ) . '</h2>';
+        echo '<p class="description">' . esc_html( $this->ref( $this->tabs['ui_crawl']['description'], $this->tabs['ui_crawl']['subtitle_ref'] ) ) . '</p>';
+        echo '<p class="description">' . esc_html( $this->ref( __( 'This scan checks each discovered tab URL for HTTP failures and common PHP/WordPress error signals in page HTML.', 'tradepress' ), 'SUB09' ) ) . '</p>';
         echo '</div>';
         echo '<div class="tradepress-ui-crawl__meta">';
         echo '<div class="tradepress-ui-crawl__meta-card">';
-        echo '<span class="tradepress-ui-crawl__meta-label">' . esc_html__( 'Seed URLs', 'tradepress' ) . '</span>';
+        echo '<span class="tradepress-ui-crawl__meta-label">' . esc_html( $this->ref( __( 'Seed URLs', 'tradepress' ), 'PAN02' ) ) . '</span>';
         echo '<strong class="tradepress-ui-crawl__meta-value">' . esc_html( count( $seed_urls ) ) . '</strong>';
         echo '</div>';
         echo '<div class="tradepress-ui-crawl__meta-card">';
-        echo '<span class="tradepress-ui-crawl__meta-label">' . esc_html__( 'Mode', 'tradepress' ) . '</span>';
+        echo '<span class="tradepress-ui-crawl__meta-label">' . esc_html( $this->ref( __( 'Mode', 'tradepress' ), 'PAN03' ) ) . '</span>';
         echo '<strong class="tradepress-ui-crawl__meta-value">' . esc_html__( 'HTML signal scan', 'tradepress' ) . '</strong>';
         echo '</div>';
         echo '</div>';
         echo '</div>';
 
         echo '<div class="tradepress-ui-crawl__actions">';
-        echo '<button id="run-ui-crawl" class="button button-primary">' . esc_html__( 'Run UI Crawl', 'tradepress' ) . '</button>';
+        echo '<button id="run-ui-crawl" class="button button-primary">' . esc_html( $this->ref( __( 'Run UI Crawl', 'tradepress' ), 'FOR04' ) ) . '</button>';
         echo '<button id="clear-ui-crawl" class="button">' . esc_html__( 'Clear Results', 'tradepress' ) . '</button>';
         echo '</div>';
 
         echo '<div class="tradepress-ui-crawl__panels">';
         echo '<div class="tradepress-ui-crawl__panel tradepress-ui-crawl__panel--summary">';
-        echo '<h3>' . esc_html__( 'Run Summary', 'tradepress' ) . '</h3>';
+        echo '<h3>' . esc_html( $this->ref( __( 'Run Summary', 'tradepress' ), 'PAN04' ) ) . '</h3>';
         echo '<div id="ui-crawl-summary" class="tradepress-ui-crawl__summary"></div>';
         echo '</div>';
         echo '<div class="tradepress-ui-crawl__panel tradepress-ui-crawl__panel--results">';
-        echo '<h3>' . esc_html__( 'URL Results', 'tradepress' ) . '</h3>';
+        echo '<h3>' . esc_html( $this->ref( __( 'URL Results', 'tradepress' ), 'PAN05' ) ) . '</h3>';
         echo '<div id="ui-crawl-results" class="tradepress-ui-crawl__results"></div>';
         echo '</div>';
         echo '</div>';

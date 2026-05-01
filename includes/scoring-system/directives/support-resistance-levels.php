@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Unified directive that identifies both support and resistance zones using 6 technical methods.
  * Calculates all levels in one pass for maximum efficiency and highlights confluence areas.
  */
-class SupportResistanceLevels extends TradePress_Scoring_Directive_Base {
+class TradePress_Scoring_Directive_Support_Resistance extends TradePress_Scoring_Directive_Base {
 
 	private $symbol;
 	private $api_service;
