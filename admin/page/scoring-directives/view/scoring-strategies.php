@@ -5,12 +5,12 @@
  * VIEW FILE - STRATEGY CREATION INTERFACE
  * ========================================
  * This is a VIEW FILE that displays the interface for creating and managing scoring strategies.
- * It is separate from trading strategies, which are built using directives with the goal of making a decision.
+ * It is separate from trading strategies, which are rule-threshold decision engines.
  * This interface does not allow scoring strategies to be assigned to trading strategies, use the Trading Strategy Creator for that.
- * It is focused on assigning directives to strategies and configuring their weights, to determine how they contribute to the overall scoring.
+ * It is focused on assigning directives to strategies and configuring their weights, to determine how they contribute to the overall scoring and ranking model.
  *
  * The scores determined by each strategy are used to rank symbols in the TradePress analysis.
- * Trading strategies can then use these scores to make decisions.
+ * Trading strategies may reference these scores as one input, but score optimization and rule-trigger execution remain separate algorithm paths.
  *
  * Data Source: scoring-system/directives-loader.php
  * Directive Definitions: scoring-system/directives-register.php

@@ -95,6 +95,12 @@ return array(
 			'pages'        => array( 'trading-platforms' ),
 			'dependencies' => array( 'jquery' ),
 		),
+		'sees-diagnostics'          => array(
+			'path'         => 'js/sees-diagnostics.js',
+			'purpose'      => 'SEES diagnostics 3-column workspace interactions and trace polling',
+			'pages'        => array( 'trading' ),
+			'dependencies' => array( 'jquery' ),
+		),
 	),
 
 	// Feature Scripts

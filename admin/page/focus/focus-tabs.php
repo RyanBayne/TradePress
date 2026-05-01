@@ -56,6 +56,15 @@ if ( ! class_exists( 'TradePress_Admin_Focus_Page' ) ) :
 		}
 
 		/**
+		 * Get tabs that are visible only because the Focus page is Developer Mode gated.
+		 *
+		 * @return array
+		 */
+		private function get_development_tab_ids() {
+			return array_keys( $this->get_tabs() );
+		}
+
+		/**
 		 * Output the focus area interface.
 		 *
 		 * @version 1.0.0
@@ -67,14 +76,14 @@ if ( ! class_exists( 'TradePress_Admin_Focus_Page' ) ) :
 			echo '<h1>' . esc_html__( 'TradePress Focus', 'tradepress' );
 			if ( isset( $tabs[ $this->active_tab ] ) ) {
 				echo ' <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 0.8em; vertical-align: middle; margin: 0 5px;"></span> ';
-				echo esc_html( $tabs[ $this->active_tab ] );
+				echo tradepress_get_development_tab_label( $this->active_tab, $tabs[ $this->active_tab ], $this->get_development_tab_ids() );
 			}
 			echo '</h1>';
 
 			echo '<nav class="nav-tab-wrapper woo-nav-tab-wrapper">';
 			foreach ( $tabs as $tab_id => $tab_name ) {
 				$active_class = ( $this->active_tab === $tab_id ) ? ' nav-tab-active' : '';
-				echo '<a href="' . esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=' . $tab_id ) ) . '" class="nav-tab' . esc_attr( $active_class ) . '">' . esc_html( $tab_name ) . '</a>';
+				echo '<a href="' . esc_url( admin_url( 'admin.php?page=tradepress_focus&tab=' . $tab_id ) ) . '" class="nav-tab' . esc_attr( $active_class ) . '">' . tradepress_get_development_tab_label( $tab_id, $tab_name, $this->get_development_tab_ids() ) . '</a>';
 			}
 			echo '</nav>';
 

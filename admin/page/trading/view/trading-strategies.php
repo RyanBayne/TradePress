@@ -16,8 +16,10 @@ if ( ! function_exists( 'tradepress_get_trading_strategy_rows' ) ) {
 	/**
 	 * Get strategy rows for the Trading strategy management view.
 	 *
-	 * This view is a dev-only design surface. It reads stored scoring strategy
-	 * drafts when available and does not execute trading automation.
+	 * This view is a dev-only design surface for trading rule strategies.
+	 * Current storage is transitional and reads from scoring strategy tables
+	 * while dedicated trading strategy persistence is being formalized.
+	 * No live trading automation executes from this view.
 	 *
 	 * @return array Strategy row data.
 	 */
@@ -101,7 +103,11 @@ foreach ( $strategies as $strategy ) {
 				</tr>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Source of truth', 'tradepress' ); ?></th>
-					<td><?php esc_html_e( 'Stored scoring strategy drafts when available; otherwise empty state', 'tradepress' ); ?></td>
+					<td><?php esc_html_e( 'Stored trading-rule drafts (currently backed by scoring strategy storage as a transitional layer)', 'tradepress' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Decision model', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'Rule-threshold trigger logic; not the score-optimization engine used for ranking', 'tradepress' ); ?></td>
 				</tr>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Provider', 'tradepress' ); ?></th>

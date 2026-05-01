@@ -46,7 +46,7 @@ if ( ! class_exists( 'TradePress_Admin_Analysis_Tabs' ) ) :
 				echo esc_html__( 'TradePress Analysis', 'tradepress' );
 				if ( isset( $tabs[ $current_tab ] ) ) {
 					echo ' <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 0.8em; vertical-align: middle; margin: 0 5px;"></span> ';
-					echo esc_html( $tabs[ $current_tab ] );
+					echo tradepress_get_development_tab_label( $current_tab, $tabs[ $current_tab ], self::get_development_tab_ids() );
 				}
 				?>
 			</h1>
@@ -56,7 +56,7 @@ if ( ! class_exists( 'TradePress_Admin_Analysis_Tabs' ) ) :
 				foreach ( $tabs as $tab_id => $tab_name ) {
 					$active  = ( $tab_id === $current_tab ) ? 'nav-tab-active' : '';
 					$tab_url = add_query_arg( array( 'tab' => $tab_id ), admin_url( 'admin.php?page=tradepress_analysis' ) );
-					echo '<a href="' . esc_url( $tab_url ) . '" class="nav-tab ' . esc_attr( $active ) . '">' . esc_html( $tab_name ) . '</a>';
+					echo '<a href="' . esc_url( $tab_url ) . '" class="nav-tab ' . esc_attr( $active ) . '">' . tradepress_get_development_tab_label( $tab_id, $tab_name, self::get_development_tab_ids() ) . '</a>';
 				}
 				?>
 			</nav>
@@ -99,6 +99,15 @@ if ( ! class_exists( 'TradePress_Admin_Analysis_Tabs' ) ) :
 
 			// Allow extensions to add their own tabs
 			return apply_filters( 'tradepress_analysis_tabs', $tabs );
+		}
+
+		/**
+		 * Get tabs that are visible only because the Analysis page is Developer Mode gated.
+		 *
+		 * @return array
+		 */
+		private static function get_development_tab_ids() {
+			return array_keys( self::get_tabs() );
 		}
 
 		/**

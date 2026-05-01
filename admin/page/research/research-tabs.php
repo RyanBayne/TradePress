@@ -85,7 +85,7 @@ class TradePress_Research {
 				echo esc_html__( 'TradePress Research', 'tradepress' );
 				if ( ! empty( $tabs[ $current_tab ]['title'] ) ) {
 					echo ' &gt; ';
-					echo esc_html( $tabs[ $current_tab ]['title'] );
+					echo tradepress_get_development_tab_label( $current_tab, $tabs[ $current_tab ]['title'], $tradepress_research->get_development_tab_ids() );
 				}
 				?>
 			</h1>
@@ -94,7 +94,7 @@ class TradePress_Research {
 				<?php
 				foreach ( $tabs as $tab_id => $tab_data ) {
 					$active = $current_tab === $tab_id ? ' nav-tab-active' : '';
-					echo '<a href="' . esc_url( admin_url( 'admin.php?page=tradepress_research&tab=' . $tab_id ) ) . '" class="nav-tab' . esc_attr( $active ) . '">' . esc_html( $tab_data['title'] ) . '</a>';
+					echo '<a href="' . esc_url( admin_url( 'admin.php?page=tradepress_research&tab=' . $tab_id ) ) . '" class="nav-tab' . esc_attr( $active ) . '">' . tradepress_get_development_tab_label( $tab_id, $tab_data['title'], $tradepress_research->get_development_tab_ids() ) . '</a>';
 				}
 				?>
 			</nav>
@@ -269,6 +269,15 @@ class TradePress_Research {
 		}
 
 		return apply_filters( 'tradepress_research_tabs', $tabs );
+	}
+
+	/**
+	 * Get tabs that are visible only in Developer Mode.
+	 *
+	 * @return array
+	 */
+	public function get_development_tab_ids() {
+		return array( 'overview', 'sector-rotation', 'market-correlations', 'technical-indicators', 'news_feed', 'earnings', 'social_networks', 'price_forecast' );
 	}
 
 	/**

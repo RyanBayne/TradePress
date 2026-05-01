@@ -81,7 +81,8 @@ if ( ! class_exists( 'TradePress_Admin_Menus' ) ) :
 				add_submenu_page( $this->slug, __( 'Analysis', 'tradepress' ), __( 'Analysis', 'tradepress' ), 'manage_options', 'tradepress_analysis', array( $this, 'analysis_page' ) );
 			}
 
-			// 10. Trading page is intentionally hidden from admin navigation.
+		// 10. Trading (has dev-only and live tabs; Calculators always visible, rest in dev mode)
+		add_submenu_page( $this->slug, __( 'Trading', 'tradepress' ), __( 'Trading', 'tradepress' ), 'manage_options', 'tradepress_trading', array( $this, 'trading_page' ) );
 
 			// Trading Platforms (keep for now)
 			add_submenu_page( $this->slug, __( 'Trading Platforms', 'tradepress' ), __( 'Trading Platforms', 'tradepress' ), 'manage_options', 'tradepress_platforms', array( $this, 'platforms_page' ) );
@@ -180,8 +181,6 @@ if ( ! class_exists( 'TradePress_Admin_Menus' ) ) :
 		 * @version 1.0.0
 		 */
 		public function trading_page() {
-			wp_die( esc_html__( 'Trading page is currently hidden.', 'tradepress' ) );
-
 			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/trading/trading-tabs.php';
 			$trading = new TradePress_Admin_Trading_Page();
 			$trading->output();

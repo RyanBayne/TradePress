@@ -3,6 +3,27 @@
 ## Overview
 The TradePress scoring system provides a quantitative measure of trading potential for stock symbols. Each symbol receives a score that represents its potential based on various technical and fundamental indicators. This document explains how the scoring system works and how to interpret the scores displayed in the admin interface.
 
+## Algorithm Boundary: Scoring vs Trading Strategy
+
+TradePress intentionally separates two algorithm families:
+
+1. **Scoring Directives algorithm (this document):**
+    - Produces weighted scores for ranking and optimization.
+    - Can demand high-quality confluence before signaling a strong opportunity.
+    - Outputs are suited to ranking, filtering, and confidence comparisons.
+
+2. **Trading Strategy algorithm (separate subsystem):**
+    - Uses threshold-rule logic (for example, how many configured indicators must pass now).
+    - Can trigger when conditions are acceptable, not necessarily optimal.
+    - Supports optional confirmation windows to reduce early entries.
+
+Important: Trading Strategy should not become a duplicate scoring engine. It may reference scores as an input, but score optimization and rule-threshold execution remain distinct responsibilities.
+
+### Scope guidance
+
+- Core/free scope: clear rule-threshold controls, minimum-required condition controls, confirmation controls.
+- Optional advanced precision: trend-of-change and wait-for-better-entry gating should be designed early but can remain optional complexity until premium extension phases.
+
 ## Score Components
 The scoring algorithm evaluates multiple factors to generate a comprehensive score:
 
@@ -12,7 +33,7 @@ The scoring algorithm evaluates multiple factors to generate a comprehensive sco
 4. **MACD** (25% weight) - Evaluates Moving Average Convergence Divergence
 5. **Moving Averages** (15% weight) - Compares short and long-term moving averages
 
-Additional modifiers can be applied through custom filters and trading strategies.
+Additional modifiers can be applied through custom filters. Trading Strategy integration should consume score outputs as inputs without replacing the scoring algorithm's ranking role.
 
 ## Earnings-Based Scoring Directives (HIGH PRIORITY)
 

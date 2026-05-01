@@ -3,7 +3,7 @@
  * Trading Area View: Create Strategies Tab
  *
  * Provides a drag-and-drop interface for building trading strategies
- * by combining different scoring directives
+ * by combining indicator rules and threshold conditions.
  *
  * @package TradePress/Admin/Trading
  * @version 1.0.0
@@ -100,7 +100,11 @@ if ( empty( $directives ) ) {
 				</tr>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Source of truth', 'tradepress' ); ?></th>
-					<td><?php esc_html_e( 'Scoring directive registry or static fallback definitions', 'tradepress' ); ?></td>
+					<td><?php esc_html_e( 'Directive definitions and strategy rule settings (design-time only)', 'tradepress' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Decision model', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'Rule-threshold trigger model (not score-optimization execution)', 'tradepress' ); ?></td>
 				</tr>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Provider', 'tradepress' ); ?></th>
@@ -112,6 +116,12 @@ if ( empty( $directives ) ) {
 				</tr>
 			</tbody>
 		</table>
+	</div>
+
+	<div class="notice notice-info inline">
+		<p>
+			<?php esc_html_e( 'Scoring Directives and Trading Strategies are separate systems: scoring ranks opportunity quality, while trading strategies trigger when configured minimum rule conditions are met.', 'tradepress' ); ?>
+		</p>
 	</div>
 
 	<div class="create-strategy-header">
@@ -178,7 +188,7 @@ if ( empty( $directives ) ) {
 			<!-- Right column: Strategy builder -->
 			<div class="strategy-builder-column column">
 				<h3><?php esc_html_e( 'Strategy Builder', 'tradepress' ); ?></h3>
-				<p class="column-description"><?php esc_html_e( 'Drag indicators to reorder. Add settings and weights to customize your strategy.', 'tradepress' ); ?></p>
+				<p class="column-description"><?php esc_html_e( 'Drag indicators to reorder. Configure minimum required conditions and confirmation behavior for rule-based execution.', 'tradepress' ); ?></p>
 				
 				<div class="strategy-settings-wrapper">
 					<div class="strategy-settings-toggle">
@@ -192,14 +202,17 @@ if ( empty( $directives ) ) {
 								<div class="settings-group">
 									<h4><?php esc_html_e( 'Trading Rules', 'tradepress' ); ?></h4>
 									<div class="settings-field">
-										<label for="strategy-signal-threshold"><?php esc_html_e( 'Signal Threshold:', 'tradepress' ); ?></label>
+										<label for="strategy-signal-threshold"><?php esc_html_e( 'Minimum Conditions Met (%):', 'tradepress' ); ?></label>
 										<input type="number" id="strategy-signal-threshold" name="signal_threshold" min="50" max="100" value="75" step="1">
-										<p class="field-description"><?php esc_html_e( 'Minimum score (%) required to generate a trading signal', 'tradepress' ); ?></p>
+										<p class="field-description"><?php esc_html_e( 'Percent of enabled indicator rules that must pass before a trigger can occur (for example 60% allows 3 of 5).', 'tradepress' ); ?></p>
 									</div>
 									<div class="settings-field">
 										<label for="strategy-confirmation-count"><?php esc_html_e( 'Confirmation Count:', 'tradepress' ); ?></label>
 										<input type="number" id="strategy-confirmation-count" name="confirmation_count" min="1" max="10" value="2" step="1">
-										<p class="field-description"><?php esc_html_e( 'Number of periods to confirm before generating a signal', 'tradepress' ); ?></p>
+										<p class="field-description"><?php esc_html_e( 'Number of consecutive evaluations that must still pass before triggering, to reduce early entries.', 'tradepress' ); ?></p>
+									</div>
+									<div class="settings-field">
+										<p class="field-description"><?php esc_html_e( 'Advanced precision (trend-of-change gating, step-level wait logic) is planned as optional complexity and not required for current core behavior.', 'tradepress' ); ?></p>
 									</div>
 								</div>
 							</div>
@@ -297,12 +310,13 @@ if ( empty( $directives ) ) {
 					</div>
 				</div>
 				<div class="settings-field">
-					<label><?php esc_html_e( 'Signal Threshold:', 'tradepress' ); ?></label>
+					<label><?php esc_html_e( 'Rule Sensitivity:', 'tradepress' ); ?></label>
 					<select class="directive-threshold-select" name="directive_thresholds[]">
 						<option value="low"><?php esc_html_e( 'Low Sensitivity', 'tradepress' ); ?></option>
 						<option value="medium" selected><?php esc_html_e( 'Medium Sensitivity', 'tradepress' ); ?></option>
 						<option value="high"><?php esc_html_e( 'High Sensitivity', 'tradepress' ); ?></option>
 					</select>
+					<p class="field-description"><?php esc_html_e( 'Controls how strict this individual rule is before counting as passed.', 'tradepress' ); ?></p>
 				</div>
 			</div>
 			<div class="settings-column">

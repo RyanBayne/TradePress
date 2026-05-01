@@ -23,6 +23,12 @@ return array(
 			'pages'        => array( 'tradepress-tests' ),
 			'dependencies' => array(),
 		),
+		'sees-diagnostics' => array(
+			'path'         => 'css/pages/sees-diagnostics.css',
+			'purpose'      => 'SEES diagnostics layout with controls, symbol cards, and algorithm trace panel',
+			'pages'        => array( 'trading' ),
+			'dependencies' => array( 'variables' ),
+		),
 	),
 
 	// CSS Files - Components

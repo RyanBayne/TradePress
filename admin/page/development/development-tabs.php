@@ -139,7 +139,7 @@ class TradePress_Admin_Development_Page {
 				<?php esc_html_e( 'TradePress Development', 'tradepress' ); ?>
 				<?php if ( ! empty( $tab_title ) ) : ?>
 					<span class="dashicons dashicons-arrow-right-alt2" style="font-size: 0.8em; vertical-align: middle; margin: 0 5px;"></span>
-					<?php echo esc_html( $tab_title ); ?>
+					<?php echo tradepress_get_development_tab_label( $current_tab, $tab_title, self::get_development_tab_ids() ); ?>
 				<?php endif; ?>
 			</h1>
 		<?php
@@ -173,12 +173,21 @@ class TradePress_Admin_Development_Page {
 					'<a href="%s" class="nav-tab %s">%s</a>',
 					esc_url( add_query_arg( 'tab', $tab_id, remove_query_arg( 'channel' ) ) ),
 					esc_attr( $active_class ),
-					esc_html( $tab_title )
+					tradepress_get_development_tab_label( $tab_id, $tab_title, self::get_development_tab_ids() )
 				);
 			}
 			?>
 		</h2>
 		<?php
+	}
+
+	/**
+	 * Get tabs that are visible only because the Development page is Developer Mode gated.
+	 *
+	 * @return array
+	 */
+	private static function get_development_tab_ids() {
+		return array_keys( self::get_tabs() );
 	}
 
 	/**

@@ -125,6 +125,11 @@ class TradePress_Asset_Queue {
 		) {
 			$this->enqueue_configure_directives_assets();
 		}
+
+		// SEES diagnostics tab assets (centralized queue path).
+		if ( $this->current_page === 'tradepress_trading' && $this->current_tab === 'sees-diagnostics' ) {
+			$this->enqueue_sees_diagnostics_assets();
+		}
 	}
 
 	/**
@@ -340,6 +345,45 @@ class TradePress_Asset_Queue {
 				);
 			}
 		}
+	}
+
+	/**
+	 * Enqueue SEES diagnostics tab assets.
+	 *
+	 * @version 1.0.0
+	 */
+	private function enqueue_sees_diagnostics_assets() {
+		$style_path = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/css/pages/sees-diagnostics.css';
+		$style_ver  = file_exists( $style_path ) ? (string) filemtime( $style_path ) : TRADEPRESS_VERSION;
+
+		wp_enqueue_style(
+			'tradepress-sees-diagnostics',
+			TRADEPRESS_PLUGIN_URL . 'assets/css/pages/sees-diagnostics.css',
+			array( 'tradepress-variables' ),
+			$style_ver
+		);
+
+		$script_path = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/js/sees-diagnostics.js';
+		$script_ver  = file_exists( $script_path ) ? (string) filemtime( $script_path ) : TRADEPRESS_VERSION;
+
+		wp_enqueue_script(
+			'tradepress-sees-diagnostics',
+			TRADEPRESS_PLUGIN_URL . 'assets/js/sees-diagnostics.js',
+			array( 'jquery' ),
+			$script_ver,
+			true
+		);
+
+		wp_localize_script(
+			'tradepress-sees-diagnostics',
+			'tradepress_sees_diagnostics',
+			array(
+				'listNonce'        => wp_create_nonce( 'tradepress_fetch_sees_demo_data_nonce' ),
+				'traceNonce'       => wp_create_nonce( 'tradepress_fetch_sees_diagnostic_trace_nonce' ),
+				'noDataMessage'    => __( 'No symbols available for diagnostics.', 'tradepress' ),
+				'loadErrorMessage' => __( 'Unable to load diagnostics data.', 'tradepress' ),
+			)
+		);
 	}
 }
 

@@ -1,0 +1,157 @@
+.tradepress-sees-demo {
+    margin-top: 20px;
+}
+
+.tradepress-sees-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.tradepress-sees-header-wrapper h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.tradepress-sees-info-box {
+    border: 1px solid #ccd0d4;
+    background-color: #f6f7f7;
+    padding: 10px 15px;
+    width: 300px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    margin-left: 20px;
+}
+
+.tradepress-sees-info-box h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #2c3338;
+}
+
+.tradepress-sees-info-box ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tradepress-sees-info-box ul li {
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: #50575e;
+}
+
+.tradepress-sees-info-box ul li strong {
+    color: #3c434a;
+}
+
+.tradepress-sees-controls {
+    margin-bottom: 15px;
+}
+
+.tradepress-sees-controls button,
+.tradepress-sees-controls a.button {
+    margin-right: 10px;
+}
+
+#tradepress-sees-last-updated {
+    font-style: italic;
+    color: #555;
+    margin-left: 8px;
+}
+
+.tradepress-hidden {
+    display: none !important;
+}
+
+.sees-demo-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.loading-message {
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #50575e;
+}
+
+.sees-security-box {
+    background-color: #fff;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    padding: 10px 15px;
+    border-radius: 4px;
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+
+.sees-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #eee;
+}
+
+.sees-symbol {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2271b1;
+}
+
+.sees-name {
+    font-size: 0.9em;
+    color: #555;
+    text-align: right;
+    flex-grow: 1;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.sees-score {
+    font-size: 0.95em;
+    font-weight: bold;
+    color: #d63638;
+    background-color: #f6f7f7;
+    padding: 3px 8px;
+    border-radius: 3px;
+}
+
+.sees-box-body p {
+    margin: 3px 0;
+    font-size: 0.9em;
+}
+
+.sees-box-footer {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid #eee;
+    font-size: 0.8em;
+    color: #50575e;
+}
+
+.price-up {
+    color: #008000;
+}
+
+.price-down {
+    color: #dc3545;
+}
+
+@media (max-width: 960px) {
+    .tradepress-sees-header-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .tradepress-sees-info-box {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 15px;
+    }
+}

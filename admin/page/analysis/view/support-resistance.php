@@ -21,45 +21,25 @@ if ( ! $tab_mode['enabled'] ) {
 	return;
 }
 
-if ( ! class_exists( 'SupportResistanceLevels' ) ) {
-	require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/directives/support-resistance-levels.php';
-}
-
-$symbol      = isset( $_POST['symbol'] ) ? sanitize_text_field( wp_unslash( $_POST['symbol'] ) ) : '';
-$levels_type = isset( $_POST['levels_type'] ) ? sanitize_text_field( wp_unslash( $_POST['levels_type'] ) ) : 'both';
+$symbol         = '';
+$levels_type    = 'both';
+$allowed_levels = array( 'both', 'resistance', 'support' );
 $results     = array();
 $notice      = '';
 
-if ( ! empty( $symbol ) ) {
-	if ( ! class_exists( 'TradePress_Financial_API_Service' ) || ! class_exists( 'SupportResistanceLevels' ) ) {
-		$notice = __( 'The support and resistance analysis engine is not available yet. Results will appear here once live OHLC data import is stable.', 'tradepress' );
-	} else {
-		$api_service  = new TradePress_Financial_API_Service();
-		$sr_analyzer  = new SupportResistanceLevels( $symbol, $api_service );
-		$zones_result = $sr_analyzer->find_support_resistance_zones();
+if ( isset( $_POST['tradepress_support_resistance_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['tradepress_support_resistance_nonce'] ) ), 'tradepress_support_resistance' ) ) {
+	$symbol      = isset( $_POST['symbol'] ) ? sanitize_text_field( wp_unslash( $_POST['symbol'] ) ) : '';
+	$levels_type = isset( $_POST['levels_type'] ) ? sanitize_key( wp_unslash( $_POST['levels_type'] ) ) : 'both';
 
-		if ( is_array( $zones_result ) ) {
-			if ( 'resistance' === $levels_type || 'both' === $levels_type ) {
-				$results['resistance'] = array(
-					'current_price'     => isset( $zones_result['current_price'] ) ? (float) $zones_result['current_price'] : 0,
-					'highly_overlapped' => isset( $zones_result['resistance_zones']['highly_overlapped'] ) ? $zones_result['resistance_zones']['highly_overlapped'] : array(),
-					'well_overlapped'   => isset( $zones_result['resistance_zones']['well_overlapped'] ) ? $zones_result['resistance_zones']['well_overlapped'] : array(),
-				);
-			}
-
-			if ( 'support' === $levels_type || 'both' === $levels_type ) {
-				$results['support'] = array(
-					'current_price'     => isset( $zones_result['current_price'] ) ? (float) $zones_result['current_price'] : 0,
-					'highly_overlapped' => isset( $zones_result['support_zones']['highly_overlapped'] ) ? $zones_result['support_zones']['highly_overlapped'] : array(),
-					'well_overlapped'   => isset( $zones_result['support_zones']['well_overlapped'] ) ? $zones_result['support_zones']['well_overlapped'] : array(),
-				);
-			}
-		}
-
-		if ( empty( $results ) ) {
-			$notice = __( 'No support or resistance levels were found for that symbol using available live data.', 'tradepress' );
-		}
+	if ( ! in_array( $levels_type, $allowed_levels, true ) ) {
+		$levels_type = 'both';
 	}
+}
+
+if ( isset( $_POST['symbol'] ) && empty( $symbol ) ) {
+	$notice = __( 'Unable to process the request. Please reload the page and try again.', 'tradepress' );
+} elseif ( ! empty( $symbol ) ) {
+	$notice = __( 'Support and resistance analysis is not connected to a stored OHLC data source yet. Results will appear here after price history import and queued analysis are wired.', 'tradepress' );
 }
 
 if ( ! function_exists( 'tradepress_render_analysis_level_zones' ) ) {
@@ -85,8 +65,33 @@ if ( ! function_exists( 'tradepress_render_analysis_level_zones' ) ) {
 ?>
 
 <div class="support-resistance-container">
+	<div class="tradepress-data-status-panel" data-mode="dev-only-demo" data-health="not_applicable">
+		<h3><?php esc_html_e( 'Support & Resistance Data Status', 'tradepress' ); ?></h3>
+		<table class="widefat fixed striped">
+			<tbody>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Data mode', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'Dev-only Demo', 'tradepress' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Source of truth', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'No stored OHLC analysis table connected yet', 'tradepress' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Provider', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'Not selected for render path', 'tradepress' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Queue behavior', 'tradepress' ); ?></th>
+					<td><?php esc_html_e( 'No queue-backed support/resistance analysis exists from this view yet', 'tradepress' ); ?></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
 	<div class="support-resistance-form-container">
 		<form method="post" action="" class="support-resistance-form">
+			<?php wp_nonce_field( 'tradepress_support_resistance', 'tradepress_support_resistance_nonce' ); ?>
 			<div class="form-row">
 				<label for="symbol"><?php esc_html_e( 'Symbol:', 'tradepress' ); ?></label>
 				<input type="text" id="symbol" name="symbol" value="<?php echo esc_attr( $symbol ); ?>" placeholder="AAPL, MSFT, NVDA..." required>

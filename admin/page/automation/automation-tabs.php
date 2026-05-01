@@ -64,7 +64,7 @@ class TradePress_Admin_Automation_Page {
 				echo esc_html__( 'TradePress Automation', 'tradepress' );
 				if ( isset( $tabs[ $this->active_tab ] ) ) {
 					echo ' <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 0.8em; vertical-align: middle; margin: 0 5px;"></span> ';
-					echo esc_html( tradepress_get_development_tab_label( $this->active_tab, $tabs[ $this->active_tab ], $this->get_development_tab_ids() ) );
+					echo tradepress_get_development_tab_label( $this->active_tab, $tabs[ $this->active_tab ], $this->get_development_tab_ids() );
 				}
 				?>
 			</h1>
@@ -75,7 +75,7 @@ class TradePress_Admin_Automation_Page {
 					$active = ( $this->active_tab === $tab_id ) ? 'nav-tab-active' : '';
 					$url    = admin_url( 'admin.php?page=tradepress_automation&tab=' . $tab_id );
 					?>
-					<a href="<?php echo esc_url( $url ); ?>" class="nav-tab <?php echo esc_attr( $active ); ?>"><?php echo esc_html( tradepress_get_development_tab_label( $tab_id, $tab_name, $this->get_development_tab_ids() ) ); ?></a>
+					<a href="<?php echo esc_url( $url ); ?>" class="nav-tab <?php echo esc_attr( $active ); ?>"><?php echo tradepress_get_development_tab_label( $tab_id, $tab_name, $this->get_development_tab_ids() ); ?></a>
 				<?php endforeach; ?>
 			</nav>
 			

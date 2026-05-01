@@ -79,6 +79,15 @@ if ( ! class_exists( 'TradePress_Admin_Data_Tabs' ) ) :
 		}
 
 		/**
+		 * Get tabs that are visible only in Developer Mode.
+		 *
+		 * @return array
+		 */
+		private function get_development_tab_ids() {
+			return array( 'api-keys', 'sources_list', 'api-errors' );
+		}
+
+		/**
 		 * Output the data area.
 		 *
 		 * @version 1.0.0
@@ -96,7 +105,7 @@ if ( ! class_exists( 'TradePress_Admin_Data_Tabs' ) ) :
 				echo esc_html__( 'TradePress Data', 'tradepress' );
 				if ( isset( $tabs[ $active_tab ] ) ) {
 					echo ' <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 0.8em; vertical-align: middle; margin: 0 5px;"></span> ';
-					echo esc_html( $tabs[ $active_tab ] );
+					echo tradepress_get_development_tab_label( $active_tab, $tabs[ $active_tab ], $instance->get_development_tab_ids() );
 				}
 				?>
 			</h1>
@@ -107,7 +116,7 @@ if ( ! class_exists( 'TradePress_Admin_Data_Tabs' ) ) :
 					$active = ( $active_tab === $tab_id ) ? 'nav-tab-active' : '';
 					$url    = admin_url( 'admin.php?page=tradepress_data&tab=' . $tab_id );
 					?>
-					<a href="<?php echo esc_url( $url ); ?>" class="nav-tab <?php echo esc_attr( $active ); ?>"><?php echo esc_html( $tab_name ); ?></a>
+					<a href="<?php echo esc_url( $url ); ?>" class="nav-tab <?php echo esc_attr( $active ); ?>"><?php echo tradepress_get_development_tab_label( $tab_id, $tab_name, $instance->get_development_tab_ids() ); ?></a>
 				<?php endforeach; ?>
 			</nav>
 			

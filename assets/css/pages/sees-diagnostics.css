@@ -1,0 +1,350 @@
+.tradepress-sees-diagnostics-wrap {
+    margin-top: 16px;
+}
+
+.tradepress-sees-diagnostics-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr 1.2fr;
+    gap: 16px;
+    margin-top: 14px;
+}
+
+.tp-sees-col {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 6px;
+    padding: 14px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.03);
+}
+
+.tp-sees-controls label {
+    display: block;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 4px;
+}
+
+.tp-sees-controls select {
+    width: 100%;
+}
+
+.tp-sees-controls .tp-sees-strategy-help {
+    margin-top: 4px;
+}
+
+.tp-sees-control-buttons {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tp-sees-notes {
+    margin-top: 14px;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.tp-sees-notes ul {
+    margin: 6px 0 0 18px;
+}
+
+.tp-sees-symbol-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 70vh;
+    overflow: auto;
+}
+
+.tp-sees-card {
+    width: 100%;
+    text-align: left;
+    border: 1px solid #dcdcde;
+    background: #fff;
+    border-radius: 6px;
+    padding: 10px;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 4px 10px;
+    align-items: center;
+}
+
+.tp-sees-card:hover {
+    border-color: #2271b1;
+}
+
+.tp-sees-card.is-active {
+    border-color: #2271b1;
+    box-shadow: inset 0 0 0 1px #2271b1;
+    background: #f0f6fc;
+}
+
+.tp-sees-card-symbol {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.tp-sees-card-name {
+    color: #50575e;
+    font-size: 12px;
+}
+
+.tp-sees-card-score {
+    font-weight: 600;
+    justify-self: end;
+    font-size: 12px;
+}
+
+.tp-sees-card-change {
+    justify-self: end;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.tp-sees-card-change.is-up {
+    color: #1f7a1f;
+}
+
+.tp-sees-card-change.is-down {
+    color: #b32d2e;
+}
+
+.tp-sees-card-change.is-flat {
+    color: #50575e;
+}
+
+.tp-sees-trace-header {
+    margin-bottom: 12px;
+    padding: 10px;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+}
+
+.tp-sees-trace-actions {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.tp-sees-decision {
+    font-weight: 700;
+}
+
+.tp-sees-trace-summary.is-continued .tp-sees-decision {
+    color: #1f7a1f;
+}
+
+.tp-sees-trace-summary.is-stopped .tp-sees-decision {
+    color: #b32d2e;
+}
+
+.tp-sees-trace-experiments {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.tp-sees-trace-process {
+    margin-bottom: 12px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    background: #f6f7f7;
+    padding: 10px;
+}
+
+.tp-sees-process-step {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 8px;
+    align-items: center;
+    font-size: 12px;
+    padding: 6px 0;
+    border-bottom: 1px dashed #dcdcde;
+}
+
+.tp-sees-process-step:last-child {
+    border-bottom: none;
+}
+
+.tp-sees-process-step.is-pass .tp-sees-process-status {
+    color: #1f7a1f;
+    font-weight: 700;
+}
+
+.tp-sees-process-step.is-fail .tp-sees-process-status {
+    color: #b32d2e;
+    font-weight: 700;
+}
+
+.tp-sees-process-code {
+    color: #50575e;
+    font-family: monospace;
+}
+
+.tp-sees-branch-details {
+    margin-bottom: 12px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    background: #fff;
+    padding: 10px;
+}
+
+.tp-sees-branch-title {
+    margin: 0 0 8px;
+    font-weight: 700;
+}
+
+.tp-sees-branch-item {
+    font-size: 12px;
+    margin: 6px 0;
+}
+
+.tp-sees-branch-item.is-passed {
+    color: #1f7a1f;
+}
+
+.tp-sees-branch-item.is-failed {
+    color: #b32d2e;
+}
+
+.tp-sees-branch-item.is-warning {
+    color: #996800;
+}
+
+.tp-sees-step-warning {
+    margin-top: 4px;
+    font-size: 11px;
+    color: #996800;
+    font-weight: 700;
+}
+
+.tp-sees-strategy-stack {
+    margin-bottom: 12px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    background: #fff;
+    padding: 10px;
+}
+
+.tp-sees-stack-title {
+    margin: 0 0 8px;
+    font-weight: 700;
+}
+
+.tp-sees-stack-summary {
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #3c434a;
+}
+
+.tp-sees-stack-list {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.tp-sees-stack-list li {
+    margin-bottom: 4px;
+    font-size: 12px;
+}
+
+.tp-sees-step-formula {
+    margin-top: 4px;
+    font-size: 11px;
+    color: #1d2327;
+    font-family: monospace;
+}
+
+.tp-sees-step-source,
+.tp-sees-step-code,
+.tp-sees-step-next {
+    font-size: 11px;
+    color: #50575e;
+    margin-top: 4px;
+}
+
+.tp-sees-trace-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 70vh;
+    overflow: auto;
+}
+
+.tp-sees-step {
+    border: 1px solid #dcdcde;
+    border-left-width: 4px;
+    border-radius: 4px;
+    padding: 10px;
+    background: #fff;
+}
+
+.tp-sees-step.is-pass {
+    border-left-color: #1f7a1f;
+}
+
+.tp-sees-step.is-fail {
+    border-left-color: #b32d2e;
+}
+
+.tp-sees-step header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.tp-sees-step-index {
+    font-size: 11px;
+    color: #50575e;
+    font-weight: 600;
+}
+
+.tp-sees-step-label {
+    font-weight: 700;
+}
+
+.tp-sees-step-status {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.tp-sees-step-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px 8px;
+    font-size: 12px;
+    color: #3c434a;
+    margin-bottom: 8px;
+}
+
+.tp-sees-step-bar {
+    width: 100%;
+    height: 8px;
+    background: #eceff1;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.tp-sees-step-bar span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #2271b1, #72aee6);
+}
+
+@media (max-width: 1280px) {
+    .tradepress-sees-diagnostics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tp-sees-symbol-cards,
+    .tp-sees-trace-steps {
+        max-height: 45vh;
+    }
+}

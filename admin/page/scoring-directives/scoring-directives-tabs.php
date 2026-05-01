@@ -115,7 +115,7 @@ class TradePress_Admin_Scoring_Directives_Page {
 				echo esc_html__( 'TradePress Scoring Directives', 'tradepress' );
 				if ( isset( $this->tabs[ $this->current_tab ] ) ) {
 					echo ' <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 0.8em; vertical-align: middle; margin: 0 5px;"></span> ';
-					echo esc_html( $this->tabs[ $this->current_tab ]['title'] );
+					echo tradepress_get_development_tab_label( $this->current_tab, $this->tabs[ $this->current_tab ]['title'], $this->get_development_tab_ids() );
 				}
 				?>
 			</h1>
@@ -146,11 +146,20 @@ class TradePress_Admin_Scoring_Directives_Page {
 			<?php foreach ( $this->tabs as $tab_key => $tab_data ) : ?>
 				<a href="<?php echo esc_url( $this->get_tab_url( $tab_key ) ); ?>" 
 					class="nav-tab <?php echo $this->current_tab === $tab_key ? 'nav-tab-active' : ''; ?>">
-					<?php echo esc_html( $tab_data['title'] ); ?>
+					<?php echo tradepress_get_development_tab_label( $tab_key, $tab_data['title'], $this->get_development_tab_ids() ); ?>
 				</a>
 			<?php endforeach; ?>
 		</nav>
 		<?php
+	}
+
+	/**
+	 * Get tabs that are visible only because the Scoring Directives page is Developer Mode gated.
+	 *
+	 * @return array
+	 */
+	private function get_development_tab_ids() {
+		return array_keys( $this->tabs );
 	}
 
 	/**

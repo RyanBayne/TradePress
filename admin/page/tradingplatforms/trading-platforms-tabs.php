@@ -105,7 +105,7 @@ if ( ! class_exists( 'TradePress_Admin_TradingPlatforms_Page' ) ) :
 				echo esc_html__( 'TradePress Trading Platforms', 'tradepress' );
 				if ( ! empty( $current_tab ) && isset( $tabs[ $current_tab ] ) ) {
 					echo ' <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 0.8em; vertical-align: middle; margin: 0 5px;"></span> ';
-					echo esc_html( $tabs[ $current_tab ]['name'] );
+					echo tradepress_get_development_tab_label( $current_tab, $tabs[ $current_tab ]['name'], self::get_development_tab_ids() );
 				}
 				?>
 			</h1>
@@ -114,7 +114,7 @@ if ( ! class_exists( 'TradePress_Admin_TradingPlatforms_Page' ) ) :
 				foreach ( $tabs as $tab_id => $tab ) {
 					$active  = ( $tab_id === $current_tab ) ? ' nav-tab-active' : '';
 					$tab_url = add_query_arg( array( 'tab' => $tab_id ), admin_url( 'admin.php?page=tradepress_platforms' ) );
-					echo '<a href="' . esc_url( $tab_url ) . '" class="nav-tab' . esc_attr( $active ) . '">' . esc_html( $tab['name'] ) . '</a>';
+					echo '<a href="' . esc_url( $tab_url ) . '" class="nav-tab' . esc_attr( $active ) . '">' . tradepress_get_development_tab_label( $tab_id, $tab['name'], self::get_development_tab_ids() ) . '</a>';
 				}
 				?>
 			</nav>
@@ -329,6 +329,35 @@ if ( ! class_exists( 'TradePress_Admin_TradingPlatforms_Page' ) ) :
 			}
 
 			return apply_filters( 'tradepress_api_tabs', $filtered_tabs );
+		}
+
+		/**
+		 * Get tabs that are visible only in Developer Mode.
+		 *
+		 * @return array
+		 */
+		private static function get_development_tab_ids() {
+			return array(
+				'api_efficiency',
+				'alltick',
+				'iexcloud',
+				'polygon',
+				'tradier',
+				'finnhub',
+				'twitter',
+				'stocktwits',
+				'twelvedata',
+				'ibkr',
+				'tradingview',
+				'marketstack',
+				'eodhistoricaldata',
+				'yahoofinance',
+				'tiingo',
+				'quandl',
+				'fred',
+				'gemini',
+				'webull',
+			);
 		}
 
 		/**
