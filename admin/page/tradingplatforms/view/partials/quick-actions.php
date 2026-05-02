@@ -22,9 +22,19 @@
 				</button>
 				
 				<?php
-				if ( ! empty( $documentation_links ) ) :
+				$documentation_url = '';
+				if ( ! empty( $documentation_links ) && is_array( $documentation_links ) ) {
+					foreach ( $documentation_links as $documentation_link ) {
+						if ( ! empty( $documentation_link['url'] ) ) {
+							$documentation_url = $documentation_link['url'];
+							break;
+						}
+					}
+				}
+
+				if ( $documentation_url ) :
 					?>
-				<a href="<?php echo esc_url( $documentation_links[0]['url'] ); ?>" target="_blank" class="button quick-action-button">
+				<a href="<?php echo esc_url( $documentation_url ); ?>" target="_blank" rel="noopener noreferrer" class="button quick-action-button">
 					<span class="dashicons dashicons-external"></span>
 					<?php esc_html_e( 'Documentation', 'tradepress' ); ?>
 				</a>

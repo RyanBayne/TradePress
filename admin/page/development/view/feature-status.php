@@ -426,8 +426,8 @@ class TradePress_Admin_Development_Feature_Status {
 									<tr>
 										<td><?php echo esc_html( $directive['name'] ); ?></td>
 										<td>
-											<span class="status-badge <?php echo esc_attr( \$directive['active'] ? 'status-active' : 'status-inactive' ); ?>">
-												<?php echo esc_html( \$directive['active'] ? 'Active' : 'Inactive' ); ?>
+											<span class="status-badge <?php echo esc_attr( $directive['active'] ? 'status-active' : 'status-inactive' ); ?>">
+												<?php echo esc_html( $directive['active'] ? 'Active' : 'Inactive' ); ?>
 											</span>
 										</td>
 										<td>

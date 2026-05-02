@@ -14,9 +14,21 @@
     border-radius: 4px;
     padding: 20px;
     margin-bottom: 20px;
+}
+
+.api-service-overview {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.api-service-main {
     display: flex;
     align-items: center;
     gap: 20px;
+    min-width: 0;
+    flex: 2;
 }
 
 .service-logo {
@@ -30,8 +42,36 @@
     height: auto;
 }
 
+.service-logo-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: #2271b1;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 4px;
+}
+
+.service-logo-fallback.is-hidden {
+    display: none;
+}
+
 .service-details {
     flex: 1;
+    min-width: 0;
+}
+
+.service-name {
+    margin-top: 0;
+}
+
+.service-description {
+    margin: 0 0 12px;
+    max-width: 760px;
+    color: #50575e;
 }
 
 .service-meta {
@@ -159,6 +199,61 @@
 .info-value.data-only-api {
     background: #646970;
     color: #fff;
+}
+
+.api-service-status-panel {
+    flex: 1;
+    min-width: 320px;
+    max-width: 480px;
+    border-left: 1px solid #dcdcde;
+    padding-left: 20px;
+}
+
+.status-summary-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.status-summary-row .status-indicator {
+    margin-bottom: 0;
+}
+
+.status-summary-row .status-indicator strong,
+.status-summary-row .status-indicator span {
+    display: block;
+}
+
+.status-summary-row .status-indicator span {
+    color: #50575e;
+}
+
+.status-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.status-summary-grid > div {
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    padding: 10px;
+    min-width: 0;
+}
+
+.summary-label {
+    display: block;
+    margin-bottom: 4px;
+    color: #646970;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-summary-grid strong {
+    display: block;
+    overflow-wrap: anywhere;
 }
 
 /* API Dashboard */
@@ -373,9 +468,20 @@
 }
 
 @media (max-width: 768px) {
-    .service-overview {
+    .api-service-overview,
+    .api-service-main {
         flex-direction: column;
         text-align: center;
+    }
+
+    .api-service-status-panel {
+        min-width: 0;
+        max-width: none;
+        border-left: 0;
+        border-top: 1px solid #dcdcde;
+        padding-left: 0;
+        padding-top: 16px;
+        text-align: left;
     }
     
     .service-meta {

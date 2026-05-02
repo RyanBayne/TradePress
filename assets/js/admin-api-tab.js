@@ -12,10 +12,14 @@ jQuery(document).ready(function($) {
     
     // Handle quick action buttons
     $('.quick-action-button').on('click', function(e) {
-        e.preventDefault();
-        console.log('Quick action button clicked: ' + $(this).data('target')); // Debug
-        
         var target = $(this).data('target');
+
+        if (!target) {
+            return;
+        }
+
+        e.preventDefault();
+        console.log('Quick action button clicked: ' + target); // Debug
         
         // Hide all content sections
         $('.content-section').hide();

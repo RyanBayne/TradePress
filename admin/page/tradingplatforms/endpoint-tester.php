@@ -129,19 +129,20 @@ class TradePress_Endpoint_Tester {
 		if ( is_wp_error( $test_result ) ) {
 			// Generate enhanced error report
 			$detailed_error = $this->generate_error_report( $endpoint_details, $test_result, $platform_id );
+			$error_data     = $test_result->get_error_data();
 
 			$results = array(
 				'success'         => false,
 				'message'         => $test_result->get_error_message(),
 				'error_code'      => $test_result->get_error_code(),
-				'raw_response'    => $test_result->get_error_data(),
+				'raw_response'    => $error_data,
 				'error_report'    => $detailed_error,
 				'platform'        => $platform_id,
 				'endpoint'        => $endpoint_id,
 				'endpoint_key'    => $endpoint_key,
 				'timestamp'       => current_time( 'mysql' ),
 				'debug_timestamp' => microtime( true ),
-				'status_code'     => $test_result->get_error_code(),
+				'status_code'     => is_array( $error_data ) && isset( $error_data['status_code'] ) ? $error_data['status_code'] : $test_result->get_error_code(),
 				'environment'     => $environment,
 			);
 		} else {
@@ -155,7 +156,7 @@ class TradePress_Endpoint_Tester {
 				'endpoint_key'    => $endpoint_key,
 				'timestamp'       => current_time( 'mysql' ),
 				'debug_timestamp' => microtime( true ),
-				'status_code'     => 200,
+				'status_code'     => isset( $test_result['status_code'] ) ? $test_result['status_code'] : 200,
 				'environment'     => $environment,
 			);
 		}
@@ -186,11 +187,13 @@ class TradePress_Endpoint_Tester {
 	 * @version 1.0.0
 	 */
 	private function get_endpoint_details( $endpoint_id, $platform_id ) {
-		// For now, return a simple placeholder. In a full implementation,
-		// this would retrieve data from the actual endpoint registry
+		$registry_endpoint = $this->get_registry_endpoint( $endpoint_id, $platform_id );
 
-		// Standard endpoint details
-		$endpoint = array(
+		if ( $registry_endpoint ) {
+			return $this->normalize_registry_endpoint( $endpoint_id, $platform_id, $registry_endpoint );
+		}
+
+		return array(
 			'id'          => $endpoint_id,
 			'platform'    => $platform_id,
 			'method'      => 'GET',
@@ -198,24 +201,123 @@ class TradePress_Endpoint_Tester {
 			'description' => __( 'API Endpoint', 'tradepress' ),
 			'parameters'  => array(),
 			'version'     => 'v1',
+			'source'      => 'fallback',
 		);
+	}
 
-		// Enhance with platform-specific details if available
-		switch ( $platform_id ) {
-			case 'alphavantage':
-				if ( $endpoint_id === 'TIME_SERIES_INTRADAY' ) {
-					$endpoint['path']        = 'query?function=TIME_SERIES_INTRADAY';
-					$endpoint['description'] = __( 'Intraday time series (timestamp, open, high, low, close, volume)', 'tradepress' );
-					$endpoint['parameters']  = array( 'symbol', 'interval', 'outputsize', 'datatype' );
-				}
-				break;
+	/**
+	 * Get an endpoint definition from the platform endpoint registry.
+	 *
+	 * @param string $endpoint_id Endpoint key.
+	 * @param string $platform_id Platform key.
+	 * @return array|false
+	 */
+	private function get_registry_endpoint( $endpoint_id, $platform_id ) {
+		$registry = $this->get_endpoint_registry( $platform_id );
 
-			case 'alpaca':
-				// Add Alpaca-specific endpoint details
-				break;
+		if ( empty( $registry['class'] ) || ! class_exists( $registry['class'] ) ) {
+			return false;
 		}
 
-		return $endpoint;
+		if ( method_exists( $registry['class'], 'get_endpoint' ) ) {
+			$endpoint = call_user_func( array( $registry['class'], 'get_endpoint' ), $endpoint_id );
+			if ( $endpoint ) {
+				return $endpoint;
+			}
+		}
+
+		if ( method_exists( $registry['class'], 'get_endpoints' ) ) {
+			$endpoints = call_user_func( array( $registry['class'], 'get_endpoints' ) );
+			if ( is_array( $endpoints ) && isset( $endpoints[ $endpoint_id ] ) ) {
+				return $endpoints[ $endpoint_id ];
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Resolve endpoint registry class and file for a platform.
+	 *
+	 * @param string $platform_id Platform key.
+	 * @return array
+	 */
+	private function get_endpoint_registry( $platform_id ) {
+		$registries = array(
+			'alltick'            => array( 'class' => 'TradePress_AllTick_Endpoints', 'file' => 'api/alltick/alltick-endpoints.php' ),
+			'alpaca'             => array( 'class' => 'TradePress_Alpaca_Endpoints', 'file' => 'api/alpaca/alpaca-endpoints.php' ),
+			'alphavantage'       => array( 'class' => 'TradePress_AlphaVantage_Endpoints', 'file' => 'api/alphavantage/alphavantage-endpoints.php' ),
+			'eodhistoricaldata'  => array( 'class' => 'TradePress_EODHistoricalData_Endpoints', 'file' => 'api/eodhistoricaldata/eodhistoricaldata-endpoints.php' ),
+			'eodhd'              => array( 'class' => 'TradePress_EODHD_Endpoints', 'file' => 'api/eodhd/eodhd-endpoints.php' ),
+			'finnhub'            => array( 'class' => 'TradePress_Finnhub_Endpoints', 'file' => 'api/finnhub/finnhub-endpoints.php' ),
+			'fmp'                => array( 'class' => 'TradePress_FMP_Endpoints', 'file' => 'api/fmp/fmp-endpoints.php' ),
+			'fred'               => array( 'class' => 'TradePress_FRED_Endpoints', 'file' => 'api/fred/fred-endpoints.php' ),
+			'ibkr'               => array( 'class' => 'TradePress_IBKR_Endpoints', 'file' => 'api/ibkr/ibkr-endpoints.php' ),
+			'iexcloud'           => array( 'class' => 'TradePress_IEXCloud_Endpoints', 'file' => 'api/iexcloud/iexcloud-endpoints.php' ),
+			'marketstack'        => array( 'class' => 'TradePress_MarketStack_Endpoints', 'file' => 'api/marketstack/marketstack-endpoints.php' ),
+			'polygon'            => array( 'class' => 'TradePress_Polygon_Endpoints', 'file' => 'api/polygon/polygon-endpoints.php' ),
+			'quandl'             => array( 'class' => 'TradePress_Quandl_Endpoints', 'file' => 'api/quandl/quandl-endpoints.php' ),
+			'tradier'            => array( 'class' => 'TradePress_Tradier_Endpoints', 'file' => 'api/tradier/tradier-endpoints.php' ),
+			'trading212'         => array( 'class' => 'TradePress_Trading212_Endpoints', 'file' => 'api/trading212/trading212-endpoints.php' ),
+			'tradingview'        => array( 'class' => 'TradePress_TradingView_Endpoints', 'file' => 'api/tradingview/tradingview-endpoints.php' ),
+			'twelvedata'         => array( 'class' => 'TradePress_TwelveData_Endpoints', 'file' => 'api/twelvedata/twelvedata-endpoints.php' ),
+			'webull'             => array( 'class' => 'TradePress_WeBull_Endpoints', 'file' => 'api/webull/webull-endpoints.php' ),
+			'yahoo'              => array( 'class' => 'TradePress_Yahoo_Endpoints', 'file' => 'api/yahoo/yahoo-endpoints.php' ),
+		);
+
+		if ( empty( $registries[ $platform_id ] ) ) {
+			return array();
+		}
+
+		$registry = $registries[ $platform_id ];
+		if ( ! class_exists( $registry['class'] ) && ! empty( $registry['file'] ) ) {
+			$file = TRADEPRESS_PLUGIN_DIR_PATH . $registry['file'];
+			if ( file_exists( $file ) ) {
+				require_once $file;
+			}
+		}
+
+		return $registry;
+	}
+
+	/**
+	 * Normalize provider endpoint definitions to the tester contract.
+	 *
+	 * @param string $endpoint_id Endpoint key.
+	 * @param string $platform_id Platform key.
+	 * @param array  $definition Registry endpoint definition.
+	 * @return array
+	 */
+	private function normalize_registry_endpoint( $endpoint_id, $platform_id, $definition ) {
+		$parameters = array();
+
+		if ( isset( $definition['parameters'] ) && is_array( $definition['parameters'] ) ) {
+			$parameters = $definition['parameters'];
+		} elseif ( isset( $definition['required_params'] ) || isset( $definition['optional_params'] ) ) {
+			$required = isset( $definition['required_params'] ) && is_array( $definition['required_params'] ) ? $definition['required_params'] : array();
+			$optional = isset( $definition['optional_params'] ) && is_array( $definition['optional_params'] ) ? $definition['optional_params'] : array();
+			foreach ( array_merge( $required, $optional ) as $parameter_name ) {
+				$parameters[ $parameter_name ] = array(
+					'required' => in_array( $parameter_name, $required, true ),
+				);
+			}
+		}
+
+		return array(
+			'id'             => $endpoint_id,
+			'platform'       => $platform_id,
+			'method'         => isset( $definition['method'] ) ? strtoupper( $definition['method'] ) : 'GET',
+			'path'           => isset( $definition['endpoint'] ) ? $definition['endpoint'] : '',
+			'function'       => isset( $definition['function'] ) ? $definition['function'] : $endpoint_id,
+			'description'    => isset( $definition['description'] ) ? $definition['description'] : __( 'API Endpoint', 'tradepress' ),
+			'parameters'     => $parameters,
+			'version'        => isset( $definition['version'] ) ? $definition['version'] : 'v1',
+			'rate_limit'     => isset( $definition['rate_limit'] ) ? $definition['rate_limit'] : '',
+			'scopes'         => isset( $definition['scopes'] ) ? $definition['scopes'] : array(),
+			'base_url'       => isset( $definition['base_url'] ) ? $definition['base_url'] : '',
+			'source'         => 'registry',
+			'raw_definition' => $definition,
+		);
 	}
 
 	/**
@@ -289,6 +391,21 @@ class TradePress_Endpoint_Tester {
 
 		// Check configuration based on API type
 		if ( $api_type === 'trading' ) {
+			if ( $platform_id === 'trading212' ) {
+				$trading_mode = get_option( "TradePress_api_{$platform_id}_trading_mode", 'paper' );
+				$api_key      = $this->get_trading212_api_key( $trading_mode );
+
+				$result['option_names'][] = $trading_mode === 'live' ? 'tradepress_trading212_api_key' : 'tradepress_trading212_paper_api_key';
+				$result['option_names'][] = $trading_mode === 'live' ? "TradePress_api_{$platform_id}_realmoney_apikey" : "TradePress_api_{$platform_id}_papermoney_apikey";
+
+				if ( empty( $api_key ) ) {
+					$result['missing'][] = $trading_mode === 'live' ? 'Live API Key' : 'Demo API Key';
+				}
+
+				$result['configured'] = empty( $result['missing'] );
+				return $result;
+			}
+
 			$trading_mode = get_option( "TradePress_api_{$platform_id}_trading_mode", 'paper' );
 
 			if ( $trading_mode === 'paper' ) {
@@ -379,6 +496,11 @@ class TradePress_Endpoint_Tester {
 			$trading_mode        = get_option( "TradePress_api_{$platform_id}_trading_mode", 'paper' );
 			$credentials['mode'] = $trading_mode;
 
+			if ( $platform_id === 'trading212' ) {
+				$credentials['api_key'] = $this->get_trading212_api_key( $trading_mode );
+				return $credentials;
+			}
+
 			// Get API keys based on trading mode
 			if ( $trading_mode === 'paper' ) {
 				$credentials['api_key']    = get_option( "TradePress_api_{$platform_id}_papermoney_apikey", '' );
@@ -427,6 +549,35 @@ class TradePress_Endpoint_Tester {
 		}
 
 		return $credentials;
+	}
+
+	/**
+	 * Get the configured Trading212 API key for the current environment.
+	 *
+	 * @param string $trading_mode Current trading mode.
+	 * @return string
+	 */
+	private function get_trading212_api_key( $trading_mode ) {
+		$api_settings = get_option( 'tradepress_api_settings', array() );
+		$api_key      = '';
+
+		if ( $trading_mode === 'live' ) {
+			$api_key = trim( (string) get_option( 'tradepress_trading212_api_key', '' ) );
+			if ( '' === $api_key ) {
+				$api_key = trim( (string) get_option( 'TradePress_api_trading212_realmoney_apikey', '' ) );
+			}
+		} else {
+			$api_key = trim( (string) get_option( 'tradepress_trading212_paper_api_key', '' ) );
+			if ( '' === $api_key ) {
+				$api_key = trim( (string) get_option( 'TradePress_api_trading212_papermoney_apikey', '' ) );
+			}
+		}
+
+		if ( '' === $api_key && isset( $api_settings['trading212_api_key'] ) ) {
+			$api_key = trim( (string) $api_settings['trading212_api_key'] );
+		}
+
+		return $api_key;
 	}
 
 	/**
@@ -482,9 +633,6 @@ class TradePress_Endpoint_Tester {
 	 * @version 1.0.0
 	 */
 	private function make_api_request( $platform_id, $endpoint, $credentials ) {
-		// This is a simplified implementation for demonstration
-		// In a real implementation, this would use the appropriate API client class
-
 		// Check if credentials are available
 		if ( empty( $credentials['api_key'] ) ) {
 			return new WP_Error(
@@ -493,13 +641,43 @@ class TradePress_Endpoint_Tester {
 			);
 		}
 
+		$method = isset( $endpoint['method'] ) ? strtoupper( $endpoint['method'] ) : 'GET';
+
+		if ( ! in_array( $method, array( 'GET', 'HEAD' ), true ) ) {
+			return new WP_Error(
+				'unsafe_endpoint_method',
+				sprintf(
+					/* translators: %s: HTTP method */
+					__( 'Live endpoint test skipped because %s endpoints can modify broker data.', 'tradepress' ),
+					$method
+				),
+				array(
+					'status_code' => 'skipped',
+					'method'      => $method,
+					'endpoint'    => $endpoint,
+				)
+			);
+		}
+
 		// Build the API URL based on platform and endpoint
 		$api_url = $this->build_api_url( $platform_id, $endpoint, $credentials );
 
+		if ( empty( $api_url ) ) {
+			return new WP_Error(
+				'invalid_endpoint_url',
+				__( 'Unable to build a valid URL for this endpoint.', 'tradepress' ),
+				array(
+					'status_code' => 'not_available',
+					'endpoint'    => $endpoint,
+				)
+			);
+		}
+
 		// Make the API request
-		$response = wp_remote_get(
+		$response = wp_remote_request(
 			$api_url,
 			array(
+				'method'  => $method,
 				'timeout' => 15,
 				'headers' => $this->get_request_headers( $platform_id, $credentials ),
 			)
@@ -519,7 +697,11 @@ class TradePress_Endpoint_Tester {
 				'api_error',
 				/* translators: %s: error message */
 				sprintf( __( 'API error: %s', 'tradepress' ), $response_code ),
-				$response_body
+				array(
+					'status_code' => $response_code,
+					'url'         => $this->redact_url( $api_url ),
+					'body'        => $response_body,
+				)
 			);
 		}
 
@@ -530,11 +712,22 @@ class TradePress_Endpoint_Tester {
 			return new WP_Error(
 				'invalid_response',
 				__( 'Invalid API response format', 'tradepress' ),
-				$response_body
+				array(
+					'status_code' => $response_code,
+					'url'         => $this->redact_url( $api_url ),
+					'body'        => $response_body,
+				)
 			);
 		}
 
-		return $data;
+		return array(
+			'status_code'  => $response_code,
+			'request_url'  => $this->redact_url( $api_url ),
+			'method'       => $method,
+			'endpoint'     => isset( $endpoint['path'] ) ? $endpoint['path'] : $endpoint['id'],
+			'data'         => $data,
+			'raw_response' => $data,
+		);
 	}
 
 	/**
@@ -547,6 +740,8 @@ class TradePress_Endpoint_Tester {
 	 * @version 1.0.0
 	 */
 	private function build_api_url( $platform_id, $endpoint, $credentials ) {
+		$params = $this->get_test_parameters( $endpoint );
+
 		// Base URLs for different platforms
 		$base_urls = array(
 			'alphavantage' => 'https://www.alphavantage.co/query',
@@ -555,25 +750,110 @@ class TradePress_Endpoint_Tester {
 				: 'https://api.alpaca.markets/v2',
 			'twelvedata'   => 'https://api.twelvedata.com',
 			'finnhub'      => 'https://finnhub.io/api/v1',
+			'trading212'   => $credentials['mode'] === 'live'
+				? 'https://live.trading212.com'
+				: 'https://demo.trading212.com',
 		);
 
-		$base_url = isset( $base_urls[ $platform_id ] ) ? $base_urls[ $platform_id ] : '';
+		$base_url = isset( $endpoint['base_url'] ) && $endpoint['base_url'] ? $endpoint['base_url'] : ( isset( $base_urls[ $platform_id ] ) ? $base_urls[ $platform_id ] : '' );
 
 		// For Alpha Vantage, we need to construct the URL with function and API key
 		if ( $platform_id === 'alphavantage' ) {
 			return add_query_arg(
-				array(
-					'function' => $endpoint['id'],
-					'symbol'   => isset( $endpoint['parameters']['symbol'] ) ? $endpoint['parameters']['symbol'] : 'MSFT', // Default symbol for testing
-					'interval' => '5min', // Default interval for testing
-					'apikey'   => $credentials['api_key'],
+				array_merge(
+					array(
+						'function' => isset( $endpoint['function'] ) ? $endpoint['function'] : $endpoint['id'],
+						'apikey'   => $credentials['api_key'],
+					),
+					$params
 				),
 				$base_url
 			);
 		}
 
 		// For other platforms, combine base URL with endpoint path
-		return trailingslashit( $base_url ) . ltrim( $endpoint['path'], '/' );
+		$path = isset( $endpoint['path'] ) ? $endpoint['path'] : '';
+		$path = $this->replace_path_parameters( $path, $params );
+		$url  = trailingslashit( $base_url ) . ltrim( $path, '/' );
+
+		if ( isset( $endpoint['method'] ) && strtoupper( $endpoint['method'] ) === 'GET' ) {
+			$path_params = $this->get_path_parameter_names( isset( $endpoint['path'] ) ? $endpoint['path'] : '' );
+			$query_args  = array();
+			foreach ( $params as $key => $value ) {
+				if ( ! in_array( $key, $path_params, true ) ) {
+					$query_args[ $key ] = $value;
+				}
+			}
+			if ( $query_args ) {
+				$url = add_query_arg( $query_args, $url );
+			}
+		}
+
+		return $url;
+	}
+
+	/**
+	 * Build safe test parameters from endpoint metadata.
+	 *
+	 * @param array $endpoint Endpoint details.
+	 * @return array
+	 */
+	private function get_test_parameters( $endpoint ) {
+		$params     = array();
+		$parameters = isset( $endpoint['parameters'] ) && is_array( $endpoint['parameters'] ) ? $endpoint['parameters'] : array();
+
+		foreach ( $parameters as $name => $definition ) {
+			if ( is_int( $name ) ) {
+				$name       = $definition;
+				$definition = array();
+			}
+
+			if ( is_array( $definition ) && array_key_exists( 'example', $definition ) ) {
+				$params[ $name ] = $definition['example'];
+			} elseif ( is_array( $definition ) && array_key_exists( 'default', $definition ) ) {
+				$params[ $name ] = $definition['default'];
+			} elseif ( in_array( $name, array( 'symbol', 'ticker', 'keywords' ), true ) ) {
+				$params[ $name ] = $name === 'ticker' ? 'AAPL_US_EQ' : 'MSFT';
+			} elseif ( $name === 'interval' ) {
+				$params[ $name ] = '5min';
+			} elseif ( in_array( $name, array( 'limit', 'pageSize' ), true ) ) {
+				$params[ $name ] = 20;
+			} elseif ( in_array( $name, array( 'id', 'reportId', 'orderId' ), true ) ) {
+				$params[ $name ] = 1;
+			}
+		}
+
+		return $params;
+	}
+
+	/**
+	 * Replace path placeholders with test values.
+	 *
+	 * @param string $path Endpoint path.
+	 * @param array  $params Test parameters.
+	 * @return string
+	 */
+	private function replace_path_parameters( $path, $params ) {
+		foreach ( $this->get_path_parameter_names( $path ) as $name ) {
+			$value = isset( $params[ $name ] ) ? $params[ $name ] : 1;
+			$path  = str_replace( '{' . $name . '}', rawurlencode( (string) $value ), $path );
+		}
+
+		return $path;
+	}
+
+	/**
+	 * Get path parameter names from an endpoint path.
+	 *
+	 * @param string $path Endpoint path.
+	 * @return array
+	 */
+	private function get_path_parameter_names( $path ) {
+		if ( ! preg_match_all( '/\{([^}]+)\}/', $path, $matches ) ) {
+			return array();
+		}
+
+		return $matches[1];
 	}
 
 	/**
@@ -593,6 +873,10 @@ class TradePress_Endpoint_Tester {
 				$headers['APCA-API-SECRET-KEY'] = $credentials['api_secret'];
 				break;
 
+			case 'trading212':
+				$headers['Authorization'] = $credentials['api_key'];
+				break;
+
 			case 'finnhub':
 				$headers['X-Finnhub-Token'] = $credentials['api_key'];
 				break;
@@ -603,6 +887,16 @@ class TradePress_Endpoint_Tester {
 		}
 
 		return $headers;
+	}
+
+	/**
+	 * Redact secrets from URLs before storing test output.
+	 *
+	 * @param string $url URL.
+	 * @return string
+	 */
+	private function redact_url( $url ) {
+		return preg_replace( '/([?&](?:apikey|api_key|token)=)[^&]+/i', '$1REDACTED', $url );
 	}
 
 	/**

@@ -19,58 +19,44 @@ class TradePress_Test_Runner {
         'active' => [
             'title' => 'Active Tests',
             'description' => 'Currently active and running test suites',
-            'tab_ref' => 'TAB01',
-            'title_ref' => 'TIT02',
-            'subtitle_ref' => 'SUB01'
+            'tab_ref' => 'TAB01'
         ],
         'standard' => [
             'title' => 'Standard Tests',
-            'description' => 'Core functionality test suites',
-            'tab_ref' => 'TAB02',
-            'title_ref' => 'TIT03',
-            'subtitle_ref' => 'SUB02'
+            'description' => 'Core functionality test suites'
         ],
         'bugs' => [
             'title' => 'Bug Investigation',
-            'description' => 'Tests related to bug reports and fixes',
-            'tab_ref' => 'TAB03',
-            'title_ref' => 'TIT04',
-            'subtitle_ref' => 'SUB03'
+            'description' => 'Tests related to bug reports and fixes'
         ],
         'performance' => [
             'title' => 'Performance Tests',
-            'description' => 'System performance and optimization tests',
-            'tab_ref' => 'TAB04',
-            'title_ref' => 'TIT05',
-            'subtitle_ref' => 'SUB04'
+            'description' => 'System performance and optimization tests'
         ],
         'phase3' => [
             'title' => 'Phase 3 Tests',
             'description' => 'Recent Call Register testing suite',
-            'tab_ref' => 'TAB05',
-            'title_ref' => 'TIT06',
-            'subtitle_ref' => 'SUB05'
+            'tab_ref' => 'TAB05'
         ],
         'feature_status' => [
             'title' => 'Feature Status',
             'description' => 'Current implementation and readiness status across plugin features',
-            'tab_ref' => 'TAB06',
-            'title_ref' => 'TIT07',
-            'subtitle_ref' => 'SUB06'
+            'tab_ref' => 'TAB06'
         ],
         'ui_crawl' => [
             'title' => 'UI Crawl',
             'description' => 'Visit admin tabs one by one and report page-level errors',
-            'tab_ref' => 'TAB07',
-            'title_ref' => 'TIT09',
-            'subtitle_ref' => 'SUB08'
+            'tab_ref' => 'TAB07'
         ],
         'trading212' => [
             'title' => 'Trading212 API',
             'description' => 'Live endpoint tests for the Trading212 integration — runs against your configured API key',
-            'tab_ref' => 'TAB08',
-            'title_ref' => 'TIT08',
-            'subtitle_ref' => 'SUB07'
+            'tab_ref' => 'TAB08'
+        ],
+        'directives' => [
+            'title' => 'Scoring Directives',
+            'description' => 'Run all scoring directives against dummy data and report class, method, and calculation status',
+            'tab_ref' => 'TAB09',
         ]
     ];
     
@@ -129,8 +115,9 @@ class TradePress_Test_Runner {
         foreach ($this->tabs as $tab_id => $tab) {
             $class = ($current_tab === $tab_id) ? 'nav-tab nav-tab-active' : 'nav-tab';
             $url = admin_url('admin.php?page=tradepress-tests&tab=' . $tab_id);
+            $tab_ref = isset( $tab['tab_ref'] ) ? $tab['tab_ref'] : '';
             echo '<a href="' . esc_url($url) . '" class="' . esc_attr($class) . '">';
-            echo esc_html( $this->ref( $tab['title'], $tab['tab_ref'] ) );
+            echo esc_html( $this->ref( $tab['title'], $tab_ref ) );
             echo '</a>';
         }
         echo '</nav>';
@@ -213,9 +200,9 @@ class TradePress_Test_Runner {
     private function render_active_tab() {
         $active_tests = TradePress_Test_Registry::get_tests(['status' => 'active']);
         
-        echo '<h2>' . esc_html( $this->ref( $this->tabs['active']['title'], $this->tabs['active']['title_ref'] ) ) . '</h2>';
-        echo '<p class="description">' . esc_html( $this->ref( $this->tabs['active']['description'], $this->tabs['active']['subtitle_ref'] ) ) . '</p>';
-        echo '<p><button type="button" id="discover-tests" class="button button-secondary">' . esc_html( $this->ref( __( 'Discover Tests', 'tradepress' ), 'FOR01' ) ) . '</button></p>';
+        echo '<h2>' . esc_html($this->tabs['active']['title']) . '</h2>';
+        echo '<p class="description">' . esc_html($this->tabs['active']['description']) . '</p>';
+        echo '<p><button type="button" id="discover-tests" class="button button-secondary">' . esc_html( $this->ref( __( 'Discover Tests', 'tradepress' ), 'BUT01' ) ) . '</button></p>';
         echo '<div id="discover-tests-result" style="margin: 10px 0;"></div>';
         
         $this->render_test_table($active_tests);
@@ -229,8 +216,8 @@ class TradePress_Test_Runner {
     private function render_standard_tab() {
         $standard_tests = TradePress_Test_Registry::get_tests(['category' => 'standard']);
         
-        echo '<h2>' . esc_html( $this->ref( $this->tabs['standard']['title'], $this->tabs['standard']['title_ref'] ) ) . '</h2>';
-        echo '<p class="description">' . esc_html( $this->ref( $this->tabs['standard']['description'], $this->tabs['standard']['subtitle_ref'] ) ) . '</p>';
+        echo '<h2>' . esc_html($this->tabs['standard']['title']) . '</h2>';
+        echo '<p class="description">' . esc_html($this->tabs['standard']['description']) . '</p>';
         
         $this->render_test_table($standard_tests);
     }
@@ -243,8 +230,8 @@ class TradePress_Test_Runner {
     private function render_bugs_tab() {
         $bug_tests = TradePress_Test_Registry::get_tests(['category' => 'bugs']);
         
-        echo '<h2>' . esc_html( $this->ref( $this->tabs['bugs']['title'], $this->tabs['bugs']['title_ref'] ) ) . '</h2>';
-        echo '<p class="description">' . esc_html( $this->ref( $this->tabs['bugs']['description'], $this->tabs['bugs']['subtitle_ref'] ) ) . '</p>';
+        echo '<h2>' . esc_html($this->tabs['bugs']['title']) . '</h2>';
+        echo '<p class="description">' . esc_html($this->tabs['bugs']['description']) . '</p>';
         
         $this->render_test_table($bug_tests);
     }
@@ -257,8 +244,8 @@ class TradePress_Test_Runner {
     private function render_performance_tab() {
         $perf_tests = TradePress_Test_Registry::get_tests(['category' => 'performance']);
         
-        echo '<h2>' . esc_html( $this->ref( $this->tabs['performance']['title'], $this->tabs['performance']['title_ref'] ) ) . '</h2>';
-        echo '<p class="description">' . esc_html( $this->ref( $this->tabs['performance']['description'], $this->tabs['performance']['subtitle_ref'] ) ) . '</p>';
+        echo '<h2>' . esc_html($this->tabs['performance']['title']) . '</h2>';
+        echo '<p class="description">' . esc_html($this->tabs['performance']['description']) . '</p>';
         
         $this->render_test_table($perf_tests);
     }
@@ -269,12 +256,12 @@ class TradePress_Test_Runner {
       * @version 1.0.0
      */
     private function render_phase3_tab() {
-        echo '<h2>' . esc_html( $this->ref( $this->tabs['phase3']['title'], $this->tabs['phase3']['title_ref'] ) ) . '</h2>';
-        echo '<p class="description">' . esc_html( $this->ref( __( 'Comprehensive testing suite for the Recent Call Register system, validating API call deduplication, platform-aware caching, and cross-feature integration.', 'tradepress' ), $this->tabs['phase3']['subtitle_ref'] ) ) . '</p>';
+        echo '<h2>' . esc_html($this->tabs['phase3']['title']) . '</h2>';
+        echo '<p class="description">' . esc_html__( 'Comprehensive testing suite for the Recent Call Register system, validating API call deduplication, platform-aware caching, and cross-feature integration.', 'tradepress' ) . '</p>';
         
         echo '<div class="test-controls" style="margin: 20px 0;">';
         echo '<button id="run-phase3-tests" class="button button-primary">';
-        echo esc_html( $this->ref( __( 'Run Phase 3 Tests', 'tradepress' ), 'FOR02' ) );
+        echo esc_html( $this->ref( __( 'Run Phase 3 Tests', 'tradepress' ), 'BUT02' ) );
         echo '</button>';
         echo '<button id="clear-test-results" class="button">';
         echo esc_html__('Clear Results', 'tradepress');
@@ -292,8 +279,8 @@ class TradePress_Test_Runner {
       * @version 1.0.0
      */
     private function render_feature_status_tab() {
-        echo '<h2>' . esc_html( $this->ref( $this->tabs['feature_status']['title'], $this->tabs['feature_status']['title_ref'] ) ) . '</h2>';
-        echo '<p class="description">' . esc_html( $this->ref( $this->tabs['feature_status']['description'], $this->tabs['feature_status']['subtitle_ref'] ) ) . '</p>';
+        echo '<h2>' . esc_html($this->tabs['feature_status']['title']) . '</h2>';
+        echo '<p class="description">' . esc_html($this->tabs['feature_status']['description']) . '</p>';
 
         $feature_status_view = TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/development/view/feature-status.php';
         if ( ! file_exists( $feature_status_view ) ) {
@@ -310,6 +297,215 @@ class TradePress_Test_Runner {
         }
 
         echo '<div class="notice notice-warning"><p>' . esc_html__( 'Feature status class could not be loaded.', 'tradepress' ) . '</p></div>';
+    }
+
+    /**
+     * Render Scoring Directives tab.
+     *
+     * @version 1.0.0
+     */
+    private function render_directives_tab() {
+        echo '<h2>' . esc_html( $this->tabs['directives']['title'] ) . '</h2>';
+        echo '<p class="description">' . esc_html( $this->tabs['directives']['description'] ) . '</p>';
+
+        echo '<div class="test-controls" style="margin: 20px 0;">';
+        echo '<button id="run-directive-tests" class="button button-primary">';
+        echo esc_html( $this->ref( __( 'Run All Directive Tests', 'tradepress' ), 'BUT05' ) );
+        echo '</button> ';
+        echo '<button id="clear-directive-results" class="button" style="display:none">';
+        echo esc_html__( 'Clear Results', 'tradepress' );
+        echo '</button>';
+        echo '</div>';
+
+        echo '<div id="directive-progress" style="display:none;margin-bottom:10px;font-size:13px;color:#555;"></div>';
+        echo '<div id="directive-test-results">';
+        echo '<p><em>' . esc_html__( 'Click "Run All Directive Tests" to test every scoring directive against dummy data.', 'tradepress' ) . '</em></p>';
+        echo '</div>';
+        ?>
+        <style>
+        .tp-dir-table { border-collapse: collapse; width: 100%; font-size: 13px; margin-top: 4px; }
+        .tp-dir-table th { background: #f0f0f1; padding: 8px 12px; text-align: left; border-bottom: 2px solid #ccc; font-size: 12px; }
+        .tp-dir-table td { padding: 7px 12px; border-bottom: 1px solid #e0e0e0; vertical-align: top; }
+        .tp-dir-table tr.tp-dir-pass { background: #f0fff4; }
+        .tp-dir-table tr.tp-dir-fail { background: #fff5f5; }
+        .tp-dir-table tr.tp-dir-ready { background: #f0f7ff; }
+        .tp-dir-table tr.tp-dir-pending td { color: #999; font-style: italic; }
+        .tp-dir-badge { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+        .tp-dir-badge.tested  { background: #d1fae5; color: #065f46; }
+        .tp-dir-badge.ready   { background: #dbeafe; color: #1e3a5f; }
+        .tp-dir-badge.development { background: #fef9c3; color: #713f12; }
+        .tp-dir-badge.unknown { background: #f0f0f1; color: #666; }
+        .tp-dir-badge.pending { background: #f0f0f1; color: #999; }
+        .tp-dir-badge.error   { background: #fee2e2; color: #991b1b; }
+        .tp-dir-tests { display: flex; flex-wrap: wrap; gap: 6px; font-size: 12px; }
+        .tp-dir-tests span { white-space: nowrap; }
+        .tp-dir-tests .ok   { color: #065f46; }
+        .tp-dir-tests .bad  { color: #991b1b; font-weight: 600; }
+        .tp-dir-issues { margin: 0; padding: 0 0 0 14px; color: #991b1b; font-size: 12px; }
+        .tp-dir-summary { padding: 10px 14px; font-weight: 600; background: #f0f0f1; border-top: 2px solid #ccc; font-size: 13px; display: flex; gap: 16px; }
+        .tp-dir-summary span { font-weight: normal; }
+        .tp-dir-progress-bar { height: 4px; background: #e0e0e0; border-radius: 2px; margin-bottom: 8px; overflow: hidden; }
+        .tp-dir-progress-bar-fill { height: 100%; background: #2271b1; border-radius: 2px; transition: width 0.2s; }
+        </style>
+        <script>
+        (function($) {
+            var ajaxUrl = <?php echo wp_json_encode( admin_url( 'admin-ajax.php' ) ); ?>;
+            var nonce   = <?php echo wp_json_encode( wp_create_nonce( 'tradepress_tests' ) ); ?>;
+            var counts  = { tested: 0, ready: 0, development: 0, error: 0, done: 0, total: 0 };
+
+            function esc(str) { return $('<span>').text(String(str)).html(); }
+
+            function badge(status) {
+                return '<span class="tp-dir-badge ' + esc(status) + '">' + esc(status) + '</span>';
+            }
+
+            function renderTests(tests) {
+                if (!tests || !Object.keys(tests).length) return '<em style="color:#999">—</em>';
+                var out = '<div class="tp-dir-tests">';
+                $.each(tests, function(name, passed) {
+                    out += '<span class="' + (passed ? 'ok' : 'bad') + '">' +
+                           (passed ? '&#10003;' : '&#10007;') + ' ' + esc(name.replace(/_/g,' ')) + '</span>';
+                });
+                return out + '</div>';
+            }
+
+            function renderIssues(issues) {
+                if (!issues || !issues.length) return '<span style="color:#065f46">&#10003; None</span>';
+                var out = '<ul class="tp-dir-issues">';
+                $.each(issues, function(i, issue) { out += '<li>' + esc(issue) + '</li>'; });
+                return out + '</ul>';
+            }
+
+            function updateSummary() {
+                var $s = $('#tp-dir-summary-bar');
+                $s.html(
+                    '<strong><?php echo esc_js( __( 'Total:', 'tradepress' ) ); ?></strong> <span>' + counts.total + '</span>' +
+                    '&nbsp;&nbsp;<strong style="color:#065f46"><?php echo esc_js( __( 'Tested:', 'tradepress' ) ); ?></strong> <span>' + counts.tested + '</span>' +
+                    '&nbsp;&nbsp;<strong style="color:#1e3a5f"><?php echo esc_js( __( 'Ready:', 'tradepress' ) ); ?></strong> <span>' + counts.ready + '</span>' +
+                    '&nbsp;&nbsp;<strong style="color:#713f12"><?php echo esc_js( __( 'Development:', 'tradepress' ) ); ?></strong> <span>' + counts.development + '</span>' +
+                    (counts.error ? '&nbsp;&nbsp;<strong style="color:#991b1b"><?php echo esc_js( __( 'Error:', 'tradepress' ) ); ?></strong> <span>' + counts.error + '</span>' : '')
+                );
+            }
+
+            function updateProgress() {
+                var pct = counts.total ? Math.round((counts.done / counts.total) * 100) : 0;
+                $('#tp-dir-progress-fill').css('width', pct + '%');
+                $('#directive-progress').text(
+                    '<?php echo esc_js( __( 'Testing', 'tradepress' ) ); ?> ' + counts.done + ' / ' + counts.total +
+                    (counts.done < counts.total ? ' — <?php echo esc_js( __( 'please wait…', 'tradepress' ) ); ?>' : ' — <?php echo esc_js( __( 'complete', 'tradepress' ) ); ?>')
+                );
+            }
+
+            function testDirective(id, $row) {
+                return $.ajax({
+                    url: ajaxUrl,
+                    method: 'POST',
+                    data: { action: 'tradepress_run_tests', nonce: nonce, test_suite: 'directive_single', directive_id: id }
+                }).then(function(response) {
+                    counts.done++;
+                    if (response.success && response.data) {
+                        var r = response.data;
+                        var status = r.recommended_status || 'error';
+                        counts[status] = (counts[status] || 0) + 1;
+                        var rowClass = 'tp-dir-' + (status === 'tested' ? 'pass' : status === 'ready' ? 'ready' : 'fail');
+                        $row.removeClass('tp-dir-pending').addClass(rowClass);
+                        $row.find('.tp-dir-result-cell').html(badge(status));
+                        $row.find('.tp-dir-tests-cell').html(renderTests(r.tests));
+                        $row.find('.tp-dir-issues-cell').html(renderIssues(r.issues));
+                    } else {
+                        counts.error++;
+                        $row.removeClass('tp-dir-pending').addClass('tp-dir-fail');
+                        $row.find('.tp-dir-result-cell').html(badge('error'));
+                        $row.find('.tp-dir-tests-cell').html('');
+                        $row.find('.tp-dir-issues-cell').html('<span style="color:#991b1b">' + esc(response.data || 'Request failed') + '</span>');
+                    }
+                    updateProgress();
+                    updateSummary();
+                }, function() {
+                    counts.done++;
+                    counts.error++;
+                    $row.removeClass('tp-dir-pending').addClass('tp-dir-fail');
+                    $row.find('.tp-dir-result-cell').html(badge('error'));
+                    $row.find('.tp-dir-issues-cell').html('<span style="color:#991b1b">AJAX error</span>');
+                    updateProgress();
+                    updateSummary();
+                });
+            }
+
+            $('#run-directive-tests').on('click', function() {
+                var $btn = $(this);
+                $btn.prop('disabled', true).text('<?php echo esc_js( __( 'Loading directives…', 'tradepress' ) ); ?>');
+                $('#clear-directive-results').hide();
+                $('#directive-progress').show();
+                counts = { tested: 0, ready: 0, development: 0, error: 0, done: 0, total: 0 };
+
+                // Step 1: load directive list
+                $.ajax({
+                    url: ajaxUrl, method: 'POST',
+                    data: { action: 'tradepress_run_tests', nonce: nonce, test_suite: 'directives_list' }
+                }).then(function(resp) {
+                    if (!resp.success || !resp.data || !resp.data.directives) {
+                        $('#directive-test-results').html('<div class="notice notice-error"><p><?php echo esc_js( __( 'Could not load directive list.', 'tradepress' ) ); ?></p></div>');
+                        $btn.prop('disabled', false).text('<?php echo esc_js( __( 'Run All Directive Tests', 'tradepress' ) ); ?>');
+                        return;
+                    }
+                    var directives = resp.data.directives;
+                    counts.total = directives.length;
+
+                    // Step 2: render skeleton table
+                    var html = '<div class="tp-dir-progress-bar"><div id="tp-dir-progress-fill" class="tp-dir-progress-bar-fill" style="width:0%"></div></div>';
+                    html += '<table class="tp-dir-table"><thead><tr>';
+                    html += '<th><?php echo esc_js( __( 'Code', 'tradepress' ) ); ?></th>';
+                    html += '<th><?php echo esc_js( __( 'Directive', 'tradepress' ) ); ?></th>';
+                    html += '<th><?php echo esc_js( __( 'Declared', 'tradepress' ) ); ?></th>';
+                    html += '<th><?php echo esc_js( __( 'Result', 'tradepress' ) ); ?></th>';
+                    html += '<th><?php echo esc_js( __( 'Tests', 'tradepress' ) ); ?></th>';
+                    html += '<th><?php echo esc_js( __( 'Issues', 'tradepress' ) ); ?></th>';
+                    html += '</tr></thead><tbody>';
+                    $.each(directives, function(i, d) {
+                        html += '<tr class="tp-dir-pending" data-directive-id="' + esc(d.id) + '">';
+                        html += '<td><code>' + esc(d.code) + '</code></td>';
+                        html += '<td><strong>' + esc(d.name) + '</strong><br><code style="font-size:11px;color:#888">' + esc(d.id) + '</code></td>';
+                        html += '<td>' + badge(d.development_status || 'unknown') + '</td>';
+                        html += '<td class="tp-dir-result-cell">' + badge('pending') + '</td>';
+                        html += '<td class="tp-dir-tests-cell"><em style="color:#bbb">—</em></td>';
+                        html += '<td class="tp-dir-issues-cell"><em style="color:#bbb">—</em></td>';
+                        html += '</tr>';
+                    });
+                    html += '</tbody></table>';
+                    html += '<div class="tp-dir-summary" id="tp-dir-summary-bar"></div>';
+                    $('#directive-test-results').html(html);
+                    updateProgress();
+                    updateSummary();
+                    $btn.text('<?php echo esc_js( __( 'Testing…', 'tradepress' ) ); ?>');
+
+                    // Step 3: test each directive sequentially
+                    var chain = $.Deferred().resolve();
+                    $.each(directives, function(i, d) {
+                        chain = chain.then(function() {
+                            var $row = $('tr[data-directive-id="' + d.id + '"]');
+                            return testDirective(d.id, $row);
+                        });
+                    });
+                    chain.always(function() {
+                        $btn.prop('disabled', false).text('<?php echo esc_js( __( 'Run All Directive Tests', 'tradepress' ) ); ?>');
+                        $('#clear-directive-results').show();
+                    });
+
+                }, function() {
+                    $('#directive-test-results').html('<div class="notice notice-error"><p><?php echo esc_js( __( 'AJAX request failed loading directive list.', 'tradepress' ) ); ?></p></div>');
+                    $btn.prop('disabled', false).text('<?php echo esc_js( __( 'Run All Directive Tests', 'tradepress' ) ); ?>');
+                });
+            });
+
+            $('#clear-directive-results').on('click', function() {
+                $(this).hide();
+                $('#directive-progress').hide();
+                $('#directive-test-results').html('<p><em><?php echo esc_js( __( 'Click "Run All Directive Tests" to test every scoring directive against dummy data.', 'tradepress' ) ); ?></em></p>');
+            });
+        }(jQuery));
+        </script>
+        <?php
     }
 
     /**
@@ -357,8 +553,8 @@ class TradePress_Test_Runner {
         }
         $has_key = '' !== $api_key;
 
-        echo '<h2>' . esc_html( $this->ref( $this->tabs['trading212']['title'], $this->tabs['trading212']['title_ref'] ) ) . '</h2>';
-        echo '<p class="description">' . esc_html( $this->ref( $this->tabs['trading212']['description'], $this->tabs['trading212']['subtitle_ref'] ) ) . '</p>';
+        echo '<h2>' . esc_html($this->tabs['trading212']['title']) . '</h2>';
+        echo '<p class="description">' . esc_html($this->tabs['trading212']['description']) . '</p>';
 
         if ( ! $has_key ) {
             echo '<div class="notice notice-warning inline"><p>';
@@ -369,7 +565,7 @@ class TradePress_Test_Runner {
         echo '<div class="tradepress-t212-tests">';
 
         echo '<div style="margin: 12px 0; padding: 10px 14px; background: #f0f0f1; border-left: 4px solid #72aee6; font-size: 13px;">';
-        echo '<strong>' . esc_html( $this->ref( __( 'Environment:', 'tradepress' ), 'PAN01' ) ) . '</strong> ';
+        echo '<strong>' . esc_html__( 'Environment:', 'tradepress' ) . '</strong> ';
         echo '<code>' . esc_html( $environment ) . '</code>';
         if ( 'live' === $environment ) {
             echo ' &mdash; <span style="color:#d63638;">' . esc_html__( 'Live environment — read-only tests only, no orders will be placed.', 'tradepress' ) . '</span>';
@@ -378,7 +574,7 @@ class TradePress_Test_Runner {
 
         echo '<div class="test-controls" style="margin: 20px 0;">';
         echo '<button id="run-trading212-tests" class="button button-primary"' . ( $has_key ? '' : ' disabled' ) . '>';
-        echo esc_html( $this->ref( __( 'Run Trading212 Tests', 'tradepress' ), 'FOR03' ) );
+        echo esc_html( $this->ref( __( 'Run Trading212 Tests', 'tradepress' ), 'BUT03' ) );
         echo '</button> ';
         echo '<button id="clear-trading212-results" class="button">';
         echo esc_html__( 'Clear Results', 'tradepress' );
@@ -502,24 +698,24 @@ class TradePress_Test_Runner {
         echo '<section class="tradepress-ui-crawl">';
         echo '<div class="tradepress-ui-crawl__hero">';
         echo '<div class="tradepress-ui-crawl__hero-copy">';
-        echo '<h2>' . esc_html( $this->ref( $this->tabs['ui_crawl']['title'], $this->tabs['ui_crawl']['title_ref'] ) ) . '</h2>';
-        echo '<p class="description">' . esc_html( $this->ref( $this->tabs['ui_crawl']['description'], $this->tabs['ui_crawl']['subtitle_ref'] ) ) . '</p>';
-        echo '<p class="description">' . esc_html( $this->ref( __( 'This scan checks each discovered tab URL for HTTP failures and common PHP/WordPress error signals in page HTML.', 'tradepress' ), 'SUB09' ) ) . '</p>';
+        echo '<h2>' . esc_html($this->tabs['ui_crawl']['title']) . '</h2>';
+        echo '<p class="description">' . esc_html($this->tabs['ui_crawl']['description']) . '</p>';
+        echo '<p class="description">' . esc_html__( 'This scan checks each discovered tab URL for HTTP failures and common PHP/WordPress error signals in page HTML.', 'tradepress' ) . '</p>';
         echo '</div>';
         echo '<div class="tradepress-ui-crawl__meta">';
         echo '<div class="tradepress-ui-crawl__meta-card">';
-        echo '<span class="tradepress-ui-crawl__meta-label">' . esc_html( $this->ref( __( 'Seed URLs', 'tradepress' ), 'PAN02' ) ) . '</span>';
+        echo '<span class="tradepress-ui-crawl__meta-label">' . esc_html__( 'Seed URLs', 'tradepress' ) . '</span>';
         echo '<strong class="tradepress-ui-crawl__meta-value">' . esc_html( count( $seed_urls ) ) . '</strong>';
         echo '</div>';
         echo '<div class="tradepress-ui-crawl__meta-card">';
-        echo '<span class="tradepress-ui-crawl__meta-label">' . esc_html( $this->ref( __( 'Mode', 'tradepress' ), 'PAN03' ) ) . '</span>';
+        echo '<span class="tradepress-ui-crawl__meta-label">' . esc_html__( 'Mode', 'tradepress' ) . '</span>';
         echo '<strong class="tradepress-ui-crawl__meta-value">' . esc_html__( 'HTML signal scan', 'tradepress' ) . '</strong>';
         echo '</div>';
         echo '</div>';
         echo '</div>';
 
         echo '<div class="tradepress-ui-crawl__actions">';
-        echo '<button id="run-ui-crawl" class="button button-primary">' . esc_html( $this->ref( __( 'Run UI Crawl', 'tradepress' ), 'FOR04' ) ) . '</button>';
+        echo '<button id="run-ui-crawl" class="button button-primary">' . esc_html( $this->ref( __( 'Run UI Crawl', 'tradepress' ), 'BUT04' ) ) . '</button>';
         echo '<button id="clear-ui-crawl" class="button">' . esc_html__( 'Clear Results', 'tradepress' ) . '</button>';
         echo '</div>';
 
@@ -708,8 +904,9 @@ class TradePress_Test_Runner {
             return;
         }
 
-        $test_suite = sanitize_text_field( wp_unslash( $_POST['test_suite'] ?? '' ) );
-        $test_id    = isset( $_POST['test_id'] ) ? absint( wp_unslash( $_POST['test_id'] ) ) : 0;
+        $test_suite   = sanitize_text_field( wp_unslash( $_POST['test_suite'] ?? '' ) );
+        $test_id      = isset( $_POST['test_id'] ) ? absint( wp_unslash( $_POST['test_id'] ) ) : 0;
+        $directive_id = sanitize_key( wp_unslash( $_POST['directive_id'] ?? '' ) );
 
         $this->trace( 'Test Runner: ajax_run_tests called', array( 'suite' => $test_suite, 'test_id' => $test_id ) );
 
@@ -745,6 +942,247 @@ class TradePress_Test_Runner {
 
                     $tester  = new TradePress_Recent_Call_Register_Tests();
                     $results = $tester->run_phase3_tests();
+                    break;
+
+                case 'directives_list':
+                    require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/directives-register.php';
+                    $all_system = tradepress_get_all_system_directives();
+                    $list       = array();
+                    foreach ( $all_system as $dir_id => $dir_def ) {
+                        $list[] = array(
+                            'id'                 => $dir_id,
+                            'name'               => $dir_def['name'] ?? $dir_id,
+                            'code'               => $dir_def['code'] ?? '',
+                            'development_status' => $dir_def['development_status'] ?? 'unknown',
+                            'category'           => $dir_def['category'] ?? '',
+                        );
+                    }
+                    $results = array( 'directives' => $list );
+                    break;
+
+                case 'directive_single':
+                    if ( '' === $directive_id ) {
+                        throw new Exception( 'directive_id is required' );
+                    }
+                    require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/directives-register.php';
+                    require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/scoring-directive-base.php';
+
+                    // Provide stubs for dependencies that directive classes may reference
+                    // but which are not available outside the full WordPress/plugin bootstrap.
+                    if ( ! class_exists( 'TradePress_Call_Register' ) ) {
+                        // phpcs:ignore
+                        eval( '
+                            class TradePress_Call_Register {
+                                public static function generate_serial() { return "tp-test-serial"; }
+                                public static function get_cached_result() { return false; }
+                                public static function cache_result() { return true; }
+                                public static function __callStatic( $name, $arguments ) { return false; }
+                            }
+                        ' );
+                    }
+
+                    // Do not stub TradePress_Directive_Logger.
+                    // Some directives require_once the real logger file directly; stubbing the class first
+                    // causes a fatal redeclare when that file is included.
+                    if ( 'yes' === get_option( 'bugnet_output_directives' ) ) {
+                        $directive_logger_file = TRADEPRESS_PLUGIN_DIR_PATH . 'includes/ai-integration/testing/directive-logger.php';
+                        if ( file_exists( $directive_logger_file ) ) {
+                            require_once $directive_logger_file;
+                        }
+                    }
+
+                    if ( ! class_exists( 'TradePress_Developer_Flow_Logger' ) ) {
+                        // phpcs:ignore
+                        eval( 'class TradePress_Developer_Flow_Logger {
+                            public static function start_flow() {}
+                            public static function log_action() {}
+                            public static function log_cache() {}
+                            public static function log_api() {}
+                            public static function log_decision() {}
+                            public static function end_flow() {}
+                            public static function __callStatic( $name, $arguments ) {}
+                        }' );
+                    }
+
+                    // Some directives extend TradePress_Base_Directive, which is not loaded in this test context.
+                    // Provide a lightweight fallback so those classes can still be instantiated and evaluated.
+                    if ( ! class_exists( 'TradePress_Base_Directive' ) ) {
+                        // phpcs:ignore
+                        eval( '
+                            abstract class TradePress_Base_Directive extends TradePress_Scoring_Directive_Base {
+                                protected $directive_id = "";
+                                protected $directive_code = "";
+
+                                public function __construct() {}
+
+                                public function get_max_score( $config = array() ) {
+                                    return isset( $this->max_score ) ? (float) $this->max_score : 100.0;
+                                }
+
+                                public function get_explanation( $config = array() ) {
+                                    return "";
+                                }
+                            }
+                        ' );
+                    }
+
+                    $all_system = tradepress_get_all_system_directives();
+                    if ( ! isset( $all_system[ $directive_id ] ) ) {
+                        throw new Exception( 'Unknown directive: ' . $directive_id );
+                    }
+                    $def = $all_system[ $directive_id ];
+
+                    // Files use hyphens; directive IDs use underscores — try both.
+                    $hyphen_id  = str_replace( '_', '-', $directive_id );
+                    $dir_file   = TRADEPRESS_PLUGIN_DIR_PATH . "includes/scoring-system/directives/{$directive_id}.php";
+                    $dir_file_h = TRADEPRESS_PLUGIN_DIR_PATH . "includes/scoring-system/directives/{$hyphen_id}.php";
+                    if ( ! file_exists( $dir_file ) && file_exists( $dir_file_h ) ) {
+                        $dir_file = $dir_file_h;
+                    }
+
+                    $result = array(
+                        'id'                 => $directive_id,
+                        'name'               => $def['name'] ?? $directive_id,
+                        'code'               => $def['code'] ?? '',
+                        'development_status' => $def['development_status'] ?? 'unknown',
+                        'tests'              => array(),
+                        'issues'             => array(),
+                        'recommended_status' => 'development',
+                        'detail'             => array(
+                            'class_file_path' => str_replace( TRADEPRESS_PLUGIN_DIR_PATH, '', $dir_file ),
+                            'class_name'      => '',
+                            'score_value'     => null,
+                            'max_score_value' => null,
+                            'score_percent'   => null,
+                            'dummy_input'     => array(
+                                'symbol'           => 'NVDA',
+                                'price'            => 450.0,
+                                'rsi'              => 35.5,
+                                'macd_histogram'   => 0.7,
+                                'macd_signal'      => 1.8,
+                                'volume'           => 50000000,
+                                'avg_volume'       => 35000000,
+                                'sma_50'           => 440.0,
+                                'ema_20'           => 445.0,
+                                'bollinger_upper'  => 460.0,
+                                'bollinger_middle' => 450.0,
+                                'bollinger_lower'  => 440.0,
+                                'earnings_days'    => 5,
+                                'pe_ratio'         => 65.5,
+                            ),
+                        ),
+                    );
+
+                    // Test 1: class file exists
+                    $result['tests']['class_file'] = file_exists( $dir_file );
+                    if ( ! $result['tests']['class_file'] ) {
+                        $result['issues'][] = "Missing class file (tried: {$directive_id}.php and {$hyphen_id}.php)";
+                    }
+
+                    // Test 2: config form exists (for technical indicators)
+                    if ( isset( $def['technical_indicator'] ) ) {
+                        $config_file   = TRADEPRESS_PLUGIN_DIR_PATH . "admin/page/scoring-directives/directives-partials/{$directive_id}.php";
+                        $config_file_h = TRADEPRESS_PLUGIN_DIR_PATH . "admin/page/scoring-directives/directives-partials/{$hyphen_id}.php";
+                        $config_exists = file_exists( $config_file ) || file_exists( $config_file_h );
+                        $result['tests']['config_form'] = $config_exists;
+                        if ( ! $config_exists ) {
+                            $result['issues'][] = "Missing config form: {$directive_id}.php";
+                        }
+                    }
+
+                    // Test 3 & 4: load class, instantiate, run calculate_score
+                    if ( $result['tests']['class_file'] ) {
+                        $before = get_declared_classes();
+                        try {
+                            require_once $dir_file;
+                            $after       = get_declared_classes();
+                            $new_classes = array_diff( $after, $before );
+                            // Find a class that extends a known base or contains 'directive'/'tradepress'
+                            $found_class = '';
+                            foreach ( $new_classes as $cls ) {
+                                $parents = class_parents( $cls );
+                                if (
+                                    isset( $parents['TradePress_Scoring_Directive_Base'] ) ||
+                                    isset( $parents['TradePress_Base_Directive'] ) ||
+                                    false !== stripos( $cls, 'directive' ) ||
+                                    false !== stripos( $cls, 'tradepress' )
+                                ) {
+                                    $found_class = $cls;
+                                    break;
+                                }
+                            }
+                            if ( '' === $found_class && ! empty( $new_classes ) ) {
+                                $found_class = reset( $new_classes );
+                            }
+                            $result['tests']['class_found'] = '' !== $found_class;
+                            if ( '' === $found_class ) {
+                                $result['issues'][] = 'No directive class found in file after loading';
+                                                        $result['detail']['class_name'] = $found_class;
+                            }
+                        } catch ( \Throwable $load_err ) {
+                            $result['tests']['class_found'] = false;
+                            $result['issues'][]             = 'File load error: ' . $load_err->getMessage();
+                            $found_class                    = '';
+                        }
+
+                        if ( '' !== $found_class ) {
+                            try {
+                                $instance = new $found_class();
+                                $result['tests']['instantiation'] = true;
+                                $result['tests']['has_calculate'] = method_exists( $instance, 'calculate_score' );
+                                $result['tests']['has_max_score'] = method_exists( $instance, 'get_max_score' );
+
+                                if ( $result['tests']['has_calculate'] ) {
+                                    $dummy = array(
+                                        'symbol'       => 'NVDA',
+                                        'price'        => 450.0,
+                                        'volume'       => 50000000,
+                                        'avg_volume'   => 35000000,
+                                        'technical'    => array(
+                                            'rsi'       => 35.5,
+                                            'adx'       => array( 'adx' => 28.5, 'plus_di' => 25.2, 'minus_di' => 18.7 ),
+                                            'macd'      => array( 'macd' => 2.5, 'signal' => 1.8, 'histogram' => 0.7 ),
+                                            'bollinger' => array( 'upper' => 460, 'middle' => 450, 'lower' => 440 ),
+                                            'ema_20'    => 445.0,
+                                            'sma_50'    => 440.0,
+                                            'obv'       => 1500000000,
+                                        ),
+                                        'fundamentals' => array( 'market_cap' => 1100000000000, 'pe_ratio' => 65.5 ),
+                                        'earnings'     => array( array( 'date' => gmdate( 'Y-m-d', strtotime( '+5 days' ) ), 'estimate' => 5.25 ) ),
+                                    );
+                                    $score = $instance->calculate_score( $dummy );
+                                    $result['tests']['scoring_runs'] = is_numeric( $score ) || is_array( $score );
+                                    if ( ! $result['tests']['scoring_runs'] ) {
+                                        $result['issues'][] = 'calculate_score() returned invalid type: ' . gettype( $score );
+                                                                        if ( $result['tests']['scoring_runs'] ) {
+                                                                            $score_num = is_array( $score ) ? ( isset( $score['score'] ) ? (float) $score['score'] : 0.0 ) : (float) $score;
+                                                                            $score_max = method_exists( $instance, 'get_max_score' ) ? (float) $instance->get_max_score() : 100.0;
+                                                                            $result['detail']['score_value']     = round( $score_num, 4 );
+                                                                            $result['detail']['max_score_value'] = round( $score_max, 2 );
+                                                                            $result['detail']['score_percent']   = $score_max > 0.0 ? round( ( $score_num / $score_max ) * 100.0, 1 ) : 0.0;
+                                                                        }
+                                    }
+                                }
+                            } catch ( \Throwable $inst_err ) {
+                                $result['tests']['instantiation'] = false;
+                                $result['issues'][]               = 'Instantiation error: ' . $inst_err->getMessage();
+                            }
+                        }
+                    }
+
+                    // Determine recommended status
+                    $all_passed = ! empty( $result['tests'] ) && ! in_array( false, $result['tests'], true );
+                    $pass_count = count( array_filter( $result['tests'] ) );
+                    $total      = count( $result['tests'] );
+                    if ( $all_passed && empty( $result['issues'] ) ) {
+                        $result['recommended_status'] = 'tested';
+                    } elseif ( $total > 0 && ( $pass_count / $total ) >= 0.75 ) {
+                        $result['recommended_status'] = 'ready';
+                    } else {
+                        $result['recommended_status'] = 'development';
+                    }
+
+                    $results = $result;
                     break;
 
                 case 'trading212':

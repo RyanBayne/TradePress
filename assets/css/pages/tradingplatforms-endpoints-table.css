@@ -5,7 +5,7 @@
  */
 
 .ai-report-section {
-    margin: 20px 0;
+    margin: 16px 0 0;
     padding: 10px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
@@ -66,4 +66,147 @@
 
 .api-response-section {
     margin: 20px 0;
+}
+
+.api-endpoints-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.api-endpoints-main {
+    flex: 2;
+    min-width: 0;
+}
+
+.api-endpoints-sidebar {
+    flex: 1;
+    min-width: 320px;
+}
+
+.endpoints-section-header {
+    gap: 16px;
+}
+
+.endpoints-filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.endpoints-table {
+    table-layout: fixed;
+}
+
+.endpoints-table th:first-child {
+    width: 24%;
+}
+
+.endpoints-table th:nth-child(3),
+.endpoints-table th:nth-child(4),
+.endpoints-table th:nth-child(5) {
+    width: 90px;
+}
+
+.endpoints-table th:nth-child(6) {
+    width: 110px;
+}
+
+.endpoint-path {
+    margin-top: 4px;
+    color: #646970;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.endpoint-status {
+    padding: 0;
+    margin-bottom: 0;
+    font-weight: 400;
+}
+
+.is-latest-endpoint-test td {
+    background: #f0f6fc;
+}
+
+.endpoint-test-summary {
+    position: sticky;
+    top: 40px;
+}
+
+.endpoint-test-state {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding: 10px 12px;
+    border-radius: 4px;
+}
+
+.endpoint-test-state .status-dot {
+    margin-right: 0;
+}
+
+.endpoint-test-state-success {
+    background: #edfaef;
+    color: #0a4b21;
+}
+
+.endpoint-test-state-error {
+    background: #fcf0f1;
+    color: #8a2424;
+}
+
+.endpoint-test-meta {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 8px 12px;
+    margin: 0;
+}
+
+.endpoint-test-meta dt {
+    color: #646970;
+    font-weight: 600;
+}
+
+.endpoint-test-meta dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+@media screen and (max-width: 1100px) {
+    .api-endpoints-layout {
+        flex-direction: column;
+    }
+
+    .api-endpoints-sidebar {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .endpoint-test-summary {
+        position: static;
+    }
+}
+
+@media screen and (max-width: 782px) {
+    .endpoints-section-header,
+    .endpoints-filter-controls {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .endpoints-filter-controls {
+        justify-content: flex-start;
+    }
+
+    .endpoints-filter-controls .regular-text,
+    .endpoints-filter-controls select {
+        width: 100%;
+    }
+
+    .endpoints-table {
+        table-layout: auto;
+    }
 }

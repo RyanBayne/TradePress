@@ -85,6 +85,27 @@ abstract class TradePress_Scoring_Directive_Base {
 	protected $data_freshness_requirements = array();
 
 	/**
+	 * API data sources required by this directive.
+	 *
+	 * @var array
+	 */
+	protected $api_requirements = array();
+
+	/**
+	 * Expected refresh cadence for this directive's data.
+	 *
+	 * @var string
+	 */
+	protected $update_frequency = '';
+
+	/**
+	 * Relative API cost for this directive.
+	 *
+	 * @var string
+	 */
+	protected $api_cost = '';
+
+	/**
 	 * Get the directive's ID
 	 *
 	 * @return string

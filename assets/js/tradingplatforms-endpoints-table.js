@@ -17,6 +17,7 @@ jQuery(document).ready(function($) {
     
     function filterEndpoints(searchTerm, methodFilter) {
         $('.endpoints-table tbody tr').each(function() {
+            var $row = $(this);
             var endpointName = $(this).find('.endpoint-name').text().toLowerCase();
             var endpointPath = $(this).find('.endpoint-path').text().toLowerCase();
             var endpointDesc = $(this).find('td:nth-child(2)').text().toLowerCase();
@@ -29,9 +30,9 @@ jQuery(document).ready(function($) {
             var matchesMethod = !methodFilter || endpointMethod === methodFilter;
             
             if (matchesSearch && matchesMethod) {
-                $(this).show();
+                $row.show();
             } else {
-                $(this).hide();
+                $row.hide();
             }
         });
     }
@@ -39,5 +40,9 @@ jQuery(document).ready(function($) {
     // Make the API test results notice dismissible using standard approach - NO AJAX
     $('.api-test-dismiss').on('click', function() {
         $(this).closest('.api-test-results-notice').fadeOut();
+    });
+
+    $('.api-response-text, .ai-report-text').on('focus click', function() {
+        this.select();
     });
 });

@@ -31,10 +31,15 @@ $api_description = isset( $api_description ) ? $api_description : '';
 $api_version     = isset( $api_version ) ? $api_version : 'v1';
 $api_logo_url    = isset( $api_logo_url ) ? $api_logo_url : '';
 $endpoints       = isset( $endpoints ) ? $endpoints : array();
+$provider        = isset( $provider ) && is_array( $provider ) ? $provider : array();
 
 // Include helper functions if they haven't been included already
 if ( ! function_exists( 'get_status_color' ) ) {
 	require_once __DIR__ . '/helpers/api-tab-helpers.php';
+}
+
+if ( empty( $provider ) && class_exists( 'TradePress_API_Directory' ) ) {
+	$provider = TradePress_API_Directory::get_provider( $api_id );
 }
 
 // Variables that must be defined before including this template:
@@ -279,21 +284,6 @@ $trading_mode         = get_option( 'TradePress_api_' . $api_id . '_trading_mode
 
 		<!-- Quick Actions Bar -->
 		<?php require TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/tradingplatforms/view/partials/quick-actions.php'; ?>
-
-		<!-- API Status View (3 column layout) -->
-		<div id="api-status-view" class="content-section">
-
-			<div class="api-status-layout">
-				<!-- Column 1: API Status Overview -->
-				<?php require TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/tradingplatforms/view/partials/api-status-overview.php'; ?>
-				
-				<!-- Column 2: Configuration -->
-				<?php require TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/tradingplatforms/view/partials/api-status-configuration.php'; ?>
-				
-				<!-- Column 3: Latest API Call Information -->
-				<?php require TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/tradingplatforms/view/partials/api-status-call.php'; ?>
-			</div>
-		</div>
 
 		<!-- Layout with API Configuration section -->
 		<div class="api-layout-container">

@@ -2,286 +2,222 @@
 /**
  * Partial: Endpoints Table
  *
- * This partial template includes the endpoints table component for API tabs.
- * Required variables: $api_id, $endpoints
+ * Endpoint catalogue and latest endpoint test summary for API tabs.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Verify required variables are set
 if ( ! isset( $api_id ) || ! isset( $endpoints ) || ! is_array( $endpoints ) ) {
 	return;
 }
 
-// Get random symbol for testing if this is the Alpha Vantage API
-$random_symbol = '';
-if ( $api_id === 'alphavantage' ) {
-	if ( ! class_exists( 'TradePress_AlphaVantage_API' ) ) {
-		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'api/alphavantage/alphavantage-api.php';
-	}
-	$av_api        = new TradePress_AlphaVantage_API();
-	$random_symbol = $av_api->get_random_symbol();
-}
-
-// Get endpoints from database if available, otherwise use the provided $endpoints array
-$db_endpoints = TradePress_db_get_all_endpoints( 'endpoint_name', 'ASC' );
-
-// Log for developers (only visible in HTML source to admins)
-if ( current_user_can( 'manage_options' ) ) {
-	echo '<!-- Note: The tradepress_endpoints table should include a platform_id/api_id column to filter endpoints by platform -->';
-}
-
-// Function to determine status color class if not already defined
-if ( ! function_exists( 'get_status_color' ) ) {
+if ( ! function_exists( 'tradepress_api_tab_format_test_payload' ) ) {
 	/**
-	 * Get status color.
+	 * Format endpoint test payloads for display.
 	 *
-	 * @param mixed $status
-	 *
-	 * @return mixed
-	 *
-	 * @version 1.0.0
+	 * @param mixed $payload Response or error payload.
+	 * @return string
 	 */
-	function get_status_color( $status ) {
-		switch ( $status ) {
-			case 'active':
-			case 'operational':
-				return 'status-green';
-			case 'disruption':
-			case 'maintenance':
-				return 'status-orange';
-			case 'inactive':
-			case 'outage':
-				return 'status-red';
-			default:
-				return 'status-grey';
+	function tradepress_api_tab_format_test_payload( $payload ) {
+		if ( is_array( $payload ) || is_object( $payload ) ) {
+			return wp_json_encode( $payload, JSON_PRETTY_PRINT );
 		}
+
+		if ( is_bool( $payload ) ) {
+			return $payload ? 'true' : 'false';
+		}
+
+		if ( null === $payload || '' === $payload ) {
+			return '';
+		}
+
+		return (string) $payload;
 	}
 }
 
-// Get trading mode and API version settings for the current platform
-$trading_mode = get_option( 'TradePress_api_' . $api_id . '_trading_mode', 'paper' );
-$api_version  = get_option( 'TradePress_api_' . $api_id . '_version', 'v2' );
-
-// Get API name for display
-$api_name = isset( $api_name ) ? $api_name : ucfirst( $api_id );
-
-// Check if the TradePress_Endpoint_Tester class exists and load it if needed
 if ( ! class_exists( 'TradePress_Endpoint_Tester' ) && file_exists( TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/tradingplatforms/endpoint-tester.php' ) ) {
 	require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/tradingplatforms/endpoint-tester.php';
 }
 
-// Process API test if submitted by retrieving stored results from transient
-$api_test_results      = null;
-$api_test_endpoint     = '';
-$api_test_endpoint_key = '';
-$api_test_performed    = false;
+$api_name = isset( $api_name ) ? $api_name : ucfirst( $api_id );
 
-// Check for stored test results in transient
-$last_test = get_transient( 'tradepress_last_endpoint_test' );
-if ( $last_test && isset( $last_test['platform'] ) && $last_test['platform'] === $api_id ) {
-	$api_test_endpoint     = $last_test['endpoint'];
-	$api_test_endpoint_key = $last_test['endpoint_key'];
-	$transient_key         = 'tradepress_endpoint_test_' . md5( $last_test['platform'] . '_' . $last_test['endpoint'] );
-	$api_test_results      = get_transient( $transient_key );
+$db_endpoints = function_exists( 'TradePress_db_get_all_endpoints' ) ? TradePress_db_get_all_endpoints( 'endpoint_name', 'ASC' ) : array();
+$usage_counts = array();
+if ( ! empty( $db_endpoints ) ) {
+	foreach ( $db_endpoints as $db_endpoint ) {
+		$db_endpoint_name = isset( $db_endpoint->endpoint_name ) ? $db_endpoint->endpoint_name : ( $db_endpoint->name ?? '' );
+		$db_endpoint_key  = isset( $db_endpoint->endpoint_key ) ? $db_endpoint->endpoint_key : ( $db_endpoint->key ?? '' );
+		$counter          = isset( $db_endpoint->counter ) ? (int) $db_endpoint->counter : 0;
 
-	if ( $api_test_results ) {
-		$api_test_performed = true;
-		// Clear the transient to prevent showing the same results on page refresh
-		delete_transient( 'tradepress_last_endpoint_test' );
-		delete_transient( $transient_key );
+		if ( $db_endpoint_name ) {
+			$usage_counts[ $db_endpoint_name ] = $counter;
+		}
+		if ( $db_endpoint_key ) {
+			$usage_counts[ $db_endpoint_key ] = $counter;
+		}
 	}
 }
 
-// Move the test results outside the content-section so they remain visible regardless of section changes
-if ( $api_test_performed && $api_test_results ) :
-	$is_successful   = isset( $api_test_results['success'] ) && $api_test_results['success'];
-	$api_response    = $is_successful && isset( $api_test_results['data'] ) ? $api_test_results['data'] : '';
-	$raw_response    = isset( $api_test_results['raw_response'] ) ? $api_test_results['raw_response'] : '';
-	$status_code     = isset( $api_test_results['status_code'] ) ? $api_test_results['status_code'] : 0;
-	$debug_timestamp = isset( $api_test_results['debug_timestamp'] ) ? $api_test_results['debug_timestamp'] : '';
-	$error_report    = isset( $api_test_results['error_report'] ) ? $api_test_results['error_report'] : '';
+$method_options       = array();
+$latest_test          = null;
+$latest_test_endpoint = '';
+$latest_test_key      = '';
+$last_test            = get_transient( 'tradepress_last_endpoint_test' );
 
-	// Determine if this is a data-only API (e.g., Alpha Vantage)
-	$provider         = TradePress_API_Directory::get_provider( $api_id );
-	$is_data_only_api = isset( $provider['api_type'] ) && $provider['api_type'] === 'data_only';
-	?>
-<div id="tradepress-fixed-test-results" class="notice api-test-results-notice is-dismissible">
-	<h3><?php echo $is_successful ? esc_html__( 'API Test Results - Success', 'tradepress' ) : esc_html__( 'API Test Results - Error', 'tradepress' ); ?></h3>
-	
-	<div class="test-result-header">
-		<strong>Platform:</strong> <?php echo esc_html( $api_name ); ?><br>
-		<strong>Endpoint:</strong> <?php echo esc_html( $api_test_endpoint ); ?><br>
-		<strong>Status:</strong> <span class="<?php echo $is_successful ? 'success-text' : 'error-text'; ?>">
-			<?php echo $is_successful ? esc_html__( 'Success', 'tradepress' ) : esc_html__( 'Connection Error', 'tradepress' ); ?>
-		</span><br>
-		<strong>Environment:</strong> 
-		<?php echo esc_html__( 'Configured API', 'tradepress' ); ?>
-		<br>
-		<?php if ( $is_data_only_api ) : ?>
-		<strong>Trading Mode:</strong> <?php echo esc_html__( 'Not Applicable', 'tradepress' ); ?><br>
-		<?php else : ?>
-		<strong>Trading Mode:</strong> <?php echo esc_html( $trading_mode ); ?><br>
-		<?php endif; ?>
-		<strong>API Version:</strong> <?php echo esc_html( $api_version ); ?><br>
-		<strong>Date/Time:</strong> <?php echo esc_html( date( 'd/m/Y, H:i:s' ) ); ?><br>
-	</div>
-	
-	<?php if ( ! $is_successful ) : ?>
-		<h4><?php esc_html_e( 'Error Message:', 'tradepress' ); ?></h4>
-		<div class="error-message">
-			<?php echo esc_html( $api_test_results['message'] ); ?> 
-			[DEBUG: <?php echo esc_html( $debug_timestamp ); ?>]
-		</div>
-	<?php endif; ?>
-	
-	<div class="api-response-section">
-		<h4><?php esc_html_e( 'API Response:', 'tradepress' ); ?></h4>
-		<textarea class="api-response-text" readonly onclick="this.select()">
-		<?php
-		if ( $is_successful && is_array( $api_response ) ) {
-			echo esc_textarea( json_encode( $api_response, JSON_PRETTY_PRINT ) );
-		} else {
-			echo esc_textarea( is_array( $raw_response ) ? json_encode( $raw_response, JSON_PRETTY_PRINT ) : ( $raw_response ?: ( $api_response ? ( is_array( $api_response ) ? json_encode( $api_response, JSON_PRETTY_PRINT ) : $api_response ) : '0' ) ) );
-		}
-		?>
-		</textarea>
-		<span class="copy-hint"><?php esc_html_e( 'Click to select all. Ctrl+C to copy.', 'tradepress' ); ?></span>
-	</div>
-	
-	<?php if ( ! $is_successful && ! empty( $error_report ) ) : ?>
-	<div class="ai-report-section">
-		<h4><?php esc_html_e( 'AI Troubleshooting Report:', 'tradepress' ); ?></h4>
-		<textarea class="ai-report-text" readonly onclick="this.select()"><?php echo esc_textarea( $error_report ); ?></textarea>
-		<span class="copy-hint"><?php esc_html_e( 'Click to select all. Ctrl+C to copy.', 'tradepress' ); ?></span>
-	</div>
-	<?php elseif ( ! $is_successful ) : ?>
-	<div class="ai-report-section">
-		<h4><?php esc_html_e( 'AI Troubleshooting Report:', 'tradepress' ); ?></h4>
-		<textarea class="ai-report-text" readonly onclick="this.select()">### API Test Error Report ###
-Platform: <?php echo esc_html( $api_name ); ?>
+if ( $last_test && isset( $last_test['platform'] ) && $last_test['platform'] === $api_id ) {
+	$latest_test_endpoint = isset( $last_test['endpoint'] ) ? $last_test['endpoint'] : '';
+	$latest_test_key      = isset( $last_test['endpoint_key'] ) && $last_test['endpoint_key'] ? $last_test['endpoint_key'] : $latest_test_endpoint;
+	$transient_key        = 'tradepress_endpoint_test_' . md5( $api_id . '_' . $latest_test_endpoint );
+	$latest_test          = get_transient( $transient_key );
+}
 
-Endpoint: <?php echo esc_html( $api_test_endpoint ); ?>')); ?>
+$latest_success = is_array( $latest_test ) && ! empty( $latest_test['success'] );
+$latest_payload = '';
+if ( is_array( $latest_test ) ) {
+	if ( $latest_success && array_key_exists( 'data', $latest_test ) ) {
+		$latest_payload = tradepress_api_tab_format_test_payload( $latest_test['data'] );
+	} elseif ( array_key_exists( 'raw_response', $latest_test ) ) {
+		$latest_payload = tradepress_api_tab_format_test_payload( $latest_test['raw_response'] );
+	}
+}
+?>
 
-Status: <?php echo $is_successful ? esc_html__( 'Success', 'tradepress' ) : esc_html__( 'Connection Error', 'tradepress' ); ?>
-
-Environment: Configured API
-
-		<?php if ( $is_data_only_api ) : ?>
-Trading Mode: Not Applicable
-		<?php else : ?>
-Trading Mode: <?php echo esc_html( $trading_mode ); ?>
-		<?php endif; ?>
-
-API Version: <?php echo esc_html( $api_version ); ?>
-
-Time: <?php echo esc_html( date( 'd/m/Y, H:i:s' ) ); ?>
-
-		<?php if ( ! $is_successful ) : ?>
-Error: <?php echo esc_html( $api_test_results['message'] ); ?> [DEBUG: <?php echo esc_html( $debug_timestamp ); ?>]
-		<?php endif; ?>
-
-Error Details: <?php echo esc_html( isset( $api_test_results['details'] ) ? ( is_array( $api_test_results['details'] ) ? json_encode( $api_test_results['details'], JSON_PRETTY_PRINT ) : $api_test_results['details'] ) : '' ); ?>
-
-Raw Response Size: <?php echo esc_html( strlen( is_array( $raw_response ) ? json_encode( $raw_response, JSON_PRETTY_PRINT ) : ( $raw_response ?: ( $api_response ? ( is_array( $api_response ) ? json_encode( $api_response, JSON_PRETTY_PRINT ) : $api_response ) : '0' ) ) ) ); ?> characters
-		</textarea>
-		<span class="copy-hint"><?php esc_html_e( 'Click to select all. Ctrl+C to copy.', 'tradepress' ); ?></span>
-	</div>
-	<?php endif; ?>
-	
-	<?php if ( ! $is_successful ) : ?>
-		<div class="error-guidance">
-			<h4><?php esc_html_e( 'Troubleshooting steps:', 'tradepress' ); ?></h4>
-			<ol>
-				<li><?php esc_html_e( 'Check your internet connection', 'tradepress' ); ?></li>
-				<li><?php esc_html_e( 'Verify your API credentials in the Settings tab', 'tradepress' ); ?></li>
-				<li><?php esc_html_e( 'Make sure you\'re using the correct trading mode (paper/live)', 'tradepress' ); ?></li>
-				<?php /* translators: %s: string value */ ?>
-				<li><?php printf( esc_html__( 'Check if %s API services are operational', 'tradepress' ), esc_html( $api_name ) ); ?></li>
-			</ol>
-		</div>
-	<?php endif; ?>
-	
-	<button type="button" class="notice-dismiss api-test-dismiss">
-		<span class="screen-reader-text"><?php esc_html_e( 'Dismiss', 'tradepress' ); ?></span>
-	</button>
-</div>
-<?php endif; ?>
-
-<table class="endpoints-table">
-	<thead>
-		<tr>
-			<th><?php esc_html_e( 'Endpoint', 'tradepress' ); ?></th>
-			<th><?php esc_html_e( 'Description', 'tradepress' ); ?></th>
-			<th><?php esc_html_e( 'Method', 'tradepress' ); ?></th>
-			<th><?php esc_html_e( 'Usage Count', 'tradepress' ); ?></th>
-			<th><?php esc_html_e( 'Status', 'tradepress' ); ?></th>
-			<th><?php esc_html_e( 'Test', 'tradepress' ); ?></th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php
-		// Use the passed $endpoints variable as the primary source of data
-		foreach ( $endpoints as $endpoint ) :
-			// Get database counter if available
-			$endpoint_counter = 0;
-			$endpoint_key     = isset( $endpoint['key'] ) ? $endpoint['key'] : '';
-			$endpoint_name    = isset( $endpoint['name'] ) ? $endpoint['name'] : '';
-
-			// Try to match the endpoint with a database record to get real usage count
-			if ( ! empty( $db_endpoints ) ) {
-				foreach ( $db_endpoints as $db_endpoint ) {
-					// Match by name or key
-					$db_endpoint_name = isset( $db_endpoint->endpoint_name ) ? $db_endpoint->endpoint_name :
-						( isset( $db_endpoint->name ) ? $db_endpoint->name : '' );
-					$db_endpoint_key  = isset( $db_endpoint->endpoint_key ) ? $db_endpoint->endpoint_key :
-						( isset( $db_endpoint->key ) ? $db_endpoint->key : '' );
-
-					if ( ( $db_endpoint_name && $db_endpoint_name === $endpoint_name ) ||
-						( $db_endpoint_key && $db_endpoint_key === $endpoint_key ) ) {
-						// Found a match, use the database counter
-						$endpoint_counter = isset( $db_endpoint->counter ) ? (int) $db_endpoint->counter : 0;
-						break;
+<div class="api-endpoints-layout">
+	<div class="api-endpoints-main">
+		<div class="section-header endpoints-section-header">
+			<h3><?php esc_html_e( 'Available Endpoints', 'tradepress' ); ?></h3>
+			<div class="endpoints-filter-controls">
+				<input type="search" id="endpoints-search" class="regular-text" placeholder="<?php esc_attr_e( 'Search endpoints', 'tradepress' ); ?>">
+				<select id="endpoints-method-filter">
+					<option value=""><?php esc_html_e( 'All methods', 'tradepress' ); ?></option>
+					<?php
+					foreach ( $endpoints as $endpoint ) {
+						$method = isset( $endpoint['method'] ) ? strtoupper( $endpoint['method'] ) : 'GET';
+						$method_options[ $method ] = $method;
 					}
-				}
-			}
-			?>
-		<tr>
-			<td>
-				<div class="endpoint-name"><?php echo esc_html( $endpoint['name'] ); ?></div>
-				<div class="endpoint-path"><?php echo esc_html( $endpoint['endpoint'] ); ?></div>
-			</td>
-			<td><?php echo esc_html( $endpoint['description'] ); ?></td>
-			<td><span class="method-badge method-<?php echo esc_attr( strtolower( $endpoint['method'] ) ); ?>"><?php echo esc_html( $endpoint['method'] ); ?></span></td>
-			<td class="usage-count"><?php echo esc_html( number_format( $endpoint_counter ) ); ?></td>
-			<td>
-				<div class="status-indicator">
-					<div class="status-dot <?php echo esc_attr( get_status_color( $endpoint['status'] ) ); ?>"></div>
-					<div><?php echo esc_html( ucfirst( $endpoint['status'] ) ); ?></div>
+					foreach ( $method_options as $method ) :
+						?>
+						<option value="<?php echo esc_attr( strtolower( $method ) ); ?>"><?php echo esc_html( $method ); ?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+		</div>
+
+		<table class="endpoints-table widefat striped">
+			<thead>
+				<tr>
+					<th><?php esc_html_e( 'Endpoint', 'tradepress' ); ?></th>
+					<th><?php esc_html_e( 'Description', 'tradepress' ); ?></th>
+					<th><?php esc_html_e( 'Method', 'tradepress' ); ?></th>
+					<th><?php esc_html_e( 'Usage', 'tradepress' ); ?></th>
+					<th><?php esc_html_e( 'Status', 'tradepress' ); ?></th>
+					<th><?php esc_html_e( 'Test', 'tradepress' ); ?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ( $endpoints as $endpoint ) : ?>
+					<?php
+					$endpoint_key     = isset( $endpoint['key'] ) ? $endpoint['key'] : sanitize_key( $endpoint['name'] ?? '' );
+					$endpoint_name    = isset( $endpoint['name'] ) ? $endpoint['name'] : $endpoint_key;
+					$endpoint_path    = isset( $endpoint['endpoint'] ) ? $endpoint['endpoint'] : '';
+					$endpoint_desc    = isset( $endpoint['description'] ) ? $endpoint['description'] : '';
+					$endpoint_method  = isset( $endpoint['method'] ) ? strtoupper( $endpoint['method'] ) : 'GET';
+					$endpoint_status  = isset( $endpoint['status'] ) ? $endpoint['status'] : 'unknown';
+					$endpoint_counter = $usage_counts[ $endpoint_key ] ?? ( $usage_counts[ $endpoint_name ] ?? 0 );
+					$is_latest_test   = $latest_test_key && $latest_test_key === $endpoint_key;
+					$is_testable      = ! in_array( $endpoint_status, array( 'inactive', 'outage' ), true );
+					?>
+					<tr class="endpoint-summary-row <?php echo $is_latest_test ? 'is-latest-endpoint-test' : ''; ?>" data-endpoint-key="<?php echo esc_attr( $endpoint_key ); ?>">
+						<td>
+							<div class="endpoint-name"><?php echo esc_html( $endpoint_name ); ?></div>
+							<?php if ( $endpoint_path ) : ?>
+								<div class="endpoint-path"><?php echo esc_html( $endpoint_path ); ?></div>
+							<?php endif; ?>
+						</td>
+						<td><?php echo esc_html( $endpoint_desc ); ?></td>
+						<td><span class="method-badge method-<?php echo esc_attr( strtolower( $endpoint_method ) ); ?>"><?php echo esc_html( $endpoint_method ); ?></span></td>
+						<td class="usage-count"><?php echo esc_html( number_format_i18n( $endpoint_counter ) ); ?></td>
+						<td>
+							<div class="status-indicator endpoint-status">
+								<div class="status-dot <?php echo esc_attr( get_status_color( $endpoint_status ) ); ?>"></div>
+								<div><?php echo esc_html( ucfirst( $endpoint_status ) ); ?></div>
+							</div>
+						</td>
+						<td>
+							<?php if ( $is_testable ) : ?>
+								<form class="test-endpoint-form" action="" method="post">
+									<input type="hidden" name="tradepress_test_endpoint" value="1">
+									<input type="hidden" name="endpoint" value="<?php echo esc_attr( $endpoint_key ); ?>">
+									<input type="hidden" name="endpoint_key" value="<?php echo esc_attr( $endpoint_key ); ?>">
+									<input type="hidden" name="platform" value="<?php echo esc_attr( $api_id ); ?>">
+									<?php wp_nonce_field( 'tradepress_test_endpoint_nonce', 'tradepress_test_endpoint_nonce_' . $endpoint_key ); ?>
+									<button type="submit" class="button button-secondary test-endpoint"
+											data-endpoint="<?php echo esc_attr( $endpoint_key ); ?>"
+											data-api="<?php echo esc_attr( $api_id ); ?>">
+										<?php esc_html_e( 'Test', 'tradepress' ); ?>
+									</button>
+								</form>
+							<?php else : ?>
+								<button type="button" class="button test-button maintenance" disabled>
+									<?php esc_html_e( 'Unavailable', 'tradepress' ); ?>
+								</button>
+							<?php endif; ?>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+	</div>
+
+	<aside class="api-endpoints-sidebar">
+		<div class="directive-details-container endpoint-test-summary">
+			<div class="section-header">
+				<h3><?php esc_html_e( 'Latest Endpoint Test', 'tradepress' ); ?></h3>
+			</div>
+
+			<?php if ( is_array( $latest_test ) ) : ?>
+				<div class="endpoint-test-state <?php echo $latest_success ? 'endpoint-test-state-success' : 'endpoint-test-state-error'; ?>">
+					<span class="status-dot <?php echo $latest_success ? 'status-green' : 'status-red'; ?>"></span>
+					<strong><?php echo $latest_success ? esc_html__( 'Success', 'tradepress' ) : esc_html__( 'Connection Error', 'tradepress' ); ?></strong>
 				</div>
-			</td>
-			<td>
-				<?php if ( $endpoint['status'] === 'active' ) : ?>
-					<form class="test-endpoint-form" action="" method="post">
-						<input type="hidden" name="tradepress_test_endpoint" value="1">
-						<input type="hidden" name="endpoint" value="<?php echo esc_attr( $endpoint['key'] ); ?>">
-						<input type="hidden" name="platform" value="<?php echo esc_attr( $api_id ); ?>">
-						<?php wp_nonce_field( 'tradepress_test_endpoint_nonce', 'tradepress_test_endpoint_nonce_' . $endpoint['key'] ); ?>
-						<button type="submit" class="button button-secondary test-endpoint" 
-								data-endpoint="<?php echo esc_attr( $endpoint['key'] ); ?>"
-								data-api="<?php echo esc_attr( $api_id ); ?>">
-							<?php esc_html_e( 'Test', 'tradepress' ); ?>
-						</button>
-					</form>
-				<?php else : ?>
-					<button type="button" class="test-button maintenance" disabled>
-						<?php esc_html_e( 'Unavailable', 'tradepress' ); ?>
-					</button>
+
+				<dl class="endpoint-test-meta">
+					<dt><?php esc_html_e( 'Platform', 'tradepress' ); ?></dt>
+					<dd><?php echo esc_html( $api_name ); ?></dd>
+					<dt><?php esc_html_e( 'Endpoint', 'tradepress' ); ?></dt>
+					<dd><?php echo esc_html( $latest_test_endpoint ); ?></dd>
+					<dt><?php esc_html_e( 'HTTP Status', 'tradepress' ); ?></dt>
+					<dd><?php echo esc_html( $latest_test['status_code'] ?? __( 'Unknown', 'tradepress' ) ); ?></dd>
+					<dt><?php esc_html_e( 'Environment', 'tradepress' ); ?></dt>
+					<dd><?php echo esc_html( $latest_test['environment'] ?? __( 'Configured API', 'tradepress' ) ); ?></dd>
+					<dt><?php esc_html_e( 'Time', 'tradepress' ); ?></dt>
+					<dd><?php echo esc_html( $latest_test['timestamp'] ?? current_time( 'mysql' ) ); ?></dd>
+				</dl>
+
+				<?php if ( ! $latest_success && ! empty( $latest_test['message'] ) ) : ?>
+					<div class="error-message"><?php echo esc_html( $latest_test['message'] ); ?></div>
 				<?php endif; ?>
-			</td>
-		</tr>
-		<?php endforeach; ?>
-	</tbody>
-</table>
+
+				<div class="api-response-section">
+					<h4><?php esc_html_e( 'Cached Response', 'tradepress' ); ?></h4>
+					<textarea class="api-response-text" readonly><?php echo esc_textarea( $latest_payload ); ?></textarea>
+					<span class="copy-hint"><?php esc_html_e( 'Click to select all. Ctrl+C to copy.', 'tradepress' ); ?></span>
+				</div>
+
+				<?php if ( ! $latest_success && ! empty( $latest_test['error_report'] ) ) : ?>
+					<div class="ai-report-section">
+						<h4><?php esc_html_e( 'Troubleshooting Report', 'tradepress' ); ?></h4>
+						<textarea class="ai-report-text" readonly><?php echo esc_textarea( $latest_test['error_report'] ); ?></textarea>
+						<span class="copy-hint"><?php esc_html_e( 'Click to select all. Ctrl+C to copy.', 'tradepress' ); ?></span>
+					</div>
+				<?php endif; ?>
+			<?php else : ?>
+				<div class="directive-details-placeholder">
+					<p><?php esc_html_e( 'No endpoint test has been cached for this platform yet.', 'tradepress' ); ?></p>
+				</div>
+			<?php endif; ?>
+		</div>
+	</aside>
+</div>

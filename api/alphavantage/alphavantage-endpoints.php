@@ -19,10 +19,60 @@ if ( ! defined( 'ABSPATH' ) ) {
 class TradePress_AlphaVantage_Endpoints {
 
 	/**
+	 * Get API restrictions and rate limit information
+	 *
+	 * @return array API restrictions information
+	 * @version 1.0.0
+	 */
+	public static function get_api_restrictions() {
+		return array(
+			'base_url'    => 'https://www.alphavantage.co/query',
+			'rate_limits' => array(
+				'description' => 'Alpha Vantage API rate limits by plan',
+				'details'     => array(
+					'free'     => array(
+						'calls_per_day'    => 25,
+						'calls_per_minute' => 5,
+						'note'             => 'Free tier is severely limited — 25 calls/day. Queue system must respect this.',
+					),
+					'premium_30'  => array(
+						'calls_per_minute' => 30,
+						'calls_per_day'    => null,
+					),
+					'premium_75'  => array(
+						'calls_per_minute' => 75,
+						'calls_per_day'    => null,
+					),
+					'premium_150' => array(
+						'calls_per_minute' => 150,
+						'calls_per_day'    => null,
+					),
+					'premium_300' => array(
+						'calls_per_minute' => 300,
+						'calls_per_day'    => null,
+					),
+				),
+			),
+			'authentication' => array(
+				'description' => 'API key passed as apikey query parameter',
+				'param'       => 'apikey',
+			),
+			'premium_endpoints' => array(
+				'description' => 'Endpoints that require a paid plan',
+				'list'        => array( 'TIME_SERIES_DAILY_ADJUSTED' ),
+			),
+			'removed_endpoints' => array(
+				'description' => 'Endpoints removed by Alpha Vantage',
+				'list'        => array( 'TIME_SERIES_INTRADAY_EXTENDED', 'CRYPTO_RATING' ),
+			),
+		);
+	}
+
+	/**
 	 * Get all available endpoints
 	 *
 	 * @return array Array of available endpoints with their configurations
-	 * @version 1.0.0
+	 * @version 1.1.0
 	 */
 	public static function get_endpoints() {
 		return array(
@@ -43,7 +93,9 @@ class TradePress_AlphaVantage_Endpoints {
 				'function'        => 'TIME_SERIES_DAILY_ADJUSTED',
 				'required_params' => array( 'symbol' ),
 				'optional_params' => array( 'outputsize', 'datatype' ),
-				'description'     => 'Daily adjusted time series data',
+				'description'     => 'Daily adjusted time series data (splits, dividends adjusted)',
+				'premium'         => true,
+				'note'            => 'Premium endpoint — requires paid Alpha Vantage plan. Returns error on free tier.',
 			),
 			'TIME_SERIES_WEEKLY'            => array(
 				'function'        => 'TIME_SERIES_WEEKLY',
@@ -124,10 +176,11 @@ class TradePress_AlphaVantage_Endpoints {
 				'category'        => 'Fundamental Data',
 			),
 			'TIME_SERIES_INTRADAY_EXTENDED' => array(
-				'function'        => 'TIME_SERIES_INTRADAY_EXTENDED',
+				'function'        => 'TIME_SERIES_INTRADAY',
 				'required_params' => array( 'symbol', 'interval' ),
-				'optional_params' => array( 'slice' ),
-				'description'     => 'Extended intraday time series data',
+				'optional_params' => array( 'month', 'outputsize', 'datatype' ),
+				'description'     => 'Extended intraday time series data — use month parameter (e.g. 2009-01) for historical slices',
+				'note'            => 'TIME_SERIES_INTRADAY_EXTENDED was removed by Alpha Vantage. Use TIME_SERIES_INTRADAY with the month parameter instead.',
 				'intervals'       => array( '1min', '5min', '15min', '30min', '60min' ),
 				'category'        => 'Core Stock APIs',
 			),
@@ -233,13 +286,7 @@ class TradePress_AlphaVantage_Endpoints {
 				'description'     => 'Monthly time series for a cryptocurrency',
 				'category'        => 'Cryptocurrency',
 			),
-			'CRYPTO_RATING'                 => array(
-				'function'        => 'CRYPTO_RATING',
-				'required_params' => array( 'symbol' ),
-				'optional_params' => array( 'datatype' ),
-				'description'     => 'Cryptocurrency health scores/ratings',
-				'category'        => 'Cryptocurrency',
-			),
+			// CRYPTO_RATING was removed by Alpha Vantage and is no longer available.
 			'WTI'                           => array(
 				'function'         => 'WTI',
 				'required_params'  => array(),
@@ -679,11 +726,11 @@ class TradePress_AlphaVantage_Endpoints {
 				'category'        => 'Technical Indicators',
 			),
 			'TRIX'                          => array(
-				'function'         => 'TRIX',
-				'required_params'  => array( 'symbol', 'interval', 'time_period', 'series_type' ),
-				'optional__params' => array( 'datatype' ),
-				'description'      => '1-day ROC of a Triple Smooth EMA',
-				'category'         => 'Technical Indicators',
+				'function'        => 'TRIX',
+				'required_params' => array( 'symbol', 'interval', 'time_period', 'series_type' ),
+				'optional_params' => array( 'datatype' ),
+				'description'     => '1-day ROC of a Triple Smooth EMA',
+				'category'        => 'Technical Indicators',
 			),
 			'ULTOSC'                        => array(
 				'function'        => 'ULTOSC',
@@ -811,6 +858,58 @@ class TradePress_AlphaVantage_Endpoints {
 				'description'     => 'Hilbert Transform - Phasor Components',
 				'category'        => 'Technical Indicators',
 			),
+			// Analytics
+			'ANALYTICS_FIXED_WINDOW'        => array(
+				'function'        => 'ANALYTICS_FIXED_WINDOW',
+				'required_params' => array( 'SYMBOLS', 'RANGE', 'OHLC', 'CALCULATIONS' ),
+				'optional_params' => array( 'datatype' ),
+				'description'     => 'Correlation, covariance and statistical analytics over a fixed time window for multiple symbols',
+				'category'        => 'Analytics',
+			),
+			'ANALYTICS_SLIDING_WINDOW'      => array(
+				'function'        => 'ANALYTICS_SLIDING_WINDOW',
+				'required_params' => array( 'SYMBOLS', 'RANGE', 'OHLC', 'WINDOW_SIZE', 'CALCULATIONS' ),
+				'optional_params' => array( 'datatype' ),
+				'description'     => 'Correlation, covariance and statistical analytics over a sliding time window for multiple symbols',
+				'category'        => 'Analytics',
+			),
+			// Bulk data
+			'REALTIME_BULK_QUOTES'          => array(
+				'function'        => 'REALTIME_BULK_QUOTES',
+				'required_params' => array( 'symbol' ),
+				'optional_params' => array( 'datatype' ),
+				'description'     => 'Realtime bulk quotes for up to 100 symbols in a single API call',
+				'category'        => 'Core Stock APIs',
+			),
+			// Fundamental additions
+			'ETF_PROFILE'                   => array(
+				'function'        => 'ETF_PROFILE',
+				'required_params' => array( 'symbol' ),
+				'optional_params' => array(),
+				'description'     => 'ETF holdings, sector breakdown and performance data',
+				'category'        => 'Fundamental Data',
+			),
+			'DIVIDENDS'                     => array(
+				'function'        => 'DIVIDENDS',
+				'required_params' => array( 'symbol' ),
+				'optional_params' => array( 'datatype' ),
+				'description'     => 'Historical dividend data for a specified company',
+				'category'        => 'Fundamental Data',
+			),
+			'SPLITS'                        => array(
+				'function'        => 'SPLITS',
+				'required_params' => array( 'symbol' ),
+				'optional_params' => array( 'datatype' ),
+				'description'     => 'Historical stock split data for a specified company',
+				'category'        => 'Fundamental Data',
+			),
+			'INSIDER_TRANSACTIONS'          => array(
+				'function'        => 'INSIDER_TRANSACTIONS',
+				'required_params' => array( 'symbol' ),
+				'optional_params' => array(),
+				'description'     => 'Insider buying and selling transactions for a specified company',
+				'category'        => 'Fundamental Data',
+			),
 		);
 	}
 
@@ -832,8 +931,8 @@ class TradePress_AlphaVantage_Endpoints {
 	 * @param string $endpoint_name The name of the endpoint
 	 * @param array  $params Parameters to include in the URL
 	 * @param string $base_url Base API URL
-	 * @return string Complete endpoint URL
-	 * @version 1.0.0
+	 * @return string Complete endpoint URL, or empty string if required params are missing
+	 * @version 1.1.0
 	 */
 	public static function get_endpoint_url( $endpoint_name, $params = array(), $base_url = '' ) {
 		$endpoint = self::get_endpoint( $endpoint_name );
@@ -862,7 +961,12 @@ class TradePress_AlphaVantage_Endpoints {
 			if ( isset( $params[ $param ] ) ) {
 				$query_params[ $param ] = $params[ $param ];
 			} else {
-				// Missing required parameter
+				if ( function_exists( 'tradepress_log_error' ) ) {
+					tradepress_log_error(
+						sprintf( 'Alpha Vantage: missing required parameter "%s" for endpoint "%s"', $param, $endpoint_name ),
+						array( 'endpoint' => $endpoint_name, 'missing_param' => $param )
+					);
+				}
 				return '';
 			}
 		}

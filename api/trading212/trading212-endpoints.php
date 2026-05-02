@@ -7,7 +7,7 @@
  *
  * @package TradePress
  * @subpackage API\Trading212
- * @version 1.0.0
+ * @version 1.1.0
  * @since 2025-04-08
  */
 
@@ -22,10 +22,63 @@ if ( ! defined( 'ABSPATH' ) ) {
 class TradePress_Trading212_Endpoints {
 
 	/**
+	 * Get API restrictions and authentication details
+	 *
+	 * @return array API restrictions information
+	 * @version 1.0.0
+	 */
+	public static function get_api_restrictions() {
+		return array(
+			'authentication'  => array(
+				'description' => 'Trading212 API Authentication',
+				'details'     => array(
+					'method' => 'Bearer token in Authorization header',
+					'header' => 'Authorization: {api_key}',
+					'note'   => 'API key is passed directly as the Authorization header value, not as Bearer prefix',
+				),
+			),
+			'environments'    => array(
+				'description' => 'Available API environments',
+				'details'     => array(
+					'live' => 'https://live.trading212.com',
+					'demo' => 'https://demo.trading212.com',
+				),
+			),
+			'rate_limits'     => array(
+				'description' => 'Per-endpoint rate limits — see each endpoint definition',
+				'details'     => array(
+					'instruments'   => '1 request per 30 seconds',
+					'exchanges'     => '1 request per 30 seconds',
+					'portfolio'     => '1 request per 5 seconds',
+					'account_cash'  => '1 request per 2 seconds',
+					'orders'        => '1 request per 5 seconds',
+					'history'       => '6 requests per minute',
+				),
+			),
+			'scopes'          => array(
+				'description' => 'Available API permission scopes',
+				'details'     => array(
+					'account'              => 'Read account information and cash',
+					'metadata'             => 'Read instruments and exchanges',
+					'portfolio'            => 'Read portfolio positions',
+					'orders:read'          => 'Read open orders',
+					'orders:execute'       => 'Create and cancel orders',
+					'pies:read'            => 'Read pies',
+					'pies:write'           => 'Create, update and delete pies',
+					'history:orders'       => 'Read historical orders',
+					'history:dividends'    => 'Read historical dividends',
+					'history:transactions' => 'Read historical transactions',
+					'history:exports'      => 'Request and download CSV exports',
+				),
+			),
+		);
+	}
+
+	/**
 	 * Get all available endpoints
 	 *
 	 * @return array Array of available endpoints with their configurations
-	 * @version 1.0.0
+	 * @version 1.1.0
 	 */
 	public static function get_endpoints() {
 		return array(
@@ -52,7 +105,7 @@ class TradePress_Trading212_Endpoints {
 				'method'           => 'GET',
 				'description'      => 'Fetch all instruments that your account has access to',
 				'parameters'       => array(),
-				'rate_limit'       => '1 request per 50 seconds',
+				'rate_limit'       => '1 request per 30 seconds',
 				'scopes'           => array( 'metadata' ),
 				'example_response' => array(
 					array(
@@ -67,6 +120,34 @@ class TradePress_Trading212_Endpoints {
 						'type'              => 'STOCK',
 						'workingScheduleId' => 1,
 					),
+				),
+			),
+
+			'instrument_by_ticker' => array(
+				'endpoint'         => '/api/v0/equity/metadata/instruments/{ticker}',
+				'method'           => 'GET',
+				'description'      => 'Fetch a single instrument by ticker',
+				'parameters'       => array(
+					'ticker' => array(
+						'required'    => true,
+						'type'        => 'string',
+						'description' => 'Instrument ticker',
+						'example'     => 'AAPL_US_EQ',
+					),
+				),
+				'rate_limit'       => '1 request per 1 second',
+				'scopes'           => array( 'metadata' ),
+				'example_response' => array(
+					'addedOn'           => '2025-03-24T14:15:22Z',
+					'currencyCode'      => 'USD',
+					'isin'              => 'US0378331005',
+					'maxOpenQuantity'   => 100,
+					'minTradeQuantity'  => 0.001,
+					'name'              => 'Apple Inc.',
+					'shortName'         => 'Apple',
+					'ticker'            => 'AAPL_US_EQ',
+					'type'              => 'STOCK',
+					'workingScheduleId' => 1,
 				),
 			),
 
@@ -225,6 +306,13 @@ class TradePress_Trading212_Endpoints {
 						'description' => 'Instrument ticker',
 						'example'     => 'AAPL_US_EQ',
 					),
+					'side'     => array(
+						'required'    => true,
+						'type'        => 'string',
+						'description' => 'Order side',
+						'enum'        => array( 'BUY', 'SELL' ),
+						'example'     => 'BUY',
+					),
 				),
 				'rate_limit'       => '1 request per 1 second',
 				'scopes'           => array( 'orders:execute' ),
@@ -259,6 +347,13 @@ class TradePress_Trading212_Endpoints {
 						'type'        => 'number',
 						'description' => 'Quantity to buy or sell',
 						'example'     => 5,
+					),
+					'side'         => array(
+						'required'    => true,
+						'type'        => 'string',
+						'description' => 'Order side',
+						'enum'        => array( 'BUY', 'SELL' ),
+						'example'     => 'BUY',
 					),
 					'ticker'       => array(
 						'required'    => true,
@@ -301,6 +396,13 @@ class TradePress_Trading212_Endpoints {
 						'type'        => 'number',
 						'description' => 'Quantity to buy or sell',
 						'example'     => 5,
+					),
+					'side'         => array(
+						'required'    => true,
+						'type'        => 'string',
+						'description' => 'Order side',
+						'enum'        => array( 'BUY', 'SELL' ),
+						'example'     => 'BUY',
 					),
 					'stopPrice'    => array(
 						'required'    => true,
@@ -355,6 +457,13 @@ class TradePress_Trading212_Endpoints {
 						'type'        => 'number',
 						'description' => 'Quantity to buy or sell',
 						'example'     => 5,
+					),
+					'side'         => array(
+						'required'    => true,
+						'type'        => 'string',
+						'description' => 'Order side',
+						'enum'        => array( 'BUY', 'SELL' ),
+						'example'     => 'BUY',
 					),
 					'stopPrice'    => array(
 						'required'    => true,
@@ -565,6 +674,80 @@ class TradePress_Trading212_Endpoints {
 				'example_response' => array(),
 			),
 
+			'update_pie'           => array(
+				'endpoint'         => '/api/v0/equity/pies/{id}',
+				'method'           => 'PUT',
+				'description'      => 'Update an existing pie',
+				'parameters'       => array(
+					'id'                 => array(
+						'required'    => true,
+						'type'        => 'integer',
+						'description' => 'Pie ID',
+						'example'     => 12345,
+					),
+					'dividendCashAction' => array(
+						'required'    => false,
+						'type'        => 'string',
+						'description' => 'Dividend cash action',
+						'enum'        => array( 'REINVEST', 'TO_ACCOUNT_CASH' ),
+						'example'     => 'REINVEST',
+					),
+					'endDate'            => array(
+						'required'    => false,
+						'type'        => 'string',
+						'format'      => 'date-time',
+						'description' => 'End date for the pie',
+						'example'     => '2025-12-31T23:59:59Z',
+					),
+					'goal'               => array(
+						'required'    => false,
+						'type'        => 'number',
+						'description' => 'Total desired value of the pie',
+						'example'     => 10000,
+					),
+					'icon'               => array(
+						'required'    => false,
+						'type'        => 'string',
+						'description' => 'Icon identifier',
+						'example'     => 'technology',
+					),
+					'instrumentShares'   => array(
+						'required'    => true,
+						'type'        => 'object',
+						'description' => 'Instrument shares allocation',
+						'example'     => array(
+							'AAPL_US_EQ' => 0.5,
+							'MSFT_US_EQ' => 0.5,
+						),
+					),
+					'name'               => array(
+						'required'    => true,
+						'type'        => 'string',
+						'description' => 'Pie name',
+						'example'     => 'Tech Giants',
+					),
+				),
+				'rate_limit'       => '1 request per 5 seconds',
+				'scopes'           => array( 'pies:write' ),
+				'example_response' => array(),
+			),
+			'rebalance_pie'        => array(
+				'endpoint'         => '/api/v0/equity/pies/{id}',
+				'method'           => 'POST',
+				'description'      => 'Manually trigger a pie rebalance',
+				'parameters'       => array(
+					'id' => array(
+						'required'    => true,
+						'type'        => 'integer',
+						'description' => 'Pie ID',
+						'example'     => 12345,
+					),
+				),
+				'rate_limit'       => '1 request per 5 seconds',
+				'scopes'           => array( 'pies:write' ),
+				'example_response' => array(),
+			),
+
 			// Historical Data
 			'history_orders'       => array(
 				'endpoint'         => '/api/v0/equity/history/orders',
@@ -601,7 +784,7 @@ class TradePress_Trading212_Endpoints {
 				),
 			),
 			'history_dividends'    => array(
-				'endpoint'         => '/api/v0/history/dividends',
+				'endpoint'         => '/api/v0/equity/history/dividends',
 				'method'           => 'GET',
 				'description'      => 'Get historical dividends',
 				'parameters'       => array(
@@ -635,7 +818,7 @@ class TradePress_Trading212_Endpoints {
 				),
 			),
 			'history_transactions' => array(
-				'endpoint'         => '/api/v0/history/transactions',
+				'endpoint'         => '/api/v0/equity/history/transactions',
 				'method'           => 'GET',
 				'description'      => 'Get historical transactions',
 				'parameters'       => array(
@@ -674,14 +857,68 @@ class TradePress_Trading212_Endpoints {
 				'method'           => 'POST',
 				'description'      => 'Request a CSV export of orders, dividends and transactions history',
 				'parameters'       => array(
-					// This endpoint requires a more complex request body structure
-					// that should be documented in API implementation
+					'dataIncluded' => array(
+						'required'    => true,
+						'type'        => 'object',
+						'description' => 'Which data types to include in the export',
+						'example'     => array(
+							'includeDividends'    => true,
+							'includeInterest'     => true,
+							'includeOrders'       => true,
+							'includeTransactions' => true,
+						),
+					),
+					'timeFrom'     => array(
+						'required'    => true,
+						'type'        => 'string',
+						'format'      => 'date-time',
+						'description' => 'Start of the export period (ISO 8601)',
+						'example'     => '2025-01-01T00:00:00Z',
+					),
+					'timeTo'       => array(
+						'required'    => true,
+						'type'        => 'string',
+						'format'      => 'date-time',
+						'description' => 'End of the export period (ISO 8601)',
+						'example'     => '2025-04-30T23:59:59Z',
+					),
 				),
 				'rate_limit'       => '1 request per 5 seconds',
 				'scopes'           => array( 'history:exports' ),
 				'example_response' => array(
 					'reportId' => 12345,
 				),
+			),
+			'list_exports'         => array(
+				'endpoint'         => '/api/v0/history/exports',
+				'method'           => 'GET',
+				'description'      => 'List previously requested CSV exports',
+				'parameters'       => array(),
+				'rate_limit'       => '1 request per 5 seconds',
+				'scopes'           => array( 'history:exports' ),
+				'example_response' => array(
+					array(
+						'reportId'   => 12345,
+						'status'     => 'Finished',
+						'downloadLink' => 'https://...',
+					),
+				),
+			),
+			'download_export'      => array(
+				'endpoint'         => '/api/v0/history/exports/{reportId}',
+				'method'           => 'GET',
+				'description'      => 'Download a specific CSV export by report ID',
+				'parameters'       => array(
+					'reportId' => array(
+						'required'    => true,
+						'type'        => 'integer',
+						'description' => 'Report ID returned by request_report',
+						'example'     => 12345,
+					),
+				),
+				'rate_limit'       => '1 request per 5 seconds',
+				'scopes'           => array( 'history:exports' ),
+				'example_response' => null,
 			),
 		);
 	}
@@ -691,7 +928,7 @@ class TradePress_Trading212_Endpoints {
 	 *
 	 * @param string $endpoint_name The name of the endpoint
 	 * @return array|false Endpoint configuration or false if not found
-	 * @version 1.0.0
+	 * @version 1.1.0
 	 */
 	public static function get_endpoint( $endpoint_name ) {
 		$endpoints = self::get_endpoints();
@@ -705,7 +942,7 @@ class TradePress_Trading212_Endpoints {
 	 * @param array  $params Parameters to include in the URL
 	 * @param string $base_url Base API URL
 	 * @return string Complete endpoint URL
-	 * @version 1.0.0
+	 * @version 1.1.0
 	 */
 	public static function get_endpoint_url( $endpoint_name, $params = array(), $base_url = '' ) {
 		$endpoint = self::get_endpoint( $endpoint_name );
@@ -715,7 +952,9 @@ class TradePress_Trading212_Endpoints {
 		}
 
 		if ( empty( $base_url ) ) {
-			$base_url = 'https://t212public-api.com'; // Placeholder URL - replace with actual base URL
+			// Use live or demo base URL depending on account mode setting.
+			$demo_mode = get_option( 'tradepress_trading212_demo_mode', 'yes' );
+			$base_url  = ( $demo_mode === 'yes' ) ? 'https://demo.trading212.com' : 'https://live.trading212.com';
 		}
 
 		$url = $base_url . $endpoint['endpoint'];

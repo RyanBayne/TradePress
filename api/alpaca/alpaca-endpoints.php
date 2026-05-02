@@ -256,7 +256,7 @@ class TradePress_Alpaca_Endpoints {
 						'required'    => false,
 						'type'        => 'string',
 						'description' => 'Time period of data',
-						'enum'        => array( '1D', '1W', '1M', '3M', '6M', '1A', 'all' ),
+						'enum'        => array( '1D', '1W', '1M', '3M', '6M', '1Y', 'all' ),
 						'example'     => '1M',
 					),
 					'timeframe'      => array(
@@ -627,8 +627,8 @@ class TradePress_Alpaca_Endpoints {
 						'required'    => true,
 						'type'        => 'string',
 						'description' => 'Bar timeframe',
-						'enum'        => array( '1Min', '5Min', '15Min', '30Min', '1Hour', '1Day', '1Week', '1Month' ),
-						'example'     => '1Day',
+						'enum'        => array( '1Min', '5Min', '15Min', '30Min', '1H', '1D', '1W', '1M' ),
+						'example'     => '1D',
 					),
 					'start'     => array(
 						'required'    => false,

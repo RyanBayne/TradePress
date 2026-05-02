@@ -34,23 +34,37 @@ if ( ! isset( $explorer_data_types ) || ! is_array( $explorer_data_types ) ) {
 		<div class="data-explorer-form">
 			<?php
 			// Generate unique form ID to avoid duplicate IDs when multiple instances are loaded
-			$form_id = 'data-explorer-form-' . esc_attr( $api_id ) . '-' . uniqid();
+			$form_id     = 'data-explorer-form-' . esc_attr( $api_id ) . '-' . uniqid();
+			$symbol_id   = 'data-explorer-symbol-' . esc_attr( $api_id ) . '-' . uniqid();
+			$endpoint_id = 'data-explorer-endpoint-' . esc_attr( $api_id ) . '-' . uniqid();
 			?>
 			<form method="post" id="<?php echo esc_attr( $form_id ); ?>">
 				<div class="symbol-input">
-					<label for="data-explorer-symbol-<?php echo esc_attr( $api_id ); ?>-<?php echo uniqid(); ?>"><?php esc_html_e( 'Symbol', 'tradepress' ); ?></label>
-					<input type="text" id="data-explorer-symbol-<?php echo esc_attr( $api_id ); ?>-<?php echo uniqid(); ?>" name="symbol" placeholder="Enter symbol (e.g. AAPL.US)" class="regular-text">
+					<label for="<?php echo esc_attr( $symbol_id ); ?>"><?php esc_html_e( 'Symbol', 'tradepress' ); ?></label>
+					<input type="text" id="<?php echo esc_attr( $symbol_id ); ?>" name="symbol" placeholder="Enter symbol (e.g. AAPL.US)" class="regular-text">
 				</div>
 
 				<div class="endpoint-select">
-					<label for="data-explorer-endpoint-<?php echo esc_attr( $api_id ); ?>-<?php echo uniqid(); ?>"><?php esc_html_e( 'Endpoint', 'tradepress' ); ?></label>
-					<select id="data-explorer-endpoint-<?php echo esc_attr( $api_id ); ?>-<?php echo uniqid(); ?>" name="endpoint" class="regular-text">
+					<label for="<?php echo esc_attr( $endpoint_id ); ?>"><?php esc_html_e( 'Endpoint', 'tradepress' ); ?></label>
+					<select id="<?php echo esc_attr( $endpoint_id ); ?>" name="endpoint" class="regular-text">
 						<option value=""><?php esc_html_e( '-- Select Endpoint --', 'tradepress' ); ?></option>
-						<?php foreach ( $endpoints as $key => $endpoint ) : ?>
-							<?php if ( $endpoint['status'] === 'active' ) : ?>
-							<option value="<?php echo esc_attr( $endpoint['name'] ); ?>"><?php echo esc_html( $endpoint['name'] ); ?></option>
-							<?php endif; ?>
-						<?php endforeach; ?>
+						<?php if ( ! empty( $endpoints ) && is_array( $endpoints ) ) : ?>
+							<?php foreach ( $endpoints as $endpoint ) : ?>
+								<?php
+								$endpoint_status = isset( $endpoint['status'] ) ? $endpoint['status'] : 'unknown';
+								if ( in_array( $endpoint_status, array( 'inactive', 'outage' ), true ) ) {
+									continue;
+								}
+
+								$endpoint_key   = isset( $endpoint['key'] ) ? $endpoint['key'] : $endpoint['name'];
+								$endpoint_label = isset( $endpoint['name'] ) ? $endpoint['name'] : $endpoint_key;
+								if ( ! empty( $endpoint['endpoint'] ) ) {
+									$endpoint_label .= ' - ' . $endpoint['endpoint'];
+								}
+								?>
+								<option value="<?php echo esc_attr( $endpoint_key ); ?>"><?php echo esc_html( $endpoint_label ); ?></option>
+							<?php endforeach; ?>
+						<?php endif; ?>
 					</select>
 				</div>
 
