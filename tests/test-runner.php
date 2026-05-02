@@ -505,6 +505,337 @@ class TradePress_Test_Runner {
             });
         }(jQuery));
         </script>
+            /**
+             * Render Scoring Directives tab.
+             *
+             * @version 1.0.0
+             */
+            private function render_directives_tab() {
+                echo '<h2>' . esc_html( $this->tabs['directives']['title'] ) . '</h2>';
+                echo '<p class="description">' . esc_html( $this->tabs['directives']['description'] ) . '</p>';
+
+                echo '<div class="test-controls" style="margin: 20px 0;">';
+                echo '<button id="run-directive-tests" class="button button-primary">';
+                echo esc_html( $this->ref( __( 'Run All Directive Tests', 'tradepress' ), 'BUT05' ) );
+                echo '</button> ';
+                echo '<button id="clear-directive-results" class="button" style="display:none">';
+                echo esc_html__( 'Clear Results', 'tradepress' );
+                echo '</button>';
+                echo '</div>';
+
+                echo '<div id="directive-progress" style="display:none;margin-bottom:10px;font-size:13px;color:#555;"></div>';
+                echo '<div id="directive-test-results">';
+                echo '<p><em>' . esc_html__( 'Click "Run All Directive Tests" to test every scoring directive against dummy data.', 'tradepress' ) . '</em></p>';
+                echo '</div>';
+                ?>
+                <style>
+                /* ── Directive Test Table ─────────────────────────────────── */
+                .tp-dir-table { border-collapse: collapse; width: 100%; font-size: 13px; margin-top: 4px; }
+                .tp-dir-table th { background: #f0f0f1; padding: 8px 12px; text-align: left; border-bottom: 2px solid #ccc; font-size: 12px; }
+                .tp-dir-table td { padding: 7px 12px; border-bottom: 1px solid #e0e0e0; vertical-align: middle; }
+                .tp-dir-table tr.tp-dir-pass td   { background: #f0fff4; }
+                .tp-dir-table tr.tp-dir-fail td   { background: #fff5f5; }
+                .tp-dir-table tr.tp-dir-ready td  { background: #f0f7ff; }
+                .tp-dir-table tr.tp-dir-pending td { color: #999; font-style: italic; }
+                .tp-dir-data-row { cursor: default; }
+                .tp-dir-data-row.is-expandable { cursor: pointer; }
+                .tp-dir-data-row.is-expandable:hover td { filter: brightness(0.97); }
+                .tp-dir-detail-row td { padding: 0 !important; background: #fafafa !important; border-bottom: 2px solid #c8d4e0 !important; }
+                /* ── Badges ──────────────────────────────────────────────── */
+                .tp-dir-badge { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+                .tp-dir-badge.tested      { background: #d1fae5; color: #065f46; }
+                .tp-dir-badge.ready       { background: #dbeafe; color: #1e3a5f; }
+                .tp-dir-badge.development { background: #fef9c3; color: #713f12; }
+                .tp-dir-badge.unknown     { background: #f0f0f1; color: #666; }
+                .tp-dir-badge.pending     { background: #f0f0f1; color: #999; }
+                .tp-dir-badge.error       { background: #fee2e2; color: #991b1b; }
+                /* ── Chevron ─────────────────────────────────────────────── */
+                .tp-dir-chevron { font-size: 10px; color: #888; display: inline-block; transition: transform 0.18s; user-select: none; }
+                .tp-dir-chevron.open { transform: rotate(90deg); }
+                /* ── Summary / Progress ──────────────────────────────────── */
+                .tp-dir-summary { padding: 10px 14px; font-weight: 600; background: #f0f0f1; border-top: 2px solid #ccc; font-size: 13px; display: flex; gap: 16px; flex-wrap: wrap; }
+                .tp-dir-summary span { font-weight: normal; }
+                .tp-dir-progress-bar { height: 4px; background: #e0e0e0; border-radius: 2px; margin-bottom: 8px; overflow: hidden; }
+                .tp-dir-progress-bar-fill { height: 100%; background: #2271b1; border-radius: 2px; transition: width 0.2s; }
+                /* ── Accordion Panel ─────────────────────────────────────── */
+                .tp-dir-panel { padding: 14px 18px; display: flex; flex-direction: column; gap: 12px; }
+                /* ── Step Boxes ──────────────────────────────────────────── */
+                .tp-dir-steps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 7px; }
+                .tp-dir-step-box { display: flex; align-items: flex-start; gap: 8px; padding: 8px 10px; border-radius: 4px; border: 1px solid; }
+                .tp-dir-step-box.step-pass { background: #f0fdf4; border-color: #bbf7d0; }
+                .tp-dir-step-box.step-fail { background: #fff1f2; border-color: #fecdd3; }
+                .step-icon { font-size: 14px; font-weight: 700; line-height: 1.4; flex-shrink: 0; }
+                .step-pass .step-icon { color: #16a34a; }
+                .step-fail .step-icon { color: #dc2626; }
+                .step-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; color: #333; }
+                .step-detail { font-size: 11px; color: #666; margin-top: 2px; word-break: break-all; }
+                .step-detail code { font-size: 10px; color: #555; background: rgba(0,0,0,.04); padding: 1px 3px; border-radius: 2px; }
+                /* ── Math Box ────────────────────────────────────────────── */
+                .tp-dir-math-box { border: 1px solid #dde3ea; border-radius: 4px; overflow: hidden; }
+                .tp-dir-math-head { background: #eef2f7; padding: 5px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #444; border-bottom: 1px solid #dde3ea; }
+                .tp-dir-math-inner { display: flex; }
+                .tp-dir-math-input  { flex: 1; padding: 10px 14px; border-right: 1px solid #dde3ea; min-width: 0; }
+                .tp-dir-math-output { width: 200px; flex-shrink: 0; padding: 10px 14px; }
+                .tp-dir-math-sub { font-size: 11px; font-weight: 600; color: #666; margin-bottom: 6px; }
+                .tp-dir-input-tbl { font-size: 11px; border-collapse: collapse; width: 100%; }
+                .tp-dir-input-tbl td { padding: 2px 5px; border: none; }
+                .tp-dir-input-tbl td:first-child { color: #999; width: 130px; }
+                .tp-dir-input-tbl td:last-child  { font-weight: 500; color: #333; font-family: monospace; font-size: 11px; }
+                .tp-dir-score-display { font-size: 30px; font-weight: 700; line-height: 1.2; margin: 6px 0 2px; }
+                .score-sep, .score-max { font-size: 16px; color: #aaa; font-weight: 400; }
+                .score-pct { font-size: 12px; color: #888; margin-bottom: 8px; }
+                .tp-dir-score-bar { height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; }
+                .tp-dir-score-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+                /* ── Issues ──────────────────────────────────────────────── */
+                .tp-dir-panel-issues { background: #fff5f5; border: 1px solid #fecaca; border-radius: 4px; padding: 8px 12px; }
+                .tp-dir-panel-issues ul { margin: 4px 0 0 16px; padding: 0; font-size: 12px; color: #991b1b; }
+                </style>
+                <script>
+                (function($) {
+                    var ajaxUrl = <?php echo wp_json_encode( admin_url( 'admin-ajax.php' ) ); ?>;
+                    var nonce   = <?php echo wp_json_encode( wp_create_nonce( 'tradepress_tests' ) ); ?>;
+                    var counts  = { tested: 0, ready: 0, development: 0, error: 0, done: 0, total: 0 };
+
+                    function esc(str) { return $('<span>').text(String(str)).html(); }
+
+                    function badge(status) {
+                        return '<span class="tp-dir-badge ' + esc(status) + '">' + esc(status) + '</span>';
+                    }
+
+                    // Human-readable metadata for each test step key.
+                    var stepMeta = {
+                        class_file:    { label: 'Class File',        desc: function(r) { var d = r.detail || {}; return d.class_file_path ? '<code>' + esc(d.class_file_path) + '</code>' : 'File not found'; } },
+                        config_form:   { label: 'Config Form',       desc: function()  { return 'Admin UI partial file'; } },
+                        class_found:   { label: 'Class Declared',    desc: function(r) { var d = r.detail || {}; return d.class_name ? '<code>' + esc(d.class_name) + '</code>' : 'No class detected'; } },
+                        instantiation: { label: 'Instantiation',     desc: function()  { return 'new ClassName() succeeded'; } },
+                        has_calculate: { label: 'calculate_score()', desc: function()  { return 'Method exists on class'; } },
+                        has_max_score: { label: 'get_max_score()',   desc: function()  { return 'Method exists on class'; } },
+                        scoring_runs:  { label: 'Scoring Executes',  desc: function(r) { var d = r.detail || {}; return (d.score_value !== null && d.score_value !== undefined) ? 'Returned: <strong>' + esc(String(d.score_value)) + '</strong>' : 'Returned a valid type'; } }
+                    };
+
+                    function fmtNum(n) { return Number(n).toLocaleString(); }
+
+                    // Build the full detail accordion panel for one directive result.
+                    function renderDetailPanel(r) {
+                        var detail = r.detail  || {};
+                        var tests  = r.tests   || {};
+                        var issues = r.issues  || [];
+                        var di     = detail.dummy_input || {};
+
+                        // ── Step boxes ─────────────────────────────────────────────
+                        var stepsHtml = '<div class="tp-dir-steps-grid">';
+                        $.each(tests, function(key, passed) {
+                            var meta     = stepMeta[key] || { label: key.replace(/_/g, ' '), desc: function() { return ''; } };
+                            var descHtml = meta.desc(r);
+                            stepsHtml += '<div class="tp-dir-step-box ' + (passed ? 'step-pass' : 'step-fail') + '">';
+                            stepsHtml += '<div class="step-icon">' + (passed ? '&#10003;' : '&#10007;') + '</div>';
+                            stepsHtml += '<div class="step-body">';
+                            stepsHtml += '<div class="step-label">' + esc(meta.label) + '</div>';
+                            if (descHtml) { stepsHtml += '<div class="step-detail">' + descHtml + '</div>'; }
+                            stepsHtml += '</div></div>';
+                        });
+                        stepsHtml += '</div>';
+
+                        // ── Score math panel ────────────────────────────────────────
+                        var mathHtml = '';
+                        if (detail.score_value !== null && detail.score_value !== undefined) {
+                            var pct      = detail.score_percent || 0;
+                            var barColor = pct >= 75 ? '#16a34a' : pct >= 50 ? '#2271b1' : pct >= 25 ? '#b45309' : '#dc2626';
+                            mathHtml += '<div class="tp-dir-math-box">';
+                            mathHtml += '<div class="tp-dir-math-head">Score Calculation</div>';
+                            mathHtml += '<div class="tp-dir-math-inner">';
+                            // Left column — input data
+                            mathHtml += '<div class="tp-dir-math-input">';
+                            mathHtml += '<div class="tp-dir-math-sub">Dummy Input <em>(NVDA)</em></div>';
+                            mathHtml += '<table class="tp-dir-input-tbl">';
+                            if (di.price            !== undefined) { mathHtml += '<tr><td>Price</td><td>$' + esc(di.price) + '</td></tr>'; }
+                            if (di.rsi              !== undefined) { mathHtml += '<tr><td>RSI (14)</td><td>' + esc(di.rsi) + '</td></tr>'; }
+                            if (di.macd_histogram   !== undefined) { mathHtml += '<tr><td>MACD Histogram</td><td>' + esc(di.macd_histogram) + '</td></tr>'; }
+                            if (di.macd_signal      !== undefined) { mathHtml += '<tr><td>MACD Signal</td><td>' + esc(di.macd_signal) + '</td></tr>'; }
+                            if (di.volume          !== undefined) { mathHtml += '<tr><td>Volume</td><td>' + fmtNum(di.volume) + '</td></tr>'; }
+                            if (di.avg_volume      !== undefined && di.volume !== undefined) {
+                                var volPct = Math.round((di.volume / di.avg_volume - 1) * 100);
+                                mathHtml += '<tr><td>Avg Volume</td><td>' + fmtNum(di.avg_volume) + ' <em style="color:#888">(vol ' + (volPct >= 0 ? '+' : '') + volPct + '%)</em></td></tr>';
+                            }
+                            if (di.sma_50          !== undefined) { mathHtml += '<tr><td>SMA 50</td><td>' + esc(di.sma_50) + '</td></tr>'; }
+                            if (di.ema_20          !== undefined) { mathHtml += '<tr><td>EMA 20</td><td>' + esc(di.ema_20) + '</td></tr>'; }
+                            if (di.bollinger_lower !== undefined) {
+                                mathHtml += '<tr><td>Bollinger Band</td><td>' + esc(di.bollinger_lower) + ' / <strong>' + esc(di.bollinger_middle) + '</strong> / ' + esc(di.bollinger_upper) + '</td></tr>';
+                            }
+                            if (di.earnings_days   !== undefined) { mathHtml += '<tr><td>Earnings</td><td>' + esc(di.earnings_days) + ' days out</td></tr>'; }
+                            if (di.pe_ratio        !== undefined) { mathHtml += '<tr><td>P/E Ratio</td><td>' + esc(di.pe_ratio) + '</td></tr>'; }
+                            mathHtml += '</table></div>';
+                            // Right column — score result
+                            mathHtml += '<div class="tp-dir-math-output">';
+                            mathHtml += '<div class="tp-dir-math-sub">Score Result</div>';
+                            mathHtml += '<div class="tp-dir-score-display">';
+                            mathHtml += '<span class="score-num" style="color:' + barColor + '">' + esc(detail.score_value) + '</span>';
+                            mathHtml += '<span class="score-sep"> / </span>';
+                            mathHtml += '<span class="score-max">' + esc(detail.max_score_value) + '</span>';
+                            mathHtml += '</div>';
+                            mathHtml += '<div class="score-pct">' + esc(pct) + '%</div>';
+                            mathHtml += '<div class="tp-dir-score-bar"><div class="tp-dir-score-bar-fill" style="width:' + Math.min(pct, 100) + '%;background:' + barColor + '"></div></div>';
+                            mathHtml += '</div>';
+                            mathHtml += '</div></div>'; // close math-inner + math-box
+                        }
+
+                        // ── Issues ─────────────────────────────────────────────────
+                        var issuesHtml = '';
+                        if (issues.length) {
+                            issuesHtml += '<div class="tp-dir-panel-issues">';
+                            issuesHtml += '<strong style="color:#991b1b">&#9888; Issues</strong>';
+                            issuesHtml += '<ul>';
+                            $.each(issues, function(i, issue) { issuesHtml += '<li>' + esc(issue) + '</li>'; });
+                            issuesHtml += '</ul></div>';
+                        }
+
+                        return '<div class="tp-dir-panel">' + stepsHtml + mathHtml + issuesHtml + '</div>';
+                    }
+
+                    function updateSummary() {
+                        var $s = $('#tp-dir-summary-bar');
+                        $s.html(
+                            '<strong><?php echo esc_js( __( 'Total:', 'tradepress' ) ); ?></strong> <span>' + counts.total + '</span>' +
+                            '&nbsp;&nbsp;<strong style="color:#065f46"><?php echo esc_js( __( 'Tested:', 'tradepress' ) ); ?></strong> <span>' + counts.tested + '</span>' +
+                            '&nbsp;&nbsp;<strong style="color:#1e3a5f"><?php echo esc_js( __( 'Ready:', 'tradepress' ) ); ?></strong> <span>' + counts.ready + '</span>' +
+                            '&nbsp;&nbsp;<strong style="color:#713f12"><?php echo esc_js( __( 'Development:', 'tradepress' ) ); ?></strong> <span>' + counts.development + '</span>' +
+                            (counts.error ? '&nbsp;&nbsp;<strong style="color:#991b1b"><?php echo esc_js( __( 'Error:', 'tradepress' ) ); ?></strong> <span>' + counts.error + '</span>' : '')
+                        );
+                    }
+
+                    function updateProgress() {
+                        var pct = counts.total ? Math.round((counts.done / counts.total) * 100) : 0;
+                        $('#tp-dir-progress-fill').css('width', pct + '%');
+                        $('#directive-progress').text(
+                            '<?php echo esc_js( __( 'Testing', 'tradepress' ) ); ?> ' + counts.done + ' / ' + counts.total +
+                            (counts.done < counts.total ? ' — <?php echo esc_js( __( 'please wait\u2026', 'tradepress' ) ); ?>' : ' — <?php echo esc_js( __( 'complete', 'tradepress' ) ); ?>')
+                        );
+                    }
+
+                    function testDirective(id, $row) {
+                        return $.ajax({
+                            url: ajaxUrl,
+                            method: 'POST',
+                            data: { action: 'tradepress_run_tests', nonce: nonce, test_suite: 'directive_single', directive_id: id }
+                        }).then(function(response) {
+                            counts.done++;
+                            var $detailRow = $row.next('.tp-dir-detail-row');
+                            if (response.success && response.data) {
+                                var r      = response.data;
+                                var status = r.recommended_status || 'error';
+                                counts[status] = (counts[status] || 0) + 1;
+                                var rowClass = 'tp-dir-' + (status === 'tested' ? 'pass' : status === 'ready' ? 'ready' : 'fail');
+                                $row.removeClass('tp-dir-pending').addClass(rowClass + ' is-expandable');
+                                $row.find('.tp-dir-result-cell').html(badge(status));
+                                $row.find('.tp-dir-toggle-cell').html('<span class="tp-dir-chevron">&#9654;</span>');
+                                $detailRow.find('.tp-dir-panel-wrap').html(renderDetailPanel(r));
+                            } else {
+                                var errMsg = (response && response.data) ? response.data : 'Request failed';
+                                counts.error++;
+                                $row.removeClass('tp-dir-pending').addClass('tp-dir-fail is-expandable');
+                                $row.find('.tp-dir-result-cell').html(badge('error'));
+                                $row.find('.tp-dir-toggle-cell').html('<span class="tp-dir-chevron">&#9654;</span>');
+                                $detailRow.find('.tp-dir-panel-wrap').html(renderDetailPanel({ tests: {}, issues: [errMsg], detail: {} }));
+                            }
+                            updateProgress();
+                            updateSummary();
+                        }, function() {
+                            counts.done++;
+                            counts.error++;
+                            $row.removeClass('tp-dir-pending').addClass('tp-dir-fail is-expandable');
+                            $row.find('.tp-dir-result-cell').html(badge('error'));
+                            $row.find('.tp-dir-toggle-cell').html('<span class="tp-dir-chevron">&#9654;</span>');
+                            $row.next('.tp-dir-detail-row').find('.tp-dir-panel-wrap').html(renderDetailPanel({ tests: {}, issues: ['AJAX error'], detail: {} }));
+                            updateProgress();
+                            updateSummary();
+                        });
+                    }
+
+                    // Accordion: clicking an expandable row toggles the detail row below it.
+                    $('#directive-test-results').on('click', '.tp-dir-data-row.is-expandable', function() {
+                        var $row    = $(this);
+                        var $detail = $row.next('.tp-dir-detail-row');
+                        var isOpen  = $detail.is(':visible');
+                        $detail.toggle(!isOpen);
+                        $row.find('.tp-dir-chevron').toggleClass('open', !isOpen);
+                    });
+
+                    $('#run-directive-tests').on('click', function() {
+                        var $btn = $(this);
+                        $btn.prop('disabled', true).text('<?php echo esc_js( __( 'Loading directives\u2026', 'tradepress' ) ); ?>');
+                        $('#clear-directive-results').hide();
+                        $('#directive-progress').show();
+                        counts = { tested: 0, ready: 0, development: 0, error: 0, done: 0, total: 0 };
+
+                        // Step 1: load directive list
+                        $.ajax({
+                            url: ajaxUrl, method: 'POST',
+                            data: { action: 'tradepress_run_tests', nonce: nonce, test_suite: 'directives_list' }
+                        }).then(function(resp) {
+                            if (!resp.success || !resp.data || !resp.data.directives) {
+                                $('#directive-test-results').html('<div class="notice notice-error"><p><?php echo esc_js( __( 'Could not load directive list.', 'tradepress' ) ); ?></p></div>');
+                                $btn.prop('disabled', false).text('<?php echo esc_js( __( 'Run All Directive Tests', 'tradepress' ) ); ?>');
+                                return;
+                            }
+                            var directives = resp.data.directives;
+                            counts.total   = directives.length;
+
+                            // Step 2: render skeleton table (no Tests/Issues columns — replaced by accordion)
+                            var html  = '<div class="tp-dir-progress-bar"><div id="tp-dir-progress-fill" class="tp-dir-progress-bar-fill" style="width:0%"></div></div>';
+                            html += '<table class="tp-dir-table"><thead><tr>';
+                            html += '<th style="width:60px"><?php echo esc_js( __( 'Code', 'tradepress' ) ); ?></th>';
+                            html += '<th><?php echo esc_js( __( 'Directive', 'tradepress' ) ); ?></th>';
+                            html += '<th style="width:110px"><?php echo esc_js( __( 'Declared', 'tradepress' ) ); ?></th>';
+                            html += '<th style="width:100px"><?php echo esc_js( __( 'Result', 'tradepress' ) ); ?></th>';
+                            html += '<th style="width:26px"></th>';
+                            html += '</tr></thead><tbody>';
+                            $.each(directives, function(i, d) {
+                                // Data row
+                                html += '<tr class="tp-dir-pending tp-dir-data-row" data-directive-id="' + esc(d.id) + '">';
+                                html += '<td><code>' + esc(d.code) + '</code></td>';
+                                html += '<td><strong>' + esc(d.name) + '</strong><br><code style="font-size:11px;color:#888">' + esc(d.id) + '</code></td>';
+                                html += '<td>' + badge(d.development_status || 'unknown') + '</td>';
+                                html += '<td class="tp-dir-result-cell">' + badge('pending') + '</td>';
+                                html += '<td class="tp-dir-toggle-cell" style="text-align:center"></td>';
+                                html += '</tr>';
+                                // Hidden detail row — filled after each directive test completes
+                                html += '<tr class="tp-dir-detail-row" style="display:none"><td colspan="5"><div class="tp-dir-panel-wrap"></div></td></tr>';
+                            });
+                            html += '</tbody></table>';
+                            html += '<div class="tp-dir-summary" id="tp-dir-summary-bar"></div>';
+                            $('#directive-test-results').html(html);
+                            updateProgress();
+                            updateSummary();
+                            $btn.text('<?php echo esc_js( __( 'Testing\u2026', 'tradepress' ) ); ?>');
+
+                            // Step 3: test each directive sequentially, one AJAX call at a time
+                            var chain = $.Deferred().resolve();
+                            $.each(directives, function(i, d) {
+                                chain = chain.then(function() {
+                                    var $row = $('tr.tp-dir-data-row[data-directive-id="' + d.id + '"]');
+                                    return testDirective(d.id, $row);
+                                });
+                            });
+                            chain.always(function() {
+                                $btn.prop('disabled', false).text('<?php echo esc_js( __( 'Run All Directive Tests', 'tradepress' ) ); ?>');
+                                $('#clear-directive-results').show();
+                            });
+
+                        }, function() {
+                            $('#directive-test-results').html('<div class="notice notice-error"><p><?php echo esc_js( __( 'AJAX request failed loading directive list.', 'tradepress' ) ); ?></p></div>');
+                            $btn.prop('disabled', false).text('<?php echo esc_js( __( 'Run All Directive Tests', 'tradepress' ) ); ?>');
+                        });
+                    });
+
+                    $('#clear-directive-results').on('click', function() {
+                        $(this).hide();
+                        $('#directive-progress').hide();
+                        $('#directive-test-results').html('<p><em><?php echo esc_js( __( 'Click "Run All Directive Tests" to test every scoring directive against dummy data.', 'tradepress' ) ); ?></em></p>');
+                    });
+                }(jQuery));
+                </script>
+                <?php
+            }
         <?php
     }
 
