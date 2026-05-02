@@ -15,13 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <div class="wrap tradepress-sees-diagnostics-wrap">
-	<h2><?php esc_html_e( 'SEES Diagnostics Lab', 'tradepress' ); ?></h2>
-	<p class="description">
-		<?php esc_html_e( 'Diagnostic workspace for understanding score calculations and decision flow. This is intended for focused debugging, not full-market monitoring.', 'tradepress' ); ?>
-	</p>
 
 	<div class="tradepress-data-status-panel" data-mode="dev-only-demo" data-health="not_applicable">
-		<h3><?php esc_html_e( 'SEES Diagnostics Data Status', 'tradepress' ); ?></h3>
 		<table class="widefat fixed striped">
 			<tbody>
 				<tr>
