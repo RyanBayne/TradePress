@@ -39,9 +39,9 @@ $active_directives = array_filter(
 			<div class="template-selection">
 				<select id="strategy-template" class="regular-text">
 					<option value=""><?php esc_html_e( 'Custom Strategy (No Template)', 'tradepress' ); ?></option>
-					<option value="basic_weekly_rhythm"><?php esc_html_e( 'Basic Weekly Rhythm Strategy', 'tradepress' ); ?></option>
-					<option value="advanced_temporal"><?php esc_html_e( 'Advanced Temporal Strategy', 'tradepress' ); ?></option>
-					<option value="quick_weekly_setup"><?php esc_html_e( 'Quick Weekly Setup', 'tradepress' ); ?></option>
+					<option value="momentum_confluence"><?php esc_html_e( 'Momentum Confluence', 'tradepress' ); ?></option>
+					<option value="mean_reversion"><?php esc_html_e( 'Mean Reversion', 'tradepress' ); ?></option>
+					<option value="trend_strength"><?php esc_html_e( 'Trend Strength', 'tradepress' ); ?></option>
 				</select>
 				<p class="description" id="template-description"><?php esc_html_e( 'Select a pre-configured strategy template or build a custom strategy from scratch.', 'tradepress' ); ?></p>
 			</div>
@@ -395,25 +395,25 @@ jQuery(document).ready(function($) {
 	
 	// Strategy templates configuration
 	const strategyTemplates = {
-		basic_weekly_rhythm: {
-			name: 'Basic Weekly Rhythm Strategy',
-			description: 'Focuses on weekly market patterns using Monday Effect, Midweek Momentum, and Volume Rhythm directives. Ideal for swing trading strategies.',
-			recommended: ['monday_effect', 'midweek_momentum', 'volume_rhythm'],
-			weights: { monday_effect: 35, midweek_momentum: 35, volume_rhythm: 30 },
+		momentum_confluence: {
+			name: 'Momentum Confluence',
+			description: 'Identifies oversold momentum entries confirmed by MACD crossover, volume surge, and price above EMA. Best for swing trading growth stocks.',
+			recommended: ['rsi', 'macd', 'volume', 'ema'],
+			weights: { rsi: 30, macd: 30, volume: 25, ema: 15 },
 			apiRequirements: ['alpha_vantage']
 		},
-		advanced_temporal: {
-			name: 'Advanced Temporal Strategy',
-			description: 'Comprehensive strategy using all 7 weekly rhythm directives. Requires multiple API platforms for full functionality.',
-			recommended: ['monday_effect', 'friday_positioning', 'midweek_momentum', 'volume_rhythm', 'institutional_timing', 'intraday_u_pattern', 'time_based_support'],
-			weights: { monday_effect: 15, friday_positioning: 15, midweek_momentum: 15, volume_rhythm: 15, institutional_timing: 15, intraday_u_pattern: 12, time_based_support: 13 },
-			apiRequirements: ['alpha_vantage', 'finnhub', 'alpaca']
+		mean_reversion: {
+			name: 'Mean Reversion',
+			description: 'Identifies oversold conditions from multiple angles using RSI, Bollinger Bands, CCI, and MFI volume-weighted confirmation. Best for ranging markets.',
+			recommended: ['rsi', 'bollinger_bands', 'cci', 'mfi'],
+			weights: { rsi: 35, bollinger_bands: 30, cci: 20, mfi: 15 },
+			apiRequirements: ['alpha_vantage']
 		},
-		quick_weekly_setup: {
-			name: 'Quick Weekly Setup',
-			description: 'Uses composite directives for fast configuration. Perfect for users who want pre-balanced weekly rhythm strategies.',
-			recommended: ['basic_weekly_rhythm', 'advanced_weekly_rhythm'],
-			weights: { basic_weekly_rhythm: 60, advanced_weekly_rhythm: 40 },
+		trend_strength: {
+			name: 'Trend Strength',
+			description: 'Confirms a strong trend exists before entering. ADX measures trend strength, moving averages confirm direction, MACD confirms momentum, volume confirms participation.',
+			recommended: ['adx', 'moving_averages', 'macd', 'volume'],
+			weights: { adx: 30, moving_averages: 30, macd: 25, volume: 15 },
 			apiRequirements: ['alpha_vantage']
 		}
 	};
@@ -456,18 +456,15 @@ jQuery(document).ready(function($) {
 			$(`.directive-item[data-directive-id="${directiveId}"]`).addClass('template-recommended');
 		});
 		
-		// Check API requirements and disable if not met
+		// Check API requirements
 		if (template.apiRequirements.includes('finnhub') || template.apiRequirements.includes('alpaca')) {
-			// For demo purposes, show as disabled for advanced requirements
-			if (template.name.includes('Advanced')) {
-				template.recommended.forEach(directiveId => {
-					if (['intraday_u_pattern', 'time_based_support'].includes(directiveId)) {
-						$(`.directive-item[data-directive-id="${directiveId}"]`)
-							.removeClass('template-recommended')
-							.addClass('template-disabled');
-					}
-				});
-			}
+			// Disable directives that require unavailable APIs
+			template.recommended.forEach(directiveId => {
+				const $item = $(`.directive-item[data-directive-id="${directiveId}"]`);
+				if ($item.hasClass('template-disabled')) {
+					$item.removeClass('template-recommended');
+				}
+			});
 		}
 		
 		// Auto-add recommended directives with template weights

@@ -17,7 +17,7 @@ class TradePress_Sample_Strategies {
 	/**
 	 * Create sample strategies
 	 *
-	 * @version 1.0.0
+	 * @version 1.1.0
 	 */
 	public static function create_sample_strategies() {
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-scoring-strategies-db.php';
@@ -28,87 +28,25 @@ class TradePress_Sample_Strategies {
 			return; // Sample strategies already exist
 		}
 
-		// Create Conservative Growth Strategy
-		self::create_conservative_growth_strategy();
-
-		// Create Momentum Trading Strategy
-		self::create_momentum_trading_strategy();
-
-		// Create Value + Technical Strategy
-		self::create_value_technical_strategy();
+		self::create_momentum_confluence_strategy();
+		self::create_mean_reversion_strategy();
+		self::create_trend_strength_strategy();
 	}
 
 	/**
-	 * Create Conservative Growth Strategy
+	 * Create Momentum Confluence Strategy
 	 *
-	 * @version 1.0.0
+	 * Oversold RSI + bullish MACD crossover + volume surge + price above EMA.
+	 * All four directives have working PHP implementations.
+	 *
+	 * @version 1.1.0
 	 */
-	private static function create_conservative_growth_strategy() {
+	private static function create_momentum_confluence_strategy() {
 		$strategy_data = array(
-			'name'         => 'Conservative Growth',
-			'description'  => 'Low-risk strategy focusing on stable growth with RSI and trend confirmation',
-			'category'     => 'conservative-growth',
+			'name'         => 'Momentum Confluence',
+			'description'  => 'Identifies oversold momentum entries confirmed by MACD crossover, volume surge, and price above EMA. Best for swing trading growth stocks.',
+			'category'     => 'momentum_confluence',
 			'status'       => 'active',
-			'risk_level'   => 'low',
-			'time_horizon' => 'long',
-			'total_weight' => 100.00,
-			'creator_id'   => 1,
-		);
-
-		$strategy_id = TradePress_Scoring_Strategies_DB::create_strategy( $strategy_data );
-
-		if ( ! is_wp_error( $strategy_id ) ) {
-			// Add directives
-			$directives = array(
-				array(
-					'directive_id'   => 'rsi',
-					'directive_name' => 'RSI',
-					'weight'         => 30.00,
-					'sort_order'     => 1,
-				),
-				array(
-					'directive_id'   => 'price_above_sma_50',
-					'directive_name' => 'Price Above SMA 50',
-					'weight'         => 25.00,
-					'sort_order'     => 2,
-				),
-				array(
-					'directive_id'   => 'volume',
-					'directive_name' => 'Volume Analysis',
-					'weight'         => 20.00,
-					'sort_order'     => 3,
-				),
-				array(
-					'directive_id'   => 'news_sentiment_positive',
-					'directive_name' => 'News Sentiment',
-					'weight'         => 15.00,
-					'sort_order'     => 4,
-				),
-				array(
-					'directive_id'   => 'isa_reset',
-					'directive_name' => 'ISA Reset',
-					'weight'         => 10.00,
-					'sort_order'     => 5,
-				),
-			);
-
-			foreach ( $directives as $directive ) {
-				TradePress_Scoring_Strategies_DB::add_strategy_directive( $strategy_id, $directive );
-			}
-		}
-	}
-
-	/**
-	 * Create Momentum Trading Strategy
-	 *
-	 * @version 1.0.0
-	 */
-	private static function create_momentum_trading_strategy() {
-		$strategy_data = array(
-			'name'         => 'Momentum Trading',
-			'description'  => 'High-momentum strategy with technical indicators and volume confirmation',
-			'category'     => 'momentum-trading',
-			'status'       => 'draft',
 			'risk_level'   => 'medium',
 			'time_horizon' => 'short',
 			'total_weight' => 100.00,
@@ -118,37 +56,30 @@ class TradePress_Sample_Strategies {
 		$strategy_id = TradePress_Scoring_Strategies_DB::create_strategy( $strategy_data );
 
 		if ( ! is_wp_error( $strategy_id ) ) {
-			// Add directives (using available ones)
 			$directives = array(
 				array(
 					'directive_id'   => 'rsi',
-					'directive_name' => 'RSI',
-					'weight'         => 25.00,
+					'directive_name' => 'Relative Strength Index',
+					'weight'         => 30.00,
 					'sort_order'     => 1,
+				),
+				array(
+					'directive_id'   => 'macd',
+					'directive_name' => 'MACD',
+					'weight'         => 30.00,
+					'sort_order'     => 2,
 				),
 				array(
 					'directive_id'   => 'volume',
 					'directive_name' => 'Volume Analysis',
 					'weight'         => 25.00,
-					'sort_order'     => 2,
-				),
-				array(
-					'directive_id'   => 'price_above_sma_50',
-					'directive_name' => 'Price Above SMA 50',
-					'weight'         => 20.00,
 					'sort_order'     => 3,
 				),
 				array(
-					'directive_id'   => 'obv',
-					'directive_name' => 'On-Balance Volume',
+					'directive_id'   => 'ema',
+					'directive_name' => 'Exponential Moving Average',
 					'weight'         => 15.00,
 					'sort_order'     => 4,
-				),
-				array(
-					'directive_id'   => 'rsi_overbought',
-					'directive_name' => 'RSI Overbought',
-					'weight'         => 15.00,
-					'sort_order'     => 5,
 				),
 			);
 
@@ -159,17 +90,76 @@ class TradePress_Sample_Strategies {
 	}
 
 	/**
-	 * Create Value + Technical Strategy
+	 * Create Mean Reversion Strategy
 	 *
-	 * @version 1.0.0
+	 * RSI + Bollinger Bands + CCI + MFI — four independent oversold signals
+	 * that must converge before scoring high. Best for ranging markets.
+	 *
+	 * @version 1.1.0
 	 */
-	private static function create_value_technical_strategy() {
+	private static function create_mean_reversion_strategy() {
 		$strategy_data = array(
-			'name'         => 'Value + Technical',
-			'description'  => 'Combines value investing principles with technical analysis for entry timing',
-			'category'     => 'value-investing',
+			'name'         => 'Mean Reversion',
+			'description'  => 'Identifies oversold conditions from multiple angles using RSI, Bollinger Bands, CCI, and MFI volume-weighted confirmation. Best for ranging markets.',
+			'category'     => 'mean_reversion',
 			'status'       => 'active',
 			'risk_level'   => 'low',
+			'time_horizon' => 'short',
+			'total_weight' => 100.00,
+			'creator_id'   => 1,
+		);
+
+		$strategy_id = TradePress_Scoring_Strategies_DB::create_strategy( $strategy_data );
+
+		if ( ! is_wp_error( $strategy_id ) ) {
+			$directives = array(
+				array(
+					'directive_id'   => 'rsi',
+					'directive_name' => 'Relative Strength Index',
+					'weight'         => 35.00,
+					'sort_order'     => 1,
+				),
+				array(
+					'directive_id'   => 'bollinger_bands',
+					'directive_name' => 'Bollinger Bands',
+					'weight'         => 30.00,
+					'sort_order'     => 2,
+				),
+				array(
+					'directive_id'   => 'cci',
+					'directive_name' => 'Commodity Channel Index',
+					'weight'         => 20.00,
+					'sort_order'     => 3,
+				),
+				array(
+					'directive_id'   => 'mfi',
+					'directive_name' => 'Money Flow Index',
+					'weight'         => 15.00,
+					'sort_order'     => 4,
+				),
+			);
+
+			foreach ( $directives as $directive ) {
+				TradePress_Scoring_Strategies_DB::add_strategy_directive( $strategy_id, $directive );
+			}
+		}
+	}
+
+	/**
+	 * Create Trend Strength Strategy
+	 *
+	 * ADX confirms a strong trend exists, moving averages confirm direction,
+	 * MACD confirms momentum, volume confirms participation.
+	 *
+	 * @version 1.1.0
+	 */
+	private static function create_trend_strength_strategy() {
+		$strategy_data = array(
+			'name'         => 'Trend Strength',
+			'description'  => 'Confirms a strong trend exists before entering. ADX measures trend strength, moving averages confirm direction, MACD confirms momentum, volume confirms participation.',
+			'category'     => 'trend_strength',
+			'status'       => 'active',
+			'risk_level'   => 'medium',
 			'time_horizon' => 'long',
 			'total_weight' => 100.00,
 			'creator_id'   => 1,
@@ -178,37 +168,30 @@ class TradePress_Sample_Strategies {
 		$strategy_id = TradePress_Scoring_Strategies_DB::create_strategy( $strategy_data );
 
 		if ( ! is_wp_error( $strategy_id ) ) {
-			// Add directives
 			$directives = array(
 				array(
-					'directive_id'   => 'support_resistance_levels',
-					'directive_name' => 'Support/Resistance Levels',
+					'directive_id'   => 'adx',
+					'directive_name' => 'Average Directional Index',
 					'weight'         => 30.00,
 					'sort_order'     => 1,
 				),
 				array(
-					'directive_id'   => 'rsi',
-					'directive_name' => 'RSI',
-					'weight'         => 25.00,
+					'directive_id'   => 'moving_averages',
+					'directive_name' => 'Moving Averages',
+					'weight'         => 30.00,
 					'sort_order'     => 2,
 				),
 				array(
-					'directive_id'   => 'obv',
-					'directive_name' => 'On-Balance Volume',
-					'weight'         => 20.00,
+					'directive_id'   => 'macd',
+					'directive_name' => 'MACD',
+					'weight'         => 25.00,
 					'sort_order'     => 3,
 				),
 				array(
-					'directive_id'   => 'news_sentiment_positive',
-					'directive_name' => 'News Sentiment',
+					'directive_id'   => 'volume',
+					'directive_name' => 'Volume Analysis',
 					'weight'         => 15.00,
 					'sort_order'     => 4,
-				),
-				array(
-					'directive_id'   => 'price_above_sma_50',
-					'directive_name' => 'Price Above SMA 50',
-					'weight'         => 10.00,
-					'sort_order'     => 5,
 				),
 			);
 
