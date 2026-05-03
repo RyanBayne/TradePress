@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Get portfolio data
+// Get portfolio data.
 $portfolio = array(
 	array(
 		'symbol'            => 'AAPL',
@@ -43,7 +43,7 @@ $portfolio = array(
 	),
 );
 
-// Calculate portfolio totals
+// Calculate portfolio totals.
 $total_cost      = 0;
 $total_value     = 0;
 $total_gain_loss = 0;

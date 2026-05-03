@@ -36,124 +36,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'TradePress_Admin_Trading_Page' ) ) :
+require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/trading/trading-page.php';
 
-	/**
-	 * TradePress_Admin_Trading_Page Class.
-	 */
-	class TradePress_Admin_Trading_Page {
-
-		/**
-		 * Current active tab.
-		 *
-		 * @var string
-		 */
-		private $active_tab = 'portfolio'; // Default to portfolio
-
-		/**
-		 * Constructor.
-		 *
-		 * @version 1.0.0
-		 */
-		public function __construct() {
-			if ( isset( $_GET['tab'] ) && array_key_exists( sanitize_key( wp_unslash( $_GET['tab'] ) ), $this->get_tabs() ) ) {
-				$this->active_tab = sanitize_key( wp_unslash( $_GET['tab'] ) );
-			} else {
-				// If the requested tab doesn't exist, default to the first available tab's key.
-				$tabs             = $this->get_tabs();
-				$this->active_tab = ! empty( $tabs ) ? key( $tabs ) : 'portfolio';
-			}
-		}
-
-		/**
-		 * Get tabs for the trading area.
-		 *
-		 * @return array
-		 * @version 1.0.0
-		 */
-		public function get_tabs() {
-
-			$tabs = array(
-				'trading-strategies' => __( 'Trading Strategies', 'tradepress' ),
-				'calculators'        => __( 'Calculators', 'tradepress' ),
-				'portfolio'          => __( 'Portfolio', 'tradepress' ),
-				'trade-history'      => __( 'Trade History', 'tradepress' ),
-				'manual-trade'       => __( 'Manual Trading', 'tradepress' ),
-				'sees-demo'          => __( 'SEES Demo', 'tradepress' ),
-				'sees-diagnostics'   => __( 'SEES Diagnostics', 'tradepress' ),
-				'sees-ready'         => __( 'SEES Ready', 'tradepress' ),
-				'sees-pro'           => __( 'SEES Pro', 'tradepress' ),
-			);
-			$tabs = apply_filters( 'tradepress_trading_area_tabs', $tabs );
-			return tradepress_filter_development_tabs( $tabs, $this->get_development_tab_ids() );
-		}
-
-		/**
-		 * Get tabs that are visible only in Developer Mode.
-		 *
-		 * @return array
-		 */
-		private function get_development_tab_ids() {
-			return array( 'trading-strategies', 'portfolio', 'trade-history', 'manual-trade', 'sees-demo', 'sees-diagnostics', 'sees-ready', 'sees-pro' );
-		}
-		/**
-		 * Output the trading area interface.
-		 *
-		 * @version 1.0.0
-		 */
-		public function output() {
-			$tabs = $this->get_tabs();
-
-			echo '<div class="wrap tradepress-admin">';
-			echo '<h1>';
-			echo esc_html__( 'TradePress Trading', 'tradepress' );
-			if ( isset( $tabs[ $this->active_tab ] ) ) {
-				echo ' <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 0.8em; vertical-align: middle; margin: 0 5px;"></span> ';
-				echo tradepress_get_development_tab_label( $this->active_tab, $tabs[ $this->active_tab ], $this->get_development_tab_ids() );
-			}
-			echo '</h1>';
-
-			echo '<nav class="nav-tab-wrapper woo-nav-tab-wrapper">';
-			foreach ( $tabs as $tab_id => $tab_name ) {
-				$active_class = ( $this->active_tab === $tab_id ) ? ' nav-tab-active' : '';
-				echo '<a href="' . esc_url( admin_url( 'admin.php?page=tradepress_trading&tab=' . $tab_id ) ) . '" class="nav-tab' . esc_attr( $active_class ) . '">' . tradepress_get_development_tab_label( $tab_id, $tab_name, $this->get_development_tab_ids() ) . '</a>';
-			}
-			echo '</nav>';
-
-			echo '<div class="tradepress-tab-content">';
-			$tab_hook = 'tradepress_trading_area_' . $this->active_tab . '_tab_content';
-
-			// Keep a direct fallback for SEES Demo in case hooks are filtered/removed.
-			if ( 'sees-demo' === $this->active_tab && function_exists( 'tradepress_display_sees_demo_tab_content' ) ) {
-				tradepress_display_sees_demo_tab_content();
-			} else {
-				// Action hook to display content for the active tab.
-				do_action( $tab_hook );
-			}
-			echo '</div>'; // .tradepress-tab-content
-
-			echo '</div>'; // .wrap
-		}
-	}
-
-endif; // Class exists check
-
-// Action hooks for tab content
-// Existing tabs (assuming they will be created or have placeholders)
+// Action hooks for tab content.
+// Existing tabs (assuming they will be created or have placeholders).
 add_action( 'tradepress_trading_area_portfolio_tab_content', 'tradepress_display_portfolio_tab_content' );
 add_action( 'tradepress_trading_area_trade-history_tab_content', 'tradepress_display_trade_history_tab_content' );
 add_action( 'tradepress_trading_area_manual-trade_tab_content', 'tradepress_display_manual_trade_tab_content' );
 
-// New SEES tabs
+// New SEES tabs.
 add_action( 'tradepress_trading_area_sees-demo_tab_content', 'tradepress_display_sees_demo_tab_content' );
 add_action( 'tradepress_trading_area_sees-diagnostics_tab_content', 'tradepress_display_sees_diagnostics_tab_content' );
 add_action( 'tradepress_trading_area_sees-ready_tab_content', 'tradepress_display_sees_ready_tab_content' );
 add_action( 'tradepress_trading_area_sees-pro_tab_content', 'tradepress_display_sees_pro_tab_content' );
 
-// Calculators tab
+// Calculators tab.
 add_action( 'tradepress_trading_area_calculators_tab_content', 'tradepress_display_calculators_tab_content' );
 
-// Trading Strategies tab (merged)
+// Trading Strategies tab (merged).
 add_action( 'tradepress_trading_area_trading-strategies_tab_content', 'tradepress_display_trading_strategies_tab_content' );
 
 // AJAX handler for SEES Demo data.
@@ -248,7 +148,7 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_demo_data' ) ) {
 				continue;
 			}
 
-			$score = rand( 30, 95 );
+			$score = wp_rand( 30, 95 );
 			if ( ! empty( $strategy_directives ) ) {
 				$steps = tradepress_build_sees_diagnostic_steps( $strategy_directives, $symbol, $trace_mode );
 				$score = 0;
@@ -258,8 +158,8 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_demo_data' ) ) {
 				$score = round( $score, 2 );
 			}
 
-			$price = isset( $details['avg_volume'] ) ? (float) ( ( (float) $details['avg_volume'] / 1000000 ) + rand( 50, 250 ) ) : (float) rand( 10, 500 ) * ( rand( 80, 120 ) / 100 );
-			$change_percent = rand( -1000, 1000 ) / 100;
+			$price          = isset( $details['avg_volume'] ) ? (float) ( ( (float) $details['avg_volume'] / 1000000 ) + wp_rand( 50, 250 ) ) : (float) wp_rand( 10, 500 ) * ( wp_rand( 80, 120 ) / 100 );
+			$change_percent = wp_rand( -1000, 1000 ) / 100;
 
 			$sees_data[] = array(
 				'symbol'         => $symbol,
@@ -287,6 +187,19 @@ if ( ! function_exists( 'tradepress_normalize_sees_trace_mode' ) ) {
 	function tradepress_normalize_sees_trace_mode( $trace_mode ) {
 		$normalized = sanitize_key( (string) $trace_mode );
 		return in_array( $normalized, array( 'scoring', 'trading' ), true ) ? $normalized : 'scoring';
+	}
+}
+
+if ( ! function_exists( 'tradepress_verify_sees_diagnostics_ajax_nonce' ) ) {
+	/**
+	 * Verify the SEES Diagnostics nonce and return JSON on failure.
+	 *
+	 * @return void
+	 */
+	function tradepress_verify_sees_diagnostics_ajax_nonce() {
+		if ( ! check_ajax_referer( 'tradepress_fetch_sees_diagnostic_trace_nonce', '_ajax_nonce', false ) ) {
+			wp_send_json_error( __( 'Invalid or expired SEES diagnostics request.', 'tradepress' ), 403 );
+		}
 	}
 }
 
@@ -330,7 +243,7 @@ if ( ! function_exists( 'tradepress_get_sees_strategy_options' ) ) {
 				continue;
 			}
 
-			$component_count = isset( $strategy->id ) ? count( TradePress_Scoring_Strategies_DB::get_strategy_directives( (int) $strategy->id ) ) : 0;
+			$component_count = isset( $strategy->id ) ? count( TradePress_Scoring_Strategies_DB::get_strategy_directives( (int) $strategy->id, true ) ) : 0;
 
 			$options[] = array(
 				'id'                  => isset( $strategy->id ) ? (int) $strategy->id : 0,
@@ -345,7 +258,7 @@ if ( ! function_exists( 'tradepress_get_sees_strategy_options' ) ) {
 
 		if ( 'trading' === $trace_mode && empty( $options ) ) {
 			foreach ( $strategies as $strategy ) {
-				$component_count = isset( $strategy->id ) ? count( TradePress_Scoring_Strategies_DB::get_strategy_directives( (int) $strategy->id ) ) : 0;
+				$component_count = isset( $strategy->id ) ? count( TradePress_Scoring_Strategies_DB::get_strategy_directives( (int) $strategy->id, true ) ) : 0;
 
 				$options[] = array(
 					'id'                  => isset( $strategy->id ) ? (int) $strategy->id : 0,
@@ -368,7 +281,7 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_strategy_options' ) ) {
 	 * AJAX handler to fetch strategy options for SEES diagnostics.
 	 */
 	function tradepress_ajax_fetch_sees_strategy_options() {
-		check_ajax_referer( 'tradepress_fetch_sees_diagnostic_trace_nonce', '_ajax_nonce' );
+		tradepress_verify_sees_diagnostics_ajax_nonce();
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( __( 'You do not have permission to access this data.', 'tradepress' ), 403 );
@@ -378,6 +291,7 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_strategy_options' ) ) {
 			wp_send_json_error( __( 'SEES diagnostics are available only when Developer Mode is enabled.', 'tradepress' ), 403 );
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified by tradepress_verify_sees_diagnostics_ajax_nonce().
 		$trace_mode = isset( $_POST['trace_mode'] ) ? tradepress_normalize_sees_trace_mode( wp_unslash( $_POST['trace_mode'] ) ) : 'scoring';
 		$options    = tradepress_get_sees_strategy_options( $trace_mode );
 
@@ -431,6 +345,11 @@ if ( ! function_exists( 'tradepress_build_sees_diagnostic_steps' ) ) {
 				$label = ucwords( str_replace( '_', ' ', $directive_id ) );
 			}
 
+			$description = '';
+			if ( is_array( $directive_def ) && ! empty( $directive_def['description'] ) ) {
+				$description = (string) $directive_def['description'];
+			}
+
 			$weight_percent = isset( $directive_row->weight ) ? (float) $directive_row->weight : ( 100 / $directive_count );
 			$weight         = max( 0.0, min( 1.0, $weight_percent / 100 ) );
 
@@ -450,23 +369,25 @@ if ( ! function_exists( 'tradepress_build_sees_diagnostic_steps' ) ) {
 				: 'tradepress_get_directive_by_id() -> evaluate_' . $entity_label;
 
 			$steps[] = array(
-				'key'            => $directive_id,
-				'label'          => $label,
-				'component_type' => $entity_label,
-				'component_source' => 'tradepress_strategy_directives',
+				'id'                  => $directive_id,
+				'key'                 => $directive_id,
+				'label'               => $label,
+				'description'         => $description,
+				'component_type'      => $entity_label,
+				'component_source'    => 'tradepress_strategy_directives',
 				'component_available' => $has_definition,
-				'component_active' => $db_is_active && $def_is_active,
-				'warning'        => $warning,
-				'input_value'    => $raw_input,
-				'score'          => $score,
-				'weight'         => $weight,
-				'weighted_score' => $weighted,
-				'max_weighted_score' => $max_weighted,
-				'formula_text'   => $formula_text,
-				'threshold'      => $threshold,
-				'passed'         => $passed,
-				'code_path'      => $code_path,
-				'next_action'    => $component_ok
+				'component_active'    => $db_is_active && $def_is_active,
+				'warning'             => $warning,
+				'input_value'         => $raw_input,
+				'score'               => $score,
+				'weight'              => $weight,
+				'weighted_score'      => $weighted,
+				'max_weighted_score'  => $max_weighted,
+				'formula_text'        => $formula_text,
+				'threshold'           => $threshold,
+				'passed'              => $passed,
+				'code_path'           => $code_path,
+				'next_action'         => $component_ok
 					? ( $passed ? 'Proceed to next ' . $entity_label : 'Keep evaluating; may block trigger at strategy gate' )
 					: 'Blocked until component is available and active',
 			);
@@ -483,7 +404,7 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 	 * @version 1.1.0
 	 */
 	function tradepress_ajax_fetch_sees_diagnostic_trace() {
-		check_ajax_referer( 'tradepress_fetch_sees_diagnostic_trace_nonce', '_ajax_nonce' );
+		tradepress_verify_sees_diagnostics_ajax_nonce();
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( __( 'You do not have permission to access this data.', 'tradepress' ), 403 );
@@ -493,6 +414,7 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 			wp_send_json_error( __( 'SEES diagnostics are available only when Developer Mode is enabled.', 'tradepress' ), 403 );
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified by tradepress_verify_sees_diagnostics_ajax_nonce().
 		$raw_symbol = isset( $_POST['symbol'] ) ? sanitize_text_field( wp_unslash( $_POST['symbol'] ) ) : '';
 		$symbol     = strtoupper( $raw_symbol );
 
@@ -500,9 +422,11 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 			wp_send_json_error( __( 'A symbol is required.', 'tradepress' ), 400 );
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified by tradepress_verify_sees_diagnostics_ajax_nonce().
 		$trace_mode = isset( $_POST['trace_mode'] ) ? tradepress_normalize_sees_trace_mode( wp_unslash( $_POST['trace_mode'] ) ) : 'scoring';
 		$options    = tradepress_get_sees_strategy_options( $trace_mode );
-		$raw_id     = isset( $_POST['strategy_id'] ) ? absint( wp_unslash( $_POST['strategy_id'] ) ) : 0;
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified by tradepress_verify_sees_diagnostics_ajax_nonce().
+		$raw_id = isset( $_POST['strategy_id'] ) ? absint( wp_unslash( $_POST['strategy_id'] ) ) : 0;
 
 		if ( 0 === $raw_id && ! empty( $options ) ) {
 			$raw_id = (int) $options[0]['id'];
@@ -548,7 +472,7 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 			),
 		);
 
-		$strategy = $raw_id > 0 ? TradePress_Scoring_Strategies_DB::get_strategy( $raw_id ) : null;
+		$strategy  = $raw_id > 0 ? TradePress_Scoring_Strategies_DB::get_strategy( $raw_id ) : null;
 		$process[] = array(
 			'label'     => 'Load selected strategy',
 			'code_path' => 'TradePress_Scoring_Strategies_DB::get_strategy()',
@@ -567,60 +491,60 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 
 			wp_send_json_success(
 				array(
-					'symbol'        => $symbol,
-					'name'          => $name,
-					'industry'      => $industry,
-					'score'         => 0,
-					'decision'      => 'Stopped: Strategy not selected',
-					'decision_state' => 'stopped',
-					'trace_mode'    => $trace_mode,
-					'strategy_id'   => 0,
-					'strategy_name' => '',
-					'strategy_type' => '',
-					'strategy_status' => '',
-					'strategy_storage' => 'tradepress_scoring_strategies',
-					'component_count' => 0,
-					'passed_count'  => 0,
+					'symbol'                  => $symbol,
+					'name'                    => $name,
+					'industry'                => $industry,
+					'score'                   => 0,
+					'decision'                => 'Stopped: Strategy not selected',
+					'decision_state'          => 'stopped',
+					'trace_mode'              => $trace_mode,
+					'strategy_id'             => 0,
+					'strategy_name'           => '',
+					'strategy_type'           => '',
+					'strategy_status'         => '',
+					'strategy_storage'        => 'tradepress_scoring_strategies',
+					'component_count'         => 0,
+					'passed_count'            => 0,
 					'component_warning_count' => 0,
-					'minimum_threshold' => 0,
-					'max_possible_score' => 0,
-					'score_percent_of_max' => 0,
+					'minimum_threshold'       => 0,
+					'max_possible_score'      => 0,
+					'score_percent_of_max'    => 0,
 					'threshold_distance'      => 0,
 					'distance_to_threshold'   => 0,
 					'decision_branch_details' => $decision_branch_details,
-					'next_function' => 'Select a strategy with active components',
-					'generatedAt'   => current_time( 'mysql' ),
-					'process'       => $process,
-					'steps'         => array(),
+					'next_function'           => 'Select a strategy with active components',
+					'generatedAt'             => current_time( 'mysql' ),
+					'process'                 => $process,
+					'steps'                   => array(),
 				),
 				200
 			);
 		}
 
-		$strategy_directives = TradePress_Scoring_Strategies_DB::get_strategy_directives( (int) $strategy->id );
-		$process[] = array(
+		$strategy_directives = TradePress_Scoring_Strategies_DB::get_strategy_directives( (int) $strategy->id, true );
+		$process[]           = array(
 			'label'     => 'Load strategy components',
 			'code_path' => 'TradePress_Scoring_Strategies_DB::get_strategy_directives()',
 			'passed'    => ! empty( $strategy_directives ),
 		);
 
-		$steps = tradepress_build_sees_diagnostic_steps( $strategy_directives, $symbol, $trace_mode );
+		$steps     = tradepress_build_sees_diagnostic_steps( $strategy_directives, $symbol, $trace_mode );
 		$process[] = array(
 			'label'     => 'Evaluate strategy pipeline',
 			'code_path' => 'tradepress_build_sees_diagnostic_steps()',
 			'passed'    => ! empty( $steps ),
 		);
 
-		$total_score   = 0.0;
-		$total_max_score = 0.0;
-		$passed_count  = 0;
+		$total_score             = 0.0;
+		$total_max_score         = 0.0;
+		$passed_count            = 0;
 		$component_warning_count = 0;
-		$steps_count   = count( $steps );
-		$min_threshold = isset( $strategy->min_score_threshold ) ? (float) $strategy->min_score_threshold : 50.0;
+		$steps_count             = count( $steps );
+		$min_threshold           = isset( $strategy->min_score_threshold ) ? (float) $strategy->min_score_threshold : 50.0;
 		$decision_branch_details = array();
 
 		foreach ( $steps as $step ) {
-			$total_score += isset( $step['weighted_score'] ) ? (float) $step['weighted_score'] : 0.0;
+			$total_score     += isset( $step['weighted_score'] ) ? (float) $step['weighted_score'] : 0.0;
 			$total_max_score += isset( $step['max_weighted_score'] ) ? (float) $step['max_weighted_score'] : 0.0;
 			if ( ! empty( $step['passed'] ) ) {
 				++$passed_count;
@@ -630,10 +554,10 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 			}
 		}
 
-		$total_score = round( $total_score, 2 );
-		$total_max_score = round( $total_max_score, 2 );
-		$decision    = 'Stopped: No components to evaluate';
-		$score_percent_of_max = $total_max_score > 0 ? round( ( $total_score / $total_max_score ) * 100, 2 ) : 0.0;
+		$total_score           = round( $total_score, 2 );
+		$total_max_score       = round( $total_max_score, 2 );
+		$decision              = 'Stopped: No components to evaluate';
+		$score_percent_of_max  = $total_max_score > 0 ? round( ( $total_score / $total_max_score ) * 100, 2 ) : 0.0;
 		$distance_to_threshold = round( $total_score - $min_threshold, 2 );
 
 		if ( $component_warning_count > 0 ) {
@@ -647,7 +571,7 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 
 		if ( 'scoring' === $trace_mode ) {
 			if ( $total_score >= ( $min_threshold + 15 ) ) {
-				$decision = 'High score: continue to next decision function';
+				$decision                  = 'High score: continue to next decision function';
 				$decision_branch_details[] = array(
 					'gate'      => 'score-threshold',
 					'status'    => 'passed',
@@ -655,7 +579,7 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 					'code_path' => 'scoring strategy decision branch',
 				);
 			} elseif ( $total_score >= $min_threshold ) {
-				$decision = 'Low qualified score: continue with caution';
+				$decision                  = 'Low qualified score: continue with caution';
 				$decision_branch_details[] = array(
 					'gate'      => 'score-threshold',
 					'status'    => 'passed',
@@ -663,7 +587,7 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 					'code_path' => 'scoring strategy decision branch',
 				);
 			} else {
-				$decision = 'Stopped: score below strategy minimum';
+				$decision                  = 'Stopped: score below strategy minimum';
 				$decision_branch_details[] = array(
 					'gate'      => 'score-threshold',
 					'status'    => 'failed',
@@ -674,7 +598,7 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 		} elseif ( $steps_count > 0 ) {
 			$required_pass_count = max( 1, (int) ceil( $steps_count * 0.60 ) );
 			if ( $passed_count >= $required_pass_count ) {
-				$decision = 'Rule threshold met: continue to trigger function';
+				$decision                  = 'Rule threshold met: continue to trigger function';
 				$decision_branch_details[] = array(
 					'gate'      => 'indicator-threshold',
 					'status'    => 'passed',
@@ -682,7 +606,7 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 					'code_path' => 'trading strategy threshold branch',
 				);
 			} else {
-				$decision = 'Stopped: required indicator threshold not met';
+				$decision                  = 'Stopped: required indicator threshold not met';
 				$decision_branch_details[] = array(
 					'gate'      => 'indicator-threshold',
 					'status'    => 'failed',
@@ -705,38 +629,38 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 
 		wp_send_json_success(
 			array(
-				'symbol'        => $symbol,
-				'name'          => $name,
-				'industry'      => $industry,
-				'score'         => $total_score,
-				'decision'      => $decision,
-				'decision_state' => $decision_state,
-				'trace_mode'    => $trace_mode,
-				'strategy_id'   => isset( $strategy->id ) ? (int) $strategy->id : 0,
-				'strategy_name' => isset( $strategy->name ) ? (string) $strategy->name : '',
-				'strategy_type' => isset( $strategy->type ) ? (string) $strategy->type : 'scoring',
-				'strategy_status' => isset( $strategy->status ) ? (string) $strategy->status : '',
-				'strategy_storage' => 'tradepress_scoring_strategies',
-				'component_count' => $steps_count,
-				'passed_count'  => $passed_count,
+				'symbol'                  => $symbol,
+				'name'                    => $name,
+				'industry'                => $industry,
+				'score'                   => $total_score,
+				'decision'                => $decision,
+				'decision_state'          => $decision_state,
+				'trace_mode'              => $trace_mode,
+				'strategy_id'             => isset( $strategy->id ) ? (int) $strategy->id : 0,
+				'strategy_name'           => isset( $strategy->name ) ? (string) $strategy->name : '',
+				'strategy_type'           => isset( $strategy->type ) ? (string) $strategy->type : 'scoring',
+				'strategy_status'         => isset( $strategy->status ) ? (string) $strategy->status : '',
+				'strategy_storage'        => 'tradepress_scoring_strategies',
+				'component_count'         => $steps_count,
+				'passed_count'            => $passed_count,
 				'component_warning_count' => $component_warning_count,
-				'minimum_threshold' => $min_threshold,
-				'max_possible_score' => $total_max_score,
-				'score_percent_of_max' => $score_percent_of_max,
+				'minimum_threshold'       => $min_threshold,
+				'max_possible_score'      => $total_max_score,
+				'score_percent_of_max'    => $score_percent_of_max,
 				'threshold_distance'      => $distance_to_threshold,
 				'distance_to_threshold'   => $distance_to_threshold,
 				'decision_branch_details' => $decision_branch_details,
-				'next_function' => $next_function,
-				'generatedAt'   => current_time( 'mysql' ),
-				'process'       => $process,
-				'steps'         => $steps,
+				'next_function'           => $next_function,
+				'generatedAt'             => current_time( 'mysql' ),
+				'process'                 => $process,
+				'steps'                   => $steps,
 			),
 			200
 		);
 	}
 }
 
-// Placeholder functions for existing tabs (if not already defined elsewhere)
+// Placeholder functions for existing tabs (if not already defined elsewhere).
 /**
  * Display portfolio tab content.
  *
@@ -757,7 +681,7 @@ function tradepress_display_portfolio_tab_content() {
  * @version 1.0.0
  */
 function tradepress_display_trade_history_tab_content() {
-	// Example: include 'views/trade-history.php';
+	// Example: include 'views/trade-history.php'.
 	echo '<p>' . esc_html__( 'Trade History tab content to be added.', 'tradepress' ) . '</p>';
 }
 
@@ -767,11 +691,11 @@ function tradepress_display_trade_history_tab_content() {
  * @version 1.0.0
  */
 function tradepress_display_manual_trade_tab_content() {
-	// Example: include 'views/manual-trade.php';
+	// Example: include 'views/manual-trade.php'.
 	echo '<p>' . esc_html__( 'Manual Trading tab content to be added.', 'tradepress' ) . '</p>';
 }
 
-// Functions to display content for the new SEES tabs
+// Functions to display content for the new SEES tabs.
 /**
  * Display sees demo tab content.
  *
@@ -829,7 +753,7 @@ function tradepress_display_sees_pro_tab_content() {
 }
 
 
-// Calculators tab content
+// Calculators tab content.
 /**
  * Display calculators tab content.
  *
@@ -852,10 +776,10 @@ function tradepress_display_calculators_tab_content() {
  * @version 1.0.0
  */
 function tradepress_display_trading_strategies_tab_content() {
-	// Get current sub-tab
-	$sub_tab = isset( $_GET['sub_tab'] ) ? sanitize_key( wp_unslash( $_GET['sub_tab'] ) ) : 'create';
+	// Get current sub-tab.
+	$sub_tab = isset( $_GET['sub_tab'] ) ? sanitize_key( wp_unslash( $_GET['sub_tab'] ) ) : 'create'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- sub_tab is display-only navigation, no state change.
 
-	// Sub-tab navigation
+	// Sub-tab navigation.
 	$sub_tabs = array(
 		'create'  => __( 'Create Trading Strategy', 'tradepress' ),
 		'custom'  => __( 'My Custom Strategies', 'tradepress' ),
@@ -869,7 +793,7 @@ function tradepress_display_trading_strategies_tab_content() {
 		$active_class = ( $sub_tab === $key ) ? ' current' : '';
 		$url          = admin_url( 'admin.php?page=tradepress_trading&tab=trading-strategies&sub_tab=' . $key );
 		$separator    = ( $count > 0 ) ? ' | ' : '';
-		echo '<li><a href="' . esc_url( $url ) . '" class="' . esc_attr( $active_class ) . '">' . esc_html( $label ) . '</a>' . $separator . '</li>';
+		echo '<li><a href="' . esc_url( $url ) . '" class="' . esc_attr( $active_class ) . '">' . esc_html( $label ) . '</a>' . esc_html( $separator ) . '</li>';
 		++$count;
 	}
 	echo '</ul>';

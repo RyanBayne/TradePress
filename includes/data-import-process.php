@@ -3,14 +3,28 @@
  * TradePress Data Import Background Process
  *
  * Handles API data import in background to avoid AJAX timeout issues
+ *
+ * @package TradePress
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// phpcs:disable WordPress.DateTime.CurrentTimeTimestamp.Requested -- Existing queue/status options store WordPress-local timestamps.
+// phpcs:disable Squiz.Commenting.FunctionComment.MissingParamComment -- Legacy queue payload methods accept mixed item arrays.
+// phpcs:disable Squiz.Commenting.InlineComment.InvalidEndChar -- Existing release-hardening pass is not changing legacy comment text.
+
+/**
+ * Background process for queued TradePress data imports.
+ */
 class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 
+	/**
+	 * Background process action slug.
+	 *
+	 * @var string
+	 */
 	protected $action = 'data_import';
 
 	/**
@@ -259,7 +273,7 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 		$from = gmdate( 'Y-m-d', strtotime( '-3 months' ) );
 		$to   = gmdate( 'Y-m-d', strtotime( '+3 months' ) );
 
-		if ( $provider_id === 'alphavantage' ) {
+		if ( 'alphavantage' === $provider_id ) {
 			return $api->get_earnings_calendar();
 		}
 
@@ -554,20 +568,28 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 			$date       = $date_parts[0];
 			$time       = isset( $date_parts[1] ) ? substr( $date_parts[1], 0, 5 ) : 'TBA';
 
-			$raw_impact  = (string) ( $record['impact'] ?? ( $record['changePercentage'] ?? 'low' ) );
-			$importance  = $importance_map[ $raw_impact ] ?? 'medium';
+			$raw_impact = (string) ( $record['impact'] ?? ( $record['changePercentage'] ?? 'low' ) );
+			$importance = $importance_map[ $raw_impact ] ?? 'medium';
 
 			$raw_country = strtolower( (string) ( $record['country'] ?? '' ) );
 			// Map country codes to the region codes the view expects.
-			$region_map  = array(
-				'us' => 'us', 'united states' => 'us',
-				'eu' => 'eu', 'euro area' => 'eu', 'eurozone' => 'eu',
-				'gb' => 'uk', 'uk' => 'uk', 'united kingdom' => 'uk',
-				'jp' => 'jp', 'japan' => 'jp',
-				'ca' => 'ca', 'canada' => 'ca',
-				'au' => 'au', 'australia' => 'au',
+			$region_map = array(
+				'us'             => 'us',
+				'united states'  => 'us',
+				'eu'             => 'eu',
+				'euro area'      => 'eu',
+				'eurozone'       => 'eu',
+				'gb'             => 'uk',
+				'uk'             => 'uk',
+				'united kingdom' => 'uk',
+				'jp'             => 'jp',
+				'japan'          => 'jp',
+				'ca'             => 'ca',
+				'canada'         => 'ca',
+				'au'             => 'au',
+				'australia'      => 'au',
 			);
-			$region = $region_map[ $raw_country ] ?? $raw_country;
+			$region     = $region_map[ $raw_country ] ?? $raw_country;
 
 			$normalized[] = array(
 				'date'        => sanitize_text_field( $date ),
@@ -695,43 +717,46 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $symbol
+	 * @param mixed $symbol Symbol ticker.
 	 */
 	private function fetch_historical_data( $symbol ) {
 		try {
-			// Check if historical data is stale (older than 1 day)
+			// Check if historical data is stale (older than 1 day).
 			$last_update = get_option( "tradepress_historical_last_update_{$symbol}", 0 );
 			if ( ( current_time( 'timestamp' ) - $last_update ) < DAY_IN_SECONDS ) {
-				return; // Data is fresh
+				return; // Data is fresh.
 			}
 
-			// Try Finnhub for historical data
-			$finnhub_api = TradePress_API_Factory::create_from_settings( 'finnhub' );
+			$historical_provider = $this->create_historical_analysis_api();
 
-			if ( ! is_wp_error( $finnhub_api ) ) {
-				// Fetch historical candles
-				$historical_data = $finnhub_api->get_candles( $symbol, 'D', null, null, 200 );
+			if ( ! is_wp_error( $historical_provider ) ) {
+				$historical_api = $historical_provider['api'];
+				$provider_id    = $historical_provider['provider_id'];
+
+				// Fetch historical candles.
+				$historical_data = $historical_api->get_candles( $symbol, 'D', null, null, 200 );
 
 				if ( ! is_wp_error( $historical_data ) && ! empty( $historical_data ) ) {
 					update_option( "tradepress_historical_data_{$symbol}", $historical_data );
 					update_option( "tradepress_historical_last_update_{$symbol}", current_time( 'timestamp' ) );
+					update_option( "tradepress_historical_data_source_{$symbol}", $provider_id );
 
 					$this->log_process_activity(
 						'info',
 						"Historical data updated for {$symbol}",
 						array(
 							'data_points' => count( $historical_data ),
-							'provider'    => 'finnhub',
+							'provider'    => $provider_id,
 						)
 					);
 				}
 
-				// Fetch technical indicators
-				$rsi_data  = $finnhub_api->get_rsi( $symbol );
-				$macd_data = $finnhub_api->get_macd( $symbol );
-				$ma_20     = $finnhub_api->get_moving_average( $symbol, 20 );
-				$ma_50     = $finnhub_api->get_moving_average( $symbol, 50 );
-				$ma_200    = $finnhub_api->get_moving_average( $symbol, 200 );
+				// Fetch technical indicators.
+				$rsi_data  = $historical_api->get_rsi( $symbol );
+				$macd_data = $historical_api->get_macd( $symbol );
+				$ma_20     = $historical_api->get_moving_average( $symbol, 20 );
+				$ma_50     = $historical_api->get_moving_average( $symbol, 50 );
+				$ma_200    = $historical_api->get_moving_average( $symbol, 200 );
 
 				$technical_indicators = array();
 				if ( ! is_wp_error( $rsi_data ) ) {
@@ -753,15 +778,25 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 				if ( ! empty( $technical_indicators ) ) {
 					update_option( "tradepress_technical_indicators_{$symbol}", $technical_indicators );
 					update_option( "tradepress_technical_last_update_{$symbol}", current_time( 'timestamp' ) );
+					update_option( "tradepress_technical_indicators_source_{$symbol}", $provider_id );
 
 					$this->log_process_activity(
 						'info',
 						"Technical indicators updated for {$symbol}",
 						array(
 							'indicators' => array_keys( $technical_indicators ),
+							'provider'   => $provider_id,
 						)
 					);
 				}
+			} else {
+				$this->log_process_activity(
+					'warning',
+					"No historical analysis provider available for {$symbol}",
+					array(
+						'error' => $historical_provider->get_error_message(),
+					)
+				);
 			}
 		} catch ( Exception $e ) {
 			$this->log_process_activity(
@@ -772,6 +807,127 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 				)
 			);
 		}
+	}
+
+	/**
+	 * Create a provider that satisfies the historical analysis import contract.
+	 *
+	 * The current queue path requires provider methods that return normalised daily
+	 * candles plus RSI, MACD, and SMA values with Finnhub-compatible method names.
+	 *
+	 * @return array|WP_Error
+	 */
+	private function create_historical_analysis_api() {
+		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'api/api-factory.php';
+
+		if ( ! class_exists( 'TradePress_API_Usage_Tracker' ) ) {
+			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/api-usage-tracker.php';
+		}
+
+		$provider_order = $this->get_historical_analysis_provider_order();
+		$last_error     = null;
+
+		foreach ( $provider_order as $provider_id ) {
+			if ( 'yes' !== get_option( "TradePress_switch_{$provider_id}_api_services", 'no' ) ) {
+				TradePress_API_Usage_Tracker::log_failover_event( 'historical_analysis', $provider_id, 'disabled' );
+				continue;
+			}
+
+			if ( ! $this->provider_supports_historical_analysis_capabilities( $provider_id ) ) {
+				TradePress_API_Usage_Tracker::log_failover_event( 'historical_analysis', $provider_id, 'unsupported_historical_analysis_capabilities' );
+				continue;
+			}
+
+			if ( TradePress_API_Usage_Tracker::is_likely_rate_limited( $provider_id ) ) {
+				TradePress_API_Usage_Tracker::log_failover_event( 'historical_analysis', $provider_id, 'rate_limited' );
+				continue;
+			}
+
+			$api = TradePress_API_Factory::create_from_settings( $provider_id, 'paper' );
+
+			if ( is_wp_error( $api ) ) {
+				$last_error = $api;
+				TradePress_API_Usage_Tracker::log_failover_event( 'historical_analysis', $provider_id, $api->get_error_code() );
+				continue;
+			}
+
+			if ( ! $this->api_supports_historical_analysis_methods( $api ) ) {
+				$last_error = new WP_Error( 'unsupported_historical_analysis_contract', $provider_id . ' does not expose the historical analysis import methods.' );
+				TradePress_API_Usage_Tracker::log_failover_event( 'historical_analysis', $provider_id, 'unsupported_historical_analysis_methods' );
+				continue;
+			}
+
+			return array(
+				'provider_id' => $provider_id,
+				'api'         => $api,
+			);
+		}
+
+		if ( $last_error instanceof WP_Error ) {
+			return $last_error;
+		}
+
+		return new WP_Error( 'no_historical_analysis_provider', 'No configured provider satisfies the historical analysis import contract.' );
+	}
+
+	/**
+	 * Get candidate providers for historical candles and technical indicators.
+	 *
+	 * @return array
+	 */
+	private function get_historical_analysis_provider_order() {
+		if ( ! class_exists( 'TradePress_API_Usage_Tracker' ) ) {
+			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/api-usage-tracker.php';
+		}
+
+		$providers = array();
+
+		foreach ( array( 'candles', 'rsi', 'macd', 'sma' ) as $data_type ) {
+			foreach ( TradePress_API_Usage_Tracker::get_ranked_providers_for_data( $data_type ) as $candidate ) {
+				if ( ! empty( $candidate['provider_id'] ) ) {
+					$providers[] = sanitize_key( (string) $candidate['provider_id'] );
+				}
+			}
+		}
+
+		$providers = array_merge(
+			$providers,
+			array( 'finnhub', 'alphavantage', 'alpaca', 'fmp', 'eodhd', 'tradingview', 'polygon', 'twelvedata' )
+		);
+
+		return array_values( array_unique( array_filter( $providers ) ) );
+	}
+
+	/**
+	 * Check the capability matrix portion of the historical analysis contract.
+	 *
+	 * @param string $provider_id Provider identifier.
+	 * @return bool
+	 */
+	private function provider_supports_historical_analysis_capabilities( $provider_id ) {
+		foreach ( array( 'candles', 'rsi', 'macd', 'sma' ) as $data_type ) {
+			if ( ! TradePress_API_Usage_Tracker::provider_supports_data_type( $provider_id, $data_type ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Check the method-shape portion of the historical analysis contract.
+	 *
+	 * @param mixed $api API instance.
+	 * @return bool
+	 */
+	private function api_supports_historical_analysis_methods( $api ) {
+		foreach ( array( 'get_candles', 'get_rsi', 'get_macd', 'get_moving_average' ) as $method_name ) {
+			if ( ! method_exists( $api, $method_name ) ) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -965,7 +1121,7 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 		if ( empty( $image_url ) && isset( $record['images'] ) && is_array( $record['images'] ) && isset( $record['images'][0] ) && is_array( $record['images'][0] ) ) {
 			$image_url = $record['images'][0]['url'] ?? '';
 		}
-		$symbols     = $record['symbols'] ?? array();
+		$symbols = $record['symbols'] ?? array();
 
 		if ( empty( $symbols ) && ! empty( $record['ticker_sentiment'] ) && is_array( $record['ticker_sentiment'] ) ) {
 			foreach ( $record['ticker_sentiment'] as $ticker_sentiment ) {
@@ -1209,7 +1365,6 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 		if ( class_exists( 'TradePress_Logger' ) ) {
 			$logger = new TradePress_Logger();
 			$logger->log( $level, $message, TradePress_Logger::CAT_API, $context );
-		} else {
 		}
 	}
 
@@ -1347,7 +1502,7 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 
 		// Deduct points for errors
 		foreach ( $error_states as $error ) {
-			if ( isset( $error['status'] ) && $error['status'] === 'failed' ) {
+			if ( isset( $error['status'] ) && 'failed' === $error['status'] ) {
 				$score -= 20;
 			} else {
 				$score -= 10;
@@ -1467,7 +1622,7 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 			$result = $this->task( $item_data );
 
 			// Update queue item status
-			if ( $result === false ) {
+			if ( false === $result ) {
 				// Task completed successfully
 				$wpdb->update(
 					$table,
@@ -1483,13 +1638,14 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 				// Task needs retry
 				$new_attempts = $item->attempts + 1;
 				$new_status   = $new_attempts >= $item->max_attempts ? 'failed' : 'pending';
+				$retry_delay  = isset( $item_data['retry_delay'] ) ? absint( $item_data['retry_delay'] ) : 60;
 
 				$wpdb->update(
 					$table,
 					array(
 						'status'        => $new_status,
 						'attempts'      => $new_attempts,
-						'scheduled_at'  => date( 'Y-m-d H:i:s', strtotime( '+' . ( $item_data['retry_delay'] ?? 60 ) . ' seconds' ) ),
+						'scheduled_at'  => gmdate( 'Y-m-d H:i:s', current_time( 'timestamp' ) + $retry_delay ),
 						'completed_at'  => 'failed' === $new_status ? current_time( 'mysql' ) : null,
 						'error_message' => isset( $item_data['error_code'] ) ? $item_data['error_code'] : '',
 					),
@@ -1523,7 +1679,7 @@ class TradePress_Data_Import_Process extends TradePress_Background_Processing {
 		// Clear any temporary error states on successful completion
 		$error_states = get_option( 'tradepress_data_import_error_state', array() );
 		foreach ( $error_states as $key => $error ) {
-			if ( ! isset( $error['status'] ) || $error['status'] !== 'failed' ) {
+			if ( ! isset( $error['status'] ) || 'failed' !== $error['status'] ) {
 				unset( $error_states[ $key ] );
 			}
 		}

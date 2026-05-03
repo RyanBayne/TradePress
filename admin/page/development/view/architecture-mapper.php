@@ -13,6 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Builds and renders the developer architecture map.
+ */
 class TradePress_Architecture_Mapper {
 
 	/**
@@ -427,8 +430,8 @@ class TradePress_Architecture_Mapper {
 						'file'                  => 'api/api-factory.php',
 						'type'                  => 'factory',
 						'methods'               => array( 'create', 'create_from_settings', 'test_all_apis', 'create_with_fallback' ),
-						'usage_pattern'         => 'ALWAYS use factory to create API instances',
-						'example'               => '$api = TradePress_API_Factory::create("alpaca", $args);',
+						'usage_pattern'         => 'Use create_from_settings() for data-purpose requests so provider capability, configuration, health, and fallback checks run before instantiation',
+						'example'               => '$api = TradePress_API_Factory::create_from_settings("alpaca", "paper", "news");',
 						'validates'             => 'Ensures APIs extend TradePress_Base_API',
 						'fallback_integration'  => 'Integrates with Usage Tracker for intelligent API selection',
 						'implementation_status' => 'Enhanced with fallback logic and usage tracking',
@@ -566,10 +569,10 @@ class TradePress_Architecture_Mapper {
 	}
 
 	/**
-	 * Render a single tree node
+	 * Render a single tree node.
 	 *
-	 * @param array $nodes Tree nodes
-	 * @param int   $level Nesting level
+	 * @param array $nodes Tree nodes.
+	 * @param int   $level Nesting level.
 	 * @return string HTML for nodes
 	 * @version 1.0.0
 	 */
@@ -583,80 +586,80 @@ class TradePress_Architecture_Mapper {
 			$html .= "<div class='tree-node {$type_class}' data-level='{$level}'>";
 			$html .= "<div class='tree-item-header'>";
 
-			// Add expand/collapse icon if has children
+			// Add expand/collapse icon if has children.
 			if ( isset( $node['children'] ) ) {
 				$html .= "<span class='tree-toggle'>▼</span>";
 			} else {
 				$html .= "<span class='tree-spacer'></span>";
 			}
 
-			// Add type icon
+			// Add type icon.
 			$icon  = self::get_type_icon( $node['type'] ?? 'item' );
 			$html .= "<span class='tree-icon'>{$icon}</span>";
 
-			// Add name
+			// Add name.
 			$html .= "<span class='tree-name'>{$node['name']}</span>";
 
-			// Add file path if available
+			// Add file path if available.
 			if ( isset( $node['file'] ) ) {
 				$html .= "<span class='tree-file'>{$node['file']}</span>";
 			}
 
-			// Add API type badge if available
+			// Add API type badge if available.
 			if ( isset( $node['api_type'] ) ) {
 				$html .= "<span class='tree-badge api-type-{$node['api_type']}'>{$node['api_type']}</span>";
 			}
 
 			$html .= '</div>';
 
-			// Add description if available
+			// Add description if available.
 			if ( isset( $node['description'] ) ) {
 				$html .= "<div class='tree-description'>{$node['description']}</div>";
 			}
 
-			// Add methods if available
+			// Add methods if available.
 			if ( isset( $node['methods'] ) ) {
 				$html .= "<div class='tree-methods'>";
 				$html .= '<strong>Methods:</strong> ' . implode( ', ', $node['methods'] );
 				$html .= '</div>';
 			}
 
-			// Add required methods if available
+			// Add required methods if available.
 			if ( isset( $node['required_methods'] ) ) {
 				$html .= "<div class='tree-required-methods'>";
 				$html .= '<strong>Required Methods:</strong> ' . implode( ', ', $node['required_methods'] );
 				$html .= '</div>';
 			}
 
-			// Add usage pattern if available
+			// Add usage pattern if available.
 			if ( isset( $node['usage_pattern'] ) ) {
 				$html .= "<div class='tree-usage-pattern'>";
 				$html .= "<strong>Usage:</strong> {$node['usage_pattern']}";
 				$html .= '</div>';
 			}
 
-			// Add implementation example if available
+			// Add implementation example if available.
 			if ( isset( $node['implementation_example'] ) ) {
 				$html .= "<div class='tree-implementation-example'>";
 				$html .= "<strong>Example:</strong> <code>{$node['implementation_example']}</code>";
 				$html .= '</div>';
 			}
 
-			// Add extends information if available
+			// Add extends information if available.
 			if ( isset( $node['extends'] ) ) {
 				$html .= "<div class='tree-extends'>";
 				$html .= "<strong>Extends:</strong> {$node['extends']}";
 				$html .= '</div>';
 			}
 
-			// Add credentials if available
+			// Add credentials if available.
 			if ( isset( $node['credentials'] ) ) {
 				$html .= "<div class='tree-credentials'>";
 				$html .= '<strong>Credentials:</strong> ' . implode( ', ', $node['credentials'] );
 				$html .= '</div>';
 			}
 
-			// Add implementation status if available
+			// Add implementation status if available.
 			if ( isset( $node['implementation_status'] ) ) {
 				$status_class = strpos( $node['implementation_status'], 'Updated' ) !== false ? 'status-good' : 'status-needs-work';
 				$html        .= "<div class='tree-implementation-status {$status_class}'>";
@@ -664,70 +667,70 @@ class TradePress_Architecture_Mapper {
 				$html        .= '</div>';
 			}
 
-			// Add tables if available
+			// Add tables if available.
 			if ( isset( $node['tables'] ) ) {
 				$html .= "<div class='tree-tables'>";
 				$html .= '<strong>Tables:</strong> ' . implode( ', ', $node['tables'] );
 				$html .= '</div>';
 			}
 
-			// Add partials if available
+			// Add partials if available.
 			if ( isset( $node['partials'] ) ) {
 				$html .= "<div class='tree-partials'>";
 				$html .= '<strong>Partials:</strong> ' . implode( ', ', $node['partials'] );
 				$html .= '</div>';
 			}
 
-			// Add key systems if available
+			// Add key systems if available.
 			if ( isset( $node['key_systems'] ) ) {
 				$html .= "<div class='tree-key-systems'>";
 				$html .= '<strong>Key Systems:</strong> ' . implode( ', ', $node['key_systems'] );
 				$html .= '</div>';
 			}
 
-			// Add key classes if available
+			// Add key classes if available.
 			if ( isset( $node['key_classes'] ) ) {
 				$html .= "<div class='tree-key-classes'>";
 				$html .= '<strong>Key Classes:</strong> ' . implode( ', ', $node['key_classes'] );
 				$html .= '</div>';
 			}
 
-			// Add purpose if available
+			// Add purpose if available.
 			if ( isset( $node['purpose'] ) ) {
 				$html .= "<div class='tree-purpose'>";
 				$html .= "<strong>Purpose:</strong> {$node['purpose']}";
 				$html .= '</div>';
 			}
 
-			// Add features if available
+			// Add features if available.
 			if ( isset( $node['features'] ) ) {
 				$html .= "<div class='tree-features'>";
 				$html .= '<strong>Features:</strong> ' . implode( ', ', $node['features'] );
 				$html .= '</div>';
 			}
 
-			// Add supporting classes if available
+			// Add supporting classes if available.
 			if ( isset( $node['supporting_classes'] ) ) {
 				$html .= "<div class='tree-supporting-classes'>";
 				$html .= '<strong>Supporting Classes:</strong> ' . implode( ', ', $node['supporting_classes'] );
 				$html .= '</div>';
 			}
 
-			// Add CSS files if available
+			// Add CSS files if available.
 			if ( isset( $node['css_files'] ) ) {
 				$html .= "<div class='tree-css-files'>";
 				$html .= '<strong>CSS Files:</strong> ' . implode( ', ', $node['css_files'] );
 				$html .= '</div>';
 			}
 
-			// Add JS files if available
+			// Add JS files if available.
 			if ( isset( $node['js_files'] ) ) {
 				$html .= "<div class='tree-js-files'>";
 				$html .= '<strong>JS Files:</strong> ' . implode( ', ', $node['js_files'] );
 				$html .= '</div>';
 			}
 
-			// Render children
+			// Render children.
 			if ( isset( $node['children'] ) ) {
 				$html .= "<div class='tree-children'>";
 				$html .= self::render_tree_node( $node['children'], $level + 1 );
@@ -741,9 +744,9 @@ class TradePress_Architecture_Mapper {
 	}
 
 	/**
-	 * Get icon for node type
+	 * Get icon for node type.
 	 *
-	 * @param string $type Node type
+	 * @param string $type Node type.
 	 * @return string Icon HTML
 	 * @version 1.0.0
 	 */

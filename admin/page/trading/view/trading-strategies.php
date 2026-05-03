@@ -61,29 +61,29 @@ if ( ! function_exists( 'tradepress_get_trading_strategy_rows' ) ) {
 	}
 }
 
-// Initialize search query if provided
-$search_query = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : '';
+// Initialize search query if provided.
+$search_query = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display-only search filter, no state change.
 
-// Initialize filter for archived strategies
-$show_archived = isset( $_GET['show_archived'] ) ? (bool) absint( wp_unslash( $_GET['show_archived'] ) ) : false;
+// Initialize filter for archived strategies.
+$show_archived = isset( $_GET['show_archived'] ) ? (bool) absint( wp_unslash( $_GET['show_archived'] ) ) : false; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display-only archive filter, no state change.
 
 if ( ! isset( $strategies ) || ! is_array( $strategies ) ) {
 	$strategies = tradepress_get_trading_strategy_rows();
 }
 
-// Filter strategies based on search and archive status
+// Filter strategies based on search and archive status.
 $filtered_strategies = array();
 foreach ( $strategies as $strategy ) {
-	// Skip archived strategies unless we're explicitly showing them
+	// Skip archived strategies unless we're explicitly showing them.
 	if ( 'archived' === $strategy['status'] && ! $show_archived ) {
 		continue;
 	}
 
-	// Apply search filter if search query exists
+	// Apply search filter if search query exists.
 	if ( ! empty( $search_query ) ) {
-		// Search in name and description
+		// Search in name and description.
 		if ( stripos( $strategy['name'], $search_query ) === false &&
-			stripos( $strategy['description'], $search_query ) === false ) {
+		stripos( $strategy['description'], $search_query ) === false ) {
 			continue;
 		}
 	}
@@ -243,7 +243,7 @@ foreach ( $strategies as $strategy ) {
 						?>
 					</td>
 					<td class="column-created">
-						<?php echo esc_html( date( 'M j, Y', strtotime( $strategy['created'] ) ) ); ?>
+						<?php echo esc_html( gmdate( 'M j, Y', strtotime( $strategy['created'] ) ) ); ?>
 					</td>
 					<td class="column-actions">
 						<div class="strategy-actions">
@@ -299,7 +299,7 @@ foreach ( $strategies as $strategy ) {
 										</tr>
 										<tr>
 											<th><?php esc_html_e( 'Created:', 'tradepress' ); ?></th>
-											<td><?php echo esc_html( date( 'F j, Y g:i a', strtotime( $strategy['created'] ) ) ); ?></td>
+											<td><?php echo esc_html( gmdate( 'F j, Y g:i a', strtotime( $strategy['created'] ) ) ); ?></td>
 										</tr>
 										<tr>
 											<th><?php esc_html_e( 'Author:', 'tradepress' ); ?></th>

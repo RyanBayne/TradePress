@@ -13,18 +13,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Factory for creating configured TradePress API provider instances.
+ */
 class TradePress_API_Factory {
 
 	/**
-	 * Create an API instance
+	 * Create an API instance.
 	 *
-	 * @param string $provider_id API provider ID
-	 * @param array  $args Configuration arguments
+	 * @param string $provider_id API provider ID.
+	 * @param array  $args Configuration arguments.
 	 * @return TradePress_Base_API|WP_Error API instance or error
 	 * @version 1.0.0
 	 */
 	public static function create( $provider_id, $args = array() ) {
-		// Get provider configuration
+		// Get provider configuration.
 		$provider = TradePress_API_Directory::get_provider( $provider_id );
 
 		if ( ! $provider ) {
@@ -34,10 +37,10 @@ class TradePress_API_Factory {
 			);
 		}
 
-		// Build class name
+		// Build class name.
 		$class_name = $provider['class_name'];
 
-		// Check if class file exists
+		// Check if class file exists.
 		$class_file = TRADEPRESS_PLUGIN_DIR_PATH . 'api/' . $provider['class_path'];
 
 		if ( ! file_exists( $class_file ) ) {
@@ -47,10 +50,10 @@ class TradePress_API_Factory {
 			);
 		}
 
-		// Include the class file
+		// Include the class file.
 		require_once $class_file;
 
-		// Check if class exists
+		// Check if class exists.
 		if ( ! class_exists( $class_name ) ) {
 			return new WP_Error(
 				'missing_class',
@@ -58,11 +61,11 @@ class TradePress_API_Factory {
 			);
 		}
 
-		// Create instance
+		// Create instance.
 		try {
 			$instance = new $class_name( $provider_id, $args );
 
-			// Validate that it extends the base class
+			// Validate that it extends the base class.
 			if ( ! ( $instance instanceof TradePress_Base_API ) ) {
 				return new WP_Error(
 					'invalid_base_class',
@@ -81,31 +84,47 @@ class TradePress_API_Factory {
 	}
 
 	/**
-	 * Create API instance from saved settings with fallback
+	 * Create API instance from saved settings with fallback.
 	 *
-	 * @param string|null $provider_id API provider ID (null for automatic selection)
-	 * @param string      $mode Trading mode (paper/live) for trading APIs
-	 * @param string      $data_type Optional data type for intelligent fallback
+	 * @param string|null $provider_id API provider ID (null for automatic selection).
+	 * @param string      $mode Trading mode (paper/live) for trading APIs.
+	 * @param string      $data_type Optional data type for intelligent fallback.
 	 * @return TradePress_Base_API|WP_Error API instance or error
 	 * @version 1.0.0
 	 */
 	public static function create_from_settings( $provider_id = null, $mode = 'paper', $data_type = null ) {
-		// Load usage tracker
+		// Load usage tracker.
 		if ( ! class_exists( 'TradePress_API_Usage_Tracker' ) ) {
 			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/api-usage-tracker.php';
 		}
 
-		// If no provider specified, use automatic selection
-		if ( $provider_id === null ) {
-			$fallback_api = TradePress_API_Usage_Tracker::get_best_api_for_data( $data_type ?: 'technical_indicators' );
+		// If no provider specified, use automatic selection.
+		if ( null === $provider_id ) {
+			$requested_data_type = $data_type ? $data_type : 'technical_indicators';
+			$fallback_api        = TradePress_API_Usage_Tracker::get_best_api_for_data( $requested_data_type );
 			if ( ! is_wp_error( $fallback_api ) ) {
 				return $fallback_api;
 			}
-			// Fallback to alphavantage if automatic selection fails
+			// Fallback to alphavantage if automatic selection fails.
 			$provider_id = 'alphavantage';
 		}
 
-		// Check if primary API is rate limited and use fallback if needed
+		if ( $data_type && ! TradePress_API_Usage_Tracker::provider_supports_data_type( $provider_id, $data_type ) ) {
+			$fallback_api = TradePress_API_Usage_Tracker::get_best_api_for_data( $data_type );
+			if ( ! is_wp_error( $fallback_api ) ) {
+				TradePress_API_Usage_Tracker::log_failover_event( $data_type, $provider_id, 'unsupported_data_type', 'ranked_fallback' );
+				return $fallback_api;
+			}
+
+			TradePress_API_Usage_Tracker::log_failover_event( $data_type, $provider_id, 'unsupported_data_type' );
+
+			return new WP_Error(
+				'unsupported_provider_data_type',
+				sprintf( 'API provider %1$s does not support data type %2$s', $provider_id, $data_type )
+			);
+		}
+
+		// Check if primary API is rate limited and use fallback if needed.
 		if ( $data_type && TradePress_API_Usage_Tracker::is_likely_rate_limited( $provider_id ) ) {
 			$fallback_api = TradePress_API_Usage_Tracker::get_best_api_for_data( $data_type );
 			if ( ! is_wp_error( $fallback_api ) ) {
@@ -122,13 +141,13 @@ class TradePress_API_Factory {
 			);
 		}
 
-		// Build configuration from saved settings
+		// Build configuration from saved settings.
 		$args = array();
 
-		// Get API keys based on provider type and mode
-		if ( $provider['api_type'] === 'trading' ) {
-			// Trading APIs have paper/live modes
-			if ( $mode === 'live' ) {
+		// Get API keys based on provider type and mode.
+		if ( 'trading' === $provider['api_type'] ) {
+			// Trading APIs have paper/live modes.
+			if ( 'live' === $mode ) {
 				$args['api_key']    = get_option( "TradePress_api_{$provider_id}_realmoney_apikey", '' );
 				$args['api_secret'] = get_option( "TradePress_api_{$provider_id}_realmoney_secretkey", '' );
 			} else {
@@ -137,13 +156,13 @@ class TradePress_API_Factory {
 			}
 			$args['mode'] = $mode;
 		} else {
-			// Data-only APIs just have API key
+			// Data-only APIs just have API key.
 			$args['api_key'] = get_option( "TradePress_api_{$provider_id}_key", '' );
 		}
 
 		$api = self::create( $provider_id, $args );
 
-		// Track successful creation
+		// Track successful creation.
 		if ( ! is_wp_error( $api ) ) {
 			TradePress_API_Usage_Tracker::track_call( $provider_id, 'connection_test', true );
 		}
@@ -152,9 +171,9 @@ class TradePress_API_Factory {
 	}
 
 	/**
-	 * Get all available API providers
+	 * Get all available API providers.
 	 *
-	 * @param string $type Optional. Filter by API type (trading, data_only, messaging)
+	 * @param string $type Optional. Filter by API type (trading, data_only, messaging).
 	 * @return array Array of provider configurations
 	 * @version 1.0.0
 	 */
@@ -168,13 +187,13 @@ class TradePress_API_Factory {
 		return array_filter(
 			$providers,
 			function ( $provider ) use ( $type ) {
-				return isset( $provider['api_type'] ) && $provider['api_type'] === $type;
+				return isset( $provider['api_type'] ) && $type === $provider['api_type'];
 			}
 		);
 	}
 
 	/**
-	 * Test all configured APIs
+	 * Test all configured APIs.
 	 *
 	 * @return array Test results for each API
 	 * @version 1.0.0
@@ -184,10 +203,10 @@ class TradePress_API_Factory {
 		$providers = self::get_available_providers();
 
 		foreach ( $providers as $provider_id => $provider ) {
-			// Check if API is enabled
+			// Check if API is enabled.
 			$enabled = get_option( "TradePress_switch_{$provider_id}_api_services", 'no' );
 
-			if ( $enabled !== 'yes' ) {
+			if ( 'yes' !== $enabled ) {
 				$results[ $provider_id ] = array(
 					'status'  => 'disabled',
 					'message' => 'API is disabled in settings',
@@ -195,7 +214,7 @@ class TradePress_API_Factory {
 				continue;
 			}
 
-			// Create API instance
+			// Create API instance.
 			$api = self::create_from_settings( $provider_id );
 
 			if ( is_wp_error( $api ) ) {
@@ -206,7 +225,7 @@ class TradePress_API_Factory {
 				continue;
 			}
 
-			// Test connection
+			// Test connection.
 			$test_result = $api->test_connection();
 
 			if ( is_wp_error( $test_result ) ) {

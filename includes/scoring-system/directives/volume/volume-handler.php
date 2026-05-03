@@ -1,29 +1,34 @@
 <?php
 /**
  * Volume Analysis Directive Handler
- * Handles testing, validation, and admin UI for Volume directive
+ * Handles testing, validation, and admin UI for Volume directive.
+ *
+ * @package TradePress
  */
 
+/**
+ * Handles Volume directive tests, validation, and warnings.
+ */
 class TradePress_Volume_Handler {
 
 	/**
 	 * Test directive.
 	 *
-	 * @param string $symbol
-	 * @param string $trading_mode
+	 * @param string $symbol       Symbol ticker.
+	 * @param string $trading_mode Trading mode.
 	 *
 	 * @return mixed
 	 *
 	 * @version 1.0.0
 	 */
 	public static function test_directive( $symbol = 'AAPL', $trading_mode = 'long' ) {
-		// Load API factory
+		// Load API factory.
 		if ( ! class_exists( 'TradePress_API_Factory' ) ) {
-			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/api/api-factory.php';
+			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'api/api-factory.php';
 		}
 
-		// Get quote data
-		$api = TradePress_API_Factory::create_from_settings( 'alphavantage' );
+		// Get quote data.
+		$api = TradePress_API_Factory::create_from_settings( 'alphavantage', 'paper', 'quote' );
 		if ( is_wp_error( $api ) ) {
 			return array(
 				'success' => false,
@@ -39,7 +44,7 @@ class TradePress_Volume_Handler {
 			);
 		}
 
-		// Prepare volume data
+		// Prepare volume data.
 		$current_volume = $quote_data['volume'] ?? 0;
 		$avg_volume     = $quote_data['avg_volume'] ?? ( $current_volume * 0.8 );
 
@@ -48,12 +53,12 @@ class TradePress_Volume_Handler {
 			'avg_volume' => $avg_volume,
 		);
 
-		// Load and test directive
+		// Load and test directive.
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/directives/volume.php';
 		$directive = new TradePress_Scoring_Directive_Volume();
 
 		$scores = array();
-		if ( $trading_mode === 'both' ) {
+		if ( 'both' === $trading_mode ) {
 			$result = $directive->calculate_score( $symbol_data, 'both' );
 			$scores = is_array( $result ) ? $result : array(
 				'long'  => $result,
@@ -86,7 +91,7 @@ class TradePress_Volume_Handler {
 	/**
 	 * Validate config.
 	 *
-	 * @param mixed $data
+	 * @param mixed $data Directive configuration data.
 	 *
 	 * @return mixed
 	 *
@@ -106,7 +111,7 @@ class TradePress_Volume_Handler {
 	/**
 	 * Generate warnings.
 	 *
-	 * @param mixed $data
+	 * @param mixed $data Directive configuration data.
 	 *
 	 * @return mixed
 	 *

@@ -2,7 +2,7 @@
 /**
  * TradePress Technical Indicator Cache Manager
  *
- * Manages caching of technical indicators with individual expiry times
+ * Manages caching of technical indicators with individual expiry times.
  *
  * @package TradePress/Core
  * @version 1.0.0
@@ -12,10 +12,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Manages cache reads, writes, and freshness checks for technical indicators.
+ */
 class TradePress_Technical_Indicator_Cache {
 
 	/**
-	 * Default cache durations for different indicators (in minutes)
+	 * Default cache durations for different indicators in minutes.
+	 *
+	 * @var array
 	 */
 	private static $default_cache_durations = array(
 		'rsi'             => 30,
@@ -29,24 +34,24 @@ class TradePress_Technical_Indicator_Cache {
 	);
 
 	/**
-	 * Get cached technical indicator data
+	 * Get cached technical indicator data.
 	 *
-	 * @param string $symbol Symbol ticker
-	 * @param string $indicator Indicator name (rsi, cci, macd, etc.)
-	 * @param array  $parameters Indicator parameters
-	 * @param int    $max_age_minutes Maximum age in minutes
+	 * @param string $symbol          Symbol ticker.
+	 * @param string $indicator       Indicator name (rsi, cci, macd, etc.).
+	 * @param array  $parameters      Indicator parameters.
+	 * @param int    $max_age_minutes Maximum age in minutes.
 	 * @return mixed Cached data or false if not found/stale
 	 * @version 1.0.0
 	 */
 	public static function get_cached_indicator( $symbol, $indicator, $parameters = array(), $max_age_minutes = null ) {
-		if ( $max_age_minutes === null ) {
+		if ( null === $max_age_minutes ) {
 			$max_age_minutes = self::$default_cache_durations[ $indicator ] ?? 30;
 		}
 
-		// Generate cache key
+		// Generate cache key.
 		$cache_key = self::generate_cache_key( $symbol, $indicator, $parameters );
 
-		// Check Call Register for cached data
+		// Check Call Register for cached data.
 		if ( ! class_exists( 'TradePress_Call_Register' ) ) {
 			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/query-register.php';
 		}
@@ -62,18 +67,18 @@ class TradePress_Technical_Indicator_Cache {
 	}
 
 	/**
-	 * Cache technical indicator data
+	 * Cache technical indicator data.
 	 *
-	 * @param string $symbol Symbol ticker
-	 * @param string $indicator Indicator name
-	 * @param array  $parameters Indicator parameters
-	 * @param mixed  $data Data to cache
-	 * @param int    $cache_minutes Cache duration in minutes
+	 * @param string $symbol        Symbol ticker.
+	 * @param string $indicator     Indicator name.
+	 * @param array  $parameters    Indicator parameters.
+	 * @param mixed  $data          Data to cache.
+	 * @param int    $cache_minutes Cache duration in minutes.
 	 * @return bool Success status
 	 * @version 1.0.0
 	 */
 	public static function cache_indicator( $symbol, $indicator, $parameters, $data, $cache_minutes = null ) {
-		if ( $cache_minutes === null ) {
+		if ( null === $cache_minutes ) {
 			$cache_minutes = self::$default_cache_durations[ $indicator ] ?? 30;
 		}
 
@@ -81,7 +86,7 @@ class TradePress_Technical_Indicator_Cache {
 			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/query-register.php';
 		}
 
-		// Cache using Call Register
+		// Cache using Call Register.
 		TradePress_Call_Register::cache_result(
 			'alphavantage',
 			$indicator,
@@ -94,11 +99,11 @@ class TradePress_Technical_Indicator_Cache {
 	}
 
 	/**
-	 * Generate cache key for indicator
+	 * Generate cache key for indicator.
 	 *
-	 * @param string $symbol Symbol ticker
-	 * @param string $indicator Indicator name
-	 * @param array  $parameters Parameters
+	 * @param string $symbol     Symbol ticker.
+	 * @param string $indicator  Indicator name.
+	 * @param array  $parameters Parameters.
 	 * @return string Cache key
 	 * @version 1.0.0
 	 */
@@ -111,17 +116,17 @@ class TradePress_Technical_Indicator_Cache {
 	}
 
 	/**
-	 * Check if indicator data is fresh
+	 * Check if indicator data is fresh.
 	 *
-	 * @param string $symbol Symbol ticker
-	 * @param string $indicator Indicator name
-	 * @param array  $parameters Parameters
-	 * @param int    $max_age_minutes Maximum age
+	 * @param string $symbol          Symbol ticker.
+	 * @param string $indicator       Indicator name.
+	 * @param array  $parameters      Parameters.
+	 * @param int    $max_age_minutes Maximum age.
 	 * @return array Status information
 	 * @version 1.0.0
 	 */
 	public static function check_indicator_freshness( $symbol, $indicator, $parameters = array(), $max_age_minutes = null ) {
-		if ( $max_age_minutes === null ) {
+		if ( null === $max_age_minutes ) {
 			$max_age_minutes = self::$default_cache_durations[ $indicator ] ?? 30;
 		}
 
@@ -135,28 +140,28 @@ class TradePress_Technical_Indicator_Cache {
 	}
 
 	/**
-	 * Get or fetch indicator data with caching
+	 * Get or fetch indicator data with caching.
 	 *
-	 * @param string   $symbol Symbol ticker
-	 * @param string   $indicator Indicator name
-	 * @param array    $parameters Parameters
-	 * @param callable $fetch_callback Callback to fetch fresh data
+	 * @param string   $symbol         Symbol ticker.
+	 * @param string   $indicator      Indicator name.
+	 * @param array    $parameters     Parameters.
+	 * @param callable $fetch_callback Callback to fetch fresh data.
 	 * @return mixed Indicator data
 	 * @version 1.0.0
 	 */
 	public static function get_or_fetch_indicator( $symbol, $indicator, $parameters, $fetch_callback ) {
-		// Try cache first
+		// Try cache first.
 		$cached_data = self::get_cached_indicator( $symbol, $indicator, $parameters );
 
-		if ( $cached_data !== false ) {
+		if ( false !== $cached_data ) {
 			return $cached_data;
 		}
 
-		// Fetch fresh data
+		// Fetch fresh data.
 		$fresh_data = call_user_func( $fetch_callback, $symbol, $parameters );
 
-		if ( ! is_wp_error( $fresh_data ) && $fresh_data !== false ) {
-			// Cache the fresh data
+		if ( ! is_wp_error( $fresh_data ) && false !== $fresh_data ) {
+			// Cache the fresh data.
 			self::cache_indicator( $symbol, $indicator, $parameters, $fresh_data );
 		}
 
@@ -164,41 +169,43 @@ class TradePress_Technical_Indicator_Cache {
 	}
 
 	/**
-	 * Clear cache for specific indicator
+	 * Clear cache for specific indicator.
 	 *
-	 * @param string $symbol Symbol ticker
-	 * @param string $indicator Indicator name
-	 * @param array  $parameters Parameters
+	 * @param string $symbol     Symbol ticker.
+	 * @param string $indicator  Indicator name.
+	 * @param array  $parameters Parameters.
 	 * @return bool Success status
 	 * @version 1.0.0
 	 */
 	public static function clear_indicator_cache( $symbol, $indicator, $parameters = array() ) {
-		// Note: Call Register uses transients which auto-expire
-		// This is a placeholder for manual cache clearing if needed
+		unset( $symbol, $indicator, $parameters );
+
+		// Note: Call Register uses transients which auto-expire.
+		// This is a placeholder for manual cache clearing if needed.
 		return true;
 	}
 
 	/**
-	 * Get indicator data with automatic caching
+	 * Get indicator data with automatic caching.
 	 *
-	 * @param string $indicator Indicator type
-	 * @param string $symbol Symbol ticker
-	 * @param array  $parameters Parameters
-	 * @param int    $cache_seconds Cache duration in seconds
+	 * @param string $indicator     Indicator type.
+	 * @param string $symbol        Symbol ticker.
+	 * @param array  $parameters    Parameters.
+	 * @param int    $cache_seconds Cache duration in seconds.
 	 * @return mixed Indicator data
 	 * @version 1.0.0
 	 */
 	public function get_indicator_data( $indicator, $symbol, $parameters = array(), $cache_seconds = 1800 ) {
 		$cache_minutes = intval( $cache_seconds / 60 );
 
-		// Check cache first
+		// Check cache first.
 		$cached_data = self::get_cached_indicator( $symbol, $indicator, $parameters, $cache_minutes );
 
-		if ( $cached_data !== false ) {
+		if ( false !== $cached_data ) {
 			return $cached_data;
 		}
 
-		// Fetch fresh data based on indicator type
+		// Fetch fresh data based on indicator type.
 		switch ( $indicator ) {
 			case 'cci':
 				return $this->fetch_cci_data( $symbol, $parameters, $cache_minutes );
@@ -212,11 +219,11 @@ class TradePress_Technical_Indicator_Cache {
 	}
 
 	/**
-	 * Fetch CCI data from API
+	 * Fetch CCI data from API.
 	 *
-	 * @param string $symbol Symbol ticker
-	 * @param array  $parameters Parameters
-	 * @param int    $cache_minutes Cache duration
+	 * @param string $symbol        Symbol ticker.
+	 * @param array  $parameters    Parameters.
+	 * @param int    $cache_minutes Cache duration.
 	 * @return mixed CCI data
 	 * @version 1.0.0
 	 */
@@ -225,7 +232,7 @@ class TradePress_Technical_Indicator_Cache {
 			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'api/api-factory.php';
 		}
 
-		$api = TradePress_API_Factory::create_from_settings( 'alphavantage' );
+		$api = TradePress_API_Factory::create_from_settings( 'alphavantage', 'paper', 'technical_indicators' );
 
 		if ( is_wp_error( $api ) ) {
 			return $api;
@@ -244,7 +251,7 @@ class TradePress_Technical_Indicator_Cache {
 			return $cci_response;
 		}
 
-		// Extract the most recent CCI value
+		// Extract the most recent CCI value.
 		$technical_analysis = $cci_response['Technical Analysis: CCI'] ?? array();
 
 		if ( empty( $technical_analysis ) ) {
@@ -256,8 +263,8 @@ class TradePress_Technical_Indicator_Cache {
 
 		$cci_value = $latest_cci ? (float) $latest_cci : null;
 
-		// Cache the result
-		if ( $cci_value !== null ) {
+		// Cache the result.
+		if ( null !== $cci_value ) {
 			self::cache_indicator( $symbol, 'cci', $parameters, $cci_value, $cache_minutes );
 		}
 
@@ -265,13 +272,13 @@ class TradePress_Technical_Indicator_Cache {
 	}
 
 	/**
-	 * Get cache statistics
+	 * Get cache statistics.
 	 *
-	 * @return array Cache statistics
+	 * @return array Cache statistics.
 	 * @version 1.0.0
 	 */
 	public static function get_cache_stats() {
-		// TODO: Implement cache statistics
+		// TODO: Implement cache statistics.
 		return array(
 			'total_indicators_cached' => 0,
 			'cache_hit_rate'          => 0,

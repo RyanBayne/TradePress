@@ -12,6 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Handles strategy management AJAX requests.
+ */
 class TradePress_Strategy_Handler {
 
 	/**
@@ -37,63 +40,63 @@ class TradePress_Strategy_Handler {
 		check_ajax_referer( 'tradepress_strategy_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( 'Insufficient permissions' );
+			wp_send_json_error( __( 'Insufficient permissions.', 'tradepress' ), 403 );
 		}
 
-		// Load database class
+		// Load database class.
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-scoring-strategies-db.php';
 
-		$name        = sanitize_text_field( $_POST['name'] );
-		$description = sanitize_textarea_field( $_POST['description'] );
-		$template    = sanitize_text_field( $_POST['template'] ?? '' );
+		$name                = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+		$description         = isset( $_POST['description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['description'] ) ) : '';
+		$template            = isset( $_POST['template'] ) ? sanitize_text_field( wp_unslash( $_POST['template'] ) ) : '';
 		$min_score_threshold = isset( $_POST['min_score_threshold'] ) ? (float) sanitize_text_field( wp_unslash( $_POST['min_score_threshold'] ) ) : 50.0;
-		$directives  = json_decode( stripslashes( $_POST['directives'] ), true );
+		$directives          = isset( $_POST['directives'] ) ? json_decode( wp_unslash( $_POST['directives'] ), true ) : array();
 
 		if ( empty( $name ) ) {
-			wp_send_json_error( 'Strategy name is required' );
+			wp_send_json_error( __( 'Strategy name is required.', 'tradepress' ) );
 		}
 
 		if ( empty( $directives ) || ! is_array( $directives ) ) {
-			wp_send_json_error( 'At least one directive is required' );
+			wp_send_json_error( __( 'At least one directive is required.', 'tradepress' ) );
 		}
 
-		// Validate total weight
+		// Validate total weight.
 		$total_weight = array_sum( array_column( $directives, 'weight' ) );
 		if ( abs( 100 - $total_weight ) > 0.01 ) {
-			wp_send_json_error( 'Total weight must be exactly 100%' );
+			wp_send_json_error( __( 'Total weight must be exactly 100%.', 'tradepress' ) );
 		}
 
-		// Determine category based on template
+		// Determine category based on template.
 		$category = 'custom';
 		if ( ! empty( $template ) ) {
 			$category = $template;
 		}
 
-		// Create strategy
+		// Create strategy.
 		$strategy_data = array(
-			'name'         => $name,
-			'description'  => $description,
-			'category'     => $category,
-			'template'     => $template,
-			'status'       => 'draft',
-			'total_weight' => $total_weight,
+			'name'                => $name,
+			'description'         => $description,
+			'category'            => $category,
+			'template'            => $template,
+			'status'              => 'draft',
+			'total_weight'        => $total_weight,
 			'min_score_threshold' => max( 0, min( 500, $min_score_threshold ) ),
-			'creator_id'   => get_current_user_id(),
+			'creator_id'          => get_current_user_id(),
 		);
 
 		$strategy_id = TradePress_Scoring_Strategies_DB::create_strategy( $strategy_data );
 
 		if ( is_wp_error( $strategy_id ) ) {
-			wp_send_json_error( $strategy_id->get_error_message() );
+			wp_send_json_error( $strategy_id->get_error_message(), 500 );
 		}
 
-		// Add directives to strategy
+		// Add directives to strategy.
 		foreach ( $directives as $directive ) {
 			$directive_data = array(
-				'directive_id'   => sanitize_text_field( $directive['id'] ),
-				'directive_name' => sanitize_text_field( $directive['name'] ),
-				'weight'         => floatval( $directive['weight'] ),
-				'sort_order'     => intval( $directive['sort_order'] ?? 0 ),
+				'directive_id'   => isset( $directive['id'] ) ? sanitize_text_field( $directive['id'] ) : '',
+				'directive_name' => isset( $directive['name'] ) ? sanitize_text_field( $directive['name'] ) : '',
+				'weight'         => isset( $directive['weight'] ) ? (float) $directive['weight'] : 0.0,
+				'sort_order'     => isset( $directive['sort_order'] ) ? (int) $directive['sort_order'] : 0,
 			);
 
 			TradePress_Scoring_Strategies_DB::add_strategy_directive( $strategy_id, $directive_data );
@@ -102,9 +105,26 @@ class TradePress_Strategy_Handler {
 		wp_send_json_success(
 			array(
 				'strategy_id' => $strategy_id,
-				'message'     => 'Strategy created successfully',
+				'message'     => __( 'Strategy created successfully.', 'tradepress' ),
 			)
 		);
+	}
+
+	/**
+	 * Update existing strategy.
+	 *
+	 * Not yet implemented. Registered in init() as a placeholder.
+	 *
+	 * @version 1.0.0
+	 */
+	public static function ajax_update_strategy() {
+		check_ajax_referer( 'tradepress_strategy_nonce', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( __( 'Insufficient permissions.', 'tradepress' ), 403 );
+		}
+
+		wp_send_json_error( __( 'Strategy update is not yet implemented.', 'tradepress' ), 501 );
 	}
 
 	/**
@@ -116,38 +136,38 @@ class TradePress_Strategy_Handler {
 		check_ajax_referer( 'tradepress_strategy_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( 'Insufficient permissions' );
+			wp_send_json_error( __( 'Insufficient permissions.', 'tradepress' ), 403 );
 		}
 
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-scoring-strategies-db.php';
 
-		$strategy_id  = intval( $_POST['strategy_id'] );
-		$symbol       = sanitize_text_field( $_POST['symbol'] );
-		$trading_mode = sanitize_text_field( $_POST['trading_mode'] );
+		$strategy_id  = isset( $_POST['strategy_id'] ) ? absint( wp_unslash( $_POST['strategy_id'] ) ) : 0;
+		$symbol       = isset( $_POST['symbol'] ) ? sanitize_text_field( wp_unslash( $_POST['symbol'] ) ) : '';
+		$trading_mode = isset( $_POST['trading_mode'] ) ? sanitize_text_field( wp_unslash( $_POST['trading_mode'] ) ) : '';
 
 		if ( ! $strategy_id || ! $symbol ) {
-			wp_send_json_error( 'Strategy ID and symbol are required' );
+			wp_send_json_error( __( 'Strategy ID and symbol are required.', 'tradepress' ) );
 		}
 
-		// Get strategy and directives
+		// Get strategy and directives.
 		$strategy = TradePress_Scoring_Strategies_DB::get_strategy( $strategy_id );
 		if ( ! $strategy ) {
-			wp_send_json_error( 'Strategy not found' );
+			wp_send_json_error( __( 'Strategy not found.', 'tradepress' ) );
 		}
 
 		$directives = TradePress_Scoring_Strategies_DB::get_strategy_directives( $strategy_id );
 		if ( empty( $directives ) ) {
-			wp_send_json_error( 'No directives found for strategy' );
+			wp_send_json_error( __( 'No directives found for strategy.', 'tradepress' ) );
 		}
 
-		// Calculate strategy score
+		// Calculate strategy score.
 		$test_result = self::calculate_strategy_score( $strategy, $directives, $symbol, $trading_mode );
 
 		if ( is_wp_error( $test_result ) ) {
-			wp_send_json_error( $test_result->get_error_message() );
+			wp_send_json_error( $test_result->get_error_message(), 500 );
 		}
 
-		// Save test result
+		// Save test result.
 		$test_data = array(
 			'strategy_id'       => $strategy_id,
 			'test_type'         => 'single_symbol',
@@ -155,14 +175,14 @@ class TradePress_Strategy_Handler {
 			'trading_mode'      => $trading_mode,
 			'test_date'         => current_time( 'mysql' ),
 			'total_score'       => $test_result['total_score'],
-			'individual_scores' => json_encode( $test_result['individual_scores'] ),
+			'individual_scores' => wp_json_encode( $test_result['individual_scores'] ),
 			'execution_time_ms' => $test_result['execution_time'],
 			'test_status'       => 'completed',
 		);
 
 		TradePress_Scoring_Strategies_DB::save_test_result( $test_data );
 
-		// Update strategy performance
+		// Update strategy performance.
 		TradePress_Scoring_Strategies_DB::update_performance_metrics( $strategy_id );
 
 		wp_send_json_success( $test_result );
@@ -177,19 +197,19 @@ class TradePress_Strategy_Handler {
 		check_ajax_referer( 'tradepress_strategy_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( 'Insufficient permissions' );
+			wp_send_json_error( __( 'Insufficient permissions.', 'tradepress' ), 403 );
 		}
 
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-scoring-strategies-db.php';
 
 		$args = array(
-			'status' => sanitize_text_field( $_POST['status'] ?? 'all' ),
-			'limit'  => intval( $_POST['limit'] ?? 50 ),
+			'status' => isset( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : 'all',
+			'limit'  => isset( $_POST['limit'] ) ? absint( wp_unslash( $_POST['limit'] ) ) : 50,
 		);
 
 		$strategies = TradePress_Scoring_Strategies_DB::get_strategies( $args );
 
-		// Add directive counts
+		// Add directive counts.
 		foreach ( $strategies as &$strategy ) {
 			$directives                = TradePress_Scoring_Strategies_DB::get_strategy_directives( $strategy->id );
 			$strategy->directive_count = count( $directives );
@@ -208,24 +228,24 @@ class TradePress_Strategy_Handler {
 		check_ajax_referer( 'tradepress_strategy_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( 'Insufficient permissions' );
+			wp_send_json_error( __( 'Insufficient permissions.', 'tradepress' ), 403 );
 		}
 
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-scoring-strategies-db.php';
 
-		$strategy_id = intval( $_POST['strategy_id'] );
+		$strategy_id = isset( $_POST['strategy_id'] ) ? absint( wp_unslash( $_POST['strategy_id'] ) ) : 0;
 
 		if ( ! $strategy_id ) {
-			wp_send_json_error( 'Strategy ID is required' );
+			wp_send_json_error( __( 'Strategy ID is required.', 'tradepress' ) );
 		}
 
 		$result = TradePress_Scoring_Strategies_DB::delete_strategy( $strategy_id );
 
 		if ( is_wp_error( $result ) ) {
-			wp_send_json_error( $result->get_error_message() );
+			wp_send_json_error( $result->get_error_message(), 500 );
 		}
 
-		wp_send_json_success( 'Strategy deleted successfully' );
+		wp_send_json_success( __( 'Strategy deleted successfully.', 'tradepress' ) );
 	}
 
 	/**
@@ -237,38 +257,38 @@ class TradePress_Strategy_Handler {
 		check_ajax_referer( 'tradepress_strategy_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( 'Insufficient permissions' );
+			wp_send_json_error( __( 'Insufficient permissions.', 'tradepress' ), 403 );
 		}
 
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-scoring-strategies-db.php';
 
-		$strategy_id = intval( $_POST['strategy_id'] );
+		$strategy_id = isset( $_POST['strategy_id'] ) ? absint( wp_unslash( $_POST['strategy_id'] ) ) : 0;
 		$strategy    = TradePress_Scoring_Strategies_DB::get_strategy( $strategy_id );
 
 		if ( ! $strategy ) {
-			wp_send_json_error( 'Strategy not found' );
+			wp_send_json_error( __( 'Strategy not found.', 'tradepress' ) );
 		}
 
-		// Create duplicate
+		// Create duplicate.
 		$new_strategy_data = array(
-			'name'         => $strategy->name . ' (Copy)',
-			'description'  => $strategy->description,
-			'category'     => $strategy->category,
-			'status'       => 'draft',
-			'risk_level'   => $strategy->risk_level,
-			'time_horizon' => $strategy->time_horizon,
-			'total_weight' => $strategy->total_weight,
+			'name'                => $strategy->name . ' (Copy)',
+			'description'         => $strategy->description,
+			'category'            => $strategy->category,
+			'status'              => 'draft',
+			'risk_level'          => $strategy->risk_level,
+			'time_horizon'        => $strategy->time_horizon,
+			'total_weight'        => $strategy->total_weight,
 			'min_score_threshold' => $strategy->min_score_threshold,
-			'creator_id'   => get_current_user_id(),
+			'creator_id'          => get_current_user_id(),
 		);
 
 		$new_strategy_id = TradePress_Scoring_Strategies_DB::create_strategy( $new_strategy_data );
 
 		if ( is_wp_error( $new_strategy_id ) ) {
-			wp_send_json_error( $new_strategy_id->get_error_message() );
+			wp_send_json_error( $new_strategy_id->get_error_message(), 500 );
 		}
 
-		// Copy directives
+		// Copy directives.
 		$directives = TradePress_Scoring_Strategies_DB::get_strategy_directives( $strategy_id );
 		foreach ( $directives as $directive ) {
 			$directive_data = array(
@@ -284,7 +304,7 @@ class TradePress_Strategy_Handler {
 		wp_send_json_success(
 			array(
 				'strategy_id' => $new_strategy_id,
-				'message'     => 'Strategy duplicated successfully',
+				'message'     => __( 'Strategy duplicated successfully.', 'tradepress' ),
 			)
 		);
 	}
@@ -294,15 +314,15 @@ class TradePress_Strategy_Handler {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $strategy
-	 * @param mixed $directives
-	 * @param mixed $symbol
-	 * @param mixed $trading_mode
+	 * @param mixed $strategy Strategy row.
+	 * @param mixed $directives Strategy directive rows.
+	 * @param mixed $symbol Symbol to test.
+	 * @param mixed $trading_mode Trading mode.
 	 */
 	private static function calculate_strategy_score( $strategy, $directives, $symbol, $trading_mode ) {
 		$start_time = microtime( true );
 
-		// Load directive handler
+		// Load directive handler.
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/page/scoring-directives/directive-handler.php';
 
 		$individual_scores    = array();
@@ -310,7 +330,7 @@ class TradePress_Strategy_Handler {
 		$total_weight         = 0;
 
 		foreach ( $directives as $directive ) {
-			// Test individual directive
+			// Test individual directive.
 			$directive_result = TradePress_Directive_Handler::test_directive(
 				$directive->directive_id,
 				$symbol,
@@ -332,7 +352,7 @@ class TradePress_Strategy_Handler {
 				$total_weighted_score += $weighted_score;
 				$total_weight         += $directive->weight;
 			} else {
-				// Handle directive failure
+				// Handle directive failure.
 				$individual_scores[] = array(
 					'directive_id'   => $directive->directive_id,
 					'directive_name' => $directive->directive_name,
@@ -344,10 +364,10 @@ class TradePress_Strategy_Handler {
 			}
 		}
 
-		// Calculate final score
+		// Calculate final score.
 		$final_score = $total_weight > 0 ? ( $total_weighted_score / $total_weight ) * 100 : 0;
 
-		$execution_time = ( microtime( true ) - $start_time ) * 1000; // Convert to milliseconds
+		$execution_time = ( microtime( true ) - $start_time ) * 1000; // Convert to milliseconds.
 
 		return array(
 			'total_score'       => round( $final_score, 2 ),
@@ -360,5 +380,5 @@ class TradePress_Strategy_Handler {
 	}
 }
 
-// Initialize the handler
+// Initialize the handler.
 TradePress_Strategy_Handler::init();

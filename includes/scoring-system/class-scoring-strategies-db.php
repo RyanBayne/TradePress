@@ -12,6 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Database helper for scoring strategy storage.
+ */
 class TradePress_Scoring_Strategies_DB {
 
 	/**
@@ -26,7 +29,7 @@ class TradePress_Scoring_Strategies_DB {
 		$like  = $wpdb->esc_like( $table );
 		$found = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $like ) );
 
-		if ( $found === $table ) {
+		if ( $table === $found ) {
 			return true;
 		}
 
@@ -46,7 +49,7 @@ class TradePress_Scoring_Strategies_DB {
 
 		$found = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $like ) );
 
-		return $found === $table;
+		return $table === $found;
 	}
 
 	/**
@@ -54,7 +57,8 @@ class TradePress_Scoring_Strategies_DB {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $strategy_id
+	 * @param mixed $strategy_id Strategy ID.
+	 * @return object|null
 	 */
 	public static function get_strategy( $strategy_id ) {
 		global $wpdb;
@@ -64,6 +68,7 @@ class TradePress_Scoring_Strategies_DB {
 		}
 
 		$table = $wpdb->prefix . 'tradepress_scoring_strategies';
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is a trusted $wpdb prefixed table.
 		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table WHERE id = %d", $strategy_id ) );
 	}
 
@@ -72,7 +77,8 @@ class TradePress_Scoring_Strategies_DB {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param array $args
+	 * @param array $args Query arguments.
+	 * @return array
 	 */
 	public static function get_strategies( $args = array() ) {
 		global $wpdb;
@@ -94,16 +100,22 @@ class TradePress_Scoring_Strategies_DB {
 
 		$args = wp_parse_args( $args, $defaults );
 
+		$allowed_orderby = array( 'id', 'name', 'slug', 'type', 'status', 'category', 'creator_id', 'is_public', 'created_at', 'updated_at', 'success_rate', 'avg_score', 'total_tests' );
+		$args['orderby'] = in_array( $args['orderby'], $allowed_orderby, true ) ? $args['orderby'] : 'created_at';
+		$args['order']   = in_array( strtoupper( $args['order'] ), array( 'ASC', 'DESC' ), true ) ? strtoupper( $args['order'] ) : 'DESC';
+		$args['limit']   = absint( $args['limit'] );
+		$args['offset']  = absint( $args['offset'] );
+
 		$table         = $wpdb->prefix . 'tradepress_scoring_strategies';
 		$where_clauses = array( '1=1' );
 		$where_values  = array();
 
-		if ( $args['status'] !== 'all' ) {
+		if ( 'all' !== $args['status'] ) {
 			$where_clauses[] = 'status = %s';
 			$where_values[]  = $args['status'];
 		}
 
-		if ( $args['category'] !== 'all' ) {
+		if ( 'all' !== $args['category'] ) {
 			$where_clauses[] = 'category = %s';
 			$where_values[]  = $args['category'];
 		}
@@ -113,22 +125,24 @@ class TradePress_Scoring_Strategies_DB {
 			$where_values[]  = $args['creator_id'];
 		}
 
-		if ( $args['is_public'] !== null ) {
+		if ( null !== $args['is_public'] ) {
 			$where_clauses[] = 'is_public = %d';
 			$where_values[]  = $args['is_public'] ? 1 : 0;
 		}
 
 		$where_sql = implode( ' AND ', $where_clauses );
-		$order_sql = sprintf( 'ORDER BY %s %s', $args['orderby'], $args['order'] );
+		$order_sql = sprintf( 'ORDER BY %s %s', esc_sql( $args['orderby'] ), esc_sql( $args['order'] ) );
 		$limit_sql = sprintf( 'LIMIT %d OFFSET %d', $args['limit'], $args['offset'] );
 
 		$sql = "SELECT * FROM $table WHERE $where_sql $order_sql $limit_sql";
 
 		if ( ! empty( $where_values ) ) {
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- WHERE placeholders are built above from fixed fragments; table/order/limit values are whitelisted.
 			return $wpdb->get_results( $wpdb->prepare( $sql, $where_values ) );
-		} else {
-			return $wpdb->get_results( $sql );
 		}
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query contains trusted table name and whitelisted order/limit fragments.
+		return $wpdb->get_results( $sql );
 	}
 
 	/**
@@ -136,7 +150,8 @@ class TradePress_Scoring_Strategies_DB {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $data
+	 * @param mixed $data Strategy data.
+	 * @return int|WP_Error
 	 */
 	public static function create_strategy( $data ) {
 		global $wpdb;
@@ -147,25 +162,25 @@ class TradePress_Scoring_Strategies_DB {
 
 		$table = $wpdb->prefix . 'tradepress_scoring_strategies';
 
-		// Generate slug from name
+		// Generate slug from name.
 		if ( empty( $data['slug'] ) && ! empty( $data['name'] ) ) {
 			$data['slug'] = sanitize_title( $data['name'] );
 		}
 
-		// Set creator if not specified
+		// Set creator if not specified.
 		if ( empty( $data['creator_id'] ) ) {
 			$data['creator_id'] = get_current_user_id();
 		}
 
 		$result = $wpdb->insert( $table, $data );
 
-		if ( $result === false ) {
+		if ( false === $result ) {
 			return new WP_Error( 'db_error', 'Failed to create strategy: ' . $wpdb->last_error );
 		}
 
 		$strategy_id = $wpdb->insert_id;
 
-		// Create initial version
+		// Create initial version.
 		self::create_strategy_version( $strategy_id, $data, 'created' );
 
 		return $strategy_id;
@@ -176,15 +191,16 @@ class TradePress_Scoring_Strategies_DB {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $strategy_id
-	 * @param mixed $data
+	 * @param mixed $strategy_id Strategy ID.
+	 * @param mixed $data Strategy data.
+	 * @return true|WP_Error
 	 */
 	public static function update_strategy( $strategy_id, $data ) {
 		global $wpdb;
 
 		$table = $wpdb->prefix . 'tradepress_scoring_strategies';
 
-		// Get current strategy for version tracking
+		// Get current strategy for version tracking.
 		$current_strategy = self::get_strategy( $strategy_id );
 		if ( ! $current_strategy ) {
 			return new WP_Error( 'not_found', 'Strategy not found' );
@@ -192,11 +208,11 @@ class TradePress_Scoring_Strategies_DB {
 
 		$result = $wpdb->update( $table, $data, array( 'id' => $strategy_id ) );
 
-		if ( $result === false ) {
+		if ( false === $result ) {
 			return new WP_Error( 'db_error', 'Failed to update strategy: ' . $wpdb->last_error );
 		}
 
-		// Create version record
+		// Create version record.
 		self::create_strategy_version( $strategy_id, $data, 'updated' );
 
 		return true;
@@ -207,21 +223,22 @@ class TradePress_Scoring_Strategies_DB {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $strategy_id
+	 * @param mixed $strategy_id Strategy ID.
+	 * @return true|WP_Error
 	 */
 	public static function delete_strategy( $strategy_id ) {
 		global $wpdb;
 
 		$table = $wpdb->prefix . 'tradepress_scoring_strategies';
 
-		// Archive instead of delete to preserve history
+		// Archive instead of delete to preserve history.
 		$result = $wpdb->update(
 			$table,
 			array( 'status' => 'archived' ),
 			array( 'id' => $strategy_id )
 		);
 
-		if ( $result === false ) {
+		if ( false === $result ) {
 			return new WP_Error( 'db_error', 'Failed to archive strategy: ' . $wpdb->last_error );
 		}
 
@@ -233,8 +250,9 @@ class TradePress_Scoring_Strategies_DB {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $strategy_id
-	 * @param mixed $directive_data
+	 * @param mixed $strategy_id Strategy ID.
+	 * @param mixed $directive_data Directive data.
+	 * @return int|WP_Error
 	 */
 	public static function add_strategy_directive( $strategy_id, $directive_data ) {
 		global $wpdb;
@@ -249,7 +267,7 @@ class TradePress_Scoring_Strategies_DB {
 
 		$result = $wpdb->insert( $table, $directive_data );
 
-		if ( $result === false ) {
+		if ( false === $result ) {
 			return new WP_Error( 'db_error', 'Failed to add directive: ' . $wpdb->last_error );
 		}
 
@@ -261,9 +279,11 @@ class TradePress_Scoring_Strategies_DB {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $strategy_id
+	 * @param mixed $strategy_id Strategy ID.
+	 * @param bool  $include_inactive Whether to include inactive directives.
+	 * @return array
 	 */
-	public static function get_strategy_directives( $strategy_id ) {
+	public static function get_strategy_directives( $strategy_id, $include_inactive = false ) {
 		global $wpdb;
 
 		if ( ! self::ensure_tables() ) {
@@ -272,8 +292,19 @@ class TradePress_Scoring_Strategies_DB {
 
 		$table = $wpdb->prefix . 'tradepress_strategy_directives';
 
+		if ( $include_inactive ) {
+			return $wpdb->get_results(
+				$wpdb->prepare(
+					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					"SELECT * FROM $table WHERE strategy_id = %d ORDER BY sort_order ASC",
+					$strategy_id
+				)
+			);
+		}
+
 		return $wpdb->get_results(
 			$wpdb->prepare(
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				"SELECT * FROM $table WHERE strategy_id = %d AND is_active = 1 ORDER BY sort_order ASC",
 				$strategy_id
 			)
@@ -285,8 +316,9 @@ class TradePress_Scoring_Strategies_DB {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $strategy_directive_id
-	 * @param mixed $weight
+	 * @param mixed $strategy_directive_id Strategy directive ID.
+	 * @param mixed $weight Directive weight.
+	 * @return bool
 	 */
 	public static function update_directive_weight( $strategy_directive_id, $weight ) {
 		global $wpdb;
@@ -299,7 +331,7 @@ class TradePress_Scoring_Strategies_DB {
 			array( 'id' => $strategy_directive_id )
 		);
 
-		return $result !== false;
+		return false !== $result;
 	}
 
 	/**
@@ -307,21 +339,22 @@ class TradePress_Scoring_Strategies_DB {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $strategy_directive_id
+	 * @param mixed $strategy_directive_id Strategy directive ID.
+	 * @return bool
 	 */
 	public static function remove_strategy_directive( $strategy_directive_id ) {
 		global $wpdb;
 
 		$table = $wpdb->prefix . 'tradepress_strategy_directives';
 
-		// Soft delete by setting inactive
+		// Soft delete by setting inactive.
 		$result = $wpdb->update(
 			$table,
 			array( 'is_active' => 0 ),
 			array( 'id' => $strategy_directive_id )
 		);
 
-		return $result !== false;
+		return false !== $result;
 	}
 
 	/**
@@ -329,19 +362,21 @@ class TradePress_Scoring_Strategies_DB {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed  $strategy_directive_id
-	 * @param mixed  $config_key
-	 * @param mixed  $config_value
-	 * @param string $config_type
+	 * @param mixed  $strategy_directive_id Strategy directive ID.
+	 * @param mixed  $config_key Config key.
+	 * @param mixed  $config_value Config value.
+	 * @param string $config_type Config type.
+	 * @return bool
 	 */
 	public static function save_directive_config( $strategy_directive_id, $config_key, $config_value, $config_type = 'string' ) {
 		global $wpdb;
 
 		$table = $wpdb->prefix . 'tradepress_strategy_directive_configs';
 
-		// Check if config already exists
+		// Check if config already exists.
 		$existing = $wpdb->get_row(
 			$wpdb->prepare(
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is a trusted $wpdb prefixed table.
 				"SELECT * FROM $table WHERE strategy_directive_id = %d AND config_key = %s",
 				$strategy_directive_id,
 				$config_key
@@ -362,7 +397,7 @@ class TradePress_Scoring_Strategies_DB {
 			$result                        = $wpdb->insert( $table, $data );
 		}
 
-		return $result !== false;
+		return false !== $result;
 	}
 
 	/**
@@ -370,7 +405,8 @@ class TradePress_Scoring_Strategies_DB {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $strategy_directive_id
+	 * @param mixed $strategy_directive_id Strategy directive ID.
+	 * @return array
 	 */
 	public static function get_directive_configs( $strategy_directive_id ) {
 		global $wpdb;
@@ -379,12 +415,13 @@ class TradePress_Scoring_Strategies_DB {
 
 		$configs = $wpdb->get_results(
 			$wpdb->prepare(
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is a trusted $wpdb prefixed table.
 				"SELECT * FROM $table WHERE strategy_directive_id = %d",
 				$strategy_directive_id
 			)
 		);
 
-		// Convert to key-value array
+		// Convert to key-value array.
 		$config_array = array();
 		foreach ( $configs as $config ) {
 			$config_array[ $config->config_key ] = $config->config_value;
@@ -398,7 +435,8 @@ class TradePress_Scoring_Strategies_DB {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $test_data
+	 * @param mixed $test_data Test data.
+	 * @return int|WP_Error
 	 */
 	public static function save_test_result( $test_data ) {
 		global $wpdb;
@@ -411,7 +449,7 @@ class TradePress_Scoring_Strategies_DB {
 
 		$result = $wpdb->insert( $table, $test_data );
 
-		if ( $result === false ) {
+		if ( false === $result ) {
 			return new WP_Error( 'db_error', 'Failed to save test result: ' . $wpdb->last_error );
 		}
 
@@ -423,8 +461,9 @@ class TradePress_Scoring_Strategies_DB {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $strategy_id
-	 * @param int   $limit
+	 * @param mixed $strategy_id Strategy ID.
+	 * @param int   $limit Result limit.
+	 * @return array
 	 */
 	public static function get_test_results( $strategy_id, $limit = 10 ) {
 		global $wpdb;
@@ -433,6 +472,7 @@ class TradePress_Scoring_Strategies_DB {
 
 		return $wpdb->get_results(
 			$wpdb->prepare(
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is a trusted $wpdb prefixed table.
 				"SELECT * FROM $table WHERE strategy_id = %d ORDER BY test_date DESC LIMIT %d",
 				$strategy_id,
 				$limit
@@ -445,22 +485,23 @@ class TradePress_Scoring_Strategies_DB {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed  $strategy_id
-	 * @param mixed  $strategy_data
-	 * @param string $change_type
+	 * @param mixed  $strategy_id Strategy ID.
+	 * @param mixed  $strategy_data Strategy data.
+	 * @param string $change_type Change type.
+	 * @return int|false
 	 */
 	private static function create_strategy_version( $strategy_id, $strategy_data, $change_type = 'updated' ) {
 		global $wpdb;
 
 		$table = $wpdb->prefix . 'tradepress_strategy_versions';
 
-		// Get current directives
+		// Get current directives.
 		$directives = self::get_strategy_directives( $strategy_id );
 
 		$version_data = array(
 			'strategy_id'     => $strategy_id,
-			'strategy_data'   => json_encode( $strategy_data ),
-			'directives_data' => json_encode( $directives ),
+			'strategy_data'   => wp_json_encode( $strategy_data ),
+			'directives_data' => wp_json_encode( $directives ),
 			'change_type'     => $change_type,
 			'created_by'      => get_current_user_id(),
 		);
@@ -472,6 +513,8 @@ class TradePress_Scoring_Strategies_DB {
 	 * Get strategy categories
 	 *
 	 * @version 1.0.0
+	 *
+	 * @return array
 	 */
 	public static function get_categories() {
 		global $wpdb;
@@ -479,6 +522,7 @@ class TradePress_Scoring_Strategies_DB {
 		$table = $wpdb->prefix . 'tradepress_strategy_categories';
 
 		return $wpdb->get_results(
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.NotPrepared -- Table name is a trusted $wpdb prefixed table and query has no user input.
 			"SELECT * FROM $table WHERE is_active = 1 ORDER BY sort_order ASC, name ASC"
 		);
 	}
@@ -488,15 +532,17 @@ class TradePress_Scoring_Strategies_DB {
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $strategy_id
+	 * @param mixed $strategy_id Strategy ID.
+	 * @return void
 	 */
 	public static function update_performance_metrics( $strategy_id ) {
 		global $wpdb;
 
-		// Calculate performance from test results
+		// Calculate performance from test results.
 		$tests_table    = $wpdb->prefix . 'tradepress_strategy_tests';
 		$strategy_table = $wpdb->prefix . 'tradepress_scoring_strategies';
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is a trusted $wpdb prefixed table.
 		$stats = $wpdb->get_row(
 			$wpdb->prepare(
 				"
@@ -511,6 +557,7 @@ class TradePress_Scoring_Strategies_DB {
 				$strategy_id
 			)
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		if ( $stats && $stats->total_tests > 0 ) {
 			$success_rate = ( $stats->successful_tests / $stats->total_tests ) * 100;
@@ -533,13 +580,16 @@ class TradePress_Scoring_Strategies_DB {
 	 * Get strategy statistics
 	 *
 	 * @version 1.0.0
+	 *
+	 * @return object|null
 	 */
 	public static function get_strategy_stats() {
 		global $wpdb;
 
 		$table = $wpdb->prefix . 'tradepress_scoring_strategies';
 
-		return $wpdb->get_row(
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.NotPrepared -- Table name is a trusted $wpdb prefixed table and query has no user input.
+		$stats = $wpdb->get_row(
 			"
             SELECT 
                 COUNT(*) as total_strategies,
@@ -550,5 +600,8 @@ class TradePress_Scoring_Strategies_DB {
             FROM $table
         "
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.NotPrepared
+
+		return $stats;
 	}
 }

@@ -277,6 +277,7 @@ jQuery(function ($) {
             const formulaText = String(step.formula_text || (weightedValue.toFixed(2) + ' = ' + scoreValue.toFixed(2) + ' x ' + weightValue.toFixed(4)));
             const barWidth = Math.max(0, Math.min(100, scoreValue));
             const warningText = step.warning ? '<div class="tp-sees-step-warning">Warning: ' + escapeHtml(step.warning) + '</div>' : '';
+            const descriptionText = step.description ? '<div class="tp-sees-step-description">' + escapeHtml(step.description) + '</div>' : '';
             const row = $(
                 '<article class="tp-sees-step ' + passClass + '">' +
                 '<header>' +
@@ -284,6 +285,7 @@ jQuery(function ($) {
                 '<span class="tp-sees-step-label">' + escapeHtml(step.label) + '</span>' +
                 '<span class="tp-sees-step-status">' + statusText + '</span>' +
                 '</header>' +
+                descriptionText +
                 '<div class="tp-sees-step-values">' +
                 '<span>Input: ' + escapeHtml(step.input_value) + '</span>' +
                 '<span>Score: ' + scoreValue.toFixed(2) + '</span>' +

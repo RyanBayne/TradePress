@@ -29,7 +29,7 @@ if ( class_exists( 'TradePress_Scoring_Directives_Registry' ) ) {
 			$directives = $registry->get_directives();
 		}
 	} catch ( Exception $e ) {
-		// Leave the builder in empty/default state when the registry is unavailable.
+		unset( $e ); // Leave the builder in empty/default state when the registry is unavailable.
 	}
 }
 

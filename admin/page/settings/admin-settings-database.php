@@ -8,7 +8,7 @@
  * @created    2025-04-20
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -26,7 +26,7 @@ class TradePress_Admin_Settings_Database {
 	 * @version 1.0.0
 	 */
 	public function __construct() {
-		// AJAX handler for manual table installation
+		// AJAX handler for manual table installation.
 		add_action( 'wp_ajax_tradepress_install_tables', array( $this, 'ajax_install_tables' ) );
 	}
 
@@ -39,36 +39,36 @@ class TradePress_Admin_Settings_Database {
 	public function get_table_information() {
 		global $wpdb;
 
-		// Define the tables to check
+		// Define the tables to check.
 		$tradepress_tables = array(
-			// Core tables
+			// Core tables.
 			$wpdb->prefix . 'tradepress_calls',
 			$wpdb->prefix . 'tradepress_errors',
 			$wpdb->prefix . 'tradepress_endpoints',
 			$wpdb->prefix . 'tradepress_meta',
 
-			// Symbol tables
+			// Symbol tables.
 			$wpdb->prefix . 'tradepress_symbols',
 			$wpdb->prefix . 'tradepress_price_levels',
 			$wpdb->prefix . 'tradepress_price_history',
 
-			// Scoring tables
+			// Scoring tables.
 			$wpdb->prefix . 'tradepress_symbol_scores',
 			$wpdb->prefix . 'tradepress_directive_scores',
 			$wpdb->prefix . 'tradepress_strategies',
 			$wpdb->prefix . 'tradepress_strategy_symbols',
 			$wpdb->prefix . 'tradepress_score_analysis',
 
-			// Bot tables
+			// Bot tables.
 			$wpdb->prefix . 'tradepress_trades',
 			$wpdb->prefix . 'tradepress_algorithm_runs',
 
-			// Prediction tables
+			// Prediction tables.
 			$wpdb->prefix . 'tradepress_prediction_sources',
 			$wpdb->prefix . 'tradepress_price_predictions',
 			$wpdb->prefix . 'tradepress_source_performance',
 
-			// Other tables
+			// Other tables.
 			$wpdb->prefix . 'tradepress_api_credentials',
 			$wpdb->prefix . 'tradepress_portfolios',
 			$wpdb->prefix . 'tradepress_positions',
@@ -80,7 +80,7 @@ class TradePress_Admin_Settings_Database {
 
 		$table_info = array();
 
-		// Check which tables exist and get their info
+		// Check which tables exist and get their info.
 		foreach ( $tradepress_tables as $table ) {
 			$exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) === $table;
 
@@ -96,32 +96,34 @@ class TradePress_Admin_Settings_Database {
 			);
 
 			if ( $exists ) {
-				// Get table status
-				$status = $wpdb->get_row( $wpdb->prepare( 'SHOW TABLE STATUS LIKE %s', $table ) );
+				// Get table status.
+				$status = $wpdb->get_row( $wpdb->prepare( 'SHOW TABLE STATUS LIKE %s', $table ), ARRAY_A );
 
 				if ( $status ) {
-					$table_data['rows'] = isset( $status->Rows ) ? (int) $status->Rows : 0;
+					$table_data['rows'] = isset( $status['Rows'] ) ? (int) $status['Rows'] : 0;
 
-					// Calculate size (index + data)
-					$size                  = $status->Data_length + $status->Index_length;
+					// Calculate size from index and data lengths.
+					$data_length           = isset( $status['Data_length'] ) ? (int) $status['Data_length'] : 0;
+					$index_length          = isset( $status['Index_length'] ) ? (int) $status['Index_length'] : 0;
+					$size                  = $data_length + $index_length;
 					$table_data['size']    = $size;
 					$table_data['size_mb'] = round( $size / ( 1024 * 1024 ), 2 );
-					$table_data['engine']  = $status->Engine;
+					$table_data['engine']  = isset( $status['Engine'] ) ? $status['Engine'] : '';
 
-					// Add warnings for large tables
+					// Add warnings for large tables.
 					if ( $table_data['size_mb'] > 100 ) {
 						$table_data['warning'] = true;
 						$table_data['message'] = __( 'Table is larger than 100MB. Consider implementing a cleanup strategy.', 'tradepress' );
 					}
 
-					// Add warnings for tables with many rows
+					// Add warnings for tables with many rows.
 					if ( $table_data['rows'] > 1000000 ) {
 						$table_data['warning'] = true;
 						$table_data['message'] = __( 'Table has over 1 million rows. Consider implementing a cleanup strategy.', 'tradepress' );
 					}
 
-					// Warning for non-InnoDB tables with foreign keys
-					if ( $status->Engine !== 'InnoDB' && $this->table_has_foreign_keys( $table ) ) {
+					// Warning for non-InnoDB tables with foreign keys.
+					if ( 'InnoDB' !== $table_data['engine'] && $this->table_has_foreign_keys( $table ) ) {
 						$table_data['warning'] = true;
 						$table_data['message'] = __( 'Table should use InnoDB engine to support foreign keys.', 'tradepress' );
 					}
@@ -137,21 +139,24 @@ class TradePress_Admin_Settings_Database {
 	/**
 	 * Check if a table has foreign key constraints
 	 *
-	 * @param string $table Table name
-	 * @return bool True if table has foreign keys
+	 * @param string $table Table name.
+	 * @return bool True if table has foreign keys.
 	 * @version 1.0.0
 	 */
 	private function table_has_foreign_keys( $table ) {
 		global $wpdb;
 
-		// This works for MySQL/MariaDB
+		// This works for MySQL/MariaDB.
 		$result = $wpdb->get_var(
-			"
+			$wpdb->prepare(
+				"
             SELECT COUNT(*) 
             FROM information_schema.TABLE_CONSTRAINTS 
             WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' 
             AND TABLE_SCHEMA = DATABASE() 
-            AND TABLE_NAME = '" . esc_sql( $table ) . "'"
+            AND TABLE_NAME = %s",
+				$table
+			)
 		);
 
 		return $result > 0;
@@ -160,7 +165,7 @@ class TradePress_Admin_Settings_Database {
 	/**
 	 * Group tables by type
 	 *
-	 * @param array $tables Table information
+	 * @param array $tables Table information.
 	 * @return array Grouped tables
 	 * @version 1.0.0
 	 */
@@ -228,7 +233,7 @@ class TradePress_Admin_Settings_Database {
 	/**
 	 * Get missing tables
 	 *
-	 * @param array $tables Table information
+	 * @param array $tables Table information.
 	 * @return array Missing tables
 	 * @version 1.0.0
 	 */
@@ -250,7 +255,7 @@ class TradePress_Admin_Settings_Database {
 	 * @version 1.0.0
 	 */
 	public function ajax_install_tables() {
-		// Check permissions
+		// Check permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error(
 				array(
@@ -259,7 +264,7 @@ class TradePress_Admin_Settings_Database {
 			);
 		}
 
-		// Verify nonce
+		// Verify nonce.
 		if ( ! check_ajax_referer( 'tradepress-install-tables', 'nonce', false ) ) {
 			wp_send_json_error(
 				array(
@@ -269,8 +274,8 @@ class TradePress_Admin_Settings_Database {
 		}
 
 		try {
-			// Run installation
-			require_once TRADEPRESS_PLUGIN_DIR . 'installation/tables-installation.php';
+			// Run installation.
+			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'admin/installation/tables-installation.php';
 
 			if ( class_exists( 'TradePress_Install_Tables' ) ) {
 				$installer = new TradePress_Install_Tables();

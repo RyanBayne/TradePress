@@ -1,12 +1,17 @@
 <?php
 /**
  * API Usage Tracker and Fallback System
+ *
+ * @package TradePress
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Tracks provider usage, runtime health, and fallback decisions.
+ */
 class TradePress_API_Usage_Tracker {
 
 	/**
@@ -26,16 +31,16 @@ class TradePress_API_Usage_Tracker {
 	);
 
 	/**
-	 * Track API call usage
+	 * Track API call usage.
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $provider_id
-	 * @param mixed $endpoint
-	 * @param bool  $success
+	 * @param mixed $provider_id Provider identifier.
+	 * @param mixed $endpoint    API endpoint or call purpose.
+	 * @param bool  $success     Whether the call succeeded.
 	 */
 	public static function track_call( $provider_id, $endpoint, $success = true ) {
-		$today     = date( 'Y-m-d' );
+		$today     = wp_date( 'Y-m-d' );
 		$usage_key = "tradepress_api_usage_{$provider_id}_{$today}";
 
 		$usage = get_option(
@@ -68,15 +73,15 @@ class TradePress_API_Usage_Tracker {
 	}
 
 	/**
-	 * Mark API as rate limited
+	 * Mark API as rate limited.
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $provider_id
-	 * @param mixed $reset_time
+	 * @param mixed $provider_id Provider identifier.
+	 * @param mixed $reset_time  Optional reset time.
 	 */
 	public static function mark_rate_limited( $provider_id, $reset_time = null ) {
-		$today     = date( 'Y-m-d' );
+		$today     = wp_date( 'Y-m-d' );
 		$usage_key = "tradepress_api_usage_{$provider_id}_{$today}";
 
 		$usage                    = get_option( $usage_key, array() );
@@ -88,7 +93,7 @@ class TradePress_API_Usage_Tracker {
 
 		update_option( $usage_key, $usage );
 
-		// Developer notice
+		// Developer notice.
 		if ( function_exists( 'tradepress_is_developer_mode' ) && tradepress_is_developer_mode() ) {
 			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/developer-notices.php';
 			TradePress_Developer_Notices::api_call_notice(
@@ -101,14 +106,14 @@ class TradePress_API_Usage_Tracker {
 	}
 
 	/**
-	 * Check if API is likely rate limited with cooling period
+	 * Check if API is likely rate limited with cooling period.
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $provider_id
+	 * @param mixed $provider_id Provider identifier.
 	 */
 	public static function is_likely_rate_limited( $provider_id ) {
-		$today     = date( 'Y-m-d' );
+		$today     = wp_date( 'Y-m-d' );
 		$usage_key = "tradepress_api_usage_{$provider_id}_{$today}";
 		$usage     = get_option(
 			$usage_key,
@@ -119,24 +124,24 @@ class TradePress_API_Usage_Tracker {
 			)
 		);
 
-		// Check if explicitly marked as rate limited with cooling period
+		// Check if explicitly marked as rate limited with cooling period.
 		if ( ! empty( $usage['rate_limited'] ) && ! empty( $usage['rate_limit_time'] ) ) {
 			$limit_time     = strtotime( $usage['rate_limit_time'] );
 			$cooling_period = self::get_cooling_period( $provider_id );
 
-			// If still in cooling period, remain rate limited
+			// If still in cooling period, remain rate limited.
 			if ( time() - $limit_time < $cooling_period ) {
 				return true;
 			}
 
-			// Cooling period expired - clear rate limit flag
+			// Cooling period expired - clear rate limit flag.
 			$usage['rate_limited']    = false;
 			$usage['rate_limit_time'] = null;
 			update_option( $usage_key, $usage );
 		}
 
-		// Check usage patterns for Alpha Vantage (25 calls/day limit)
-		if ( $provider_id === 'alphavantage' && $usage['total_calls'] >= 23 ) {
+		// Check usage patterns for Alpha Vantage (25 calls/day limit).
+		if ( 'alphavantage' === $provider_id && $usage['total_calls'] >= 23 ) {
 			return true;
 		}
 
@@ -144,11 +149,11 @@ class TradePress_API_Usage_Tracker {
 	}
 
 	/**
-	 * Get best available API for data type with dynamic priority
+	 * Get best available API for data type with dynamic priority.
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $data_type
+	 * @param mixed $data_type Requested data type.
 	 */
 	public static function get_best_api_for_data( $data_type ) {
 		$ranked_providers = self::get_ranked_providers_for_data( $data_type );
@@ -169,7 +174,7 @@ class TradePress_API_Usage_Tracker {
 				continue;
 			}
 
-			$api = TradePress_API_Factory::create_from_settings( $provider_id );
+			$api = TradePress_API_Factory::create_from_settings( $provider_id, 'paper', $data_type );
 			if ( ! is_wp_error( $api ) ) {
 				if ( function_exists( 'tradepress_is_developer_mode' ) && tradepress_is_developer_mode() ) {
 					require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/developer-notices.php';
@@ -202,10 +207,15 @@ class TradePress_API_Usage_Tracker {
 	 */
 	public static function get_ranked_providers_for_data( $data_type ) {
 		$priority_candidates = self::get_data_type_provider_priority( $data_type );
-		$ranked             = array();
+		$ranked              = array();
 
 		foreach ( $priority_candidates as $index => $provider_id ) {
-			if ( get_option( "TradePress_switch_{$provider_id}_api_services", 'no' ) !== 'yes' ) {
+			if ( ! self::provider_supports_data_type( $provider_id, $data_type ) ) {
+				self::log_failover_event( $data_type, $provider_id, 'unsupported_data_type' );
+				continue;
+			}
+
+			if ( 'yes' !== get_option( "TradePress_switch_{$provider_id}_api_services", 'no' ) ) {
 				continue;
 			}
 
@@ -243,7 +253,7 @@ class TradePress_API_Usage_Tracker {
 	 * @return array
 	 */
 	private static function get_data_type_provider_priority( $data_type ) {
-		$primary_settings = get_option( 'tradepress_primary_apis', array() );
+		$primary_settings  = get_option( 'tradepress_primary_apis', array() );
 		$fallback_settings = get_option( 'tradepress_secondary_apis', array() );
 
 		$defaults = array(
@@ -258,7 +268,7 @@ class TradePress_API_Usage_Tracker {
 
 		$configured = array();
 
-			if ( in_array( $data_type, array( 'quote', 'market_status', 'technical_indicators', 'fundamentals', 'news', 'economic_calendar', 'earnings' ), true ) ) {
+		if ( in_array( $data_type, array( 'quote', 'market_status', 'technical_indicators', 'fundamentals', 'news', 'economic_calendar', 'earnings' ), true ) ) {
 			if ( ! empty( $primary_settings['primary_data_only'] ) ) {
 				$configured[] = sanitize_key( $primary_settings['primary_data_only'] );
 			}
@@ -268,7 +278,7 @@ class TradePress_API_Usage_Tracker {
 			}
 		}
 
-		if ( $data_type === 'news' ) {
+		if ( 'news' === $data_type ) {
 			if ( ! in_array( 'alpaca', $configured, true ) ) {
 				array_unshift( $configured, 'alpaca' );
 			}
@@ -280,17 +290,54 @@ class TradePress_API_Usage_Tracker {
 	}
 
 	/**
+	 * Check provider capability before ranking it for a data type.
+	 *
+	 * @param string $provider_id Provider identifier.
+	 * @param string $data_type   Requested data type.
+	 * @return bool
+	 */
+	public static function provider_supports_data_type( $provider_id, $data_type ) {
+		if ( ! class_exists( 'TradePress_API_Capability_Matrix' ) ) {
+			require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/api-capability-matrix.php';
+		}
+
+		foreach ( self::get_capability_aliases_for_data_type( $data_type ) as $capability ) {
+			if ( TradePress_API_Capability_Matrix::platform_supports( $provider_id, $capability ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get capability-matrix keys that satisfy a requested data type.
+	 *
+	 * @param string $data_type Requested data type.
+	 * @return array
+	 */
+	private static function get_capability_aliases_for_data_type( $data_type ) {
+		$aliases = array(
+			'market_status'        => array( 'market_status', 'quote' ),
+			'technical_indicators' => array( 'rsi', 'cci', 'macd', 'adx', 'sma', 'ema', 'bollinger_bands', 'stochastic', 'mfi', 'obv', 'vwap' ),
+			'economic_calendar'    => array( 'economic_calendar', 'calendar' ),
+		);
+
+		return isset( $aliases[ $data_type ] ) ? $aliases[ $data_type ] : array( $data_type );
+	}
+
+	/**
 	 * Compute runtime health for a provider from recent usage and rate-limit state.
 	 *
 	 * @param string $provider_id Provider identifier.
 	 * @return array
 	 */
 	public static function get_provider_runtime_health( $provider_id ) {
-		$enabled    = get_option( "TradePress_switch_{$provider_id}_api_services", 'no' ) === 'yes';
+		$enabled    = 'yes' === get_option( "TradePress_switch_{$provider_id}_api_services", 'no' );
 		$configured = self::is_provider_configured( $provider_id );
 
 		$stats_today = self::get_usage_stats( $provider_id, 1 );
-		$today_key   = date( 'Y-m-d' );
+		$today_key   = wp_date( 'Y-m-d' );
 		$today       = isset( $stats_today[ $today_key ] ) ? $stats_today[ $today_key ] : array();
 
 		$total_calls      = isset( $today['total_calls'] ) ? (int) $today['total_calls'] : 0;
@@ -343,20 +390,20 @@ class TradePress_API_Usage_Tracker {
 		}
 
 		return array(
-			'provider_id'       => $provider_id,
-			'enabled'           => $enabled,
-			'configured'        => $configured,
-			'health_state'      => $health_state,
-			'health_score'      => $score,
-			'total_calls'       => $total_calls,
-			'successful_calls'  => $successful_calls,
-			'failed_calls'      => $failed_calls,
-			'error_rate'        => $error_rate,
-			'daily_limit'       => $daily_limit,
-			'usage_ratio'       => $usage_ratio,
-			'rate_limited'      => $rate_limited,
-			'last_call'         => $last_call,
-			'health_reasons'    => $reasons,
+			'provider_id'      => $provider_id,
+			'enabled'          => $enabled,
+			'configured'       => $configured,
+			'health_state'     => $health_state,
+			'health_score'     => $score,
+			'total_calls'      => $total_calls,
+			'successful_calls' => $successful_calls,
+			'failed_calls'     => $failed_calls,
+			'error_rate'       => $error_rate,
+			'daily_limit'      => $daily_limit,
+			'usage_ratio'      => $usage_ratio,
+			'rate_limited'     => $rate_limited,
+			'last_call'        => $last_call,
+			'health_reasons'   => $reasons,
 		);
 	}
 
@@ -376,17 +423,17 @@ class TradePress_API_Usage_Tracker {
 			return false;
 		}
 
-		if ( isset( $provider['api_type'] ) && $provider['api_type'] === 'trading' ) {
+		if ( isset( $provider['api_type'] ) && 'trading' === $provider['api_type'] ) {
 			$paper_key    = (string) get_option( "TradePress_api_{$provider_id}_papermoney_apikey", '' );
 			$paper_secret = (string) get_option( "TradePress_api_{$provider_id}_papermoney_secretkey", '' );
 			$live_key     = (string) get_option( "TradePress_api_{$provider_id}_realmoney_apikey", '' );
 			$live_secret  = (string) get_option( "TradePress_api_{$provider_id}_realmoney_secretkey", '' );
 
-			return ( $paper_key !== '' && $paper_secret !== '' ) || ( $live_key !== '' && $live_secret !== '' );
+			return ( '' !== $paper_key && '' !== $paper_secret ) || ( '' !== $live_key && '' !== $live_secret );
 		}
 
 		$api_key = (string) get_option( "TradePress_api_{$provider_id}_key", '' );
-		return $api_key !== '';
+		return '' !== $api_key;
 	}
 
 	/**
@@ -404,30 +451,22 @@ class TradePress_API_Usage_Tracker {
 	}
 
 	/**
-	 * Get cooling period for rate limited API
+	 * Get cooling period for rate limited API.
 	 *
 	 * @version 1.0.0
 	 *
-	 * @param mixed $provider_id
+	 * @param mixed $provider_id Provider identifier.
 	 */
 	private static function get_cooling_period( $provider_id ) {
 		$cooling_periods = array(
-			'alphavantage' => 3600, // 1 hour
-			'finnhub'      => 60,        // 1 minute
-			'alpaca'       => 300,         // 5 minutes
+			'alphavantage' => 3600, // 1 hour.
+			'finnhub'      => 60,   // 1 minute.
+			'alpaca'       => 300,  // 5 minutes.
 		);
 
-		return $cooling_periods[ $provider_id ] ?? 1800; // Default 30 minutes
+		return $cooling_periods[ $provider_id ] ?? 1800; // Default 30 minutes.
 	}
 
-	/**
-	 * Get usage statistics
-	 *
-	 * @version 1.0.0
-	 *
-	 * @param mixed $provider_id
-	 * @param int   $days
-	 */
 	/**
 	 * Log a provider failover event for audit trail.
 	 *
@@ -466,11 +505,20 @@ class TradePress_API_Usage_Tracker {
 		return array_slice( $events, 0, (int) $limit );
 	}
 
+	/**
+	 * Get usage statistics.
+	 *
+	 * @version 1.0.0
+	 *
+	 * @param mixed $provider_id Provider identifier.
+	 * @param int   $days        Number of days to include.
+	 * @return array
+	 */
 	public static function get_usage_stats( $provider_id, $days = 7 ) {
 		$stats = array();
 
 		for ( $i = 0; $i < $days; $i++ ) {
-			$date      = date( 'Y-m-d', strtotime( "-{$i} days" ) );
+			$date      = wp_date( 'Y-m-d', time() - ( $i * DAY_IN_SECONDS ) );
 			$usage_key = "tradepress_api_usage_{$provider_id}_{$date}";
 			$usage     = get_option(
 				$usage_key,

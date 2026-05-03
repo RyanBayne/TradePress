@@ -26,6 +26,30 @@ No Trading or Analysis view should call external APIs during page rendering. Pro
 
 ## View State Rules
 
+## Historical Analysis Import Contract
+
+`TradePress_Data_Import_Process::fetch_historical_data()` is a background-queue path for stored daily candles and technical indicators used by advanced directives. It must not be called from page render paths.
+
+Source of truth:
+
+- `tradepress_historical_data_{symbol}`
+- `tradepress_historical_last_update_{symbol}`
+- `tradepress_historical_data_source_{symbol}`
+- `tradepress_technical_indicators_{symbol}`
+- `tradepress_technical_last_update_{symbol}`
+- `tradepress_technical_indicators_source_{symbol}`
+
+Freshness SLA: 24 hours for the stored historical/technical option set.
+
+Provider suitability contract:
+
+- Provider service switch must be enabled, and the provider must not be in the rate-limit cooling window.
+- Capability matrix must report support for `candles`, `rsi`, `macd`, and `sma`.
+- Runtime provider instance must expose `get_candles()`, `get_rsi()`, `get_macd()`, and `get_moving_average()`.
+- Providers that advertise the capabilities but use a different method shape, such as `get_bars()`, `get_sma()`, or `get_technical_indicators()`, are not eligible for this importer until an adapter normalises them to the same method/result contract.
+
+Current eligible provider: Finnhub. Other providers remain potential candidates only after a normalised historical/indicator adapter is added or their API classes expose this exact contract.
+
 ## SEES Diagnostics Trace Payload Contract
 
 SEES Diagnostics is a Developer Mode-only trace workspace. It explains how a selected stored strategy would be evaluated for a bundled diagnostic symbol. It is not a live market-data or trade-execution path.
@@ -149,6 +173,8 @@ Design constraints for current core scope:
 - `assets/js/sees-diagnostics.js` now reads `threshold_distance` as the canonical score-threshold distance, keeps `distance_to_threshold` as fallback compatibility, labels branch statuses, distinguishes component warnings from hard failures, and supports copying the trace payload for verification evidence.
 - Create Scoring Strategies now exposes `Minimum Score Threshold` and saves it as `min_score_threshold`; this value is the source of `minimum_threshold` in SEES Diagnostics scoring-mode traces.
 - Manual continued-path evidence captured: strategy `SEES UI Testing`, 4 components, score `79.36 / 100.00`, threshold distance `+29.36`, decision continued to `tradepress_rank_scoring_strategy_result()`.
+- WP-CLI stopped-path evidence captured: strategy `SEES UI Testing`, temporary threshold `90`, 4 components, score `79.36 / 100.00`, threshold distance `-10.64`, `decision_state: stopped`, `score-threshold` failed, next function returned the stop decision to diagnostics. Threshold restored to `50.00` after capture.
+- WP-CLI warning-path evidence captured: strategy `SEES UI Testing`, temporary inactive `cci` component, 4 components, passed `3`, warnings `1`, score `60.40 / 100.00`, threshold distance `+10.40`, `component-health` warning followed by `score-threshold` passed. `cci` restored to active after capture.
 - `admin/page/analysis/view/recent-symbols.php` reads `tradepress_symbol_scores` only and renders Cached or Empty state.
 - `admin/page/analysis/view/support-resistance.php` no longer instantiates `TradePress_Financial_API_Service` or `SupportResistanceLevels` during render; it validates explicit user input and reports that stored OHLC-backed analysis is not connected yet.
 - `admin/page/analysis/view/volatility-analysis.php` renders a dev-only placeholder/status panel only; no provider or analyzer is called during render.
