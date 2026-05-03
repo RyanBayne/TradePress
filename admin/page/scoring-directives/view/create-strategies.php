@@ -39,9 +39,20 @@ $active_directives = array_filter(
 			<div class="template-selection">
 				<select id="strategy-template" class="regular-text">
 					<option value=""><?php esc_html_e( 'Custom Strategy (No Template)', 'tradepress' ); ?></option>
-					<option value="momentum_confluence"><?php esc_html_e( 'Momentum Confluence', 'tradepress' ); ?></option>
-					<option value="mean_reversion"><?php esc_html_e( 'Mean Reversion', 'tradepress' ); ?></option>
-					<option value="trend_strength"><?php esc_html_e( 'Trend Strength', 'tradepress' ); ?></option>
+					<optgroup label="<?php esc_attr_e( 'Ready to Use', 'tradepress' ); ?>">
+						<option value="momentum_confluence"><?php esc_html_e( 'Momentum Confluence', 'tradepress' ); ?></option>
+						<option value="mean_reversion"><?php esc_html_e( 'Mean Reversion', 'tradepress' ); ?></option>
+						<option value="trend_strength"><?php esc_html_e( 'Trend Strength', 'tradepress' ); ?></option>
+						<option value="volume_breakout"><?php esc_html_e( 'Volume Breakout', 'tradepress' ); ?></option>
+						<option value="oscillator_confluence"><?php esc_html_e( 'Oscillator Confluence', 'tradepress' ); ?></option>
+						<option value="uk_isa_seasonal"><?php esc_html_e( 'UK ISA Seasonal', 'tradepress' ); ?></option>
+					</optgroup>
+					<optgroup label="<?php esc_attr_e( 'Requires Additional Directives', 'tradepress' ); ?>">
+						<option value="earnings_catalyst"><?php esc_html_e( 'Earnings Catalyst — needs Earnings Proximity', 'tradepress' ); ?></option>
+						<option value="candle_reversal"><?php esc_html_e( 'Candle Reversal — needs pattern directives', 'tradepress' ); ?></option>
+						<option value="news_momentum"><?php esc_html_e( 'News Momentum — needs News Sentiment', 'tradepress' ); ?></option>
+						<option value="weekly_rhythm"><?php esc_html_e( 'Weekly Rhythm — needs temporal directives', 'tradepress' ); ?></option>
+					</optgroup>
 				</select>
 				<p class="description" id="template-description"><?php esc_html_e( 'Select a pre-configured strategy template or build a custom strategy from scratch.', 'tradepress' ); ?></p>
 			</div>
@@ -393,28 +404,102 @@ jQuery(document).ready(function($) {
 	let strategyDirectives = [];
 	let currentTemplate = '';
 	
-	// Strategy templates configuration
+	// Strategy templates configuration.
+	// 'disabled' lists directive IDs that are not yet implemented and will be greyed out.
 	const strategyTemplates = {
+
+		// ── Ready to use ──────────────────────────────────────────────────────────
+
 		momentum_confluence: {
 			name: 'Momentum Confluence',
 			description: 'Identifies oversold momentum entries confirmed by MACD crossover, volume surge, and price above EMA. Best for swing trading growth stocks.',
 			recommended: ['rsi', 'macd', 'volume', 'ema'],
 			weights: { rsi: 30, macd: 30, volume: 25, ema: 15 },
-			apiRequirements: ['alpha_vantage']
+			disabled: [],
+			apiRequirements: ['Alpha Vantage']
 		},
+
 		mean_reversion: {
 			name: 'Mean Reversion',
 			description: 'Identifies oversold conditions from multiple angles using RSI, Bollinger Bands, CCI, and MFI volume-weighted confirmation. Best for ranging markets.',
 			recommended: ['rsi', 'bollinger_bands', 'cci', 'mfi'],
 			weights: { rsi: 35, bollinger_bands: 30, cci: 20, mfi: 15 },
-			apiRequirements: ['alpha_vantage']
+			disabled: [],
+			apiRequirements: ['Alpha Vantage']
 		},
+
 		trend_strength: {
 			name: 'Trend Strength',
 			description: 'Confirms a strong trend exists before entering. ADX measures trend strength, moving averages confirm direction, MACD confirms momentum, volume confirms participation.',
 			recommended: ['adx', 'moving_averages', 'macd', 'volume'],
 			weights: { adx: 30, moving_averages: 30, macd: 25, volume: 15 },
-			apiRequirements: ['alpha_vantage']
+			disabled: [],
+			apiRequirements: ['Alpha Vantage']
+		},
+
+		volume_breakout: {
+			name: 'Volume Breakout',
+			description: 'Targets stocks breaking out of consolidation on above-average volume. OBV confirms accumulation, Bollinger Bands detect the squeeze, ADX confirms the new trend.',
+			recommended: ['volume', 'obv', 'bollinger_bands', 'adx', 'ema'],
+			weights: { volume: 30, obv: 20, bollinger_bands: 20, adx: 20, ema: 10 },
+			disabled: [],
+			apiRequirements: ['Alpha Vantage']
+		},
+
+		oscillator_confluence: {
+			name: 'Oscillator Confluence',
+			description: 'Requires agreement across four independent oscillators before scoring high. RSI, Stochastic, CCI, and MFI must all signal oversold simultaneously.',
+			recommended: ['rsi', 'stochastic', 'cci', 'mfi'],
+			weights: { rsi: 30, stochastic: 25, cci: 25, mfi: 20 },
+			disabled: [],
+			apiRequirements: ['Alpha Vantage']
+		},
+
+		uk_isa_seasonal: {
+			name: 'UK ISA Seasonal',
+			description: 'Combines technical momentum with UK ISA seasonal buying pressure. Scores highest during January-April when UK investors deploy fresh ISA allowances into oversold quality stocks.',
+			recommended: ['rsi', 'moving_averages', 'volume', 'isa', 'isa_reset'],
+			weights: { rsi: 30, moving_averages: 25, volume: 20, isa: 15, isa_reset: 10 },
+			disabled: [],
+			apiRequirements: ['Alpha Vantage']
+		},
+
+		// ── Requires additional directives ────────────────────────────────────────
+
+		earnings_catalyst: {
+			name: 'Earnings Catalyst',
+			description: 'Targets stocks approaching earnings with strong technical setup. Earnings Proximity and News Sentiment are not yet implemented — those slots will be enabled when the directives are active.',
+			recommended: ['earnings_proximity', 'rsi', 'volume', 'macd', 'news_sentiment_positive'],
+			weights: { earnings_proximity: 30, rsi: 20, volume: 20, macd: 20, news_sentiment_positive: 10 },
+			disabled: ['earnings_proximity', 'news_sentiment_positive'],
+			apiRequirements: ['Alpha Vantage', 'News API']
+		},
+
+		candle_reversal: {
+			name: 'Candle Reversal',
+			description: 'High-probability reversal entries using candle pattern confluence at key levels. Pattern directives are not yet implemented — those slots will be enabled when the directives are active.',
+			recommended: ['support_resistance_levels', 'engulfing_pattern', 'hammer_pattern', 'volume', 'rsi'],
+			weights: { support_resistance_levels: 25, engulfing_pattern: 25, hammer_pattern: 20, volume: 15, rsi: 15 },
+			disabled: ['support_resistance_levels', 'engulfing_pattern', 'hammer_pattern'],
+			apiRequirements: ['Alpha Vantage']
+		},
+
+		news_momentum: {
+			name: 'News Momentum',
+			description: 'Combines positive news sentiment with technical momentum confirmation. News Sentiment is not yet implemented — that slot will be enabled when the directive is active.',
+			recommended: ['news_sentiment_positive', 'rsi', 'macd', 'volume_surge', 'moving_averages'],
+			weights: { news_sentiment_positive: 30, rsi: 20, macd: 20, volume_surge: 15, moving_averages: 15 },
+			disabled: ['news_sentiment_positive', 'volume_surge'],
+			apiRequirements: ['Alpha Vantage', 'News API']
+		},
+
+		weekly_rhythm: {
+			name: 'Weekly Rhythm',
+			description: 'Exploits predictable day-of-week institutional patterns. Monday Effect and Friday Positioning are implemented; Volume Rhythm and Midweek Momentum will be enabled when their directives are active.',
+			recommended: ['monday_effect', 'friday_positioning', 'volume_rhythm', 'midweek_momentum', 'volume'],
+			weights: { monday_effect: 25, friday_positioning: 25, volume_rhythm: 20, midweek_momentum: 20, volume: 10 },
+			disabled: ['volume_rhythm', 'midweek_momentum'],
+			apiRequirements: ['Alpha Vantage']
 		}
 	};
 	
@@ -433,14 +518,16 @@ jQuery(document).ready(function($) {
 	/**
 	 * Apply template.
 	 *
-	 * @version 1.0.0
+	 * @version 1.1.0
 	 */
 	function applyTemplate(template) {
 		// Update description
-		$('#template-description').html(`
-			<strong>${template.name}:</strong> ${template.description}
-			<br><strong>API Requirements:</strong> ${template.apiRequirements.join(', ')}
-		`).addClass('template-description').show();
+		let reqText = template.apiRequirements.join(', ');
+		$('#template-description').html(
+			'<strong>' + template.name + ':</strong> ' + template.description +
+			'<br><strong>API Requirements:</strong> ' + reqText +
+			( template.disabled.length ? '<br><em>Note: ' + template.disabled.length + ' directive(s) not yet implemented — shown as disabled below.</em>' : '' )
+		).addClass('template-description').show();
 		
 		// Clear existing strategy
 		strategyDirectives = [];
@@ -450,35 +537,29 @@ jQuery(document).ready(function($) {
 			$('#strategy-name').val(template.name);
 		}
 		
-		// Highlight recommended directives
+		// Reset all directive highlighting
 		$('.directive-item').removeClass('template-recommended template-disabled');
+
+		// Mark recommended and disabled directives
 		template.recommended.forEach(directiveId => {
-			$(`.directive-item[data-directive-id="${directiveId}"]`).addClass('template-recommended');
+			const $item = $(`.directive-item[data-directive-id="${directiveId}"]`);
+			if (template.disabled.includes(directiveId)) {
+				$item.addClass('template-disabled');
+			} else {
+				$item.addClass('template-recommended');
+			}
 		});
 		
-		// Check API requirements
-		if (template.apiRequirements.includes('finnhub') || template.apiRequirements.includes('alpaca')) {
-			// Disable directives that require unavailable APIs
-			template.recommended.forEach(directiveId => {
-				const $item = $(`.directive-item[data-directive-id="${directiveId}"]`);
-				if ($item.hasClass('template-disabled')) {
-					$item.removeClass('template-recommended');
-				}
-			});
-		}
-		
-		// Auto-add recommended directives with template weights
+		// Auto-add only the non-disabled recommended directives
 		template.recommended.forEach(directiveId => {
+			if (template.disabled.includes(directiveId)) {
+				return; // Skip unimplemented directives
+			}
 			const $directive = $(`.directive-item[data-directive-id="${directiveId}"]`);
-			if ($directive.length && !$directive.hasClass('template-disabled')) {
+			if ($directive.length) {
 				const directiveName = $directive.find('.directive-name').text();
 				const weight = template.weights[directiveId] || 20;
-				
-				strategyDirectives.push({
-					id: directiveId,
-					name: directiveName,
-					weight: weight
-				});
+				strategyDirectives.push({ id: directiveId, name: directiveName, weight: weight });
 			}
 		});
 		
