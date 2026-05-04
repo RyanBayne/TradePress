@@ -17,6 +17,20 @@ TradePress separates two decision systems that can be used independently or toge
 
 A user can rely on Scoring alone for manual decisions. They can use Trading Strategies alone to automate based on rules. Or they can combine them, using a Scoring Strategy as one of the inputs into a Trading Strategy.
 
+### Enforcement ownership
+
+Scoring Strategies can recommend a score threshold and intended symbol scope, but those settings are advisory metadata until a Trading Strategy consumes them.
+
+Trading Strategies own enforcement decisions:
+
+- Whether a scoring threshold blocks a trade.
+- Whether a symbol outside the scoring strategy's intended scope blocks a trade.
+- Whether an active auto-trading run must be stopped before strategy/watchlist changes.
+- Whether open CFD positions require close/reduce/hold handling before a strategy is halted.
+- Whether a watchlist mutation is advisory, strong-warning, or blocked by user confirmation.
+
+SEES owns ranking and diagnostics. It can surface warnings, show distance from a suggested threshold, and explain scope mismatch, but SEES should not be the authority that executes or halts trades.
+
 ---
 
 ## Level 1 — Rule-Threshold Strategy (Indicator-Only)
@@ -87,6 +101,7 @@ TradePress scores are **not** normalised to 100. The maximum achievable score de
 
 1. Display the maximum possible score for the selected Scoring Strategy next to the minimum threshold input.
 2. Warn the user if they set a minimum that is impossible to reach given the current strategy configuration.
+3. Treat the scoring strategy's saved suggested threshold as a starting recommendation, not as an inherited hard gate unless the user explicitly enables it in the Trading Strategy.
 
 **Example:** A Scoring Strategy with 4 directives may have a maximum achievable score of 74. Telling the user "minimum score: 60 (max achievable: 74)" is critical context.
 
@@ -136,8 +151,9 @@ When a Scoring Strategy is attached to a Trading Strategy, the user must be able
 
 1. Set a minimum score threshold (with max possible score displayed).
 2. Add any number of individual hard-gate indicators.
-3. Optionally enable the momentum gate on the score (Level 2 option).
-4. Each hard-gate indicator should be visually distinct from standard rule-threshold indicators to make the execution logic immediately clear.
+3. Choose whether to enforce the scoring strategy's intended symbol scope for this trading strategy.
+4. Optionally enable the momentum gate on the score (Level 2 option).
+5. Each hard-gate indicator should be visually distinct from standard rule-threshold indicators to make the execution logic immediately clear.
 
 ---
 
@@ -148,6 +164,10 @@ START: Evaluate Trading Strategy
 
 ├── Is a Scoring Strategy attached?
 │     YES → Get current score for symbol
+│           ├── Enforce scoring strategy symbol scope?
+│           │     YES → Symbol inside intended scope?
+│           │           NO → DO NOT TRADE
+│           │           YES → proceed
 │           ├── Score < minimum? → DO NOT TRADE
 │           └── Score >= minimum
 │                 ├── Momentum gate enabled?

@@ -2257,15 +2257,16 @@ function tradepress_can_access_development_views() {
  * @return string UI text with reference code when Developer Mode is active.
  */
 function tradepress_ui_reference( $text, $code ) {
+	$tab_registry = tradepress_get_tab_reference_registry();
+	$tab_codes    = array();
+	foreach ( $tab_registry as $tab_entry ) {
+		if ( isset( $tab_entry['code'], $tab_entry['description'] ) ) {
+			$tab_codes[ $tab_entry['code'] ] = $tab_entry['description'];
+		}
+	}
 
 	$used_codes = array(
 		'TIT01' => 'Testing page title',
-		'TAB01' => 'Testing Active Tests tab view',
-		'TAB05' => 'Testing Phase 3 Tests tab view',
-		'TAB06' => 'Testing Feature Status tab view',
-		'TAB07' => 'Testing UI Crawl tab view',
-		'TAB08' => 'Testing Trading212 API tab view',
-		'TAB09' => 'Testing Scoring Directives tab view',
 		'PAN04' => 'Testing UI crawl run summary panel',
 		'PAN05' => 'Testing UI crawl URL results panel',
 		'BUT01' => 'Testing Discover Tests button',
@@ -2274,6 +2275,8 @@ function tradepress_ui_reference( $text, $code ) {
 		'BUT04' => 'Testing Run UI Crawl button',
 		'BUT05' => 'Testing Run All Directive Tests button',
 	);
+
+	$used_codes = $used_codes + $tab_codes;
 
 	$code = strtoupper( sanitize_key( $code ) );
 	$code = str_replace( '_', '', $code );
@@ -2287,6 +2290,195 @@ function tradepress_ui_reference( $text, $code ) {
 	}
 
 	return sprintf( '%1$s [%2$s]', $text, $code );
+}
+
+/**
+ * Global tab reference registry.
+ *
+ * Keys must be unique in the format "page_slug|tab_id".
+ * Codes must be unique across the entire plugin.
+ *
+ * @return array<string,array<string,string>>
+ */
+function tradepress_get_tab_reference_registry() {
+	return array(
+		// Testing page tabs.
+		'tradepress-tests|active'             => array( 'code' => 'TAB01', 'description' => 'Testing Active Tests tab view' ),
+		'tradepress-tests|standard'           => array( 'code' => 'TAB02', 'description' => 'Testing Standard Tests tab view' ),
+		'tradepress-tests|bugs'               => array( 'code' => 'TAB03', 'description' => 'Testing Bug Investigation tab view' ),
+		'tradepress-tests|performance'        => array( 'code' => 'TAB04', 'description' => 'Testing Performance Tests tab view' ),
+		'tradepress-tests|phase3'             => array( 'code' => 'TAB05', 'description' => 'Testing Phase 3 Tests tab view' ),
+		'tradepress-tests|feature_status'     => array( 'code' => 'TAB06', 'description' => 'Testing Feature Status tab view' ),
+		'tradepress-tests|ui_crawl'           => array( 'code' => 'TAB07', 'description' => 'Testing UI Crawl tab view' ),
+		'tradepress-tests|trading212'         => array( 'code' => 'TAB08', 'description' => 'Testing Trading212 API tab view' ),
+		'tradepress-tests|directives'         => array( 'code' => 'TAB09', 'description' => 'Testing Scoring Directives tab view' ),
+
+		// Analysis page tabs.
+		'tradepress_analysis|recent_symbols'      => array( 'code' => 'TAB10', 'description' => 'Analysis Recently Analysed Symbols tab view' ),
+		'tradepress_analysis|support_resistance'  => array( 'code' => 'TAB11', 'description' => 'Analysis Support and Resistance tab view' ),
+		'tradepress_analysis|volatility_analysis' => array( 'code' => 'TAB12', 'description' => 'Analysis Volatility Analysis tab view' ),
+
+		// Automation page tabs.
+		'tradepress_automation|data_import' => array( 'code' => 'TAB13', 'description' => 'Automation Data Import tab view' ),
+		'tradepress_automation|cron'        => array( 'code' => 'TAB14', 'description' => 'Automation CRON Jobs tab view' ),
+		'tradepress_automation|dashboard'   => array( 'code' => 'TAB15', 'description' => 'Automation Dashboard tab view' ),
+		'tradepress_automation|algorithm'   => array( 'code' => 'TAB16', 'description' => 'Automation Algorithm tab view' ),
+		'tradepress_automation|signals'     => array( 'code' => 'TAB17', 'description' => 'Automation Signals tab view' ),
+		'tradepress_automation|trading'     => array( 'code' => 'TAB18', 'description' => 'Automation Trading tab view' ),
+		'tradepress_automation|settings'    => array( 'code' => 'TAB19', 'description' => 'Automation Settings tab view' ),
+
+		// Data page tabs.
+		'tradepress_data|sources'          => array( 'code' => 'TAB20', 'description' => 'Data Sources tab view' ),
+		'tradepress_data|data-elements'    => array( 'code' => 'TAB21', 'description' => 'Data Elements tab view' ),
+		'tradepress_data|import'           => array( 'code' => 'TAB22', 'description' => 'Data Manual Import tab view' ),
+		'tradepress_data|decoder'          => array( 'code' => 'TAB23', 'description' => 'Data Decoder tab view' ),
+		'tradepress_data|tables'           => array( 'code' => 'TAB24', 'description' => 'Data Tables tab view' ),
+		'tradepress_data|api-activity'     => array( 'code' => 'TAB25', 'description' => 'Data API Activity tab view' ),
+		'tradepress_data|api-endpoints'    => array( 'code' => 'TAB26', 'description' => 'Data API Endpoints tab view' ),
+		'tradepress_data|transient-caches' => array( 'code' => 'TAB27', 'description' => 'Data Transient Caches tab view' ),
+		'tradepress_data|create_source'    => array( 'code' => 'TAB28', 'description' => 'Data Create Source tab view' ),
+		'tradepress_data|api-keys'         => array( 'code' => 'TAB29', 'description' => 'Data API Keys tab view' ),
+		'tradepress_data|sources_list'     => array( 'code' => 'TAB30', 'description' => 'Data Sources List tab view' ),
+		'tradepress_data|api-errors'       => array( 'code' => 'TAB31', 'description' => 'Data API Errors tab view' ),
+
+		// Watchlists page tabs.
+		'tradepress_watchlists|active-symbols'   => array( 'code' => 'TAB32', 'description' => 'Watchlists Active Symbols tab view' ),
+		'tradepress_watchlists|user-watchlists'  => array( 'code' => 'TAB33', 'description' => 'Watchlists User Watchlists tab view' ),
+		'tradepress_watchlists|create-watchlist' => array( 'code' => 'TAB34', 'description' => 'Watchlists Create Watchlist tab view' ),
+
+		// Focus page tabs.
+		'tradepress_focus|priority' => array( 'code' => 'TAB35', 'description' => 'Focus Priority tab view' ),
+		'tradepress_focus|daily'    => array( 'code' => 'TAB36', 'description' => 'Focus Daily tab view' ),
+		'tradepress_focus|weekly'   => array( 'code' => 'TAB37', 'description' => 'Focus Weekly tab view' ),
+		'tradepress_focus|advisor'  => array( 'code' => 'TAB38', 'description' => 'Focus Advisor tab view' ),
+
+		// Development page tabs.
+		'tradepress_development|current_task'       => array( 'code' => 'TAB39', 'description' => 'Development Current Task tab view' ),
+		'tradepress_development|architecture'       => array( 'code' => 'TAB40', 'description' => 'Development Architecture Map tab view' ),
+		'tradepress_development|algorithm_debugger' => array( 'code' => 'TAB41', 'description' => 'Development Algorithm Debugger tab view' ),
+		'tradepress_development|diagrams'           => array( 'code' => 'TAB42', 'description' => 'Development Diagrams tab view' ),
+		'tradepress_development|tasks'              => array( 'code' => 'TAB43', 'description' => 'Development Explore Tasks tab view' ),
+		'tradepress_development|duplicate_checker'  => array( 'code' => 'TAB44', 'description' => 'Development Duplicate Checker tab view' ),
+		'tradepress_development|github'             => array( 'code' => 'TAB45', 'description' => 'Development Create Task tab view' ),
+		'tradepress_development|ai'                 => array( 'code' => 'TAB46', 'description' => 'Development AI tab view' ),
+		'tradepress_development|pointers'           => array( 'code' => 'TAB47', 'description' => 'Development Pointers tab view' ),
+		'tradepress_development|layouts'            => array( 'code' => 'TAB48', 'description' => 'Development Layouts tab view' ),
+		'tradepress_development|ui_library'         => array( 'code' => 'TAB49', 'description' => 'Development Light UI Library tab view' ),
+		'tradepress_development|dark_ui_library'    => array( 'code' => 'TAB50', 'description' => 'Development Dark UI Library tab view' ),
+		'tradepress_development|jquery_ui'          => array( 'code' => 'TAB51', 'description' => 'Development jQuery UI tab view' ),
+		'tradepress_development|assets'             => array( 'code' => 'TAB52', 'description' => 'Development Assets tab view' ),
+		'tradepress_development|snippets'           => array( 'code' => 'TAB53', 'description' => 'Development Developer Snippets tab view' ),
+		'tradepress_development|listener_testing'   => array( 'code' => 'TAB54', 'description' => 'Development Listener Testing tab view' ),
+
+		// Scoring directives page tabs.
+		'tradepress_scoring_directives|overview'             => array( 'code' => 'TAB55', 'description' => 'Scoring Directives Overview tab view' ),
+		'tradepress_scoring_directives|configure_directives' => array( 'code' => 'TAB56', 'description' => 'Scoring Directives Configure Directives tab view' ),
+		'tradepress_scoring_directives|directives_status'    => array( 'code' => 'TAB57', 'description' => 'Scoring Directives Development Status tab view' ),
+		'tradepress_scoring_directives|algorithm'            => array( 'code' => 'TAB58', 'description' => 'Scoring Directives Algorithm tab view' ),
+		'tradepress_scoring_directives|create_strategies'    => array( 'code' => 'TAB59', 'description' => 'Scoring Directives Create Strategies tab view' ),
+		'tradepress_scoring_directives|manage_strategies'    => array( 'code' => 'TAB60', 'description' => 'Scoring Directives Manage Strategies tab view' ),
+		'tradepress_scoring_directives|view_strategies'      => array( 'code' => 'TAB61', 'description' => 'Scoring Directives View Strategies tab view' ),
+		'tradepress_scoring_directives|logs'                 => array( 'code' => 'TAB62', 'description' => 'Scoring Directives Activity Logs tab view' ),
+		'tradepress_scoring_directives|developer'            => array( 'code' => 'TAB63', 'description' => 'Scoring Directives Developer tab view' ),
+
+		// Trading page tabs.
+		'tradepress_trading|trading-strategies' => array( 'code' => 'TAB64', 'description' => 'Trading Strategies tab view' ),
+		'tradepress_trading|calculators'        => array( 'code' => 'TAB65', 'description' => 'Trading Calculators tab view' ),
+		'tradepress_trading|portfolio'          => array( 'code' => 'TAB66', 'description' => 'Trading Portfolio tab view' ),
+		'tradepress_trading|trade-history'      => array( 'code' => 'TAB67', 'description' => 'Trading Trade History tab view' ),
+		'tradepress_trading|manual-trade'       => array( 'code' => 'TAB68', 'description' => 'Trading Manual Trading tab view' ),
+		'tradepress_trading|sees-demo'          => array( 'code' => 'TAB69', 'description' => 'Trading SEES Demo tab view' ),
+		'tradepress_trading|sees-diagnostics'   => array( 'code' => 'TAB70', 'description' => 'Trading SEES Diagnostics tab view' ),
+		'tradepress_trading|sees-ready'         => array( 'code' => 'TAB71', 'description' => 'Trading SEES Ready tab view' ),
+		'tradepress_trading|sees-pro'           => array( 'code' => 'TAB72', 'description' => 'Trading SEES Pro tab view' ),
+
+		// Research page tabs.
+		'tradepress_research|overview'             => array( 'code' => 'TAB73', 'description' => 'Research Overview tab view' ),
+		'tradepress_research|sector-rotation'      => array( 'code' => 'TAB74', 'description' => 'Research Sector Rotation tab view' ),
+		'tradepress_research|market-correlations'  => array( 'code' => 'TAB75', 'description' => 'Research Market Correlations tab view' ),
+		'tradepress_research|technical-indicators' => array( 'code' => 'TAB76', 'description' => 'Research Technical Indicators tab view' ),
+		'tradepress_research|news_feed'            => array( 'code' => 'TAB77', 'description' => 'Research News Feed tab view' ),
+		'tradepress_research|earnings'             => array( 'code' => 'TAB78', 'description' => 'Research Earnings Calendar tab view' ),
+		'tradepress_research|social_networks'      => array( 'code' => 'TAB79', 'description' => 'Research Social Networks tab view' ),
+		'tradepress_research|price_forecast'       => array( 'code' => 'TAB80', 'description' => 'Research Price Forecast tab view' ),
+		'tradepress_research|economic-calendar'    => array( 'code' => 'TAB81', 'description' => 'Research Economic Calendar tab view' ),
+
+		// Trading platforms page tabs.
+		'tradepress_platforms|api_management'    => array( 'code' => 'TAB82', 'description' => 'Trading Platforms API Management tab view' ),
+		'tradepress_platforms|api_efficiency'    => array( 'code' => 'TAB83', 'description' => 'Trading Platforms API Efficiency tab view' ),
+		'tradepress_platforms|alltick'           => array( 'code' => 'TAB84', 'description' => 'Trading Platforms AllTick tab view' ),
+		'tradepress_platforms|alpaca'            => array( 'code' => 'TAB85', 'description' => 'Trading Platforms Alpaca tab view' ),
+		'tradepress_platforms|iexcloud'          => array( 'code' => 'TAB86', 'description' => 'Trading Platforms IEX Cloud tab view' ),
+		'tradepress_platforms|polygon'           => array( 'code' => 'TAB87', 'description' => 'Trading Platforms Polygon tab view' ),
+		'tradepress_platforms|tradier'           => array( 'code' => 'TAB88', 'description' => 'Trading Platforms Tradier tab view' ),
+		'tradepress_platforms|finnhub'           => array( 'code' => 'TAB89', 'description' => 'Trading Platforms Finnhub tab view' ),
+		'tradepress_platforms|twitter'           => array( 'code' => 'TAB90', 'description' => 'Trading Platforms Twitter tab view' ),
+		'tradepress_platforms|stocktwits'        => array( 'code' => 'TAB91', 'description' => 'Trading Platforms StockTwits tab view' ),
+		'tradepress_platforms|twelvedata'        => array( 'code' => 'TAB92', 'description' => 'Trading Platforms Twelve Data tab view' ),
+		'tradepress_platforms|ibkr'              => array( 'code' => 'TAB93', 'description' => 'Trading Platforms Interactive Brokers tab view' ),
+		'tradepress_platforms|tradingview'       => array( 'code' => 'TAB94', 'description' => 'Trading Platforms TradingView tab view' ),
+		'tradepress_platforms|marketstack'       => array( 'code' => 'TAB95', 'description' => 'Trading Platforms Marketstack tab view' ),
+		'tradepress_platforms|eodhistoricaldata' => array( 'code' => 'TAB96', 'description' => 'Trading Platforms EOD Historical Data tab view' ),
+		'tradepress_platforms|yahoofinance'      => array( 'code' => 'TAB97', 'description' => 'Trading Platforms Yahoo Finance tab view' ),
+		'tradepress_platforms|tiingo'            => array( 'code' => 'TAB98', 'description' => 'Trading Platforms Tiingo tab view' ),
+		'tradepress_platforms|alphavantage'      => array( 'code' => 'TAB99', 'description' => 'Trading Platforms Alpha Vantage tab view' ),
+		'tradepress_platforms|quandl'            => array( 'code' => 'TAB100', 'description' => 'Trading Platforms Quandl tab view' ),
+		'tradepress_platforms|fred'              => array( 'code' => 'TAB101', 'description' => 'Trading Platforms FRED tab view' ),
+		'tradepress_platforms|gemini'            => array( 'code' => 'TAB102', 'description' => 'Trading Platforms Gemini tab view' ),
+		'tradepress_platforms|webull'            => array( 'code' => 'TAB103', 'description' => 'Trading Platforms WeBull tab view' ),
+		'tradepress_platforms|trading212'        => array( 'code' => 'TAB104', 'description' => 'Trading Platforms Trading212 tab view' ),
+		'tradepress_platforms|comparisons'       => array( 'code' => 'TAB105', 'description' => 'Trading Platforms API Provider Comparisons tab view' ),
+		'tradepress_platforms|api_switches'      => array( 'code' => 'TAB106', 'description' => 'Trading Platforms Switches tab view' ),
+
+		// Social platforms page tabs.
+		'tradepress_social|settings'          => array( 'code' => 'TAB107', 'description' => 'Social Platforms Settings tab view' ),
+		'tradepress_social|platform_switches' => array( 'code' => 'TAB108', 'description' => 'Social Platforms Switches tab view' ),
+		'tradepress_social|twitter'           => array( 'code' => 'TAB109', 'description' => 'Social Platforms Twitter tab view' ),
+		'tradepress_social|stocktwits'        => array( 'code' => 'TAB110', 'description' => 'Social Platforms StockTwits tab view' ),
+
+		// Symbols page tabs.
+		'tradepress_symbols|alltick'           => array( 'code' => 'TAB111', 'description' => 'Symbols AllTick tab view' ),
+		'tradepress_symbols|alpaca'            => array( 'code' => 'TAB112', 'description' => 'Symbols Alpaca tab view' ),
+		'tradepress_symbols|iexcloud'          => array( 'code' => 'TAB113', 'description' => 'Symbols IEX Cloud tab view' ),
+		'tradepress_symbols|polygon'           => array( 'code' => 'TAB114', 'description' => 'Symbols Polygon tab view' ),
+		'tradepress_symbols|tradier'           => array( 'code' => 'TAB115', 'description' => 'Symbols Tradier tab view' ),
+		'tradepress_symbols|finnhub'           => array( 'code' => 'TAB116', 'description' => 'Symbols Finnhub tab view' ),
+		'tradepress_symbols|twitter'           => array( 'code' => 'TAB117', 'description' => 'Symbols Twitter tab view' ),
+		'tradepress_symbols|stocktwits'        => array( 'code' => 'TAB118', 'description' => 'Symbols StockTwits tab view' ),
+		'tradepress_symbols|twelvedata'        => array( 'code' => 'TAB119', 'description' => 'Symbols Twelve Data tab view' ),
+		'tradepress_symbols|ibkr'              => array( 'code' => 'TAB120', 'description' => 'Symbols Interactive Brokers tab view' ),
+		'tradepress_symbols|tradingview'       => array( 'code' => 'TAB121', 'description' => 'Symbols TradingView tab view' ),
+		'tradepress_symbols|marketstack'       => array( 'code' => 'TAB122', 'description' => 'Symbols Marketstack tab view' ),
+		'tradepress_symbols|eodhistoricaldata' => array( 'code' => 'TAB123', 'description' => 'Symbols EOD Historical Data tab view' ),
+		'tradepress_symbols|yahoofinance'      => array( 'code' => 'TAB124', 'description' => 'Symbols Yahoo Finance tab view' ),
+		'tradepress_symbols|tiingo'            => array( 'code' => 'TAB125', 'description' => 'Symbols Tiingo tab view' ),
+		'tradepress_symbols|alphavantage'      => array( 'code' => 'TAB126', 'description' => 'Symbols Alpha Vantage tab view' ),
+		'tradepress_symbols|quandl'            => array( 'code' => 'TAB127', 'description' => 'Symbols Quandl tab view' ),
+		'tradepress_symbols|fred'              => array( 'code' => 'TAB128', 'description' => 'Symbols FRED tab view' ),
+		'tradepress_symbols|gemini'            => array( 'code' => 'TAB129', 'description' => 'Symbols Gemini tab view' ),
+		'tradepress_symbols|webull'            => array( 'code' => 'TAB130', 'description' => 'Symbols WeBull tab view' ),
+		'tradepress_symbols|trading212'        => array( 'code' => 'TAB131', 'description' => 'Symbols Trading212 tab view' ),
+		'tradepress_symbols|comparisons'       => array( 'code' => 'TAB132', 'description' => 'Symbols Comparisons tab view' ),
+		'tradepress_symbols|api_switches'      => array( 'code' => 'TAB133', 'description' => 'Symbols Platform Switches tab view' ),
+	);
+}
+
+/**
+ * Return a registered tab reference code for the current page/tab pair.
+ *
+ * @param string $page_slug Page slug.
+ * @param string $tab_id Tab id.
+ * @return string
+ */
+function tradepress_get_registered_tab_reference_code( $page_slug, $tab_id ) {
+	$registry = tradepress_get_tab_reference_registry();
+	$key      = sanitize_key( $page_slug ) . '|' . sanitize_key( $tab_id );
+
+	if ( isset( $registry[ $key ]['code'] ) ) {
+		return (string) $registry[ $key ]['code'];
+	}
+
+	return '';
 }
 
 /**
@@ -2340,7 +2532,15 @@ function tradepress_is_development_tab( $tab_id, $development_tab_ids ) {
  */
 function tradepress_get_development_tab_label( $tab_id, $tab_label, $development_tab_ids ) {
 
-	$label = esc_html( $tab_label );
+	$label     = esc_html( $tab_label );
+	$page_slug = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+
+	if ( function_exists( 'tradepress_is_developer_mode' ) && tradepress_is_developer_mode() ) {
+		$tab_ref_code = tradepress_get_registered_tab_reference_code( $page_slug, (string) $tab_id );
+		if ( '' !== $tab_ref_code ) {
+			$label       .= ' <span class="tradepress-tab-reference" aria-label="' . esc_attr__( 'Tab reference code', 'tradepress' ) . '">[' . esc_html( $tab_ref_code ) . ']</span>';
+		}
+	}
 
 	if ( ! tradepress_is_development_tab( $tab_id, $development_tab_ids ) ) {
 		return $label;

@@ -24,6 +24,14 @@
     margin-bottom: 4px;
 }
 
+.tp-dev-mode-input-marker {
+    color: #b32d2e;
+    font-size: 16px;
+    line-height: 1;
+    margin-left: 4px;
+    vertical-align: -2px;
+}
+
 .tp-sees-controls select {
     width: 100%;
 }

@@ -15,6 +15,8 @@ When Developer Mode is on:
 
 - Demo-only and diagnostic views may be visible.
 - Views using generated data must label that state in the UI.
+- Feature-level demo markers should use an amber warning icon (`dashicons-warning`) and a phase panel before the affected feature. The red tools/spanner marker is reserved for Developer Mode-only controls and inputs.
+- A phase panel should state the current data source, whether any part is real stored configuration, and the next step needed for the feature to run on live/imported data.
 - Developers may access unfinished workflows for testing, but these views are not part of beta scope until backed by real data.
 
 ## Code Convention

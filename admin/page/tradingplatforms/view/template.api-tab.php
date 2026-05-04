@@ -155,45 +155,23 @@ if ( ! function_exists( 'tradepress_get_real_local_status' ) ) {
 	 * @version 1.0.0
 	 */
 	function tradepress_get_real_local_status( $api_id ) {
-		// This function should be implemented to check the local connection status with the API
-		// For now, we'll implement a basic version that checks if API keys are configured
-
-		$api_key     = get_option( 'TradePress_api_' . $api_id . '_realmoney_apikey', '' );
-		$api_secret  = get_option( 'TradePress_api_' . $api_id . '_realmoney_secretkey', '' );
 		$api_enabled = get_option( 'TradePress_switch_' . $api_id . '_api_services', 'no' );
 
-		$status = array();
-
 		if ( $api_enabled !== 'yes' ) {
-			$status = array(
+			return array(
 				'status'  => 'error',
 				'message' => __( 'API is disabled', 'tradepress' ),
 			);
-		} elseif ( empty( $api_key ) ) {
-			$status = array(
-				'status'  => 'error',
-				'message' => __( 'API key not configured', 'tradepress' ),
-			);
-		} elseif ( empty( $api_secret ) ) {
-			$status = array(
-				'status'  => 'warning',
-				'message' => __( 'API secret not configured', 'tradepress' ),
-			);
-		} else {
-			try {
-				$status = array(
-					'status'  => 'warning',
-					'message' => __( 'Credentials configured; live connection test not implemented for this provider.', 'tradepress' ),
-				);
-			} catch ( Exception $e ) {
-				$status = array(
-					'status'  => 'error',
-					'message' => $e->getMessage(),
-				);
-			}
 		}
 
-		return $status;
+		if ( function_exists( 'tradepress_get_api_credential_status' ) ) {
+			return tradepress_get_api_credential_status( $api_id );
+		}
+
+		return array(
+			'status'  => 'warning',
+			'message' => __( 'Credentials configured; live connection test not implemented for this provider.', 'tradepress' ),
+		);
 	}
 }
 

@@ -136,10 +136,10 @@ class TradePress_Developer_Mode {
 		$screen          = get_current_screen();
 		$plugin_base_dir = untrailingslashit( TRADEPRESS_PLUGIN_DIR );
 		$file_path       = '';
+		$page_slug       = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
 
 		// Attempt to guess the current view file based on common plugin admin page structures.
-		if ( isset( $_GET['page'] ) ) {
-			$page_slug = sanitize_key( $_GET['page'] );
+		if ( '' !== $page_slug ) {
 			$tab_slug  = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : '';
 
 			if ( ! empty( $tab_slug ) ) {
@@ -221,6 +221,7 @@ class TradePress_Developer_Mode {
 			<?php
 		}
 	}
+
 }
 
 // Initialize the developer mode.

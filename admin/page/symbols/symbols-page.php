@@ -72,6 +72,7 @@ if ( ! class_exists( 'TradePress_Admin_Symbols_Page' ) ) :
 		public static function output() {
 			// Get the available tabs
 			$tabs = self::get_tabs();
+			$development_tab_ids = self::get_development_tab_ids();
 
 			// Get current tab from URL parameter or select the first tab as default
 			$current_tab = empty( $_GET['tab'] ) ? '' : sanitize_title( $_GET['tab'] );
@@ -88,13 +89,21 @@ if ( ! class_exists( 'TradePress_Admin_Symbols_Page' ) ) :
 			$current_tab_name = isset( $tabs[ $current_tab ]['name'] ) ? $tabs[ $current_tab ]['name'] : '';
 			?>
 		<div class="wrap tradepress-admin-wrap">
-			<h1><?php echo esc_html__( 'TradePress Symbols', 'tradepress' ) . ( $current_tab_name ? ' &gt; ' . esc_html( $current_tab_name ) : '' ); ?></h1>
+			<h1>
+				<?php
+				echo esc_html__( 'TradePress Symbols', 'tradepress' );
+				if ( $current_tab_name ) {
+					echo ' &gt; ';
+					echo tradepress_get_development_tab_label( $current_tab, $current_tab_name, $development_tab_ids );
+				}
+				?>
+			</h1>
 			<nav class="nav-tab-wrapper woo-nav-tab-wrapper">
 				<?php
 				foreach ( $tabs as $tab_id => $tab ) {
 					$active  = ( $tab_id === $current_tab ) ? ' nav-tab-active' : '';
 					$tab_url = add_query_arg( array( 'tab' => $tab_id ), admin_url( 'admin.php?page=tradepress_symbols' ) );
-					echo '<a href="' . esc_url( $tab_url ) . '" class="nav-tab' . esc_attr( $active ) . '">' . esc_html( $tab['name'] ) . '</a>';
+					echo '<a href="' . esc_url( $tab_url ) . '" class="nav-tab' . esc_attr( $active ) . '">' . tradepress_get_development_tab_label( $tab_id, $tab['name'], $development_tab_ids ) . '</a>';
 				}
 				?>
 			</nav>
@@ -283,6 +292,15 @@ if ( ! class_exists( 'TradePress_Admin_Symbols_Page' ) ) :
 			}
 
 			return apply_filters( 'tradepress_api_tabs', $filtered_tabs );
+		}
+
+		/**
+		 * Get tabs that can display developer reference codes.
+		 *
+		 * @return array
+		 */
+		private static function get_development_tab_ids() {
+			return array_keys( self::get_tabs() );
 		}
 
 		/**

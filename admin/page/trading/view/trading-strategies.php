@@ -121,6 +121,15 @@ foreach ( $strategies as $strategy ) {
 		</table>
 	</div>
 
+	<div class="tp-phase-panel tp-phase-panel-demo" role="note">
+		<div class="tp-phase-panel-header">
+			<span class="tp-phase-panel-icon dashicons dashicons-warning" aria-hidden="true"></span>
+			<strong><?php esc_html_e( 'Transitional data: stored scoring strategies shown as trading drafts', 'tradepress' ); ?></strong>
+		</div>
+		<p><?php esc_html_e( 'This list reads local scoring strategy storage as a temporary backing store for trading-rule draft review. Success rate, trade count, and profit/loss are not live trading performance metrics from a broker or execution engine.', 'tradepress' ); ?></p>
+		<p class="tp-phase-next-step"><?php esc_html_e( 'Next live-data step: split dedicated trading strategy tables from scoring strategy storage, then populate performance columns from paper/live execution history.', 'tradepress' ); ?></p>
+	</div>
+
 	<div class="strategies-header">
 		<div class="strategies-actions">
 			<a href="#" class="button button-primary add-new-strategy">

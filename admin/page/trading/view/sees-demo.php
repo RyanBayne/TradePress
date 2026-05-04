@@ -50,7 +50,10 @@ if ( function_exists( 'is_demo_mode' ) && is_demo_mode() ) {
 
 <div class="wrap tradepress-sees-demo">
 	<div class="tradepress-sees-header-wrapper">
-		<h2><?php esc_html_e( 'SEES - Demo Mode', 'tradepress' ); ?></h2>
+		<h2>
+			<?php esc_html_e( 'SEES - Demo Mode', 'tradepress' ); ?>
+			<span class="tp-demo-feature-marker dashicons dashicons-warning" title="<?php esc_attr_e( 'Demo data feature', 'tradepress' ); ?>" aria-label="<?php esc_attr_e( 'Demo data feature', 'tradepress' ); ?>"></span>
+		</h2>
 		<div class="tradepress-sees-info-box">
 			<h4><?php esc_html_e( 'Configuration Overview', 'tradepress' ); ?></h4>
 			<ul>
@@ -84,6 +87,15 @@ if ( function_exists( 'is_demo_mode' ) && is_demo_mode() ) {
 				</tr>
 			</tbody>
 		</table>
+	</div>
+
+	<div class="tp-phase-panel tp-phase-panel-demo" role="note">
+		<div class="tp-phase-panel-header">
+			<span class="tp-phase-panel-icon dashicons dashicons-warning" aria-hidden="true"></span>
+			<strong><?php esc_html_e( 'Demo data: generated SEES ranking preview', 'tradepress' ); ?></strong>
+		</div>
+		<p><?php esc_html_e( 'This tab uses bundled test symbol metadata and generated scores, prices, and percentage changes so the ranking and auto re-sorting interface can be reviewed in Developer Mode.', 'tradepress' ); ?></p>
+		<p class="tp-phase-next-step"><?php esc_html_e( 'Next live-data step: replace the demo AJAX source with stored scoring results from imported provider data, then keep this generator only as a diagnostics fixture.', 'tradepress' ); ?></p>
 	</div>
 
 	<div class="tradepress-sees-controls">

@@ -118,6 +118,15 @@ if ( empty( $directives ) ) {
 		</table>
 	</div>
 
+	<div class="tp-phase-panel tp-phase-panel-demo" role="note">
+		<div class="tp-phase-panel-header">
+			<span class="tp-phase-panel-icon dashicons dashicons-warning" aria-hidden="true"></span>
+			<strong><?php esc_html_e( 'Demo workflow: trading strategy design surface', 'tradepress' ); ?></strong>
+		</div>
+		<p><?php esc_html_e( 'This builder currently uses directive definitions and form settings to model rule-threshold strategy design. It does not save to final trading strategy tables, run provider-backed evaluations, or execute trades from this view.', 'tradepress' ); ?></p>
+		<p class="tp-phase-next-step"><?php esc_html_e( 'Next live-data step: connect the builder to dedicated trading strategy persistence, strategy testing handlers, and stored market-data freshness checks before any execution path exists.', 'tradepress' ); ?></p>
+	</div>
+
 	<div class="notice notice-info inline">
 		<p>
 			<?php esc_html_e( 'Scoring Directives and Trading Strategies are separate systems: scoring ranks opportunity quality, while trading strategies trigger when configured minimum rule conditions are met.', 'tradepress' ); ?>

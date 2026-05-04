@@ -43,7 +43,7 @@ class TradePress_Strategy_Handler {
 			wp_send_json_error( __( 'Insufficient permissions.', 'tradepress' ), 403 );
 		}
 
-		// Load database class.
+		// Load database and scope classes.
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-scoring-strategies-db.php';
 
 		$name                = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
@@ -51,6 +51,9 @@ class TradePress_Strategy_Handler {
 		$template            = isset( $_POST['template'] ) ? sanitize_text_field( wp_unslash( $_POST['template'] ) ) : '';
 		$min_score_threshold = isset( $_POST['min_score_threshold'] ) ? (float) sanitize_text_field( wp_unslash( $_POST['min_score_threshold'] ) ) : 50.0;
 		$directives          = isset( $_POST['directives'] ) ? json_decode( wp_unslash( $_POST['directives'] ), true ) : array();
+		$scope_mode          = isset( $_POST['scope_mode'] ) ? sanitize_key( wp_unslash( $_POST['scope_mode'] ) ) : 'advisory';
+		$manual_symbols      = isset( $_POST['manual_symbols'] ) ? sanitize_textarea_field( wp_unslash( $_POST['manual_symbols'] ) ) : '';
+		$watchlist_ids       = isset( $_POST['watchlist_ids'] ) ? sanitize_text_field( wp_unslash( $_POST['watchlist_ids'] ) ) : '';
 
 		if ( empty( $name ) ) {
 			wp_send_json_error( __( 'Strategy name is required.', 'tradepress' ) );
@@ -102,9 +105,19 @@ class TradePress_Strategy_Handler {
 			TradePress_Scoring_Strategies_DB::add_strategy_directive( $strategy_id, $directive_data );
 		}
 
+		$scope = TradePress_Strategy_Scope_Service::save_scope(
+			$strategy_id,
+			array(
+				'scope_mode'     => $scope_mode,
+				'manual_symbols' => $manual_symbols,
+				'watchlist_ids'  => $watchlist_ids,
+			)
+		);
+
 		wp_send_json_success(
 			array(
 				'strategy_id' => $strategy_id,
+				'scope'       => $scope,
 				'message'     => __( 'Strategy created successfully.', 'tradepress' ),
 			)
 		);
@@ -132,6 +145,7 @@ class TradePress_Strategy_Handler {
 		}
 
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-scoring-strategies-db.php';
+		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/strategy-scope-service.php';
 
 		$strategy_id         = isset( $_POST['strategy_id'] ) ? absint( wp_unslash( $_POST['strategy_id'] ) ) : 0;
 		$name                = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
@@ -139,6 +153,9 @@ class TradePress_Strategy_Handler {
 		$status              = isset( $_POST['status'] ) ? sanitize_key( wp_unslash( $_POST['status'] ) ) : 'draft';
 		$min_score_threshold = isset( $_POST['min_score_threshold'] ) ? (float) sanitize_text_field( wp_unslash( $_POST['min_score_threshold'] ) ) : 50.0;
 		$directives          = isset( $_POST['directives'] ) ? json_decode( wp_unslash( $_POST['directives'] ), true ) : array();
+		$scope_mode          = isset( $_POST['scope_mode'] ) ? sanitize_key( wp_unslash( $_POST['scope_mode'] ) ) : null;
+		$manual_symbols      = isset( $_POST['manual_symbols'] ) ? sanitize_textarea_field( wp_unslash( $_POST['manual_symbols'] ) ) : null;
+		$watchlist_ids       = isset( $_POST['watchlist_ids'] ) ? sanitize_text_field( wp_unslash( $_POST['watchlist_ids'] ) ) : null;
 
 		if ( ! $strategy_id ) {
 			wp_send_json_error( __( 'Strategy ID is required.', 'tradepress' ) );
@@ -195,9 +212,22 @@ class TradePress_Strategy_Handler {
 			}
 		}
 
+		$scope = TradePress_Strategy_Scope_Service::get_scope( $strategy_id );
+		if ( null !== $scope_mode || null !== $manual_symbols || null !== $watchlist_ids ) {
+			$scope = TradePress_Strategy_Scope_Service::save_scope(
+				$strategy_id,
+				array(
+					'scope_mode'     => null !== $scope_mode ? $scope_mode : $scope['scope_mode'],
+					'manual_symbols' => null !== $manual_symbols ? $manual_symbols : $scope['manual_symbols'],
+					'watchlist_ids'  => null !== $watchlist_ids ? $watchlist_ids : $scope['watchlist_ids'],
+				)
+			);
+		}
+
 		wp_send_json_success(
 			array(
 				'strategy_id' => $strategy_id,
+				'scope'       => $scope,
 				'message'     => __( 'Strategy updated successfully.', 'tradepress' ),
 			)
 		);
@@ -216,6 +246,7 @@ class TradePress_Strategy_Handler {
 		}
 
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-scoring-strategies-db.php';
+		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/strategy-scope-service.php';
 
 		$strategy_id  = isset( $_POST['strategy_id'] ) ? absint( wp_unslash( $_POST['strategy_id'] ) ) : 0;
 		$symbol       = isset( $_POST['symbol'] ) ? sanitize_text_field( wp_unslash( $_POST['symbol'] ) ) : '';
@@ -337,6 +368,7 @@ class TradePress_Strategy_Handler {
 		}
 
 		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-scoring-strategies-db.php';
+		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/strategy-scope-service.php';
 
 		$strategy_id = isset( $_POST['strategy_id'] ) ? absint( wp_unslash( $_POST['strategy_id'] ) ) : 0;
 		$strategy    = TradePress_Scoring_Strategies_DB::get_strategy( $strategy_id );
@@ -376,6 +408,8 @@ class TradePress_Strategy_Handler {
 
 			TradePress_Scoring_Strategies_DB::add_strategy_directive( $new_strategy_id, $directive_data );
 		}
+
+		TradePress_Strategy_Scope_Service::save_scope( $new_strategy_id, TradePress_Strategy_Scope_Service::get_scope( $strategy_id ) );
 
 		wp_send_json_success(
 			array(

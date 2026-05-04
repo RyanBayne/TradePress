@@ -56,6 +56,17 @@ SEES Diagnostics is a Developer Mode-only trace workspace. It explains how a sel
 
 The trace payload returned by `tradepress_ajax_fetch_sees_diagnostic_trace()` is the canonical contract for Sprint 2 UI rendering and Sprint 3 verification.
 
+The `Diagnostic test symbol` selector in the controls panel is a temporary diagnostics input. It chooses one bundled test symbol so the trace panel can explain a single evaluation. It is not the production source of SEES symbols. Production SEES symbol inputs should come from watchlists, strategy scope, scans, or stored scoring runs.
+
+Controls that exist only for Developer Mode diagnostics should display a red tools/spanner marker beside their labels. The marker means "diagnostic input", not "production requirement".
+
+Features that render demo, synthetic, fixture, or transitional simulation data should display an amber warning marker beside the feature heading and a phase panel before the affected feature. The marker means "this feature is not using its final live-data source." The panel must identify the current source of truth, state whether any part is real stored configuration, and name the next live-data step.
+
+Current SEES Diagnostics feature phase markers:
+
+- Symbol Cards: demo data. Rows come from bundled test symbol metadata and simulated price/change values. Live-data step: render stored scoring results produced from imported provider data.
+- Algorithm Visual Trace: mixed diagnostic simulation. Strategy records/components/scope are real local storage, but step inputs and scores are deterministic simulations. Live-data step: render stored scoring/trading execution traces after provider imports and scoring runs exist.
+
 ### Payload Fields
 
 | Field | Required | Meaning |
@@ -69,9 +80,11 @@ The trace payload returned by `tradepress_ajax_fetch_sees_diagnostic_trace()` is
 | `score` | Yes | Raw weighted total for the selected strategy trace. It is not globally normalised to `0..100`. |
 | `max_possible_score` | Yes | Sum of each trace step's `max_weighted_score`. This is the selected strategy's reachable maximum for the current component stack. |
 | `score_percent_of_max` | Yes | Derived display value: `(score / max_possible_score) * 100`, or `0` when `max_possible_score` is `0`. |
-| `minimum_threshold` | Yes | Strategy minimum raw score threshold. For trading mode this is retained as strategy metadata even when the immediate decision branch uses a component pass count. |
-| `threshold_distance` | Yes | Canonical threshold distance: `score - minimum_threshold`. Positive and zero values mean the score gate is met. Negative values mean the score is short by that amount. |
+| `minimum_threshold` | Yes | Suggested trading threshold stored with the selected scoring strategy. In scoring-mode diagnostics it is advisory metadata, not a hard scoring requirement. Trading Strategy execution decides whether to enforce a threshold. |
+| `threshold_distance` | Yes | Canonical threshold distance: `score - minimum_threshold`. Positive and zero values mean the suggested threshold is met. Negative values mean the score is short of the suggested trading target. |
 | `distance_to_threshold` | Compatibility | Backwards-compatible alias for `threshold_distance` while existing UI code migrates. New code should read `threshold_distance`. |
+| `strategy_scope` | Yes | Selected scoring strategy applicability metadata: intended symbols, watchlist IDs, mode preference, and summary. |
+| `scope_validation` | Yes | Diagnostic result for the selected symbol against `strategy_scope`. Scoring/SEES ranking should treat out-of-scope states as advisory unless a trading context explicitly enforces them. |
 | `decision` | Yes | Human-readable outcome string for the diagnostics panel. |
 | `decision_state` | Yes | Machine-readable top-level state: `continued` or `stopped`. |
 | `decision_branch_details` | Yes | Ordered list of branch/gate results that explain warnings, stops, and continuation. |
@@ -86,7 +99,7 @@ Each item in `decision_branch_details` must include:
 
 | Field | Meaning |
 |---|---|
-| `gate` | Stable gate key such as `strategy-selection`, `component-health`, `score-threshold`, or `indicator-threshold`. |
+| `gate` | Stable gate key such as `strategy-selection`, `component-health`, `symbol-scope`, `score-threshold`, or `indicator-threshold`. |
 | `status` | One of `passed`, `failed`, or `warning`. |
 | `reason` | Short user-readable reason for the branch result. |
 | `code_path` | Function or logical branch that produced the result. |
@@ -94,7 +107,7 @@ Each item in `decision_branch_details` must include:
 Branch status semantics:
 
 - `passed`: the gate allowed evaluation to continue.
-- `failed`: the gate blocked the trace and should produce `decision_state: stopped`.
+- `failed`: the gate blocked the trace and should produce `decision_state: stopped`. In scoring mode, below-suggested-threshold and out-of-scope findings should normally be warnings, not failures.
 - `warning`: the trace found degraded or incomplete component state. A warning does not automatically stop the trace unless a later required gate fails, but the warning count must remain visible.
 
 Top-level `decision_state` is intentionally narrower than branch `status`:
@@ -136,16 +149,16 @@ Each entry in `steps` should identify the real stored strategy component rather 
 
 ### Mode Rules
 
-- `scoring` mode uses the selected scoring strategy's stored components and score threshold. High score, low qualified score, and below-threshold branches are expressed through `score-threshold` branch details.
-- `trading` mode currently uses transitional stored scoring strategy components until dedicated trading strategy tables exist. The immediate branch uses component pass count, with `indicator-threshold` branch details.
+- `scoring` mode uses the selected scoring strategy's stored components, suggested trading threshold, and intended symbol scope. High score, low qualified score, and below-suggested-threshold branches are expressed through `score-threshold` branch details. Below-threshold is advisory and must not stop scoring or SEES ranking.
+- `trading` mode currently uses transitional stored scoring strategy components until dedicated trading strategy tables exist. The immediate branch uses component pass count, with `indicator-threshold` branch details. Trading mode may hard-stop on symbol scope when the scoring strategy metadata recommends enforcement and the Trading Strategy context elects to enforce it.
 - Neither mode may call external providers or execute trade actions from the diagnostics render/AJAX path.
 
 ## Dual-Algorithm Boundary
 
 TradePress keeps two algorithm families with different responsibilities:
 
-1. **Scoring Directives algorithm (optimization/ranking):** Produces weighted, strategy-aware scores to rank opportunity quality. It is continuous and can demand near-optimal conditions before a high score appears.
-2. **Trading Strategy algorithm (rule-threshold trigger):** Evaluates whether enough configured rules are currently within acceptable bounds (for example `3 of 5` or `60%`) and may require multi-period confirmation before triggering.
+1. **Scoring Directives algorithm (optimization/ranking):** Produces weighted, strategy-aware scores to rank opportunity quality. It is continuous and can demand near-optimal conditions before a high score appears. Suggested thresholds and intended symbol scope are advisory metadata in this layer.
+2. **Trading Strategy algorithm (rule-threshold trigger):** Evaluates whether enough configured rules are currently within acceptable bounds (for example `3 of 5` or `60%`) and may require multi-period confirmation before triggering. It owns hard threshold enforcement, symbol-scope enforcement, watchlist mutation warnings, open-position safety checks, and automated-trading stop/start decisions.
 
 Design constraints for current core scope:
 
@@ -170,10 +183,11 @@ Design constraints for current core scope:
 - `admin/page/trading/trading-tabs.php` now requires Developer Mode for SEES demo and diagnostic AJAX handlers, not only `manage_options`.
 - `admin/page/trading/view/sees-diagnostics.php` is labelled Dev-only Demo and reports its transitional storage boundary.
 - `assets/js/sees-diagnostics.js` displays selected strategy metadata, component counts, decision state, and next function from the AJAX trace response.
-- `assets/js/sees-diagnostics.js` now reads `threshold_distance` as the canonical score-threshold distance, keeps `distance_to_threshold` as fallback compatibility, labels branch statuses, distinguishes component warnings from hard failures, and supports copying the trace payload for verification evidence.
-- Create Scoring Strategies now exposes `Minimum Score Threshold` and saves it as `min_score_threshold`; this value is the source of `minimum_threshold` in SEES Diagnostics scoring-mode traces.
+- `assets/js/sees-diagnostics.js` now reads `threshold_distance` as the canonical score-to-suggested-threshold distance, keeps `distance_to_threshold` as fallback compatibility, labels branch statuses, distinguishes component warnings from hard failures, and supports copying the trace payload for verification evidence.
+- Create Scoring Strategies now exposes `Suggested Trading Threshold` after the directive stack and saves it as `min_score_threshold`; this value is the source of `minimum_threshold` in SEES Diagnostics scoring-mode traces.
+- Create and Manage Scoring Strategies expose intended symbol scope metadata. SEES Diagnostics includes `strategy_scope` and `scope_validation`; scoring-mode out-of-scope findings warn but continue ranking.
 - Manual continued-path evidence captured: strategy `SEES UI Testing`, 4 components, score `79.36 / 100.00`, threshold distance `+29.36`, decision continued to `tradepress_rank_scoring_strategy_result()`.
-- WP-CLI stopped-path evidence captured: strategy `SEES UI Testing`, temporary threshold `90`, 4 components, score `79.36 / 100.00`, threshold distance `-10.64`, `decision_state: stopped`, `score-threshold` failed, next function returned the stop decision to diagnostics. Threshold restored to `50.00` after capture.
+- Historical stopped-path evidence that used scoring threshold as a hard gate is superseded. Current scoring-mode behavior treats below-suggested-threshold as `score-threshold` warning and keeps `decision_state: continued`; hard threshold stops belong to Trading Strategy execution.
 - WP-CLI warning-path evidence captured: strategy `SEES UI Testing`, temporary inactive `cci` component, 4 components, passed `3`, warnings `1`, score `60.40 / 100.00`, threshold distance `+10.40`, `component-health` warning followed by `score-threshold` passed. `cci` restored to active after capture.
 - `admin/page/analysis/view/recent-symbols.php` reads `tradepress_symbol_scores` only and renders Cached or Empty state.
 - `admin/page/analysis/view/support-resistance.php` no longer instantiates `TradePress_Financial_API_Service` or `SupportResistanceLevels` during render; it validates explicit user input and reports that stored OHLC-backed analysis is not connected yet.

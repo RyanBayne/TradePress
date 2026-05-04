@@ -19,6 +19,22 @@ TradePress intentionally separates two algorithm families:
 
 Important: Trading Strategy should not become a duplicate scoring engine. It may reference scores as an input, but score optimization and rule-threshold execution remain distinct responsibilities.
 
+### Ownership rules for thresholds and symbol scope
+
+Scoring strategies may store advisory trading context, but they do not execute trades and should not be treated as hard execution gates.
+
+| Concern | Owner | Notes |
+|---|---|---|
+| Directive selection and weights | Scoring Strategy | Defines how the score is calculated. |
+| Maximum possible strategy score | Scoring Strategy / SEES Diagnostics | Derived from the active directive stack and used to help choose sensible thresholds. |
+| Suggested trading threshold | Scoring Strategy metadata | Advisory only. It helps a user document an intended trading target after reviewing the strategy's reachable score. |
+| Symbol applicability/scope | Scoring Strategy metadata | Advisory context for SEES ranking and diagnostics. It identifies where the scoring formula was designed to apply. |
+| Ranking/filtering symbols | SEES | SEES orders symbols from scores and may show advisory scope or threshold warnings. |
+| Hard threshold enforcement | Trading Strategy | Automated trade execution decides whether a score threshold blocks a trade. |
+| Hard symbol-scope enforcement | Trading Strategy | Scope can become an execution guard only in a trading strategy context, with open-position and auto-trading safety checks. |
+
+Implementation note: existing storage uses `min_score_threshold` for the suggested threshold because the field already exists in scoring strategy persistence. New UI and service code should describe it as a suggested trading threshold, not as a scoring requirement.
+
 ### Scope guidance
 
 - Core/free scope: clear rule-threshold controls, minimum-required condition controls, confirmation controls.

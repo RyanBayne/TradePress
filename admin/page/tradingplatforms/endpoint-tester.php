@@ -980,12 +980,16 @@ class TradePress_Endpoint_Tester {
 		}
 
 		$environment = 'Live';
+		$error_code  = $error->get_error_code();
+		$status_text = in_array( $error_code, array( 'api_key_required', 'missing_credentials' ), true )
+			? __( 'Requires API Key', 'tradepress' )
+			: __( 'Connection Error', 'tradepress' );
 
 		// Build the error report
 		$report  = "### API Test Error Report ###\n";
 		$report .= 'Platform: ' . esc_html( $platform_name ) . "\n";
 		$report .= 'Endpoint: ' . esc_html( $endpoint['id'] ) . "\n";
-		$report .= "Status: Connection Error\n";
+		$report .= 'Status: ' . $status_text . "\n";
 		$report .= 'Environment: ' . $environment . "\n";
 		$report .= 'Trading Mode: ' . esc_html( $trading_mode ) . "\n";
 		$report .= 'API Version: ' . ( isset( $endpoint['version'] ) ? $endpoint['version'] : 'v2' ) . "\n";

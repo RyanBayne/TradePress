@@ -58,6 +58,15 @@ $total_gain_loss_percent = ( $total_gain_loss / $total_cost ) * 100;
 ?>
 
 <div class="tradepress-portfolio-container">
+	<div class="tp-phase-panel tp-phase-panel-demo" role="note">
+		<div class="tp-phase-panel-header">
+			<span class="tp-phase-panel-icon dashicons dashicons-warning" aria-hidden="true"></span>
+			<strong><?php esc_html_e( 'Demo data: hard-coded portfolio positions', 'tradepress' ); ?></strong>
+		</div>
+		<p><?php esc_html_e( 'This portfolio table currently renders static AAPL, MSFT, and NVDA example positions from the view file. Refresh reloads the page; it does not call a broker or stored positions table.', 'tradepress' ); ?></p>
+		<p class="tp-phase-next-step"><?php esc_html_e( 'Next live-data step: read positions from broker-imported or manually recorded portfolio storage, then show an empty state when no positions exist.', 'tradepress' ); ?></p>
+	</div>
+
 	<div class="portfolio-header">
 		<div class="portfolio-summary">
 			<div class="summary-item">

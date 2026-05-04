@@ -25,6 +25,7 @@ function get_status_color( $status ) {
 		case 'disruption':
 		case 'maintenance':
 		case 'warning':
+		case 'requires_api_key':
 			return 'status-orange';
 		case 'inactive':
 		case 'outage':
@@ -33,6 +34,135 @@ function get_status_color( $status ) {
 		default:
 			return 'status-grey';
 	}
+}
+
+/**
+ * Get the first non-empty option value from a list of option names.
+ *
+ * @param array $option_names Option names to check.
+ * @return string First configured option value or empty string.
+ * @version 1.0.0
+ */
+function tradepress_get_first_configured_api_option( $option_names ) {
+	foreach ( $option_names as $option_name ) {
+		$value = get_option( $option_name, '' );
+
+		if ( is_string( $value ) && '' !== trim( $value ) ) {
+			return trim( $value );
+		}
+	}
+
+	return '';
+}
+
+/**
+ * Get an API credential from the legacy grouped API settings option.
+ *
+ * @param string $setting_key Grouped settings key.
+ * @return string Configured value or empty string.
+ * @version 1.0.0
+ */
+function tradepress_get_grouped_api_setting( $setting_key ) {
+	$api_settings = get_option( 'tradepress_api_settings', array() );
+
+	if ( ! is_array( $api_settings ) || empty( $api_settings[ $setting_key ] ) ) {
+		return '';
+	}
+
+	return is_string( $api_settings[ $setting_key ] ) ? trim( $api_settings[ $setting_key ] ) : '';
+}
+
+/**
+ * Get local credential status for a trading platform API.
+ *
+ * @param string $api_id API identifier.
+ * @return array Status array with status and message.
+ * @version 1.0.0
+ */
+function tradepress_get_api_credential_status( $api_id ) {
+	$api_id = sanitize_key( $api_id );
+
+	$provider = array();
+	if ( class_exists( 'TradePress_API_Directory' ) ) {
+		$provider = TradePress_API_Directory::get_provider( $api_id );
+	}
+
+	$api_type = isset( $provider['api_type'] ) ? $provider['api_type'] : 'trading';
+
+	$key_options = array(
+		'TradePress_api_' . $api_id . '_key',
+		'tradepress_' . $api_id . '_api_key',
+		'TradePress_' . $api_id . '_api_key',
+	);
+
+	if ( 'alphavantage' === $api_id ) {
+		$key_options[] = 'tradepress_api_alphavantage_key';
+		$key_options[] = 'TradePress_alphavantage_api_key';
+		$key_options[] = 'tradepress_alphavantage_api_key';
+	}
+
+	if ( 'trading212' === $api_id ) {
+		$key_options[] = 'tradepress_trading212_api_key';
+		$key_options[] = 'TradePress_api_trading212_realmoney_apikey';
+		$key_options[] = 'tradepress_trading212_paper_api_key';
+		$key_options[] = 'TradePress_api_trading212_papermoney_apikey';
+	}
+
+	if ( 'webull' === $api_id ) {
+		$key_options[] = 'tradepress_webull_access_token';
+	}
+
+	$api_key = tradepress_get_first_configured_api_option( $key_options );
+
+	if ( '' === $api_key ) {
+		$api_key = tradepress_get_grouped_api_setting( $api_id . '_api_key' );
+	}
+
+	if ( '' === $api_key ) {
+		$api_key = tradepress_get_grouped_api_setting( $api_id . '_access_token' );
+	}
+
+	if ( '' === $api_key ) {
+		return array(
+			'status'  => 'requires_api_key',
+			'message' => __( 'Requires API Key', 'tradepress' ),
+		);
+	}
+
+	if ( 'data_only' === $api_type ) {
+		return array(
+			'status'  => 'active',
+			'message' => __( 'API key configured', 'tradepress' ),
+		);
+	}
+
+	$secret_options = array(
+		'TradePress_api_' . $api_id . '_realmoney_secretkey',
+		'TradePress_api_' . $api_id . '_papermoney_secretkey',
+		'tradepress_' . $api_id . '_api_secret',
+		'tradepress_' . $api_id . '_paper_api_secret',
+		'TradePress_api_' . $api_id . '_secret',
+	);
+
+	if ( 'trading212' === $api_id ) {
+		$secret_options[] = 'tradepress_trading212_api_secret';
+		$secret_options[] = 'tradepress_trading212_paper_api_secret';
+	}
+
+	$requires_secret = ! in_array( $api_id, array( 'trading212', 'webull', 'etoro', 'fidelity' ), true );
+	$api_secret      = tradepress_get_first_configured_api_option( $secret_options );
+
+	if ( $requires_secret && '' === $api_secret ) {
+		return array(
+			'status'  => 'warning',
+			'message' => __( 'API secret not configured', 'tradepress' ),
+		);
+	}
+
+	return array(
+		'status'  => 'active',
+		'message' => __( 'Credentials configured', 'tradepress' ),
+	);
 }
 
 /**

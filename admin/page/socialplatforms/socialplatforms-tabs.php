@@ -215,7 +215,8 @@ if ( ! class_exists( 'TradePress_Admin_SocialPlatforms_Tabs' ) ) :
 			$current_tab = isset( $_GET['tab'] ) ? sanitize_title( $_GET['tab'] ) : 'settings';
 
 			// Get available tabs
-			$tabs = self::get_tabs();
+			$tabs                = self::get_tabs();
+			$development_tab_ids = self::get_development_tab_ids();
 
 			?>
 		<div class="wrap tradepress-social-platforms-wrap">
@@ -224,7 +225,7 @@ if ( ! class_exists( 'TradePress_Admin_SocialPlatforms_Tabs' ) ) :
 				echo esc_html__( 'TradePress Social Platforms', 'tradepress' );
 				if ( isset( $tabs[ $current_tab ] ) ) {
 					echo ' <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 0.8em; vertical-align: middle; margin: 0 5px;"></span> ';
-					echo esc_html( $tabs[ $current_tab ]['name'] );
+					echo tradepress_get_development_tab_label( $current_tab, $tabs[ $current_tab ]['name'], $development_tab_ids );
 				}
 				?>
 			</h1>
@@ -237,7 +238,7 @@ if ( ! class_exists( 'TradePress_Admin_SocialPlatforms_Tabs' ) ) :
 						'<a href="%s" class="nav-tab %s">%s</a>',
 						esc_url( add_query_arg( 'tab', $tab_id, remove_query_arg( 'section' ) ) ),
 						esc_attr( $active_class ),
-						esc_html( $tab_data['name'] )
+						tradepress_get_development_tab_label( $tab_id, $tab_data['name'], $development_tab_ids )
 					);
 				}
 				?>
@@ -329,6 +330,15 @@ if ( ! class_exists( 'TradePress_Admin_SocialPlatforms_Tabs' ) ) :
 			}
 
 			return apply_filters( 'tradepress_social_platform_tabs', $filtered_tabs );
+		}
+
+		/**
+		 * Get tabs that can display developer reference codes.
+		 *
+		 * @return array
+		 */
+		private static function get_development_tab_ids() {
+			return array_keys( self::get_tabs() );
 		}
 
 		/**

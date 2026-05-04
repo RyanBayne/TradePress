@@ -35,7 +35,7 @@ $active_directives = array_filter(
 		
 		<!-- Strategy Template Selection -->
 		<div class="strategy-template-section">
-			<h4><?php esc_html_e( 'Strategy Template', 'tradepress' ); ?></h4>
+			<h4><?php esc_html_e( 'Optional Strategy Template', 'tradepress' ); ?></h4>
 			<div class="template-selection">
 				<select id="strategy-template" class="regular-text">
 					<option value=""><?php esc_html_e( 'Custom Strategy (No Template)', 'tradepress' ); ?></option>
@@ -94,12 +94,6 @@ $active_directives = array_filter(
 						<label for="strategy-description"><?php esc_html_e( 'Description:', 'tradepress' ); ?></label>
 						<textarea id="strategy-description" rows="3" class="regular-text" placeholder="<?php esc_attr_e( 'Describe your strategy', 'tradepress' ); ?>"></textarea>
 					</div>
-
-					<div class="form-group">
-						<label for="strategy-min-score-threshold"><?php esc_html_e( 'Minimum Score Threshold:', 'tradepress' ); ?></label>
-						<input type="number" id="strategy-min-score-threshold" class="small-text" min="0" max="500" step="0.01" value="50">
-						<p class="description"><?php esc_html_e( 'SEES Diagnostics stops scoring traces below this raw strategy score. Use a higher value to test stopped-path traces.', 'tradepress' ); ?></p>
-					</div>
 				</div>
 				
 				<div class="strategy-directives-area">
@@ -126,6 +120,32 @@ $active_directives = array_filter(
 							<?php esc_html_e( 'Evenly Divide Weights', 'tradepress' ); ?>
 						</button>
 						<span id="weight-helper-message" class="description"></span>
+					</div>
+				</div>
+
+				<div class="strategy-advisory-settings">
+					<h4><?php esc_html_e( 'Advisory Trading Context', 'tradepress' ); ?></h4>
+					<p class="description"><?php esc_html_e( 'These settings document how this scoring strategy is intended to be used. They do not enforce trading decisions by themselves.', 'tradepress' ); ?></p>
+
+					<div class="form-group">
+						<label for="strategy-min-score-threshold"><?php esc_html_e( 'Suggested Trading Threshold:', 'tradepress' ); ?></label>
+						<input type="number" id="strategy-min-score-threshold" class="small-text" min="0" max="500" step="0.01" value="50">
+						<p class="description"><?php esc_html_e( 'Use this as a recommended score target after reviewing the directive stack and maximum possible score. Trading strategies decide whether to enforce a threshold.', 'tradepress' ); ?></p>
+					</div>
+
+					<div class="form-group strategy-scope-fields">
+						<label for="strategy-scope-mode"><?php esc_html_e( 'Symbol Scope Handling:', 'tradepress' ); ?></label>
+						<select id="strategy-scope-mode">
+							<option value="advisory"><?php esc_html_e( 'Advisory note only', 'tradepress' ); ?></option>
+							<option value="enforced"><?php esc_html_e( 'Recommend enforcement when used by trading', 'tradepress' ); ?></option>
+						</select>
+						<p class="description"><?php esc_html_e( 'Scoring and SEES ranking treat scope as applicability context. Trading strategies may use this preference as an execution guard.', 'tradepress' ); ?></p>
+					</div>
+
+					<div class="form-group strategy-scope-fields">
+						<label for="strategy-manual-symbols"><?php esc_html_e( 'Intended Symbols:', 'tradepress' ); ?></label>
+						<textarea id="strategy-manual-symbols" rows="3" class="regular-text" placeholder="<?php esc_attr_e( 'AAPL, MSFT, USD/JPY', 'tradepress' ); ?>"></textarea>
+						<p class="description"><?php esc_html_e( 'Separate symbols with commas, spaces, or new lines. Watchlist pairing will use the same scope service when durable watchlist storage is available.', 'tradepress' ); ?></p>
 					</div>
 				</div>
 				
@@ -313,6 +333,12 @@ $active_directives = array_filter(
 	color: #646970;
 }
 
+.strategy-advisory-settings {
+	margin-top: 18px;
+	padding-top: 16px;
+	border-top: 1px solid #dcdcde;
+}
+
 .form-group {
 	margin-bottom: 15px;
 }
@@ -321,6 +347,11 @@ $active_directives = array_filter(
 	display: block;
 	margin-bottom: 5px;
 	font-weight: 600;
+}
+
+.strategy-scope-fields textarea {
+	width: 100%;
+	max-width: 420px;
 }
 
 .strategy-template-section {
@@ -793,6 +824,8 @@ jQuery(document).ready(function($) {
 			name: $('#strategy-name').val().trim(),
 			description: $('#strategy-description').val().trim(),
 			min_score_threshold: parseFloat($('#strategy-min-score-threshold').val()) || 50,
+			scope_mode: $('#strategy-scope-mode').val(),
+			manual_symbols: $('#strategy-manual-symbols').val().trim(),
 			directives: strategyDirectives.map((d, index) => ({
 				id: d.id,
 				name: d.name,
@@ -826,6 +859,8 @@ jQuery(document).ready(function($) {
 			description: strategyData.description,
 			template: currentTemplate,
 			min_score_threshold: strategyData.min_score_threshold,
+			scope_mode: strategyData.scope_mode,
+			manual_symbols: strategyData.manual_symbols,
 			directives: JSON.stringify(strategyData.directives)
 		})
 		.done(function(response) {

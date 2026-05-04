@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Load strategies from database.
 require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-scoring-strategies-db.php';
+require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/strategy-scope-service.php';
 
 $strategies = TradePress_Scoring_Strategies_DB::get_strategies(
 	array(
@@ -27,6 +28,7 @@ $strategies = TradePress_Scoring_Strategies_DB::get_strategies(
 $sample_strategies = array();
 foreach ( $strategies as $strategy ) {
 	$directives = TradePress_Scoring_Strategies_DB::get_strategy_directives( $strategy->id );
+	$scope      = TradePress_Strategy_Scope_Service::get_scope( $strategy->id );
 
 	$directive_array = array();
 	foreach ( $directives as $directive ) {
@@ -48,8 +50,93 @@ foreach ( $strategies as $strategy ) {
 		'total_tests'         => $strategy->total_tests,
 		'success_rate'        => $strategy->success_rate,
 		'min_score_threshold' => isset( $strategy->min_score_threshold ) ? $strategy->min_score_threshold : 50,
+		'scope'               => $scope,
 	);
 }
+
+// Built-in strategy templates (display-only, not editable in this tab).
+$built_in_strategies = array(
+	array(
+		'name'          => 'Momentum Confluence',
+		'group'         => 'ready',
+		'description'   => 'Identifies oversold momentum entries confirmed by MACD crossover, volume surge, and price above EMA. Best for swing trading growth stocks.',
+		'recommended'   => array( 'RSI', 'MACD', 'Volume', 'EMA' ),
+		'unavailable'   => array(),
+		'requirements'  => array( 'Alpha Vantage' ),
+	),
+	array(
+		'name'          => 'Mean Reversion',
+		'group'         => 'ready',
+		'description'   => 'Identifies oversold conditions from multiple angles using RSI, Bollinger Bands, CCI, and MFI volume-weighted confirmation. Best for ranging markets.',
+		'recommended'   => array( 'RSI', 'Bollinger Bands', 'CCI', 'MFI' ),
+		'unavailable'   => array(),
+		'requirements'  => array( 'Alpha Vantage' ),
+	),
+	array(
+		'name'          => 'Trend Strength',
+		'group'         => 'ready',
+		'description'   => 'Confirms a strong trend exists before entering. ADX measures trend strength, moving averages confirm direction, MACD confirms momentum, volume confirms participation.',
+		'recommended'   => array( 'ADX', 'Moving Averages', 'MACD', 'Volume' ),
+		'unavailable'   => array(),
+		'requirements'  => array( 'Alpha Vantage' ),
+	),
+	array(
+		'name'          => 'Volume Breakout',
+		'group'         => 'ready',
+		'description'   => 'Targets stocks breaking out of consolidation on above-average volume. OBV confirms accumulation, Bollinger Bands detect the squeeze, ADX confirms the new trend.',
+		'recommended'   => array( 'Volume', 'OBV', 'Bollinger Bands', 'ADX', 'EMA' ),
+		'unavailable'   => array(),
+		'requirements'  => array( 'Alpha Vantage' ),
+	),
+	array(
+		'name'          => 'Oscillator Confluence',
+		'group'         => 'ready',
+		'description'   => 'Requires agreement across four independent oscillators before scoring high. RSI, Stochastic, CCI, and MFI must all signal oversold simultaneously.',
+		'recommended'   => array( 'RSI', 'Stochastic', 'CCI', 'MFI' ),
+		'unavailable'   => array(),
+		'requirements'  => array( 'Alpha Vantage' ),
+	),
+	array(
+		'name'          => 'UK ISA Seasonal',
+		'group'         => 'ready',
+		'description'   => 'Combines technical momentum with UK ISA seasonal buying pressure. Scores highest during January-April when UK investors deploy fresh ISA allowances into oversold quality stocks.',
+		'recommended'   => array( 'RSI', 'Moving Averages', 'Volume', 'ISA', 'ISA Reset' ),
+		'unavailable'   => array(),
+		'requirements'  => array( 'Alpha Vantage' ),
+	),
+	array(
+		'name'          => 'Earnings Catalyst',
+		'group'         => 'requires_more',
+		'description'   => 'Targets stocks approaching earnings with strong technical setup. Earnings Proximity and News Sentiment become available as those directives are implemented.',
+		'recommended'   => array( 'Earnings Proximity', 'RSI', 'Volume', 'MACD', 'News Sentiment Positive' ),
+		'unavailable'   => array( 'Earnings Proximity', 'News Sentiment Positive' ),
+		'requirements'  => array( 'Alpha Vantage', 'News API' ),
+	),
+	array(
+		'name'          => 'Candle Reversal',
+		'group'         => 'requires_more',
+		'description'   => 'High-probability reversal entries using candle pattern confluence at key levels. Pattern directives are enabled as those directives are added.',
+		'recommended'   => array( 'Support/Resistance Levels', 'Engulfing Pattern', 'Hammer Pattern', 'Volume', 'RSI' ),
+		'unavailable'   => array( 'Support/Resistance Levels', 'Engulfing Pattern', 'Hammer Pattern' ),
+		'requirements'  => array( 'Alpha Vantage' ),
+	),
+	array(
+		'name'          => 'News Momentum',
+		'group'         => 'requires_more',
+		'description'   => 'Combines positive news sentiment with technical momentum confirmation. News-related directives become available as they are implemented.',
+		'recommended'   => array( 'News Sentiment Positive', 'RSI', 'MACD', 'Volume Surge', 'Moving Averages' ),
+		'unavailable'   => array( 'News Sentiment Positive', 'Volume Surge' ),
+		'requirements'  => array( 'Alpha Vantage', 'News API' ),
+	),
+	array(
+		'name'          => 'Weekly Rhythm',
+		'group'         => 'requires_more',
+		'description'   => 'Exploits predictable day-of-week institutional patterns. Monday Effect and Friday Positioning are available, while additional temporal directives are enabled as implemented.',
+		'recommended'   => array( 'Monday Effect', 'Friday Positioning', 'Volume Rhythm', 'Midweek Momentum', 'Volume' ),
+		'unavailable'   => array( 'Volume Rhythm', 'Midweek Momentum' ),
+		'requirements'  => array( 'Alpha Vantage' ),
+	),
+);
 ?>
 
 <div class="manage-strategies-interface">
@@ -93,8 +180,12 @@ foreach ( $strategies as $strategy ) {
 						<span class="meta-value"><?php echo count( $strategy['directives'] ); ?></span>
 					</div>
 					<div class="meta-item">
-						<span class="meta-label"><?php esc_html_e( 'Minimum Score:', 'tradepress' ); ?></span>
+						<span class="meta-label"><?php esc_html_e( 'Suggested Threshold:', 'tradepress' ); ?></span>
 						<span class="meta-value"><?php echo esc_html( number_format_i18n( (float) $strategy['min_score_threshold'], 2 ) ); ?></span>
+					</div>
+					<div class="meta-item">
+						<span class="meta-label"><?php esc_html_e( 'Intended Scope:', 'tradepress' ); ?></span>
+						<span class="meta-value strategy-scope-summary"><?php echo esc_html( $strategy['scope']['summary'] ); ?></span>
 					</div>
 				</div>
 				
@@ -136,13 +227,63 @@ foreach ( $strategies as $strategy ) {
 			</div>
 		<?php endforeach; ?>
 	</div>
+
+	<div class="built-in-strategies-section">
+		<h4><?php esc_html_e( 'Built-in Strategy Templates (Read Only)', 'tradepress' ); ?></h4>
+		<p class="description">
+			<?php esc_html_e( 'These are built-in templates for quick setup. They are displayed here for reference and are not editable in this tab. Create a custom strategy from a template to make changes.', 'tradepress' ); ?>
+		</p>
+
+		<div class="built-in-strategies-list">
+			<?php foreach ( $built_in_strategies as $built_in_strategy ) : ?>
+				<div class="strategy-card built-in-strategy-card">
+					<div class="strategy-header">
+						<div class="strategy-info">
+							<h4 class="strategy-name"><?php echo esc_html( $built_in_strategy['name'] ); ?></h4>
+							<p class="strategy-description"><?php echo esc_html( $built_in_strategy['description'] ); ?></p>
+						</div>
+						<div class="strategy-status">
+							<span class="status-badge built-in-badge"><?php esc_html_e( 'Built-in', 'tradepress' ); ?></span>
+							<span class="status-badge <?php echo esc_attr( 'ready' === $built_in_strategy['group'] ? 'status-active' : 'status-draft' ); ?>">
+								<?php echo esc_html( 'ready' === $built_in_strategy['group'] ? __( 'Ready to Use', 'tradepress' ) : __( 'Requires Additional Directives', 'tradepress' ) ); ?>
+							</span>
+						</div>
+					</div>
+
+					<div class="strategy-meta">
+						<div class="meta-item">
+							<span class="meta-label"><?php esc_html_e( 'Recommended Directives:', 'tradepress' ); ?></span>
+							<span class="meta-value"><?php echo esc_html( implode( ', ', $built_in_strategy['recommended'] ) ); ?></span>
+						</div>
+						<div class="meta-item">
+							<span class="meta-label"><?php esc_html_e( 'API Requirements:', 'tradepress' ); ?></span>
+							<span class="meta-value"><?php echo esc_html( implode( ', ', $built_in_strategy['requirements'] ) ); ?></span>
+						</div>
+						<?php if ( ! empty( $built_in_strategy['unavailable'] ) ) : ?>
+							<div class="meta-item">
+								<span class="meta-label"><?php esc_html_e( 'Currently Unavailable Directives:', 'tradepress' ); ?></span>
+								<span class="meta-value"><?php echo esc_html( implode( ', ', $built_in_strategy['unavailable'] ) ); ?></span>
+							</div>
+						<?php endif; ?>
+					</div>
+
+					<div class="strategy-actions">
+						<a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_scoring_directives&tab=create_strategies' ) ); ?>" class="button button-secondary">
+							<?php esc_html_e( 'Create from Template', 'tradepress' ); ?>
+						</a>
+						<span class="description"><?php esc_html_e( 'Read-only template information.', 'tradepress' ); ?></span>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
 	
 	<?php if ( empty( $sample_strategies ) ) : ?>
 		<div class="no-strategies">
 			<div class="no-strategies-content">
 				<span class="dashicons dashicons-chart-line"></span>
-				<h3><?php esc_html_e( 'No Strategies Found', 'tradepress' ); ?></h3>
-				<p><?php esc_html_e( 'You haven\'t created any scoring strategies yet.', 'tradepress' ); ?></p>
+				<h3><?php esc_html_e( 'No Custom Strategies Found', 'tradepress' ); ?></h3>
+				<p><?php esc_html_e( 'You haven\'t created any manual scoring strategies yet. Built-in templates are listed below for reference.', 'tradepress' ); ?></p>
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=tradepress_scoring_directives&tab=create_strategies' ) ); ?>" class="button button-primary">
 					<?php esc_html_e( 'Create Your First Strategy', 'tradepress' ); ?>
 				</a>
@@ -174,6 +315,18 @@ foreach ( $strategies as $strategy ) {
 	gap: 20px;
 }
 
+.built-in-strategies-section {
+	margin-top: 30px;
+	padding-top: 20px;
+	border-top: 1px solid #ddd;
+}
+
+.built-in-strategies-list {
+	display: grid;
+	gap: 20px;
+	margin-top: 12px;
+}
+
 .strategy-card {
 	background: #fff;
 	border: 1px solid #ddd;
@@ -185,6 +338,16 @@ foreach ( $strategies as $strategy ) {
 .strategy-card:hover {
 	border-color: #0073aa;
 	box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.built-in-strategy-card {
+	border-color: #d9e2ec;
+	background: #fcfdff;
+}
+
+.built-in-strategy-card:hover {
+	border-color: #d9e2ec;
+	box-shadow: none;
 }
 
 .strategy-header {
@@ -228,6 +391,12 @@ foreach ( $strategies as $strategy ) {
 	color: #666;
 }
 
+.built-in-badge {
+	background: #edf2f7;
+	color: #334155;
+	margin-right: 6px;
+}
+
 .strategy-meta {
 	display: flex;
 	gap: 20px;
@@ -253,6 +422,10 @@ foreach ( $strategies as $strategy ) {
 .meta-value {
 	font-size: 14px;
 	color: #333;
+}
+
+.strategy-scope-summary {
+	font-weight: 600;
 }
 
 .strategy-directives h5 {
@@ -329,6 +502,8 @@ jQuery(document).ready(function($) {
 		const strategy = $card.data('strategy');
 		let directivesHtml = '';
 		let totalWeight = 0;
+		const scope = strategy.scope || { scope_mode: 'advisory', manual_symbols: [], watchlist_ids: [] };
+		const manualSymbols = Array.isArray(scope.manual_symbols) ? scope.manual_symbols.join("\n") : '';
 
 		if ( strategy.directives && strategy.directives.length ) {
 			strategy.directives.forEach(function(d) {
@@ -353,8 +528,16 @@ jQuery(document).ready(function($) {
 				'<option value="active"' + (strategy.status === 'active' ? ' selected' : '') + '><?php echo esc_js( __( 'Active', 'tradepress' ) ); ?></option>' +
 				'<option value="inactive"' + (strategy.status === 'inactive' ? ' selected' : '') + '><?php echo esc_js( __( 'Inactive', 'tradepress' ) ); ?></option>' +
 			'</select></td></tr>' +
-			'<tr><th style="padding:6px 0;"><label><?php echo esc_js( __( 'Min. Score Threshold', 'tradepress' ) ); ?></label></th>' +
+			'<tr><th style="padding:6px 0;"><label><?php echo esc_js( __( 'Suggested Trading Threshold', 'tradepress' ) ); ?></label></th>' +
 			'<td style="padding:4px 0;"><input type="number" class="small-text edit-threshold" value="' + parseFloat(strategy.min_score_threshold) + '" min="0" max="500" step="0.01"></td></tr>' +
+			'<tr><th style="padding:6px 0;"><label><?php echo esc_js( __( 'Symbol Scope Handling', 'tradepress' ) ); ?></label></th>' +
+			'<td style="padding:4px 0;"><select class="edit-scope-mode">' +
+				'<option value="advisory"' + (scope.scope_mode === 'advisory' ? ' selected' : '') + '><?php echo esc_js( __( 'Advisory note only', 'tradepress' ) ); ?></option>' +
+				'<option value="enforced"' + (scope.scope_mode === 'enforced' ? ' selected' : '') + '><?php echo esc_js( __( 'Recommend enforcement when used by trading', 'tradepress' ) ); ?></option>' +
+			'</select></td></tr>' +
+			'<tr><th style="padding:6px 0;"><label><?php echo esc_js( __( 'Intended Symbols', 'tradepress' ) ); ?></label></th>' +
+			'<td style="padding:4px 0;"><textarea class="large-text edit-manual-symbols" rows="3" placeholder="<?php echo esc_js( __( 'AAPL, MSFT, USD/JPY', 'tradepress' ) ); ?>">' + $('<span>').text(manualSymbols).html() + '</textarea>' +
+			'<p class="description" style="margin:4px 0 0;"><?php echo esc_js( __( 'This is scoring-strategy applicability context. Trading strategies decide whether to enforce it.', 'tradepress' ) ); ?></p></td></tr>' +
 			( directivesHtml ? '<tr><th style="padding:6px 0;vertical-align:top;"><label><?php echo esc_js( __( 'Directive Weights', 'tradepress' ) ); ?></label></th>' +
 				'<td style="padding:4px 0;">' + directivesHtml +
 				'<p class="weight-total-notice" style="margin:6px 0 0;font-size:12px;color:#666;"><?php echo esc_js( __( 'Total:', 'tradepress' ) ); ?> <strong class="weight-total">' + totalWeight.toFixed(2) + '%</strong></p>' +
@@ -408,6 +591,8 @@ jQuery(document).ready(function($) {
 				description:          $card.find('.edit-description').val(),
 				status:               $card.find('.edit-status').val(),
 				min_score_threshold:  $card.find('.edit-threshold').val(),
+				scope_mode:           $card.find('.edit-scope-mode').val(),
+				manual_symbols:       $card.find('.edit-manual-symbols').val(),
 				directives:           JSON.stringify(updatedDirectives),
 			})
 			.done(function(response) {
@@ -425,6 +610,10 @@ jQuery(document).ready(function($) {
 					cached.description         = $card.find('.edit-description').val();
 					cached.status              = newStatus;
 					cached.min_score_threshold = parseFloat($card.find('.edit-threshold').val());
+					if ( response.data && response.data.scope ) {
+						cached.scope = response.data.scope;
+						$card.find('.strategy-scope-summary').text(response.data.scope.summary);
+					}
 					if ( updatedDirectives.length ) {
 						updatedDirectives.forEach(function(ud) {
 							cached.directives.forEach(function(d) { if (d.id === ud.id) d.weight = ud.weight; });
@@ -510,6 +699,8 @@ jQuery(document).ready(function($) {
 			name:        strategy.name,
 			status:      newStatus,
 			min_score_threshold: strategy.min_score_threshold,
+			scope_mode:   strategy.scope ? strategy.scope.scope_mode : 'advisory',
+			manual_symbols: strategy.scope && strategy.scope.manual_symbols ? strategy.scope.manual_symbols.join("\n") : '',
 		})
 		.done(function(response) {
 			if ( response.success ) {

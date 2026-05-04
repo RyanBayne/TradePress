@@ -449,18 +449,22 @@ foreach ( $strategies as $strategy ) {
 
 <script>
 jQuery(document).ready(function($) {
-	// Test strategy from performance cards
+	// Test strategy from performance cards — redirect to the testing interface on this page.
 	$('.test-strategy').on('click', function() {
-		const strategyId = $(this).data('strategy-id');
-		// TODO: Implement test functionality
-		alert('Strategy testing will be implemented in next phase. Strategy ID: ' + strategyId);
+		var strategyId = $(this).data('strategy-id');
+		var $testSection = $('#strategy-testing-interface');
+		if ( $testSection.length ) {
+			$('#test-strategy-select').val(strategyId);
+			$('html, body').animate({ scrollTop: $testSection.offset().top - 40 }, 400);
+		} else {
+			window.location.href = '<?php echo esc_url( admin_url( 'admin.php?page=tradepress_scoring_directives&tab=view_strategies' ) ); ?>#strategy-testing-interface';
+		}
 	});
-	
-	// View strategy details
+
+	// View strategy details — navigate to Manage Strategies tab with the strategy in view.
 	$('.view-details').on('click', function() {
-		const strategyId = $(this).data('strategy-id');
-		// TODO: Implement view details functionality
-		alert('View details will be implemented in next phase. Strategy ID: ' + strategyId);
+		var strategyId = $(this).data('strategy-id');
+		window.location.href = '<?php echo esc_url( admin_url( 'admin.php?page=tradepress_scoring_directives&tab=manage_strategies' ) ); ?>&strategy=' + strategyId;
 	});
 	
 	// Run strategy test from testing interface

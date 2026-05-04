@@ -108,6 +108,11 @@ class TradePress_Asset_Queue {
 			$this->enqueue_base_variables();
 		}
 
+		// Shared TradePress admin indicators for demo/transitional feature phases.
+		if ( is_admin() && 0 === strpos( $this->current_page, 'tradepress' ) ) {
+			$this->enqueue_phase_panel_assets();
+		}
+
 		// Test Runner page assets.
 		if ( $this->current_page === 'tradepress-tests' ) {
 			$this->enqueue_test_runner_assets();
@@ -149,6 +154,23 @@ class TradePress_Asset_Queue {
 			array(),
 			TRADEPRESS_VERSION,
 			'all'
+		);
+	}
+
+	/**
+	 * Enqueue shared phase/data-source indicator panels for admin views.
+	 *
+	 * @return void
+	 */
+	private function enqueue_phase_panel_assets() {
+		$style_path = TRADEPRESS_PLUGIN_DIR_PATH . 'assets/css/components/phase-panels.css';
+		$style_ver  = file_exists( $style_path ) ? (string) filemtime( $style_path ) : TRADEPRESS_VERSION;
+
+		wp_enqueue_style(
+			'tradepress-phase-panels',
+			TRADEPRESS_PLUGIN_URL . 'assets/css/components/phase-panels.css',
+			array( 'tradepress-variables', 'dashicons' ),
+			$style_ver
 		);
 	}
 
@@ -364,7 +386,7 @@ class TradePress_Asset_Queue {
 		wp_enqueue_style(
 			'tradepress-sees-diagnostics',
 			TRADEPRESS_PLUGIN_URL . 'assets/css/pages/sees-diagnostics.css',
-			array( 'tradepress-variables' ),
+			array( 'tradepress-variables', 'dashicons' ),
 			$style_ver
 		);
 

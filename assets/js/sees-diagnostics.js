@@ -225,7 +225,7 @@ jQuery(function ($) {
             '<div class="tp-sees-stack-summary">Components: ' + steps.length +
             ' | Passed: ' + (parseInt(trace.passed_count, 10) || 0) +
             ' | Current Score: ' + toNumber(trace.score).toFixed(2) +
-            ' | Minimum: ' + toNumber(trace.minimum_threshold).toFixed(2) +
+            ' | Suggested trading threshold: ' + toNumber(trace.minimum_threshold).toFixed(2) +
             '</div>' +
             '<ol class="tp-sees-stack-list">' + listItems + '</ol>'
         );
@@ -246,13 +246,19 @@ jQuery(function ($) {
             ? toNumber(trace.threshold_distance)
             : toNumber(trace.distance_to_threshold);
         const distanceLabel = distanceToThreshold >= 0 ? '+' + distanceToThreshold.toFixed(2) : distanceToThreshold.toFixed(2);
+        const strategyScope = trace.strategy_scope || {};
+        const scopeValidation = trace.scope_validation || {};
+        const scopeSummary = strategyScope.summary || 'No symbol scope';
+        const scopeStatus = scopeValidation.status || 'unscoped';
+        const scopeMessages = Array.isArray(scopeValidation.messages) ? scopeValidation.messages.join(' ') : '';
 
         traceHeader.html(
             '<div class="tp-sees-trace-summary is-' + escapeHtml(decisionState) + '">' +
             '<strong>' + escapeHtml(trace.symbol) + '</strong> - ' + escapeHtml(trace.name) + '<br>' +
             'Trace mode: ' + escapeHtml(modeLabel) + ' | Strategy: ' + escapeHtml(strategyName) + ' (' + escapeHtml(strategyType) + ') | Status: ' + escapeHtml(trace.strategy_status || 'n/a') + '<br>' +
             'Strategy ID: ' + escapeHtml(trace.strategy_id || '0') + ' | Source: ' + escapeHtml(trace.strategy_storage || 'n/a') + ' | Components: ' + componentCount + ' | Passed: ' + passedCount + ' | Warnings: ' + warningCount + '<br>' +
-            'Industry: ' + escapeHtml(trace.industry) + ' | Score: ' + scoreValue.toFixed(2) + ' / ' + maxPossibleScore.toFixed(2) + ' (' + scorePercentOfMax.toFixed(2) + '%) | Minimum: ' + toNumber(trace.minimum_threshold).toFixed(2) + ' | Distance to threshold: ' + distanceLabel + ' | Decision: <span class="tp-sees-decision">' + escapeHtml(trace.decision) + '</span><br>' +
+            'Symbol scope: ' + escapeHtml(scopeSummary) + ' | Scope status: ' + escapeHtml(scopeStatus) + (scopeMessages ? ' | ' + escapeHtml(scopeMessages) : '') + '<br>' +
+            'Industry: ' + escapeHtml(trace.industry) + ' | Score: ' + scoreValue.toFixed(2) + ' / ' + maxPossibleScore.toFixed(2) + ' (' + scorePercentOfMax.toFixed(2) + '%) | Suggested threshold: ' + toNumber(trace.minimum_threshold).toFixed(2) + ' | Distance to suggestion: ' + distanceLabel + ' | Decision: <span class="tp-sees-decision">' + escapeHtml(trace.decision) + '</span><br>' +
             'Next function: <code>' + escapeHtml(trace.next_function || 'n/a') + '</code><br>' +
             'Generated: ' + escapeHtml(trace.generatedAt) +
             '</div>'

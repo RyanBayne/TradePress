@@ -25,7 +25,7 @@
 							<div class="status-dot <?php echo esc_attr( $status_color ); ?>"></div>
 							<div>
 								<strong><?php esc_html_e( 'Local Status:', 'tradepress' ); ?></strong>
-								<?php echo $status_message; ?>
+								<?php echo esc_html( $status_message ); ?>
 							</div>
 						</div>
 						

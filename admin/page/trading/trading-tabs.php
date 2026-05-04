@@ -12,6 +12,10 @@
  * - Supports conditional pairs (OR logic) where either condition can trigger an action
  * - May result in no trade action if strict conditions are not met (unlike scoring which always produces results)
  *
+ * Boundary: scoring strategies calculate weighted scores, SEES ranks symbols
+ * from those scores, and trading strategies own execution gates such as hard
+ * thresholds, scope enforcement, open-position checks, and auto-trading stops.
+ *
  * Database Dependencies:
  * - tradepress_trading_strategies: Stores strategy configurations and metadata
  * - tradepress_trading_rules: Stores individual rule definitions for strategies
@@ -459,6 +463,13 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 			wp_send_json_error( __( 'Strategy storage is unavailable.', 'tradepress' ), 500 );
 		}
 
+		if ( ! class_exists( 'TradePress_Strategy_Scope_Service' ) ) {
+			$scope_file = TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/strategy-scope-service.php';
+			if ( file_exists( $scope_file ) ) {
+				require_once $scope_file;
+			}
+		}
+
 		$process = array(
 			array(
 				'label'     => 'Resolve trace mode',
@@ -503,6 +514,8 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 					'strategy_type'           => '',
 					'strategy_status'         => '',
 					'strategy_storage'        => 'tradepress_scoring_strategies',
+					'strategy_scope'          => null,
+					'scope_validation'        => null,
 					'component_count'         => 0,
 					'passed_count'            => 0,
 					'component_warning_count' => 0,
@@ -513,6 +526,67 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 					'distance_to_threshold'   => 0,
 					'decision_branch_details' => $decision_branch_details,
 					'next_function'           => 'Select a strategy with active components',
+					'generatedAt'             => current_time( 'mysql' ),
+					'process'                 => $process,
+					'steps'                   => array(),
+				),
+				200
+			);
+		}
+
+		$scope_validation = class_exists( 'TradePress_Strategy_Scope_Service' )
+			? TradePress_Strategy_Scope_Service::validate_symbol( (int) $strategy->id, $symbol, $trace_mode )
+			: array(
+				'allowed'          => true,
+				'status'           => 'scope_service_unavailable',
+				'symbol'           => $symbol,
+				'scope'            => null,
+				'resolved_symbols' => array(),
+				'messages'         => array( __( 'Strategy scope service is unavailable.', 'tradepress' ) ),
+			);
+
+		$process[] = array(
+			'label'     => 'Validate strategy symbol scope',
+			'code_path' => 'TradePress_Strategy_Scope_Service::validate_symbol()',
+			'passed'    => ! empty( $scope_validation['allowed'] ),
+		);
+
+		if ( 'trading' === $trace_mode && empty( $scope_validation['allowed'] ) ) {
+			$decision_branch_details = array(
+				array(
+					'gate'      => 'symbol-scope',
+					'status'    => 'failed',
+					'reason'    => ! empty( $scope_validation['messages'] ) ? implode( ' ', $scope_validation['messages'] ) : 'Symbol is outside the enforced trading scope.',
+					'code_path' => 'TradePress_Strategy_Scope_Service::validate_symbol()',
+				),
+			);
+
+			wp_send_json_success(
+				array(
+					'symbol'                  => $symbol,
+					'name'                    => $name,
+					'industry'                => $industry,
+					'score'                   => 0,
+					'decision'                => 'Stopped: symbol outside enforced trading scope',
+					'decision_state'          => 'stopped',
+					'trace_mode'              => $trace_mode,
+					'strategy_id'             => isset( $strategy->id ) ? (int) $strategy->id : 0,
+					'strategy_name'           => isset( $strategy->name ) ? (string) $strategy->name : '',
+					'strategy_type'           => isset( $strategy->type ) ? (string) $strategy->type : 'scoring',
+					'strategy_status'         => isset( $strategy->status ) ? (string) $strategy->status : '',
+					'strategy_storage'        => 'tradepress_scoring_strategies',
+					'strategy_scope'          => isset( $scope_validation['scope'] ) ? $scope_validation['scope'] : null,
+					'scope_validation'        => $scope_validation,
+					'component_count'         => 0,
+					'passed_count'            => 0,
+					'component_warning_count' => 0,
+					'minimum_threshold'       => isset( $strategy->min_score_threshold ) ? (float) $strategy->min_score_threshold : 50.0,
+					'max_possible_score'      => 0,
+					'score_percent_of_max'    => 0,
+					'threshold_distance'      => 0,
+					'distance_to_threshold'   => 0,
+					'decision_branch_details' => $decision_branch_details,
+					'next_function'           => 'Return stop decision to diagnostics panel',
 					'generatedAt'             => current_time( 'mysql' ),
 					'process'                 => $process,
 					'steps'                   => array(),
@@ -569,6 +643,15 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 			);
 		}
 
+		if ( isset( $scope_validation['status'] ) && in_array( $scope_validation['status'], array( 'out_of_scope_advisory', 'out_of_scope_enforcement_recommended' ), true ) ) {
+			$decision_branch_details[] = array(
+				'gate'      => 'symbol-scope',
+				'status'    => 'warning',
+				'reason'    => ! empty( $scope_validation['messages'] ) ? implode( ' ', $scope_validation['messages'] ) : 'Symbol is outside the intended strategy scope.',
+				'code_path' => 'TradePress_Strategy_Scope_Service::validate_symbol()',
+			);
+		}
+
 		if ( 'scoring' === $trace_mode ) {
 			if ( $total_score >= ( $min_threshold + 15 ) ) {
 				$decision                  = 'High score: continue to next decision function';
@@ -587,12 +670,12 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 					'code_path' => 'scoring strategy decision branch',
 				);
 			} else {
-				$decision                  = 'Stopped: score below strategy minimum';
+				$decision                  = 'Below suggested trading threshold: continue ranking';
 				$decision_branch_details[] = array(
 					'gate'      => 'score-threshold',
-					'status'    => 'failed',
-					'reason'    => 'Score did not meet minimum threshold required by strategy.',
-					'code_path' => 'scoring strategy decision branch',
+					'status'    => 'warning',
+					'reason'    => 'Score is below the scoring strategy suggested trading threshold; scoring and SEES ranking continue.',
+					'code_path' => 'scoring strategy advisory branch',
 				);
 			}
 		} elseif ( $steps_count > 0 ) {
@@ -641,6 +724,8 @@ if ( ! function_exists( 'tradepress_ajax_fetch_sees_diagnostic_trace' ) ) {
 				'strategy_type'           => isset( $strategy->type ) ? (string) $strategy->type : 'scoring',
 				'strategy_status'         => isset( $strategy->status ) ? (string) $strategy->status : '',
 				'strategy_storage'        => 'tradepress_scoring_strategies',
+				'strategy_scope'          => isset( $scope_validation['scope'] ) ? $scope_validation['scope'] : null,
+				'scope_validation'        => $scope_validation,
 				'component_count'         => $steps_count,
 				'passed_count'            => $passed_count,
 				'component_warning_count' => $component_warning_count,
@@ -936,7 +1021,7 @@ function tradepress_display_builtin_strategies() {
 
 	echo '<div class="tradepress-builtin-strategies">';
 	echo '<div class="strategies-header">';
-	echo '<h3>' . esc_html__( 'Built-in Trading Strategies', 'tradepress' ) . '</h3>';
+	echo '<h3>' . esc_html__( 'Built-in Trading Strategies', 'tradepress' ) . ' <span class="tp-demo-feature-marker dashicons dashicons-warning" title="' . esc_attr__( 'Static planning reference', 'tradepress' ) . '" aria-label="' . esc_attr__( 'Static planning reference', 'tradepress' ) . '"></span></h3>';
 	echo '<p>' . esc_html__( 'These strategies are planning references only. They are not active trading automation and do not read live provider data from this view.', 'tradepress' ) . '</p>';
 	echo '</div>';
 
@@ -948,6 +1033,15 @@ function tradepress_display_builtin_strategies() {
 	echo '<tr><th scope="row">' . esc_html__( 'Provider', 'tradepress' ) . '</th><td>' . esc_html__( 'Not applicable', 'tradepress' ) . '</td></tr>';
 	echo '<tr><th scope="row">' . esc_html__( 'Execution state', 'tradepress' ) . '</th><td>' . esc_html__( 'Planning reference only; not executable trading automation', 'tradepress' ) . '</td></tr>';
 	echo '</tbody></table>';
+	echo '</div>';
+
+	echo '<div class="tp-phase-panel tp-phase-panel-demo" role="note">';
+	echo '<div class="tp-phase-panel-header">';
+	echo '<span class="tp-phase-panel-icon dashicons dashicons-warning" aria-hidden="true"></span>';
+	echo '<strong>' . esc_html__( 'Static data: strategy planning references', 'tradepress' ) . '</strong>';
+	echo '</div>';
+	echo '<p>' . esc_html__( 'These rows are hard-coded planning definitions. They are useful for shaping the product model, but they are not saved strategy records and they cannot run against live market data from this view.', 'tradepress' ) . '</p>';
+	echo '<p class="tp-phase-next-step">' . esc_html__( 'Next live-data step: convert approved built-in strategy definitions into installable strategy templates backed by the final trading strategy schema and testing workflow.', 'tradepress' ) . '</p>';
 	echo '</div>';
 
 	echo '<div class="strategies-table-container">';

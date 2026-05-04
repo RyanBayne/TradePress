@@ -1,0 +1,42 @@
+.tp-demo-feature-marker {
+    color: #996800;
+    font-size: 17px;
+    line-height: 1;
+    margin-left: 5px;
+    vertical-align: -2px;
+}
+
+.tp-phase-panel {
+    border: 1px solid #dcdcde;
+    border-left-width: 4px;
+    border-radius: 4px;
+    margin: 0 0 12px;
+    padding: 10px 12px;
+}
+
+.tp-phase-panel-demo {
+    background: #fcf9e8;
+    border-color: #dba617;
+    color: #1d2327;
+}
+
+.tp-phase-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 6px;
+}
+
+.tp-phase-panel-icon {
+    color: #996800;
+}
+
+.tp-phase-panel p {
+    margin: 6px 0 0;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.tp-phase-panel .tp-phase-next-step {
+    color: #3c434a;
+}

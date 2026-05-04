@@ -134,7 +134,9 @@ if ( empty( $data_api_key ) ) {
 				<span class="summary-label"><?php esc_html_e( 'Credentials', 'tradepress' ); ?></span>
 				<strong>
 					<?php
-					if ( $is_data_only_api ) {
+					if ( isset( $real_local_status['status'] ) && 'requires_api_key' === $real_local_status['status'] ) {
+						esc_html_e( 'Requires API Key', 'tradepress' );
+					} elseif ( $is_data_only_api ) {
 						echo empty( $data_api_key ) ? esc_html__( 'Missing', 'tradepress' ) : esc_html__( 'Configured', 'tradepress' );
 					} else {
 						$configured_count = 0;

@@ -320,6 +320,7 @@ final class WordPressTradePress {
 		require_once 'includes/class.background-process.php';
 		require_once 'includes/data-import-process.php';
 		require_once 'includes/scoring-system/scoring-process.php';
+		require_once 'includes/scoring-system/strategy-scope-service.php';
 		require_once 'includes/class-scanner.php';
 		require_once 'includes/ajax.php';
 		require_once 'includes/extend-wp-http-curl.php';

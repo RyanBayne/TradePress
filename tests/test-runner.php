@@ -23,15 +23,18 @@ class TradePress_Test_Runner {
         ],
         'standard' => [
             'title' => 'Standard Tests',
-            'description' => 'Core functionality test suites'
+            'description' => 'Core functionality test suites',
+            'tab_ref' => 'TAB02'
         ],
         'bugs' => [
             'title' => 'Bug Investigation',
-            'description' => 'Tests related to bug reports and fixes'
+            'description' => 'Tests related to bug reports and fixes',
+            'tab_ref' => 'TAB03'
         ],
         'performance' => [
             'title' => 'Performance Tests',
-            'description' => 'System performance and optimization tests'
+            'description' => 'System performance and optimization tests',
+            'tab_ref' => 'TAB04'
         ],
         'phase3' => [
             'title' => 'Phase 3 Tests',

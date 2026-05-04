@@ -69,15 +69,32 @@ function tradepress_get_all_endpoints() {
 						$endpoint_path = '/' . strtolower( $endpoint_key );
 					}
 
-					$all_endpoints[] = array(
-						'api_id'       => $api_id,
-						'api_name'     => $provider['name'],
-						'endpoint_key' => $endpoint_key,
-						'endpoint'     => $endpoint_path,
-						'method'       => $method,
-						'description'  => $description,
-						'parameters'   => $parameters,
-						'api_enabled'  => get_option( 'TradePress_switch_' . $api_id . '_api_services', 'no' ) === 'yes',
+						// Separate required vs optional for display.
+						$required_params = array();
+						$optional_params_list = array();
+						if ( isset( $endpoint_data['required_params'] ) ) {
+							$required_params = (array) $endpoint_data['required_params'];
+						}
+						if ( isset( $endpoint_data['optional_params'] ) ) {
+							$optional_params_list = (array) $endpoint_data['optional_params'];
+						}
+						// For REST-style endpoints, all parameters are treated as mixed.
+						if ( isset( $endpoint_data['parameters'] ) && ! isset( $endpoint_data['required_params'] ) ) {
+							$required_params = array_keys( (array) $endpoint_data['parameters'] );
+						}
+
+						$all_endpoints[] = array(
+							'api_id'          => $api_id,
+							'api_name'        => $provider['name'],
+							'endpoint_key'    => $endpoint_key,
+							'endpoint'        => $endpoint_path,
+							'method'          => $method,
+							'description'     => $description,
+							'parameters'      => $parameters,
+							'required_params' => $required_params,
+							'optional_params' => $optional_params_list,
+							'doc_url'         => $provider['api_doc_url'] ?? '',
+							'api_enabled'     => get_option( 'TradePress_switch_' . $api_id . '_api_services', 'no' ) === 'yes',
 					);
 				}
 			}
@@ -180,11 +197,26 @@ usort(
 										<code><?php echo esc_html( $endpoint['endpoint'] ); ?></code>
 									</div>
 									<div>
-										<strong>Parameters:</strong><br>
-										<?php if ( ! empty( $endpoint['parameters'] ) ) : ?>
-											<?php echo count( $endpoint['parameters'] ); ?> parameters defined
+										<strong><?php esc_html_e( 'Parameters', 'tradepress' ); ?>:</strong><br>
+										<?php if ( ! empty( $endpoint['required_params'] ) || ! empty( $endpoint['optional_params'] ) ) : ?>
+											<?php if ( ! empty( $endpoint['required_params'] ) ) : ?>
+												<div style="margin-top:6px;">
+													<em style="font-size:11px;color:#555;"><?php esc_html_e( 'Required:', 'tradepress' ); ?></em><br>
+													<?php foreach ( $endpoint['required_params'] as $param ) : ?>
+														<code style="background:#d63638;color:#fff;padding:1px 5px;border-radius:3px;font-size:11px;margin:2px 2px 0 0;display:inline-block;"><?php echo esc_html( $param ); ?></code>
+													<?php endforeach; ?>
+												</div>
+											<?php endif; ?>
+											<?php if ( ! empty( $endpoint['optional_params'] ) ) : ?>
+												<div style="margin-top:6px;">
+													<em style="font-size:11px;color:#555;"><?php esc_html_e( 'Optional:', 'tradepress' ); ?></em><br>
+													<?php foreach ( $endpoint['optional_params'] as $param ) : ?>
+														<code style="background:#646970;color:#fff;padding:1px 5px;border-radius:3px;font-size:11px;margin:2px 2px 0 0;display:inline-block;"><?php echo esc_html( $param ); ?></code>
+													<?php endforeach; ?>
+												</div>
+											<?php endif; ?>
 										<?php else : ?>
-											No parameters required
+											<span style="color:#666;"><?php esc_html_e( 'No parameters required', 'tradepress' ); ?></span>
 										<?php endif; ?>
 									</div>
 								</div>
@@ -195,14 +227,11 @@ usort(
 											data-endpoint="<?php echo esc_attr( $endpoint['endpoint_key'] ); ?>">
 										<?php esc_html_e( 'Test Endpoint', 'tradepress' ); ?>
 									</button>
-									<button type="button" class="button view-parameters" 
-											data-endpoint="<?php echo esc_attr( $endpoint['endpoint_key'] ); ?>">
-										<?php esc_html_e( 'View Parameters', 'tradepress' ); ?>
-									</button>
-									<button type="button" class="button view-documentation" 
-											data-api="<?php echo esc_attr( $endpoint['api_id'] ); ?>">
-										<?php esc_html_e( 'API Docs', 'tradepress' ); ?>
-									</button>
+										<?php if ( ! empty( $endpoint['doc_url'] ) ) : ?>
+										<a href="<?php echo esc_url( $endpoint['doc_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="button">
+											<?php esc_html_e( 'API Docs', 'tradepress' ); ?> <span class="dashicons dashicons-external" style="font-size:14px;vertical-align:middle;line-height:1.6;"></span>
+										</a>
+										<?php endif; ?>
 								</div>
 							</div>
 						</div>
@@ -298,23 +327,31 @@ jQuery(document).ready(function($) {
 		}
 	});
 	
-	// Test endpoint button
+	// Test endpoint button — open in WordPress admin with pre-filled context (future AJAX).
 	$('.test-endpoint').on('click', function() {
-		var apiId = $(this).data('api');
+		var $row    = $(this).closest('.accordion-row');
+		var apiId   = $(this).data('api');
 		var endpoint = $(this).data('endpoint');
-		alert('Test endpoint functionality will be implemented: ' + apiId + ' - ' + endpoint);
-	});
-	
-	// View parameters button
-	$('.view-parameters').on('click', function() {
-		var endpoint = $(this).data('endpoint');
-		alert('Parameters view will be implemented for: ' + endpoint);
-	});
-	
-	// View documentation button
-	$('.view-documentation').on('click', function() {
-		var apiId = $(this).data('api');
-		alert('Documentation link will be implemented for: ' + apiId);
+
+		// Ensure the accordion is open so results are visible.
+		var $content = $row.find('.accordion-content');
+		if ( ! $content.hasClass('active') ) {
+			$row.find('.accordion-header').trigger('click');
+		}
+
+		var $existing = $row.find('.endpoint-test-notice');
+		if ( $existing.length ) {
+			$existing.remove();
+			return;
+		}
+
+		$row.find('.endpoint-actions').after(
+			'<div class="endpoint-test-notice" style="margin-top:10px;padding:10px 12px;background:#f0f8ff;border-left:3px solid #0073aa;font-size:13px;">' +
+			'<strong><?php echo esc_js( __( 'Endpoint Testing', 'tradepress' ) ); ?></strong> &mdash; ' +
+			'<?php echo esc_js( __( 'Live endpoint testing is not yet available. Provider:', 'tradepress' ) ); ?> <code>' + $('<span>').text(apiId).html() + '</code> &mdash; ' +
+			'<?php echo esc_js( __( 'Endpoint:', 'tradepress' ) ); ?> <code>' + $('<span>').text(endpoint).html() + '</code>' +
+			'</div>'
+		);
 	});
 });
 </script>
