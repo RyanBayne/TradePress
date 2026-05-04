@@ -17,18 +17,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Load directives data
+$post_action = isset( $_POST['action'] ) ? sanitize_key( wp_unslash( $_POST['action'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Used only to route to nonce-checked handlers.
+$get_search  = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Display-only search filter.
+$get_orderby = isset( $_GET['orderby'] ) ? sanitize_key( wp_unslash( $_GET['orderby'] ) ) : 'name'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Display-only sort filter.
+$get_order   = isset( $_GET['order'] ) ? sanitize_key( wp_unslash( $_GET['order'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Display-only sort filter.
+$get_config  = isset( $_GET['configure'] ) ? sanitize_key( wp_unslash( $_GET['configure'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Display-only selected directive.
+
+// Load directives data.
 if ( ! function_exists( 'tradepress_get_all_directives' ) ) {
 	require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/directives-loader.php';
 }
 
-// Load directive handler
+// Load directive handler.
 require_once __DIR__ . '/../directive-handler.php';
 
-// Inline CSS for directive test notices and section visibility — added via wp_add_inline_style
+// Inline CSS for directive test notices and section visibility added via wp_add_inline_style
 // to attach to the already-enqueued tradepress-configure-directives handle.
 
-// Add inline CSS to force visibility and style new sections
+// Add inline CSS to force visibility and style new sections.
 wp_add_inline_style(
 	'tradepress-configure-directives',
 	'
@@ -105,58 +111,58 @@ wp_add_inline_style(
 '
 );
 
-// Load enhanced object registry functions
+// Load enhanced object registry functions.
 if ( ! function_exists( 'tradepress_get_symbol' ) ) {
 	require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/object-registry-enhanced.php';
 }
 
+$all_directives = tradepress_get_all_directives();
 
-
-// Handle test directive form submission
-if ( isset( $_POST['action'] ) && $_POST['action'] === 'test_directive' ) {
+// Handle test directive form submission.
+if ( 'test_directive' === $post_action ) {
 	$test_nonce = isset( $_POST['test_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['test_nonce'] ) ) : '';
 	if ( ! empty( $test_nonce ) && wp_verify_nonce( $test_nonce, 'tradepress_test_directive' ) && current_user_can( 'manage_options' ) ) {
-		$directive_id   = sanitize_text_field( $_POST['directive_id'] );
-		$directive_code = sanitize_text_field( $_POST['directive_code'] ?? '' );
+		$directive_id   = isset( $_POST['directive_id'] ) ? sanitize_key( wp_unslash( $_POST['directive_id'] ) ) : '';
+		$directive_code = isset( $_POST['directive_code'] ) ? sanitize_text_field( wp_unslash( $_POST['directive_code'] ) ) : '';
 
-		$test_symbol  = sanitize_text_field( $_POST['test_symbol'] ?? 'AAPL' );
-		$trading_mode = sanitize_text_field( $_POST['trading_mode'] ?? 'long' );
+		$test_symbol  = isset( $_POST['test_symbol'] ) ? sanitize_text_field( wp_unslash( $_POST['test_symbol'] ) ) : 'AAPL';
+		$trading_mode = isset( $_POST['trading_mode'] ) ? sanitize_key( wp_unslash( $_POST['trading_mode'] ) ) : 'long';
 
-		// Update last used timestamp before testing
+		// Update last used timestamp before testing.
 		$option_key                  = 'tradepress_directive_' . $directive_id;
 		$current_config              = get_option( $option_key, array() );
 		$current_config['last_used'] = current_time( 'mysql' );
 		update_option( $option_key, $current_config );
 
-		// Use the directive handler for testing
+		// Use the directive handler for testing.
 		$test_result = TradePress_Directive_Handler::test_directive( $directive_id, $test_symbol, $trading_mode, $directive_code );
 
 		if ( $test_result['success'] ) {
-			// Create enhanced directive test notice
+			// Create enhanced directive test notice.
 			$notice_html = TradePress_Directive_Handler::create_directive_test_notice( $directive_id, $test_result['test_data'], $trading_mode, $test_result['directive_code'] ?? null );
 			add_settings_error( 'tradepress_directives', 'directive_test_success', $notice_html, 'updated' );
 		} else {
-			// Create enhanced error notice based on error type
+			// Create enhanced error notice based on error type.
 			$error_type = $test_result['error_type'] ?? 'general';
 
 			$error_html = '<div class="directive-test-notice error-notice">';
 
-			// Add directive code if available
+			// Add directive code if available.
 			$directive_code_display = '';
 			if ( ! empty( $test_result['directive_code'] ) ) {
 				$directive_code_display = '<code style="background: #0073aa; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; margin-right: 8px;">' . esc_html( $test_result['directive_code'] ) . '</code>';
 			}
 
-			if ( $error_type === 'rate_limit' ) {
-				$error_html .= '<div class="notice-header">' . $directive_code_display . '<strong>⚠️ API Limit Reached</strong></div>';
+			if ( 'rate_limit' === $error_type ) {
+				$error_html .= '<div class="notice-header">' . $directive_code_display . '<strong>' . esc_html__( 'API Limit Reached', 'tradepress' ) . '</strong></div>';
 				$error_html .= '<div class="notice-details">';
-				$error_html .= '<span class="detail-item">Alpha Vantage free tier allows 25 API calls per day</span>';
-				$error_html .= '<span class="detail-item"><strong>Solution:</strong> Try again tomorrow or <a href="https://www.alphavantage.co/premium/" target="_blank">upgrade to premium</a></span>';
+				$error_html .= '<span class="detail-item">' . esc_html__( 'Alpha Vantage free tier allows 25 API calls per day.', 'tradepress' ) . '</span>';
+				$error_html .= '<span class="detail-item"><strong>' . esc_html__( 'Solution:', 'tradepress' ) . '</strong> ' . esc_html__( 'Try again tomorrow or', 'tradepress' ) . ' <a href="https://www.alphavantage.co/premium/" target="_blank" rel="noopener noreferrer">' . esc_html__( 'upgrade to premium', 'tradepress' ) . '</a></span>';
 				$error_html .= '</div>';
 			} else {
-				$error_html .= '<div class="notice-header">' . $directive_code_display . '<strong>Test Failed</strong></div>';
+				$error_html .= '<div class="notice-header">' . $directive_code_display . '<strong>' . esc_html__( 'Test Failed', 'tradepress' ) . '</strong></div>';
 				$error_html .= '<div class="notice-details">';
-				$error_html .= '<span class="detail-item"><strong>Error:</strong> ' . esc_html( $test_result['message'] ) . '</span>';
+				$error_html .= '<span class="detail-item"><strong>' . esc_html__( 'Error:', 'tradepress' ) . '</strong> ' . esc_html( $test_result['message'] ) . '</span>';
 				$error_html .= '</div>';
 			}
 
@@ -164,53 +170,53 @@ if ( isset( $_POST['action'] ) && $_POST['action'] === 'test_directive' ) {
 			add_settings_error( 'tradepress_directives', 'directive_test_failed', $error_html, 'error' );
 		}
 
-		// Keep the directive selected
-		$_GET['configure'] = $directive_id;
+		$get_config = $directive_id;
 	}
 }
 
-// Handle save configuration
-if ( isset( $_POST['action'] ) && $_POST['action'] === 'save_directive' ) {
-	$directive_id = sanitize_text_field( $_POST['directive_id'] );
+// Handle save configuration.
+if ( 'save_directive' === $post_action ) {
+	$directive_id = isset( $_POST['directive_id'] ) ? sanitize_key( wp_unslash( $_POST['directive_id'] ) ) : '';
+	$post_data    = map_deep( wp_unslash( $_POST ), 'sanitize_text_field' );
 
-	$result = TradePress_Directive_Handler::save_configuration( $directive_id, $_POST );
+	$result = TradePress_Directive_Handler::save_configuration( $directive_id, $post_data );
 
 	if ( $result['success'] ) {
-		$message = __( 'Configuration saved successfully.', 'tradepress' );
+		$message = esc_html__( 'Configuration saved successfully.', 'tradepress' );
 
 		if ( ! empty( $result['changes'] ) ) {
-			$message .= ' Changes: ' . implode( ', ', $result['changes'] );
+			$message .= ' ' . esc_html__( 'Changes:', 'tradepress' ) . ' ' . implode( ', ', array_map( 'sanitize_text_field', $result['changes'] ) );
 		}
 
 		add_settings_error( 'tradepress_directives', 'directive_saved', $message, 'updated' );
 
-		// Add warnings as separate notices
+		// Add warnings as separate notices.
 		if ( ! empty( $result['warnings'] ) ) {
 			foreach ( $result['warnings'] as $warning ) {
-				add_settings_error( 'tradepress_directives', 'directive_warning_' . uniqid(), '⚠️ ' . $warning, 'notice-warning' );
+				add_settings_error( 'tradepress_directives', 'directive_warning_' . wp_rand(), sanitize_text_field( $warning ), 'notice-warning' );
 			}
 		}
 	} else {
-		add_settings_error( 'tradepress_directives', 'directive_save_failed', $result['message'], 'error' );
+		add_settings_error( 'tradepress_directives', 'directive_save_failed', sanitize_text_field( $result['message'] ), 'error' );
 	}
 
-	// Don't redirect immediately - let notices display first
-	$_GET['configure'] = $directive_id; // Keep the directive selected
+	// Do not redirect immediately; let notices display first.
+	$get_config = $directive_id;
 }
 
-// Handle feature issue submission
-if ( isset( $_POST['action'] ) && $_POST['action'] === 'report_feature_issue' ) {
+// Handle feature issue submission.
+if ( 'report_feature_issue' === $post_action ) {
 	require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/feedback/class-feature-feedback-system.php';
 
-	$result = TradePress_Feature_Feedback_System::handle_issue_submission( $_POST );
+	$result = TradePress_Feature_Feedback_System::handle_issue_submission( map_deep( wp_unslash( $_POST ), 'sanitize_text_field' ) );
 
 	if ( $result['success'] ) {
-		add_settings_error( 'tradepress_directives', 'feature_issue_reported', $result['message'], 'updated' );
+		add_settings_error( 'tradepress_directives', 'feature_issue_reported', sanitize_text_field( $result['message'] ), 'updated' );
 	} else {
-		add_settings_error( 'tradepress_directives', 'feature_issue_failed', $result['message'], 'error' );
+		add_settings_error( 'tradepress_directives', 'feature_issue_failed', sanitize_text_field( $result['message'] ), 'error' );
 	}
 
-	// Redirect back to where user came from
+	// Redirect back to where user came from.
 	$return_url = get_transient( 'tradepress_feedback_return_' . get_current_user_id() );
 	delete_transient( 'tradepress_feedback_return_' . get_current_user_id() );
 
@@ -220,14 +226,14 @@ if ( isset( $_POST['action'] ) && $_POST['action'] === 'report_feature_issue' ) 
 	}
 }
 
-// Handle form submission
-if ( isset( $_POST['action'] ) && $_POST['action'] === 'toggle_directive' ) {
+// Handle form submission.
+if ( 'toggle_directive' === $post_action ) {
 	$toggle_nonce = isset( $_POST['toggle_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['toggle_nonce'] ) ) : '';
 	if ( ! empty( $toggle_nonce ) && wp_verify_nonce( $toggle_nonce, 'tradepress_toggle_directive' ) && current_user_can( 'manage_options' ) ) {
-		$directive_id = sanitize_text_field( $_POST['directive_id'] );
-		$new_state    = (bool) intval( $_POST['new_state'] );
+		$directive_id = isset( $_POST['directive_id'] ) ? sanitize_key( wp_unslash( $_POST['directive_id'] ) ) : '';
+		$new_state    = isset( $_POST['new_state'] ) ? (bool) intval( wp_unslash( $_POST['new_state'] ) ) : false;
 
-		// Check composite directive dependencies when enabling
+		// Check composite directive dependencies when enabling.
 		if ( $new_state && isset( $all_directives[ $directive_id ]['components'] ) ) {
 			$missing_components = array();
 			foreach ( $all_directives[ $directive_id ]['components'] as $component_id ) {
@@ -240,9 +246,9 @@ if ( isset( $_POST['action'] ) && $_POST['action'] === 'toggle_directive' ) {
 			if ( ! empty( $missing_components ) ) {
 				$message = sprintf(
 					/* translators: %s: component name, %s: required component list */
-					__( 'Cannot enable %1$s. Required components not active: %2$s', 'tradepress' ),
-					$all_directives[ $directive_id ]['name'],
-					implode( ', ', $missing_components )
+					esc_html__( 'Cannot enable %1$s. Required components not active: %2$s', 'tradepress' ),
+					sanitize_text_field( $all_directives[ $directive_id ]['name'] ),
+					implode( ', ', array_map( 'sanitize_text_field', $missing_components ) )
 				);
 				add_settings_error( 'tradepress_directives', 'composite_dependencies_missing', $message, 'error' );
 				set_transient( 'settings_errors', get_settings_errors(), 30 );
@@ -251,7 +257,7 @@ if ( isset( $_POST['action'] ) && $_POST['action'] === 'toggle_directive' ) {
 			}
 		}
 
-		// TODO: Add strategy validation when disabling directives
+		// TODO: Add strategy validation when disabling directives.
 		if ( ! $new_state ) {
 			$validation = tradepress_validate_directive_disable( $directive_id );
 			if ( ! $validation['success'] ) {
@@ -262,30 +268,30 @@ if ( isset( $_POST['action'] ) && $_POST['action'] === 'toggle_directive' ) {
 			}
 		}
 
-		// Get current directives
+		// Get current directives.
 		$configured_directives = get_option( 'tradepress_scoring_directives', array() );
 
-		// Update the directive state
+		// Update the directive state.
 		if ( ! isset( $configured_directives[ $directive_id ] ) ) {
 			$configured_directives[ $directive_id ] = array();
 		}
 		$configured_directives[ $directive_id ]['active'] = $new_state;
 
-		// Save back to options
+		// Save back to options.
 		update_option( 'tradepress_scoring_directives', $configured_directives );
 
-		// Add success notice
+		// Add success notice.
 		$directive_name = $all_directives[ $directive_id ]['name'] ?? ucfirst( str_replace( '_', ' ', $directive_id ) );
 		$message        = $new_state
 			/* translators: %s: directive name */
-			? sprintf( __( '%s directive has been enabled.', 'tradepress' ), $directive_name )
+			? sprintf( esc_html__( '%s directive has been enabled.', 'tradepress' ), sanitize_text_field( $directive_name ) )
 			/* translators: %s: directive name */
-			: sprintf( __( '%s directive has been disabled.', 'tradepress' ), $directive_name );
+			: sprintf( esc_html__( '%s directive has been disabled.', 'tradepress' ), sanitize_text_field( $directive_name ) );
 
 		add_settings_error( 'tradepress_directives', 'directive_toggled', $message, 'updated' );
 		set_transient( 'settings_errors', get_settings_errors(), 30 );
 
-		// Redirect to configure the directive if it was enabled
+		// Redirect to configure the directive if it was enabled.
 		$redirect_url = admin_url( 'admin.php?page=tradepress_scoring_directives&tab=configure_directives' );
 		if ( $new_state ) {
 			$redirect_url = add_query_arg( 'configure', $directive_id, $redirect_url );
@@ -294,9 +300,6 @@ if ( isset( $_POST['action'] ) && $_POST['action'] === 'toggle_directive' ) {
 		exit;
 	}
 }
-
-// Get all directives
-$all_directives = tradepress_get_all_directives();
 
 /**
  * TODO: Strategy Management Integration
@@ -322,17 +325,17 @@ $all_directives = tradepress_get_all_directives();
  */
 
 /**
- * Placeholder function to get strategies using a directive
+ * Placeholder function to get strategies using a directive.
  *
- * @param string $directive_id The directive ID
- * @return array Array of strategies using this directive
+ * @param string $directive_id The directive ID.
+ * @return array Array of strategies using this directive.
  * @version 1.0.0
  */
 function tradepress_get_directive_strategies( $directive_id ) {
-	// TODO: Implement actual database lookup when strategy management is ready
-	// This should query the strategy-directive relationship table
+	// TODO: Implement actual database lookup when strategy management is ready.
+	// This should query the strategy-directive relationship table.
 
-	// For now, return empty array (shows "None")
+	// For now, return empty array (shows "None").
 	return array();
 
 	// Example of what this should return when implemented:
@@ -345,15 +348,15 @@ function tradepress_get_directive_strategies( $directive_id ) {
 }
 
 /**
- * Placeholder function to validate directive can be disabled
+ * Placeholder function to validate directive can be disabled.
  *
- * @param string $directive_id The directive ID
- * @return array Validation result with success/message
+ * @param string $directive_id The directive ID.
+ * @return array Validation result with success/message.
  * @version 1.0.0
  */
 function tradepress_validate_directive_disable( $directive_id ) {
-	// TODO: Implement when strategy management is ready
-	// Check if directive is used by any active strategies
+	// TODO: Implement when strategy management is ready.
+	// Check if directive is used by any active strategies.
 
 	$strategies = tradepress_get_directive_strategies( $directive_id );
 
@@ -363,8 +366,8 @@ function tradepress_validate_directive_disable( $directive_id ) {
 			'success' => false,
 			'message' => sprintf(
 				/* translators: %s: directive name */
-				__( 'Cannot disable directive. It is currently used by: %s', 'tradepress' ),
-				implode( ', ', $strategy_names )
+				esc_html__( 'Cannot disable directive. It is currently used by: %s', 'tradepress' ),
+				implode( ', ', array_map( 'sanitize_text_field', $strategy_names ) )
 			),
 		);
 	}
@@ -373,6 +376,68 @@ function tradepress_validate_directive_disable( $directive_id ) {
 		'success' => true,
 		'message' => '',
 	);
+}
+
+/**
+ * Get the next ISA reset date for display.
+ *
+ * @return string Formatted reset date.
+ * @version 1.0.0
+ */
+function tradepress_get_next_isa_reset_date() {
+	$current_month = (int) wp_date( 'n' );
+	$current_day   = (int) wp_date( 'j' );
+	$current_year  = (int) wp_date( 'Y' );
+	$reset_year    = ( 4 === $current_month && $current_day > 5 ) || $current_month > 4 ? $current_year + 1 : $current_year;
+
+	return wp_date( 'F j, Y', strtotime( 'April 6, ' . $reset_year ) );
+}
+
+/**
+ * Get sort URL for the Configure Directives table.
+ *
+ * @param string $column  Column identifier.
+ * @param string $orderby Current order by value.
+ * @param string $order   Current order value.
+ * @return string Sort URL.
+ * @version 1.0.0
+ */
+function tradepress_get_directive_sort_url( $column, $orderby, $order ) {
+	if ( $orderby === $column ) {
+		$new_order = ( 'asc' === $order ) ? 'desc' : 'asc';
+	} else {
+		$defaults  = array(
+			'status'    => 'desc',
+			'impact'    => 'desc',
+			'weight'    => 'desc',
+			'last_used' => 'desc',
+		);
+		$new_order = $defaults[ $column ] ?? 'asc';
+	}
+
+	return add_query_arg(
+		array(
+			'orderby' => $column,
+			'order'   => $new_order,
+		)
+	);
+}
+
+/**
+ * Get CSS class for a sortable Configure Directives table column.
+ *
+ * @param string $column  Column identifier.
+ * @param string $orderby Current order by value.
+ * @param string $order   Current order value.
+ * @return string CSS class string.
+ * @version 1.0.7
+ */
+function tradepress_get_directive_sort_class( $column, $orderby, $order ) {
+	if ( $orderby === $column ) {
+		return 'asc' === $order ? 'sorted asc' : 'sorted desc';
+	}
+
+	return 'sortable';
 }
 ?>
 
@@ -384,30 +449,30 @@ function tradepress_validate_directive_disable( $directive_id ) {
 		<div class="directives-table-container">
 			<div class="tablenav top">
 				<div class="alignleft actions">
-					<input type="search" id="directive-search-input" name="s" value="<?php echo esc_attr( isset( $_GET['s'] ) ? $_GET['s'] : '' ); ?>" placeholder="<?php esc_attr_e( 'Search directives...', 'tradepress' ); ?>">
+					<input type="search" id="directive-search-input" name="s" value="<?php echo esc_attr( $get_search ); ?>" placeholder="<?php esc_attr_e( 'Search directives...', 'tradepress' ); ?>">
 					<input type="submit" id="search-submit" class="button" value="<?php esc_attr_e( 'Search Directives', 'tradepress' ); ?>">
 				</div>
 			</div>
 			<div class="wp-list-table widefat fixed striped">
 				<?php
-				// Handle sorting
-				$orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : 'name';
-				$order   = isset( $_GET['order'] ) && $_GET['order'] === 'desc' ? 'desc' : 'asc';
+				// Handle sorting.
+				$orderby = $get_orderby;
+				$order   = 'desc' === $get_order ? 'desc' : 'asc';
 
-				// Default sort order preferences (what users likely want first)
+				// Default sort order preferences.
 				$default_orders = array(
-					'status'    => 'desc', // Active first
-					'impact'    => 'desc', // High impact first
-					'weight'    => 'desc', // Higher weight first
-					'last_used' => 'desc', // Most recent first
+					'status'    => 'desc',
+					'impact'    => 'desc',
+					'weight'    => 'desc',
+					'last_used' => 'desc',
 				);
 
-				// If no explicit order and this is the first sort on this column, use preferred default
-				if ( ! isset( $_GET['order'] ) && isset( $default_orders[ $orderby ] ) ) {
+				// If no explicit order and this is the first sort on this column, use preferred default.
+				if ( '' === $get_order && isset( $default_orders[ $orderby ] ) ) {
 					$order = $default_orders[ $orderby ];
 				}
 
-				// Sort directives
+				// Sort directives.
 				uasort(
 					$all_directives,
 					function ( $a, $b ) use ( $orderby, $order, $all_directives ) {
@@ -437,9 +502,9 @@ function tradepress_validate_directive_disable( $directive_id ) {
 								$val_b = $b['weight'] ?? 10;
 								break;
 							case 'last_used':
-								// Find directive IDs for these directives
-								$directive_id_a = array_search( $a, $all_directives );
-								$directive_id_b = array_search( $b, $all_directives );
+								// Find directive IDs for these directives.
+								$directive_id_a = array_search( $a, $all_directives, true );
+								$directive_id_b = array_search( $b, $all_directives, true );
 								$config_a       = get_option( 'tradepress_directive_' . $directive_id_a, array() );
 								$config_b       = get_option( 'tradepress_directive_' . $directive_id_b, array() );
 								$val_a          = ! empty( $config_a['last_used'] ) ? strtotime( $config_a['last_used'] ) : 0;
@@ -447,61 +512,14 @@ function tradepress_validate_directive_disable( $directive_id ) {
 								break;
 						}
 
-						if ( $val_a == $val_b ) {
+						if ( $val_a === $val_b ) {
 							return 0;
 						}
 						$result = $val_a < $val_b ? -1 : 1;
-						return $order === 'desc' ? -$result : $result;
+						return 'desc' === $order ? -$result : $result;
 					}
 				);
 
-				/**
-				 * Get sort url.
-				 *
-				 * @param mixed $column
-				 *
-				 * @return mixed
-				 *
-				 * @version 1.0.0
-				 */
-				function get_sort_url( $column ) {
-					global $orderby, $order;
-					// If clicking the same column, toggle order
-					if ( $orderby === $column ) {
-						$new_order = ( $order === 'asc' ) ? 'desc' : 'asc';
-					} else {
-						// New column - use smart defaults
-						$defaults  = array(
-							'status'    => 'desc',
-							'impact'    => 'desc',
-							'weight'    => 'desc',
-							'last_used' => 'desc',
-						);
-						$new_order = isset( $defaults[ $column ] ) ? $defaults[ $column ] : 'asc';
-					}
-					return add_query_arg(
-						array(
-							'orderby' => $column,
-							'order'   => $new_order,
-						)
-					);
-				}
-
-				/**
-				 * Get CSS class for sortable column header.
-				 *
-				 * @version 1.0.7
-				 *
-				 * @param string $column Column identifier.
-				 * @return string CSS class string.
-				 */
-				function get_sort_class( $column ) {
-					global $orderby, $order;
-					if ( $orderby === $column ) {
-						return $order === 'asc' ? 'sorted asc' : 'sorted desc';
-					}
-					return 'sortable';
-				}
 				?>
 				
 				<div class="table-header" style="display: flex; background: #f1f1f1; padding: 12px 15px; font-weight: 600; border-bottom: 1px solid #c3c4c7;">
@@ -509,20 +527,20 @@ function tradepress_validate_directive_disable( $directive_id ) {
 					<div style="flex: 0.5;"><?php esc_html_e( 'Code', 'tradepress' ); ?></div>
 					<?php endif; ?>
 					<div style="flex: 2;">
-						<a href="<?php echo esc_url( get_sort_url( 'name' ) ); ?>" class="
+						<a href="<?php echo esc_url( tradepress_get_directive_sort_url( 'name', $orderby, $order ) ); ?>" class="
 						<?php
-						// Escape for safe HTML attribute output
-						echo esc_attr( get_sort_class( 'name' ) );
+						// Escape for safe HTML attribute output.
+						echo esc_attr( tradepress_get_directive_sort_class( 'name', $orderby, $order ) );
 						?>
 						">
 							<?php esc_html_e( 'Directive Name', 'tradepress' ); ?>
 						</a>
 					</div>
 					<div style="flex: 1;">
-						<a href="<?php echo esc_url( get_sort_url( 'status' ) ); ?>" class="
+						<a href="<?php echo esc_url( tradepress_get_directive_sort_url( 'status', $orderby, $order ) ); ?>" class="
 						<?php
-						// Escape for safe HTML attribute output
-						echo esc_attr( get_sort_class( 'status' ) );
+						// Escape for safe HTML attribute output.
+						echo esc_attr( tradepress_get_directive_sort_class( 'status', $orderby, $order ) );
 						?>
 						">
 							<?php esc_html_e( 'Status', 'tradepress' ); ?>
@@ -530,30 +548,30 @@ function tradepress_validate_directive_disable( $directive_id ) {
 					</div>
 					<div style="flex: 1;"><?php esc_html_e( 'Dev Status', 'tradepress' ); ?></div>
 					<div style="flex: 1;">
-						<a href="<?php echo esc_url( get_sort_url( 'impact' ) ); ?>" class="
+						<a href="<?php echo esc_url( tradepress_get_directive_sort_url( 'impact', $orderby, $order ) ); ?>" class="
 						<?php
-						// Escape for safe HTML attribute output
-						echo esc_attr( get_sort_class( 'impact' ) );
+						// Escape for safe HTML attribute output.
+						echo esc_attr( tradepress_get_directive_sort_class( 'impact', $orderby, $order ) );
 						?>
 						">
 							<?php esc_html_e( 'Impact', 'tradepress' ); ?>
 						</a>
 					</div>
 					<div style="flex: 1;">
-						<a href="<?php echo esc_url( get_sort_url( 'weight' ) ); ?>" class="
+						<a href="<?php echo esc_url( tradepress_get_directive_sort_url( 'weight', $orderby, $order ) ); ?>" class="
 						<?php
-						// Escape for safe HTML attribute output
-						echo esc_attr( get_sort_class( 'weight' ) );
+						// Escape for safe HTML attribute output.
+						echo esc_attr( tradepress_get_directive_sort_class( 'weight', $orderby, $order ) );
 						?>
 						">
 							<?php esc_html_e( 'Weight', 'tradepress' ); ?>
 						</a>
 					</div>
 					<div style="flex: 1;">
-						<a href="<?php echo esc_url( get_sort_url( 'last_used' ) ); ?>" class="
+						<a href="<?php echo esc_url( tradepress_get_directive_sort_url( 'last_used', $orderby, $order ) ); ?>" class="
 						<?php
-						// Escape for safe HTML attribute output
-						echo esc_attr( get_sort_class( 'last_used' ) );
+						// Escape for safe HTML attribute output.
+						echo esc_attr( tradepress_get_directive_sort_class( 'last_used', $orderby, $order ) );
 						?>
 						">
 							<?php esc_html_e( 'Last Used', 'tradepress' ); ?>
@@ -564,8 +582,8 @@ function tradepress_validate_directive_disable( $directive_id ) {
 
 			<div class="tradepress-compact-table">
 				<?php
-				// Handle search filtering
-				$search_term         = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
+				// Handle search filtering.
+				$search_term         = $get_search;
 				$filtered_directives = $all_directives;
 
 				if ( ! empty( $search_term ) ) {
@@ -580,8 +598,15 @@ function tradepress_validate_directive_disable( $directive_id ) {
 					);
 				}
 
+				if ( ! class_exists( 'TradePress_AI_Directive_Tester' ) ) {
+					require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/ai-integration/testing/directive-tester.php';
+				}
+
+				$default_test_symbol = TradePress_AI_Directive_Tester::get_test_symbol( 'NVDA' );
+
 				foreach ( $filtered_directives as $directive_id => $directive ) :
-					$dev_status = isset( $directive['development_status'] ) ? sanitize_key( (string) $directive['development_status'] ) : '';
+					$dev_status       = isset( $directive['development_status'] ) ? sanitize_key( (string) $directive['development_status'] ) : '';
+					$directive_active = ! empty( $directive['active'] );
 					?>
 					<div class="accordion-row">
 						<div class="accordion-header">
@@ -601,8 +626,8 @@ function tradepress_validate_directive_disable( $directive_id ) {
 								</strong>
 							</div>
 							<div style="flex: 1;">
-								<span class="status-badge <?php echo $directive['active'] ? 'status-active' : 'status-inactive'; ?>">
-									<?php echo $directive['active'] ? 'Active' : 'Inactive'; ?>
+								<span class="status-badge <?php echo esc_attr( $directive_active ? 'status-active' : 'status-inactive' ); ?>">
+									<?php echo esc_html( $directive_active ? esc_html__( 'Active', 'tradepress' ) : esc_html__( 'Inactive', 'tradepress' ) ); ?>
 								</span>
 							</div>
 							<div style="flex: 1;">
@@ -644,8 +669,9 @@ function tradepress_validate_directive_disable( $directive_id ) {
 									$code                = $component_directive['code'] ?? strtoupper( substr( $component_id, 0, 3 ) );
 									$opacity             = $is_active ? '1' : '0.4';
 									$bg_color            = $is_active ? '#0073aa' : '#999';
+									$component_title     = ( $component_directive['name'] ?? ucfirst( str_replace( '_', ' ', $component_id ) ) ) . ' - ' . ( $is_active ? esc_html__( 'Active', 'tradepress' ) : esc_html__( 'Inactive', 'tradepress' ) );
 									?>
-									<code style="background: <?php echo esc_attr( $bg_color ); ?>; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; opacity: <?php echo esc_attr( $opacity ); ?>; cursor: help;" title="<?php echo esc_attr( $component_directive['name'] ?? ucfirst( str_replace( '_', ' ', $component_id ) ) ); ?> - <?php echo $is_active ? 'Active' : 'Inactive'; ?>"><?php echo esc_html( $code ); ?></code>
+									<code style="background: <?php echo esc_attr( $bg_color ); ?>; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; opacity: <?php echo esc_attr( $opacity ); ?>; cursor: help;" title="<?php echo esc_attr( $component_title ); ?>"><?php echo esc_html( $code ); ?></code>
 								<?php endforeach; ?>
 							</div>
 						</div>
@@ -653,16 +679,16 @@ function tradepress_validate_directive_disable( $directive_id ) {
 						<div class="accordion-content">
 							<div class="directive-meta">
 								<div>
-									<strong>Description:</strong><br>
-									<?php echo esc_html( $directive['description'] ?? 'No description available' ); ?>
+									<strong><?php esc_html_e( 'Description:', 'tradepress' ); ?></strong><br>
+									<?php echo esc_html( $directive['description'] ?? esc_html__( 'No description available', 'tradepress' ) ); ?>
 								</div>
 								<div>
-									<strong>Bullish:</strong><br>
-									<?php echo esc_html( $directive['bullish'] ?? 'Not specified' ); ?>
+									<strong><?php esc_html_e( 'Bullish:', 'tradepress' ); ?></strong><br>
+									<?php echo esc_html( $directive['bullish'] ?? esc_html__( 'Not specified', 'tradepress' ) ); ?>
 								</div>
 								<div>
-									<strong>Bearish:</strong><br>
-									<?php echo esc_html( $directive['bearish'] ?? 'Not specified' ); ?>
+									<strong><?php esc_html_e( 'Bearish:', 'tradepress' ); ?></strong><br>
+									<?php echo esc_html( $directive['bearish'] ?? esc_html__( 'Not specified', 'tradepress' ) ); ?>
 								</div>
 							</div>
 							
@@ -691,15 +717,7 @@ function tradepress_validate_directive_disable( $directive_id ) {
 									<input type="hidden" name="action" value="test_directive">
 									<input type="hidden" name="directive_id" value="<?php echo esc_attr( $directive_id ); ?>">
 									<input type="hidden" name="directive_code" value="<?php echo esc_attr( $directive['code'] ?? '' ); ?>">
-									<input type="hidden" name="test_symbol" value="
-									<?php
-										// Use symbol from settings
-									if ( ! class_exists( 'TradePress_AI_Directive_Tester' ) ) {
-										require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/ai-integration/testing/directive-tester.php';
-									}
-										echo esc_attr( TradePress_AI_Directive_Tester::get_test_symbol( 'NVDA' ) );
-									?>
-									">
+									<input type="hidden" name="test_symbol" value="<?php echo esc_attr( $default_test_symbol ); ?>">
 									<input type="hidden" name="trading_mode" value="long">
 									<button type="submit" class="button">
 										<?php esc_html_e( 'Test', 'tradepress' ); ?>
@@ -709,13 +727,13 @@ function tradepress_validate_directive_disable( $directive_id ) {
 									<?php wp_nonce_field( 'tradepress_toggle_directive', 'toggle_nonce' ); ?>
 									<input type="hidden" name="action" value="toggle_directive">
 									<input type="hidden" name="directive_id" value="<?php echo esc_attr( $directive_id ); ?>">
-									<input type="hidden" name="new_state" value="<?php echo $directive['active'] ? '0' : '1'; ?>">
+									<input type="hidden" name="new_state" value="<?php echo esc_attr( $directive_active ? '0' : '1' ); ?>">
 									<?php
 									$can_enable      = true;
 									$disabled_reason = '';
 
-									// Check if this is a composite directive with inactive components
-									if ( ! $directive['active'] && isset( $directive['components'] ) ) {
+									// Check if this is a composite directive with inactive components.
+									if ( ! $directive_active && isset( $directive['components'] ) ) {
 										$missing_components = array();
 										foreach ( $directive['components'] as $component_id ) {
 											if ( ! isset( $all_directives[ $component_id ] ) || ! $all_directives[ $component_id ]['active'] ) {
@@ -725,12 +743,12 @@ function tradepress_validate_directive_disable( $directive_id ) {
 										}
 										if ( ! empty( $missing_components ) ) {
 											$can_enable      = false;
-											$disabled_reason = 'Required components not active: ' . implode( ', ', $missing_components );
+											$disabled_reason = esc_html__( 'Required components not active:', 'tradepress' ) . ' ' . implode( ', ', array_map( 'sanitize_text_field', $missing_components ) );
 										}
 									}
 									?>
-									<button type="submit" class="button" <?php echo ! $can_enable ? 'disabled title="' . esc_attr( $disabled_reason ) . '"' : ''; ?>>
-										<?php echo $directive['active'] ? esc_html__( 'Disable', 'tradepress' ) : esc_html__( 'Enable', 'tradepress' ); ?>
+									<button type="submit" class="button" <?php disabled( ! $can_enable ); ?> title="<?php echo esc_attr( $disabled_reason ); ?>">
+										<?php echo esc_html( $directive_active ? esc_html__( 'Disable', 'tradepress' ) : esc_html__( 'Enable', 'tradepress' ) ); ?>
 									</button>
 								</form>
 							</div>
@@ -745,7 +763,7 @@ function tradepress_validate_directive_disable( $directive_id ) {
 			<!-- Configuration Container -->
 			<div class="directive-details-container">
 			<?php
-			$configure_directive = isset( $_GET['configure'] ) ? sanitize_text_field( $_GET['configure'] ) : 'rsi';
+			$configure_directive = ! empty( $get_config ) ? $get_config : 'rsi';
 			if ( isset( $all_directives[ $configure_directive ] ) ) {
 				$directive = $all_directives[ $configure_directive ];
 			} else {
@@ -806,7 +824,7 @@ function tradepress_validate_directive_disable( $directive_id ) {
 									<?php
 									$component_directive = $all_directives[ $component_id ] ?? array();
 									$component_name      = $component_directive['name'] ?? ucwords( str_replace( '_', ' ', $component_id ) );
-									$component_status    = ! empty( $component_directive['active'] ) ? __( 'Active', 'tradepress' ) : __( 'Inactive', 'tradepress' );
+									$component_status    = ! empty( $component_directive['active'] ) ? esc_html__( 'Active', 'tradepress' ) : esc_html__( 'Inactive', 'tradepress' );
 									?>
 									<li>
 										<span><?php echo esc_html( $component_name ); ?></span>
@@ -931,7 +949,7 @@ function tradepress_validate_directive_disable( $directive_id ) {
 							<div class="isa-info-box">
 								<h4><?php esc_html_e( 'About ISA Reset', 'tradepress' ); ?></h4>
 								<p><?php esc_html_e( 'The ISA allowance resets on April 6th each year. This directive increases scores during this period to highlight potential trading opportunities.', 'tradepress' ); ?></p>
-								<p><strong><?php esc_html_e( 'Next ISA Reset Date:', 'tradepress' ); ?></strong> <?php echo esc_html( date( 'F j, Y', strtotime( 'April 6, ' . ( date( 'n' ) >= 4 && date( 'j' ) > 5 ? date( 'Y' ) + 1 : date( 'Y' ) ) ) ) ); ?></p>
+								<p><strong><?php esc_html_e( 'Next ISA Reset Date:', 'tradepress' ); ?></strong> <?php echo esc_html( tradepress_get_next_isa_reset_date() ); ?></p>
 							</div>
 							
 							<?php elseif ( $configure_directive === 'volume' ) : ?>
@@ -1564,7 +1582,7 @@ function tradepress_validate_directive_disable( $directive_id ) {
 						<input type="hidden" name="directive_id" value="<?php echo esc_attr( $configure_directive ); ?>">
 						
 						<div class="directive-actions">
-							<button type="submit" class="button" <?php echo ! $has_symbols ? 'disabled' : ''; ?>>
+							<button type="submit" class="button" <?php disabled( ! $has_symbols ); ?>>
 								<?php esc_html_e( 'Test', 'tradepress' ); ?>
 							</button>
 						</div>
@@ -2096,7 +2114,7 @@ function tradepress_validate_directive_disable( $directive_id ) {
 							<h4><?php esc_html_e( 'Calendar Impact', 'tradepress' ); ?></h4>
 							<div class="example-group">
 								<label><?php esc_html_e( 'Next ISA Reset:', 'tradepress' ); ?></label>
-								<span><?php echo esc_html( date( 'F j, Y', strtotime( 'April 6, ' . ( date( 'n' ) >= 4 && date( 'j' ) > 5 ? date( 'Y' ) + 1 : date( 'Y' ) ) ) ) ); ?></span>
+								<span><?php echo esc_html( tradepress_get_next_isa_reset_date() ); ?></span>
 							</div>
 							<div class="example-group">
 								<label><?php esc_html_e( 'Active Dates:', 'tradepress' ); ?></label>

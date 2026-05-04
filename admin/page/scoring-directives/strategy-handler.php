@@ -111,9 +111,16 @@ class TradePress_Strategy_Handler {
 	}
 
 	/**
-	 * Update existing strategy.
+	 * Update existing strategy name, description, status, minimum score threshold,
+	 * and the weights of its currently assigned directives.
 	 *
-	 * Not yet implemented. Registered in init() as a placeholder.
+	 * Expects POST fields:
+	 *   strategy_id         (int)
+	 *   name                (string)
+	 *   description         (string, optional)
+	 *   status              (string: draft|active|inactive)
+	 *   min_score_threshold (float)
+	 *   directives          (JSON array: [{ id, weight }, ...])
 	 *
 	 * @version 1.0.0
 	 */
@@ -124,7 +131,76 @@ class TradePress_Strategy_Handler {
 			wp_send_json_error( __( 'Insufficient permissions.', 'tradepress' ), 403 );
 		}
 
-		wp_send_json_error( __( 'Strategy update is not yet implemented.', 'tradepress' ), 501 );
+		require_once TRADEPRESS_PLUGIN_DIR_PATH . 'includes/scoring-system/class-scoring-strategies-db.php';
+
+		$strategy_id         = isset( $_POST['strategy_id'] ) ? absint( wp_unslash( $_POST['strategy_id'] ) ) : 0;
+		$name                = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+		$description         = isset( $_POST['description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['description'] ) ) : '';
+		$status              = isset( $_POST['status'] ) ? sanitize_key( wp_unslash( $_POST['status'] ) ) : 'draft';
+		$min_score_threshold = isset( $_POST['min_score_threshold'] ) ? (float) sanitize_text_field( wp_unslash( $_POST['min_score_threshold'] ) ) : 50.0;
+		$directives          = isset( $_POST['directives'] ) ? json_decode( wp_unslash( $_POST['directives'] ), true ) : array();
+
+		if ( ! $strategy_id ) {
+			wp_send_json_error( __( 'Strategy ID is required.', 'tradepress' ) );
+		}
+
+		if ( empty( $name ) ) {
+			wp_send_json_error( __( 'Strategy name is required.', 'tradepress' ) );
+		}
+
+		$allowed_statuses = array( 'draft', 'active', 'inactive' );
+		if ( ! in_array( $status, $allowed_statuses, true ) ) {
+			$status = 'draft';
+		}
+
+		// Validate directive weights when provided.
+		if ( ! empty( $directives ) && is_array( $directives ) ) {
+			$total_weight = array_sum( array_column( $directives, 'weight' ) );
+			if ( abs( 100 - $total_weight ) > 0.01 ) {
+				wp_send_json_error( __( 'Total weight must be exactly 100%.', 'tradepress' ) );
+			}
+		}
+
+		// Update the strategy record.
+		$strategy_data = array(
+			'name'                => $name,
+			'description'         => $description,
+			'status'              => $status,
+			'min_score_threshold' => max( 0, min( 500, $min_score_threshold ) ),
+		);
+
+		$result = TradePress_Scoring_Strategies_DB::update_strategy( $strategy_id, $strategy_data );
+
+		if ( is_wp_error( $result ) ) {
+			wp_send_json_error( $result->get_error_message(), 500 );
+		}
+
+		// Sync directive weights for existing assignments.
+		if ( ! empty( $directives ) && is_array( $directives ) ) {
+			$current_directives = TradePress_Scoring_Strategies_DB::get_strategy_directives( $strategy_id );
+
+			// Build lookup: directive_id => strategy_directive row id.
+			$directive_row_map = array();
+			foreach ( $current_directives as $row ) {
+				$directive_row_map[ $row->directive_id ] = $row->id;
+			}
+
+			foreach ( $directives as $directive ) {
+				$directive_id = isset( $directive['id'] ) ? sanitize_text_field( $directive['id'] ) : '';
+				$weight       = isset( $directive['weight'] ) ? (float) $directive['weight'] : 0.0;
+
+				if ( isset( $directive_row_map[ $directive_id ] ) ) {
+					TradePress_Scoring_Strategies_DB::update_directive_weight( $directive_row_map[ $directive_id ], $weight );
+				}
+			}
+		}
+
+		wp_send_json_success(
+			array(
+				'strategy_id' => $strategy_id,
+				'message'     => __( 'Strategy updated successfully.', 'tradepress' ),
+			)
+		);
 	}
 
 	/**

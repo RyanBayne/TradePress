@@ -66,7 +66,7 @@ foreach ( $strategies as $strategy ) {
 	
 	<div class="strategies-list">
 		<?php foreach ( $sample_strategies as $strategy ) : ?>
-			<div class="strategy-card" data-strategy-id="<?php echo esc_attr( $strategy['id'] ); ?>">
+			<div class="strategy-card" data-strategy-id="<?php echo esc_attr( $strategy['id'] ); ?>" data-strategy="<?php echo esc_attr( wp_json_encode( $strategy ) ); ?>">
 				<div class="strategy-header">
 					<div class="strategy-info">
 						<h4 class="strategy-name"><?php echo esc_html( $strategy['name'] ); ?></h4>
@@ -313,18 +313,149 @@ foreach ( $strategies as $strategy ) {
 
 <script>
 jQuery(document).ready(function($) {
-	// Edit strategy
+	const strategyNonce = '<?php echo esc_attr( wp_create_nonce( 'tradepress_strategy_nonce' ) ); ?>';
+
+	// Edit strategy — inline edit form.
 	$('.edit-strategy').on('click', function() {
-		const strategyId = $(this).data('strategy-id');
-		// TODO: Implement edit functionality
-		alert('Edit functionality will be implemented in next phase. Strategy ID: ' + strategyId);
+		const $card = $(this).closest('.strategy-card');
+
+		// Toggle: if already open, close it.
+		if ( $card.find('.inline-edit-form').length ) {
+			$card.find('.inline-edit-form').remove();
+			$(this).text('<?php echo esc_js( __( 'Edit Strategy', 'tradepress' ) ); ?>');
+			return;
+		}
+
+		const strategy = $card.data('strategy');
+		let directivesHtml = '';
+		let totalWeight = 0;
+
+		if ( strategy.directives && strategy.directives.length ) {
+			strategy.directives.forEach(function(d) {
+				totalWeight += parseFloat(d.weight) || 0;
+				directivesHtml += '<div class="edit-directive-row" style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">' +
+					'<span style="flex:2;font-size:13px;">' + $('<span>').text(d.name).html() + '</span>' +
+					'<input type="number" class="directive-weight-input small-text" data-directive-id="' + $('<span>').text(d.id).html() + '" value="' + parseFloat(d.weight) + '" min="0" max="100" step="0.01" style="width:75px;"> %' +
+				'</div>';
+			});
+		}
+
+		const editForm = $('<div class="inline-edit-form" style="margin-top:16px;padding:16px;background:#f9f9f9;border:1px solid #ddd;border-radius:6px;">' +
+			'<h4 style="margin:0 0 12px 0;"><?php echo esc_js( __( 'Edit Strategy', 'tradepress' ) ); ?></h4>' +
+			'<table class="form-table" style="margin:0;"><tbody>' +
+			'<tr><th style="width:160px;padding:6px 0;"><label><?php echo esc_js( __( 'Name', 'tradepress' ) ); ?></label></th>' +
+			'<td style="padding:4px 0;"><input type="text" class="regular-text edit-name" value="' + $('<span>').text(strategy.name).html() + '"></td></tr>' +
+			'<tr><th style="padding:6px 0;"><label><?php echo esc_js( __( 'Description', 'tradepress' ) ); ?></label></th>' +
+			'<td style="padding:4px 0;"><textarea class="large-text edit-description" rows="2">' + $('<span>').text(strategy.description).html() + '</textarea></td></tr>' +
+			'<tr><th style="padding:6px 0;"><label><?php echo esc_js( __( 'Status', 'tradepress' ) ); ?></label></th>' +
+			'<td style="padding:4px 0;"><select class="edit-status">' +
+				'<option value="draft"' + (strategy.status === 'draft' ? ' selected' : '') + '><?php echo esc_js( __( 'Draft', 'tradepress' ) ); ?></option>' +
+				'<option value="active"' + (strategy.status === 'active' ? ' selected' : '') + '><?php echo esc_js( __( 'Active', 'tradepress' ) ); ?></option>' +
+				'<option value="inactive"' + (strategy.status === 'inactive' ? ' selected' : '') + '><?php echo esc_js( __( 'Inactive', 'tradepress' ) ); ?></option>' +
+			'</select></td></tr>' +
+			'<tr><th style="padding:6px 0;"><label><?php echo esc_js( __( 'Min. Score Threshold', 'tradepress' ) ); ?></label></th>' +
+			'<td style="padding:4px 0;"><input type="number" class="small-text edit-threshold" value="' + parseFloat(strategy.min_score_threshold) + '" min="0" max="500" step="0.01"></td></tr>' +
+			( directivesHtml ? '<tr><th style="padding:6px 0;vertical-align:top;"><label><?php echo esc_js( __( 'Directive Weights', 'tradepress' ) ); ?></label></th>' +
+				'<td style="padding:4px 0;">' + directivesHtml +
+				'<p class="weight-total-notice" style="margin:6px 0 0;font-size:12px;color:#666;"><?php echo esc_js( __( 'Total:', 'tradepress' ) ); ?> <strong class="weight-total">' + totalWeight.toFixed(2) + '%</strong></p>' +
+				'</td></tr>' : '' ) +
+			'</tbody></table>' +
+			'<div style="margin-top:12px;display:flex;gap:8px;">' +
+			'<button type="button" class="button button-primary save-edit-strategy"><?php echo esc_js( __( 'Save Changes', 'tradepress' ) ); ?></button>' +
+			'<button type="button" class="button cancel-edit-strategy"><?php echo esc_js( __( 'Cancel', 'tradepress' ) ); ?></button>' +
+			'<span class="edit-strategy-feedback" style="margin-left:8px;line-height:28px;font-size:13px;"></span>' +
+			'</div>' +
+		'</div>');
+
+		$card.find('.strategy-actions').after(editForm);
+		$(this).text('<?php echo esc_js( __( 'Cancel Edit', 'tradepress' ) ); ?>');
+
+		// Live weight total.
+		$card.on('input.weightwatch', '.directive-weight-input', function() {
+			let sum = 0;
+			$card.find('.directive-weight-input').each(function() { sum += parseFloat($(this).val()) || 0; });
+			$card.find('.weight-total').text(sum.toFixed(2) + '%');
+			$card.find('.weight-total').css('color', Math.abs(sum - 100) < 0.01 ? '#2e7d32' : '#dc3232');
+		});
+
+		// Save.
+		$card.find('.save-edit-strategy').on('click', function() {
+			const $btn     = $(this);
+			const $feedback = $card.find('.edit-strategy-feedback');
+			const strategy  = $card.data('strategy');
+
+			const updatedDirectives = [];
+			$card.find('.directive-weight-input').each(function() {
+				updatedDirectives.push({ id: $(this).data('directive-id'), weight: parseFloat($(this).val()) || 0 });
+			});
+
+			if ( updatedDirectives.length ) {
+				const total = updatedDirectives.reduce(function(s, d) { return s + d.weight; }, 0);
+				if ( Math.abs(total - 100) > 0.01 ) {
+					$feedback.css('color','#dc3232').text('<?php echo esc_js( __( 'Directive weights must total exactly 100%.', 'tradepress' ) ); ?>');
+					return;
+				}
+			}
+
+			$btn.prop('disabled', true).text('<?php echo esc_js( __( 'Saving…', 'tradepress' ) ); ?>');
+			$feedback.css('color','#666').text('');
+
+			$.post(ajaxurl, {
+				action:               'tradepress_update_strategy',
+				nonce:                strategyNonce,
+				strategy_id:          strategy.id,
+				name:                 $card.find('.edit-name').val(),
+				description:          $card.find('.edit-description').val(),
+				status:               $card.find('.edit-status').val(),
+				min_score_threshold:  $card.find('.edit-threshold').val(),
+				directives:           JSON.stringify(updatedDirectives),
+			})
+			.done(function(response) {
+				if ( response.success ) {
+					$feedback.css('color','#2e7d32').text('<?php echo esc_js( __( 'Saved.', 'tradepress' ) ); ?>');
+					// Update displayed values on the card.
+					$card.find('.strategy-name').text($card.find('.edit-name').val());
+					$card.find('.strategy-description').text($card.find('.edit-description').val());
+					const newStatus = $card.find('.edit-status').val();
+					$card.find('.status-badge').text(newStatus.charAt(0).toUpperCase() + newStatus.slice(1))
+						.attr('class', 'status-badge status-' + newStatus);
+					// Update cached data attribute.
+					const cached = $card.data('strategy');
+					cached.name                = $card.find('.edit-name').val();
+					cached.description         = $card.find('.edit-description').val();
+					cached.status              = newStatus;
+					cached.min_score_threshold = parseFloat($card.find('.edit-threshold').val());
+					if ( updatedDirectives.length ) {
+						updatedDirectives.forEach(function(ud) {
+							cached.directives.forEach(function(d) { if (d.id === ud.id) d.weight = ud.weight; });
+						});
+					}
+					$card.data('strategy', cached);
+				} else {
+					$feedback.css('color','#dc3232').text(response.data || '<?php echo esc_js( __( 'Update failed.', 'tradepress' ) ); ?>');
+				}
+			})
+			.fail(function() {
+				$feedback.css('color','#dc3232').text('<?php echo esc_js( __( 'Network error.', 'tradepress' ) ); ?>');
+			})
+			.always(function() {
+				$btn.prop('disabled', false).text('<?php echo esc_js( __( 'Save Changes', 'tradepress' ) ); ?>');
+			});
+		});
+
+		// Cancel.
+		$card.find('.cancel-edit-strategy').on('click', function() {
+			$card.find('.inline-edit-form').remove();
+			$card.off('input.weightwatch');
+			$card.find('.edit-strategy').text('<?php echo esc_js( __( 'Edit Strategy', 'tradepress' ) ); ?>');
+		});
 	});
-	
-	// Test strategy
+
+	// Test strategy.
 	$('.test-strategy').on('click', function() {
 		const strategyId = $(this).data('strategy-id');
-		// TODO: Implement test functionality
-		alert('Test functionality will be implemented in next phase. Strategy ID: ' + strategyId);
+		// Test is handled via SEES Diagnostics. Redirect there with the strategy pre-selected.
+		window.location.href = '<?php echo esc_url( admin_url( 'admin.php?page=tradepress_trading&tab=sees_diagnostics' ) ); ?>&strategy_id=' + strategyId;
 	});
 	
 	// Duplicate strategy
@@ -355,15 +486,56 @@ jQuery(document).ready(function($) {
 		});
 	});
 	
-	// Activate/Deactivate strategy
+	// Activate/Deactivate strategy.
 	$('.activate-strategy, .deactivate-strategy').on('click', function() {
-		const strategyId = $(this).data('strategy-id');
-		const action = $(this).hasClass('activate-strategy') ? 'activate' : 'deactivate';
-		
-		if (confirm('Are you sure you want to ' + action + ' this strategy?')) {
-			// TODO: Implement activate/deactivate functionality
-			alert(action.charAt(0).toUpperCase() + action.slice(1) + ' functionality will be implemented in next phase. Strategy ID: ' + strategyId);
+		const $btn       = $(this);
+		const strategyId = $btn.data('strategy-id');
+		const isActivate = $btn.hasClass('activate-strategy');
+		const newStatus  = isActivate ? 'active' : 'inactive';
+		const label      = isActivate ? '<?php echo esc_js( __( 'activate', 'tradepress' ) ); ?>' : '<?php echo esc_js( __( 'deactivate', 'tradepress' ) ); ?>';
+
+		if ( ! confirm('<?php echo esc_js( __( 'Are you sure you want to', 'tradepress' ) ); ?> ' + label + ' <?php echo esc_js( __( 'this strategy?', 'tradepress' ) ); ?>') ) {
+			return;
 		}
+
+		$btn.prop('disabled', true);
+
+		const $card    = $btn.closest('.strategy-card');
+		const strategy = $card.data('strategy');
+
+		$.post(ajaxurl, {
+			action:      'tradepress_update_strategy',
+			nonce:       strategyNonce,
+			strategy_id: strategyId,
+			name:        strategy.name,
+			status:      newStatus,
+			min_score_threshold: strategy.min_score_threshold,
+		})
+		.done(function(response) {
+			if ( response.success ) {
+				$card.find('.status-badge').text(newStatus.charAt(0).toUpperCase() + newStatus.slice(1))
+					.attr('class', 'status-badge status-' + newStatus);
+				// Swap button.
+				if ( isActivate ) {
+					$btn.removeClass('activate-strategy button-secondary').addClass('deactivate-strategy')
+						.text('<?php echo esc_js( __( 'Deactivate', 'tradepress' ) ); ?>');
+				} else {
+					$btn.removeClass('deactivate-strategy').addClass('activate-strategy button-secondary')
+						.text('<?php echo esc_js( __( 'Activate', 'tradepress' ) ); ?>');
+				}
+				// Update cached data.
+				strategy.status = newStatus;
+				$card.data('strategy', strategy);
+			} else {
+				alert(response.data || '<?php echo esc_js( __( 'Update failed.', 'tradepress' ) ); ?>');
+			}
+		})
+		.fail(function() {
+			alert('<?php echo esc_js( __( 'Network error occurred.', 'tradepress' ) ); ?>');
+		})
+		.always(function() {
+			$btn.prop('disabled', false);
+		});
 	});
 	
 	// Delete strategy

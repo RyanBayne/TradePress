@@ -133,10 +133,7 @@ class TradePress_News_Sentiment_Positive_Directive extends TradePress_Scoring_Di
 	 * @version 1.0.0
 	 */
 	private function get_news_sentiment( $symbol, $lookback_days ) {
-		// Generated sentiment data is not used in product flows.
-		$can_show_demo = false;
-
-		if ( $can_show_demo ) {
+		if ( $this->can_use_demo_sentiment() ) {
 			$mock_sentiments = array(
 				'AAPL'  => array(
 					'average_sentiment' => 0.75,
@@ -169,5 +166,22 @@ class TradePress_News_Sentiment_Positive_Directive extends TradePress_Scoring_Di
 		// Live path: query stored news sentiment from the database (not yet implemented).
 		// Return null so calculate_score() scores 0 rather than using fake data.
 		return null;
+	}
+
+	/**
+	 * Check whether generated sentiment data may be used for developer previews.
+	 *
+	 * Mock sentiment must never affect normal scoring runs. It is available only
+	 * when explicit demo mode is active and the current user can access
+	 * development-only views.
+	 *
+	 * @return bool True when developer-only demo sentiment may be used.
+	 * @version 1.0.0
+	 */
+	private function can_use_demo_sentiment() {
+		return function_exists( 'tradepress_is_demo_mode' )
+			&& tradepress_is_demo_mode()
+			&& function_exists( 'tradepress_can_access_development_views' )
+			&& tradepress_can_access_development_views();
 	}
 }

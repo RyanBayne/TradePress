@@ -2175,6 +2175,38 @@ function get_environment_mode() {
 }
 
 /**
+ * Check whether explicit TradePress demo mode is active.
+ *
+ * Demo mode is separate from Developer Mode. Demo mode allows generated or
+ * placeholder data paths to exist, while Developer Mode controls who may see
+ * them in admin screens.
+ *
+ * @return bool True when TradePress demo mode is enabled.
+ * @version 1.0.0
+ */
+function tradepress_is_demo_mode() {
+
+	return defined( 'TRADEPRESS_DEMO_MODE' ) && TRADEPRESS_DEMO_MODE;
+}
+
+if ( ! function_exists( 'is_demo_mode' ) ) {
+	/**
+	 * Backwards-compatible demo mode helper.
+	 *
+	 * Older TradePress code and documentation refer to is_demo_mode(). Keep this
+	 * thin wrapper so those call sites resolve through the canonical plugin
+	 * helper.
+	 *
+	 * @return bool True when TradePress demo mode is enabled.
+	 * @version 1.0.0
+	 */
+	function is_demo_mode() {
+
+		return tradepress_is_demo_mode();
+	}
+}
+
+/**
  * Check if developer mode is active
  *
  * @return bool True if developer mode is enabled
